@@ -73,3 +73,6 @@
 .operations-metrics>div,.operations-metrics dt,.operations-statuses>div,.operations-statuses dt{min-width:0;overflow-wrap:anywhere}
 @media(max-width:1100px){.operations-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:520px){.operations-metrics{grid-template-columns:minmax(0,1fr)}}
+
+/* Touch targets for the scoped ecosystem summary choices. */
+.ecosystem-card .check-line{min-height:44px;min-width:0}

@@ -1,0 +1,11 @@
+import {mkdirSync,readFileSync,writeFileSync} from 'node:fs';
+import {resolve} from 'node:path';
+import {pathToFileURL} from 'node:url';
+import {createHash} from 'node:crypto';
+import {appRoot,evidenceRoot} from './qa-paths.mjs';
+const {build}=await import(pathToFileURL(resolve(appRoot,'node_modules/esbuild/lib/main.js')).href);
+const output=resolve(evidenceRoot,'runtime');mkdirSync(output,{recursive:true});
+const sources=['lib/academy-engine.ts','lib/academy-ecosystems.ts','lib/academy-personal-storage.ts'];
+await build({stdin:{contents:sources.map(source=>'export * from '+JSON.stringify(resolve(appRoot,source))+';').join('\n'),resolveDir:appRoot,sourcefile:'scoped-domain-entry.ts',loader:'ts'},bundle:true,platform:'node',format:'esm',target:'node20',outfile:resolve(output,'domain.mjs')});
+writeFileSync(resolve(output,'source.json'),JSON.stringify({at:new Date().toISOString(),scope:'Actual adopted checkout domain modules, isolated test bundle only; not an app build.',sources:sources.map(source=>({source,sha256:createHash('sha256').update(readFileSync(resolve(appRoot,source))).digest('hex')}))},null,2));
+console.log('Scoped-workbench isolated domain bundle prepared.');

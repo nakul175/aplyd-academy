@@ -1,0 +1,30 @@
+Object / field	Type / allowed values	Meaning / constraint
+Workspace.ecosystemGrants	optional TestGrant[]	Own retained explicit local choices; absent in fresh/legacy state; max24; newest first
+TestGrant.id	server UUID string	Unique own choice reference; bounded safe ID shape
+TestGrant.partner	agri | msme | public	Exact mapped ecosystem; Health unavailable
+TestGrant.enrollmentId	own saved enrollment ID	Bound to one own personal learning record
+TestGrant.contentVersion	bounded version string	Exact saved enrollment version; never latest fallback
+TestGrant.contentRef	{scope:'global',programId,versionId}	Trusted exact global immutable reference; program/version agree with enrollment and mapping
+TestGrant.purpose	local-return-contract-review	Fixed narrow local purpose
+TestGrant.contractVersion	aplyd.learning-return/1.0-test	Fixed local test contract
+TestGrant.scopes	nonempty unique subset of learning.progress | practice.record	Canonical field order; no evidence or identity scope
+TestGrant.durationDays	1 | 7 | 30 numeric	Server computes exact expiry; caller expiry rejected
+TestGrant.createdAt / expiresAt	canonical24-character UTC ISO	Exact duration difference; server timing
+TestGrant.revokedAt	null | canonical UTC ISO	Single retained closure; future stored withdrawal refused; null reserves22 bytes
+Workspace.ecosystemReceipts	optional ReturnReceipt[]	Own new versioned local receipts; max100 independently of legacy history
+ReturnReceipt.id / grantId	server event UUID / retained own choice ID	Event matches payload.event_id; retained-grant metadata/timing must agree
+ReturnReceipt.partner / enrollmentId / contractVersion / createdAt	same canonical values as payload	Exact outer↔payload identity/date/contract agreement required
+ReturnReceipt.status	simulated	Local validation only; no send or acknowledgement
+ReturnReceipt.note	fixed literal: Validated locally. No partner was contacted and no data was sent.	Unknown/free text refused in versioned receipts
+ReturnReceipt.payload	ReturnPayload	Exact runtime schema; no unsupported fields
+Payload.contract_version / mode / purpose	aplyd.learning-return/1.0-test / local-test / local-return-contract-review	Fixed contract and local limits
+Payload.partner / event_id / occurred_at / enrollment_ref / pathway_id / content_version	bounded mapped references and canonical time	Own exact pinned learning and local server event
+Payload.scopes	explicit chosen scope array	Nested summaries exist exactly as selected
+Payload.learning	optional {completed_lessons,total_lessons,status}	Unique completed IDs counted against exact snapshot; status in-progress | completed; bounded integer counts
+Payload.practice_record	optional {status,claim_type,review_mode}	status not-issued | active | suspended; claim_type nonaccredited-practice; review_mode not-reviewed | sample-workflow
+PersonalSizing.actualBytes	integer	UTF-8 bytes of full stored JSON, including escaping/Unicode and raw own historical data
+PersonalSizing.reservedBytes	22 * all null revokedAt	Expired choices included; worst528 bytes
+PersonalSizing.effectiveBytes	actualBytes + reservedBytes	Must be<=1,000,000 before every personal durable update
+PersonalSizing.receiptHistoryValid	Boolean diagnostic	Strict receipt-read result; never authority for testing or closure; raw bytes still measured if false
+Legacy connections / deliveries	existing Boolean preferences / existing preview history	No authority migration; separate retained historical own data
+Client forms	own account/workspace scratch record	Enrollment ID, selected fields and duration; unsent memory; conflict/unmount preservation; no auto-rebase

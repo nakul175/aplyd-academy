@@ -1,4 +1,4 @@
-# Aplyd Academy working pilot · v0.8
+# Aplyd Academy working pilot · v0.9
 
 A durable learning application for farmers, MSME owners and public servants. Learners practise on fictional source packets, check supplied AI drafts, submit practical evidence, receive reasoned feedback and reflect on their work.
 
@@ -7,7 +7,7 @@ A durable learning application for farmers, MSME owners and public servants. Lea
 - Three pinned draft pathways, nine lessons and 27 explained quiz checks, with an immutable archived-content resolver and exact references on new cohorts/enrollments.
 - Private learning goals, weekly budgets, timezone-aware plans, four activity types, evidence-derived completion, optional in-app due notices and truthful next actions.
 - Saved lesson/practical drafts, sequential progression, immutable submissions, critical-gate rubrics, three attempts and 14-day independent appeals.
-- A **personal practice lab** with sample staff roles, private discussion, ecosystem payload simulation, learning export and lab-data deletion.
+- A **personal practice lab** with sample staff roles, private discussion, explicit ecosystem summary/expiry choices and local contract receipts, learning export and lab-data deletion.
 - Separate **shared workspaces** with account-bound invitations, memberships, scoped staff roles, cohorts, capacity enforcement and withdrawal.
 - Explicit assessment/appeal assignments to signed-in accounts. Self-review and original-assessor appeal review are forbidden. Owners/facilitators receive progress summaries without private evidence.
 - Cohort discussion with prepublication moderation, restricted reports and reasoned moderation history.

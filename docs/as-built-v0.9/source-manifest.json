@@ -1,0 +1,18 @@
+{
+  "release": "0.9",
+  "capturedAt": "2026-10-05T10:57:14.741575+00:00",
+  "actualIntegratedSource": true,
+  "sourceHashes": {
+    "app/academy-ecosystems.tsx": "c8ba32c0c335036b8fd611e53e8a3ecbc17b57635c873d781d9edea84b24425a",
+    "app/academy-settings.tsx": "c2d418556b5c28f43fc2b6924c6bea71fed3cf834da3824602a6c3857c9cc85d",
+    "app/academy.tsx": "4352814e696b09bc5571428dcaa60c442fc44115f01e108709312d13a87d2b87",
+    "app/academy-response.ts": "43205cc46ba1b24b307e098a1c91573391039129ccbbf8c1af90f8a13d78a6fc",
+    "app/globals.css": "90d4ded2f00647fba2da0f913526705a1b44547d238d4825da3ffe82708e60e8",
+    "app/api/academy/route.ts": "80c2e8464bfeaa99dab735544441b0802610a6ee2d875780d949d6fe01952dde",
+    "lib/academy-engine.ts": "c1f8bdcc769d442182a47a6477b52cff8b366ffcbdd538f5d17cb854c86c486f",
+    "lib/academy-ecosystems.ts": "d12b3a3c6af5b35a38af5e99b0fc674ead9f0cb7ed58c0d31c4a4f5d2a6af19a",
+    "lib/academy-personal-storage.ts": "26355595e3630d19e9d576bcfa48a1e688dddad387012fe5b2643848f17df804",
+    "lib/curriculum.json": "9fc83c8dd615456db8f49d140f56bff566e05c14d32ebb70a14cdcb73078b7e4",
+    "lib/curriculum-versions/0.1-review-draft.json": "9fc83c8dd615456db8f49d140f56bff566e05c14d32ebb70a14cdcb73078b7e4"
+  }
+}

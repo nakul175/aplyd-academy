@@ -1,0 +1,32 @@
+Aplyd Academy — v0.9 functional delta: personal local contract workbench
+Status: prepared from the frozen reviewed candidate, awaiting root integration and acceptance. Hosted/production checks: NOT RUN. This is a delta to earlier product targets, not a claim that external ecosystem integration is operational.
+
+Outcome
+A learner can save an explicit local test choice for one of their own mapped learning enrollments, choose the summary fields and duration, then inspect a small retained receipt. This prepares an integration contract for review while the application remains a private pilot. Agri Saha maps to farmer-work-records, MSME to msme-customer-operations, and Public service to public-servant-source-briefs. Health Saha has no new choice or test controls pending domain/privacy review.
+
+Learner journey
+Open Ecosystem connections in the personal lab. Select saved learning for the chosen ecosystem, choose Lesson progress and/or Practice-record status, then choose One day, Seven days or Thirty days. Save local test choice records server-timed expiry and the exact global learning reference. Choices apply only to this local workbench. Editing fields produces an unsaved indicator and disables testing until the selected enrollment, fields and duration match the saved choice. Busy fields lock; conflicts preserve own unsent input. Switching between existing views follows the current account/workspace scratch and access safeguards.
+
+Run local contract test checks the current saved choice and own learning again. The resulting receipt is stored locally, marked simulated, and explicitly says nothing was sent. Lesson progress uses the unique completed lesson IDs and total from the exact pinned snapshot. Practice-record status reports not-issued, active or suspended and always carries a nonaccredited practice/sample-workflow limit. Private evidence, drafts, scores, feedback, actor details, names, email, source bodies, reflections and plans are excluded.
+
+Expiry, replacement and withdrawal
+Server expiry is creation time plus1/7/30 whole days; now equal to expiry is already expired. An expired or withdrawn choice cannot run another test. Replacing a partner's choice withdraws its prior null choices and retains their history. Withdraw local choice stops future tests without requiring a currently available course, unpaused learning or empty receipt slots. Historical receipts are never recomputed after an appeal, later status change, expiry or withdrawal. The current record can remain active during an open appeal; an actual adverse resolution makes a fresh receipt suspended while an earlier active receipt remains historical.
+
+Limits and recovery
+Retain at most24 explicit local choices and100 new versioned local receipts. Withdrawal preserves history and consumes its reserved storage space; it frees neither a retained slot nor effective storage headroom. Full own workspace export and the existing explicit reset are the current recovery tools. Reset keeps its current fresh-workspace behavior and clears both new fields with the rest of personal data.
+
+Saved-data failure
+Unknown/mixed/private/missing learning pins and invalid completed lesson IDs block new choices/tests. Malformed choices or multiple current active partner choices fail closed. Malformed versioned receipts are neither JSON-rendered nor downloaded as validated receipts; the screen explains their unavailability and blocks new grant/test actions. Full own workspace export remains available for private inspection. A valid choice can still be withdrawn when its receipt history is malformed. A future already-stored withdrawal timestamp is refused rather than acknowledged as successful closure.
+
+Legacy behavior
+Existing connections Boolean preferences and deliveries preview receipts are preserved separately; no Boolean is converted into a new choice or permission. Valid new legacy deliver commands return409 explicit-choice guidance. Unknown injected legacy fields still return400. A retained true preference, including an old Health preference, can be stopped independently with the existing enabled:false command. Health enable remains blocked. Earlier previews remain historical own data.
+
+Scope boundaries
+Only the authenticated personal API accepts the three new commands. Shared workspace dispatch rejects them. No partner transport, endpoint, launch/sign-in, acknowledgement, external AI generation, Health content, accredited credential or live-data ecosystem access is added. Broader BRD/FSD integration targets remain future work.
+
+Source map for root adoption
+lib/academy-ecosystems.ts: mappings, saved choice/receipt schema and local contract.
+lib/academy-engine.ts: three own-state commands and legacy preview guidance.
+lib/academy-personal-storage.ts + app/api/academy/route.ts: all personal writes reserve closure capacity before durable update.
+app/academy-ecosystems.tsx, re-exported by app/academy-settings.tsx: ordinary learner fields, separate histories and unavailable state.
+The candidate patch preserves the current performance settings imports and existing account/workspace/navigation safeguards. Final root source alignment and integrated acceptance are tracked separately in release-status.json.

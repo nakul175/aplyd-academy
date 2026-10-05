@@ -1,0 +1,10 @@
+{
+  "release": "0.9",
+  "integration": "verified locally",
+  "pureTests": 290,
+  "typecheck": "passed",
+  "workerBuild": "passed",
+  "hostedIdentityAndOperatorAcceptance": "NOT RUN",
+  "sourceManifest": "source-manifest.json",
+  "evidence": "../test-evidence.json"
+}

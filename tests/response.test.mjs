@@ -1,0 +1,13 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {resolve} from 'node:path';
+import {createRequire} from 'node:module';
+const require=createRequire(resolve(process.env.ACADEMY_APP_PATH??new URL('../',import.meta.url).pathname,'package.json')),ts=require('typescript'),source=readFileSync(new URL('../app/academy-response.ts',import.meta.url),'utf8');
+const output=ts.transpileModule(source,{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.ESNext}}).outputText;
+const {readAcademyResponse,AcademyResponseError,verifiedAcademySubject}=await import('data:text/javascript;base64,'+Buffer.from(output).toString('base64'));
+for(const status of [401,403,404,200])for(const mode of ['read','write'])test('unreadable '+status+' '+mode+' carries mask metadata and a plain bounded message',async()=>{await assert.rejects(()=>readAcademyResponse(new Response('<html>PRIVATE-RAW-BODY</html>',{status}),mode),e=>{assert.ok(e instanceof AcademyResponseError);assert.equal(e.status,status);assert.equal(e.unverified,true);assert.ok(!e.message.includes('PRIVATE-RAW-BODY'));assert.ok(!e.message.includes('SyntaxError'));assert.ok(e.message.includes('Refresh'));return true});});
+test('JSON503 is returned unchanged without any parser authority side effects',async()=>{const data={error:'Please try the read again.'};assert.deepEqual(await readAcademyResponse(new Response(JSON.stringify(data),{status:503}),'read'),data)});
+test('nonJSON503 preserves cache eligibility',async()=>assert.rejects(()=>readAcademyResponse(new Response('temporary upstream outage',{status:503}),'read'),e=>e instanceof AcademyResponseError&&!e.unverified));
+for(const body of ['null','[]','"html"'])test('successful nonobject JSON '+body+' is unverified',async()=>assert.rejects(()=>readAcademyResponse(new Response(body,{status:200}),'read'),e=>e.unverified));
+test('canonical subject check rejects missing/blank and accepts arbitrary actual nonblank user IDs',()=>{for(const id of [undefined,null,0,'','   '])assert.equal(verifiedAcademySubject(id),false);assert.equal(verifiedAcademySubject('known-actor'),true);assert.equal(verifiedAcademySubject('a'.repeat(1000)),true)});
