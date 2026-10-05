@@ -1,0 +1,64 @@
+{
+  "browser-smoke": {
+    "routes": [
+      "programs",
+      "community",
+      "network",
+      "credentials",
+      "connections",
+      "studio",
+      "settings"
+    ],
+    "lessonEnrollmentReload": true,
+    "mobileOverflow": false,
+    "pageErrors": []
+  },
+  "api-integration": {
+    "checks": 36,
+    "passed": true,
+    "coverage": [
+      "authentication required",
+      "two-owner isolation",
+      "CAS conflict race",
+      "durable reload",
+      "idempotency mismatch and replay after reset",
+      "full learning and independent appeal",
+      "critical gate refusal",
+      "consent separation and withdrawal"
+    ],
+    "limits": [
+      "Hosted dispatcher authentication not exercised",
+      "Two sample staff actors share the owner account",
+      "No external partner or live AI service tested"
+    ]
+  },
+  "unit": {
+    "passed": 15,
+    "failed": 0
+  },
+  "typecheck": {
+    "passed": true
+  },
+  "webmcp": {
+    "tools": [
+      "academy_read_progress",
+      "academy_open_pathway"
+    ],
+    "browserSupportValidation": "Not available in headless test browser; feature detected and optional."
+  },
+  "browser-journey": {
+    "passed": true,
+    "lessons": 3,
+    "quizChecks": 9,
+    "practicalDraftReload": true,
+    "manualRubricReview": true,
+    "practiceRecord": true,
+    "moderatedDiscussion": true,
+    "pageErrors": []
+  },
+  "responsive": {
+    "checks": 54,
+    "overflow": [],
+    "webmcpBrowserSupport": false
+  }
+}

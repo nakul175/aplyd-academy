@@ -1,0 +1,18 @@
+import {chromium} from '/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.mjs';
+import {writeFileSync} from 'node:fs';
+const browser=await chromium.launch({executablePath:'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',headless:true});
+const context=await browser.newContext({viewport:{width:1440,height:1000}}),page=await context.newPage(),errors=[];
+page.on('pageerror',e=>errors.push(e.message));
+await page.goto('http://127.0.0.1:5173/');
+await page.getByText('What will you put to work today?').waitFor();
+await page.getByText('Saved privately',{exact:true}).waitFor();
+await page.screenshot({path:'.sites-runtime/desktop.png',fullPage:true});
+const checked=[];
+for(const [hash,title] of [['programs','Choose a skill. Make it useful.'],['community','Good questions make better work.'],['network','Keep learning through connection.'],['credentials','A skill you can explain and apply.'],['connections','Connect capability to the next task.'],['studio','Feedback that makes learning credible.'],['settings','Make learning work for you.']]){
+ await page.evaluate(hash=>location.hash=hash,hash);await page.getByRole('heading',{name:title,exact:true}).waitFor();checked.push(hash);
+}
+await page.evaluate(()=>location.hash='learn/msme-customer-operations');await page.getByRole('button',{name:'Start this pathway',exact:true}).click();await page.getByRole('button',{name:'Open practical assessment',exact:true}).waitFor();await page.screenshot({path:'.sites-runtime/lesson.png',fullPage:true});
+await page.reload();await page.getByText('0 of 3 lessons complete',{exact:true}).waitFor();
+await page.setViewportSize({width:390,height:844});await page.evaluate(()=>location.hash='home');await page.getByText('What will you put to work today?').waitFor();await page.screenshot({path:'.sites-runtime/mobile.png',fullPage:true});
+const overflow=await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth);
+const result={routes:checked,lessonEnrollmentReload:true,mobileOverflow:overflow,pageErrors:errors};writeFileSync('.sites-runtime/browser-smoke.json',JSON.stringify(result,null,2));console.log(JSON.stringify(result));await browser.close();if(errors.length||overflow)process.exitCode=1;

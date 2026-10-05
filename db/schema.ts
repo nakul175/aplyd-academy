@@ -1,0 +1,3 @@
+import {sqliteTable,text,integer,primaryKey,index,uniqueIndex} from 'drizzle-orm/sqlite-core';
+export const workspaces=sqliteTable('academy_workspaces',{owner:text('owner').primaryKey(),data:text('data').notNull(),revision:integer('revision').notNull().default(0),updatedAt:text('updated_at').notNull()});
+export const audit=sqliteTable('academy_audit',{owner:text('owner').notNull(),revision:integer('revision').notNull(),eventId:text('event_id').notNull(),action:text('action').notNull(),requestHash:text('request_hash'),createdAt:text('created_at').notNull()},t=>[primaryKey({columns:[t.owner,t.revision]}),uniqueIndex('idx_academy_audit_owner_event_unique').on(t.owner,t.eventId)]);
