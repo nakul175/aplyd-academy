@@ -1,0 +1,2493 @@
+{
+  "passed": true,
+  "at": "2026-10-05T11:20:28.545Z",
+  "worker": "16902",
+  "views": [
+    {
+      "width": 1440,
+      "textScale": 1,
+      "targets": 43,
+      "actualTabRoute": [
+        {
+          "tag": "INPUT",
+          "id": "library-search",
+          "label": "Search the library",
+          "resourceId": null,
+          "href": null,
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 292,
+            "right": 754.84375,
+            "top": 679.03125,
+            "bottom": 725.828125
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 1440
+        },
+        {
+          "tag": "SELECT",
+          "id": "library-collection",
+          "label": "Collection",
+          "resourceId": null,
+          "href": null,
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 770.84375,
+            "right": 1079.421875,
+            "top": 679.828125,
+            "bottom": 725.828125
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 1440
+        },
+        {
+          "tag": "SELECT",
+          "id": "library-audience",
+          "label": "Suggested audience",
+          "resourceId": null,
+          "href": null,
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 1095.421875,
+            "right": 1404,
+            "top": 679.828125,
+            "bottom": 725.828125
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 1440
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Open Governing AI in Government · Participant handbook in a new tab",
+          "resourceId": "government-participant-handbook",
+          "href": "/library/government-participant-handbook.docx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 315,
+            "right": 400.28125,
+            "top": 478.0625,
+            "bottom": 522.0625
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 1440
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Download Governing AI in Government · Participant handbook",
+          "resourceId": "government-participant-handbook",
+          "href": "/library/government-participant-handbook.docx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 409.28125,
+            "right": 521.765625,
+            "top": 478.0625,
+            "bottom": 522.0625
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 1440
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Open Governing AI in Government · Workshop printables in a new tab",
+          "resourceId": "government-printables",
+          "href": "/library/government-printables.pdf",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 597,
+            "right": 682.28125,
+            "top": 478.0625,
+            "bottom": 522.0625
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 1440
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Download Governing AI in Government · Workshop printables",
+          "resourceId": "government-printables",
+          "href": "/library/government-printables.pdf",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 691.28125,
+            "right": 803.765625,
+            "top": 478.0625,
+            "bottom": 522.0625
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 1440
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Open Governing AI in Government · Trainer handbook in a new tab",
+          "resourceId": "government-trainer-handbook",
+          "href": "/library/government-trainer-handbook.docx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 879,
+            "right": 964.28125,
+            "top": 478.0625,
+            "bottom": 522.0625
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 1440
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Download Governing AI in Government · Trainer handbook",
+          "resourceId": "government-trainer-handbook",
+          "href": "/library/government-trainer-handbook.docx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 973.28125,
+            "right": 1085.765625,
+            "top": 478.0625,
+            "bottom": 522.0625
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 1440
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Open Governing AI in Government · Workshop slide deck in a new tab",
+          "resourceId": "government-slide-deck",
+          "href": "/library/government-slide-deck.pptx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 1161,
+            "right": 1246.28125,
+            "top": 478.0625,
+            "bottom": 522.0625
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 1440
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Download Governing AI in Government · Workshop slide deck",
+          "resourceId": "government-slide-deck",
+          "href": "/library/government-slide-deck.pptx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 1255.28125,
+            "right": 1367.765625,
+            "top": 478.0625,
+            "bottom": 522.0625
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 1440
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Open Governing AI in the Development Sector · Participant handbook in a new tab",
+          "resourceId": "development-participant-handbook",
+          "href": "/library/development-participant-handbook.docx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 315,
+            "right": 400.28125,
+            "top": 477.59375,
+            "bottom": 521.59375
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 1440
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Download Governing AI in the Development Sector · Participant handbook",
+          "resourceId": "development-participant-handbook",
+          "href": "/library/development-participant-handbook.docx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 409.28125,
+            "right": 521.765625,
+            "top": 477.59375,
+            "bottom": 521.59375
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 1440
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Open Governing AI in the Development Sector · Workshop printables in a new tab",
+          "resourceId": "development-printables",
+          "href": "/library/development-printables.pdf",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 597,
+            "right": 682.28125,
+            "top": 477.59375,
+            "bottom": 521.59375
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 1440
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Download Governing AI in the Development Sector · Workshop printables",
+          "resourceId": "development-printables",
+          "href": "/library/development-printables.pdf",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 691.28125,
+            "right": 803.765625,
+            "top": 477.59375,
+            "bottom": 521.59375
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 1440
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Open Governing AI in the Development Sector · Trainer handbook in a new tab",
+          "resourceId": "development-trainer-handbook",
+          "href": "/library/development-trainer-handbook.docx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 879,
+            "right": 964.28125,
+            "top": 477.59375,
+            "bottom": 521.59375
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 1440
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Download Governing AI in the Development Sector · Trainer handbook",
+          "resourceId": "development-trainer-handbook",
+          "href": "/library/development-trainer-handbook.docx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 973.28125,
+            "right": 1085.765625,
+            "top": 477.59375,
+            "bottom": 521.59375
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 1440
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Open Governing AI in the Development Sector · Workshop slide deck in a new tab",
+          "resourceId": "development-slide-deck",
+          "href": "/library/development-slide-deck.pptx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 1161,
+            "right": 1246.28125,
+            "top": 477.59375,
+            "bottom": 521.59375
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 1440
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Download Governing AI in the Development Sector · Workshop slide deck",
+          "resourceId": "development-slide-deck",
+          "href": "/library/development-slide-deck.pptx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 1255.28125,
+            "right": 1367.765625,
+            "top": 477.59375,
+            "bottom": 521.59375
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 1440
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Open Governing AI in Oversight Institutions · Participant handbook in a new tab",
+          "resourceId": "oversight-participant-handbook",
+          "href": "/library/oversight-participant-handbook.docx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 315,
+            "right": 400.28125,
+            "top": 478.328125,
+            "bottom": 522.328125
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 1440
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Download Governing AI in Oversight Institutions · Participant handbook",
+          "resourceId": "oversight-participant-handbook",
+          "href": "/library/oversight-participant-handbook.docx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 409.28125,
+            "right": 521.765625,
+            "top": 478.328125,
+            "bottom": 522.328125
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 1440
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Open Governing AI in Oversight Institutions · Workshop printables in a new tab",
+          "resourceId": "oversight-printables",
+          "href": "/library/oversight-printables.pdf",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 597,
+            "right": 682.28125,
+            "top": 478.328125,
+            "bottom": 522.328125
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 1440
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Download Governing AI in Oversight Institutions · Workshop printables",
+          "resourceId": "oversight-printables",
+          "href": "/library/oversight-printables.pdf",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 691.28125,
+            "right": 803.765625,
+            "top": 478.328125,
+            "bottom": 522.328125
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 1440
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Open Governing AI in Oversight Institutions · Trainer handbook in a new tab",
+          "resourceId": "oversight-trainer-handbook",
+          "href": "/library/oversight-trainer-handbook.docx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 879,
+            "right": 964.28125,
+            "top": 478.328125,
+            "bottom": 522.328125
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 1440
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Download Governing AI in Oversight Institutions · Trainer handbook",
+          "resourceId": "oversight-trainer-handbook",
+          "href": "/library/oversight-trainer-handbook.docx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 973.28125,
+            "right": 1085.765625,
+            "top": 478.328125,
+            "bottom": 522.328125
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 1440
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Open Governing AI in Oversight Institutions · Workshop slide deck in a new tab",
+          "resourceId": "oversight-slide-deck",
+          "href": "/library/oversight-slide-deck.pptx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 1161,
+            "right": 1246.28125,
+            "top": 478.328125,
+            "bottom": 522.328125
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 1440
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Download Governing AI in Oversight Institutions · Workshop slide deck",
+          "resourceId": "oversight-slide-deck",
+          "href": "/library/oversight-slide-deck.pptx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 1255.28125,
+            "right": 1367.765625,
+            "top": 478.328125,
+            "bottom": 522.328125
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 1440
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Open Governing the AI You Will Inherit · Participant handbook in a new tab",
+          "resourceId": "emerging-leaders-participant-handbook",
+          "href": "/library/emerging-leaders-participant-handbook.docx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 315,
+            "right": 400.28125,
+            "top": 477.859375,
+            "bottom": 521.859375
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 1440
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Download Governing the AI You Will Inherit · Participant handbook",
+          "resourceId": "emerging-leaders-participant-handbook",
+          "href": "/library/emerging-leaders-participant-handbook.docx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 409.28125,
+            "right": 521.765625,
+            "top": 477.859375,
+            "bottom": 521.859375
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 1440
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Open Governing the AI You Will Inherit · Workshop printables in a new tab",
+          "resourceId": "emerging-leaders-printables",
+          "href": "/library/emerging-leaders-printables.pdf",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 597,
+            "right": 682.28125,
+            "top": 477.859375,
+            "bottom": 521.859375
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 1440
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Download Governing the AI You Will Inherit · Workshop printables",
+          "resourceId": "emerging-leaders-printables",
+          "href": "/library/emerging-leaders-printables.pdf",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 691.28125,
+            "right": 803.765625,
+            "top": 477.859375,
+            "bottom": 521.859375
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 1440
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Open Governing the AI You Will Inherit · Trainer handbook in a new tab",
+          "resourceId": "emerging-leaders-trainer-handbook",
+          "href": "/library/emerging-leaders-trainer-handbook.docx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 879,
+            "right": 964.28125,
+            "top": 477.859375,
+            "bottom": 521.859375
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 1440
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Download Governing the AI You Will Inherit · Trainer handbook",
+          "resourceId": "emerging-leaders-trainer-handbook",
+          "href": "/library/emerging-leaders-trainer-handbook.docx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 973.28125,
+            "right": 1085.765625,
+            "top": 477.859375,
+            "bottom": 521.859375
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 1440
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Open Governing the AI You Will Inherit · Workshop slide deck in a new tab",
+          "resourceId": "emerging-leaders-slide-deck",
+          "href": "/library/emerging-leaders-slide-deck.pptx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 1161,
+            "right": 1246.28125,
+            "top": 477.859375,
+            "bottom": 521.859375
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 1440
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Download Governing the AI You Will Inherit · Workshop slide deck",
+          "resourceId": "emerging-leaders-slide-deck",
+          "href": "/library/emerging-leaders-slide-deck.pptx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 1255.28125,
+            "right": 1367.765625,
+            "top": 477.859375,
+            "bottom": 521.859375
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 1440
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Open Using AI Well at the Point of Delivery · Participant handbook in a new tab",
+          "resourceId": "frontline-participant-handbook",
+          "href": "/library/frontline-participant-handbook.docx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 315,
+            "right": 400.28125,
+            "top": 751.390625,
+            "bottom": 795.390625
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 1440
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Download Using AI Well at the Point of Delivery · Participant handbook",
+          "resourceId": "frontline-participant-handbook",
+          "href": "/library/frontline-participant-handbook.docx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 409.28125,
+            "right": 521.765625,
+            "top": 751.390625,
+            "bottom": 795.390625
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 1440
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Open Using AI Well at the Point of Delivery · Workshop printables in a new tab",
+          "resourceId": "frontline-printables",
+          "href": "/library/frontline-printables.pdf",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 597,
+            "right": 682.28125,
+            "top": 751.390625,
+            "bottom": 795.390625
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 1440
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Download Using AI Well at the Point of Delivery · Workshop printables",
+          "resourceId": "frontline-printables",
+          "href": "/library/frontline-printables.pdf",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 691.28125,
+            "right": 803.765625,
+            "top": 751.390625,
+            "bottom": 795.390625
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 1440
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Open Using AI Well at the Point of Delivery · Trainer handbook in a new tab",
+          "resourceId": "frontline-trainer-handbook",
+          "href": "/library/frontline-trainer-handbook.docx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 879,
+            "right": 964.28125,
+            "top": 751.390625,
+            "bottom": 795.390625
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 1440
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Download Using AI Well at the Point of Delivery · Trainer handbook",
+          "resourceId": "frontline-trainer-handbook",
+          "href": "/library/frontline-trainer-handbook.docx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 973.28125,
+            "right": 1085.765625,
+            "top": 751.390625,
+            "bottom": 795.390625
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 1440
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Open Using AI Well at the Point of Delivery · Workshop slide deck in a new tab",
+          "resourceId": "frontline-slide-deck",
+          "href": "/library/frontline-slide-deck.pptx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 1161,
+            "right": 1246.28125,
+            "top": 751.390625,
+            "bottom": 795.390625
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 1440
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Download Using AI Well at the Point of Delivery · Workshop slide deck",
+          "resourceId": "frontline-slide-deck",
+          "href": "/library/frontline-slide-deck.pptx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 1255.28125,
+            "right": 1367.765625,
+            "top": 751.390625,
+            "bottom": 795.390625
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 1440
+        }
+      ],
+      "reverseLastTarget": "Open Using AI Well at the Point of Delivery · Workshop slide deck in a new tab",
+      "stateAndRevisionUnchanged": true
+    },
+    {
+      "width": 768,
+      "textScale": 2,
+      "targets": 43,
+      "actualTabRoute": [
+        {
+          "tag": "INPUT",
+          "id": "library-search",
+          "label": "Search the library",
+          "resourceId": null,
+          "href": null,
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 274,
+            "right": 750,
+            "top": 463.890625,
+            "bottom": 535.484375
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 768
+        },
+        {
+          "tag": "SELECT",
+          "id": "library-collection",
+          "label": "Collection",
+          "resourceId": null,
+          "href": null,
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 274,
+            "right": 750,
+            "top": 602.875,
+            "bottom": 662.875
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 768
+        },
+        {
+          "tag": "SELECT",
+          "id": "library-audience",
+          "label": "Suggested audience",
+          "resourceId": null,
+          "href": null,
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 274,
+            "right": 750,
+            "top": 730.265625,
+            "bottom": 790.265625
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 768
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Open Governing AI in Government · Participant handbook in a new tab",
+          "resourceId": "government-participant-handbook",
+          "href": "/library/government-participant-handbook.docx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 295,
+            "right": 413.546875,
+            "top": 468.40625,
+            "bottom": 531.203125
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 768
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Download Governing AI in Government · Participant handbook",
+          "resourceId": "government-participant-handbook",
+          "href": "/library/government-participant-handbook.docx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 422.546875,
+            "right": 595.515625,
+            "top": 468.40625,
+            "bottom": 531.203125
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 768
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Open Governing AI in Government · Workshop printables in a new tab",
+          "resourceId": "government-printables",
+          "href": "/library/government-printables.pdf",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 295,
+            "right": 413.546875,
+            "top": 468.15625,
+            "bottom": 530.953125
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 768
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Download Governing AI in Government · Workshop printables",
+          "resourceId": "government-printables",
+          "href": "/library/government-printables.pdf",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 422.546875,
+            "right": 595.515625,
+            "top": 468.15625,
+            "bottom": 530.953125
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 768
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Open Governing AI in Government · Trainer handbook in a new tab",
+          "resourceId": "government-trainer-handbook",
+          "href": "/library/government-trainer-handbook.docx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 295,
+            "right": 413.546875,
+            "top": 468.90625,
+            "bottom": 531.703125
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 768
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Download Governing AI in Government · Trainer handbook",
+          "resourceId": "government-trainer-handbook",
+          "href": "/library/government-trainer-handbook.docx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 422.546875,
+            "right": 595.515625,
+            "top": 468.90625,
+            "bottom": 531.703125
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 768
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Open Governing AI in Government · Workshop slide deck in a new tab",
+          "resourceId": "government-slide-deck",
+          "href": "/library/government-slide-deck.pptx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 295,
+            "right": 413.546875,
+            "top": 468.65625,
+            "bottom": 531.453125
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 768
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Download Governing AI in Government · Workshop slide deck",
+          "resourceId": "government-slide-deck",
+          "href": "/library/government-slide-deck.pptx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 422.546875,
+            "right": 595.515625,
+            "top": 468.65625,
+            "bottom": 531.453125
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 768
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Open Governing AI in the Development Sector · Participant handbook in a new tab",
+          "resourceId": "development-participant-handbook",
+          "href": "/library/development-participant-handbook.docx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 295,
+            "right": 413.546875,
+            "top": 469,
+            "bottom": 531.796875
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 768
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Download Governing AI in the Development Sector · Participant handbook",
+          "resourceId": "development-participant-handbook",
+          "href": "/library/development-participant-handbook.docx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 422.546875,
+            "right": 595.515625,
+            "top": 469,
+            "bottom": 531.796875
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 768
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Open Governing AI in the Development Sector · Workshop printables in a new tab",
+          "resourceId": "development-printables",
+          "href": "/library/development-printables.pdf",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 295,
+            "right": 413.546875,
+            "top": 468.75,
+            "bottom": 531.546875
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 768
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Download Governing AI in the Development Sector · Workshop printables",
+          "resourceId": "development-printables",
+          "href": "/library/development-printables.pdf",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 422.546875,
+            "right": 595.515625,
+            "top": 468.75,
+            "bottom": 531.546875
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 768
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Open Governing AI in the Development Sector · Trainer handbook in a new tab",
+          "resourceId": "development-trainer-handbook",
+          "href": "/library/development-trainer-handbook.docx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 295,
+            "right": 413.546875,
+            "top": 468.5,
+            "bottom": 531.296875
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 768
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Download Governing AI in the Development Sector · Trainer handbook",
+          "resourceId": "development-trainer-handbook",
+          "href": "/library/development-trainer-handbook.docx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 422.546875,
+            "right": 595.515625,
+            "top": 468.5,
+            "bottom": 531.296875
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 768
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Open Governing AI in the Development Sector · Workshop slide deck in a new tab",
+          "resourceId": "development-slide-deck",
+          "href": "/library/development-slide-deck.pptx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 295,
+            "right": 413.546875,
+            "top": 468.84375,
+            "bottom": 531.640625
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 768
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Download Governing AI in the Development Sector · Workshop slide deck",
+          "resourceId": "development-slide-deck",
+          "href": "/library/development-slide-deck.pptx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 422.546875,
+            "right": 595.515625,
+            "top": 468.84375,
+            "bottom": 531.640625
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 768
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Open Governing AI in Oversight Institutions · Participant handbook in a new tab",
+          "resourceId": "oversight-participant-handbook",
+          "href": "/library/oversight-participant-handbook.docx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 295,
+            "right": 413.546875,
+            "top": 468.796875,
+            "bottom": 531.59375
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 768
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Download Governing AI in Oversight Institutions · Participant handbook",
+          "resourceId": "oversight-participant-handbook",
+          "href": "/library/oversight-participant-handbook.docx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 422.546875,
+            "right": 595.515625,
+            "top": 468.796875,
+            "bottom": 531.59375
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 768
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Open Governing AI in Oversight Institutions · Workshop printables in a new tab",
+          "resourceId": "oversight-printables",
+          "href": "/library/oversight-printables.pdf",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 295,
+            "right": 413.546875,
+            "top": 468.546875,
+            "bottom": 531.34375
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 768
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Download Governing AI in Oversight Institutions · Workshop printables",
+          "resourceId": "oversight-printables",
+          "href": "/library/oversight-printables.pdf",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 422.546875,
+            "right": 595.515625,
+            "top": 468.546875,
+            "bottom": 531.34375
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 768
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Open Governing AI in Oversight Institutions · Trainer handbook in a new tab",
+          "resourceId": "oversight-trainer-handbook",
+          "href": "/library/oversight-trainer-handbook.docx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 295,
+            "right": 413.546875,
+            "top": 468.296875,
+            "bottom": 531.09375
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 768
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Download Governing AI in Oversight Institutions · Trainer handbook",
+          "resourceId": "oversight-trainer-handbook",
+          "href": "/library/oversight-trainer-handbook.docx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 422.546875,
+            "right": 595.515625,
+            "top": 468.296875,
+            "bottom": 531.09375
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 768
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Open Governing AI in Oversight Institutions · Workshop slide deck in a new tab",
+          "resourceId": "oversight-slide-deck",
+          "href": "/library/oversight-slide-deck.pptx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 295,
+            "right": 413.546875,
+            "top": 469.046875,
+            "bottom": 531.84375
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 768
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Download Governing AI in Oversight Institutions · Workshop slide deck",
+          "resourceId": "oversight-slide-deck",
+          "href": "/library/oversight-slide-deck.pptx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 422.546875,
+            "right": 595.515625,
+            "top": 469.046875,
+            "bottom": 531.84375
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 768
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Open Governing the AI You Will Inherit · Participant handbook in a new tab",
+          "resourceId": "emerging-leaders-participant-handbook",
+          "href": "/library/emerging-leaders-participant-handbook.docx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 295,
+            "right": 413.546875,
+            "top": 468.59375,
+            "bottom": 531.390625
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 768
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Download Governing the AI You Will Inherit · Participant handbook",
+          "resourceId": "emerging-leaders-participant-handbook",
+          "href": "/library/emerging-leaders-participant-handbook.docx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 422.546875,
+            "right": 595.515625,
+            "top": 468.59375,
+            "bottom": 531.390625
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 768
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Open Governing the AI You Will Inherit · Workshop printables in a new tab",
+          "resourceId": "emerging-leaders-printables",
+          "href": "/library/emerging-leaders-printables.pdf",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 295,
+            "right": 413.546875,
+            "top": 468.34375,
+            "bottom": 531.140625
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 768
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Download Governing the AI You Will Inherit · Workshop printables",
+          "resourceId": "emerging-leaders-printables",
+          "href": "/library/emerging-leaders-printables.pdf",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 422.546875,
+            "right": 595.515625,
+            "top": 468.34375,
+            "bottom": 531.140625
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 768
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Open Governing the AI You Will Inherit · Trainer handbook in a new tab",
+          "resourceId": "emerging-leaders-trainer-handbook",
+          "href": "/library/emerging-leaders-trainer-handbook.docx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 295,
+            "right": 413.546875,
+            "top": 936.703125,
+            "bottom": 999.5
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 768
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Download Governing the AI You Will Inherit · Trainer handbook",
+          "resourceId": "emerging-leaders-trainer-handbook",
+          "href": "/library/emerging-leaders-trainer-handbook.docx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 422.546875,
+            "right": 595.515625,
+            "top": 936.703125,
+            "bottom": 999.5
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 768
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Open Governing the AI You Will Inherit · Workshop slide deck in a new tab",
+          "resourceId": "emerging-leaders-slide-deck",
+          "href": "/library/emerging-leaders-slide-deck.pptx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 295,
+            "right": 413.546875,
+            "top": 469.046875,
+            "bottom": 531.84375
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 768
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Download Governing the AI You Will Inherit · Workshop slide deck",
+          "resourceId": "emerging-leaders-slide-deck",
+          "href": "/library/emerging-leaders-slide-deck.pptx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 422.546875,
+            "right": 595.515625,
+            "top": 469.046875,
+            "bottom": 531.84375
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 768
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Open Using AI Well at the Point of Delivery · Participant handbook in a new tab",
+          "resourceId": "frontline-participant-handbook",
+          "href": "/library/frontline-participant-handbook.docx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 295,
+            "right": 413.546875,
+            "top": 468.59375,
+            "bottom": 531.390625
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 768
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Download Using AI Well at the Point of Delivery · Participant handbook",
+          "resourceId": "frontline-participant-handbook",
+          "href": "/library/frontline-participant-handbook.docx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 422.546875,
+            "right": 595.515625,
+            "top": 468.59375,
+            "bottom": 531.390625
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 768
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Open Using AI Well at the Point of Delivery · Workshop printables in a new tab",
+          "resourceId": "frontline-printables",
+          "href": "/library/frontline-printables.pdf",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 295,
+            "right": 413.546875,
+            "top": 468.34375,
+            "bottom": 531.140625
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 768
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Download Using AI Well at the Point of Delivery · Workshop printables",
+          "resourceId": "frontline-printables",
+          "href": "/library/frontline-printables.pdf",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 422.546875,
+            "right": 595.515625,
+            "top": 468.34375,
+            "bottom": 531.140625
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 768
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Open Using AI Well at the Point of Delivery · Trainer handbook in a new tab",
+          "resourceId": "frontline-trainer-handbook",
+          "href": "/library/frontline-trainer-handbook.docx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 295,
+            "right": 413.546875,
+            "top": 469.09375,
+            "bottom": 531.890625
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 768
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Download Using AI Well at the Point of Delivery · Trainer handbook",
+          "resourceId": "frontline-trainer-handbook",
+          "href": "/library/frontline-trainer-handbook.docx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 422.546875,
+            "right": 595.515625,
+            "top": 469.09375,
+            "bottom": 531.890625
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 768
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Open Using AI Well at the Point of Delivery · Workshop slide deck in a new tab",
+          "resourceId": "frontline-slide-deck",
+          "href": "/library/frontline-slide-deck.pptx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 295,
+            "right": 413.546875,
+            "top": 468.84375,
+            "bottom": 531.640625
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 768
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Download Using AI Well at the Point of Delivery · Workshop slide deck",
+          "resourceId": "frontline-slide-deck",
+          "href": "/library/frontline-slide-deck.pptx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 422.546875,
+            "right": 595.515625,
+            "top": 468.84375,
+            "bottom": 531.640625
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 768
+        }
+      ],
+      "reverseLastTarget": "Open Using AI Well at the Point of Delivery · Workshop slide deck in a new tab",
+      "stateAndRevisionUnchanged": true
+    },
+    {
+      "width": 390,
+      "textScale": 2,
+      "targets": 43,
+      "actualTabRoute": [
+        {
+          "tag": "INPUT",
+          "id": "library-search",
+          "label": "Search the library",
+          "resourceId": null,
+          "href": null,
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 18,
+            "right": 372,
+            "top": 463.890625,
+            "bottom": 535.484375
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 390
+        },
+        {
+          "tag": "SELECT",
+          "id": "library-collection",
+          "label": "Collection",
+          "resourceId": null,
+          "href": null,
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 18,
+            "right": 372,
+            "top": 602.875,
+            "bottom": 662.875
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 390
+        },
+        {
+          "tag": "SELECT",
+          "id": "library-audience",
+          "label": "Suggested audience",
+          "resourceId": null,
+          "href": null,
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 18,
+            "right": 372,
+            "top": 730.265625,
+            "bottom": 790.265625
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 390
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Open Governing AI in Government · Participant handbook in a new tab",
+          "resourceId": "government-participant-handbook",
+          "href": "/library/government-participant-handbook.docx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 39,
+            "right": 157.546875,
+            "top": 468.375,
+            "bottom": 531.171875
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 390
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Download Governing AI in Government · Participant handbook",
+          "resourceId": "government-participant-handbook",
+          "href": "/library/government-participant-handbook.docx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 166.546875,
+            "right": 339.515625,
+            "top": 468.375,
+            "bottom": 531.171875
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 390
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Open Governing AI in Government · Workshop printables in a new tab",
+          "resourceId": "government-printables",
+          "href": "/library/government-printables.pdf",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 39,
+            "right": 157.546875,
+            "top": 468.515625,
+            "bottom": 531.3125
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 390
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Download Governing AI in Government · Workshop printables",
+          "resourceId": "government-printables",
+          "href": "/library/government-printables.pdf",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 166.546875,
+            "right": 339.515625,
+            "top": 468.515625,
+            "bottom": 531.3125
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 390
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Open Governing AI in Government · Trainer handbook in a new tab",
+          "resourceId": "government-trainer-handbook",
+          "href": "/library/government-trainer-handbook.docx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 39,
+            "right": 157.546875,
+            "top": 468.796875,
+            "bottom": 531.59375
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 390
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Download Governing AI in Government · Trainer handbook",
+          "resourceId": "government-trainer-handbook",
+          "href": "/library/government-trainer-handbook.docx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 166.546875,
+            "right": 339.515625,
+            "top": 468.796875,
+            "bottom": 531.59375
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 390
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Open Governing AI in Government · Workshop slide deck in a new tab",
+          "resourceId": "government-slide-deck",
+          "href": "/library/government-slide-deck.pptx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 39,
+            "right": 157.546875,
+            "top": 468.46875,
+            "bottom": 531.265625
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 390
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Download Governing AI in Government · Workshop slide deck",
+          "resourceId": "government-slide-deck",
+          "href": "/library/government-slide-deck.pptx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 166.546875,
+            "right": 339.515625,
+            "top": 468.46875,
+            "bottom": 531.265625
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 390
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Open Governing AI in the Development Sector · Participant handbook in a new tab",
+          "resourceId": "development-participant-handbook",
+          "href": "/library/development-participant-handbook.docx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 39,
+            "right": 157.546875,
+            "top": 469.0625,
+            "bottom": 531.859375
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 390
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Download Governing AI in the Development Sector · Participant handbook",
+          "resourceId": "development-participant-handbook",
+          "href": "/library/development-participant-handbook.docx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 166.546875,
+            "right": 339.515625,
+            "top": 469.0625,
+            "bottom": 531.859375
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 390
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Open Governing AI in the Development Sector · Workshop printables in a new tab",
+          "resourceId": "development-printables",
+          "href": "/library/development-printables.pdf",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 39,
+            "right": 157.546875,
+            "top": 468.203125,
+            "bottom": 531
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 390
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Download Governing AI in the Development Sector · Workshop printables",
+          "resourceId": "development-printables",
+          "href": "/library/development-printables.pdf",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 166.546875,
+            "right": 339.515625,
+            "top": 468.203125,
+            "bottom": 531
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 390
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Open Governing AI in the Development Sector · Trainer handbook in a new tab",
+          "resourceId": "development-trainer-handbook",
+          "href": "/library/development-trainer-handbook.docx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 39,
+            "right": 157.546875,
+            "top": 468.875,
+            "bottom": 531.671875
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 390
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Download Governing AI in the Development Sector · Trainer handbook",
+          "resourceId": "development-trainer-handbook",
+          "href": "/library/development-trainer-handbook.docx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 166.546875,
+            "right": 339.515625,
+            "top": 468.875,
+            "bottom": 531.671875
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 390
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Open Governing AI in the Development Sector · Workshop slide deck in a new tab",
+          "resourceId": "development-slide-deck",
+          "href": "/library/development-slide-deck.pptx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 39,
+            "right": 157.546875,
+            "top": 468.546875,
+            "bottom": 531.34375
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 390
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Download Governing AI in the Development Sector · Workshop slide deck",
+          "resourceId": "development-slide-deck",
+          "href": "/library/development-slide-deck.pptx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 166.546875,
+            "right": 339.515625,
+            "top": 468.546875,
+            "bottom": 531.34375
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 390
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Open Governing AI in Oversight Institutions · Participant handbook in a new tab",
+          "resourceId": "oversight-participant-handbook",
+          "href": "/library/oversight-participant-handbook.docx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 39,
+            "right": 157.546875,
+            "top": 468.890625,
+            "bottom": 531.6875
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 390
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Download Governing AI in Oversight Institutions · Participant handbook",
+          "resourceId": "oversight-participant-handbook",
+          "href": "/library/oversight-participant-handbook.docx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 166.546875,
+            "right": 339.515625,
+            "top": 468.890625,
+            "bottom": 531.6875
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 390
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Open Governing AI in Oversight Institutions · Workshop printables in a new tab",
+          "resourceId": "oversight-printables",
+          "href": "/library/oversight-printables.pdf",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 39,
+            "right": 157.546875,
+            "top": 468.421875,
+            "bottom": 531.21875
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 390
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Download Governing AI in Oversight Institutions · Workshop printables",
+          "resourceId": "oversight-printables",
+          "href": "/library/oversight-printables.pdf",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 166.546875,
+            "right": 339.515625,
+            "top": 468.421875,
+            "bottom": 531.21875
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 390
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Open Governing AI in Oversight Institutions · Trainer handbook in a new tab",
+          "resourceId": "oversight-trainer-handbook",
+          "href": "/library/oversight-trainer-handbook.docx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 39,
+            "right": 157.546875,
+            "top": 469.09375,
+            "bottom": 531.890625
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 390
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Download Governing AI in Oversight Institutions · Trainer handbook",
+          "resourceId": "oversight-trainer-handbook",
+          "href": "/library/oversight-trainer-handbook.docx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 166.546875,
+            "right": 339.515625,
+            "top": 469.09375,
+            "bottom": 531.890625
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 390
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Open Governing AI in Oversight Institutions · Workshop slide deck in a new tab",
+          "resourceId": "oversight-slide-deck",
+          "href": "/library/oversight-slide-deck.pptx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 39,
+            "right": 157.546875,
+            "top": 468.15625,
+            "bottom": 530.953125
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 390
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Download Governing AI in Oversight Institutions · Workshop slide deck",
+          "resourceId": "oversight-slide-deck",
+          "href": "/library/oversight-slide-deck.pptx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 166.546875,
+            "right": 339.515625,
+            "top": 468.15625,
+            "bottom": 530.953125
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 390
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Open Governing the AI You Will Inherit · Participant handbook in a new tab",
+          "resourceId": "emerging-leaders-participant-handbook",
+          "href": "/library/emerging-leaders-participant-handbook.docx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 39,
+            "right": 157.546875,
+            "top": 469.0625,
+            "bottom": 531.859375
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 390
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Download Governing the AI You Will Inherit · Participant handbook",
+          "resourceId": "emerging-leaders-participant-handbook",
+          "href": "/library/emerging-leaders-participant-handbook.docx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 166.546875,
+            "right": 339.515625,
+            "top": 469.0625,
+            "bottom": 531.859375
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 390
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Open Governing the AI You Will Inherit · Workshop printables in a new tab",
+          "resourceId": "emerging-leaders-printables",
+          "href": "/library/emerging-leaders-printables.pdf",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 39,
+            "right": 157.546875,
+            "top": 468.203125,
+            "bottom": 531
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 390
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Download Governing the AI You Will Inherit · Workshop printables",
+          "resourceId": "emerging-leaders-printables",
+          "href": "/library/emerging-leaders-printables.pdf",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 166.546875,
+            "right": 339.515625,
+            "top": 468.203125,
+            "bottom": 531
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 390
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Open Governing the AI You Will Inherit · Trainer handbook in a new tab",
+          "resourceId": "emerging-leaders-trainer-handbook",
+          "href": "/library/emerging-leaders-trainer-handbook.docx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 39,
+            "right": 157.546875,
+            "top": 468.484375,
+            "bottom": 531.28125
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 390
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Download Governing the AI You Will Inherit · Trainer handbook",
+          "resourceId": "emerging-leaders-trainer-handbook",
+          "href": "/library/emerging-leaders-trainer-handbook.docx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 166.546875,
+            "right": 339.515625,
+            "top": 468.484375,
+            "bottom": 531.28125
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 390
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Open Governing the AI You Will Inherit · Workshop slide deck in a new tab",
+          "resourceId": "emerging-leaders-slide-deck",
+          "href": "/library/emerging-leaders-slide-deck.pptx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 39,
+            "right": 157.546875,
+            "top": 468.15625,
+            "bottom": 530.953125
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 390
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Download Governing the AI You Will Inherit · Workshop slide deck",
+          "resourceId": "emerging-leaders-slide-deck",
+          "href": "/library/emerging-leaders-slide-deck.pptx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 166.546875,
+            "right": 339.515625,
+            "top": 468.15625,
+            "bottom": 530.953125
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 390
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Open Using AI Well at the Point of Delivery · Participant handbook in a new tab",
+          "resourceId": "frontline-participant-handbook",
+          "href": "/library/frontline-participant-handbook.docx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 39,
+            "right": 157.546875,
+            "top": 468.296875,
+            "bottom": 531.09375
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 390
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Download Using AI Well at the Point of Delivery · Participant handbook",
+          "resourceId": "frontline-participant-handbook",
+          "href": "/library/frontline-participant-handbook.docx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 166.546875,
+            "right": 339.515625,
+            "top": 468.296875,
+            "bottom": 531.09375
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 390
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Open Using AI Well at the Point of Delivery · Workshop printables in a new tab",
+          "resourceId": "frontline-printables",
+          "href": "/library/frontline-printables.pdf",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 39,
+            "right": 157.546875,
+            "top": 468.4375,
+            "bottom": 531.234375
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 390
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Download Using AI Well at the Point of Delivery · Workshop printables",
+          "resourceId": "frontline-printables",
+          "href": "/library/frontline-printables.pdf",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 166.546875,
+            "right": 339.515625,
+            "top": 468.4375,
+            "bottom": 531.234375
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 390
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Open Using AI Well at the Point of Delivery · Trainer handbook in a new tab",
+          "resourceId": "frontline-trainer-handbook",
+          "href": "/library/frontline-trainer-handbook.docx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 39,
+            "right": 157.546875,
+            "top": 468.71875,
+            "bottom": 531.515625
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 390
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Download Using AI Well at the Point of Delivery · Trainer handbook",
+          "resourceId": "frontline-trainer-handbook",
+          "href": "/library/frontline-trainer-handbook.docx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 166.546875,
+            "right": 339.515625,
+            "top": 468.71875,
+            "bottom": 531.515625
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 390
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Open Using AI Well at the Point of Delivery · Workshop slide deck in a new tab",
+          "resourceId": "frontline-slide-deck",
+          "href": "/library/frontline-slide-deck.pptx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 39,
+            "right": 157.546875,
+            "top": 468.390625,
+            "bottom": 531.1875
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 390
+        },
+        {
+          "tag": "A",
+          "id": "",
+          "label": "Download Using AI Well at the Point of Delivery · Workshop slide deck",
+          "resourceId": "frontline-slide-deck",
+          "href": "/library/frontline-slide-deck.pptx",
+          "focusVisible": true,
+          "outlineWidth": 3,
+          "outlineStyle": "solid",
+          "rect": {
+            "left": 166.546875,
+            "right": 339.515625,
+            "top": 468.390625,
+            "bottom": 531.1875
+          },
+          "hit": true,
+          "viewportHeight": 1000,
+          "documentWidth": 390
+        }
+      ],
+      "reverseLastTarget": "Open Using AI Well at the Point of Delivery · Workshop slide deck in a new tab",
+      "stateAndRevisionUnchanged": true
+    }
+  ],
+  "actualTabTargets": 129,
+  "posts": 0,
+  "pageErrors": [],
+  "limits": [
+    "Synthetic loopback reader; no learning writes or production calls.",
+    "Actual Tab and Shift+Tab events with geometry, hit testing, accessible labels and CSS focus-ring checks.",
+    "This is a bounded keyboard acceptance test, not a screen-reader or accessibility-conformance claim."
+  ]
+}

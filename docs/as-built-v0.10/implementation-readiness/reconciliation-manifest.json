@@ -1,9 +1,9 @@
 {
-  "reconciledAt": "2026-10-05T11:06:58.151432+00:00",
-  "sourceGapFile": "outputs/aplyd-academy-sprint/product-readiness/acceptance-gaps.json",
+  "reconciledAt": "2026-10-05T11:22:00.223690+00:00",
+  "sourceGapFile": "acceptance-gaps-baseline.json",
   "sourceGapSha256": "8970a4e93ed65a93c49b9847c6351d2479229c2fee26e57c0c18e9b26ccf717f",
-  "sourceReleaseEvidence": "work/aplyd-academy/docs/test-evidence.json",
-  "sourceReleaseEvidenceSha256": "c3d7ee7538272f725d777f3e955d3d6e69de454903a78f6b1ca2f08f6f5b6741",
+  "sourceReleaseEvidence": "../../test-evidence.json",
+  "sourceReleaseEvidenceSha256": "80fdb439258427f41ef1d70f13330bdfd56d1222c56d6350fe747af688b54cd4",
   "capturedReleases": {
     "0.9": {
       "path": "evidence/release-v0.9.json",
@@ -43,14 +43,16 @@
   },
   "currentIntegratedDomainTAP": {
     "path": "evidence/v10-domain-tests.tap",
-    "tests": 315,
-    "passed": 315,
+    "tests": 323,
+    "passed": 323,
     "failed": 0,
-    "note": "Read from actual root TAP; includes library25, not315 independent browser/API/UAT cases."
+    "sha256": "e6c7bde86b618777afbe44b3c673db834a3656a95e8aa8415ee63ab07369b4e4",
+    "note": "Actual final root TAP;315 initial tests plus8 enrollment-response unit regressions. Not323 user journeys or production acceptance."
   },
   "libraryCurrent": {
     "actualModelAnd20LocalFiles": "evidence/v10-library-acceptance.json",
-    "browserAcceptance": "Pending separate final browser runner at reconciliation; not counted here."
+    "browserAcceptance": "../final-acceptance-summary.json",
+    "keyboard": "../library-keyboard-acceptance.json"
   },
   "limits": [
     "No prior files overwritten; outside-only documentation and evidence snapshots",
@@ -90,5 +92,17 @@
     "libraryBrowser": "../final-acceptance-summary.json",
     "enrollmentShape": "../enrollment-response-acceptance.json",
     "note": "Historical release snapshots and original review hashes describe their executed versions; final root evidence is separately identified."
+  },
+  "historicalSourceCapture": {
+    "at": "2026-10-05T11:06:58.151432+00:00",
+    "source": "work/aplyd-academy/docs/test-evidence.json",
+    "sha256": "c3d7ee7538272f725d777f3e955d3d6e69de454903a78f6b1ca2f08f6f5b6741"
+  },
+  "capturedInitialDomainTAP": {
+    "path": "evidence/v10-initial-domain-tests.tap",
+    "tests": 315,
+    "passed": 315,
+    "failed": 0,
+    "note": "Read from actual root TAP; includes library25, not315 independent browser/API/UAT cases."
   }
 }

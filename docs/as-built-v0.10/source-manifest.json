@@ -55,6 +55,11 @@
       "path": "tests/network-attendance-clock.mjs",
       "sha256": "cbaace710164aa75efca8fc4940160ac8e3cbc3840367580098ab36595cb2092",
       "bytes": 9119
+    },
+    {
+      "path": "tests/library-keyboard.mjs",
+      "sha256": "6fbdbf584129d29a75c1d8c0a3e5340dca33065e9f29ce070875d2152558d574",
+      "bytes": 6002
     }
   ]
 }

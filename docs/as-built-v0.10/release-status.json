@@ -1,5 +1,5 @@
 {
-  "release": "0.10",
+  "release": "0.10.1",
   "integration": "verified locally",
   "pureTestsPassed": 323,
   "typecheck": "passed",
@@ -10,5 +10,6 @@
   "collections": 5,
   "audience": "owner-private preserved",
   "hostedRecipientAndDirectFileAuthorization": "NOT RUN",
-  "correctedEnrollmentResponseGuard": "5 actual malformed/retained-version HOME cases passed on final Worker16902"
+  "correctedEnrollmentResponseGuard": "5 actual malformed/retained-version HOME cases passed on final Worker16902",
+  "libraryKeyboardTargets": 129
 }

@@ -109,3 +109,7 @@ Adds the20 unchanged originals supplied in APLYD_Library across Government, Deve
 Successful response adoption also checks the basic enrollment render shape. Null enrollments or missing completion/review/draft collections are rejected before root/learning selectors, with the existing plain refresh notice. Unknown pinned content remains retained and unavailable. Five actual corrected-build HOME fixtures and eight added response-unit cases cover this edge. The existing local session cancellation/reservation race passed41 assertions without changing session implementation.
 
 A further49 local API assertions exercised attendance against the real server clock: rejection before start, successful marking after start, retained reasoned correction, peer privacy, own former-member history and unchanged learning. These synthetic rules checks do not establish observed human attendance or production operation.
+
+## v0.10.1 · Final verification index
+
+Preserves the initial315-test snapshot beside the final323-test result and reconciles the evidence index. Adds the executed129-target library keyboard regression at desktop, tablet and phone sizes. Application code, schema, originals and runtime behavior match v0.10; this increment completes the verification pack.
