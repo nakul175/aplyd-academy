@@ -1,0 +1,31 @@
+{
+  "passed": true,
+  "checks": 16,
+  "teams": [
+    {
+      "teamId": "tw-47fe576b-85d1-4084-85c4-a462c3e8b0ec",
+      "sourceRevision": 1,
+      "memberPairs": 1,
+      "auditRows": 1,
+      "historyRows": 0,
+      "tokenRows": 0,
+      "inactiveMembersRetained": 0
+    },
+    {
+      "teamId": "tw-6f38f843-19c1-4b02-9f04-b5898b0638f2",
+      "sourceRevision": 228,
+      "memberPairs": 6,
+      "auditRows": 228,
+      "historyRows": 3,
+      "tokenRows": 5,
+      "inactiveMembersRetained": 1
+    }
+  ],
+  "at": "2026-10-05T19:56:13.853908+00:00",
+  "databaseMode": "mode=ro plus query_only",
+  "limits": [
+    "Read-only exact synthetic-fixture inspection of the actual local D1 backing SQLite after supported API writes.",
+    "No SQLite/D1 mutation, production query, migration backfill or orphan/stale-pair fault injection.",
+    "Pre-M5 legacy parity and production migration are not demonstrated by this check."
+  ]
+}

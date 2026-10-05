@@ -1,0 +1,26 @@
+{
+  "checkedAtUtc": "2026-10-05T19:50:37.096106+00:00",
+  "scope": "Documentation structural checks only; no product execution",
+  "files": [
+    "README.md",
+    "api-and-commands.json",
+    "data-dictionary.tsv",
+    "evidence-register.json",
+    "fsd-delta.md",
+    "hld-delta.md",
+    "lld-delta.md",
+    "source-manifest.json",
+    "test-matrix.tsv"
+  ],
+  "jsonParse": "PASS",
+  "dictionaryRows": 107,
+  "dictionaryKeysUnique": true,
+  "testCases": 40,
+  "testIdsUnique": true,
+  "matrixEvidenceReferences": "PASS",
+  "relativeDocumentLinks": 16,
+  "archiveObservedMatchesExpected": true,
+  "appliedMigrationFilesMatchObservedHead": true,
+  "sourceChangedSinceManifest": [],
+  "finalProductQA": "Not run by documentation agent"
+}

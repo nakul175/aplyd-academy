@@ -1,0 +1,23 @@
+{
+  "workerSession": 89617,
+  "worker": "http://127.0.0.1:8787",
+  "at": "2026-10-05T19:55:14.166Z",
+  "files": {
+    "dist/server/wrangler.json": {
+      "sha256": "40037e9c9498735a53ecbe4fcaecbf765e98afbbd00b35a63c311843592b8397",
+      "modifiedAt": "2026-10-05T19:50:58.539Z"
+    },
+    "dist/server/index.js": {
+      "sha256": "feb04b072ab7ae411c0dc5070f3a69124b327e6a47123a9f3693278953bd297e",
+      "modifiedAt": "2026-10-05T19:50:58.536Z"
+    },
+    "dist/server/__vite_rsc_assets_manifest.js": {
+      "sha256": "5a4131fb8c92e5869418f0b3a073d530b3df7f17807c4205e70b237013f26e93",
+      "modifiedAt": "2026-10-05T19:50:59.819Z"
+    },
+    "dist/server/ssr/index.js": {
+      "sha256": "7a371be1673c84d1cfe22f4c4551426d864a14f036169ee212413ace72c61a1e",
+      "modifiedAt": "2026-10-05T19:50:59.800Z"
+    }
+  }
+}

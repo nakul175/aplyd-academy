@@ -1,0 +1,70 @@
+{
+  "passed": true,
+  "worker": "81721",
+  "cases": [
+    {
+      "name": "successful GET wrong requested workspace masks without a crash",
+      "passed": true
+    },
+    {
+      "name": "successful GET null cohort item masks without a crash",
+      "passed": true
+    },
+    {
+      "name": "successful GET malformed enrollment masks without a crash",
+      "passed": true
+    },
+    {
+      "name": "successful GET missing view array shape masks without a crash",
+      "passed": true
+    },
+    {
+      "name": "successful GET nonarray private content masks without a crash",
+      "passed": true
+    },
+    {
+      "name": "successful GET null private snapshot masks without a crash",
+      "passed": true
+    },
+    {
+      "name": "successful GET foreign private snapshot scope masks without a crash",
+      "passed": true
+    },
+    {
+      "name": "successful directory wrong subject masks protected projection",
+      "passed": true
+    },
+    {
+      "name": "successful directory null row masks protected projection",
+      "passed": true
+    },
+    {
+      "name": "successful directory duplicate workspace masks protected projection",
+      "passed": true
+    },
+    {
+      "name": "wrong account POST acknowledgement is uncertain; no retry or input loss",
+      "passed": true
+    },
+    {
+      "name": "wrong workspace POST acknowledgement is uncertain; no retry or input loss",
+      "passed": true
+    },
+    {
+      "name": "wrong nonadvancing revision POST acknowledgement is uncertain; no retry or input loss",
+      "passed": true
+    },
+    {
+      "name": "valid JSON503 keeps authorized current view while showing a plain error",
+      "passed": true
+    }
+  ],
+  "pageErrors": [],
+  "fixtureId": "tw-9ccf9838-d339-4880-b8e8-9f92a0a3146a",
+  "at": "2026-10-05T20:00:24.339Z",
+  "limits": [
+    "Current integrated shell and actual loopback API with deterministic intercepted responses.",
+    "Synthetic trusted-header identities only; no hosted sign-in or provider/partner transport.",
+    "No root source/build/restart or SQL mutation."
+  ]
+}

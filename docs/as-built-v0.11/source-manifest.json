@@ -1,0 +1,191 @@
+{
+  "observedAtUtc": "2026-10-05T19:47:42.681838+00:00",
+  "branch": "development/academy-eight-hour-20261006",
+  "head": "daf0fb393862d2c2f62ce91f33f633629cfdca13",
+  "scope": "Read-only source observation of moving root checkout; not build or hosted bundle identity. Documentation agent ran no product tests, build, API, browser or provider calls.",
+  "sources": [
+    {
+      "path": "package.json",
+      "sha256": "eb7b53ec5bdce1db5a8576b2ffc3b63ddd8c5fdee0f97dcb341674abbf69843a",
+      "bytes": 2102
+    },
+    {
+      "path": "app/chatgpt-auth.ts",
+      "sha256": "4265a2e7c2dcb3a6f4b7026f762bf5b6e4caec76cc13c0a45987ee9a9f2e42cc",
+      "bytes": 2550
+    },
+    {
+      "path": "app/api/academy/route.ts",
+      "sha256": "80c2e8464bfeaa99dab735544441b0802610a6ee2d875780d949d6fe01952dde",
+      "bytes": 4018
+    },
+    {
+      "path": "app/api/academy/export/route.ts",
+      "sha256": "130685dd4564fa8078a968db7303d4640b986da99ad33e09be678d280dd9d995",
+      "bytes": 1294
+    },
+    {
+      "path": "app/api/teams/route.ts",
+      "sha256": "b885dfcfd2f7a7d6f5ddcbb8c1f0ef5fb7257b0892c7672067117e907fece5e8",
+      "bytes": 8841
+    },
+    {
+      "path": "app/api/teams/history/route.ts",
+      "sha256": "0ecebf4fe00083514d81cefbbc7a0e76c277531b823eb49a71238481c0b54838",
+      "bytes": 2041
+    },
+    {
+      "path": "app/academy-response.ts",
+      "sha256": "d016b784f63575fe66a8c3eb83bb2cfbc834e8d2697586c9e2a19eb451a4e0ba",
+      "bytes": 2085
+    },
+    {
+      "path": "app/academy-acceptance.ts",
+      "sha256": "ce2bf2f00d49a64b72da02dbb54e1b2ea9af3a7306b43af87ed1c81555e325bf",
+      "bytes": 8453
+    },
+    {
+      "path": "app/academy.tsx",
+      "sha256": "87f7e6ad61b3badd90c5b8264060791d18b02abb9f090e86c4b85312e316ec31",
+      "bytes": 29145
+    },
+    {
+      "path": "app/academy-context.tsx",
+      "sha256": "15ae4ab655c7ad8a680f89aa63010afd733d31dca8884efcaa7658ebc8905fd1",
+      "bytes": 4315
+    },
+    {
+      "path": "app/academy-learning.tsx",
+      "sha256": "a092ca0ff1d1c8ac20067aeecd622e6341bc16c07929ea0a9da5291bca1a8d48",
+      "bytes": 21915
+    },
+    {
+      "path": "app/academy-learning-drafts.tsx",
+      "sha256": "7925ba46c75f04351d65ff84f4b95bf4ccaf6d6da4d9979bd4d806f5c8246c9e",
+      "bytes": 2005
+    },
+    {
+      "path": "app/academy-settings.tsx",
+      "sha256": "5c2db2aa1e63f2cc067f7ac8d6533c70d2c0c4fd2e86fda3fbd7eeb5a45eee5a",
+      "bytes": 10382
+    },
+    {
+      "path": "app/academy-inclusive-learning.tsx",
+      "sha256": "c20d9f2802ef65521007dcff027cda836107c745cf7081e5d9b4074baac180da",
+      "bytes": 11105
+    },
+    {
+      "path": "app/academy-snapshot.tsx",
+      "sha256": "ab4e317474eaf3be60eba2317c53f5e92a012f1740b4bc134b536cd74c25341a",
+      "bytes": 4293
+    },
+    {
+      "path": "app/academy-offline.tsx",
+      "sha256": "11fcd7d24a5934fe1366b1d322d4f5681decc94fb1a8023eddc838d167e6bd2b",
+      "bytes": 25812
+    },
+    {
+      "path": "app/academy-offline.module.css",
+      "sha256": "5b99282f143e0d69e6721e4d0ad2a05cb08e6820036b3b38f5aefd8343d375a9",
+      "bytes": 2085
+    },
+    {
+      "path": "lib/academy-engine.ts",
+      "sha256": "4747712f10c39cc08eaed66939bd99013d8064e4eb3097218590fbcc63bebff7",
+      "bytes": 20052
+    },
+    {
+      "path": "lib/academy-teams.ts",
+      "sha256": "f09c8350ac0e6ddd5bd0f93258a18287748ce53c2b82240b510ee8e1d9efd3cf",
+      "bytes": 23171
+    },
+    {
+      "path": "lib/academy-inclusive-learning.ts",
+      "sha256": "483e64778ad762e93880a5ea41bec0b873fe48c62bdc1aa5fefc0b26c8f626ac",
+      "bytes": 10178
+    },
+    {
+      "path": "lib/academy-snapshot.ts",
+      "sha256": "bc557badd8bf446cc25a95ba3e074dcf19c3968ad5911bcc20ad6f3aee667c00",
+      "bytes": 5470
+    },
+    {
+      "path": "lib/academy-offline.ts",
+      "sha256": "0f5cc198c757803678b8e2d4adfe3a979c377b5fef94a4ff42692912ed19223c",
+      "bytes": 23030
+    },
+    {
+      "path": "lib/academy-offline-sealed.ts",
+      "sha256": "50e37576f6f1cf2efce106e6f1c5f894bffb4e777cb5becf1e6fe36dc9a48f3e",
+      "bytes": 8805
+    },
+    {
+      "path": "lib/academy-curriculum.ts",
+      "sha256": "02a7e32aa7f56e1bc06694987946f804d33fdd17ab781749142f72f42bda722c",
+      "bytes": 7719
+    },
+    {
+      "path": "lib/curriculum.json",
+      "sha256": "9fc83c8dd615456db8f49d140f56bff566e05c14d32ebb70a14cdcb73078b7e4",
+      "bytes": 65054
+    },
+    {
+      "path": "lib/curriculum-versions/0.1-review-draft.json",
+      "sha256": "9fc83c8dd615456db8f49d140f56bff566e05c14d32ebb70a14cdcb73078b7e4",
+      "bytes": 65054
+    },
+    {
+      "path": "db/schema.ts",
+      "sha256": "8d63e08a69dc77b587bc360d14f40f66402914c5d5245ac7701565803e8b058f",
+      "bytes": 2348
+    },
+    {
+      "path": "drizzle/0005_tearful_angel.sql",
+      "sha256": "503264c742696c9fa4eddc9017b6a5d8232092007551b85e9bf5675df27011f6",
+      "bytes": 1641
+    },
+    {
+      "path": "drizzle/meta/_journal.json",
+      "sha256": "6cac8f9ecd9c838da0933552749dfdeda9f601220e92a226eb38c7fc97cb562e",
+      "bytes": 920
+    }
+  ],
+  "archive0_1": {
+    "sha256": "9fc83c8dd615456db8f49d140f56bff566e05c14d32ebb70a14cdcb73078b7e4",
+    "currentCurriculumMatchesArchive": true,
+    "baselineExpectedSha256": "9fc83c8dd615456db8f49d140f56bff566e05c14d32ebb70a14cdcb73078b7e4",
+    "matchesExpected": true
+  },
+  "appliedMigrationPreservation": [
+    {
+      "path": "drizzle/0000_strange_dazzler.sql",
+      "workingHash": "bfd2a4f5d663d38ec7e484dcb55c7fc3c5f115ff87c38fc182bca09f8cde761b",
+      "headHash": "bfd2a4f5d663d38ec7e484dcb55c7fc3c5f115ff87c38fc182bca09f8cde761b",
+      "matchesHead": true
+    },
+    {
+      "path": "drizzle/0001_complex_deathbird.sql",
+      "workingHash": "bb499509398fe933ea8912ec8eb12bd5a65261d5885637fad15049e7cd242532",
+      "headHash": "bb499509398fe933ea8912ec8eb12bd5a65261d5885637fad15049e7cd242532",
+      "matchesHead": true
+    },
+    {
+      "path": "drizzle/0002_silky_tempest.sql",
+      "workingHash": "ee7d1008a437871b5d0b6c0530f94558932f77c6fe036a6bd363683d4973bde8",
+      "headHash": "ee7d1008a437871b5d0b6c0530f94558932f77c6fe036a6bd363683d4973bde8",
+      "matchesHead": true
+    },
+    {
+      "path": "drizzle/0003_massive_franklin_storm.sql",
+      "workingHash": "2a482c72a541e36382a907d655565bf55129d30361cb0862c29cf185c8aca780",
+      "headHash": "2a482c72a541e36382a907d655565bf55129d30361cb0862c29cf185c8aca780",
+      "matchesHead": true
+    },
+    {
+      "path": "drizzle/0004_red_trauma.sql",
+      "workingHash": "1c55bac21db77a790cc0bbc3bde41b4c9c6ba8883e6428ada49e7c9ca42e3701",
+      "headHash": "1c55bac21db77a790cc0bbc3bde41b4c9c6ba8883e6428ada49e7c9ca42e3701",
+      "matchesHead": true
+    }
+  ]
+}

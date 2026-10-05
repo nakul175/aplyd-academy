@@ -1,0 +1,175 @@
+{
+  "observedAtUtc": "2026-10-05T19:47:42.681838+00:00",
+  "status": "as-read actual source contracts; root integration QA pending",
+  "authentication": "getChatGPTUser() reads trusted Site-auth headers; local fixture headers do not prove public trust boundary. DB owner/actor derived server-side.",
+  "errors": {
+    "shape": {
+      "error": "safe string"
+    },
+    "typicalStatuses": [
+      400,
+      401,
+      403,
+      404,
+      409,
+      413,
+      415,
+      422,
+      503
+    ]
+  },
+  "cachePolicy": "Responses no-store; nosniff; shared/export routes also no-referrer.",
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/api/academy",
+      "response": [
+        "currentUserId",
+        "state",
+        "revision",
+        "programs",
+        "user.displayName",
+        "mode=private-pilot"
+      ],
+      "scope": "Own personal row or fresh default; no arbitrary owner selector."
+    },
+    {
+      "method": "POST",
+      "path": "/api/academy",
+      "request": [
+        "revision",
+        "actionId",
+        "command"
+      ],
+      "response": [
+        "currentUserId",
+        "state",
+        "revision",
+        "replayed?"
+      ],
+      "guards": "JSON100000character envelope; actionId20\u201380alphanumeric/hyphen; own revision CAS; per-owner action fingerprint; domain checks; personal sizing budget. Replay returns freshly loaded current state, not an immutable old response."
+    },
+    {
+      "method": "GET",
+      "path": "/api/academy/export",
+      "response": "PersonalSnapshot",
+      "scope": "Fresh own stored bytes/revision; no import/restore; query owner ignored; attachment."
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "queryModes": [
+        "directory(no selector)",
+        "id=workspace",
+        "invite=token"
+      ],
+      "responseModes": [
+        "workspaces+user",
+        "projectTeam+revision",
+        "invitation+revision"
+      ],
+      "guards": "Directory derives user from server identity and canonical membership, never projected roles. Team projection validates membership/current roles. Invite token hashed and recipient checked."
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "request": [
+        "teamId(optional forcreate)",
+        "revision",
+        "actionId",
+        "command"
+      ],
+      "response": [
+        "projectTeam",
+        "revision"
+      ],
+      "guards": "Origin/JSON/envelope; membership and command roles; CAS/idempotency; bounded aggregate sizing; DB batch; success by one exact RETURNING id/revision, not D1 meta.changes."
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams/history",
+      "query": [
+        "teamId",
+        "before(optional positive revision)"
+      ],
+      "response": [
+        "asOfRevision",
+        "packets",
+        "nextBefore"
+      ],
+      "guards": "Current admin or scoped moderator; batch read current authorization+history; five shown from six fetched; moderator only assigned cohort entries."
+    }
+  ],
+  "newOrChangedCommands": [
+    {
+      "type": "learning-access-preferences",
+      "fields": [
+        "preferredLanguage",
+        "readAloudMode",
+        "assistancePreference"
+      ],
+      "effect": "Own state.learningAccess only; canonical language request. No translation/helper/role grant."
+    },
+    {
+      "type": "lesson-draft",
+      "fields": [
+        "enrollmentId",
+        "lessonId",
+        "practice",
+        "answers"
+      ],
+      "effect": "Save unfinished text/quiz answers; no completion. Offline preparation preserves fresh online quiz answers."
+    },
+    {
+      "type": "draft",
+      "fields": [
+        "enrollmentId",
+        "fields"
+      ],
+      "effect": "Save practical text only; no submit/decision."
+    },
+    {
+      "type": "submit",
+      "fields": [
+        "enrollmentId",
+        "fields",
+        "confirmed",
+        "assisted(optional boolean)",
+        "assistance(optional declaration)"
+      ],
+      "effect": "Existing complete-lessons/retry/appeal/confirmation gates; validates exact prompt fields and current pin language; persists bounded learner-declared metadata with server time."
+    }
+  ],
+  "clientAcceptance": {
+    "module": "app/academy-acceptance.ts",
+    "functions": [
+      "acceptAcademyPayload",
+      "acceptAcademyDirectory",
+      "academyViewState",
+      "acceptedPrivateContent"
+    ],
+    "mustCheck": [
+      "safe revision",
+      "verified actor",
+      "write actor matches captured account",
+      "teamID equals expected workspace or tw-actionId forcreate",
+      "known roles and inactive role stripping",
+      "render-safe state",
+      "private publication scope/content shape",
+      "write sourceRevision is captured and validated by current acceptance guard; replay rules remain explicit"
+    ],
+    "callerDuties": [
+      "sequence-fence before applying result",
+      "invalidate canonical offline read on write/invalidation/context switch",
+      "retain unsent scratch when response cannot be accepted"
+    ]
+  },
+  "notImplemented": [
+    "No /api/v1 reference-spec routing",
+    "No Idempotency-Key/If-Match headers; uses actionId/revision JSON fields",
+    "No public credential verifier",
+    "No OAuth partner API or outbound delivery",
+    "No AI-provider endpoint pending explicit credential decision",
+    "No reviewed translated editions or formal accommodation-approval model"
+  ]
+}

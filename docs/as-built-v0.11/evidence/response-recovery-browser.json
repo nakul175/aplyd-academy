@@ -1,0 +1,45 @@
+{
+  "passed": true,
+  "at": "2026-10-05T19:55:17.310Z",
+  "worker": "89617",
+  "cases": [
+    {
+      "name": "primary200 empty object masks private authority",
+      "passed": true
+    },
+    {
+      "name": "primary200 missing UID masks private authority",
+      "passed": true
+    },
+    {
+      "name": "directory200 empty object masks private authority",
+      "passed": true
+    },
+    {
+      "name": "directory200 missing UID masks private authority",
+      "passed": true
+    },
+    {
+      "name": "Malformed profile200 is masked without a render crash",
+      "passed": true
+    },
+    {
+      "name": "An older nonJSON directory403 cannot mask a newer workspace",
+      "passed": true
+    },
+    {
+      "name": "Acknowledged JSON save plus nonJSON directory403 stays saved exactly once",
+      "passed": true
+    },
+    {
+      "name": "Unreadable2xx save retains own invitation scratch behind masking and never retries itself",
+      "passed": true
+    }
+  ],
+  "pageErrors": [],
+  "limits": [
+    "Synthetic local fixtures only; two invitation links are saved locally and nothing is sent.",
+    "The unreadable2xx case commits once through route.fetch before replacing only the acknowledgement.",
+    "No uncertain POST retry, production call or React internal inspection."
+  ]
+}

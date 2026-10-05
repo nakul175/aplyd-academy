@@ -1,0 +1,6901 @@
+{
+  "passed": true,
+  "at": "2026-10-05T20:00:14.143Z",
+  "worker": "81721",
+  "checks": 628,
+  "actualApiCalls": 544,
+  "acceptedSuccessfulResponses": 507,
+  "scenarios": [
+    {
+      "name": "real create/cohorts/invitations/acceptance and nonempty learner state",
+      "passed": true,
+      "checks": 35
+    },
+    {
+      "name": "real personal read and acknowledged profile write",
+      "passed": true,
+      "checks": 5
+    },
+    {
+      "name": "actual private publication after independent owner review",
+      "passed": true,
+      "checks": 19
+    },
+    {
+      "name": "real support own/metadata/assigned projections",
+      "passed": true,
+      "checks": 14
+    },
+    {
+      "name": "actual network host/participant/peer/own history",
+      "passed": true,
+      "checks": 14
+    },
+    {
+      "name": "integrated personal preferences exact fields own isolation CAS and durable replay",
+      "passed": true,
+      "checks": 28
+    },
+    {
+      "name": "integrated shared preferences remain own and absent from staff directory and operations source",
+      "passed": true,
+      "checks": 22
+    },
+    {
+      "name": "structured read-back own API gates store immutable self-declaration only",
+      "passed": true,
+      "checks": 44
+    },
+    {
+      "name": "legacy assisted:true remains readable without fabricated read-back approval",
+      "passed": true,
+      "checks": 10
+    },
+    {
+      "name": "directory trigger create accept/remove restore and failed token batch preserve membership",
+      "passed": true,
+      "checks": 31
+    },
+    {
+      "name": "real archive-boundary CAS and replay remain atomic after directory triggers",
+      "passed": true,
+      "checks": 384
+    },
+    {
+      "name": "removed own learning/thread/history and directory remain compatible",
+      "passed": true,
+      "checks": 22
+    }
+  ],
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "create",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-create",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-create",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "invite",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "accept",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "invite",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "accept",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "invite",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "accept",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "invite",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "accept",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "enroll",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "enroll",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/academy",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/academy",
+      "command": "profile",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "member",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "content-copy",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "content-submit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "content-review",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "content-publish",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-create",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "enroll",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "support-open",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "support-claim",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "support-reply",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "session-create",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "session-rsvp",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "network-profile",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/academy",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/academy",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/academy",
+      "command": "learning-access-preferences",
+      "status": 401
+    },
+    {
+      "method": "POST",
+      "path": "/api/academy",
+      "command": "learning-access-preferences",
+      "status": 400
+    },
+    {
+      "method": "POST",
+      "path": "/api/academy",
+      "command": "learning-access-preferences",
+      "status": 400
+    },
+    {
+      "method": "POST",
+      "path": "/api/academy",
+      "command": "learning-access-preferences",
+      "status": 400
+    },
+    {
+      "method": "POST",
+      "path": "/api/academy",
+      "command": "learning-access-preferences",
+      "status": 400
+    },
+    {
+      "method": "POST",
+      "path": "/api/academy",
+      "command": "learning-access-preferences",
+      "status": 400
+    },
+    {
+      "method": "POST",
+      "path": "/api/academy",
+      "command": "learning-access-preferences",
+      "status": 422
+    },
+    {
+      "method": "POST",
+      "path": "/api/academy",
+      "command": "learning-access-preferences",
+      "status": 409
+    },
+    {
+      "method": "POST",
+      "path": "/api/academy",
+      "command": "learning-access-preferences",
+      "status": 409
+    },
+    {
+      "method": "POST",
+      "path": "/api/academy",
+      "command": "learning-access-preferences",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/academy",
+      "command": "learning-access-preferences",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/academy",
+      "command": "learning-access-preferences",
+      "status": 409
+    },
+    {
+      "method": "POST",
+      "path": "/api/academy",
+      "command": "learning-access-preferences",
+      "status": 409
+    },
+    {
+      "method": "GET",
+      "path": "/api/academy",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/academy",
+      "command": "learning-access-preferences",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/academy",
+      "command": "learning-access-preferences",
+      "status": 409
+    },
+    {
+      "method": "GET",
+      "path": "/api/academy",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/academy",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "learning-access-preferences",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "learning-access-preferences",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "learning-access-preferences",
+      "status": 400
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "learning-access-preferences",
+      "status": 400
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "learning-access-preferences",
+      "status": 422
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "lesson",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "lesson",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "lesson",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "submit",
+      "status": 422
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "submit",
+      "status": 422
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "submit",
+      "status": 422
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "submit",
+      "status": 409
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "submit",
+      "status": 409
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "submit",
+      "status": 400
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "submit",
+      "status": 400
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "submit",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "submit",
+      "status": 400
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "submit",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "submit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "draft",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "lesson",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "lesson",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "lesson",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "submit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "invite",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "accept",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "member",
+      "status": 409
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "member",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "learning-access-preferences",
+      "status": 403
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "member",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "create",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "invite",
+      "status": 409
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams/history",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 409
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams/history",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams/history",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "member",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "network-profile",
+      "status": 403
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "status": 200
+    }
+  ],
+  "accepted": [
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "create",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-create",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-create",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "invite",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "accept",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "invite",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "accept",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "invite",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "accept",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "invite",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "accept",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "enroll",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "enroll",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/academy",
+      "command": null,
+      "workspace": "directory",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/academy",
+      "command": "profile",
+      "workspace": "lab",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "member",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "content-copy",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "content-submit",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "content-review",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "content-publish",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-create",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "enroll",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "support-open",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "support-claim",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "support-reply",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "session-create",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "session-rsvp",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "network-profile",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/academy",
+      "command": null,
+      "workspace": "directory",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/academy",
+      "command": null,
+      "workspace": "directory",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/academy",
+      "command": "learning-access-preferences",
+      "workspace": "lab",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/academy",
+      "command": "learning-access-preferences",
+      "workspace": "lab",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/academy",
+      "command": null,
+      "workspace": "directory",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/academy",
+      "command": "learning-access-preferences",
+      "workspace": "lab",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/academy",
+      "command": null,
+      "workspace": "directory",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/academy",
+      "command": null,
+      "workspace": "directory",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "learning-access-preferences",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "learning-access-preferences",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "directory",
+      "stateUnmodified": null
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "lesson",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "lesson",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "lesson",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "submit",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "submit",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "draft",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "lesson",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "lesson",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "lesson",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "submit",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "invite",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "accept",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "directory",
+      "stateUnmodified": null
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "directory",
+      "stateUnmodified": null
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "member",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "directory",
+      "stateUnmodified": null
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "member",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "directory",
+      "stateUnmodified": null
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "create",
+      "workspace": "tw-865d6a64-ee2d-4cf5-84a2-3f1775683788",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-865d6a64-ee2d-4cf5-84a2-3f1775683788",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "directory",
+      "stateUnmodified": null
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-865d6a64-ee2d-4cf5-84a2-3f1775683788",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "directory",
+      "stateUnmodified": null
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "directory",
+      "stateUnmodified": null
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "directory",
+      "stateUnmodified": null
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "cohort-status",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "command": "member",
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "directory",
+      "stateUnmodified": null
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+      "stateUnmodified": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "directory",
+      "stateUnmodified": null
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "directory",
+      "stateUnmodified": null
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "directory",
+      "stateUnmodified": null
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "command": null,
+      "workspace": "directory",
+      "stateUnmodified": null
+    }
+  ],
+  "fixtureId": "tw-a79af1f8-de91-472e-b5f2-01f3e5ff24b0",
+  "sourceSha256": {
+    "app/academy-response.ts": "d016b784f63575fe66a8c3eb83bb2cfbc834e8d2697586c9e2a19eb451a4e0ba",
+    "app/academy.tsx": "87f7e6ad61b3badd90c5b8264060791d18b02abb9f090e86c4b85312e316ec31",
+    "lib/academy-curriculum.ts": "02a7e32aa7f56e1bc06694987946f804d33fdd17ab781749142f72f42bda722c",
+    "lib/academy-teams.ts": "f09c8350ac0e6ddd5bd0f93258a18287748ce53c2b82240b510ee8e1d9efd3cf"
+  },
+  "candidateBundleSha256": "6fa2d60dab23a6005109e0a383cda2433d163b1673b85c2d4a43254a4efac7ec",
+  "limits": [
+    "Parent-confirmed stable local Worker; unique synthetic identities and fictional records only.",
+    "Actual integrated current checkout acceptance is also executed separately against real API bodies; browser execution covers the integrated shell.",
+    "Source hashes do not independently establish Worker bundle identity; ACADEMY_QA_WORKER records root-confirmed stable integrated build.",
+    "No checkout edit, SQL mutation, restart, hosted call, invitation delivery or provider AI action."
+  ]
+}

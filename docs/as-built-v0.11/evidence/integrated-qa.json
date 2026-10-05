@@ -1,0 +1,50 @@
+{
+  "passed": true,
+  "worker": "89617",
+  "sourceUnchangedDuringQA": true,
+  "evidence": {
+    "api": {
+      "file": "api-evidence/integrated-api-result.json",
+      "passed": true,
+      "checks": 628,
+      "scenarios": 12,
+      "apiCalls": 544
+    },
+    "directory": {
+      "file": "api-evidence/directory-read-only-result.json",
+      "passed": true,
+      "checks": 16
+    },
+    "acceptanceBrowser": {
+      "file": "browser-evidence/acceptance-browser-result.json",
+      "passed": true,
+      "scenarios": 14,
+      "pageErrors": 0
+    },
+    "identityBrowser": {
+      "file": "identity-evidence/identity-browser-result.json",
+      "passed": true,
+      "scenarios": 9,
+      "pageErrors": 0
+    },
+    "recoveryBrowser": {
+      "file": "response-recovery-evidence/response-recovery-result.json",
+      "passed": true,
+      "scenarios": 8,
+      "pageErrors": 0
+    },
+    "readDenialBrowser": {
+      "file": "nonjson-read-evidence/nonjson-read-result.json",
+      "passed": true,
+      "scenarios": 12,
+      "pageErrors": 0
+    }
+  },
+  "at": "2026-10-05T19:56:45.306Z",
+  "limits": [
+    "Integrated API/browser and read-only synthetic local D1 verification only.",
+    "Pre-M5 legacy-row parity, hosted authentication and production migration/recovery were not tested.",
+    "Offline/speech/read-back modal/mobile tests are owned separately by accessibility_mobile.",
+    "First API harness failure expected the wrong status for unsupported preference modes; preserved, corrected to exact source status, then fresh fixture passed."
+  ]
+}

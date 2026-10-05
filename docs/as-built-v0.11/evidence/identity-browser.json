@@ -1,0 +1,51 @@
+{
+  "passed": true,
+  "startedAt": "2026-10-05T19:55:09.141Z",
+  "completedAt": "2026-10-05T19:55:24.503Z",
+  "fixtureId": "tw-c2340a6f-8d97-4a9d-bd04-773da964895d",
+  "scenarios": [
+    {
+      "name": "same-page subject switch clears owner editor scratch and shows canonical own state",
+      "passed": true
+    },
+    {
+      "name": "directory canonical subject mismatch masks the earlier permitted payload before retry",
+      "passed": true
+    },
+    {
+      "name": "older directory 200 cannot change newer subject, scratch or directory",
+      "passed": true
+    },
+    {
+      "name": "older directory 403 cannot change newer subject, scratch or directory",
+      "passed": true
+    },
+    {
+      "name": "same-account denied read hides retained scratch until a current owner read succeeds",
+      "passed": true
+    },
+    {
+      "name": "personal 401 read remount clears cached preference input and old directory",
+      "passed": true
+    },
+    {
+      "name": "personal 403 read remount clears cached preference input and old directory",
+      "passed": true
+    },
+    {
+      "name": "personal 404 read remount clears cached preference input and old directory",
+      "passed": true
+    },
+    {
+      "name": "acknowledged shared POST remains saved when directory refresh is denied; retry sends only reads",
+      "passed": true
+    }
+  ],
+  "pageErrors": [],
+  "limits": [
+    "Loopback synthetic identities and deterministic intercepted GET ordering/status faults only",
+    "The browser really uses the application identity guards, hook scratch and API writes",
+    "No real sign-in, external invitation delivery, notification or production request is exercised",
+    "No React internal state inspection; assertions cover rendered controls, authorized API state and request counts"
+  ]
+}

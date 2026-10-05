@@ -1,0 +1,258 @@
+{
+  "observedAtUtc": "2026-10-05T19:47:42.681838+00:00",
+  "productExecutionsByDocumentationAgent": 0,
+  "records": [
+    {
+      "id": "EV-SNAP-API",
+      "path": "work/aplyd-academy/.sites-runtime/snapshot-api/result.json",
+      "exists": true,
+      "level": "actual-local-api",
+      "status": "existing proof",
+      "limit": "Synthetic trusted-header local Worker; no production identity/restore proof.",
+      "sha256": "6f83cc18117e4edc4ee88a5f6263af18c5d943638b45d079007f84943aad9ad2",
+      "recordedAt": "2026-10-05T19:30:04.027Z",
+      "reportedPass": true,
+      "checks": 4,
+      "passed": true,
+      "scope": "Actual local Worker API with synthetic trusted-header fixtures only; no production identity or restore proof.",
+      "currentSourceComparison": [
+        {
+          "path": "app/api/academy/export/route.ts",
+          "matches": true,
+          "recordedSha256": "130685dd4564fa8078a968db7303d4640b986da99ad33e09be678d280dd9d995",
+          "currentSha256": "130685dd4564fa8078a968db7303d4640b986da99ad33e09be678d280dd9d995"
+        },
+        {
+          "path": "lib/academy-snapshot.ts",
+          "matches": true,
+          "recordedSha256": "bc557badd8bf446cc25a95ba3e074dcf19c3968ad5911bcc20ad6f3aee667c00",
+          "currentSha256": "bc557badd8bf446cc25a95ba3e074dcf19c3968ad5911bcc20ad6f3aee667c00"
+        }
+      ]
+    },
+    {
+      "id": "EV-SNAP-BROWSER",
+      "path": "work/aplyd-academy/.sites-runtime/snapshot-browser/result.json",
+      "exists": true,
+      "level": "actual-local-browser",
+      "status": "existing proof",
+      "limit": "390px synthetic session; only listed source hashes; no human assistive-technology proof or final sprint regression.",
+      "sha256": "627155fd3b15024bd46cdc3dd460b4eda20fd5a3ee39da2d0d8721c4eaedc999",
+      "recordedAt": "2026-10-05T19:30:20.418Z",
+      "reportedPass": true,
+      "checks": 6,
+      "passed": true,
+      "scope": "Actual local browser export/inspection, synthetic account,390px viewport. No production authentication, restore or human screen-reader proof.",
+      "currentSourceComparison": [
+        {
+          "path": "app/academy-snapshot.tsx",
+          "matches": true,
+          "recordedSha256": "ab4e317474eaf3be60eba2317c53f5e92a012f1740b4bc134b536cd74c25341a",
+          "currentSha256": "ab4e317474eaf3be60eba2317c53f5e92a012f1740b4bc134b536cd74c25341a"
+        },
+        {
+          "path": "lib/academy-snapshot.ts",
+          "matches": true,
+          "recordedSha256": "bc557badd8bf446cc25a95ba3e074dcf19c3968ad5911bcc20ad6f3aee667c00",
+          "currentSha256": "bc557badd8bf446cc25a95ba3e074dcf19c3968ad5911bcc20ad6f3aee667c00"
+        },
+        {
+          "path": "app/academy-settings.tsx",
+          "matches": false,
+          "recordedSha256": "a403331179073177683a0d7802233dc4ab46c959967e91e9fe92590a297173a1",
+          "currentSha256": "5c2db2aa1e63f2cc067f7ac8d6533c70d2c0c4fd2e86fda3fbd7eeb5a45eee5a"
+        }
+      ]
+    },
+    {
+      "id": "EV-DIR-REJECTED",
+      "path": "work/aplyd-academy/.sites-runtime/directory-probe/result.json",
+      "exists": true,
+      "level": "isolated-local-d1",
+      "status": "superseded failed probe",
+      "limit": "Earlier meta.changes-based success assumption rejected; retained for provenance, never count as pass.",
+      "sha256": "e7cb429fc7467ccaa386dd846e0ee5664818c5d25828b5599f6e46d5519904b5",
+      "recordedAt": null,
+      "reportedPass": false,
+      "checks": 3,
+      "passed": false,
+      "currentSourceComparison": []
+    },
+    {
+      "id": "EV-DIR-RETURNING",
+      "path": "work/aplyd-academy/.sites-runtime/directory-probe/result-returning.json",
+      "exists": true,
+      "level": "isolated-local-d1",
+      "status": "existing corrected proof",
+      "limit": "23 checks of synthetic schema/transactions; no current full application or hosted migration/load proof.",
+      "sha256": "276136a7654b47b5eb0bb428b32e7197e9d8e4b3f7315003c056c6a21da56170",
+      "recordedAt": null,
+      "reportedPass": true,
+      "checks": 23,
+      "passed": true,
+      "currentSourceComparison": []
+    },
+    {
+      "id": "EV-RESP-CAND",
+      "path": "outputs/aplyd-academy-eight-hour/identity-recovery/actual-api/api-compatibility-result.json",
+      "exists": true,
+      "level": "candidate-against-local-api",
+      "status": "existing candidate proof",
+      "limit": "Candidate parser separately checked actual local response bodies; root integration requires own regression.",
+      "sha256": "b4ea8ab87b2f4cb590d2cdfca21fcbe6bfbb8e6b1cc7bce10067ef59f1316d6e",
+      "recordedAt": "2026-10-05T19:33:15.342Z",
+      "reportedPass": true,
+      "checks": 109,
+      "passed": true,
+      "currentSourceComparison": [
+        {
+          "path": "app/academy-response.ts",
+          "matches": true,
+          "recordedSha256": "d016b784f63575fe66a8c3eb83bb2cfbc834e8d2697586c9e2a19eb451a4e0ba",
+          "currentSha256": "d016b784f63575fe66a8c3eb83bb2cfbc834e8d2697586c9e2a19eb451a4e0ba"
+        },
+        {
+          "path": "app/academy.tsx",
+          "matches": false,
+          "recordedSha256": "9e6037f121064509388fbbdf9427b925867299b1bf126877b83472b4b6356a16",
+          "currentSha256": "87f7e6ad61b3badd90c5b8264060791d18b02abb9f090e86c4b85312e316ec31"
+        },
+        {
+          "path": "lib/academy-curriculum.ts",
+          "matches": true,
+          "recordedSha256": "02a7e32aa7f56e1bc06694987946f804d33fdd17ab781749142f72f42bda722c",
+          "currentSha256": "02a7e32aa7f56e1bc06694987946f804d33fdd17ab781749142f72f42bda722c"
+        },
+        {
+          "path": "lib/academy-teams.ts",
+          "matches": true,
+          "recordedSha256": "f09c8350ac0e6ddd5bd0f93258a18287748ce53c2b82240b510ee8e1d9efd3cf",
+          "currentSha256": "f09c8350ac0e6ddd5bd0f93258a18287748ce53c2b82240b510ee8e1d9efd3cf"
+        }
+      ]
+    },
+    {
+      "id": "EV-INCLUSIVE-CAND",
+      "path": "outputs/aplyd-academy-eight-hour/inclusive-learning/candidate-evidence.json",
+      "exists": true,
+      "level": "isolated-candidate",
+      "status": "existing candidate proof",
+      "limit": "Preference/capture logic proof; root sprint log separately reports31 actual-root tests. Neither proves spoken output or reviewed translation.",
+      "sha256": "6d19ad4b62173debd3d4791fb260f775e7379bffa12bf4df4ef0b6ea899ebca0",
+      "recordedAt": null,
+      "reportedPass": null,
+      "pureTests": 28,
+      "scope": "Isolated inclusive-learning candidate with actual root curriculum/engine modules. Not integrated app/API/browser/translation approval evidence.",
+      "currentSourceComparison": []
+    },
+    {
+      "id": "EV-OFFLINE-CAND",
+      "path": "outputs/aplyd-academy-eight-hour/continuous-learning/evidence/acceptance.json",
+      "exists": true,
+      "level": "isolated-candidate",
+      "status": "existing candidate proof",
+      "limit": "44 candidate tests/type overlay before root-specific eligibility changes; no integrated browser or current root build proof.",
+      "sha256": "4bf9450e837e2265c6c64cd0c032711297ba1380458d77f796d7635ae7c992b6",
+      "recordedAt": "2026-10-05T19:40:15.652Z",
+      "reportedPass": 44,
+      "tests": 44,
+      "passed": 44,
+      "failed": 0,
+      "currentSourceComparison": []
+    },
+    {
+      "id": "EV-RECORD-CAND",
+      "path": "outputs/aplyd-academy-eight-hour/practice-records/candidate-evidence.json",
+      "exists": true,
+      "level": "isolated-candidate",
+      "status": "unadopted candidate proof",
+      "limit": "38 candidate tests; not integrated source/API/UI/browser/hosted proof.",
+      "sha256": "66bb996634d7c1866267e2d4a6dade60787249fadac1f0824957dff92daf82d1",
+      "recordedAt": "2026-10-05T19:44:07.498Z",
+      "reportedPass": null,
+      "pureTests": {
+        "pass": 38,
+        "fail": 0,
+        "actualRootEngineTeamAuthoringCurriculum": true
+      },
+      "strictModelAndUITypecheck": "PASS",
+      "apiBrowserHostedProduction": "NOTRUN",
+      "scope": "Isolated actual-source candidate only; no checkout edits, API/UI integration, browser/server or hosted claims",
+      "currentSourceComparison": [
+        {
+          "path": "lib/academy-curriculum.ts",
+          "matches": true,
+          "recordedSha256": "02a7e32aa7f56e1bc06694987946f804d33fdd17ab781749142f72f42bda722c",
+          "currentSha256": "02a7e32aa7f56e1bc06694987946f804d33fdd17ab781749142f72f42bda722c"
+        },
+        {
+          "path": "lib/academy-engine.ts",
+          "matches": true,
+          "recordedSha256": "4747712f10c39cc08eaed66939bd99013d8064e4eb3097218590fbcc63bebff7",
+          "currentSha256": "4747712f10c39cc08eaed66939bd99013d8064e4eb3097218590fbcc63bebff7"
+        },
+        {
+          "path": "lib/academy-teams.ts",
+          "matches": true,
+          "recordedSha256": "f09c8350ac0e6ddd5bd0f93258a18287748ce53c2b82240b510ee8e1d9efd3cf",
+          "currentSha256": "f09c8350ac0e6ddd5bd0f93258a18287748ce53c2b82240b510ee8e1d9efd3cf"
+        },
+        {
+          "path": "lib/academy-authoring.ts",
+          "matches": true,
+          "recordedSha256": "6ed1e436dba8ea86d9dcbb999790b5292a38e84ca27b53fb14423b35dfbbf7e8",
+          "currentSha256": "6ed1e436dba8ea86d9dcbb999790b5292a38e84ca27b53fb14423b35dfbbf7e8"
+        },
+        {
+          "path": "lib/academy-inclusive-learning.ts",
+          "matches": true,
+          "recordedSha256": "483e64778ad762e93880a5ea41bec0b873fe48c62bdc1aa5fefc0b26c8f626ac",
+          "currentSha256": "483e64778ad762e93880a5ea41bec0b873fe48c62bdc1aa5fefc0b26c8f626ac"
+        },
+        {
+          "path": "lib/curriculum-versions/0.1-review-draft.json",
+          "matches": true,
+          "recordedSha256": "9fc83c8dd615456db8f49d140f56bff566e05c14d32ebb70a14cdcb73078b7e4",
+          "currentSha256": "9fc83c8dd615456db8f49d140f56bff566e05c14d32ebb70a14cdcb73078b7e4"
+        },
+        {
+          "path": "lib/curriculum.json",
+          "matches": true,
+          "recordedSha256": "9fc83c8dd615456db8f49d140f56bff566e05c14d32ebb70a14cdcb73078b7e4",
+          "currentSha256": "9fc83c8dd615456db8f49d140f56bff566e05c14d32ebb70a14cdcb73078b7e4"
+        }
+      ]
+    },
+    {
+      "id": "EV-ECOSYSTEM-CAND",
+      "path": "outputs/aplyd-academy-eight-hour/ecosystem-readiness/runtime/test-evidence.json",
+      "exists": true,
+      "level": "isolated-candidate",
+      "status": "unadopted candidate proof",
+      "limit": "30 groups; no Worker/browser/outbound transport or live partner proof.",
+      "sha256": "fd00e134e15d79739635859cb362c6ee9dbb8b9c72a32411d8b6ec152a8ca6e8",
+      "recordedAt": "2026-10-05T19:42:12.397Z",
+      "reportedPass": true,
+      "groups": 30,
+      "passed": true,
+      "currentSourceComparison": []
+    },
+    {
+      "id": "EV-ROOT-LOG",
+      "path": "outputs/aplyd-academy-eight-hour/sprint-log.md",
+      "exists": true,
+      "level": "root-reported-status",
+      "status": "reported milestones",
+      "sha256": "a40b19e3b8dcb44255e94cc17a458215f63938ee41aa7a1747c5b06b680349e2",
+      "limit": "Root log reports snapshot10pure/4API/6browser, inclusive31root pure, response18isolated groups/109compatibility checks, directory23corrected D1 checks. Counts are not added into a single current-suite pass total."
+    },
+    {
+      "id": "EV-M5-ROOT-REPORTED",
+      "level": "root-reported actual local migration",
+      "status": "reported local application success",
+      "commands": 7,
+      "source": "Trusted root coordination message during documentation workstream",
+      "limit": "No local migration transcript copied into this pack; not production migration, publication, final build or load proof."
+    }
+  ]
+}

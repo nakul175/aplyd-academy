@@ -1,0 +1,21 @@
+{
+  "at": "2026-10-05T19:59:50.492Z",
+  "files": {
+    "app/academy.tsx": "87f7e6ad61b3badd90c5b8264060791d18b02abb9f090e86c4b85312e316ec31",
+    "app/academy-acceptance.ts": "ce2bf2f00d49a64b72da02dbb54e1b2ea9af3a7306b43af87ed1c81555e325bf",
+    "app/academy-response.ts": "d016b784f63575fe66a8c3eb83bb2cfbc834e8d2697586c9e2a19eb451a4e0ba",
+    "app/academy-context.tsx": "15ae4ab655c7ad8a680f89aa63010afd733d31dca8884efcaa7658ebc8905fd1",
+    "app/academy-inclusive-learning.tsx": "c20d9f2802ef65521007dcff027cda836107c745cf7081e5d9b4074baac180da",
+    "app/academy-learning.tsx": "a092ca0ff1d1c8ac20067aeecd622e6341bc16c07929ea0a9da5291bca1a8d48",
+    "app/academy-offline.tsx": "11fcd7d24a5934fe1366b1d322d4f5681decc94fb1a8023eddc838d167e6bd2b",
+    "app/api/academy/route.ts": "80c2e8464bfeaa99dab735544441b0802610a6ee2d875780d949d6fe01952dde",
+    "app/api/teams/route.ts": "b885dfcfd2f7a7d6f5ddcbb8c1f0ef5fb7257b0892c7672067117e907fece5e8",
+    "lib/academy-inclusive-learning.ts": "483e64778ad762e93880a5ea41bec0b873fe48c62bdc1aa5fefc0b26c8f626ac",
+    "lib/academy-engine.ts": "4747712f10c39cc08eaed66939bd99013d8064e4eb3097218590fbcc63bebff7",
+    "lib/academy-teams.ts": "f09c8350ac0e6ddd5bd0f93258a18287748ce53c2b82240b510ee8e1d9efd3cf",
+    "drizzle/0005_tearful_angel.sql": "503264c742696c9fa4eddc9017b6a5d8232092007551b85e9bf5675df27011f6"
+  },
+  "limits": [
+    "Actual checkout model compilation only. Build/Worker identity is confirmed separately by root."
+  ]
+}

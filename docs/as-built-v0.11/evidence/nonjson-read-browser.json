@@ -1,0 +1,198 @@
+{
+  "at": "2026-10-05T19:56:30.694Z",
+  "worker": "89617",
+  "passed": true,
+  "cases": [
+    {
+      "kind": "primary",
+      "status": 401,
+      "bodyFormat": "plain text",
+      "intercepted": 1,
+      "alerts": [
+        "Your work needs attention.The learning-space response could not be read. Refresh saved progress to verify your access.Refresh saved progress"
+      ],
+      "ownerNavigationPresent": false,
+      "privateMetadataVisible": false,
+      "privateDraftAvailable": false,
+      "authorityCleared": true,
+      "safeError": true,
+      "expectedMask": true,
+      "passed": true
+    },
+    {
+      "kind": "primary",
+      "status": 403,
+      "bodyFormat": "HTML",
+      "intercepted": 1,
+      "alerts": [
+        "Your work needs attention.The learning-space response could not be read. Refresh saved progress to verify your access.Refresh saved progress"
+      ],
+      "ownerNavigationPresent": false,
+      "privateMetadataVisible": false,
+      "privateDraftAvailable": false,
+      "authorityCleared": true,
+      "safeError": true,
+      "expectedMask": true,
+      "passed": true
+    },
+    {
+      "kind": "primary",
+      "status": 404,
+      "bodyFormat": "plain text",
+      "intercepted": 1,
+      "alerts": [
+        "Your work needs attention.The learning-space response could not be read. Refresh saved progress to verify your access.Refresh saved progress"
+      ],
+      "ownerNavigationPresent": false,
+      "privateMetadataVisible": false,
+      "privateDraftAvailable": false,
+      "authorityCleared": true,
+      "safeError": true,
+      "expectedMask": true,
+      "passed": true
+    },
+    {
+      "kind": "primary",
+      "status": 503,
+      "bodyFormat": "JSON",
+      "intercepted": 1,
+      "alerts": [
+        "Your work needs attention.Synthetic temporary service unavailable.Refresh saved progress"
+      ],
+      "ownerNavigationPresent": true,
+      "privateMetadataVisible": true,
+      "privateDraftAvailable": true,
+      "authorityCleared": false,
+      "safeError": true,
+      "expectedMask": false,
+      "passed": true
+    },
+    {
+      "kind": "directory",
+      "status": 401,
+      "bodyFormat": "plain text",
+      "intercepted": 1,
+      "alerts": [
+        "Your work needs attention.The learning-space response could not be read. Refresh saved progress to verify your access.Refresh saved progress"
+      ],
+      "ownerNavigationPresent": false,
+      "privateMetadataVisible": false,
+      "privateDraftAvailable": false,
+      "authorityCleared": true,
+      "safeError": true,
+      "expectedMask": true,
+      "passed": true
+    },
+    {
+      "kind": "directory",
+      "status": 403,
+      "bodyFormat": "HTML",
+      "intercepted": 1,
+      "alerts": [
+        "Your work needs attention.The learning-space response could not be read. Refresh saved progress to verify your access.Refresh saved progress"
+      ],
+      "ownerNavigationPresent": false,
+      "privateMetadataVisible": false,
+      "privateDraftAvailable": false,
+      "authorityCleared": true,
+      "safeError": true,
+      "expectedMask": true,
+      "passed": true
+    },
+    {
+      "kind": "directory",
+      "status": 404,
+      "bodyFormat": "plain text",
+      "intercepted": 1,
+      "alerts": [
+        "Your work needs attention.The learning-space response could not be read. Refresh saved progress to verify your access.Refresh saved progress"
+      ],
+      "ownerNavigationPresent": false,
+      "privateMetadataVisible": false,
+      "privateDraftAvailable": false,
+      "authorityCleared": true,
+      "safeError": true,
+      "expectedMask": true,
+      "passed": true
+    },
+    {
+      "kind": "directory",
+      "status": 503,
+      "bodyFormat": "JSON",
+      "intercepted": 1,
+      "alerts": [
+        "Your work needs attention.Synthetic temporary service unavailable.Refresh saved progress"
+      ],
+      "ownerNavigationPresent": true,
+      "privateMetadataVisible": true,
+      "privateDraftAvailable": true,
+      "authorityCleared": false,
+      "safeError": true,
+      "expectedMask": false,
+      "passed": true
+    },
+    {
+      "kind": "personal-primary",
+      "status": 401,
+      "bodyFormat": "plain text",
+      "intercepted": 1,
+      "alerts": [
+        "Your work needs attention.The learning-space response could not be read. Refresh saved progress to verify your access.Refresh saved progress"
+      ],
+      "privateUnsentVisible": false,
+      "authorityCleared": true,
+      "safeError": true,
+      "expectedMask": true,
+      "passed": true
+    },
+    {
+      "kind": "personal-primary",
+      "status": 403,
+      "bodyFormat": "HTML",
+      "intercepted": 1,
+      "alerts": [
+        "Your work needs attention.The learning-space response could not be read. Refresh saved progress to verify your access.Refresh saved progress"
+      ],
+      "privateUnsentVisible": false,
+      "authorityCleared": true,
+      "safeError": true,
+      "expectedMask": true,
+      "passed": true
+    },
+    {
+      "kind": "personal-primary",
+      "status": 404,
+      "bodyFormat": "plain text",
+      "intercepted": 1,
+      "alerts": [
+        "Your work needs attention.The learning-space response could not be read. Refresh saved progress to verify your access.Refresh saved progress"
+      ],
+      "privateUnsentVisible": false,
+      "authorityCleared": true,
+      "safeError": true,
+      "expectedMask": true,
+      "passed": true
+    },
+    {
+      "kind": "personal-primary",
+      "status": 503,
+      "bodyFormat": "JSON",
+      "intercepted": 1,
+      "alerts": [
+        "Your work needs attention.Synthetic personal temporary service unavailable.Refresh saved progress"
+      ],
+      "privateUnsentVisible": true,
+      "authorityCleared": false,
+      "safeError": true,
+      "expectedMask": false,
+      "passed": true
+    }
+  ],
+  "pageErrors": [],
+  "limits": [
+    "Deterministic intercepted GET faults only; all fixture writes use fictional local identities.",
+    "No protected React internals inspected; only rendered owner navigation, metadata and canonical private editor input.",
+    "503 control keeps the existing authorized cache by design.",
+    "No hosted calls or uncertain POST retry."
+  ]
+}
