@@ -1,10 +1,11 @@
-# Aplyd Academy working pilot · v0.3
+# Aplyd Academy working pilot · v0.4
 
 A durable learning application for farmers, MSME owners and public servants. Learners practise on fictional source packets, check supplied AI drafts, submit practical evidence, receive reasoned feedback and reflect on their work.
 
 ## What works
 
-- Three pinned draft pathways, nine lessons and 27 explained quiz checks.
+- Three pinned draft pathways, nine lessons and 27 explained quiz checks, with an immutable archived-content resolver and exact references on new cohorts/enrollments.
+- Private learning goals, weekly budgets, timezone-aware plans, four activity types, evidence-derived completion, optional in-app due notices and truthful next actions.
 - Saved lesson/practical drafts, sequential progression, immutable submissions, critical-gate rubrics, three attempts and 14-day independent appeals.
 - A **personal practice lab** with sample staff roles, private discussion, ecosystem payload simulation, learning export and lab-data deletion.
 - Separate **shared workspaces** with account-bound invitations, memberships, scoped staff roles, cohorts, capacity enforcement and withdrawal.
@@ -33,14 +34,14 @@ This is a bounded pilot architecture: up to ten created workspaces per account, 
 
 Use the configured Node/npm runtime and retained Sites installer/build workflow. `npm run dev` opens the local sign-in simulator. Generate additive D1 schema changes with `npm run db:generate`; inspect every migration, preserve applied history, and apply only pending migrations to the local test database. Sites applies generated migrations during deployment.
 
-Run TypeScript checking with `node node_modules/typescript/bin/tsc --noEmit`. Bundle `lib/academy-engine.ts`, `lib/academy-teams.ts` and `lib/academy-storage.ts` with the installed esbuild into `.sites-runtime/engine.mjs` and the corresponding teams/storage bundles, then run `node --test tests/engine.test.mjs tests/teams.test.mjs tests/network.test.mjs tests/storage.test.mjs`.
+Run TypeScript checking with `node node_modules/typescript/bin/tsc --noEmit`. Bundle `lib/academy-engine.ts`, `lib/academy-teams.ts` and `lib/academy-storage.ts` with the installed esbuild into `.sites-runtime/engine.mjs` and the corresponding teams/storage bundles (also curriculum, plan and ecosystem-guard for their test suites), then run `node --test tests/engine.test.mjs tests/teams.test.mjs tests/network.test.mjs tests/storage.test.mjs`.
 
 `tests/api-integration.mjs`, `tests/teams-api.mjs`, networking/archive scripts and `tests/teams-browser.mjs` target the **built local worker at port 8787**, using synthetic identity headers. Never point them at a hosted Academy. Other browser regression scripts use the local development sign-in simulator at port 5173; set `ACADEMY_QA_BUILT=1` for the built Worker fixture. Set `QA_LOCAL_DB_SQL=1` for direct archive/audit consistency checks. `tests/archive-failure.mjs` injects and removes a constraint fault only in its new isolated local fixture. Browser scripts reference this workspace's Playwright runtime and Chrome; adjust those paths elsewhere. Local fixtures are never seeded into the published database.
 
-See `docs/release-notes.md`, `docs/test-evidence.json` , `docs/shared-workspaces.md` and `docs/networking-and-history.md` for actual checks, permission rules and limits.
+See `docs/release-notes.md`, `docs/test-evidence.json` , `docs/shared-workspaces.md` and `docs/networking-and-history.md` and `docs/plans-and-pinned-content.md` for actual checks, permission rules and limits.
 
 ## Remaining production work
 
-Approve sector content and validate real learner journeys; arrange site access and exercise actual participant sign-in; establish staff recruitment, assessor calibration and turnaround; implement a durable multi-version curriculum registry; validate reviewed translations, low-bandwidth/offline and assisted/oral journeys; connect one real partner; define formal retention/erasure, recovery, accessibility and capacity controls. Recognized credentials require issuer authority and public verification/revocation policy.
+Approve sector content and validate real learner journeys; arrange site access and exercise actual participant sign-in; establish staff recruitment, assessor calibration and turnaround; implement workspace curriculum authoring, review and immutable publication; validate reviewed translations, low-bandwidth/offline and assisted/oral journeys; connect one real partner; define formal retention/erasure, recovery, accessibility and capacity controls. Recognized credentials require issuer authority and public verification/revocation policy.
 
 External event/mentor-provider bookings, host reassignment, commerce, uploads, clinical training and embedded AI remain unimplemented. No external partner receives the ecosystem simulation, and no AI service is called. Existing BRD/FSD/HLD/LLD describe the broader target; the six-table SQLite implementation does not claim the full reference PostgreSQL schema or API contract.

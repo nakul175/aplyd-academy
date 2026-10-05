@@ -40,3 +40,9 @@
 [data-slot=dialog-content]>*{min-width:0;max-width:100%}[data-slot=select-trigger]{max-width:100%;min-width:0;white-space:normal;height:auto;min-height:42px}[data-slot=select-value]{min-width:0;white-space:normal;-webkit-line-clamp:unset;line-clamp:unset;display:block;overflow:visible;overflow-wrap:anywhere}.field legend{max-width:100%;white-space:normal}.status-tag{max-width:100%;white-space:normal}
 
 [data-slot=alert-dialog-content]{max-height:90vh;overflow-y:auto}[data-slot=alert-dialog-content]>*{min-width:0;max-width:100%}
+
+/* Learner-owned plans use the existing calm, readable card system. */
+.plan-intro{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;margin:1.5rem 0}.plan-intro>div{padding:1.1rem;background:var(--muted);border-radius:1rem;display:grid;grid-template-columns:1.5rem minmax(0,1fr);gap:.4rem .6rem;min-width:0;overflow-wrap:anywhere}.plan-intro p{grid-column:2;margin:0;color:var(--muted-foreground)}.plan-task-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}.plan-task{min-width:0;padding:1.4rem}.plan-task h3,.next-action h2{overflow-wrap:anywhere}.plan-task .section-title{align-items:flex-start;flex-wrap:wrap}.plan-task .section-title>span:last-child{color:var(--muted-foreground);font-size:.88rem}.plan-reminder{margin-bottom:1rem}.plan-stats strong{font-size:1.8rem}.plan-task .actions{margin-top:1rem}.next-action>button{width:100%}
+@media(max-width:767px){.plan-intro,.plan-task-grid{grid-template-columns:1fr}.plan-stats{grid-template-columns:1fr 1fr}}
+
+@media(max-width:1100px){.plan-intro,.plan-task-grid{grid-template-columns:minmax(0,1fr)}}

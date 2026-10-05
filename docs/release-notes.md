@@ -43,3 +43,14 @@ Learner resume opens the first unfinished lesson or the relevant practical/feedb
 Executed verification is recorded in `test-evidence.json`. Tests use isolated local identity fixtures; no real learner was invited, no external message/meeting request was sent, and hosted authentication remains unverified. Existing draft curriculum remains unchanged and practice records remain nonaccredited. See `networking-and-history.md` for exact scope and deferred operations.
 
 Verification for v0.3: 46 pure rule tests; 295 database assertions across personal/shared learning, networking, archival history and injected D1 packet-failure recovery; full personal, shared and networking browser journeys; 54 personal + 60 shared + 18 networking layout checks; 54 keyboard/dialog/text-size audit checks. Counts in scenario scripts are assertions, not independent test cases. New migration0004 was applied to a populated local database, and the real local D1 constraint-failure check confirmed complete rollback and successful retry.
+
+
+# v0.4 · Private learning plans and historical content preservation
+
+Learners can save a goal, weekly minute budget, timezone and optional in-app due notices; schedule private practice, pinned lessons, practical submissions and work reflections; edit or skip plans without changing course evidence. Course-linked progress derives from saved learning actions. Private practice is explicitly self-reported. Plans stay out of owner/facilitator/assessor/peer projections and local ecosystem summaries. The next-step card uses actual saved state.
+
+New cohorts and enrollments carry exact content references. Legacy explicit versions resolve against the unchanged archived seed. Unknown, missing or contradictory historical references fail closed. Learning/review screens preserve work and record downloads without showing a newer rubric. A test-only catalog change proves old cohorts and assessment claims remain pinned. Production still contains one unchanged draft content version; content authoring is not part of this release.
+
+Local ecosystem previews now enforce partner/pathway mapping and block Health. Boolean preferences create no scoped grant or external connection. Selections are independent per partner and historical receipts remain readable without being reinterpreted.
+
+Executed checks: 107 checkout rule tests plus 49 historical-content regressions; 356 local database assertions; full personal/shared/planner/ecosystem browser journeys; 138 responsive surfaces; 29 planner keyboard/form checks; ten unavailable-content UI fixtures. The tablet planner overflow at doubled text size was corrected and its complete journey rerun. Details and limits are in plans-and-pinned-content.md and test-evidence.json. No schema migration or content-seed update was required.

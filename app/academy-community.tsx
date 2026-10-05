@@ -5,7 +5,7 @@ import {Button} from '@/components/ui/button';
 import {Dialog,DialogContent,DialogHeader,DialogTitle,DialogDescription} from '@/components/ui/dialog';
 import {Tabs,TabsList,TabsTrigger,TabsContent} from '@/components/ui/tabs';
 import {Switch} from '@/components/ui/switch';
-import curriculum from '@/lib/curriculum.json';
+import curriculum,{tryResolvePinnedContent} from '@/lib/academy-curriculum';
 import {useAcademy} from './academy-context';
 import {Field,Head,Empty,Tag,Pick,date,FormError} from './academy-ui';
 import {TeamNetworkView} from './academy-network';
