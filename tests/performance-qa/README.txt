@@ -1,0 +1,5 @@
+Copy these four test modules together to tests/performance-qa/. They dynamically import the existing root tests/identity-fixture.mjs, which imports loopback-only tests/local-qa.mjs. Default app location is the repository root relative to this folder; default performance outputs are .sites-runtime/performance-qa. Run from repository root with Node. Optional ACADEMY_APP_PATH and ACADEMY_PERFORMANCE_QA_OUT permit isolated execution. Set ACADEMY_IDENTITY_QA_OUT too when running outside checkout to keep its helper output folder outside. ACADEMY_LOCAL_URL is loopback-only.
+
+Commands: node tests/performance-qa/performance-browser.mjs (10 scenarios/8 recovery layouts); node tests/performance-qa/read-retry-focus.mjs (2 current-read focus cases); node tests/performance-qa/late-content-intent.mjs (2 corrected races plus short successful/long expired publication focus).
+
+No tests start/build/restart a Worker. Use only after root stable signal. Local synthetic identities only. The failed-module recovery assertion preserves the explicit cancel/back/reload warning flow and checks actual second module GET/zero POSTs. No source-count speed or latency claim.

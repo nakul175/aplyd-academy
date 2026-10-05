@@ -1,5 +1,10 @@
 'use client';
-export {LearningView} from './academy-learning';
-export {CommunityView,NetworkView} from './academy-community';
-export {ConnectionsView,AchievementsView,SettingsView} from './academy-settings';
-export {StudioView} from './academy-studio';
+import dynamic from 'next/dynamic';
+import {AcademyViewLoading} from './academy-view-loading';
+export const LearningView=dynamic(()=>import('./academy-learning').then(m=>m.LearningView),{loading:AcademyViewLoading});
+export const CommunityView=dynamic(()=>import('./academy-community').then(m=>m.CommunityView),{loading:AcademyViewLoading});
+export const NetworkView=dynamic(()=>import('./academy-community').then(m=>m.NetworkView),{loading:AcademyViewLoading});
+export const ConnectionsView=dynamic(()=>import('./academy-settings').then(m=>m.ConnectionsView),{loading:AcademyViewLoading});
+export const AchievementsView=dynamic(()=>import('./academy-settings').then(m=>m.AchievementsView),{loading:AcademyViewLoading});
+export const SettingsView=dynamic(()=>import('./academy-settings').then(m=>m.SettingsView),{loading:AcademyViewLoading});
+export const StudioView=dynamic(()=>import('./academy-studio').then(m=>m.StudioView),{loading:AcademyViewLoading});

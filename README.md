@@ -1,4 +1,4 @@
-# Aplyd Academy working pilot · v0.7
+# Aplyd Academy working pilot · v0.8
 
 A durable learning application for farmers, MSME owners and public servants. Learners practise on fictional source packets, check supplied AI drafts, submit practical evidence, receive reasoned feedback and reflect on their work.
 

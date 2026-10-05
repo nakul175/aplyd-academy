@@ -8,7 +8,7 @@ import {Checkbox} from '@/components/ui/checkbox';
 import {Tabs,TabsList,TabsTrigger,TabsContent} from '@/components/ui/tabs';
 import {Dialog,DialogContent,DialogHeader,DialogTitle,DialogDescription} from '@/components/ui/dialog';
 import curriculum from '@/lib/academy-curriculum';
-import {download} from './academy-settings';
+import {download} from './academy-download';
 import {resumeLearning} from '@/lib/academy-engine';
 import {useAcademy} from './academy-context';
 import {Field,Head,Empty,Tag,Pick,date,FormError} from './academy-ui';

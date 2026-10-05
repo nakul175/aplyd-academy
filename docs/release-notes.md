@@ -83,3 +83,10 @@ Current owners and scoped facilitators can see permitted cohort progress, assess
 The dashboard refreshes manually and every 30 seconds while visible, with read/write fencing. Current denied reads clear protected content and cached destination components. Canonical account identity isolates in-memory unsent drafts, and a directory identity mismatch masks the previous projection. A successfully acknowledged save remains successful if its directory refresh subsequently fails. Attendance dialogs reselect their session and participant from the current permitted projection rather than retaining an old roster object.
 
 Content studio capacity messages now distinguish active slots from retained history. Desktop, tablet and phone layouts include an improved metrics row at doubled text size. No migration, curriculum archive change, hosting-audience change, notification or live partner/AI request is included. Executed verification is recorded in test-evidence.json; implementation and unexecuted operator checks are under as-built-v0.7/.
+
+
+## v0.8 · deferred views and deliberate recovery
+
+Staff, learning, networking and account views now load on demand. The current account/workspace projection is applied when a view opens, including after a delayed code request. Loading screens contain no protected data. A failed screen offers Overview and a confirmed Academy reload with an explicit warning about unsent text; cancel preserves the session. Saved-data retry retains main-region keyboard focus. Delayed operations links expire for focus and yield to later manual navigation or input.
+
+Measured client evidence reports emitted static imports and locally calculated gzip, with actual cold-Overview module inventory separately recorded. These measures do not establish production transfer or speed. No API, schema, content archive or hosting audience changes are included. See code-loading.md and the release-specific test evidence for executed checks and limits.

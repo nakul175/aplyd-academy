@@ -1,0 +1,13 @@
+{
+  "schemaChanges": [],
+  "OperationNavigation": {
+    "token": "browser-only cancellation generation",
+    "scope": "JSON [workspace, authority epoch, destination view]",
+    "hash": "destination route hash",
+    "issuedAt": "original monotonic browser time",
+    "deadline": "issuedAt + 1000 ms, focus only",
+    "baseline": "main"
+  },
+  "authority": "Ticket selects references from current permitted projection; never conveys command rights or server bodies",
+  "persistence": "No new database fields; ticket and own unsent input remain in memory"
+}

@@ -22,7 +22,7 @@ export function ContentStudio(){
  const [scratch,setScratch]=useWorkspaceDraft<Scratch>('content-studio',{selected:'',section:'overview',working:{}});
  const [source,setSource]=useState(curriculum.pathways[1].id),[copying,setCopying]=useState(false),[publication,setPublication]=useState<any>(null),[retire,setRetire]=useState<any>(null),[retireReason,setRetireReason]=useState('');
  const owner=!!team?.active&&team.roles?.includes('admin'),drafts:Draft[]=owner?team.content?.drafts??[]:[],publications=owner?team.content?.publications??[]:[];
- const selected=drafts.find(d=>d.id===scratch.selected);useOperationsNavigation('teams',target=>{if(target.section!=='content')return false;const draft=drafts.find(d=>d.id===target.id);setScratch((s:Scratch)=>({...s,selected:draft?.id??'',section:draft?'review':s.section}));if(!draft)focusOperationItem('data-content-publication-id',target.id)});
+ const selected=drafts.find(d=>d.id===scratch.selected);useOperationsNavigation('teams',target=>{if(target.section!=='content')return false;const draft=drafts.find(d=>d.id===target.id);setScratch((s:Scratch)=>({...s,selected:draft?.id??'',section:draft?'review':s.section}));if(!draft)focusOperationItem('data-content-publication-id',target.id,target.navigation)});
  // A revoked or changing owner projection never renders former server bodies.
  // Own unsent edits remain only in the workspace-scoped personal scratch hook.
  if(!owner)return <Empty icon={LockKeyhole} title="Content studio needs current owner access" body="Private source drafts are available only to current workspace owners. Your own unsent edits remain in this session and have not been saved or sent." action="Open workspaces" onAction={()=>go('teams')}/>;

@@ -1,3 +1,5 @@
+import {canShowWorkspaceOperations} from './academy-operations-access';
+export {canShowWorkspaceOperations} from './academy-operations-access';
 /** Read-only derivation from projectTeam(...).team, never from a raw Team or state.
  * This model conveys observations, not command authority. Protected actions still
  * use the existing server roles, assignments and workspace revision fence. */
@@ -19,7 +21,6 @@ const age=(v:unknown,clock:number)=>{const date=iso(v);return date&&Date.parse(d
 const list=(v:unknown,cap:number):any[]|null=>v===undefined?[]:Array.isArray(v)&&v.length<=cap?v:null;
 const sameKey=(q:any)=>`${q?.kind}:${q?.targetId}`;
 const oldest=(a:{createdAt:string|null;id:string},b:{createdAt:string|null;id:string})=>(a.createdAt?Date.parse(a.createdAt):Infinity)-(b.createdAt?Date.parse(b.createdAt):Infinity)||a.id.localeCompare(b.id);
-export function canShowWorkspaceOperations(team:any):boolean{return !!team&&team.active===true&&Array.isArray(team.roles)&&team.roles.some((r:unknown)=>r==='admin'||r==='facilitator');}
 
 /** Null means no current staff authority, malformed snapshot, or bounded-input
  * refusal. Never invent totals from a partially processed oversized snapshot. */

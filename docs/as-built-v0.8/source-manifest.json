@@ -1,0 +1,23 @@
+{
+  "release": "0.8",
+  "capturedAt": "2026-10-05T10:26:54.906489+00:00",
+  "sourceHashes": {
+    "app/academy.tsx": "a43eed7b0d156e98e07acf93dc01460fd6605ff8f869ed86568faea40e298082",
+    "app/academy-context.tsx": "15ae4ab655c7ad8a680f89aa63010afd733d31dca8884efcaa7658ebc8905fd1",
+    "app/academy-views.tsx": "98a51d39eda5bacd4a000436572b2ed7c2365add4a28655d3fb79320c238918f",
+    "app/academy-teams-ui.tsx": "0a8d32ff4331e9a10e5a67561104bf3a0a92b2ecbd1ac2451fa0f0c36089040d",
+    "app/academy-authoring.tsx": "06e84ef6950ccdf16d8d342dedeeb09f457a9883841ab3b1fc50ce53b66fcfa6",
+    "app/academy-support.tsx": "ed8e130a66fcec7bb798841d25832425b01082dec464a031ecfc1067491922a6",
+    "app/academy-network.tsx": "b4f698decabce50566fce9594dd115a2991b6830c88a14e459d0a7e5f59e9220",
+    "app/academy-context-select.tsx": "35148ae0d0b3fabdc9190a0c0c1bed3fb4ffb2491f34e27e47f1b074ecf577ca",
+    "app/academy-download.ts": "e195fc286fe00dd6ce1528c2fcc61d7ab511b529edd46502def7e812880c081d",
+    "app/academy-view-loading.tsx": "a4de786ac42a0088b4f10802df08f9d948abb1f0b017d79a01f0becafac61760",
+    "app/academy-learning.tsx": "b319e4e8a07b47583ab91af87ddb2c4d800f28a43c68e3d2087423a15e6ab443",
+    "app/academy-settings.tsx": "34560d7fda25bec9c670b472c422d5582801310c10dbbcd59f37cc4dfc44413e",
+    "lib/academy-operations.ts": "a285fbc81b0837d46a13de5bc45c90f1b04762320124c372db85621ec5826ef0",
+    "lib/academy-operations-access.ts": "2c148f6e933d63c70dd40cc4603d8dce71b8e09b12ed9e6c7cebd3fa98bda82e",
+    "lib/curriculum.json": "9fc83c8dd615456db8f49d140f56bff566e05c14d32ebb70a14cdcb73078b7e4",
+    "lib/curriculum-versions/0.1-review-draft.json": "9fc83c8dd615456db8f49d140f56bff566e05c14d32ebb70a14cdcb73078b7e4"
+  },
+  "scope": "Actual integrated source; publishing receipt is outside the checkout"
+}

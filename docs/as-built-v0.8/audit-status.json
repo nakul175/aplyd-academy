@@ -1,0 +1,11 @@
+{
+  "release": "0.8",
+  "rootIntegration": "verified locally",
+  "domainRules": 232,
+  "lazyBrowserScenarios": 10,
+  "lateNavigationChecks": 4,
+  "readRetryFocusChecks": 2,
+  "errorRecoveryLayouts": 8,
+  "productionAndOperatorAcceptance": "NOT RUN",
+  "evidence": "../test-evidence.json"
+}
