@@ -140,15 +140,16 @@ export function resolveCurrentProgram(programId: string): Program {
   }
   return curriculumRegistry.resolve(currentRef(programId)).program;
 }
-export function resolvePinnedContent(record: unknown, allowedScopes?: readonly ContentScope[]): ContentSnapshot {
-  return curriculumRegistry.resolve(pinnedRef(record), allowedScopes);
+export type ContentContext = Readonly<{registry:CurriculumRegistry;allowedScopes:readonly ContentScope[]}>;
+export function resolvePinnedContent(record: unknown, allowedScopes?: readonly ContentScope[], registry:CurriculumRegistry=curriculumRegistry): ContentSnapshot {
+  return registry.resolve(pinnedRef(record), allowedScopes);
 }
-export function resolvePinnedProgram(record: unknown, allowedScopes?: readonly ContentScope[]): Program {
-  return resolvePinnedContent(record, allowedScopes).program;
+export function resolvePinnedProgram(record: unknown, allowedScopes?: readonly ContentScope[], registry:CurriculumRegistry=curriculumRegistry): Program {
+  return resolvePinnedContent(record, allowedScopes,registry).program;
 }
-export function tryResolvePinnedContent(record: unknown, allowedScopes?: readonly ContentScope[]):
+export function tryResolvePinnedContent(record: unknown, allowedScopes?: readonly ContentScope[], registry:CurriculumRegistry=curriculumRegistry):
   {available: true; snapshot: ContentSnapshot} | {available: false; message: string} {
-  try { return {available: true, snapshot: resolvePinnedContent(record, allowedScopes)}; }
+  try { return {available: true, snapshot: resolvePinnedContent(record, allowedScopes,registry)}; }
   catch (error) {
     if (error instanceof ContentResolutionError) return {available: false, message: error.message};
     throw error;

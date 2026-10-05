@@ -47,3 +47,23 @@
 
 @media(max-width:1100px){.plan-intro,.plan-task-grid{grid-template-columns:minmax(0,1fr)}}
 .support-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}.support-card{overflow-wrap:anywhere}.support-card.selected{border-color:#2454dc}.support-messages{padding:0;list-style:none;display:grid;gap:1rem;margin:1.5rem 0}.support-messages li{background:var(--muted);border-radius:.75rem;padding:1rem;overflow-wrap:anywhere}.support-messages li>div{display:flex;gap:.75rem;align-items:center;flex-wrap:wrap}.support-messages time{font-size:.875rem;color:var(--muted-foreground)}.support-thread .section-title{flex-wrap:wrap}.support-thread{overflow-wrap:anywhere}@media(max-width:1100px){.support-cards{grid-template-columns:minmax(0,1fr)}}
+
+/* Append to app/globals.css when integrating the isolated candidate. */
+.content-sections{display:flex;flex-wrap:wrap;gap:.5rem}
+.content-editor textarea{width:100%;min-width:0}
+.content-editor input[type=number],.content-editor input[type=date],.content-editor select,
+.content-editor~* select,.content-editor select,#content-seed{width:100%;max-width:100%;padding:.65rem;border:1px solid var(--border,#deded7);border-radius:.55rem;background:var(--background,#fff);color:inherit}
+.content-question{padding:1rem;border:1px solid var(--border,#deded7);border-radius:.6rem;min-width:0}
+.content-question legend{font-weight:650;padding:0 .4rem}
+.content-preview-dialog{max-height:90dvh;overflow:auto}
+.content-readonly{min-width:0;overflow-wrap:anywhere}
+.content-readonly ul,.content-readonly ol{padding-left:1.4rem;margin:.8rem 0}
+.content-source-preview{margin:1rem 0;padding:.7rem;border:1px solid var(--border,#deded7);border-radius:.4rem}
+.content-source-preview>div{display:grid;grid-template-columns:minmax(5rem,20%) minmax(0,1fr);gap:.6rem}
+.content-source-preview dt{font-weight:600;overflow-wrap:anywhere}
+.content-source-preview dd{white-space:pre-wrap;overflow-wrap:anywhere}
+.content-editor .notice ul{padding-left:1.2rem}
+.content-editor .check-line input[type=checkbox]{width:1rem;height:1rem;flex-shrink:0}
+@media(max-width:600px){.content-editor>.section-title{display:block}.content-sections{gap:.35rem}.content-sections button{flex:1 1 7rem}.content-source-preview>div{display:block}.content-source-preview dd{margin:.3rem 0 .8rem}.content-editor .actions{flex-wrap:wrap}}
+
+#content-reviewer{width:100%;max-width:100%;border:1px solid var(--border);border-radius:8px;padding:10px;background:#fff;color:var(--ink);font:inherit;min-height:44px}

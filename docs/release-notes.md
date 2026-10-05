@@ -63,3 +63,14 @@ Shared members can request help, follow private replies, reopen a resolved reque
 Client writes now invalidate earlier reads and serialize immediately. Conflicts refresh current authority while retaining own unsent form input. Revoked handlers lose the private thread on refresh. Dynamic byte reservations keep final withdrawal possible for every open request even when support storage is full. Existing private plans, learning, assessments and appeals retain their rules.
 
 See `support-and-refresh.md` for exact permissions and limits, and `test-evidence.json` for executed evidence.
+
+
+# v0.6 · Private course authoring and exact workspace versions
+
+Workspace owners can adapt fictional practice seeds through ordinary editing fields, preserve incomplete drafts, request another current owner's independent review, and publish an immutable workspace version. Approval binds the exact document hash and revision; revoked reviewers cannot authorize publication. New cohorts choose an exact publication. Existing learners, assessments and records retain their original content and rubric when a replacement is published or new enrollment closes. Private definitions stay within current authorized workspace projections.
+
+Any current owner can archive an abandoned unpublished draft without deleting its saved document or lifecycle history. Dynamic reservations preserve all admitted final archives, publication retirements and support withdrawals at the storage boundary. Authoring stays bounded to four active drafts, 24 retained drafts and eight retained publications; published/archived history is retained.
+
+The editor preserves own unsent text through authority refresh and explicit conflict recovery, freezes inputs during saves, and shows terminal documents from canonical saved content. Learner cards label private practice drafts; the direct Offer action opens cohort creation with the exact version selected. Existing global seed archive bytes remain unchanged. No schema migration, hosting-audience expansion, live AI call or external partner request is included.
+
+Executed verification and remaining release limits are recorded in `test-evidence.json`; the functional contract is in `private-content-studio.md` and the detailed implementation documents are under `as-built-v0.6/`.

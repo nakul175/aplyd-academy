@@ -1,0 +1,14 @@
+import {mkdirSync,readFileSync,writeFileSync} from 'node:fs';
+import {resolve,dirname} from 'node:path';
+import {pathToFileURL,fileURLToPath} from 'node:url';
+import {createHash} from 'node:crypto';
+const here=dirname(fileURLToPath(import.meta.url)),app=resolve(process.env.ACADEMY_APP_PATH??resolve(here,'..'));
+const runtime=resolve(process.env.ACADEMY_INTEGRATED_SECURITY_RUNTIME??resolve(app,'.sites-runtime/integrated-security'));
+const {build}=await import(pathToFileURL(resolve(app,'node_modules/esbuild/lib/main.js')).href);
+const files=['academy-authoring.ts','academy-curriculum.ts','academy-engine.ts','academy-teams.ts','academy-storage.ts','academy-support.ts'];
+const hashes=()=>Object.fromEntries(files.map(f=>[f,createHash('sha256').update(readFileSync(resolve(app,'lib',f))).digest('hex')]));
+const before=hashes();mkdirSync(runtime,{recursive:true});
+await build({stdin:{loader:'ts',resolveDir:resolve(app,'lib'),sourcefile:'integrated-security-entry.ts',contents:"export * from './academy-authoring';export * from './academy-curriculum';export {RuleError,applyCommand,freshWorkspace,planOptions} from './academy-engine';export {createTeam,applyTeamCommand,projectTeam} from './academy-teams';export {checkMutationBudget,protectiveMutation,separateHistory} from './academy-storage';export {supportClosureReserve} from './academy-support';"},bundle:true,format:'esm',platform:'node',outfile:resolve(runtime,'core.mjs')});
+const after=hashes();if(JSON.stringify(before)!==JSON.stringify(after))throw new Error('Integrated sources changed during bundling. Rerun against the stable source.');
+writeFileSync(resolve(runtime,'source-evidence.json'),JSON.stringify({sourceStable:true,app,sourceHashes:before,createdAt:new Date().toISOString(),status:'Actual integrated lib sources; outside-checkout output only'},null,2));
+console.log(JSON.stringify({runtime,sourceStable:true}));

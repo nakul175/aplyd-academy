@@ -1,0 +1,58 @@
+APLYD ACADEMY — OPERATOR ACCEPTANCE CHECKLIST, v0.6
+Prepared from local source. Every item is UNEXECUTED in this document.
+Record environment, source/release hash, account arrangement, date, result and evidence location for each check. A synthetic local PASS cannot be recorded as a hosted real-participant PASS. Hosting/participant checks need actual accounts with permitted site access. This checklist promises no support hours, accreditation, production capacity or SLA.
+
+Suggested nonproduction actors: owner/author A, independent owner B, optional owner C, learner L, scoped assessor S, independent appeal reviewer R, scoped facilitator F, unrelated workspace member X. Each should be a separate authenticated subject for shared-workspace journeys. Use fictional documents only.
+
+ACCESS AND PILOT SETUP
+[ ] OP-01 Confirm the intended hosting audience explicitly. Verify real participant access, sign-in, recipient-email-bound invitation acceptance and subsequent membership using an account other than the owner. Evidence: hosted access/auth checks, not local headers. [README.md:22; app/chatgpt-auth.ts:21]
+[ ] OP-02 Create a shared workspace; confirm personal lab drafts, sample decisions and discussions are not copied. Switching work context does not grant roles. [lib/academy-teams.ts:25,34]
+[ ] OP-03 Invite at least two content owners before expecting publication. Verify wrong-account, expired/revoked link, removed member and issuer authority-loss cases fail; last active owner cannot be removed. Link creation sends no email. [lib/academy-teams.ts:36,41,50–52]
+[ ] OP-04 Confirm outsider X cannot read workspace content/support/learner evidence and the directory GET contains no private bodies. [app/api/teams/route.ts:14; lib/academy-teams.ts:68–78]
+
+AUTHORING AND INDEPENDENT REVIEW
+[ ] OP-05 Copy each of the three global seeds into an isolated workspace; preview has no complete-validation errors. Verify global archive byte/hash equality before/after and global discovery remains three original pathways. [lib/academy-authoring.ts:32,124–129; lib/academy-curriculum.ts:23–26]
+[ ] OP-06 Inspect the farmer lesson's duplicate transport row: original and later T02 facts are preserved; later row has explicit duplicateOf/sourceNote; fixed answer explanations and practical references remain pedagogically coherent. Do not blindly delete/rename the teaching duplicate. [lib/academy-authoring.ts:32,91]
+[ ] OP-07 Author edits ordinary overview, lesson/source/quiz and practical/rubric fields. Save incomplete required text, see preview issues and confirm submit fails. Locked IDs/claims, unsupported/nested facts and an oversized document must fail save without mutation. [lib/academy-authoring.ts:43–108,131–139]
+[ ] OP-08 Validate duplicate IDs after trimming, wrong duplicateOf, blank/null-only source facts, duplicate trimmed quiz options, incorrect key index, non-100 rubric weights and total time below lesson sum. [lib/academy-authoring.ts:87,91,96–107]
+[ ] OP-09 Author submits a complete document to B with a valid future review date. Self-review, unrelated owner reviewer, nonowner learner-appeal reviewer and invalid/past/>730-day date fail. [lib/academy-authoring.ts:114,136–149]
+[ ] OP-10 B requests changes with a useful note; author edits/resubmits. B approves only after all five checks and note validation. Record what sources/answer keys/rubric/safety/accessibility B actually checked. Checkbox selection alone does not establish content fitness. [lib/academy-authoring.ts:145–149]
+[ ] OP-11 After approval, remove B's owner authority and confirm publication fails. Restore/reassign through a current independent review; verify approval hash/revision binding blocks altered content. [lib/academy-authoring.ts:151–158]
+[ ] OP-12 Publish and inspect preserved title, classification, version reference, SHA256 and author/reviewer/publisher/date records. No edit/publish-repeat command may mutate the snapshot. [lib/academy-authoring.ts:14,151–158]
+[ ] OP-13 Archive an unpublished draft in each state, including another owner's draft or a draft whose author lost authority. Confirm reason validation, exact saved document/history, terminal read-only state and released active slot. [lib/academy-authoring.ts:160–161]
+
+VERSIONED COHORT AND PRACTICAL JOURNEY
+[ ] OP-14 Offer publication V1 in a cohort; enroll L; create changed V2 with the same private program ID and offer another cohort. Existing V1 learning, source packet, answer key, rubric, title and record must remain V1. New V2 learners receive V2. [lib/academy-teams.ts:53,59; lib/academy-engine.ts:14,27–34]
+[ ] OP-15 Retire V1; confirm new cohort/new enrollment fail, existing L continues and can repeat enrollment recognition without moving pins. Repeat reviewDueAt expiry with trusted test time. Cohort pause must separately stop learning and staff finalization while retaining evidence. [lib/academy-authoring.ts:173; lib/academy-teams.ts:54,56,59–60]
+[ ] OP-16 Exercise unknown version, explicit/legacy version mismatch, wrong workspace scope and legacy reference without explicit version using isolated fixture corruption only. Lesson/draft/submit/assess and UI review fail closed with retained own-history export; never use latest content/rubric. [lib/academy-curriculum.ts:68–112]
+[ ] OP-17 Learner completes three lessons and submits seven fictional response fields. Assign S explicitly; verify owner-only summaries exclude evidence and S can read only the assigned submitted snapshot. Loss of role/scope/assignment prevents later read/finalization. [lib/academy-teams.ts:33,55–56,74–75]
+[ ] OP-18 Check pass threshold plus all gates, failed critical gate despite high average, retry limit and independent appeal. Original decision is retained; records remain nonaccredited with exact version and current decision provenance. [lib/academy-engine.ts:20–21,31–34,49]
+[ ] OP-19 Verify private content never appears in the personal/global discovery or X's workspace. Within current workspace, ordinary learners see only versions referenced by authorized visible offerings/own history; author drafts/review notes remain owner-only. [lib/academy-teams.ts:70,77–78; lib/academy-authoring.ts:176–180]
+
+SUPPORT OPERATIONS
+[ ] OP-20 Open all six categories with acknowledgement and null/cohort scopes. Title/body validation and five-open requester cap behave correctly; un-enrolled learners may ask about an existing offering. [lib/academy-support.ts:5,29,44–48]
+[ ] OP-21 Owners see metadata queue without bodies before claim. F sees only learning/content in scoped cohorts; unrelated staff cannot handle. Requester cannot claim own case even with owner permission; report when no independent handler exists. [lib/academy-support.ts:20,27,50–52,74]
+[ ] OP-22 Concurrent eligible handlers claim the same open case: one commit, other conflict, no double assignment/audit. Only requester/current eligible handler replies; only handler resolves. [lib/academy-support.ts:50–58; app/api/teams/route.ts:19–23]
+[ ] OP-23 Resolve, reopen with requester reason, resolve again; prior resolutions persist while the latest pointer updates. Withdraw open thread and confirm terminal read-only retained history. [lib/academy-support.ts:57–64]
+[ ] OP-24 Revoke/reduce handler authority during a thread. Assignment releases and full body disappears; restoring role requires a fresh explicit claim. Removed requester retains own history/export but cannot reply/reopen/withdraw. [lib/academy-support.ts:18,20–26,71–75]
+[ ] OP-25 Explain who checks the queue, how real people are recruited as handlers, and how participants should check for replies. Do not promise automatic notifications, emergency response, turnaround, erasure, grades or formal accommodation delivery through the support form. [app/academy-support.tsx; app/academy-teams-ui.tsx:33]
+
+CONFLICTS, CAPACITY AND CLOSURE
+[ ] OP-26 In two browser sessions, alter a workspace/draft while the author has unsaved text. Stale save fails; text/unsaved marker survives refresh/tab unmount; explicit reload/rebase is required. A save cannot silently adopt another document. [app/academy-context.tsx:6–18; app/academy-authoring.tsx:41–63]
+[ ] OP-27 Archive/publish that draft from the other session. Author's terminal view shows canonical saved document, with own unsent text separately labelled. Remove owner access and confirm former server bodies are hidden while own unsent session scratch is preserved. [app/academy-authoring.tsx:24–28,49–62]
+[ ] OP-28 Switch workspaces during a delayed response. No private version/content from the old workspace returns to the new workspace; display exact pinned content in cards and review. [app/academy.tsx:18–34,43]
+[ ] OP-29 Repeat identical actionId/body after commit: one mutation/audit, current authorized projection. Change body using that ID: 409. Revoke membership before replay: reject. Test async publication against an intervening membership change and ensure CAS rejects stale candidate. [app/api/teams/route.ts:18–23]
+[ ] OP-30 In isolated fixtures, hit four active/24 retained drafts/eight retained publications/64 KiB document/650,000 effective authoring bytes. Archiving frees an active slot but not total retained count; retiring preserves publication count. No quota reset/delete is claimed. [lib/academy-authoring.ts:8,115,125–126,155,167–190]
+[ ] OP-31 Hit support's 100 requests/20 messages/20 resolutions/100 ordinary events/250,000 effective bytes. At the 100-event boundary requester withdrawal adds final event 101 and remains possible without deleting bodies. [lib/academy-support.ts:13,30–31,67,81–87]
+[ ] OP-32 Near ordinary workspace 1.2M bytes and protective/reserved 1.8M, exercise archive/retire/withdraw in varying order with worst-escaping reasons and admitted long identity IDs. Nonprotective growth fails before closure reserve is consumed; closure documents/history remain intact. Include membership admission changing reserve. [lib/academy-storage.ts:5–25; lib/academy-authoring.ts:183–190]
+[ ] OP-33 Verify activity/moderation rollover above 200 hot entries produces an atomic history packet and permissions still filter archived reads. Inject commit/index/history failure only in disposable local fixtures; no orphan audit/archive/state mutation. [lib/academy-storage.ts:28–31; app/api/teams/route.ts:20–23]
+
+REAL-PILOT DECISION RECORD
+[ ] OP-34 Record sector content reviewer acceptance, representative learner feedback and accuracy of fictional exercises; identify content owner and reviewDueAt monitoring. Review due closes new intake but does not automatically suspend existing work. [lib/academy-authoring.ts:148,173]
+[ ] OP-35 Record real hosting/identity/access evidence, current owners/handlers/assessors, cohort scope, accessibility observations and support arrangements. Keep unresolved privacy/retention/recovery/translation/capacity decisions visible; do not reuse earlier proposed SLA numbers as achieved results.
+[ ] OP-36 Separate local unit/API/browser results from hosted checks. Fixture scripts stay on the local worker/simulator, and synthetic accounts/data never enter the published database. Preserve source version and evidence links for the release owner to review. [README.md:40–46]
+
+Acceptance record per item:
+ID | environment | source/release hash | actor arrangement | date | PASS/FAIL/NOT RUN | evidence path | unresolved issue/owner
+
+Release review remains a human product/engineering/operator decision based on this evidence. Completing this checklist does not confer accreditation or imply all prior BRD capabilities are implemented.

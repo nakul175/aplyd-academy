@@ -1,0 +1,177 @@
+{
+  "title": "Aplyd Academy v0.6 source-review documentation candidate",
+  "capturedAt": "2026-10-05T09:14:30.243Z",
+  "sourceRoot": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/aplyd-academy",
+  "outputRoot": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/aplyd-academy-sprint/curriculum-authoring/as-built-docs",
+  "scope": "Read-only local checkout; no app edits, production deployment, database writes, participant messages or external applications used",
+  "sourceFiles": [
+    {
+      "relativePath": "lib/academy-authoring.ts",
+      "bytes": 26897,
+      "sha256": "6ed1e436dba8ea86d9dcbb999790b5292a38e84ca27b53fb14423b35dfbbf7e8"
+    },
+    {
+      "relativePath": "lib/academy-support.ts",
+      "bytes": 12618,
+      "sha256": "304b51e0558a76f34775405ed7e31884a2aebcdf3649d8fe7dab9658672876e1"
+    },
+    {
+      "relativePath": "lib/academy-storage.ts",
+      "bytes": 3209,
+      "sha256": "3eef88f741c7177cf00ba01dac4a8ecbee3da97e146e8999509929c9829f9941"
+    },
+    {
+      "relativePath": "lib/academy-curriculum.ts",
+      "bytes": 7719,
+      "sha256": "02a7e32aa7f56e1bc06694987946f804d33fdd17ab781749142f72f42bda722c"
+    },
+    {
+      "relativePath": "lib/academy-engine.ts",
+      "bytes": 16611,
+      "sha256": "bf646a67f10fc1aaf5edb86d24110e7166b8586d1ffb55440361662c98a4f78c"
+    },
+    {
+      "relativePath": "lib/academy-teams.ts",
+      "bytes": 22945,
+      "sha256": "6d2db1c287cc8b7a8a6ebb680210f63e3b49de26b81b76c87d7ca5049639200f"
+    },
+    {
+      "relativePath": "lib/curriculum-versions/0.1-review-draft.json",
+      "bytes": 65054,
+      "sha256": "9fc83c8dd615456db8f49d140f56bff566e05c14d32ebb70a14cdcb73078b7e4"
+    },
+    {
+      "relativePath": "app/academy-authoring.tsx",
+      "bytes": 35922,
+      "sha256": "48c213b375824535f699d43511b905b15183f9443ebb8005866098239035b941"
+    },
+    {
+      "relativePath": "app/academy-context.tsx",
+      "bytes": 1063,
+      "sha256": "dfa2c1a5e2f70cdee93bc0383e0cd8a6d40fdde32bad2656aeeda67c695d046e"
+    },
+    {
+      "relativePath": "app/academy.tsx",
+      "bytes": 21609,
+      "sha256": "2c4691bc0ee89d611b79c3eb228ff6aca6923b6e490e5e8a6d5e7e686c6ca2c7"
+    },
+    {
+      "relativePath": "app/academy-teams-ui.tsx",
+      "bytes": 27764,
+      "sha256": "1a25ec140f1f2432f5178d2d4e9195d2475f0a0e525f6c9322907df7a589a8b7"
+    },
+    {
+      "relativePath": "app/academy-support.tsx",
+      "bytes": 14029,
+      "sha256": "849738ff3dc1c2db0282cfb448b55b2964d4d980b3d19f27e5a30b423eee2491"
+    },
+    {
+      "relativePath": "app/academy-learning.tsx",
+      "bytes": 20038,
+      "sha256": "6d985f3251f719dd1e06d8e84d30dfe65327c9b216caa9923e61b05e60ab3cdc"
+    },
+    {
+      "relativePath": "app/chatgpt-auth.ts",
+      "bytes": 2550,
+      "sha256": "4265a2e7c2dcb3a6f4b7026f762bf5b6e4caec76cc13c0a45987ee9a9f2e42cc"
+    },
+    {
+      "relativePath": "app/api/teams/route.ts",
+      "bytes": 8012,
+      "sha256": "a8c57327f8d535f796306b5c6a24661216dbba1c00cfc0a6ea2088d37c4619bd"
+    },
+    {
+      "relativePath": "app/api/teams/history/route.ts",
+      "bytes": 2041,
+      "sha256": "0ecebf4fe00083514d81cefbbc7a0e76c277531b823eb49a71238481c0b54838"
+    },
+    {
+      "relativePath": "app/api/academy/route.ts",
+      "bytes": 3902,
+      "sha256": "b33e1c23b5180d1f74dbfe1d14512640a270454bf6dffad801ca47d8a7958828"
+    },
+    {
+      "relativePath": "db/schema.ts",
+      "bytes": 1826,
+      "sha256": "e89f82c873f6022834c541a062b39a545cb581e6e4676aff1894eb0a9f4f00d8"
+    },
+    {
+      "relativePath": "README.md",
+      "bytes": 7428,
+      "sha256": "562fd99dbccd48c4545ce775fd08a9f754428d92e4e717c81fe68d7861742509"
+    },
+    {
+      "relativePath": "drizzle/0000_strange_dazzler.sql",
+      "bytes": 504,
+      "sha256": "bfd2a4f5d663d38ec7e484dcb55c7fc3c5f115ff87c38fc182bca09f8cde761b"
+    },
+    {
+      "relativePath": "drizzle/0001_complex_deathbird.sql",
+      "bytes": 244,
+      "sha256": "bb499509398fe933ea8912ec8eb12bd5a65261d5885637fad15049e7cd242532"
+    },
+    {
+      "relativePath": "drizzle/0002_silky_tempest.sql",
+      "bytes": 695,
+      "sha256": "ee7d1008a437871b5d0b6c0530f94558932f77c6fe036a6bd363683d4973bde8"
+    },
+    {
+      "relativePath": "drizzle/0003_massive_franklin_storm.sql",
+      "bytes": 136,
+      "sha256": "2a482c72a541e36382a907d655565bf55129d30361cb0862c29cf185c8aca780"
+    },
+    {
+      "relativePath": "drizzle/0004_red_trauma.sql",
+      "bytes": 185,
+      "sha256": "1c55bac21db77a790cc0bbc3bde41b4c9c6ba8883e6428ada49e7c9ca42e3701"
+    }
+  ],
+  "documents": [
+    {
+      "relativePath": "README.txt",
+      "bytes": 1880,
+      "sha256": "29d7cba8ed8ead71344c56b0f44ea1d3a52da74dd34e3547ae90fc5fcc554194"
+    },
+    {
+      "relativePath": "FSD-v0.6-delta.txt",
+      "bytes": 15170,
+      "sha256": "85f7904752af6ee2bc6a954e2ad1cdabb2ecaf44d48b7afb0b2d3a6204f6075f"
+    },
+    {
+      "relativePath": "LLD-v0.6-delta.txt",
+      "bytes": 14686,
+      "sha256": "c9f2c1e2cf2e1bc09264af579852ef03644124aab0bf171ff715030f05c779d2"
+    },
+    {
+      "relativePath": "data-dictionary-v0.6.json",
+      "bytes": 24356,
+      "sha256": "f3bf214f52f3a431d6c67fbc4f77d5097953ba93a28fcf2c5a2d55a10c14cb43"
+    },
+    {
+      "relativePath": "operator-acceptance-v0.6.txt",
+      "bytes": 11661,
+      "sha256": "ef2fa2005c2ca3bacb389c3072c0c91e6a9902c096bb0c1918b3cf1e846638e7"
+    }
+  ],
+  "legacyArchivePreserved": {
+    "bytes": 65054,
+    "sha256": "9fc83c8dd615456db8f49d140f56bff566e05c14d32ebb70a14cdcb73078b7e4"
+  },
+  "qaExecution": {
+    "documentationJsonParse": "PASS",
+    "expectedArchiveHash": "PASS",
+    "unitCount": null,
+    "apiCount": null,
+    "browserCount": null,
+    "hostedParticipantChecks": null,
+    "note": "This documentation task did not run application tests. Execution counts/evidence remain placeholders for root review; operator checklist NOT RUN.",
+    "documentationConsistency": "PASS: exact 8 content commands, exact 6 support commands, 6 actual D1 tables, 36 unique NOT RUN checklist items",
+    "documentationValidatedAt": "2026-10-05T09:15:15.496Z"
+  },
+  "broaderTarget": {
+    "path": "outputs/aplyd-academy-specifications/BASELINE.md",
+    "status": "Prior proposed design, not implemented schema/API or agreed SLA"
+  },
+  "integratedAt": "2026-10-05T09:15:45.997727+00:00",
+  "integratedOutputRoot": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/aplyd-academy/docs/as-built-v0.6"
+}

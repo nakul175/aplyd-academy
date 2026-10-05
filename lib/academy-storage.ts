@@ -1,3 +1,4 @@
+import {authoringClosureReserve,utf8JsonBytes,AUTHORING_LIMITS} from './academy-authoring';
 import {supportClosureReserve} from './academy-support';
 import {RuleError} from './academy-engine';
 import type {Team} from './academy-teams';
@@ -5,6 +6,7 @@ export const WORKSPACE_CONTENT_BYTES=1_200_000;
 export const WORKSPACE_PROTECTIVE_BYTES=1_800_000;
 const subset=(next:any,prior:any[])=>Array.isArray(next)&&next.every(x=>prior.includes(x));
 export function protectiveMutation(before:Team,c:any){
+ if(['content-retire','content-archive'].includes(c.type))return true;
  if(c.type==='support-withdraw')return true;
  if(c.type==='revoke-invite')return true;
  if(c.type==='cohort-status')return ['paused','closed'].includes(c.status);
@@ -17,8 +19,9 @@ export function protectiveMutation(before:Team,c:any){
 }
 export function checkMutationBudget(before:Team,after:Team,c:any){
  const bytes=(x:any)=>new TextEncoder().encode(JSON.stringify(x)).length,oldBytes=bytes(before),newBytes=bytes(after),protective=protectiveMutation(before,c),cap=protective?WORKSPACE_PROTECTIVE_BYTES:WORKSPACE_CONTENT_BYTES;
- const oldReserved=oldBytes+supportClosureReserve(before),newReserved=newBytes+supportClosureReserve(after);
- if(newReserved>oldReserved&&newReserved>WORKSPACE_PROTECTIVE_BYTES)throw new RuleError('This workspace must retain room for open support requests to be withdrawn. Keep your input and contact the owner before adding more history.',413);
+ const oldAuthoring=utf8JsonBytes(before.content??{drafts:[],publications:[]})+authoringClosureReserve(before),newAuthoring=utf8JsonBytes(after.content??{drafts:[],publications:[]})+authoringClosureReserve(after);if(newAuthoring>oldAuthoring&&newAuthoring>AUTHORING_LIMITS.contentBytes)throw new RuleError('Content closure capacity must remain available. Keep your input and seek workspace support.',413);
+ const oldReserved=oldBytes+supportClosureReserve(before)+authoringClosureReserve(before),newReserved=newBytes+supportClosureReserve(after)+authoringClosureReserve(after);
+ if(newReserved>oldReserved&&newReserved>WORKSPACE_PROTECTIVE_BYTES)throw new RuleError('This workspace must retain room for support withdrawal and final content closure. Keep your input and contact the owner before adding more history.',413);
  if(newBytes>oldBytes&&newBytes>cap)throw new RuleError(protective?'This workspace needs support to free its protective storage reserve. Your input has been retained.':'This pilot workspace is near its content limit. Access removal, content hiding and cancellations remain available. Contact the workspace owner before adding more content.',413);
  return {oldBytes,newBytes,protective};
 }

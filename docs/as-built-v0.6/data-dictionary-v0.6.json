@@ -1,0 +1,175 @@
+{
+  "title": "Aplyd Academy v0.6 as-built data dictionary candidate",
+  "status": "Current local checkout; not a JSON Schema, test report, hosted-release assertion or production approval",
+  "sourceRoot": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/aplyd-academy",
+  "sourceManifest": "source-manifest.json",
+  "conventions": {
+    "persistence": "D1 SQLite columns plus nested JSON aggregates; authoring/support do not have separate normalized tables",
+    "lengths": "Text lengths are JavaScript string lengths unless noted; required minimums generally compare trimmed text. Byte limits use UTF-8 JSON.stringify size, including escaping.",
+    "timestamps": "Trusted server UTC ISO strings; content reviewDueAt must round-trip YYYY-MM-DDTHH:mm:ss.sssZ exactly and be future within 730 days",
+    "identity": "User ID/email come from platform authentication. Display names do not grant authority. Content/support provenance name snapshots are truncated to 80 UTF-16 units.",
+    "projection": "Persisted private fields are not automatically API-readable. Current membership, role, cohort scope, explicit assignment and own-history policy determine projection.",
+    "authority": "admin means workspace owner. Draft author/reviewer are record relationships requiring admin for content actions; learner-appeal reviewer is a separate TEAM_ROLES value.",
+    "immutability": "Immutable publication snapshot/hash remains retained after retirement; draft archival retains canonical document/history. No delete/reopen command exists for these terminal content records."
+  },
+  "tables": [
+    {"name":"academy_workspaces","source":"db/schema.ts:2","columns":{"owner":"TEXT primary key; authenticated personal account ID","data":"TEXT NOT NULL; JSON Workspace","revision":"INTEGER NOT NULL DEFAULT 0; optimistic concurrency fence","updated_at":"TEXT NOT NULL; server UTC ISO"}},
+    {"name":"academy_audit","source":"db/schema.ts:3","columns":{"owner":"TEXT NOT NULL","revision":"INTEGER NOT NULL","event_id":"TEXT NOT NULL; actionId","action":"TEXT NOT NULL; command type","request_hash":"TEXT nullable for earlier rows; SHA256 of serialized command","created_at":"TEXT NOT NULL"},"keys":["PRIMARY KEY(owner,revision)","UNIQUE(owner,event_id)"]},
+    {"name":"academy_teams","source":"db/schema.ts:4","columns":{"id":"TEXT primary key; tw- + creation actionId","created_by":"TEXT NOT NULL; authenticated creator ID","data":"TEXT NOT NULL; JSON Team","revision":"INTEGER NOT NULL; shared workspace CAS fence","updated_at":"TEXT NOT NULL; server UTC ISO"},"indexes":["created_by"]},
+    {"name":"academy_team_audit","source":"db/schema.ts:5","columns":{"team_id":"TEXT NOT NULL","revision":"INTEGER NOT NULL","actor":"TEXT NOT NULL; authenticated ID","event_id":"TEXT NOT NULL; actionId","action":"TEXT NOT NULL; original command type","request_hash":"TEXT NOT NULL; SHA256(JSON.stringify(original command))","created_at":"TEXT NOT NULL"},"keys":["PRIMARY KEY(team_id,revision)","UNIQUE(team_id,actor,event_id)"],"privacy":"No full content/support/evidence body or content review note stored in this audit row"},
+    {"name":"academy_invite_tokens","source":"db/schema.ts:6","columns":{"token_hash":"TEXT primary key; globally unique SHA256 of 64-hex token","team_id":"TEXT NOT NULL","invite_id":"TEXT NOT NULL"},"privacy":"Plain invitation token is not stored; recipient-email-bound invitation details remain in Team.invites"},
+    {"name":"academy_team_history","source":"db/schema.ts:7; lib/academy-storage.ts:31","columns":{"team_id":"TEXT NOT NULL","revision":"INTEGER NOT NULL","data":"TEXT NOT NULL; JSON {activity:[],moderation:[]} overflow packet","created_at":"TEXT NOT NULL"},"keys":["PRIMARY KEY(team_id,revision)"],"privacy":"Read authorization remains current owner/moderator cohort scope; no learner evidence/content/support rollover"}
+  ],
+  "objects": [
+    {"name":"ContentRef","source":"lib/academy-curriculum.ts:4–9,47–82","fields":[
+      {"path":"scope","type":"string","constraint":"global or tw-[a-z0-9-]{20,80}, case-insensitive syntax; scope must also be in trusted allowedScopes"},
+      {"path":"programId","type":"string","constraint":"[a-z0-9][a-z0-9-]{0,99}, case-insensitive syntax; exact identity, no normalization"},
+      {"path":"versionId","type":"string","constraint":"[a-z0-9][a-z0-9._-]{0,99}, case-insensitive syntax; exact identity"}
+    ],"notes":"Exact keys only. Explicit contentRef must agree with legacy programId/version if present. Legacy records require both fields; no default current version."},
+    {"name":"ContentContext","source":"lib/academy-curriculum.ts:143; lib/academy-teams.ts:44","persisted":false,"fields":[
+      {"path":"registry","type":"CurriculumRegistry","constraint":"Per-request detached immutable global plus selected-workspace snapshot registry"},
+      {"path":"allowedScopes","type":"ContentScope[]","constraint":"Trusted ['global',team.id] for shared actions; personal default global only"}
+    ],"notes":"Never inferred from the requested reference; sixth applyCommand argument, third planOptions argument."},
+    {"name":"Team relevant fields","source":"lib/academy-teams.ts:11–13,34,68–78","fields":[
+      {"path":"id/name/purpose/context/createdAt/createdBy","type":"strings","constraint":"Workspace identity/description and creator metadata; name 3–80, purpose 10–500; context farmer/msme/public"},
+      {"path":"members[]","type":"Member[]","constraint":"Up to 100 retained membership records"},
+      {"path":"members[].userId/email/name","type":"strings","constraint":"Authenticated identity; normalized recipient email; mutable display name"},
+      {"path":"members[].roles","type":"string[]","constraint":"Nonempty unique existing values: admin, learner, facilitator, assessor, reviewer, moderator"},
+      {"path":"members[].scopes","type":"cohortId[]","constraint":"Unique existing cohort references; scoped staff authority"},
+      {"path":"members[].active/joinedAt","type":"boolean/string","constraint":"Current authority state and joining time; last active owner removal forbidden"},
+      {"path":"content","type":"AuthoringState?","constraint":"Optional for legacy aggregates; missing reads as empty drafts/publications"},
+      {"path":"support","type":"SupportRequest[]?","constraint":"Optional for legacy aggregates"},
+      {"path":"cohorts[]","type":"Cohort[]","constraint":"Up to 20 retained cohorts; capacity 1–100"},
+      {"path":"learners[].userId/state","type":"string/Workspace","constraint":"Separate learner document per signed-in shared member; no personal-lab import"},
+      {"path":"assignments[]","type":"assignment records","constraint":"kind assessment/appeal, targetId, staffId, assignedBy/assignedAt; current independent role/scope required"}
+    ],"privacy":"Owners see members/invites/pending metadata/summaries, not automatic private learner evidence. Full drafts available only to active content owners."},
+    {"name":"AuthoringState","source":"lib/academy-authoring.ts:8,15,20","fields":[
+      {"path":"drafts","type":"Draft[]","constraint":"24 retained total; 4 active (exclude published/archived)"},
+      {"path":"publications","type":"Publication[]","constraint":"8 retained total, including retired"}
+    ],"budget":"UTF-8 JSON + dynamic authoringClosureReserve <=650000 bytes for growing transitions"},
+    {"name":"Draft","source":"lib/academy-authoring.ts:13,112–161","fields":[
+      {"path":"id/programId","type":"strings","constraint":"cd-UUID draft ID; new path-UUID for global copy, preserved programId for private revision copy"},
+      {"path":"baseRef","type":"ContentRef","constraint":"Exact source snapshot from global or this workspace; source retained unchanged"},
+      {"path":"authorId/authorName","type":"strings","constraint":"Original actor and 80-unit name snapshot; original author relationship is immutable"},
+      {"path":"state","type":"enum","constraint":"draft | in_review | approved | published | archived"},
+      {"path":"revision","type":"integer","constraint":"Starts 1; advances on save/lifecycle event; content commands except copy/retire require exact draft revision"},
+      {"path":"documentRevision","type":"integer","constraint":"Starts 1; advances only content-save; approval binds this revision"},
+      {"path":"document","type":"Program","constraint":"Detached saved private template; max65536 UTF-8 JSON bytes"},
+      {"path":"createdAt/updatedAt","type":"UTC ISO strings","constraint":"Trusted server time"},
+      {"path":"reviewerId/reviewDueAt","type":"optional strings","constraint":"Assigned independent active owner and future exact UTC ISO at submit/approval/publication"},
+      {"path":"approval","type":"Approval?","constraint":"Cleared by save/recall/changes; archived/published record may retain it"},
+      {"path":"publishedRef","type":"ContentRef?","constraint":"Exact emitted publication reference on published state"},
+      {"path":"history[]","type":"{id,actor,actorName,action,at,note?}","constraint":"Retained provenance; <=100 ordinary events, archive may append final event101; note reason where applicable"}
+    ],"privacy":"Current active owners receive full drafts; authority loss removes server bodies. Own unsent editor scratch is separate."},
+    {"name":"Approval","source":"lib/academy-authoring.ts:13,145–154","fields":[
+      {"path":"reviewerId/reviewerName","type":"strings","constraint":"Assigned independent owner at approval; name snapshot <=80 units"},
+      {"path":"documentRevision/documentHash","type":"integer/64-hex SHA256","constraint":"Exact document revision and SHA256 of recursively key-sorted canonical JSON, array order preserved"},
+      {"path":"reviewedAt/note","type":"UTC ISO/string","constraint":"Server time; note 30–2000 characters"},
+      {"path":"checks","type":"{sources,answers,rubric,safety,accessibility}","constraint":"Exactly these five boolean properties, all true for approval"}
+    ],"privacy":"Owner-only draft approval note/checks; not ordinary learner publication management data"},
+    {"name":"Publication","source":"lib/academy-authoring.ts:14,151–180","fields":[
+      {"path":"id","type":"string","constraint":"cp-UUID; same value as snapshot.ref.versionId"},
+      {"path":"snapshot.ref/program/language/audience/classification","type":"ContentRef/Program/strings","constraint":"Detached immutable private snapshot; scope=team.id, language=en, audience=Adult learners, classification=Private workspace practice draft · nonaccredited"},
+      {"path":"snapshot.policy","type":"fixed policy object","constraint":"minimumWeightedScore70, scoreMaximum4, criticalGates=all, maxAttempts3, appealDays14, lessonCount3, questionsPerLesson3, optionsPerQuestion4, submissionFieldCount7, evidenceMinCharacters30, evidenceMaxCharacters10000"},
+      {"path":"documentHash","type":"64-hex SHA256","constraint":"Canonical document hash checked against independent approval at publication; retained on retirement"},
+      {"path":"authorId/authorName/reviewerId/reviewerName","type":"strings","constraint":"Saved author/independent reviewer provenance"},
+      {"path":"reviewedAt/publishedBy/publishedByName/publishedAt","type":"strings","constraint":"Review time and actual publishing owner provenance; publisher can differ from author/reviewer"},
+      {"path":"reviewDueAt","type":"UTC ISO string","constraint":"Due date blocks NEW cohorts/enrollments when reached; does not mutate or suspend historical version"},
+      {"path":"availability","type":"enum","constraint":"available | retired"},
+      {"path":"retirement","type":"{reason,actor,actorName,at}?","constraint":"Retirement reason10–1000 and current owner/time; snapshot unchanged"}
+    ],"projection":"Owners: all snapshots plus thin publication-management records. Others: only snapshots needed for authorized own learning/cohorts/assignment, no author/reviewer ID wrapper or review note."},
+    {"name":"Program overview","source":"lib/academy-authoring.ts:32,43–108; lib/curriculum-versions/0.1-review-draft.json","fields":[
+      {"path":"id/ecosystem/role/level","type":"strings","constraint":"Locked private template identity/context/level"},
+      {"path":"title/summary/promise","type":"strings","constraint":"Title3–160, summary20–2000, promise20–1000"},
+      {"path":"estimatedMinutes","type":"integer","constraint":"5–720, >=sum lessons estimatedMinutes"},
+      {"path":"prerequisites/outcomes","type":"string[]","constraint":"1–20 entries each; trimmed minimum10, maximum500 per entry"},
+      {"path":"credentialClaim/credentialExclusions/sourceNotice","type":"string/string[]/string","constraint":"Server-forced locked nonaccredited synthetic-practice claim, exclusions and fictional-information notice"},
+      {"path":"lessons","type":"Lesson[3]","constraint":"Fixed lesson identities and length"},
+      {"path":"practicalAssessment","type":"PracticalAssessment","constraint":"Fixed practical ID/structure"},
+      {"path":"followUp","type":"{afterDays,question,evidenceOptions,successSignal,privacyNote}","constraint":"Locked seed follow-up object; current studio cannot change it"}
+    ],"notes":"Save can retain required/consistency issues; malformed/locked/limit issues reject save. All issues reject submit/approve/publish."},
+    {"name":"Lesson and Exercise","source":"lib/academy-authoring.ts:47–58,88–98","fields":[
+      {"path":"lesson.id/title/estimatedMinutes/objective/lessonText","type":"strings/integer","constraint":"ID locked; title3–160; minutes5–720; objective20–1000; lessonText100–12000"},
+      {"path":"lesson.steps","type":"string[]","constraint":"1–20 entries;5–500 per entry"},
+      {"path":"lesson.reflectionPrompt/returnToWorkAction","type":"strings","constraint":"15–1000 / 30–2000"},
+      {"path":"exercise.title","type":"string","constraint":"3–160"},
+      {"path":"exercise.sourcePacket","type":"SourceRecord[]","constraint":"1–20 plain fictional records"},
+      {"path":"exercise.suppliedAiDraft/optionalAiPrompt/learnerTask/assessorReference","type":"strings","constraint":"30–4000 each; supplied content, no live AI call"},
+      {"path":"exercise.expectedEvidence","type":"string[]","constraint":"1–20 entries;10–700 per entry"},
+      {"path":"lesson.quiz","type":"Quiz[3]","constraint":"Fixed quiz IDs/length"}
+    ]},
+    {"name":"SourceRecord","source":"lib/academy-authoring.ts:32,47–58,91","fields":[
+      {"path":"sourceId","type":"string","constraint":"Trimmed minimum1, raw maximum80; uniqueness compared after trim within lesson"},
+      {"path":"duplicateOf","type":"optional string","constraint":"For a teaching duplicate only: exactly the trimmed same sourceId of an EARLIER row, with explanatory sourceNote >=10 trimmed characters"},
+      {"path":"sourceNote/type","type":"optional primitives","constraint":"Metadata does not alone count as meaningful source facts; sourceNote for duplicate must be explanatory text"},
+      {"path":"content and other bounded facts","type":"string | finite number | boolean | null","constraint":"At least one meaningful nonmetadata fact; blank content explicitly fails complete validation; no nested objects/arrays"}
+    ],"constraints":"Each record2–15 keys; key<=60 excluding __proto__/constructor/prototype; text<=2000 and ordinary control-safe text; |number|<=1e12. Intentional farmer duplicate retains original teaching facts; global archive unchanged."},
+    {"name":"Quiz","source":"lib/academy-authoring.ts:94–98","fields":[
+      {"path":"id","type":"string","constraint":"Locked seed ID"},
+      {"path":"question/explanation","type":"strings","constraint":"10–1000 / 20–2000"},
+      {"path":"options","type":"string[4]","constraint":"1–500 each; distinct after trimming"},
+      {"path":"correctOptionIndex","type":"integer","constraint":"0–3"}
+    ]},
+    {"name":"PracticalAssessment","source":"lib/academy-authoring.ts:100–108","fields":[
+      {"path":"id/title/scenario","type":"strings","constraint":"ID locked; title3–160; scenario30–5000"},
+      {"path":"submissionPrompts","type":"{id,label,help}[7]","constraint":"IDs locked; label3–160, help10–1000"},
+      {"path":"rubric","type":"{id,dimension,weight,anchors,criticalGate}[4]","constraint":"IDs locked; dimension3–160; positive integerweight1–97 with total100; anchors keys0..4 text10–1000; original null/non-null criticalGate positions preserved, gate text30–2000"},
+      {"path":"samplePassingEvidence/sampleCriticalFailure/assessorNote","type":"strings","constraint":"30–5000 each"}
+    ],"notes":"Engine scoring remains fixed pilot policy. Content owners cannot configure accreditation, pass threshold, retry count or appeal window."},
+    {"name":"Cohort and enrollment pin","source":"lib/academy-teams.ts:53,59,70–80; lib/academy-engine.ts:27","fields":[
+      {"path":"cohort.id/title/programId/version/contentRef","type":"strings/ContentRef","constraint":"Saved exact publication identity/version; no cohort retarget command"},
+      {"path":"cohort.capacity/status/createdAt","type":"integer/enum/string","constraint":"capacity1–100; open | paused | closed; server time"},
+      {"path":"enrollment.id/programId/version/contentRef/cohortId","type":"strings/ContentRef","constraint":"Saved exact cohort pin; legacy global pin requires explicit version"},
+      {"path":"enrollment.startedAt/completed/practice/draft/attempts/appeals/record/withdrawn","type":"string/arrays/objects/nullable record/boolean","constraint":"Own learner state; submitted attempts are detached snapshots; at most3 attempts"},
+      {"path":"enrollment.claimPolicy","type":"string","constraint":"Shared enrollment: Draft content · authenticated assigned review · nonaccredited"},
+      {"path":"cohort.contentOpen/contentNotice/occupied/boardAccess/canModerate/canHost","type":"computed projection fields","constraint":"Not persisted as authoritative capabilities; recomputed from current policy, version availability/time, seats and member permissions"}
+    ]},
+    {"name":"Practice record relevant fields","source":"lib/academy-engine.ts:21,34,49","fields":[
+      {"path":"id/issuedAt/title/claim/issuer/contentVersion/kind","type":"strings","constraint":"Saved title/claim from exact pinned program; nonaccredited practice claim"},
+      {"path":"status/share","type":"enum/boolean","constraint":"active | suspended in current engine; default share=false; no public verification endpoint"},
+      {"path":"workspaceId/reviewedBy/decisionId/lastReviewedAt","type":"optional strings","constraint":"Authenticated shared review provenance; decision reference updates after appeal, original decision retained"}
+    ],"notes":"No professional qualification or authority conferred; public issuer verification, recognized credential revocation/expiry operations remain outside this pilot."},
+    {"name":"SupportRequest","source":"lib/academy-support.ts:5–13,44–75","fields":[
+      {"path":"id/requesterId/requesterName","type":"strings","constraint":"Server UUID/authenticated requester/name snapshot80"},
+      {"path":"category","type":"enum","constraint":"access | learning | technical | content | accessibility | privacy"},
+      {"path":"cohortId","type":"string | null","constraint":"Existing cohort or null workspace-access context; intake scope checked"},
+      {"path":"subject","type":"string","constraint":"5–160"},
+      {"path":"status","type":"enum","constraint":"open | resolved | withdrawn; withdrawn terminal"},
+      {"path":"createdAt/updatedAt","type":"UTC ISO strings","constraint":"Trusted server time"},
+      {"path":"assignedTo","type":"string | null","constraint":"Current eligible independent handler ID; reconciliation clears authority loss"},
+      {"path":"messages","type":"SupportMessage[]","constraint":"<=20 including initial request and reopen reasons"},
+      {"path":"resolution","type":"SupportResolution | null","constraint":"Latest resolution pointer; clears on reopen"},
+      {"path":"resolutions","type":"SupportResolution[]","constraint":"<=20 retained historical resolutions"},
+      {"path":"events","type":"SupportEvent[]","constraint":"<=100 ordinary; final withdrawal can append101"}
+    ],"caps":"100 retained requests/workspace;5 open/requester;array UTF-8 JSON plus withdrawal reserve<=250000","projection":"Full bodies to requester and current assigned eligible handler only. Queue metadata to owners/scoped learning-content facilitators. Removed requester retains own history but no mutation."},
+    {"name":"Support child records","source":"lib/academy-support.ts:8–10,30–31,58,71","fields":[
+      {"path":"SupportMessage.id/actorId/actorName/authorKind/body/createdAt","type":"strings","constraint":"authorKind requester|handler; body10–2000; actor/time server-bound"},
+      {"path":"SupportResolution.id/actorId/actorName/body/resolvedAt","type":"strings","constraint":"Current handler; body20–2000; retained historical record"},
+      {"path":"SupportEvent.id/type/actorId/actorName/createdAt","type":"strings","constraint":"type opened|claimed|reopened|resolved|withdrawn"},
+      {"path":"SupportEvent.previousHandlerId/previousHandlerName/handlerId/handlerName","type":"optional string|null","constraint":"Claim provenance; current eligibility does not rewrite earlier display-name events"}
+    ],"projection":"Full thread projection strips raw requester/assigned/message/resolution/event actor/handler IDs; retains display names and effective handlerName."},
+    {"name":"Client/API-only fields","source":"lib/academy-teams.ts:76–78; app/academy-context.tsx:6–18; app/academy-authoring.tsx:11–12,41–63","persisted":false,"fields":[
+      {"path":"response.revision","type":"integer","constraint":"D1 aggregate revision used for next CAS; separate from draft/document revisions"},
+      {"path":"response.contentVersions","type":"ContentSnapshot[]","constraint":"Current selected workspace filtered versions; no global private registry accumulation"},
+      {"path":"team.currentUserId","type":"string","constraint":"Server-derived current signed-in subject; identifies original author UI relationship"},
+      {"path":"team.content.drafts/publications","type":"owner-only projections","constraint":"Full drafts and thin publication management records"},
+      {"path":"scratch[workspace:key]","type":"own in-memory input","constraint":"Working document/baseDocument/baseRevision, selection, own review input; survives unmount but not guaranteed page reload; no database/localStorage persistence"},
+      {"path":"cohortOffer","type":"{workspaceId,ref}","constraint":"Owner UI handoff from Offer in new cohort to current workspace cohort creation; server rechecks publication availability"}
+    ]}
+  ],
+  "capacityRules": {
+    "source": "lib/academy-storage.ts:5–25; lib/academy-authoring.ts:183–190; lib/academy-support.ts:78–87",
+    "ordinaryWorkspaceJsonBytes": 1200000,
+    "protectiveWorkspaceJsonBytes": 1800000,
+    "effectiveReservedWorkspaceCeiling": "aggregate JSON bytes + authoringClosureReserve + supportClosureReserve <=1800000 when growing",
+    "authoringEffectiveCeiling": 650000,
+    "supportEffectiveCeiling": 250000,
+    "contentDocumentBytes": 65536,
+    "authoringReserve": "Every active draft final archive plus every available publication retirement; largest admitted actor JSON size, bounded names/reasons and worst JSON escaping",
+    "supportReserve": "Every open request's final requester withdrawal event with admitted requester identity and worst name escaping",
+    "protectiveActions": ["content-archive","content-retire","support-withdraw","revoke-invite","cohort pause/close","moderation hidden","network opt-out","RSVP removal","session-cancel","member removal/authority subset reduction"],
+    "limitation": "Growth admission and terminal-capacity safeguards, not production scale/SLA evidence or an unconditional repair guarantee for externally oversized/corrupt records"
+  },
+  "broaderProductTarget": "Earlier BRD/FSD/LLD PostgreSQL entities and /api/v1 partner/credential contracts remain proposed; this dictionary describes actual D1 pilot structures only.",
+  "qaStatus": "Documentation source review only. Root-owned integrated/hosted evidence remains separate; operator checklist starts NOT RUN."
+}

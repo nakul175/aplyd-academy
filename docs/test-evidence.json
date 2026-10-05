@@ -1,11 +1,15 @@
 {
-  "release": "0.5",
-  "executedAt": "2026-10-05T08:42:53.602496+00:00",
+  "release": "0.6",
+  "executedAt": "2026-10-05T09:16:32.017788+00:00",
   "checkoutRuleTests": {
-    "passed": 135,
+    "passed": 198,
     "failed": 0,
+    "baseRuleTests": 176,
+    "integratedTeamSecurityTests": 10,
+    "farmerDuplicateSemanticTests": 12,
     "scripts": [
       "engine.test.mjs",
+      "curriculum.test.mjs",
       "teams.test.mjs",
       "network.test.mjs",
       "storage.test.mjs",
@@ -13,13 +17,21 @@
       "plan-pin.test.mjs",
       "ecosystem-guard.test.mjs",
       "ecosystem-engine.test.mjs",
-      "curriculum.test.mjs",
       "support.test.mjs",
-      "support-reserve.test.mjs"
+      "support-reserve.test.mjs",
+      "authoring.test.mjs",
+      "authoring-security.test.mjs",
+      "authoring-farm-duplicate.test.mjs"
     ]
   },
-  "databaseAssertionsPassed": 319,
-  "browserResponsiveChecksPassed": 84,
+  "databaseAssertionsPassed": 954,
+  "databaseAssertionBreakdown": {
+    "authoring": 372,
+    "sharedLearning": 127,
+    "privatePlan": 136,
+    "support": 319
+  },
+  "browserResponsiveChecksPassed": 96,
   "typecheck": {
     "passed": true
   },
@@ -27,6 +39,222 @@
     "passed": true
   },
   "executed": {
+    "authoringAPI": {
+      "executedAt": "2026-10-05T09:11:19.393Z",
+      "base": "http://127.0.0.1:8787",
+      "scope": "Built local Worker/D1 API integration; synthetic local identity headers only",
+      "implementedAuthoringRequired": true,
+      "passed": true,
+      "scenarios": [
+        {
+          "name": "01 authentication, owner creation and independent local accounts",
+          "passed": true,
+          "assertions": 20
+        },
+        {
+          "name": "02 authoring requires current owner authority",
+          "passed": true,
+          "assertions": 5
+        },
+        {
+          "name": "03 copy creates a private identity while preserving the archived seed",
+          "passed": true,
+          "assertions": 14
+        },
+        {
+          "name": "04 extra authority fields, invented versions and foreign scopes reject",
+          "passed": true,
+          "assertions": 7
+        },
+        {
+          "name": "05 incomplete drafts save but cannot request content review",
+          "passed": true,
+          "assertions": 11
+        },
+        {
+          "name": "06 meaningful edits save while protected identity, claims and structure reject",
+          "passed": true,
+          "assertions": 11
+        },
+        {
+          "name": "07 author ownership, draft revision and workspace CAS prevent overwrite",
+          "passed": true,
+          "assertions": 10
+        },
+        {
+          "name": "08 review assignment separates author and reviewer and freezes reviewed text",
+          "passed": true,
+          "assertions": 14
+        },
+        {
+          "name": "09 only assigned independent owner can approve with complete declarations",
+          "passed": true,
+          "assertions": 11
+        },
+        {
+          "name": "10 requested changes and author recall clear approval",
+          "passed": true,
+          "assertions": 22
+        },
+        {
+          "name": "11 approval is bound to exact document revision and independent identity",
+          "passed": true,
+          "assertions": 13
+        },
+        {
+          "name": "12 publication is immutable, exact replay is idempotent and reused IDs conflict",
+          "passed": true,
+          "assertions": 18
+        },
+        {
+          "name": "13 owner drafts and human review notes stay out of learner and directory projections",
+          "passed": true,
+          "assertions": 15
+        },
+        {
+          "name": "14 private offering pins content and complete-record plan resolution uses its registry",
+          "passed": true,
+          "assertions": 23
+        },
+        {
+          "name": "15 new version preserves the original cohort, enrollment and historical body",
+          "passed": true,
+          "assertions": 36
+        },
+        {
+          "name": "16 assigned assessor resolves original private rubric and preserves record provenance",
+          "passed": true,
+          "assertions": 25
+        },
+        {
+          "name": "17 closing publication blocks new access while existing pinned learning stays available",
+          "passed": true,
+          "assertions": 22
+        },
+        {
+          "name": "18 reviewer revocation blocks an approved publication at current authority",
+          "passed": true,
+          "assertions": 17
+        },
+        {
+          "name": "19 competing publication requests commit one immutable version under workspace CAS",
+          "passed": true,
+          "assertions": 5
+        },
+        {
+          "name": "20 private content cannot cross workspace or personal learning authority",
+          "passed": true,
+          "assertions": 10
+        },
+        {
+          "name": "21 removed learner retains own exact history while private drafts remain hidden",
+          "passed": true,
+          "assertions": 13
+        },
+        {
+          "name": "22 all three global pilot pathways still enroll unchanged and archive bytes remain exact",
+          "passed": true,
+          "assertions": 16
+        },
+        {
+          "name": "23 any current owner archives an abandoned unpublished draft and frees its active slot",
+          "passed": true,
+          "assertions": 34
+        }
+      ],
+      "assertions": 372,
+      "archiveSha256": "9fc83c8dd615456db8f49d140f56bff566e05c14d32ebb70a14cdcb73078b7e4",
+      "limitations": [
+        "No hosted authentication, external invitations, real participant sharing, accreditation or AI generation are tested."
+      ]
+    },
+    "sharedLearningAPI": {
+      "checks": 127,
+      "passed": true,
+      "coverage": [
+        "three independent identity fixtures",
+        "workspace and private-lab isolation",
+        "email-bound invitations and fixed roles",
+        "CAS seat and conflicting finalization races",
+        "global invitation token uniqueness and atomic collision rollback",
+        "review assignment and no self-review",
+        "revocation with stale requests",
+        "private draft projection",
+        "immutable appeal history and adverse suspension",
+        "reasoned cohort moderation",
+        "removed-member history"
+      ],
+      "limits": [
+        "Local identity headers are synthetic; hosted dispatcher authentication and real participant site access remain untested",
+        "No recognized certification, external partner or embedded AI integration"
+      ]
+    },
+    "privatePlanAPI": {
+      "passed": true,
+      "assertions": 136,
+      "scenarios": [
+        {
+          "name": "personal plan preferences persist with nullable scheduling and own-only state",
+          "passed": true,
+          "assertions": 12
+        },
+        {
+          "name": "self-reported practice completion cannot issue course progress or a record",
+          "passed": true,
+          "assertions": 11
+        },
+        {
+          "name": "plan dates, pinned links and client identity/reference fields are validated",
+          "passed": true,
+          "assertions": 8
+        },
+        {
+          "name": "optional reminder settings only affect private plan state and retain due tasks",
+          "passed": true,
+          "assertions": 11
+        },
+        {
+          "name": "personal stale revision and durable action replay preserve one effective plan mutation",
+          "passed": true,
+          "assertions": 8
+        },
+        {
+          "name": "team dispatch binds private plans to the authenticated own learner",
+          "passed": true,
+          "assertions": 22
+        },
+        {
+          "name": "paused cohort blocks linked progress while own planning preferences and practice remain private",
+          "passed": true,
+          "assertions": 9
+        },
+        {
+          "name": "learner role loss is enforced by server without removing own private preferences/history",
+          "passed": true,
+          "assertions": 7
+        },
+        {
+          "name": "owner, scoped facilitator and assigned assessor projections never contain private notes/goals",
+          "passed": true,
+          "assertions": 24
+        },
+        {
+          "name": "team CAS rejects stale and concurrent plan updates instead of silently overwriting",
+          "passed": true,
+          "assertions": 8
+        },
+        {
+          "name": "removed learner cannot mutate or replay a plan write; own readable plan remains retained",
+          "passed": true,
+          "assertions": 16
+        }
+      ],
+      "limits": [
+        "Synthetic loopback identity headers only; hosted dispatcher authentication and actual hosting recipient access are not tested.",
+        "Reminder storage and projection assertions do not prove email/push delivery; this feature provides no sender.",
+        "Pinned-reference corruption belongs to the separate cloned-state regression, never to client-editable API fields."
+      ]
+    },
     "supportAPI": {
       "passed": true,
       "assertions": 319,
@@ -105,9 +333,419 @@
         "Own export UI is covered separately by browser QA; ordinary projected state and archive are checked here."
       ]
     },
+    "authoringBrowser": {
+      "preparedFor": "v0.6 candidate integration",
+      "executedAt": "2026-10-05T09:13:17.584Z",
+      "passed": true,
+      "fixtureId": "tw-706c61a1-56df-4be8-b66e-9066ece27e78",
+      "scenarios": [
+        {
+          "name": "01 owner-only seed copying and private identity",
+          "passed": true
+        },
+        {
+          "name": "02 incomplete content saves but independent review stays blocked",
+          "passed": true
+        },
+        {
+          "name": "03 stale workspace CAS retains own unsaved document",
+          "passed": true
+        },
+        {
+          "name": "04 real draft revision conflict requires explicit inspected rebase",
+          "passed": true
+        },
+        {
+          "name": "05 lessons, answer keys and practical rubric edit with escaped HTML",
+          "passed": true
+        },
+        {
+          "name": "06 owner editor, review dialog and preview responsive at true 200 percent text",
+          "passed": true
+        },
+        {
+          "name": "07 independent reviewer requests changes, approval and author recall",
+          "passed": true
+        },
+        {
+          "name": "08 immutable private publication and learner-private drafts",
+          "passed": true
+        },
+        {
+          "name": "09 publication offer opens an exact private cohort dialog and authored learner key",
+          "passed": true
+        },
+        {
+          "name": "10 API revision two leaves old browser learner and assigned assessor on version one",
+          "passed": true
+        },
+        {
+          "name": "11 closing new enrollment preserves old learning and unchanged global catalog",
+          "passed": true
+        },
+        {
+          "name": "12 revoked owner hides server content, preserves own unsent edit and scopes workspace switches",
+          "passed": true
+        },
+        {
+          "name": "13 another owner archives an abandoned draft with read-only history and a freed slot",
+          "passed": true
+        }
+      ],
+      "responsiveChecks": 12,
+      "layout": [
+        {
+          "width": 1440,
+          "enlarged": false,
+          "baselineBody": 16,
+          "actualBody": 16,
+          "view": "preview",
+          "overflow": false
+        },
+        {
+          "width": 1440,
+          "enlarged": false,
+          "baselineBody": 16,
+          "actualBody": 16,
+          "view": "review-dialog",
+          "overflow": false
+        },
+        {
+          "width": 1440,
+          "enlarged": true,
+          "baselineBody": 16,
+          "actualBody": 32,
+          "view": "preview",
+          "overflow": false
+        },
+        {
+          "width": 1440,
+          "enlarged": true,
+          "baselineBody": 16,
+          "actualBody": 32,
+          "view": "review-dialog",
+          "overflow": false
+        },
+        {
+          "width": 768,
+          "enlarged": false,
+          "baselineBody": 16,
+          "actualBody": 16,
+          "view": "preview",
+          "overflow": false
+        },
+        {
+          "width": 768,
+          "enlarged": false,
+          "baselineBody": 16,
+          "actualBody": 16,
+          "view": "review-dialog",
+          "overflow": false
+        },
+        {
+          "width": 768,
+          "enlarged": true,
+          "baselineBody": 16,
+          "actualBody": 32,
+          "view": "preview",
+          "overflow": false
+        },
+        {
+          "width": 768,
+          "enlarged": true,
+          "baselineBody": 16,
+          "actualBody": 32,
+          "view": "review-dialog",
+          "overflow": false
+        },
+        {
+          "width": 390,
+          "enlarged": false,
+          "baselineBody": 16,
+          "actualBody": 16,
+          "view": "preview",
+          "overflow": false
+        },
+        {
+          "width": 390,
+          "enlarged": false,
+          "baselineBody": 16,
+          "actualBody": 16,
+          "view": "review-dialog",
+          "overflow": false
+        },
+        {
+          "width": 390,
+          "enlarged": true,
+          "baselineBody": 16,
+          "actualBody": 32,
+          "view": "preview",
+          "overflow": false
+        },
+        {
+          "width": 390,
+          "enlarged": true,
+          "baselineBody": 16,
+          "actualBody": 32,
+          "view": "review-dialog",
+          "overflow": false
+        }
+      ],
+      "pageErrors": [],
+      "hybridFixtureSteps": [
+        "Second publication lifecycle",
+        "Remaining lesson completion and staff assignment",
+        "Retired new-enrollment rejection"
+      ],
+      "limits": [
+        "Loopback synthetic identities only; no hosted authentication",
+        "Second-version setup and assessor assignment are API fixtures; first authoring and publication lifecycle is browser-operated",
+        "No accreditation, real participant sharing, notification or live AI behavior is tested"
+      ]
+    },
+    "authoringClientRaces": {
+      "passed": true,
+      "executedAt": "2026-10-05T09:13:01.038Z",
+      "fixtureId": "tw-0149a60c-5d9f-4bdc-a0b6-118b8fd12bf0",
+      "actualEarlierAuthorizedReads": true,
+      "acknowledgedDocumentSavePreserved": true,
+      "protectedContentMaskedBeforeForcedGET": true,
+      "lateAuthorizedGETCannotRestoreOwnerContent": true,
+      "ownUnsentDocumentRetainedAfterAuthorityRefresh": true,
+      "deniedSaveNotPersisted": true,
+      "pageErrors": [],
+      "limits": [
+        "Synthetic loopback identities only",
+        "Uses Support refresh to exercise the shared loader while returning to Content studio",
+        "No hosted authentication or real sharing"
+      ]
+    },
+    "authoringFinalUI": {
+      "passed": true,
+      "executedAt": "2026-10-05T09:14:12.997Z",
+      "fixtureId": "tw-6787e9f6-ec00-40c0-9ab5-42a4124e7a08",
+      "heldSaveInputsLocked": true,
+      "lockedInputs": [
+        {
+          "id": "content-title",
+          "disabled": true
+        },
+        {
+          "id": "content-summary",
+          "disabled": true
+        },
+        {
+          "id": "content-promise",
+          "disabled": true
+        },
+        {
+          "id": "content-minutes",
+          "disabled": true
+        },
+        {
+          "id": "content-prerequisites-0",
+          "disabled": true
+        },
+        {
+          "id": "content-prerequisites-1",
+          "disabled": true
+        },
+        {
+          "id": "content-outcomes-0",
+          "disabled": true
+        },
+        {
+          "id": "content-outcomes-1",
+          "disabled": true
+        },
+        {
+          "id": "content-outcomes-2",
+          "disabled": true
+        },
+        {
+          "id": "content-outcomes-3",
+          "disabled": true
+        },
+        {
+          "id": "content-outcomes-4",
+          "disabled": true
+        }
+      ],
+      "acknowledgedExactValueRetained": true,
+      "reviewerFieldFinalCSSVerified": true,
+      "privateCatalogClassificationVisible": true,
+      "layout": [
+        {
+          "width": 1440,
+          "enlarged": false,
+          "baselineBody": 16,
+          "actualBody": 16,
+          "titleIntersections": [],
+          "titlePadding": 48,
+          "titleLineRatio": 1.25,
+          "selectWidth": 453.9110107421875,
+          "selectFieldWidth": 453.9110107421875,
+          "selectMinHeight": 44,
+          "selectBorderWidth": 1,
+          "overflow": false,
+          "bottomActionReachable": true,
+          "escapeRestoresFocus": true
+        },
+        {
+          "width": 390,
+          "enlarged": true,
+          "baselineBody": 16,
+          "actualBody": 32,
+          "titleIntersections": [],
+          "titlePadding": 48,
+          "titleLineRatio": 1.25,
+          "selectWidth": 267.94683837890625,
+          "selectFieldWidth": 267.94683837890625,
+          "selectMinHeight": 44,
+          "selectBorderWidth": 1,
+          "overflow": false,
+          "bottomActionReachable": true,
+          "escapeRestoresFocus": true
+        }
+      ],
+      "pageErrors": [],
+      "limits": [
+        "Synthetic loopback fixtures only",
+        "Publication for catalog label is an API fixture; the full journey tests browser publication separately"
+      ]
+    },
+    "personalLearningBrowser": {
+      "passed": true,
+      "lessons": 3,
+      "quizChecks": 9,
+      "practicalDraftReload": true,
+      "manualRubricReview": true,
+      "practiceRecord": true,
+      "moderatedDiscussion": true,
+      "pageErrors": []
+    },
+    "sharedLearningBrowser": {
+      "passed": true,
+      "workspaceCreation": true,
+      "staleInvitationInputRecovery": true,
+      "cohortCreation": true,
+      "emailBoundInvitationAcceptance": true,
+      "separateStaffAssignment": true,
+      "lessons": 3,
+      "quizChecks": 9,
+      "sharedDraftReload": true,
+      "assessmentWithSeparateTestIdentities": true,
+      "independentAdverseAppeal": true,
+      "suspendedPracticeRecord": true,
+      "moderatedCohortDiscussion": true,
+      "responsiveChecks": 60,
+      "overflows": [],
+      "pageErrors": [],
+      "limits": [
+        "Synthetic local identity headers; actual hosted recipient access not tested"
+      ]
+    },
+    "privatePlanBrowser": {
+      "passed": true,
+      "checks": 52,
+      "coverage": [
+        "Personal preferences and nullable private activity persist across reload",
+        "Optional due notices appear only in Academy and can be turned off without deleting tasks",
+        "Manual practice completion changes only the private plan",
+        "Pinned linked task keeps its enrollment and opens the next saved lesson",
+        "Practical planning completes upon actual evidence submission and does not issue a record",
+        "Reflection completes from saved own work reflection; absent times and explicit zero remain distinct",
+        "Own-data export includes private plan",
+        "Plan and activity dialog at desktop/tablet/phone widths and 200% text",
+        "Team private plan retained after removal; owner UI excludes private data and removed learner writes are disabled",
+        "No external POST from these planning and reflection journeys"
+      ],
+      "responsiveChecks": 12,
+      "layout": [
+        {
+          "width": 1440,
+          "enlarged": false,
+          "surface": "plan",
+          "overflow": false
+        },
+        {
+          "width": 1440,
+          "enlarged": false,
+          "surface": "activity-dialog",
+          "overflow": false
+        },
+        {
+          "width": 1440,
+          "enlarged": true,
+          "surface": "plan",
+          "overflow": false
+        },
+        {
+          "width": 1440,
+          "enlarged": true,
+          "surface": "activity-dialog",
+          "overflow": false
+        },
+        {
+          "width": 768,
+          "enlarged": false,
+          "surface": "plan",
+          "overflow": false
+        },
+        {
+          "width": 768,
+          "enlarged": false,
+          "surface": "activity-dialog",
+          "overflow": false
+        },
+        {
+          "width": 768,
+          "enlarged": true,
+          "surface": "plan",
+          "overflow": false
+        },
+        {
+          "width": 768,
+          "enlarged": true,
+          "surface": "activity-dialog",
+          "overflow": false
+        },
+        {
+          "width": 390,
+          "enlarged": false,
+          "surface": "plan",
+          "overflow": false
+        },
+        {
+          "width": 390,
+          "enlarged": false,
+          "surface": "activity-dialog",
+          "overflow": false
+        },
+        {
+          "width": 390,
+          "enlarged": true,
+          "surface": "plan",
+          "overflow": false
+        },
+        {
+          "width": 390,
+          "enlarged": true,
+          "surface": "activity-dialog",
+          "overflow": false
+        }
+      ],
+      "pageErrors": [],
+      "error": null,
+      "limits": [
+        "Synthetic loopback identity headers; this is not hosted dispatcher authentication or real participant access verification.",
+        "Private-lab assessment uses the labelled sample staff fixture, not an independently accredited issuer.",
+        "Absence of external POST applies to this executed journey; no email/push sender is implemented."
+      ]
+    },
     "supportBrowser": {
       "passed": true,
-      "fixtureId": "tw-c6975740-53a6-40aa-b6bd-e8cb2e69a488",
+      "fixtureId": "tw-16647316-b49e-4a57-8861-2909738b4349",
       "stableAnimationFreeScreenshots": true,
       "syntheticLocalAccounts": 4,
       "intakeAndReload": true,
@@ -227,7 +865,7 @@
         "Unsent reply retention is asserted through its dedicated field after authority refresh"
       ]
     },
-    "clientRefreshRaces": {
+    "supportClientRaces": {
       "passed": true,
       "actualDelayedEarlierGET": true,
       "acknowledgedPOSTReplyPreserved": true,
@@ -236,259 +874,26 @@
       "lateAuthorizedGETCannotRestoreRemovedThread": true,
       "ownUnsentReplyRetained": true,
       "deniedReplyNotPersisted": true,
-      "fixtureId": "tw-943de765-3573-441f-9320-bd2b82b5d8ab",
+      "fixtureId": "tw-47772405-e804-4554-b014-361a896eb90c",
       "pageErrors": [],
       "limits": [
         "Deterministic local browser response interception with synthetic identities",
         "No hosted authentication or real notification is exercised"
       ]
-    },
-    "sharedBrowser": {
-      "passed": true,
-      "workspaceCreation": true,
-      "staleInvitationInputRecovery": true,
-      "cohortCreation": true,
-      "emailBoundInvitationAcceptance": true,
-      "separateStaffAssignment": true,
-      "lessons": 3,
-      "quizChecks": 9,
-      "sharedDraftReload": true,
-      "assessmentWithSeparateTestIdentities": true,
-      "independentAdverseAppeal": true,
-      "suspendedPracticeRecord": true,
-      "moderatedCohortDiscussion": true,
-      "responsiveChecks": 60,
-      "overflows": [],
-      "pageErrors": [],
-      "limits": [
-        "Synthetic local identity headers; actual hosted recipient access not tested"
-      ]
-    },
-    "planBrowser": {
-      "passed": true,
-      "checks": 52,
-      "coverage": [
-        "Personal preferences and nullable private activity persist across reload",
-        "Optional due notices appear only in Academy and can be turned off without deleting tasks",
-        "Manual practice completion changes only the private plan",
-        "Pinned linked task keeps its enrollment and opens the next saved lesson",
-        "Practical planning completes upon actual evidence submission and does not issue a record",
-        "Reflection completes from saved own work reflection; absent times and explicit zero remain distinct",
-        "Own-data export includes private plan",
-        "Plan and activity dialog at desktop/tablet/phone widths and 200% text",
-        "Team private plan retained after removal; owner UI excludes private data and removed learner writes are disabled",
-        "No external POST from these planning and reflection journeys"
-      ],
-      "responsiveChecks": 12,
-      "layout": [
-        {
-          "width": 1440,
-          "enlarged": false,
-          "surface": "plan",
-          "overflow": false
-        },
-        {
-          "width": 1440,
-          "enlarged": false,
-          "surface": "activity-dialog",
-          "overflow": false
-        },
-        {
-          "width": 1440,
-          "enlarged": true,
-          "surface": "plan",
-          "overflow": false
-        },
-        {
-          "width": 1440,
-          "enlarged": true,
-          "surface": "activity-dialog",
-          "overflow": false
-        },
-        {
-          "width": 768,
-          "enlarged": false,
-          "surface": "plan",
-          "overflow": false
-        },
-        {
-          "width": 768,
-          "enlarged": false,
-          "surface": "activity-dialog",
-          "overflow": false
-        },
-        {
-          "width": 768,
-          "enlarged": true,
-          "surface": "plan",
-          "overflow": false
-        },
-        {
-          "width": 768,
-          "enlarged": true,
-          "surface": "activity-dialog",
-          "overflow": false
-        },
-        {
-          "width": 390,
-          "enlarged": false,
-          "surface": "plan",
-          "overflow": false
-        },
-        {
-          "width": 390,
-          "enlarged": false,
-          "surface": "activity-dialog",
-          "overflow": false
-        },
-        {
-          "width": 390,
-          "enlarged": true,
-          "surface": "plan",
-          "overflow": false
-        },
-        {
-          "width": 390,
-          "enlarged": true,
-          "surface": "activity-dialog",
-          "overflow": false
-        }
-      ],
-      "pageErrors": [],
-      "error": null,
-      "limits": [
-        "Synthetic loopback identity headers; this is not hosted dispatcher authentication or real participant access verification.",
-        "Private-lab assessment uses the labelled sample staff fixture, not an independently accredited issuer.",
-        "Absence of external POST applies to this executed journey; no email/push sender is implemented."
-      ]
-    },
-    "supportDialogFinal": {
-      "passed": true,
-      "fixtureId": "tw-fc7c4e56-cc6a-4648-9d9c-43137647fe98",
-      "exactFinalTitleCSSVerified": true,
-      "titleTextDoesNotIntersectClose": true,
-      "bottomActionsReachable": true,
-      "escapeRestoresRequestHelp": true,
-      "checks": [
-        {
-          "width": 1440,
-          "enlarged": false,
-          "baselineBody": 16,
-          "actualBody": 16,
-          "closeBox": {
-            "left": 1026.9395751953125,
-            "top": 90.51808166503906,
-            "right": 1042.9364013671875,
-            "bottom": 126.51100158691406,
-            "width": 15.996826171875,
-            "height": 35.992919921875
-          },
-          "textRects": [
-            {
-              "left": 409.0611877441406,
-              "top": 103.5155258178711,
-              "right": 727.0454711914062,
-              "bottom": 128.51060485839844,
-              "width": 317.9842834472656,
-              "height": 24.995079040527344
-            }
-          ],
-          "intersections": [],
-          "paddingInlineEnd": 48,
-          "lineHeight": 28,
-          "titleFontSize": 22.4,
-          "documentOverflow": false,
-          "dialogScrollHeight": 851,
-          "dialogClientHeight": 851,
-          "bottomActionReachable": {
-            "rect": {
-              "left": 502.8125,
-              "top": 855.765625,
-              "right": 677.125,
-              "bottom": 896.5625
-            },
-            "inViewport": true,
-            "hitSelf": true
-          },
-          "escapeRestoresOpener": true
-        },
-        {
-          "width": 390,
-          "enlarged": true,
-          "baselineBody": 16,
-          "actualBody": 32,
-          "closeBox": {
-            "left": 308.97747802734375,
-            "top": 83.0823974609375,
-            "right": 340.9711608886719,
-            "bottom": 119.07527923583984,
-            "width": 31.993682861328125,
-            "height": 35.992881774902344
-          },
-          "textRects": [
-            {
-              "left": 86.55268096923828,
-              "top": 81.0827865600586,
-              "right": 255.44116973876953,
-              "bottom": 131.07290649414062,
-              "width": 168.88848876953125,
-              "height": 49.99011993408203
-            },
-            {
-              "left": 59.51115036010742,
-              "top": 137.0561065673828,
-              "right": 282.48269271850586,
-              "bottom": 187.0462188720703,
-              "width": 222.97154235839844,
-              "height": 49.9901123046875
-            },
-            {
-              "left": 60.26100158691406,
-              "top": 193.0294189453125,
-              "right": 281.73284912109375,
-              "bottom": 243.01953125,
-              "width": 221.4718475341797,
-              "height": 49.9901123046875
-            }
-          ],
-          "intersections": [],
-          "paddingInlineEnd": 48,
-          "lineHeight": 56,
-          "titleFontSize": 44.8,
-          "documentOverflow": false,
-          "dialogScrollHeight": 3142,
-          "dialogClientHeight": 898,
-          "bottomActionReachable": {
-            "rect": {
-              "left": 45,
-              "top": 790.078125,
-              "right": 345,
-              "bottom": 921.265625
-            },
-            "inViewport": true,
-            "hitSelf": true
-          },
-          "escapeRestoresOpener": true
-        }
-      ],
-      "pageErrors": [],
-      "limits": [
-        "Synthetic local loopback fixture only",
-        "Focused CSS regression; prior full support and race results remain separate"
-      ]
     }
   },
+  "sourceArchiveSha256": "9fc83c8dd615456db8f49d140f56bff566e05c14d32ebb70a14cdcb73078b7e4",
   "limits": [
-    "Synthetic local identity fixtures do not verify hosted authentication or real participant Site access.",
-    "No approved domain content, external message, provider booking, live partner or AI call.",
-    "CSS text resizing does not establish full accessibility conformance; no screen-reader certification.",
-    "Injected local constraint rollback does not establish production backup or disaster recovery."
+    "API counts are assertions in synthetic local scenarios, not independent test cases.",
+    "Responsive surfaces are 60 shared, 12 private plan, 12 support and 12 authoring. Targeted final dialog checks are recorded separately.",
+    "All multi-account tests use synthetic local headers; hosted participant authentication, actual recipient Site access, scale and formal accessibility remain unverified.",
+    "Operator acceptance checklist results remain NOT RUN. No real learner, partner endpoint, live AI service or accredited issuer was tested."
   ],
   "previousReleaseEvidence": {
-    "release": "0.4",
-    "executedAt": "2026-10-05T08:18:23.545663+00:00",
+    "release": "0.5",
+    "executedAt": "2026-10-05T08:42:53.602496+00:00",
     "checkoutRuleTests": {
-      "passed": 107,
+      "passed": 135,
       "failed": 0,
       "scripts": [
         "engine.test.mjs",
@@ -499,18 +904,13 @@
         "plan-pin.test.mjs",
         "ecosystem-guard.test.mjs",
         "ecosystem-engine.test.mjs",
-        "curriculum.test.mjs"
+        "curriculum.test.mjs",
+        "support.test.mjs",
+        "support-reserve.test.mjs"
       ]
     },
-    "historicalContentRegression": {
-      "passed": 49,
-      "failed": 0,
-      "skipped": 0,
-      "fixture": "read-only test-only later catalog; original seed unchanged"
-    },
-    "databaseAssertionsPassed": 356,
-    "browserResponsiveChecksPassed": 138,
-    "plannerKeyboardChecksPassed": 29,
+    "databaseAssertionsPassed": 319,
+    "browserResponsiveChecksPassed": 84,
     "typecheck": {
       "passed": true
     },
@@ -518,120 +918,242 @@
       "passed": true
     },
     "executed": {
-      "personalAPI": {
-        "checks": 36,
+      "supportAPI": {
         "passed": true,
-        "coverage": [
-          "authentication required",
-          "two-owner isolation",
-          "CAS conflict race",
-          "durable reload",
-          "idempotency mismatch and replay after reset",
-          "full learning and independent appeal",
-          "critical gate refusal",
-          "consent separation and withdrawal"
-        ],
-        "limits": [
-          "Hosted dispatcher authentication not exercised",
-          "Two sample staff actors share the owner account",
-          "No external partner or live AI service tested"
-        ]
-      },
-      "planAPI": {
-        "passed": true,
-        "assertions": 136,
+        "assertions": 319,
         "scenarios": [
           {
-            "name": "personal plan preferences persist with nullable scheduling and own-only state",
+            "name": "synthetic setup with two independent owners and one scoped facilitator",
+            "passed": true,
+            "assertions": 4
+          },
+          {
+            "name": "audience acknowledgement and exact command fields reject forged actors and status",
+            "passed": true,
+            "assertions": 8
+          },
+          {
+            "name": "intake stores private body only in own thread; queue intentionally contains chosen subject",
+            "passed": true,
+            "assertions": 71
+          },
+          {
+            "name": "same-revision independent handler claims have one winner and no silent overwrite",
+            "passed": true,
+            "assertions": 25
+          },
+          {
+            "name": "support action replay is durable; reused action with another body and stale writes fail",
             "passed": true,
             "assertions": 12
           },
           {
-            "name": "self-reported practice completion cannot issue course progress or a record",
+            "name": "persisted role revocation removes thread access and restoration requires a new claim",
             "passed": true,
-            "assertions": 11
+            "assertions": 25
           },
           {
-            "name": "plan dates, pinned links and client identity/reference fields are validated",
+            "name": "inactive handler cannot replay a committed action or revive assignment on restoration",
             "passed": true,
-            "assertions": 8
+            "assertions": 17
           },
           {
-            "name": "optional reminder settings only affect private plan state and retain due tasks",
+            "name": "facilitator scope loss releases assignment and sensitive categories stay owner-only",
             "passed": true,
-            "assertions": 11
+            "assertions": 23
           },
           {
-            "name": "personal stale revision and durable action replay preserve one effective plan mutation",
-            "passed": true,
-            "assertions": 8
-          },
-          {
-            "name": "team dispatch binds private plans to the authenticated own learner",
+            "name": "requester and handler remain independent even when requester owns the workspace",
             "passed": true,
             "assertions": 22
           },
           {
-            "name": "paused cohort blocks linked progress while own planning preferences and practice remain private",
+            "name": "paused cohort retains support intake without enabling learning progress or promised delivery",
             "passed": true,
-            "assertions": 9
+            "assertions": 12
           },
           {
-            "name": "learner role loss is enforced by server without removing own private preferences/history",
+            "name": "message flooding stops at 20 while final own withdrawal still appends closure history",
             "passed": true,
-            "assertions": 7
+            "assertions": 33
           },
           {
-            "name": "owner, scoped facilitator and assigned assessor projections never contain private notes/goals",
+            "name": "ordinary learning, networking, summary and archived history projections exclude support bodies",
             "passed": true,
-            "assertions": 24
+            "assertions": 41
           },
           {
-            "name": "team CAS rejects stale and concurrent plan updates instead of silently overwriting",
+            "name": "removed requester retains own private history but cannot mutate or replay any support action",
             "passed": true,
-            "assertions": 8
-          },
-          {
-            "name": "removed learner cannot mutate or replay a plan write; own readable plan remains retained",
-            "passed": true,
-            "assertions": 16
+            "assertions": 26
           }
         ],
         "limits": [
-          "Synthetic loopback identity headers only; hosted dispatcher authentication and actual hosting recipient access are not tested.",
-          "Reminder storage and projection assertions do not prove email/push delivery; this feature provides no sender.",
-          "Pinned-reference corruption belongs to the separate cloned-state regression, never to client-editable API fields."
+          "Synthetic loopback identity headers only. Hosted dispatcher identity and actual recipient site access are outside this test.",
+          "Queue subjects and requester display names are intentionally disclosed; body/resolution canaries test separate private content.",
+          "An active member may replay an already committed command but receives current projection and no new mutation. Removed-member replay is forbidden.",
+          "Support is in-app only. This suite does not imply staff availability, an emergency service, notifications or erasure.",
+          "Own export UI is covered separately by browser QA; ordinary projected state and archive are checked here."
         ]
       },
-      "ecosystemAPI": {
+      "supportBrowser": {
         "passed": true,
-        "checks": 57,
-        "coverage": [
-          "three server-side approved partner mappings",
-          "all six cross-partner rejections",
-          "Health enable and preview rejections",
-          "exact-key payload rejection",
-          "saved local receipt history preserved",
-          "no legacy boolean-to-grant migration",
-          "private draft canary absent from receipt",
-          "separate owner state and foreign enrollment denial",
-          "actual same-revision preview/withdrawal race"
+        "fixtureId": "tw-c6975740-53a6-40aa-b6bd-e8cb2e69a488",
+        "stableAnimationFreeScreenshots": true,
+        "syntheticLocalAccounts": 4,
+        "intakeAndReload": true,
+        "privateClaimReplyResolveReopen": true,
+        "sameRoleScopeChangeHidesOldThread": true,
+        "stale403RefreshHidesPrivateThread": true,
+        "unsent403ReplyNotPersisted": true,
+        "unsent403VisibleInputRetained": true,
+        "independentReplacementClaim": true,
+        "requesterWithdrawalPreservesHistory": true,
+        "mineOnlyExports": true,
+        "removedOwnHistoryAndExport": true,
+        "responsiveChecks": 12,
+        "actualComputedBody200Percent": true,
+        "layout": [
+          {
+            "width": 1440,
+            "enlarged": false,
+            "baselineBody": 16,
+            "actualBody": 16,
+            "view": "own-threads",
+            "overflow": false
+          },
+          {
+            "width": 1440,
+            "enlarged": false,
+            "baselineBody": 16,
+            "actualBody": 16,
+            "view": "intake-dialog",
+            "overflow": false
+          },
+          {
+            "width": 1440,
+            "enlarged": true,
+            "baselineBody": 16,
+            "actualBody": 32,
+            "view": "own-threads",
+            "overflow": false
+          },
+          {
+            "width": 1440,
+            "enlarged": true,
+            "baselineBody": 16,
+            "actualBody": 32,
+            "view": "intake-dialog",
+            "overflow": false
+          },
+          {
+            "width": 768,
+            "enlarged": false,
+            "baselineBody": 16,
+            "actualBody": 16,
+            "view": "own-threads",
+            "overflow": false
+          },
+          {
+            "width": 768,
+            "enlarged": false,
+            "baselineBody": 16,
+            "actualBody": 16,
+            "view": "intake-dialog",
+            "overflow": false
+          },
+          {
+            "width": 768,
+            "enlarged": true,
+            "baselineBody": 16,
+            "actualBody": 32,
+            "view": "own-threads",
+            "overflow": false
+          },
+          {
+            "width": 768,
+            "enlarged": true,
+            "baselineBody": 16,
+            "actualBody": 32,
+            "view": "intake-dialog",
+            "overflow": false
+          },
+          {
+            "width": 390,
+            "enlarged": false,
+            "baselineBody": 16,
+            "actualBody": 16,
+            "view": "own-threads",
+            "overflow": false
+          },
+          {
+            "width": 390,
+            "enlarged": false,
+            "baselineBody": 16,
+            "actualBody": 16,
+            "view": "intake-dialog",
+            "overflow": false
+          },
+          {
+            "width": 390,
+            "enlarged": true,
+            "baselineBody": 16,
+            "actualBody": 32,
+            "view": "own-threads",
+            "overflow": false
+          },
+          {
+            "width": 390,
+            "enlarged": true,
+            "baselineBody": 16,
+            "actualBody": 32,
+            "view": "intake-dialog",
+            "overflow": false
+          }
         ],
+        "pageErrors": [],
         "limits": [
-          "Synthetic local identity headers only",
-          "No external request or connector invocation",
-          "Legacy Health history preservation uses the pure integration regression fixture, not a database seed"
+          "Synthetic local identities only; hosted authentication and support staffing remain unverified",
+          "No external notification is sent",
+          "Unsent reply retention is asserted through its dedicated field after authority refresh"
         ]
       },
-      "personalBrowser": {
+      "clientRefreshRaces": {
         "passed": true,
+        "actualDelayedEarlierGET": true,
+        "acknowledgedPOSTReplyPreserved": true,
+        "privateCacheMaskedBeforeForcedGETCompletes": true,
+        "current403ProjectionApplied": true,
+        "lateAuthorizedGETCannotRestoreRemovedThread": true,
+        "ownUnsentReplyRetained": true,
+        "deniedReplyNotPersisted": true,
+        "fixtureId": "tw-943de765-3573-441f-9320-bd2b82b5d8ab",
+        "pageErrors": [],
+        "limits": [
+          "Deterministic local browser response interception with synthetic identities",
+          "No hosted authentication or real notification is exercised"
+        ]
+      },
+      "sharedBrowser": {
+        "passed": true,
+        "workspaceCreation": true,
+        "staleInvitationInputRecovery": true,
+        "cohortCreation": true,
+        "emailBoundInvitationAcceptance": true,
+        "separateStaffAssignment": true,
         "lessons": 3,
         "quizChecks": 9,
-        "practicalDraftReload": true,
-        "manualRubricReview": true,
-        "practiceRecord": true,
-        "moderatedDiscussion": true,
-        "pageErrors": []
+        "sharedDraftReload": true,
+        "assessmentWithSeparateTestIdentities": true,
+        "independentAdverseAppeal": true,
+        "suspendedPracticeRecord": true,
+        "moderatedCohortDiscussion": true,
+        "responsiveChecks": 60,
+        "overflows": [],
+        "pageErrors": [],
+        "limits": [
+          "Synthetic local identity headers; actual hosted recipient access not tested"
+        ]
       },
       "planBrowser": {
         "passed": true,
@@ -731,179 +1253,120 @@
           "Absence of external POST applies to this executed journey; no email/push sender is implemented."
         ]
       },
-      "ecosystemBrowser": {
+      "supportDialogFinal": {
         "passed": true,
-        "syntheticLocalAccounts": 2,
-        "threePartnerFilteredSelections": true,
-        "independentCardSelections": true,
-        "healthNoPreviewControls": true,
-        "historyAndPreferenceReload": true,
-        "privateCanaryExcluded": true,
-        "staleWithdrawnSelectionBlocked": true,
-        "noGrantMigration": true,
-        "responsiveChecks": 12,
-        "actualComputedBody200Percent": true,
-        "layout": [
+        "fixtureId": "tw-fc7c4e56-cc6a-4648-9d9c-43137647fe98",
+        "exactFinalTitleCSSVerified": true,
+        "titleTextDoesNotIntersectClose": true,
+        "bottomActionsReachable": true,
+        "escapeRestoresRequestHelp": true,
+        "checks": [
           {
             "width": 1440,
             "enlarged": false,
             "baselineBody": 16,
             "actualBody": 16,
-            "view": "cards-and-expanded-history",
-            "overflow": false
-          },
-          {
-            "width": 1440,
-            "enlarged": false,
-            "baselineBody": 16,
-            "actualBody": 16,
-            "view": "matching-enrollment-menu",
-            "overflow": false
-          },
-          {
-            "width": 1440,
-            "enlarged": true,
-            "baselineBody": 16,
-            "actualBody": 32,
-            "view": "cards-and-expanded-history",
-            "overflow": false
-          },
-          {
-            "width": 1440,
-            "enlarged": true,
-            "baselineBody": 16,
-            "actualBody": 32,
-            "view": "matching-enrollment-menu",
-            "overflow": false
-          },
-          {
-            "width": 768,
-            "enlarged": false,
-            "baselineBody": 16,
-            "actualBody": 16,
-            "view": "cards-and-expanded-history",
-            "overflow": false
-          },
-          {
-            "width": 768,
-            "enlarged": false,
-            "baselineBody": 16,
-            "actualBody": 16,
-            "view": "matching-enrollment-menu",
-            "overflow": false
-          },
-          {
-            "width": 768,
-            "enlarged": true,
-            "baselineBody": 16,
-            "actualBody": 32,
-            "view": "cards-and-expanded-history",
-            "overflow": false
-          },
-          {
-            "width": 768,
-            "enlarged": true,
-            "baselineBody": 16,
-            "actualBody": 32,
-            "view": "matching-enrollment-menu",
-            "overflow": false
-          },
-          {
-            "width": 390,
-            "enlarged": false,
-            "baselineBody": 16,
-            "actualBody": 16,
-            "view": "cards-and-expanded-history",
-            "overflow": false
-          },
-          {
-            "width": 390,
-            "enlarged": false,
-            "baselineBody": 16,
-            "actualBody": 16,
-            "view": "matching-enrollment-menu",
-            "overflow": false
+            "closeBox": {
+              "left": 1026.9395751953125,
+              "top": 90.51808166503906,
+              "right": 1042.9364013671875,
+              "bottom": 126.51100158691406,
+              "width": 15.996826171875,
+              "height": 35.992919921875
+            },
+            "textRects": [
+              {
+                "left": 409.0611877441406,
+                "top": 103.5155258178711,
+                "right": 727.0454711914062,
+                "bottom": 128.51060485839844,
+                "width": 317.9842834472656,
+                "height": 24.995079040527344
+              }
+            ],
+            "intersections": [],
+            "paddingInlineEnd": 48,
+            "lineHeight": 28,
+            "titleFontSize": 22.4,
+            "documentOverflow": false,
+            "dialogScrollHeight": 851,
+            "dialogClientHeight": 851,
+            "bottomActionReachable": {
+              "rect": {
+                "left": 502.8125,
+                "top": 855.765625,
+                "right": 677.125,
+                "bottom": 896.5625
+              },
+              "inViewport": true,
+              "hitSelf": true
+            },
+            "escapeRestoresOpener": true
           },
           {
             "width": 390,
             "enlarged": true,
             "baselineBody": 16,
             "actualBody": 32,
-            "view": "cards-and-expanded-history",
-            "overflow": false
-          },
-          {
-            "width": 390,
-            "enlarged": true,
-            "baselineBody": 16,
-            "actualBody": 32,
-            "view": "matching-enrollment-menu",
-            "overflow": false
+            "closeBox": {
+              "left": 308.97747802734375,
+              "top": 83.0823974609375,
+              "right": 340.9711608886719,
+              "bottom": 119.07527923583984,
+              "width": 31.993682861328125,
+              "height": 35.992881774902344
+            },
+            "textRects": [
+              {
+                "left": 86.55268096923828,
+                "top": 81.0827865600586,
+                "right": 255.44116973876953,
+                "bottom": 131.07290649414062,
+                "width": 168.88848876953125,
+                "height": 49.99011993408203
+              },
+              {
+                "left": 59.51115036010742,
+                "top": 137.0561065673828,
+                "right": 282.48269271850586,
+                "bottom": 187.0462188720703,
+                "width": 222.97154235839844,
+                "height": 49.9901123046875
+              },
+              {
+                "left": 60.26100158691406,
+                "top": 193.0294189453125,
+                "right": 281.73284912109375,
+                "bottom": 243.01953125,
+                "width": 221.4718475341797,
+                "height": 49.9901123046875
+              }
+            ],
+            "intersections": [],
+            "paddingInlineEnd": 48,
+            "lineHeight": 56,
+            "titleFontSize": 44.8,
+            "documentOverflow": false,
+            "dialogScrollHeight": 3142,
+            "dialogClientHeight": 898,
+            "bottomActionReachable": {
+              "rect": {
+                "left": 45,
+                "top": 790.078125,
+                "right": 345,
+                "bottom": 921.265625
+              },
+              "inViewport": true,
+              "hitSelf": true
+            },
+            "escapeRestoresOpener": true
           }
         ],
         "pageErrors": [],
         "limits": [
-          "Synthetic local trusted-header fixtures, not hosted authentication",
-          "UI selection is intentionally unsaved local state; preferences and history survive reload",
-          "No external connector or partner was contacted"
+          "Synthetic local loopback fixture only",
+          "Focused CSS regression; prior full support and race results remain separate"
         ]
-      },
-      "planAccessibility": {
-        "passed": true,
-        "checks": 29,
-        "mainFocus": true,
-        "dialogTrapAndEscape": true,
-        "visibleFieldLabels": true,
-        "serverErrorAndUnsentInput": true,
-        "preferenceSaveIndicator": true,
-        "pageErrors": []
-      },
-      "sharedAPI": {
-        "checks": 127,
-        "passed": true,
-        "coverage": [
-          "three independent identity fixtures",
-          "workspace and private-lab isolation",
-          "email-bound invitations and fixed roles",
-          "CAS seat and conflicting finalization races",
-          "global invitation token uniqueness and atomic collision rollback",
-          "review assignment and no self-review",
-          "revocation with stale requests",
-          "private draft projection",
-          "immutable appeal history and adverse suspension",
-          "reasoned cohort moderation",
-          "removed-member history"
-        ],
-        "limits": [
-          "Local identity headers are synthetic; hosted dispatcher authentication and real participant site access remain untested",
-          "No recognized certification, external partner or embedded AI integration"
-        ]
-      },
-      "sharedBrowser": {
-        "passed": true,
-        "workspaceCreation": true,
-        "staleInvitationInputRecovery": true,
-        "cohortCreation": true,
-        "emailBoundInvitationAcceptance": true,
-        "separateStaffAssignment": true,
-        "lessons": 3,
-        "quizChecks": 9,
-        "sharedDraftReload": true,
-        "assessmentWithSeparateTestIdentities": true,
-        "independentAdverseAppeal": true,
-        "suspendedPracticeRecord": true,
-        "moderatedCohortDiscussion": true,
-        "responsiveChecks": 60,
-        "overflows": [],
-        "pageErrors": [],
-        "limits": [
-          "Synthetic local identity headers; actual hosted recipient access not tested"
-        ]
-      },
-      "personalResponsive": {
-        "checks": 54,
-        "overflow": [],
-        "webmcpBrowserSupport": false
       }
     },
     "limits": [
@@ -913,811 +1376,40 @@
       "Injected local constraint rollback does not establish production backup or disaster recovery."
     ],
     "previousReleaseEvidence": {
-      "release": "0.3",
-      "executedAt": "2026-10-05T07:56:10.274607+00:00",
-      "ruleTests": {
-        "passed": 46,
+      "release": "0.4",
+      "executedAt": "2026-10-05T08:18:23.545663+00:00",
+      "checkoutRuleTests": {
+        "passed": 107,
         "failed": 0,
         "scripts": [
           "engine.test.mjs",
           "teams.test.mjs",
           "network.test.mjs",
-          "storage.test.mjs"
+          "storage.test.mjs",
+          "plan.test.mjs",
+          "plan-pin.test.mjs",
+          "ecosystem-guard.test.mjs",
+          "ecosystem-engine.test.mjs",
+          "curriculum.test.mjs"
         ]
       },
-      "limits": [
-        "Synthetic local identity fixtures do not verify hosted authentication or real participant Site access.",
-        "No approved domain content, external message, provider booking, live partner or AI call.",
-        "CSS text resizing does not establish full accessibility conformance; no screen-reader certification.",
-        "Injected local constraint rollback does not establish production backup or disaster recovery."
-      ],
-      "api-integration": {
-        "checks": 36,
-        "passed": true,
-        "coverage": [
-          "authentication required",
-          "two-owner isolation",
-          "CAS conflict race",
-          "durable reload",
-          "idempotency mismatch and replay after reset",
-          "full learning and independent appeal",
-          "critical gate refusal",
-          "consent separation and withdrawal"
-        ],
-        "limits": [
-          "Hosted dispatcher authentication not exercised",
-          "Two sample staff actors share the owner account",
-          "No external partner or live AI service tested"
-        ]
+      "historicalContentRegression": {
+        "passed": 49,
+        "failed": 0,
+        "skipped": 0,
+        "fixture": "read-only test-only later catalog; original seed unchanged"
       },
-      "teams-api": {
-        "checks": 127,
-        "passed": true,
-        "coverage": [
-          "three independent identity fixtures",
-          "workspace and private-lab isolation",
-          "email-bound invitations and fixed roles",
-          "CAS seat and conflicting finalization races",
-          "global invitation token uniqueness and atomic collision rollback",
-          "review assignment and no self-review",
-          "revocation with stale requests",
-          "private draft projection",
-          "immutable appeal history and adverse suspension",
-          "reasoned cohort moderation",
-          "removed-member history"
-        ],
-        "limits": [
-          "Local identity headers are synthetic; hosted dispatcher authentication and real participant site access remain untested",
-          "No recognized certification, external partner or embedded AI integration"
-        ]
+      "databaseAssertionsPassed": 356,
+      "browserResponsiveChecksPassed": 138,
+      "plannerKeyboardChecksPassed": 29,
+      "typecheck": {
+        "passed": true
       },
-      "network-api": {
-        "passed": true,
-        "checks": 36,
-        "fixtureId": "tw-236db8a6-6ff6-45e0-bf6e-112736ef0065",
-        "coverage": [
-          "actual concurrent same-revision final RSVP place",
-          "hidden joining instructions and participant roster",
-          "directory narrow projection and opt-out",
-          "cohort withdrawal releases place and directory visibility",
-          "re-enrollment cannot revive cancelled RSVP",
-          "membership removal and restoration cannot oversubscribe",
-          "paused cohort cancellation"
-        ],
-        "limits": [
-          "Only synthetic local identity headers; hosted authentication and audience access are not exercised",
-          "Attendance time window needs pure rule tests or a controlled server clock"
-        ]
+      "workerBuild": {
+        "passed": true
       },
-      "archive-api": {
-        "passed": true,
-        "checks": 84,
-        "fixtureId": "tw-4f4adfe7-7672-4bc4-9a5c-545c7a833f87",
-        "historyPages": 4,
-        "directDatabaseChecked": true,
-        "coverage": [
-          "supported API overflow past 200 activity and moderation records",
-          "actual same-revision archive-boundary race",
-          "CAS loser creates no orphan archive packet",
-          "durable replay does not duplicate archive",
-          "scoped moderator pagination without other-cohort reasons or activity",
-          "role/scope removal immediately affects archive reads"
-        ],
-        "limits": [
-          "Synthetic local identities only",
-          "Direct archive/audit consistency check runs only with QA_LOCAL_DB_SQL=1",
-          "No forced D1 outage or disk failure is injected"
-        ]
-      },
-      "archive-failure": {
-        "passed": true,
-        "checks": 12,
-        "coverage": [
-          "actual local D1 archive constraint failure rolls back aggregate update and receipt",
-          "temporary failure retains current cohort and full hot history",
-          "same action ID recovers after fixture fault removal",
-          "durable replay after recovered write"
-        ],
-        "limits": [
-          "Local isolated synthetic fixture only",
-          "Does not simulate a production outage or backup restore"
-        ]
-      },
-      "teams-browser": {
-        "passed": true,
-        "workspaceCreation": true,
-        "staleInvitationInputRecovery": true,
-        "cohortCreation": true,
-        "emailBoundInvitationAcceptance": true,
-        "separateStaffAssignment": true,
-        "lessons": 3,
-        "quizChecks": 9,
-        "sharedDraftReload": true,
-        "assessmentWithSeparateTestIdentities": true,
-        "independentAdverseAppeal": true,
-        "suspendedPracticeRecord": true,
-        "moderatedCohortDiscussion": true,
-        "responsiveChecks": 60,
-        "overflows": [],
-        "pageErrors": [],
-        "limits": [
-          "Synthetic local identity headers; actual hosted recipient access not tested"
-        ]
-      },
-      "browser-journey": {
-        "passed": true,
-        "lessons": 3,
-        "quizChecks": 9,
-        "practicalDraftReload": true,
-        "manualRubricReview": true,
-        "practiceRecord": true,
-        "moderatedDiscussion": true,
-        "pageErrors": []
-      },
-      "responsive": {
-        "checks": 54,
-        "overflow": [],
-        "webmcpBrowserSupport": false
-      },
-      "network-browser": {
-        "passed": true,
-        "syntheticLocalAccounts": 3,
-        "schedulingThroughUI": true,
-        "privateInstructionsAfterConfirmedRSVP": true,
-        "fullSessionBlocksPeer": true,
-        "directoryConsentAndOptOutReload": true,
-        "cancellationAndMembershipRemoval": true,
-        "responsiveChecks": 18,
-        "pageErrors": [],
-        "layout": [
-          {
-            "width": 1440,
-            "enlarged": false,
-            "tab": "Practice sessions",
-            "overflow": false
-          },
-          {
-            "width": 1440,
-            "enlarged": false,
-            "tab": "Cohort directory",
-            "overflow": false
-          },
-          {
-            "width": 1440,
-            "enlarged": false,
-            "tab": "directory-dialog",
-            "overflow": false
-          },
-          {
-            "width": 1440,
-            "enlarged": true,
-            "tab": "Practice sessions",
-            "overflow": false
-          },
-          {
-            "width": 1440,
-            "enlarged": true,
-            "tab": "Cohort directory",
-            "overflow": false
-          },
-          {
-            "width": 1440,
-            "enlarged": true,
-            "tab": "directory-dialog",
-            "overflow": false
-          },
-          {
-            "width": 768,
-            "enlarged": false,
-            "tab": "Practice sessions",
-            "overflow": false
-          },
-          {
-            "width": 768,
-            "enlarged": false,
-            "tab": "Cohort directory",
-            "overflow": false
-          },
-          {
-            "width": 768,
-            "enlarged": false,
-            "tab": "directory-dialog",
-            "overflow": false
-          },
-          {
-            "width": 768,
-            "enlarged": true,
-            "tab": "Practice sessions",
-            "overflow": false
-          },
-          {
-            "width": 768,
-            "enlarged": true,
-            "tab": "Cohort directory",
-            "overflow": false
-          },
-          {
-            "width": 768,
-            "enlarged": true,
-            "tab": "directory-dialog",
-            "overflow": false
-          },
-          {
-            "width": 390,
-            "enlarged": false,
-            "tab": "Practice sessions",
-            "overflow": false
-          },
-          {
-            "width": 390,
-            "enlarged": false,
-            "tab": "Cohort directory",
-            "overflow": false
-          },
-          {
-            "width": 390,
-            "enlarged": false,
-            "tab": "directory-dialog",
-            "overflow": false
-          },
-          {
-            "width": 390,
-            "enlarged": true,
-            "tab": "Practice sessions",
-            "overflow": false
-          },
-          {
-            "width": 390,
-            "enlarged": true,
-            "tab": "Cohort directory",
-            "overflow": false
-          },
-          {
-            "width": 390,
-            "enlarged": true,
-            "tab": "directory-dialog",
-            "overflow": false
-          }
-        ],
-        "limits": [
-          "Synthetic local trusted-header fixture, not hosted authentication",
-          "No real joining link, external invitation or meeting is used",
-          "Observed attendance retains pure rule coverage only"
-        ]
-      },
-      "network-accessibility": {
-        "candidate": true,
-        "executedAt": "2026-10-05T07:50:20.932Z",
-        "origin": "http://127.0.0.1:8787",
-        "syntheticLocalFixture": true,
-        "checks": [
-          {
-            "name": "single main landmark",
-            "passed": true,
-            "detail": 1
-          },
-          {
-            "name": "keyboard navigation moves focus into main",
-            "passed": true,
-            "detail": "<main class=\"workspace \" id=\"main\" tabindex=\"-1\"><div class=\"pilot-notice\"><span class=\"preview-pill\">Working pilot</span><p>Shared cohorts \u00b7 Evidence private to its learner and assigned staff \u00b7 Draft content, nonaccredited practice records.</p></div><div class=\"page-heading\"><div><p class=\"eyebrow\""
-          },
-          {
-            "name": "dialog receives focus",
-            "passed": true,
-            "detail": null
-          },
-          {
-            "name": "directory checkbox has a name",
-            "passed": true,
-            "detail": null
-          },
-          {
-            "name": "learning focus control has a name",
-            "passed": true,
-            "detail": null
-          },
-          {
-            "name": "introduction control has a label",
-            "passed": true,
-            "detail": null
-          },
-          {
-            "name": "cohort checkbox has a name",
-            "passed": true,
-            "detail": null
-          },
-          {
-            "name": "keyboard focus stays in profile dialog",
-            "passed": true,
-            "detail": [
-              true,
-              true,
-              true,
-              true,
-              true,
-              true,
-              true,
-              true,
-              true,
-              true,
-              true,
-              true,
-              true,
-              true,
-              true
-            ]
-          },
-          {
-            "name": "Escape restores directory opener focus",
-            "passed": true,
-            "detail": "<button data-slot=\"button\" data-variant=\"outline\" data-size=\"default\" class=\"inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-all outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:poin"
-          },
-          {
-            "name": "session field labelled: Session title",
-            "passed": true,
-            "detail": null
-          },
-          {
-            "name": "session field labelled: What will people practise?",
-            "passed": true,
-            "detail": null
-          },
-          {
-            "name": "session field labelled: Start date and time",
-            "passed": true,
-            "detail": null
-          },
-          {
-            "name": "session field labelled: End date and time",
-            "passed": true,
-            "detail": null
-          },
-          {
-            "name": "session field labelled: Available places",
-            "passed": true,
-            "detail": null
-          },
-          {
-            "name": "session field labelled: Where and how to join",
-            "passed": true,
-            "detail": null
-          },
-          {
-            "name": "invalid form remains open with input",
-            "passed": true,
-            "detail": null
-          },
-          {
-            "name": "validation error is accessible",
-            "passed": true,
-            "detail": null
-          },
-          {
-            "name": "1440px/100% text: no page horizontal overflow",
-            "passed": true,
-            "detail": null
-          },
-          {
-            "name": "1440px/100% text: body text actually resized",
-            "passed": true,
-            "detail": {
-              "left": 476.79998779296875,
-              "right": 963.2000122070312,
-              "top": 72.50000762939453,
-              "bottom": 927.5000076293945,
-              "scrollWidth": 510,
-              "clientWidth": 510,
-              "overflowY": "auto",
-              "bodyFont": 16,
-              "inputFont": 16,
-              "viewportWidth": 1440,
-              "viewportHeight": 1000
-            }
-          },
-          {
-            "name": "1440px/100% text: input text actually resized",
-            "passed": true,
-            "detail": 16
-          },
-          {
-            "name": "1440px/100% text: dialog contained horizontally",
-            "passed": true,
-            "detail": {
-              "left": 476.79998779296875,
-              "right": 963.2000122070312,
-              "top": 72.50000762939453,
-              "bottom": 927.5000076293945,
-              "scrollWidth": 510,
-              "clientWidth": 510,
-              "overflowY": "auto",
-              "bodyFont": 16,
-              "inputFont": 16,
-              "viewportWidth": 1440,
-              "viewportHeight": 1000
-            }
-          },
-          {
-            "name": "1440px/100% text: dialog visible and scrollable",
-            "passed": true,
-            "detail": {
-              "left": 476.79998779296875,
-              "right": 963.2000122070312,
-              "top": 72.50000762939453,
-              "bottom": 927.5000076293945,
-              "scrollWidth": 510,
-              "clientWidth": 510,
-              "overflowY": "auto",
-              "bodyFont": 16,
-              "inputFont": 16,
-              "viewportWidth": 1440,
-              "viewportHeight": 1000
-            }
-          },
-          {
-            "name": "1440px/100% text: profile action reachable",
-            "passed": true,
-            "detail": null
-          },
-          {
-            "name": "1440px/200% text: no page horizontal overflow",
-            "passed": true,
-            "detail": null
-          },
-          {
-            "name": "1440px/200% text: body text actually resized",
-            "passed": true,
-            "detail": {
-              "left": 233.60000610351562,
-              "right": 1206.4000549316406,
-              "top": 72.50000762939453,
-              "bottom": 927.5000076293945,
-              "scrollWidth": 1022,
-              "clientWidth": 1022,
-              "overflowY": "auto",
-              "bodyFont": 32,
-              "inputFont": 32,
-              "viewportWidth": 1440,
-              "viewportHeight": 1000
-            }
-          },
-          {
-            "name": "1440px/200% text: input text actually resized",
-            "passed": true,
-            "detail": 32
-          },
-          {
-            "name": "1440px/200% text: dialog contained horizontally",
-            "passed": true,
-            "detail": {
-              "left": 233.60000610351562,
-              "right": 1206.4000549316406,
-              "top": 72.50000762939453,
-              "bottom": 927.5000076293945,
-              "scrollWidth": 1022,
-              "clientWidth": 1022,
-              "overflowY": "auto",
-              "bodyFont": 32,
-              "inputFont": 32,
-              "viewportWidth": 1440,
-              "viewportHeight": 1000
-            }
-          },
-          {
-            "name": "1440px/200% text: dialog visible and scrollable",
-            "passed": true,
-            "detail": {
-              "left": 233.60000610351562,
-              "right": 1206.4000549316406,
-              "top": 72.50000762939453,
-              "bottom": 927.5000076293945,
-              "scrollWidth": 1022,
-              "clientWidth": 1022,
-              "overflowY": "auto",
-              "bodyFont": 32,
-              "inputFont": 32,
-              "viewportWidth": 1440,
-              "viewportHeight": 1000
-            }
-          },
-          {
-            "name": "1440px/200% text: profile action reachable",
-            "passed": true,
-            "detail": null
-          },
-          {
-            "name": "768px/100% text: no page horizontal overflow",
-            "passed": true,
-            "detail": null
-          },
-          {
-            "name": "768px/100% text: body text actually resized",
-            "passed": true,
-            "detail": {
-              "left": 140.8000030517578,
-              "right": 627.2000274658203,
-              "top": 72.50000762939453,
-              "bottom": 927.5000076293945,
-              "scrollWidth": 510,
-              "clientWidth": 510,
-              "overflowY": "auto",
-              "bodyFont": 16,
-              "inputFont": 16,
-              "viewportWidth": 768,
-              "viewportHeight": 1000
-            }
-          },
-          {
-            "name": "768px/100% text: input text actually resized",
-            "passed": true,
-            "detail": 16
-          },
-          {
-            "name": "768px/100% text: dialog contained horizontally",
-            "passed": true,
-            "detail": {
-              "left": 140.8000030517578,
-              "right": 627.2000274658203,
-              "top": 72.50000762939453,
-              "bottom": 927.5000076293945,
-              "scrollWidth": 510,
-              "clientWidth": 510,
-              "overflowY": "auto",
-              "bodyFont": 16,
-              "inputFont": 16,
-              "viewportWidth": 768,
-              "viewportHeight": 1000
-            }
-          },
-          {
-            "name": "768px/100% text: dialog visible and scrollable",
-            "passed": true,
-            "detail": {
-              "left": 140.8000030517578,
-              "right": 627.2000274658203,
-              "top": 72.50000762939453,
-              "bottom": 927.5000076293945,
-              "scrollWidth": 510,
-              "clientWidth": 510,
-              "overflowY": "auto",
-              "bodyFont": 16,
-              "inputFont": 16,
-              "viewportWidth": 768,
-              "viewportHeight": 1000
-            }
-          },
-          {
-            "name": "768px/100% text: profile action reachable",
-            "passed": true,
-            "detail": null
-          },
-          {
-            "name": "768px/200% text: no page horizontal overflow",
-            "passed": true,
-            "detail": null
-          },
-          {
-            "name": "768px/200% text: body text actually resized",
-            "passed": true,
-            "detail": {
-              "left": 19.20000457763672,
-              "right": 748.7999801635742,
-              "top": 72.50000762939453,
-              "bottom": 927.5000076293945,
-              "scrollWidth": 766,
-              "clientWidth": 766,
-              "overflowY": "auto",
-              "bodyFont": 32,
-              "inputFont": 32,
-              "viewportWidth": 768,
-              "viewportHeight": 1000
-            }
-          },
-          {
-            "name": "768px/200% text: input text actually resized",
-            "passed": true,
-            "detail": 32
-          },
-          {
-            "name": "768px/200% text: dialog contained horizontally",
-            "passed": true,
-            "detail": {
-              "left": 19.20000457763672,
-              "right": 748.7999801635742,
-              "top": 72.50000762939453,
-              "bottom": 927.5000076293945,
-              "scrollWidth": 766,
-              "clientWidth": 766,
-              "overflowY": "auto",
-              "bodyFont": 32,
-              "inputFont": 32,
-              "viewportWidth": 768,
-              "viewportHeight": 1000
-            }
-          },
-          {
-            "name": "768px/200% text: dialog visible and scrollable",
-            "passed": true,
-            "detail": {
-              "left": 19.20000457763672,
-              "right": 748.7999801635742,
-              "top": 72.50000762939453,
-              "bottom": 927.5000076293945,
-              "scrollWidth": 766,
-              "clientWidth": 766,
-              "overflowY": "auto",
-              "bodyFont": 32,
-              "inputFont": 32,
-              "viewportWidth": 768,
-              "viewportHeight": 1000
-            }
-          },
-          {
-            "name": "768px/200% text: profile action reachable",
-            "passed": true,
-            "detail": null
-          },
-          {
-            "name": "390px/100% text: no page horizontal overflow",
-            "passed": true,
-            "detail": null
-          },
-          {
-            "name": "390px/100% text: body text actually resized",
-            "passed": true,
-            "detail": {
-              "left": 24.950002670288086,
-              "right": 365.0499782562256,
-              "top": 72.50000762939453,
-              "bottom": 927.5000076293945,
-              "scrollWidth": 356,
-              "clientWidth": 356,
-              "overflowY": "auto",
-              "bodyFont": 16,
-              "inputFont": 16,
-              "viewportWidth": 390,
-              "viewportHeight": 1000
-            }
-          },
-          {
-            "name": "390px/100% text: input text actually resized",
-            "passed": true,
-            "detail": 16
-          },
-          {
-            "name": "390px/100% text: dialog contained horizontally",
-            "passed": true,
-            "detail": {
-              "left": 24.950002670288086,
-              "right": 365.0499782562256,
-              "top": 72.50000762939453,
-              "bottom": 927.5000076293945,
-              "scrollWidth": 356,
-              "clientWidth": 356,
-              "overflowY": "auto",
-              "bodyFont": 16,
-              "inputFont": 16,
-              "viewportWidth": 390,
-              "viewportHeight": 1000
-            }
-          },
-          {
-            "name": "390px/100% text: dialog visible and scrollable",
-            "passed": true,
-            "detail": {
-              "left": 24.950002670288086,
-              "right": 365.0499782562256,
-              "top": 72.50000762939453,
-              "bottom": 927.5000076293945,
-              "scrollWidth": 356,
-              "clientWidth": 356,
-              "overflowY": "auto",
-              "bodyFont": 16,
-              "inputFont": 16,
-              "viewportWidth": 390,
-              "viewportHeight": 1000
-            }
-          },
-          {
-            "name": "390px/100% text: profile action reachable",
-            "passed": true,
-            "detail": null
-          },
-          {
-            "name": "390px/200% text: no page horizontal overflow",
-            "passed": true,
-            "detail": null
-          },
-          {
-            "name": "390px/200% text: body text actually resized",
-            "passed": true,
-            "detail": {
-              "left": 40.150001525878906,
-              "right": 349.85001373291016,
-              "top": 72.50000762939453,
-              "bottom": 927.5000076293945,
-              "scrollWidth": 324,
-              "clientWidth": 324,
-              "overflowY": "auto",
-              "bodyFont": 32,
-              "inputFont": 32,
-              "viewportWidth": 390,
-              "viewportHeight": 1000
-            }
-          },
-          {
-            "name": "390px/200% text: input text actually resized",
-            "passed": true,
-            "detail": 32
-          },
-          {
-            "name": "390px/200% text: dialog contained horizontally",
-            "passed": true,
-            "detail": {
-              "left": 40.150001525878906,
-              "right": 349.85001373291016,
-              "top": 72.50000762939453,
-              "bottom": 927.5000076293945,
-              "scrollWidth": 324,
-              "clientWidth": 324,
-              "overflowY": "auto",
-              "bodyFont": 32,
-              "inputFont": 32,
-              "viewportWidth": 390,
-              "viewportHeight": 1000
-            }
-          },
-          {
-            "name": "390px/200% text: dialog visible and scrollable",
-            "passed": true,
-            "detail": {
-              "left": 40.150001525878906,
-              "right": 349.85001373291016,
-              "top": 72.50000762939453,
-              "bottom": 927.5000076293945,
-              "scrollWidth": 324,
-              "clientWidth": 324,
-              "overflowY": "auto",
-              "bodyFont": 32,
-              "inputFont": 32,
-              "viewportWidth": 390,
-              "viewportHeight": 1000
-            }
-          },
-          {
-            "name": "390px/200% text: profile action reachable",
-            "passed": true,
-            "detail": null
-          },
-          {
-            "name": "reduced motion honored by spinner",
-            "passed": true,
-            "detail": null
-          }
-        ],
-        "errors": [],
-        "passed": true,
-        "limits": [
-          "No production identity or published access tested.",
-          "No screen-reader certification or offline support claim.",
-          "Text enlargement is explicit CSS resizing; real browser zoom needs manual verification."
-        ]
-      },
-      "previousReleaseEvidence": {
-        "browser-smoke": {
-          "routes": [
-            "programs",
-            "community",
-            "network",
-            "credentials",
-            "connections",
-            "studio",
-            "settings"
-          ],
-          "lessonEnrollmentReload": true,
-          "mobileOverflow": false,
-          "pageErrors": []
-        },
-        "api-integration": {
+      "executed": {
+        "personalAPI": {
           "checks": 36,
           "passed": true,
           "coverage": [
@@ -1736,7 +1428,93 @@
             "No external partner or live AI service tested"
           ]
         },
-        "browser-journey": {
+        "planAPI": {
+          "passed": true,
+          "assertions": 136,
+          "scenarios": [
+            {
+              "name": "personal plan preferences persist with nullable scheduling and own-only state",
+              "passed": true,
+              "assertions": 12
+            },
+            {
+              "name": "self-reported practice completion cannot issue course progress or a record",
+              "passed": true,
+              "assertions": 11
+            },
+            {
+              "name": "plan dates, pinned links and client identity/reference fields are validated",
+              "passed": true,
+              "assertions": 8
+            },
+            {
+              "name": "optional reminder settings only affect private plan state and retain due tasks",
+              "passed": true,
+              "assertions": 11
+            },
+            {
+              "name": "personal stale revision and durable action replay preserve one effective plan mutation",
+              "passed": true,
+              "assertions": 8
+            },
+            {
+              "name": "team dispatch binds private plans to the authenticated own learner",
+              "passed": true,
+              "assertions": 22
+            },
+            {
+              "name": "paused cohort blocks linked progress while own planning preferences and practice remain private",
+              "passed": true,
+              "assertions": 9
+            },
+            {
+              "name": "learner role loss is enforced by server without removing own private preferences/history",
+              "passed": true,
+              "assertions": 7
+            },
+            {
+              "name": "owner, scoped facilitator and assigned assessor projections never contain private notes/goals",
+              "passed": true,
+              "assertions": 24
+            },
+            {
+              "name": "team CAS rejects stale and concurrent plan updates instead of silently overwriting",
+              "passed": true,
+              "assertions": 8
+            },
+            {
+              "name": "removed learner cannot mutate or replay a plan write; own readable plan remains retained",
+              "passed": true,
+              "assertions": 16
+            }
+          ],
+          "limits": [
+            "Synthetic loopback identity headers only; hosted dispatcher authentication and actual hosting recipient access are not tested.",
+            "Reminder storage and projection assertions do not prove email/push delivery; this feature provides no sender.",
+            "Pinned-reference corruption belongs to the separate cloned-state regression, never to client-editable API fields."
+          ]
+        },
+        "ecosystemAPI": {
+          "passed": true,
+          "checks": 57,
+          "coverage": [
+            "three server-side approved partner mappings",
+            "all six cross-partner rejections",
+            "Health enable and preview rejections",
+            "exact-key payload rejection",
+            "saved local receipt history preserved",
+            "no legacy boolean-to-grant migration",
+            "private draft canary absent from receipt",
+            "separate owner state and foreign enrollment denial",
+            "actual same-revision preview/withdrawal race"
+          ],
+          "limits": [
+            "Synthetic local identity headers only",
+            "No external request or connector invocation",
+            "Legacy Health history preservation uses the pure integration regression fixture, not a database seed"
+          ]
+        },
+        "personalBrowser": {
           "passed": true,
           "lessons": 3,
           "quizChecks": 9,
@@ -1746,12 +1524,232 @@
           "moderatedDiscussion": true,
           "pageErrors": []
         },
-        "responsive-lab": {
-          "checks": 54,
-          "overflow": [],
-          "webmcpBrowserSupport": false
+        "planBrowser": {
+          "passed": true,
+          "checks": 52,
+          "coverage": [
+            "Personal preferences and nullable private activity persist across reload",
+            "Optional due notices appear only in Academy and can be turned off without deleting tasks",
+            "Manual practice completion changes only the private plan",
+            "Pinned linked task keeps its enrollment and opens the next saved lesson",
+            "Practical planning completes upon actual evidence submission and does not issue a record",
+            "Reflection completes from saved own work reflection; absent times and explicit zero remain distinct",
+            "Own-data export includes private plan",
+            "Plan and activity dialog at desktop/tablet/phone widths and 200% text",
+            "Team private plan retained after removal; owner UI excludes private data and removed learner writes are disabled",
+            "No external POST from these planning and reflection journeys"
+          ],
+          "responsiveChecks": 12,
+          "layout": [
+            {
+              "width": 1440,
+              "enlarged": false,
+              "surface": "plan",
+              "overflow": false
+            },
+            {
+              "width": 1440,
+              "enlarged": false,
+              "surface": "activity-dialog",
+              "overflow": false
+            },
+            {
+              "width": 1440,
+              "enlarged": true,
+              "surface": "plan",
+              "overflow": false
+            },
+            {
+              "width": 1440,
+              "enlarged": true,
+              "surface": "activity-dialog",
+              "overflow": false
+            },
+            {
+              "width": 768,
+              "enlarged": false,
+              "surface": "plan",
+              "overflow": false
+            },
+            {
+              "width": 768,
+              "enlarged": false,
+              "surface": "activity-dialog",
+              "overflow": false
+            },
+            {
+              "width": 768,
+              "enlarged": true,
+              "surface": "plan",
+              "overflow": false
+            },
+            {
+              "width": 768,
+              "enlarged": true,
+              "surface": "activity-dialog",
+              "overflow": false
+            },
+            {
+              "width": 390,
+              "enlarged": false,
+              "surface": "plan",
+              "overflow": false
+            },
+            {
+              "width": 390,
+              "enlarged": false,
+              "surface": "activity-dialog",
+              "overflow": false
+            },
+            {
+              "width": 390,
+              "enlarged": true,
+              "surface": "plan",
+              "overflow": false
+            },
+            {
+              "width": 390,
+              "enlarged": true,
+              "surface": "activity-dialog",
+              "overflow": false
+            }
+          ],
+          "pageErrors": [],
+          "error": null,
+          "limits": [
+            "Synthetic loopback identity headers; this is not hosted dispatcher authentication or real participant access verification.",
+            "Private-lab assessment uses the labelled sample staff fixture, not an independently accredited issuer.",
+            "Absence of external POST applies to this executed journey; no email/push sender is implemented."
+          ]
         },
-        "shared-api": {
+        "ecosystemBrowser": {
+          "passed": true,
+          "syntheticLocalAccounts": 2,
+          "threePartnerFilteredSelections": true,
+          "independentCardSelections": true,
+          "healthNoPreviewControls": true,
+          "historyAndPreferenceReload": true,
+          "privateCanaryExcluded": true,
+          "staleWithdrawnSelectionBlocked": true,
+          "noGrantMigration": true,
+          "responsiveChecks": 12,
+          "actualComputedBody200Percent": true,
+          "layout": [
+            {
+              "width": 1440,
+              "enlarged": false,
+              "baselineBody": 16,
+              "actualBody": 16,
+              "view": "cards-and-expanded-history",
+              "overflow": false
+            },
+            {
+              "width": 1440,
+              "enlarged": false,
+              "baselineBody": 16,
+              "actualBody": 16,
+              "view": "matching-enrollment-menu",
+              "overflow": false
+            },
+            {
+              "width": 1440,
+              "enlarged": true,
+              "baselineBody": 16,
+              "actualBody": 32,
+              "view": "cards-and-expanded-history",
+              "overflow": false
+            },
+            {
+              "width": 1440,
+              "enlarged": true,
+              "baselineBody": 16,
+              "actualBody": 32,
+              "view": "matching-enrollment-menu",
+              "overflow": false
+            },
+            {
+              "width": 768,
+              "enlarged": false,
+              "baselineBody": 16,
+              "actualBody": 16,
+              "view": "cards-and-expanded-history",
+              "overflow": false
+            },
+            {
+              "width": 768,
+              "enlarged": false,
+              "baselineBody": 16,
+              "actualBody": 16,
+              "view": "matching-enrollment-menu",
+              "overflow": false
+            },
+            {
+              "width": 768,
+              "enlarged": true,
+              "baselineBody": 16,
+              "actualBody": 32,
+              "view": "cards-and-expanded-history",
+              "overflow": false
+            },
+            {
+              "width": 768,
+              "enlarged": true,
+              "baselineBody": 16,
+              "actualBody": 32,
+              "view": "matching-enrollment-menu",
+              "overflow": false
+            },
+            {
+              "width": 390,
+              "enlarged": false,
+              "baselineBody": 16,
+              "actualBody": 16,
+              "view": "cards-and-expanded-history",
+              "overflow": false
+            },
+            {
+              "width": 390,
+              "enlarged": false,
+              "baselineBody": 16,
+              "actualBody": 16,
+              "view": "matching-enrollment-menu",
+              "overflow": false
+            },
+            {
+              "width": 390,
+              "enlarged": true,
+              "baselineBody": 16,
+              "actualBody": 32,
+              "view": "cards-and-expanded-history",
+              "overflow": false
+            },
+            {
+              "width": 390,
+              "enlarged": true,
+              "baselineBody": 16,
+              "actualBody": 32,
+              "view": "matching-enrollment-menu",
+              "overflow": false
+            }
+          ],
+          "pageErrors": [],
+          "limits": [
+            "Synthetic local trusted-header fixtures, not hosted authentication",
+            "UI selection is intentionally unsaved local state; preferences and history survive reload",
+            "No external connector or partner was contacted"
+          ]
+        },
+        "planAccessibility": {
+          "passed": true,
+          "checks": 29,
+          "mainFocus": true,
+          "dialogTrapAndEscape": true,
+          "visibleFieldLabels": true,
+          "serverErrorAndUnsentInput": true,
+          "preferenceSaveIndicator": true,
+          "pageErrors": []
+        },
+        "sharedAPI": {
           "checks": 127,
           "passed": true,
           "coverage": [
@@ -1772,7 +1770,7 @@
             "No recognized certification, external partner or embedded AI integration"
           ]
         },
-        "shared-browser": {
+        "sharedBrowser": {
           "passed": true,
           "workspaceCreation": true,
           "staleInvitationInputRecovery": true,
@@ -1793,108 +1791,1002 @@
             "Synthetic local identity headers; actual hosted recipient access not tested"
           ]
         },
-        "release": "0.2",
-        "unit": {
-          "passed": 29,
-          "failed": 0,
-          "personalLab": 15,
-          "sharedWorkspace": 14
-        },
-        "typecheck": {
-          "passed": true
-        },
-        "workerBuild": {
-          "passed": true
-        },
-        "identityBoundary": "All multi-account tests use local synthetic identity headers. Hosted recipient access and identity-header spoofing resistance remain unverified.",
-        "raceBoundary": "Actual same-revision seat allocation, conflicting finalization and invitation-token collision races tested. Revocation uses stale-request checks; no deterministic after-authorization barrier.",
-        "webmcp": {
-          "tools": [
-            "academy_read_progress",
-            "academy_open_pathway"
-          ],
-          "browserSupportValidation": "Feature detected, optional; execution unavailable in the tested browser."
+        "personalResponsive": {
+          "checks": 54,
+          "overflow": [],
+          "webmcpBrowserSupport": false
         }
-      }
-    },
-    "unavailableContentBrowser": {
-      "status": "Actual local built UI with intercepted read-only malformed-history fixtures",
-      "origin": "http://127.0.0.1:8787",
-      "checkedAt": "2026-10-05T08:10:54.966Z",
-      "cases": [
-        {
-          "variant": "unknown-legacy",
-          "stage": "learn",
-          "passed": true,
-          "pageErrors": [],
-          "mutations": []
-        },
-        {
-          "variant": "unknown-legacy",
-          "stage": "studio",
-          "passed": true,
-          "pageErrors": [],
-          "mutations": []
-        },
-        {
-          "variant": "unknown-legacy",
-          "stage": "credentials",
-          "passed": true,
-          "pageErrors": [],
-          "mutations": []
-        },
-        {
-          "variant": "missing-legacy",
-          "stage": "learn",
-          "passed": true,
-          "pageErrors": [],
-          "mutations": []
-        },
-        {
-          "variant": "missing-legacy",
-          "stage": "studio",
-          "passed": true,
-          "pageErrors": [],
-          "mutations": []
-        },
-        {
-          "variant": "missing-legacy",
-          "stage": "credentials",
-          "passed": true,
-          "pageErrors": [],
-          "mutations": []
-        },
-        {
-          "variant": "mixed-explicit",
-          "stage": "learn",
-          "passed": true,
-          "pageErrors": [],
-          "mutations": []
-        },
-        {
-          "variant": "mixed-explicit",
-          "stage": "studio",
-          "passed": true,
-          "pageErrors": [],
-          "mutations": []
-        },
-        {
-          "variant": "mixed-explicit",
-          "stage": "credentials",
-          "passed": true,
-          "pageErrors": [],
-          "mutations": []
-        },
-        {
-          "variant": "known-unavailable-known",
-          "stage": "studio-switch",
-          "passed": true,
-          "pageErrors": [],
-          "mutations": []
-        }
+      },
+      "limits": [
+        "Synthetic local identity fixtures do not verify hosted authentication or real participant Site access.",
+        "No approved domain content, external message, provider booking, live partner or AI call.",
+        "CSS text resizing does not establish full accessibility conformance; no screen-reader certification.",
+        "Injected local constraint rollback does not establish production backup or disaster recovery."
       ],
-      "passed": 10,
-      "failed": 0
+      "previousReleaseEvidence": {
+        "release": "0.3",
+        "executedAt": "2026-10-05T07:56:10.274607+00:00",
+        "ruleTests": {
+          "passed": 46,
+          "failed": 0,
+          "scripts": [
+            "engine.test.mjs",
+            "teams.test.mjs",
+            "network.test.mjs",
+            "storage.test.mjs"
+          ]
+        },
+        "limits": [
+          "Synthetic local identity fixtures do not verify hosted authentication or real participant Site access.",
+          "No approved domain content, external message, provider booking, live partner or AI call.",
+          "CSS text resizing does not establish full accessibility conformance; no screen-reader certification.",
+          "Injected local constraint rollback does not establish production backup or disaster recovery."
+        ],
+        "api-integration": {
+          "checks": 36,
+          "passed": true,
+          "coverage": [
+            "authentication required",
+            "two-owner isolation",
+            "CAS conflict race",
+            "durable reload",
+            "idempotency mismatch and replay after reset",
+            "full learning and independent appeal",
+            "critical gate refusal",
+            "consent separation and withdrawal"
+          ],
+          "limits": [
+            "Hosted dispatcher authentication not exercised",
+            "Two sample staff actors share the owner account",
+            "No external partner or live AI service tested"
+          ]
+        },
+        "teams-api": {
+          "checks": 127,
+          "passed": true,
+          "coverage": [
+            "three independent identity fixtures",
+            "workspace and private-lab isolation",
+            "email-bound invitations and fixed roles",
+            "CAS seat and conflicting finalization races",
+            "global invitation token uniqueness and atomic collision rollback",
+            "review assignment and no self-review",
+            "revocation with stale requests",
+            "private draft projection",
+            "immutable appeal history and adverse suspension",
+            "reasoned cohort moderation",
+            "removed-member history"
+          ],
+          "limits": [
+            "Local identity headers are synthetic; hosted dispatcher authentication and real participant site access remain untested",
+            "No recognized certification, external partner or embedded AI integration"
+          ]
+        },
+        "network-api": {
+          "passed": true,
+          "checks": 36,
+          "fixtureId": "tw-236db8a6-6ff6-45e0-bf6e-112736ef0065",
+          "coverage": [
+            "actual concurrent same-revision final RSVP place",
+            "hidden joining instructions and participant roster",
+            "directory narrow projection and opt-out",
+            "cohort withdrawal releases place and directory visibility",
+            "re-enrollment cannot revive cancelled RSVP",
+            "membership removal and restoration cannot oversubscribe",
+            "paused cohort cancellation"
+          ],
+          "limits": [
+            "Only synthetic local identity headers; hosted authentication and audience access are not exercised",
+            "Attendance time window needs pure rule tests or a controlled server clock"
+          ]
+        },
+        "archive-api": {
+          "passed": true,
+          "checks": 84,
+          "fixtureId": "tw-4f4adfe7-7672-4bc4-9a5c-545c7a833f87",
+          "historyPages": 4,
+          "directDatabaseChecked": true,
+          "coverage": [
+            "supported API overflow past 200 activity and moderation records",
+            "actual same-revision archive-boundary race",
+            "CAS loser creates no orphan archive packet",
+            "durable replay does not duplicate archive",
+            "scoped moderator pagination without other-cohort reasons or activity",
+            "role/scope removal immediately affects archive reads"
+          ],
+          "limits": [
+            "Synthetic local identities only",
+            "Direct archive/audit consistency check runs only with QA_LOCAL_DB_SQL=1",
+            "No forced D1 outage or disk failure is injected"
+          ]
+        },
+        "archive-failure": {
+          "passed": true,
+          "checks": 12,
+          "coverage": [
+            "actual local D1 archive constraint failure rolls back aggregate update and receipt",
+            "temporary failure retains current cohort and full hot history",
+            "same action ID recovers after fixture fault removal",
+            "durable replay after recovered write"
+          ],
+          "limits": [
+            "Local isolated synthetic fixture only",
+            "Does not simulate a production outage or backup restore"
+          ]
+        },
+        "teams-browser": {
+          "passed": true,
+          "workspaceCreation": true,
+          "staleInvitationInputRecovery": true,
+          "cohortCreation": true,
+          "emailBoundInvitationAcceptance": true,
+          "separateStaffAssignment": true,
+          "lessons": 3,
+          "quizChecks": 9,
+          "sharedDraftReload": true,
+          "assessmentWithSeparateTestIdentities": true,
+          "independentAdverseAppeal": true,
+          "suspendedPracticeRecord": true,
+          "moderatedCohortDiscussion": true,
+          "responsiveChecks": 60,
+          "overflows": [],
+          "pageErrors": [],
+          "limits": [
+            "Synthetic local identity headers; actual hosted recipient access not tested"
+          ]
+        },
+        "browser-journey": {
+          "passed": true,
+          "lessons": 3,
+          "quizChecks": 9,
+          "practicalDraftReload": true,
+          "manualRubricReview": true,
+          "practiceRecord": true,
+          "moderatedDiscussion": true,
+          "pageErrors": []
+        },
+        "responsive": {
+          "checks": 54,
+          "overflow": [],
+          "webmcpBrowserSupport": false
+        },
+        "network-browser": {
+          "passed": true,
+          "syntheticLocalAccounts": 3,
+          "schedulingThroughUI": true,
+          "privateInstructionsAfterConfirmedRSVP": true,
+          "fullSessionBlocksPeer": true,
+          "directoryConsentAndOptOutReload": true,
+          "cancellationAndMembershipRemoval": true,
+          "responsiveChecks": 18,
+          "pageErrors": [],
+          "layout": [
+            {
+              "width": 1440,
+              "enlarged": false,
+              "tab": "Practice sessions",
+              "overflow": false
+            },
+            {
+              "width": 1440,
+              "enlarged": false,
+              "tab": "Cohort directory",
+              "overflow": false
+            },
+            {
+              "width": 1440,
+              "enlarged": false,
+              "tab": "directory-dialog",
+              "overflow": false
+            },
+            {
+              "width": 1440,
+              "enlarged": true,
+              "tab": "Practice sessions",
+              "overflow": false
+            },
+            {
+              "width": 1440,
+              "enlarged": true,
+              "tab": "Cohort directory",
+              "overflow": false
+            },
+            {
+              "width": 1440,
+              "enlarged": true,
+              "tab": "directory-dialog",
+              "overflow": false
+            },
+            {
+              "width": 768,
+              "enlarged": false,
+              "tab": "Practice sessions",
+              "overflow": false
+            },
+            {
+              "width": 768,
+              "enlarged": false,
+              "tab": "Cohort directory",
+              "overflow": false
+            },
+            {
+              "width": 768,
+              "enlarged": false,
+              "tab": "directory-dialog",
+              "overflow": false
+            },
+            {
+              "width": 768,
+              "enlarged": true,
+              "tab": "Practice sessions",
+              "overflow": false
+            },
+            {
+              "width": 768,
+              "enlarged": true,
+              "tab": "Cohort directory",
+              "overflow": false
+            },
+            {
+              "width": 768,
+              "enlarged": true,
+              "tab": "directory-dialog",
+              "overflow": false
+            },
+            {
+              "width": 390,
+              "enlarged": false,
+              "tab": "Practice sessions",
+              "overflow": false
+            },
+            {
+              "width": 390,
+              "enlarged": false,
+              "tab": "Cohort directory",
+              "overflow": false
+            },
+            {
+              "width": 390,
+              "enlarged": false,
+              "tab": "directory-dialog",
+              "overflow": false
+            },
+            {
+              "width": 390,
+              "enlarged": true,
+              "tab": "Practice sessions",
+              "overflow": false
+            },
+            {
+              "width": 390,
+              "enlarged": true,
+              "tab": "Cohort directory",
+              "overflow": false
+            },
+            {
+              "width": 390,
+              "enlarged": true,
+              "tab": "directory-dialog",
+              "overflow": false
+            }
+          ],
+          "limits": [
+            "Synthetic local trusted-header fixture, not hosted authentication",
+            "No real joining link, external invitation or meeting is used",
+            "Observed attendance retains pure rule coverage only"
+          ]
+        },
+        "network-accessibility": {
+          "candidate": true,
+          "executedAt": "2026-10-05T07:50:20.932Z",
+          "origin": "http://127.0.0.1:8787",
+          "syntheticLocalFixture": true,
+          "checks": [
+            {
+              "name": "single main landmark",
+              "passed": true,
+              "detail": 1
+            },
+            {
+              "name": "keyboard navigation moves focus into main",
+              "passed": true,
+              "detail": "<main class=\"workspace \" id=\"main\" tabindex=\"-1\"><div class=\"pilot-notice\"><span class=\"preview-pill\">Working pilot</span><p>Shared cohorts \u00b7 Evidence private to its learner and assigned staff \u00b7 Draft content, nonaccredited practice records.</p></div><div class=\"page-heading\"><div><p class=\"eyebrow\""
+            },
+            {
+              "name": "dialog receives focus",
+              "passed": true,
+              "detail": null
+            },
+            {
+              "name": "directory checkbox has a name",
+              "passed": true,
+              "detail": null
+            },
+            {
+              "name": "learning focus control has a name",
+              "passed": true,
+              "detail": null
+            },
+            {
+              "name": "introduction control has a label",
+              "passed": true,
+              "detail": null
+            },
+            {
+              "name": "cohort checkbox has a name",
+              "passed": true,
+              "detail": null
+            },
+            {
+              "name": "keyboard focus stays in profile dialog",
+              "passed": true,
+              "detail": [
+                true,
+                true,
+                true,
+                true,
+                true,
+                true,
+                true,
+                true,
+                true,
+                true,
+                true,
+                true,
+                true,
+                true,
+                true
+              ]
+            },
+            {
+              "name": "Escape restores directory opener focus",
+              "passed": true,
+              "detail": "<button data-slot=\"button\" data-variant=\"outline\" data-size=\"default\" class=\"inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-all outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:poin"
+            },
+            {
+              "name": "session field labelled: Session title",
+              "passed": true,
+              "detail": null
+            },
+            {
+              "name": "session field labelled: What will people practise?",
+              "passed": true,
+              "detail": null
+            },
+            {
+              "name": "session field labelled: Start date and time",
+              "passed": true,
+              "detail": null
+            },
+            {
+              "name": "session field labelled: End date and time",
+              "passed": true,
+              "detail": null
+            },
+            {
+              "name": "session field labelled: Available places",
+              "passed": true,
+              "detail": null
+            },
+            {
+              "name": "session field labelled: Where and how to join",
+              "passed": true,
+              "detail": null
+            },
+            {
+              "name": "invalid form remains open with input",
+              "passed": true,
+              "detail": null
+            },
+            {
+              "name": "validation error is accessible",
+              "passed": true,
+              "detail": null
+            },
+            {
+              "name": "1440px/100% text: no page horizontal overflow",
+              "passed": true,
+              "detail": null
+            },
+            {
+              "name": "1440px/100% text: body text actually resized",
+              "passed": true,
+              "detail": {
+                "left": 476.79998779296875,
+                "right": 963.2000122070312,
+                "top": 72.50000762939453,
+                "bottom": 927.5000076293945,
+                "scrollWidth": 510,
+                "clientWidth": 510,
+                "overflowY": "auto",
+                "bodyFont": 16,
+                "inputFont": 16,
+                "viewportWidth": 1440,
+                "viewportHeight": 1000
+              }
+            },
+            {
+              "name": "1440px/100% text: input text actually resized",
+              "passed": true,
+              "detail": 16
+            },
+            {
+              "name": "1440px/100% text: dialog contained horizontally",
+              "passed": true,
+              "detail": {
+                "left": 476.79998779296875,
+                "right": 963.2000122070312,
+                "top": 72.50000762939453,
+                "bottom": 927.5000076293945,
+                "scrollWidth": 510,
+                "clientWidth": 510,
+                "overflowY": "auto",
+                "bodyFont": 16,
+                "inputFont": 16,
+                "viewportWidth": 1440,
+                "viewportHeight": 1000
+              }
+            },
+            {
+              "name": "1440px/100% text: dialog visible and scrollable",
+              "passed": true,
+              "detail": {
+                "left": 476.79998779296875,
+                "right": 963.2000122070312,
+                "top": 72.50000762939453,
+                "bottom": 927.5000076293945,
+                "scrollWidth": 510,
+                "clientWidth": 510,
+                "overflowY": "auto",
+                "bodyFont": 16,
+                "inputFont": 16,
+                "viewportWidth": 1440,
+                "viewportHeight": 1000
+              }
+            },
+            {
+              "name": "1440px/100% text: profile action reachable",
+              "passed": true,
+              "detail": null
+            },
+            {
+              "name": "1440px/200% text: no page horizontal overflow",
+              "passed": true,
+              "detail": null
+            },
+            {
+              "name": "1440px/200% text: body text actually resized",
+              "passed": true,
+              "detail": {
+                "left": 233.60000610351562,
+                "right": 1206.4000549316406,
+                "top": 72.50000762939453,
+                "bottom": 927.5000076293945,
+                "scrollWidth": 1022,
+                "clientWidth": 1022,
+                "overflowY": "auto",
+                "bodyFont": 32,
+                "inputFont": 32,
+                "viewportWidth": 1440,
+                "viewportHeight": 1000
+              }
+            },
+            {
+              "name": "1440px/200% text: input text actually resized",
+              "passed": true,
+              "detail": 32
+            },
+            {
+              "name": "1440px/200% text: dialog contained horizontally",
+              "passed": true,
+              "detail": {
+                "left": 233.60000610351562,
+                "right": 1206.4000549316406,
+                "top": 72.50000762939453,
+                "bottom": 927.5000076293945,
+                "scrollWidth": 1022,
+                "clientWidth": 1022,
+                "overflowY": "auto",
+                "bodyFont": 32,
+                "inputFont": 32,
+                "viewportWidth": 1440,
+                "viewportHeight": 1000
+              }
+            },
+            {
+              "name": "1440px/200% text: dialog visible and scrollable",
+              "passed": true,
+              "detail": {
+                "left": 233.60000610351562,
+                "right": 1206.4000549316406,
+                "top": 72.50000762939453,
+                "bottom": 927.5000076293945,
+                "scrollWidth": 1022,
+                "clientWidth": 1022,
+                "overflowY": "auto",
+                "bodyFont": 32,
+                "inputFont": 32,
+                "viewportWidth": 1440,
+                "viewportHeight": 1000
+              }
+            },
+            {
+              "name": "1440px/200% text: profile action reachable",
+              "passed": true,
+              "detail": null
+            },
+            {
+              "name": "768px/100% text: no page horizontal overflow",
+              "passed": true,
+              "detail": null
+            },
+            {
+              "name": "768px/100% text: body text actually resized",
+              "passed": true,
+              "detail": {
+                "left": 140.8000030517578,
+                "right": 627.2000274658203,
+                "top": 72.50000762939453,
+                "bottom": 927.5000076293945,
+                "scrollWidth": 510,
+                "clientWidth": 510,
+                "overflowY": "auto",
+                "bodyFont": 16,
+                "inputFont": 16,
+                "viewportWidth": 768,
+                "viewportHeight": 1000
+              }
+            },
+            {
+              "name": "768px/100% text: input text actually resized",
+              "passed": true,
+              "detail": 16
+            },
+            {
+              "name": "768px/100% text: dialog contained horizontally",
+              "passed": true,
+              "detail": {
+                "left": 140.8000030517578,
+                "right": 627.2000274658203,
+                "top": 72.50000762939453,
+                "bottom": 927.5000076293945,
+                "scrollWidth": 510,
+                "clientWidth": 510,
+                "overflowY": "auto",
+                "bodyFont": 16,
+                "inputFont": 16,
+                "viewportWidth": 768,
+                "viewportHeight": 1000
+              }
+            },
+            {
+              "name": "768px/100% text: dialog visible and scrollable",
+              "passed": true,
+              "detail": {
+                "left": 140.8000030517578,
+                "right": 627.2000274658203,
+                "top": 72.50000762939453,
+                "bottom": 927.5000076293945,
+                "scrollWidth": 510,
+                "clientWidth": 510,
+                "overflowY": "auto",
+                "bodyFont": 16,
+                "inputFont": 16,
+                "viewportWidth": 768,
+                "viewportHeight": 1000
+              }
+            },
+            {
+              "name": "768px/100% text: profile action reachable",
+              "passed": true,
+              "detail": null
+            },
+            {
+              "name": "768px/200% text: no page horizontal overflow",
+              "passed": true,
+              "detail": null
+            },
+            {
+              "name": "768px/200% text: body text actually resized",
+              "passed": true,
+              "detail": {
+                "left": 19.20000457763672,
+                "right": 748.7999801635742,
+                "top": 72.50000762939453,
+                "bottom": 927.5000076293945,
+                "scrollWidth": 766,
+                "clientWidth": 766,
+                "overflowY": "auto",
+                "bodyFont": 32,
+                "inputFont": 32,
+                "viewportWidth": 768,
+                "viewportHeight": 1000
+              }
+            },
+            {
+              "name": "768px/200% text: input text actually resized",
+              "passed": true,
+              "detail": 32
+            },
+            {
+              "name": "768px/200% text: dialog contained horizontally",
+              "passed": true,
+              "detail": {
+                "left": 19.20000457763672,
+                "right": 748.7999801635742,
+                "top": 72.50000762939453,
+                "bottom": 927.5000076293945,
+                "scrollWidth": 766,
+                "clientWidth": 766,
+                "overflowY": "auto",
+                "bodyFont": 32,
+                "inputFont": 32,
+                "viewportWidth": 768,
+                "viewportHeight": 1000
+              }
+            },
+            {
+              "name": "768px/200% text: dialog visible and scrollable",
+              "passed": true,
+              "detail": {
+                "left": 19.20000457763672,
+                "right": 748.7999801635742,
+                "top": 72.50000762939453,
+                "bottom": 927.5000076293945,
+                "scrollWidth": 766,
+                "clientWidth": 766,
+                "overflowY": "auto",
+                "bodyFont": 32,
+                "inputFont": 32,
+                "viewportWidth": 768,
+                "viewportHeight": 1000
+              }
+            },
+            {
+              "name": "768px/200% text: profile action reachable",
+              "passed": true,
+              "detail": null
+            },
+            {
+              "name": "390px/100% text: no page horizontal overflow",
+              "passed": true,
+              "detail": null
+            },
+            {
+              "name": "390px/100% text: body text actually resized",
+              "passed": true,
+              "detail": {
+                "left": 24.950002670288086,
+                "right": 365.0499782562256,
+                "top": 72.50000762939453,
+                "bottom": 927.5000076293945,
+                "scrollWidth": 356,
+                "clientWidth": 356,
+                "overflowY": "auto",
+                "bodyFont": 16,
+                "inputFont": 16,
+                "viewportWidth": 390,
+                "viewportHeight": 1000
+              }
+            },
+            {
+              "name": "390px/100% text: input text actually resized",
+              "passed": true,
+              "detail": 16
+            },
+            {
+              "name": "390px/100% text: dialog contained horizontally",
+              "passed": true,
+              "detail": {
+                "left": 24.950002670288086,
+                "right": 365.0499782562256,
+                "top": 72.50000762939453,
+                "bottom": 927.5000076293945,
+                "scrollWidth": 356,
+                "clientWidth": 356,
+                "overflowY": "auto",
+                "bodyFont": 16,
+                "inputFont": 16,
+                "viewportWidth": 390,
+                "viewportHeight": 1000
+              }
+            },
+            {
+              "name": "390px/100% text: dialog visible and scrollable",
+              "passed": true,
+              "detail": {
+                "left": 24.950002670288086,
+                "right": 365.0499782562256,
+                "top": 72.50000762939453,
+                "bottom": 927.5000076293945,
+                "scrollWidth": 356,
+                "clientWidth": 356,
+                "overflowY": "auto",
+                "bodyFont": 16,
+                "inputFont": 16,
+                "viewportWidth": 390,
+                "viewportHeight": 1000
+              }
+            },
+            {
+              "name": "390px/100% text: profile action reachable",
+              "passed": true,
+              "detail": null
+            },
+            {
+              "name": "390px/200% text: no page horizontal overflow",
+              "passed": true,
+              "detail": null
+            },
+            {
+              "name": "390px/200% text: body text actually resized",
+              "passed": true,
+              "detail": {
+                "left": 40.150001525878906,
+                "right": 349.85001373291016,
+                "top": 72.50000762939453,
+                "bottom": 927.5000076293945,
+                "scrollWidth": 324,
+                "clientWidth": 324,
+                "overflowY": "auto",
+                "bodyFont": 32,
+                "inputFont": 32,
+                "viewportWidth": 390,
+                "viewportHeight": 1000
+              }
+            },
+            {
+              "name": "390px/200% text: input text actually resized",
+              "passed": true,
+              "detail": 32
+            },
+            {
+              "name": "390px/200% text: dialog contained horizontally",
+              "passed": true,
+              "detail": {
+                "left": 40.150001525878906,
+                "right": 349.85001373291016,
+                "top": 72.50000762939453,
+                "bottom": 927.5000076293945,
+                "scrollWidth": 324,
+                "clientWidth": 324,
+                "overflowY": "auto",
+                "bodyFont": 32,
+                "inputFont": 32,
+                "viewportWidth": 390,
+                "viewportHeight": 1000
+              }
+            },
+            {
+              "name": "390px/200% text: dialog visible and scrollable",
+              "passed": true,
+              "detail": {
+                "left": 40.150001525878906,
+                "right": 349.85001373291016,
+                "top": 72.50000762939453,
+                "bottom": 927.5000076293945,
+                "scrollWidth": 324,
+                "clientWidth": 324,
+                "overflowY": "auto",
+                "bodyFont": 32,
+                "inputFont": 32,
+                "viewportWidth": 390,
+                "viewportHeight": 1000
+              }
+            },
+            {
+              "name": "390px/200% text: profile action reachable",
+              "passed": true,
+              "detail": null
+            },
+            {
+              "name": "reduced motion honored by spinner",
+              "passed": true,
+              "detail": null
+            }
+          ],
+          "errors": [],
+          "passed": true,
+          "limits": [
+            "No production identity or published access tested.",
+            "No screen-reader certification or offline support claim.",
+            "Text enlargement is explicit CSS resizing; real browser zoom needs manual verification."
+          ]
+        },
+        "previousReleaseEvidence": {
+          "browser-smoke": {
+            "routes": [
+              "programs",
+              "community",
+              "network",
+              "credentials",
+              "connections",
+              "studio",
+              "settings"
+            ],
+            "lessonEnrollmentReload": true,
+            "mobileOverflow": false,
+            "pageErrors": []
+          },
+          "api-integration": {
+            "checks": 36,
+            "passed": true,
+            "coverage": [
+              "authentication required",
+              "two-owner isolation",
+              "CAS conflict race",
+              "durable reload",
+              "idempotency mismatch and replay after reset",
+              "full learning and independent appeal",
+              "critical gate refusal",
+              "consent separation and withdrawal"
+            ],
+            "limits": [
+              "Hosted dispatcher authentication not exercised",
+              "Two sample staff actors share the owner account",
+              "No external partner or live AI service tested"
+            ]
+          },
+          "browser-journey": {
+            "passed": true,
+            "lessons": 3,
+            "quizChecks": 9,
+            "practicalDraftReload": true,
+            "manualRubricReview": true,
+            "practiceRecord": true,
+            "moderatedDiscussion": true,
+            "pageErrors": []
+          },
+          "responsive-lab": {
+            "checks": 54,
+            "overflow": [],
+            "webmcpBrowserSupport": false
+          },
+          "shared-api": {
+            "checks": 127,
+            "passed": true,
+            "coverage": [
+              "three independent identity fixtures",
+              "workspace and private-lab isolation",
+              "email-bound invitations and fixed roles",
+              "CAS seat and conflicting finalization races",
+              "global invitation token uniqueness and atomic collision rollback",
+              "review assignment and no self-review",
+              "revocation with stale requests",
+              "private draft projection",
+              "immutable appeal history and adverse suspension",
+              "reasoned cohort moderation",
+              "removed-member history"
+            ],
+            "limits": [
+              "Local identity headers are synthetic; hosted dispatcher authentication and real participant site access remain untested",
+              "No recognized certification, external partner or embedded AI integration"
+            ]
+          },
+          "shared-browser": {
+            "passed": true,
+            "workspaceCreation": true,
+            "staleInvitationInputRecovery": true,
+            "cohortCreation": true,
+            "emailBoundInvitationAcceptance": true,
+            "separateStaffAssignment": true,
+            "lessons": 3,
+            "quizChecks": 9,
+            "sharedDraftReload": true,
+            "assessmentWithSeparateTestIdentities": true,
+            "independentAdverseAppeal": true,
+            "suspendedPracticeRecord": true,
+            "moderatedCohortDiscussion": true,
+            "responsiveChecks": 60,
+            "overflows": [],
+            "pageErrors": [],
+            "limits": [
+              "Synthetic local identity headers; actual hosted recipient access not tested"
+            ]
+          },
+          "release": "0.2",
+          "unit": {
+            "passed": 29,
+            "failed": 0,
+            "personalLab": 15,
+            "sharedWorkspace": 14
+          },
+          "typecheck": {
+            "passed": true
+          },
+          "workerBuild": {
+            "passed": true
+          },
+          "identityBoundary": "All multi-account tests use local synthetic identity headers. Hosted recipient access and identity-header spoofing resistance remain unverified.",
+          "raceBoundary": "Actual same-revision seat allocation, conflicting finalization and invitation-token collision races tested. Revocation uses stale-request checks; no deterministic after-authorization barrier.",
+          "webmcp": {
+            "tools": [
+              "academy_read_progress",
+              "academy_open_pathway"
+            ],
+            "browserSupportValidation": "Feature detected, optional; execution unavailable in the tested browser."
+          }
+        }
+      },
+      "unavailableContentBrowser": {
+        "status": "Actual local built UI with intercepted read-only malformed-history fixtures",
+        "origin": "http://127.0.0.1:8787",
+        "checkedAt": "2026-10-05T08:10:54.966Z",
+        "cases": [
+          {
+            "variant": "unknown-legacy",
+            "stage": "learn",
+            "passed": true,
+            "pageErrors": [],
+            "mutations": []
+          },
+          {
+            "variant": "unknown-legacy",
+            "stage": "studio",
+            "passed": true,
+            "pageErrors": [],
+            "mutations": []
+          },
+          {
+            "variant": "unknown-legacy",
+            "stage": "credentials",
+            "passed": true,
+            "pageErrors": [],
+            "mutations": []
+          },
+          {
+            "variant": "missing-legacy",
+            "stage": "learn",
+            "passed": true,
+            "pageErrors": [],
+            "mutations": []
+          },
+          {
+            "variant": "missing-legacy",
+            "stage": "studio",
+            "passed": true,
+            "pageErrors": [],
+            "mutations": []
+          },
+          {
+            "variant": "missing-legacy",
+            "stage": "credentials",
+            "passed": true,
+            "pageErrors": [],
+            "mutations": []
+          },
+          {
+            "variant": "mixed-explicit",
+            "stage": "learn",
+            "passed": true,
+            "pageErrors": [],
+            "mutations": []
+          },
+          {
+            "variant": "mixed-explicit",
+            "stage": "studio",
+            "passed": true,
+            "pageErrors": [],
+            "mutations": []
+          },
+          {
+            "variant": "mixed-explicit",
+            "stage": "credentials",
+            "passed": true,
+            "pageErrors": [],
+            "mutations": []
+          },
+          {
+            "variant": "known-unavailable-known",
+            "stage": "studio-switch",
+            "passed": true,
+            "pageErrors": [],
+            "mutations": []
+          }
+        ],
+        "passed": 10,
+        "failed": 0
+      }
     }
   }
 }
