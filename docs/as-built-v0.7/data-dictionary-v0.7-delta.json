@@ -1,0 +1,251 @@
+{
+  "title": "Aplyd Academy v0.7 derived data dictionary delta",
+  "status": "Local source reviewed; no new persistent schema",
+  "base": "../as-built-docs/data-dictionary-v0.6.json",
+  "objects": [
+    {
+      "name": "TeamSummary (delta)",
+      "kind": "derived API projection",
+      "source": "lib/academy-teams.ts projectTeam summaries",
+      "authority": "Existing owner/facilitator current cohort scope",
+      "fields": {
+        "practiceRecordStatus": {
+          "type": "active | suspended | null",
+          "origin": "e.record.status or null",
+          "meaning": "Current saved practice record state; no inferred suspension"
+        },
+        "hasOpenAppeal": {
+          "type": "boolean",
+          "origin": "nonwithdrawn enrollment has open appeal",
+          "meaning": "Independent pending flag; may coexist with active record"
+        },
+        "hasPendingAssessment": {
+          "type": "boolean",
+          "origin": "nonwithdrawn enrollment has attempt without decision"
+        },
+        "status": {
+          "type": "existing string",
+          "meaning": "Legacy display status retained; not exclusive truth for all pending/record conditions"
+        }
+      },
+      "persistent": false
+    },
+    {
+      "name": "WorkspaceOperations",
+      "kind": "transient read model",
+      "source": "lib/academy-operations.ts WorkspaceOperations",
+      "fields": {
+        "workspaceId": "current projected workspace ID",
+        "workspaceName": "display string,80 max",
+        "audience": "owner | facilitator",
+        "asOf": "exact UTC ISO string from client observation time",
+        "cohorts": "CohortOperation[] current canHost scope",
+        "totals": "{cohorts,nonWithdrawnEnrollments,practiceRecords,savedLessons}: integer observations",
+        "reviews": "{scope:workspace|my_assignments,total,assessments,appeals,unassigned:null|integer,withoutEligibleStaff:null|integer,paused,oldestDays:null|integer,items:ReviewOperation[]}",
+        "content": "{available:boolean,reviewDue,reviewDateUnknown,reviewSoon,awaitingReview,approved,items:ContentOperation[]}",
+        "support": "{totalOpen,needsHandler,withoutIndependentHandler,handledByMe,items:SupportOperation[]}",
+        "sessions": "{total,nextSevenDays,hostUnavailable,attendanceToRecord,items:SessionOperation[]}"
+      },
+      "persistent": false,
+      "nullMeans": "No current staff authority, invalid exact now, malformed/overbounded inputs; no partial invented totals"
+    },
+    {
+      "name": "CohortOperation",
+      "kind": "transient metadata",
+      "source": "lib/academy-operations.ts",
+      "fields": {
+        "id": "item ID max160",
+        "title": "display string100",
+        "status": "open|closed|paused|unknown",
+        "capacity": "integer0..100|null",
+        "occupied": "integer0..100|null",
+        "newEnrollmentBlocked": "boolean current status/content availability observation",
+        "contentNotice": "string300|null",
+        "enrollments": "integer count all current summaries",
+        "nonWithdrawn": "integer status!=Withdrawn",
+        "learning": "integer legacy Learning observations",
+        "reviewPending": "integer independent canonical pending assessment flag",
+        "appealPending": "integer independent canonical open appeal flag",
+        "practiceCompleted": "integer explicit active record or legacy fallback",
+        "suspendedPracticeRecords": "integer explicit suspended record only",
+        "withdrawn": "integer legacy Withdrawn observations",
+        "other": "integer unrecognized display statuses",
+        "savedLessons": "integer sum completedLessons"
+      },
+      "persistent": false,
+      "note": "Record and pending counts overlap; never sum these as mutually exclusive headcount"
+    },
+    {
+      "name": "ReviewOperation",
+      "kind": "transient metadata",
+      "source": "lib/academy-operations.ts",
+      "fields": {
+        "id": "target item ID max160",
+        "kind": "assessment|appeal",
+        "cohortId": "current scope ID",
+        "cohortTitle": "display title100",
+        "learnerName": "display name80",
+        "createdAt": "exact recorded UTC ISO|null",
+        "ageDays": "nonnegative integer|null; original request age at client clock",
+        "assignment": "mine|assigned|unassigned",
+        "assignedName": "You|current bounded name|Assigned staff|null",
+        "eligibleStaffCount": "owner current eligible array length|null for facilitator",
+        "paused": "boolean current cohort paused",
+        "destination": "OperationsDestination"
+      },
+      "persistent": false,
+      "excludes": [
+        "submission fields",
+        "scores",
+        "decision notes",
+        "appeal reason",
+        "rubric"
+      ]
+    },
+    {
+      "name": "ContentOperation",
+      "kind": "owner-only transient metadata",
+      "source": "lib/academy-operations.ts",
+      "fields": {
+        "id": "current draft/publication ID",
+        "title": "display title200",
+        "kind": "publication|draft",
+        "state": "review_due|review_soon|review_date_unknown|in_review|approved",
+        "reviewDueAt": "exact UTC ISO|null",
+        "waitingSince": "draft updatedAt exact UTC ISO|null",
+        "ageDays": "nonnegative integer|null",
+        "reviewerName": "bounded name80|null",
+        "reviewerAvailable": "current active independent admin boolean|null for publication"
+      },
+      "persistent": false,
+      "excludes": [
+        "document",
+        "source packet",
+        "quiz answer",
+        "rubric",
+        "document hash",
+        "review notes"
+      ],
+      "note": "Available publications only; retirement/due intake gate does not revoke existing exact pins"
+    },
+    {
+      "name": "SupportOperation",
+      "kind": "transient metadata",
+      "source": "lib/academy-operations.ts",
+      "fields": {
+        "id": "current open request ID",
+        "category": "bounded category string30",
+        "cohortId": "current/former cohort ID|null workspace support",
+        "cohortTitle": "bounded display100",
+        "createdAt": "exact original UTC ISO|null",
+        "updatedAt": "exact current UTC ISO|null",
+        "openedDaysAgo": "nonnegative integer|null",
+        "handledByMe": "boolean from currently assigned IDs",
+        "handlerName": "bounded name80|null",
+        "needsHandler": "boolean projected handlerName===null",
+        "independentHandlerAvailable": "boolean current projected eligibility",
+        "canClaim": "boolean observation; command still server checked"
+      },
+      "persistent": false,
+      "excludes": [
+        "subject",
+        "requester ID/name",
+        "body",
+        "replies",
+        "resolution"
+      ]
+    },
+    {
+      "name": "SessionOperation",
+      "kind": "transient metadata",
+      "source": "lib/academy-operations.ts",
+      "fields": {
+        "id": "current scheduled session ID",
+        "title": "display title120",
+        "cohortId": "current canHost scope ID",
+        "cohortTitle": "display100",
+        "startsAt": "exact UTC ISO|null",
+        "endsAt": "exact UTC ISO|null",
+        "capacity": "integer0..100|null",
+        "occupied": "integer0..100|null",
+        "isHost": "boolean current projected host authority",
+        "hostAvailable": "boolean current saved host authority availability",
+        "paused": "boolean current cohort status",
+        "unrecordedAttendance": "count eligible current host roster marks|null for nonhost",
+        "phase": "upcoming|in_progress|attendance_window"
+      },
+      "persistent": false,
+      "excludes": [
+        "joining instructions",
+        "participant names",
+        "registration IDs",
+        "attendance reason/history"
+      ]
+    },
+    {
+      "name": "OperationsDestination / operationTarget",
+      "kind": "in-memory client navigation only",
+      "source": "lib/academy-operations.ts OperationsDestination; app/academy.tsx openOperation; app/academy-context.tsx",
+      "fields": {
+        "view": "teams|studio|support|network",
+        "section": "optional cohorts|progress|assignments|content|queue|assigned|sessions",
+        "id": "optional bounded current item reference",
+        "workspaceId": "client stamps current activeWorkspace; consumer requires exact equality"
+      },
+      "persistent": false,
+      "excludes": [
+        "bodies",
+        "evidence",
+        "authority token",
+        "pending command"
+      ],
+      "note": "Destination reselects current authorized projection; target cleared on workspace/access/account boundary"
+    },
+    {
+      "name": "Client read/identity controls",
+      "kind": "in-memory state/ref",
+      "source": "app/academy.tsx and app/academy-context.tsx",
+      "fields": {
+        "loadSequence": "monotonic response fence; only latest applies",
+        "writeInFlight": "ref prevents ordinary reads/write duplication during current write",
+        "authorityEpoch": "render key increment on explicit denied access or account change",
+        "accountId/currentUserId": "trusted response actor identifies scratch boundary",
+        "scratchKey": "account:workspace:form key",
+        "scratch": "own unsent input in memory; cleared on detected account change",
+        "asOf": "operation observation device clock; successful refresh advances"
+      },
+      "persistent": false,
+      "note": "No new DB schema; source behavior requires actual browser/race release evidence"
+    },
+    {
+      "name": "Session dialog selection",
+      "kind": "in-memory client selector only",
+      "source": "app/academy-network.tsx",
+      "fields": {
+        "cancel": "session ID|null",
+        "attendance": "{sessionId,registrationId}|null",
+        "cancelSource": "current projected scheduled cancellable session|null",
+        "attendanceSource": "current projected scheduled host session and registration within UI recording window|null",
+        "reason": "own unsent reason text"
+      },
+      "persistent": false,
+      "note": "Current permitted rows supply title and command; no previous server registration object retained. Canonical server time/role/revision still decide writes."
+    }
+  ],
+  "limits": {
+    "cohorts": 20,
+    "summaries": 5000,
+    "pending": 5000,
+    "assigned": 5000,
+    "support": 100,
+    "sessions": 100,
+    "drafts": 24,
+    "publications": 8,
+    "sectionRows": 8,
+    "ownerMembers": 100,
+    "hostRoster": 100,
+    "itemIdCharacters": 160,
+    "admittedSubjectOuterCharacters": 1800000
+  },
+  "privacy": "Only current projectTeam(...).team accepted; no raw Team input or command authority"
+}

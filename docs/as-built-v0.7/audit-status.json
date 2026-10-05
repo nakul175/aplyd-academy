@@ -1,0 +1,10 @@
+{
+  "release": "0.7",
+  "rootIntegration": "verified locally",
+  "deniedReadMasking": "six browser faults passed",
+  "attendanceCurrentAuthority": "staleCAS409/currentGET200 browser check passed",
+  "accountIsolation": "nine browser scenarios passed",
+  "focus": "twelve operational journeys, repeated publication routes, four cancellation cases and seven isolated helper DOM cases passed",
+  "productionAndOperatorAcceptance": "NOT RUN",
+  "evidence": "../test-evidence.json"
+}

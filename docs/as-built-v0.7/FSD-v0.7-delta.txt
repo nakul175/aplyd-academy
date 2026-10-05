@@ -1,0 +1,41 @@
+APLYD ACADEMY — FUNCTIONAL DELTA v0.7
+Status: current local implementation reviewed; operator acceptance and hosted release evidence remain separate.
+Source root: work/aplyd-academy. This adds to the v0.6 as-built pack.
+
+F07-01. Entry and audience
+An active workspace owner or facilitator sees Workspace operations in the sidebar. Owners receive workspace-wide operational metadata; facilitators receive only cohorts with the current canonical canHost bit. Learners, plain assessors/reviewers/moderators and inactive members cannot obtain an operations model. A facilitator with no current scopes may see an empty explanatory screen. Review studio remains a separate route for actually assigned staff.
+Source: lib/academy-operations.ts canShowWorkspaceOperations and deriveWorkspaceOperations; app/academy.tsx navigation.
+
+F07-02. Honest cohort snapshot
+The snapshot shows occupied/capacity seats, nonwithdrawn enrollments, saved learning and practice-record/pending-work observations. A valid active practice record remains active during a timely open appeal; it counts both as a record and an appeal. Explicit suspended records are counted separately. Pending assessment, open appeal and practiceRecordStatus are independent canonical fields, rather than mutually exclusive interpretations of the existing status label. Learning and withdrawn observations still come from that label. Counts can overlap and the UI says so. No job outcome, accreditation or competence claim follows from these metrics.
+Source: lib/academy-teams.ts projectTeam summaries; lib/academy-operations.ts cohort accumulation; app/academy-teams-ui.tsx ProgressSummary; app/academy-operations.tsx snapshot.
+
+F07-03. Review workload and assignment
+Owners see pending assessment/appeal metadata, current assignee, current independent staff availability and paused-cohort flags. They arrange assignment through the existing protected owner view. Facilitators see only their current assigned work in their cohort scope; scope alone does not reveal evidence or pending queue dates. Open my review selects a currently assigned target in Review studio. Created age refers to the original submission/appeal date, not assignment age or a turnaround promise. The first eight oldest rows are shown; totals include the remaining visible queue. Long admitted staff subjects must not be mistaken for unassigned records.
+Source: lib/academy-operations.ts review rows; app/academy-operations.tsx Review workload; app/academy-teams-ui.tsx TeamStudio/Assignments.
+
+F07-04. Support handling
+Operational rows show category, cohort, original open/last update date and current handler availability only. They omit requester identity, subject, message bodies, replies and resolution notes. Owner and facilitator scoping stays inherited from projectSupport. The button opens the protected support queue or the current account's assigned request; a row never grants request-body access or claims it automatically. Reopened-request age remains its original opening date. There is no staffed response time or external notification promise.
+Source: lib/academy-support.ts projectSupport; lib/academy-operations.ts support rows; app/academy-support.tsx current queue/assigned relookup.
+
+F07-05. Owner content review
+Only owners receive draft/publication operational metadata. Submitted and approved drafts are flagged with current reviewer independence/availability. Available private publications due now, with invalid recorded dates, or due within seven days are flagged; retired publications are excluded from this attention list. Open content studio selects a current projected draft review or focuses the publication card. No source packet, quiz answer, rubric, document hash or review note is copied into the operational model.
+A due or retired publication blocks new cohort enrollment through existing server checks. Existing learners, submissions and assigned reviews retain their exact immutable content reference. Cohort pause remains a separate owner action; due content does not suspend an existing practice record.
+Source: lib/academy-authoring.ts availability/resolution; lib/academy-operations.ts content rows; app/academy-authoring.tsx operations navigation.
+
+F07-06. Practice-session operations
+Within canonical current facilitator scope, scheduled upcoming/live sessions in the next seven days are listed. An eligible current host can also see an ended session still within its seven-day attendance-recording window when eligible marks remain. Operational output contains counts and current host status, not joining instructions, participant names, roster IDs or attendance reasons. The button opens the existing session view, whose current host/registration projection and server command checks remain authoritative. Participation still does not issue a lesson completion or practice credential.
+Source: lib/academy-network.ts projectNetwork/attendance; lib/academy-operations.ts session rows; app/academy-network.tsx.
+
+F07-07. Reference-only navigation and refresh
+Operation links carry view, optional section and item ID in memory, stamped with the current workspace ID. Destinations reselect the current authorized projection; no evidence/body, saved command or privilege is carried in the target. Item IDs are not written into the navigation URL. Workspace switching clears private versions, team projection and pending operation target before loading the new workspace.
+The dashboard refreshes on demand and every 30 seconds while its tab is visible, and when visibility returns. It skips a concurrent refresh, initial load or actual write in flight. Successful refresh advances the client observation clock. Dates/ages are observations from the device clock and saved timestamps; server commands still enforce timing and permissions.
+Source: app/academy-context.tsx useOperationsNavigation/focusOperationItem; app/academy-operations-page.tsx; app/academy.tsx.
+
+F07-08. Denied access and account changes
+An explicit GET401/403/404 clears projected state/private versions/operation targets and remounts destination views under an authority epoch, replacing the shared view with an access-unavailable projection. Read sequence checks discard stale earlier responses; actual writes invalidate earlier reads and require explicit forced refresh on conflict. A signed-in account change clears personal unsent scratch and pending navigation. Scratch keys include account plus workspace. Ordinary own unsent input remains in memory across a same-account authority refresh; it is not persisted or exported automatically.
+A GET200 inactive membership projection can still expose the user's own retained history. Temporary network/503 errors are distinct from explicit access denial and do not assert that cached context is current. Browser validation of these safeguards remains root-owned. Attendance/cancellation dialogs also store IDs, reselect current permitted session/registration rows and close when that context is no longer available. Previously retained participant objects are no longer used. The corrected-build authority-loss browser retest remains pending.
+Source: app/academy.tsx maskReadAccess/acceptAccount/load/teamCmd/cmd/Fragment authorityEpoch; app/academy-context.tsx useWorkspaceDraft; app/api/academy/route.ts currentUserId.
+
+F07-09. Release boundaries
+No new persistent schema, dashboard command, public catalog publication, real AI generation, formal accreditation, partner transfer, staff escalation service or production SLA is introduced. Existing v0.6 role separation, revision/idempotency checks, bounded storage and private immutable curriculum contracts remain necessary. The earlier BRD and proposed PostgreSQL/API-v1 pack are targets, not this D1 implementation or accepted production commitments.

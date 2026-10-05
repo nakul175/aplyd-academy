@@ -74,3 +74,12 @@ Any current owner can archive an abandoned unpublished draft without deleting it
 The editor preserves own unsent text through authority refresh and explicit conflict recovery, freezes inputs during saves, and shows terminal documents from canonical saved content. Learner cards label private practice drafts; the direct Offer action opens cohort creation with the exact version selected. Existing global seed archive bytes remain unchanged. No schema migration, hosting-audience expansion, live AI call or external partner request is included.
 
 Executed verification and remaining release limits are recorded in `test-evidence.json`; the functional contract is in `private-content-studio.md` and the detailed implementation documents are under `as-built-v0.6/`.
+
+
+# v0.7 · Workspace operations and changing access
+
+Current owners and scoped facilitators can see permitted cohort progress, assessment and appeal queues, content review dates, support handling and upcoming sessions. Counts come from the current server projection; the dashboard does not copy practical evidence, support bodies, joining instructions or private plans. Links select an existing permitted item and leave the actual action to its normal screen. A current practice record and an open appeal can be shown together without changing the record's status.
+
+The dashboard refreshes manually and every 30 seconds while visible, with read/write fencing. Current denied reads clear protected content and cached destination components. Canonical account identity isolates in-memory unsent drafts, and a directory identity mismatch masks the previous projection. A successfully acknowledged save remains successful if its directory refresh subsequently fails. Attendance dialogs reselect their session and participant from the current permitted projection rather than retaining an old roster object.
+
+Content studio capacity messages now distinguish active slots from retained history. Desktop, tablet and phone layouts include an improved metrics row at doubled text size. No migration, curriculum archive change, hosting-audience change, notification or live partner/AI request is included. Executed verification is recorded in test-evidence.json; implementation and unexecuted operator checks are under as-built-v0.7/.

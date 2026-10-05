@@ -1,0 +1,195 @@
+{
+  "title": "Aplyd Academy v0.7 as-built source manifest",
+  "capturedAt": "2026-10-05T10:01:29.117192+00:00",
+  "sourceRoot": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/aplyd-academy",
+  "outputRoot": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/aplyd-academy/docs/as-built-v0.7",
+  "scope": "Root integrated v0.7 source manifest; executed local evidence is separately attributed in docs/test-evidence.json. Operator acceptance remains NOT RUN.",
+  "sourceFiles": [
+    {
+      "relativePath": "lib/academy-operations.ts",
+      "bytes": 14069,
+      "sha256": "ab90dd9b665b06d875f6a01baf977901854af19c42c3637730d6345d3e35f5b5"
+    },
+    {
+      "relativePath": "lib/academy-teams.ts",
+      "bytes": 23135,
+      "sha256": "9a483032c77081caa4958a47fcf37fe9291940450499089bab8a6d10b0821e8c"
+    },
+    {
+      "relativePath": "lib/academy-engine.ts",
+      "bytes": 16611,
+      "sha256": "bf646a67f10fc1aaf5edb86d24110e7166b8586d1ffb55440361662c98a4f78c"
+    },
+    {
+      "relativePath": "lib/academy-authoring.ts",
+      "bytes": 26897,
+      "sha256": "6ed1e436dba8ea86d9dcbb999790b5292a38e84ca27b53fb14423b35dfbbf7e8"
+    },
+    {
+      "relativePath": "lib/academy-support.ts",
+      "bytes": 12618,
+      "sha256": "304b51e0558a76f34775405ed7e31884a2aebcdf3649d8fe7dab9658672876e1"
+    },
+    {
+      "relativePath": "lib/academy-network.ts",
+      "bytes": 10629,
+      "sha256": "780610d02d4f063f5413db588455079ea98136eb0f7f0f576fff4390ae047414"
+    },
+    {
+      "relativePath": "lib/academy-curriculum.ts",
+      "bytes": 7719,
+      "sha256": "02a7e32aa7f56e1bc06694987946f804d33fdd17ab781749142f72f42bda722c"
+    },
+    {
+      "relativePath": "lib/curriculum-versions/0.1-review-draft.json",
+      "bytes": 65054,
+      "sha256": "9fc83c8dd615456db8f49d140f56bff566e05c14d32ebb70a14cdcb73078b7e4"
+    },
+    {
+      "relativePath": "app/academy-operations.tsx",
+      "bytes": 12647,
+      "sha256": "3b1879a8aeb16357637e3ca03368155b19599d38f12de740db1af45cc7257257"
+    },
+    {
+      "relativePath": "app/academy-operations-page.tsx",
+      "bytes": 1134,
+      "sha256": "be0551cf221dbd8b730aed9b495f804cc77c8d8afea0d2417a71f535c351c45a"
+    },
+    {
+      "relativePath": "app/academy-context.tsx",
+      "bytes": 3044,
+      "sha256": "0761ff83f63ef6f34a7067471325798235d5d661ad479bb7d100ad0abd890c75"
+    },
+    {
+      "relativePath": "app/academy.tsx",
+      "bytes": 24460,
+      "sha256": "d6f017aa0153ab3255198fc4113612c294a76084d58f6c91522d489632232405"
+    },
+    {
+      "relativePath": "app/academy-teams-ui.tsx",
+      "bytes": 28702,
+      "sha256": "b580f3ba6546fbdb06b372bb6e145f0f447f3a78a979da658eb747a29ce5a3d7"
+    },
+    {
+      "relativePath": "app/academy-authoring.tsx",
+      "bytes": 36951,
+      "sha256": "aebb37d148118b3fafffdcec357db9a309dbf976dc2f76eeb8e19ef0a8b1126f"
+    },
+    {
+      "relativePath": "app/academy-support.tsx",
+      "bytes": 14459,
+      "sha256": "96bbd3214a5a7ddc3eab23907aebf61b14140e70bf1ce6ea858fcaf290c74deb"
+    },
+    {
+      "relativePath": "app/academy-network.tsx",
+      "bytes": 14762,
+      "sha256": "3e61681cc56be26dd5221dde383cd7121beb181fcf9d7432c40179e0f8b42ef9"
+    },
+    {
+      "relativePath": "app/api/academy/route.ts",
+      "bytes": 3986,
+      "sha256": "08adf9f74842d983d003e0d8d6ad7b08407d7dad6200b32bfcf76675cf556991"
+    },
+    {
+      "relativePath": "app/api/teams/route.ts",
+      "bytes": 8024,
+      "sha256": "2c1c4e1ccff48a0fd45aed0728a594aed45fe2136114a6510ac0533cf2584b95"
+    },
+    {
+      "relativePath": "db/schema.ts",
+      "bytes": 1826,
+      "sha256": "e89f82c873f6022834c541a062b39a545cb581e6e4676aff1894eb0a9f4f00d8"
+    }
+  ],
+  "documents": [
+    {
+      "relativePath": "data-dictionary-v0.7-delta.json",
+      "bytes": 10570,
+      "sha256": "9edd55f934bee59fdfc0894ce829c27a708c0fc90e8483cd9d24673394f63d00"
+    },
+    {
+      "relativePath": "audit-status.json",
+      "bytes": 1236,
+      "sha256": "6a1911ff3f25517497fd0448ee5e05679751546f3de21665d8bd578ceb57d397"
+    },
+    {
+      "relativePath": "FSD-v0.7-delta.txt",
+      "bytes": 7794,
+      "sha256": "1a48dd37ea7d7daa21459ac60aa9b68ef7e19f7697f2c07bd350864f922e7900"
+    },
+    {
+      "relativePath": "README.txt",
+      "bytes": 1743,
+      "sha256": "8d9eb3930eb4bb446786bb09275bc699aec1344c24df66da6a3588c972ddee27"
+    },
+    {
+      "relativePath": "LLD-v0.7-delta.txt",
+      "bytes": 8585,
+      "sha256": "131e04a96b5f3eb7418a9449ea998e25293db50d7d623128278ca482271cfaa4"
+    },
+    {
+      "relativePath": "operator-acceptance-v0.7-additions.txt",
+      "bytes": 5881,
+      "sha256": "6161718c1bd2036a4a1f3155957ce006f5ee8e04507d838da5e4a847cba36301"
+    }
+  ],
+  "qaExecution": {
+    "isolatedActualSourceTests": {
+      "executedAt": "2026-10-05T09:37:56.385Z",
+      "passed": true,
+      "testCount": 12,
+      "scope": "ACTUAL CURRENT ROOT source pure-domain/projectTeam AND integrated lib/academy-operations.ts; synthetic in-memory actors only",
+      "sources": [
+        {
+          "name": "lib/academy-teams.ts",
+          "sha256": "9a483032c77081caa4958a47fcf37fe9291940450499089bab8a6d10b0821e8c"
+        },
+        {
+          "name": "lib/academy-engine.ts",
+          "sha256": "bf646a67f10fc1aaf5edb86d24110e7166b8586d1ffb55440361662c98a4f78c"
+        },
+        {
+          "name": "lib/academy-authoring.ts",
+          "sha256": "6ed1e436dba8ea86d9dcbb999790b5292a38e84ca27b53fb14423b35dfbbf7e8"
+        },
+        {
+          "name": "lib/academy-curriculum.ts",
+          "sha256": "02a7e32aa7f56e1bc06694987946f804d33fdd17ab781749142f72f42bda722c"
+        },
+        {
+          "name": "lib/academy-operations.ts",
+          "sha256": "ab90dd9b665b06d875f6a01baf977901854af19c42c3637730d6345d3e35f5b5"
+        }
+      ],
+      "note": "Current-root tests assert the corrected active-record/open-appeal overlap. Earlier masking reproduction remains in baseline-v0.6-reproduction with its original source hashes. No decorated or in-memory patched projection is used here.",
+      "limitations": [
+        "No API/D1 CAS race, hosted authentication, real participant or deployment tested.",
+        "Source integration is tested through the actual pure read model; browser UI and hosted operating acceptance remain separate.",
+        "No checkout edits or external data writes."
+      ]
+    },
+    "longSubjectFixture": {
+      "passed": true,
+      "executedAt": "2026-10-05T09:37:56.502Z",
+      "scope": "Isolated actual-domain/projectTeam/read-model source bundle; synthetic in-memory subjects, no API",
+      "admittedSubjectLength": 205,
+      "canonicalAssignmentExists": true,
+      "canonicalEligibleStaff": 1,
+      "operationsAssignment": "assigned",
+      "operationsAssignedName": "Synthetic assigned assessor",
+      "operationsUnassignedCount": 0,
+      "desiredAssignment": "assigned",
+      "desiredAssignedName": "Synthetic assigned assessor",
+      "reproduced": false,
+      "limitation": "The hosting identity provider actual subject-length contract was not tested. Application domain presently admits this subject; this is metadata accuracy, not authority bypass."
+    },
+    "rootUnitCount": null,
+    "rootApiCount": null,
+    "rootBrowserCount": null,
+    "hostedParticipantChecks": null,
+    "operatorChecklist": "18 NOT RUN items OP-37..OP-54",
+    "note": "Counts above are this bounded actual-source pure read-model evidence only. Root release counts and API/browser race evidence remain placeholders.",
+    "documentationConsistency": "PASS: JSON parse,10 derived objects,18 unique NOT RUN operator checks, unchanged65054-byte archive expected hash; document hashes match."
+  },
+  "legacyArchiveExpectedSha256": "9fc83c8dd615456db8f49d140f56bff566e05c14d32ebb70a14cdcb73078b7e4"
+}

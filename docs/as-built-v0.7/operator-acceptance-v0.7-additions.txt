@@ -1,0 +1,94 @@
+APLYD ACADEMY — v0.7 OPERATOR ACCEPTANCE ADDITIONS
+Supplement v0.6 OP-01..OP-36. All items NOT RUN; these are manual operating acceptance steps, not a copied automated pass count. Use synthetic local fixtures unless the owner separately authorizes an actual hosted pilot audience.
+Record for each item: actor/current roles+scope, source/release hash, fixture clock vs server clock, exact result, evidence path and reviewer.
+
+[ ] OP-37 — Owner scope and navigation
+Status: NOT RUN
+Expected: Use synthetic owner with two cohorts. Verify operations counts metadata only, each exact navigation opens existing protected view and current target; URL never includes evidence/item payload.
+Evidence: PENDING
+
+[ ] OP-38 — Facilitator scope
+Status: NOT RUN
+Expected: Use synthetic facilitator scoped only cohortA and also learner in cohortB. Operations contains only canHost cohortA, no cohortB summaries, private drafts or unassigned evidence.
+Evidence: PENDING
+
+[ ] OP-39 — Staff role separation
+Status: NOT RUN
+Expected: Plain assessor/reviewer/moderator and learner have no operations entry/model. Current assigned reviewer may still open Review studio through its existing protected route.
+Evidence: PENDING
+
+[ ] OP-40 — Active record with timely appeal
+Status: NOT RUN
+Expected: Pass assessment then open timely appeal. Own record decision/issuedAt stays active and exact. Operations reports record1 and appeal1 independently; original decision/history is retained.
+Evidence: PENDING
+
+[ ] OP-41 — Suspended record with retry
+Status: NOT RUN
+Expected: Reject appeal with independent reviewer, then submit retry. Explicit suspended record and pending assessment both count; older attempt/appeal and decision provenance persist.
+Evidence: PENDING
+
+[ ] OP-42 — Assignment revocation and finalization
+Status: NOT RUN
+Expected: Remove assessor/reviewer role or cohort scope after assignment. Successful current read drops assigned body and target; stale finalization rejects without rewriting attempt/appeal. Current eligible reassignment remains possible.
+Evidence: PENDING
+
+[ ] OP-43 — Long admitted staff subject
+Status: NOT RUN
+Expected: Use domain-admitted synthetic staff subject longer than160. Actual assignment must render assigned/name, not awaiting assignment. Provider subject-length coverage is a separate hosted check.
+Evidence: PENDING
+
+[ ] OP-44 — Support metadata minimization
+Status: NOT RUN
+Expected: Open synthetic support containing unique subject/body/reply/resolution markers. None appear in operations output/DOM; currently assigned protected support view retains permitted details.
+Evidence: PENDING
+
+[ ] OP-45 — Private draft/publication minimization
+Status: NOT RUN
+Expected: Draft/source/rubric/review-note markers never appear in operations output. Owner target opens current studio; facilitator receives no content rows or bodies.
+Evidence: PENDING
+
+[ ] OP-46 — Due and retired continuation
+Status: NOT RUN
+Expected: Create immutable private publication/cohort and existing enrollment/review. Move observation/server fixtures past due or retire it. New intake rejects; existing lesson/evidence/review pins still resolve exact historical content. Retired item is absent from attention list.
+Evidence: PENDING
+
+[ ] OP-47 — Cohort pause distinct from due
+Status: NOT RUN
+Expected: Pause current cohort and verify operational warning plus server lesson/review pause. Reopen restores permitted actions. Content expiry alone must not suspend record or replace version.
+Evidence: PENDING
+
+[ ] OP-48 — Session count privacy and window
+Status: NOT RUN
+Expected: With two synthetic RSVP participants, compare current host/nonhost. Operations never exposes roster names/instructions. Current host gets eligible marks only within actual recording window; device clock alone cannot authorize server attendance.
+Evidence: PENDING
+
+[ ] OP-49 — Explicit read denial
+Status: NOT RUN
+Expected: At current owner dashboard, inject GET401/403/404 separately. Protected team/private content/targets disappear and destination views remount; retained Open my review cannot expose evidence. Preserve screenshot and response evidence.
+Evidence: PENDING
+
+[ ] OP-50 — Successful permission-loss projection
+Status: NOT RUN
+Expected: With same account and GET200, remove facilitator/host/assigned authority. Current operational rows/bodies disappear. If attendance modal was open, former participant name must disappear or be replaced by current-authority unavailable state; no retained prior server object.
+Evidence: PENDING
+
+[ ] OP-51 — Read/write and workspace races
+Status: NOT RUN
+Expected: Delay older read, save newer revision then release oldread; old response must not overwrite. Delay workspaceA read while switchingB; no A names/versions/target resurface. Manual/automatic refresh skips actual write in flight.
+Evidence: PENDING
+
+[ ] OP-52 — Account change and unsent input
+Status: NOT RUN
+Expected: Type own unsent synthetic content/support input. Same-account conflict/permission refresh preserves own input only. Switch signed-in synthetic subject; prior account scratch and private destination state must clear, with no automatic submit/rebase/export.
+Evidence: PENDING
+
+[ ] OP-53 — Visibility and network errors
+Status: NOT RUN
+Expected: Hidden operations tab avoids30-second polling; return refreshes. Explicit denial masks. Temporary503/offline shows global error and does not advance successful observation time. Age labels never invent unknown/future dates or SLA.
+Evidence: PENDING
+
+[ ] OP-54 — Bounds, keyboard and layout
+Status: NOT RUN
+Expected: Create9+ operational rows and confirm totals exceed displayed8 honestly. Malformed/overbounded input returns unavailable rather than partial totals. Keyboard links focus current destination; narrow/tablet/desktop and200% text retain controls and readable content.
+Evidence: PENDING
+

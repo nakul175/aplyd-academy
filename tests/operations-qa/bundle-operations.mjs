@@ -1,0 +1,10 @@
+import {mkdirSync,readFileSync,writeFileSync} from 'node:fs';
+import {createHash} from 'node:crypto';
+import {resolve} from 'node:path';
+import {pathToFileURL} from 'node:url';
+import {appRoot,out} from './qa-paths.mjs';
+const {build}=await import(pathToFileURL(resolve(appRoot,'node_modules/esbuild/lib/main.js')).href);
+const source=resolve(appRoot,'lib/academy-operations.ts'),runtime=new URL('runtime/',out);mkdirSync(runtime,{recursive:true});
+await build({entryPoints:[source],bundle:true,platform:'node',format:'esm',outfile:new URL('operations.mjs',runtime).pathname});
+writeFileSync(new URL('source.json',runtime),JSON.stringify({source,sha256:createHash('sha256').update(readFileSync(source)).digest('hex'),bundledAt:new Date().toISOString()},null,2));
+console.log('Integrated operations model bundled into .sites-runtime/operations-qa/runtime.');
