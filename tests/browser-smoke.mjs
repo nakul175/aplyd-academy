@@ -1,9 +1,10 @@
 import {chromium} from '/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.mjs';
 import {writeFileSync} from 'node:fs';
+const qaBuilt=process.env.ACADEMY_QA_BUILT==='1',qaOrigin=qaBuilt?'http://127.0.0.1:8787':'http://127.0.0.1:5173',qaHeaders=qaBuilt?{'oai-authenticated-user-id':'lab-browser-'+crypto.randomUUID(),'oai-authenticated-user-email':'synthetic@academy.test'}:{};
 const browser=await chromium.launch({executablePath:'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',headless:true});
-const context=await browser.newContext({viewport:{width:1440,height:1000}}),page=await context.newPage(),errors=[];
+const context=await browser.newContext({viewport:{width:1440,height:1000},extraHTTPHeaders:qaHeaders}),page=await context.newPage(),errors=[];
 page.on('pageerror',e=>errors.push(e.message));
-await page.goto('http://127.0.0.1:5173/');
+await page.goto(qaOrigin+'/');
 await page.getByText('What will you put to work today?').waitFor();
 await page.getByText('Saved privately',{exact:true}).waitFor();
 await page.screenshot({path:'.sites-runtime/desktop.png',fullPage:true});

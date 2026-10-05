@@ -32,20 +32,6 @@
       "No external partner or live AI service tested"
     ]
   },
-  "unit": {
-    "passed": 15,
-    "failed": 0
-  },
-  "typecheck": {
-    "passed": true
-  },
-  "webmcp": {
-    "tools": [
-      "academy_read_progress",
-      "academy_open_pathway"
-    ],
-    "browserSupportValidation": "Not available in headless test browser; feature detected and optional."
-  },
   "browser-journey": {
     "passed": true,
     "lessons": 3,
@@ -56,9 +42,73 @@
     "moderatedDiscussion": true,
     "pageErrors": []
   },
-  "responsive": {
+  "responsive-lab": {
     "checks": 54,
     "overflow": [],
     "webmcpBrowserSupport": false
+  },
+  "shared-api": {
+    "checks": 127,
+    "passed": true,
+    "coverage": [
+      "three independent identity fixtures",
+      "workspace and private-lab isolation",
+      "email-bound invitations and fixed roles",
+      "CAS seat and conflicting finalization races",
+      "global invitation token uniqueness and atomic collision rollback",
+      "review assignment and no self-review",
+      "revocation with stale requests",
+      "private draft projection",
+      "immutable appeal history and adverse suspension",
+      "reasoned cohort moderation",
+      "removed-member history"
+    ],
+    "limits": [
+      "Local identity headers are synthetic; hosted dispatcher authentication and real participant site access remain untested",
+      "No recognized certification, external partner or embedded AI integration"
+    ]
+  },
+  "shared-browser": {
+    "passed": true,
+    "workspaceCreation": true,
+    "staleInvitationInputRecovery": true,
+    "cohortCreation": true,
+    "emailBoundInvitationAcceptance": true,
+    "separateStaffAssignment": true,
+    "lessons": 3,
+    "quizChecks": 9,
+    "sharedDraftReload": true,
+    "assessmentWithSeparateTestIdentities": true,
+    "independentAdverseAppeal": true,
+    "suspendedPracticeRecord": true,
+    "moderatedCohortDiscussion": true,
+    "responsiveChecks": 60,
+    "overflows": [],
+    "pageErrors": [],
+    "limits": [
+      "Synthetic local identity headers; actual hosted recipient access not tested"
+    ]
+  },
+  "release": "0.2",
+  "unit": {
+    "passed": 29,
+    "failed": 0,
+    "personalLab": 15,
+    "sharedWorkspace": 14
+  },
+  "typecheck": {
+    "passed": true
+  },
+  "workerBuild": {
+    "passed": true
+  },
+  "identityBoundary": "All multi-account tests use local synthetic identity headers. Hosted recipient access and identity-header spoofing resistance remain unverified.",
+  "raceBoundary": "Actual same-revision seat allocation, conflicting finalization and invitation-token collision races tested. Revocation uses stale-request checks; no deterministic after-authorization barrier.",
+  "webmcp": {
+    "tools": [
+      "academy_read_progress",
+      "academy_open_pathway"
+    ],
+    "browserSupportValidation": "Feature detected, optional; execution unavailable in the tested browser."
   }
 }

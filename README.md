@@ -1,39 +1,44 @@
-# Aplyd Academy working pilot
+# Aplyd Academy working pilot · v0.2
 
-A private, durable learning application for farmers, MSME owners and public servants. Learners choose a work goal, complete guided lessons with fictional source packets, check an AI draft, submit practical evidence and track feedback and work reflections.
+A durable learning application for farmers, MSME owners and public servants. Learners practise on fictional source packets, check supplied AI drafts, submit practical evidence, receive reasoned feedback and reflect on their work.
 
-## Implemented experience
+## What works
 
-- Three versioned draft pathways; nine substantive lessons; 27 explained quiz checks.
-- Saved lesson practice and practical-assessment drafts, sequential progression and immutable submission snapshots.
-- Manual sample assessor studio, weighted rubrics, evidence references, critical gates, retry limits and independent sample-actor appeals.
-- Clearly labelled nonaccredited practice completion records, downloads and chosen profile export.
-- Moderated owner-private discussions/replies/reports and saved peer-learning interests.
-- Work-trigger mappings and bounded ecosystem return-payload simulation with separate grants. No real partner calls.
-- Reading mode, optional browser read-aloud, profile preferences, data export and learning-data deletion.
+- Three pinned draft pathways, nine lessons and 27 explained quiz checks.
+- Saved lesson/practical drafts, sequential progression, immutable submissions, critical-gate rubrics, three attempts and 14-day independent appeals.
+- A **personal practice lab** with sample staff roles, private discussion, ecosystem payload simulation, learning export and lab-data deletion.
+- Separate **shared workspaces** with account-bound invitations, memberships, scoped staff roles, cohorts, capacity enforcement and withdrawal.
+- Explicit assessment/appeal assignments to signed-in accounts. Self-review and original-assessor appeal review are forbidden. Owners/facilitators receive progress summaries without private evidence.
+- Cohort discussion with prepublication moderation, restricted reports and reasoned moderation history.
+- Nonaccredited practice records with review provenance, adverse-appeal suspension, downloads and learner exports.
+- Reading mode, browser read-aloud, saved peer-learning interests and work reflections.
 
-## Access and persistence
+## Access
 
-Hosted access remains owner-private. ChatGPT sign-in is handled by the platform; API identity is verified server-side from dispatcher-provided headers. Local development uses the bundled local sign-in simulator. The built local worker is used with explicit synthetic identity fixtures for isolation tests; that does not test the hosted dispatcher.
+The hosted site remains owner-private. Platform sign-in provides server-side account identity. **Site access and Academy membership are separate gates:** an Academy invitation cannot change the hosting audience or admit its recipient to the private site. Hosting access must be arranged before a real participant can sign in and accept. Links are copied manually; this app sends no invitation email or other messages.
 
-Each authenticated owner has an isolated database workspace. Its aggregate document uses a revision for compare-and-swap updates. State and minimal action audit commit atomically. Action references and request fingerprints provide durable idempotency. No browser storage is the authoritative learning record. A one-megabyte workspace limit bounds this first pilot. This aggregate design must be evolved for real multi-person cohorts and high-volume operation.
+The personal lab never becomes a shared workspace. Creating/joining a workspace starts fresh and does not copy lab drafts, sample decisions or posts. Shared evidence is limited to its learner and explicitly assigned staff. Ownership alone does not grant evidence access. Members whose access is removed retain read-only access to their own saved learning history and records; they lose discussion and protected actions.
 
-The private owner intentionally operates all sample staff roles. The server requires different named sample actors for appeals, but these actors are not independently authenticated employees. Sample outcomes are practice records. Real staff authorization and issuer authority are prerequisites for recognized credentials.
+## Persistence and concurrency
 
-## Development
+D1 stores private owner documents and separate shared-workspace documents. Protected shared operations use one workspace revision and an atomic state/audit batch. Membership revocation, review assignment/finalization, invitations, moderation and seat allocation contend on that same revision. Stale writes are refused and the client refreshes while retaining form input. Action references and request hashes provide durable idempotency; changed-body reuse is refused.
 
-Use the configured Node/npm runtime. Install dependencies with the Sites installer. Run `npm run dev` and visit the printed local URL. `npm run db:generate` appends schema migrations. Build and apply pending local SQL migrations following the retained starter instructions before database-backed preview. Do not reapply recorded SQL.
+Globally unique invitation-token hashes are indexed in a separate table and committed with the workspace mutation. Tokens expire after seven days, are recipient-email bound, and cannot be reused. An issuer losing owner authority invalidates its outstanding invitations. The platform supplies the email; invitation request fields cannot impersonate a recipient.
 
-Run `node node_modules/typescript/bin/tsc --noEmit`. Bundle the pure rules with `./node_modules/esbuild/bin/esbuild lib/academy-engine.ts --bundle --platform=node --format=esm --outfile=.sites-runtime/engine.mjs`, then run `node --test tests/engine.test.mjs`. Browser QA scripts currently reference this workspace's supplied Playwright runtime and installed Chrome; adjust those paths elsewhere.
+This is a bounded pilot architecture: up to ten created workspaces per account, 100 members, 20 cohorts and 200 historical invitations per workspace, one megabyte per personal lab and 1.5 megabytes per shared workspace. Aggregate contention and membership-directory scanning require a normalized repository before large cohorts or broad rollout. No load-capacity claim is made.
 
-`tests/api-integration.mjs` targets the built LOCAL worker at port 8787 using synthetic identity headers. Never point this test at a hosted Academy. Browser tests use the local development sign-in simulator. Test data is local and is not seeded into the published database.
+## Development and verification
 
-## Curriculum evolution
+Use the configured Node/npm runtime and retained Sites installer/build workflow. `npm run dev` opens the local sign-in simulator. Generate additive D1 schema changes with `npm run db:generate`; inspect every migration, preserve applied history, and apply only pending migrations to the local test database. Sites applies generated migrations during deployment.
 
-The content version is `0.1-review-draft`. Enrollment records carry that version; unavailable versions block actions rather than using a new standard under an old label. Before adding a new curriculum version, preserve the old program, prompts, rubric, policy and issuer claim in a version registry and resolve both server and learner views from the enrollment version. Do not edit the published seed in place.
+Run TypeScript checking with `node node_modules/typescript/bin/tsc --noEmit`. Bundle `lib/academy-engine.ts` and `lib/academy-teams.ts` with the installed esbuild into `.sites-runtime/engine.mjs` and `.sites-runtime/teams.mjs`, then run `node --test tests/engine.test.mjs tests/teams.test.mjs`.
 
-## Launch work
+`tests/api-integration.mjs`, `tests/teams-api.mjs` and `tests/teams-browser.mjs` target the **built local worker at port 8787**, using synthetic identity headers. Never point them at a hosted Academy. Other browser regression scripts use the local development sign-in simulator at port 5173. Browser scripts reference this workspace's Playwright runtime and Chrome; adjust those paths elsewhere. Local fixtures are never seeded into the published database.
 
-This is a functioning private pilot, not the complete production specification. It has no recognized issuer, separately authenticated staff, real partner exchange, public learner onboarding, cross-person community, clinical training, content authoring/version registry UI, file uploads, oral-assessment accommodation authority, reviewed translations, real events/mentor bookings, payment, or embedded AI assistant. Existing FSD/HLD/LLD are the target design; this release does not implement their complete API or reference PostgreSQL schema.
+See `docs/release-notes.md`, `docs/test-evidence.json` and `docs/shared-workspaces.md` for actual checks, permission rules and limits.
 
-See `docs/release-notes.md` and `docs/test-evidence.json` for actual checks and limits. Sector approval, field accessibility/usability studies, operational capacity, security review, production load/recovery tests and partner contract tests remain required before broad rollout.
+## Remaining production work
+
+Approve sector content and validate real learner journeys; arrange site access and exercise actual participant sign-in; establish staff recruitment, assessor calibration and turnaround; implement a durable multi-version curriculum registry; validate reviewed translations, low-bandwidth/offline and assisted/oral journeys; connect one real partner; define formal retention/erasure, recovery, accessibility and capacity controls. Recognized credentials require issuer authority and public verification/revocation policy.
+
+Real event/mentor bookings, commerce, uploads, clinical training and embedded AI remain unimplemented. No external partner receives the ecosystem simulation, and no AI service is called. Existing BRD/FSD/HLD/LLD describe the broader target; the five-table SQLite implementation does not claim the full reference PostgreSQL schema or API contract.
