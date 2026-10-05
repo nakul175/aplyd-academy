@@ -1,6 +1,6 @@
 {
-  "release": "0.12.0",
-  "evidence": "as-built-v0.12/release-evidence.json",
-  "previousReleaseEvidence": "as-built-v0.11/release-evidence.json",
-  "status": "verified scopes above; native publication pending; template API/browser approval pending"
+  "release": "0.13.0",
+  "evidence": "as-built-v0.13/release-evidence.json",
+  "previousReleaseEvidence": "as-built-v0.12/release-evidence.json",
+  "status": "Shipped scopes verified; native publication receipt is external; full mutating template/record test approval pending."
 }

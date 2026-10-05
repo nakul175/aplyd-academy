@@ -1,0 +1,16 @@
+{
+  "passed": true,
+  "mode": "actual-adopted-checkout",
+  "at": "2026-10-05T20:34:53.586Z",
+  "files": {
+    "lib/academy-content-readiness.ts": "6f52a762509eb49a65d3753b7d8354c640b60ccc007c15ad8a1dca005242caa2",
+    "lib/academy-content-readiness-adoption.mjs": "a9d30abbd0f7fac2f66bd2f1f38db5aea68819edd76c867ff7be6698a538b79a",
+    "app/academy-content-readiness.tsx": "e50e8f413d560195a5e14cb3d851f051a05df2ba83df991e0ba351622c301045",
+    "app/academy-learning-help-disclosure.tsx": "4a323475508dbb2212eb05fb740d3492fa5f1909864d9e7854c58ccf5b2c79de",
+    "app/academy-operations.tsx": "d4cfcf0ff49839243093dd4f9ec003bfc94aa010e73215eb5fa11a1510c65dea",
+    "app/academy-support.tsx": "43dfef4a102be5f866f2f1e70da7056984694f697f0ff17367188782d47622e3"
+  },
+  "limits": [
+    "Pure model compilation only; no network, browser, Worker or storage mutation."
+  ]
+}

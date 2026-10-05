@@ -1,0 +1,124 @@
+{
+  "at": "2026-10-05T20:44:02.352Z",
+  "passed": false,
+  "completed": [
+    {
+      "name": "/api/academy unauthenticated GET",
+      "path": "/api/academy",
+      "method": "GET",
+      "status": 401,
+      "passed": true
+    },
+    {
+      "name": "/api/academy media",
+      "path": "/api/academy",
+      "method": "POST",
+      "status": 415,
+      "passed": true
+    },
+    {
+      "name": "/api/academy invalid JSON",
+      "path": "/api/academy",
+      "method": "POST",
+      "status": 400,
+      "passed": true
+    },
+    {
+      "name": "/api/academy empty body",
+      "path": "/api/academy",
+      "method": "POST",
+      "status": 400,
+      "passed": true
+    },
+    {
+      "name": "/api/academy exact100000 units",
+      "path": "/api/academy",
+      "method": "POST",
+      "status": 400,
+      "passed": true
+    },
+    {
+      "name": "/api/academy 100001 units",
+      "path": "/api/academy",
+      "method": "POST",
+      "status": 413,
+      "passed": true
+    },
+    {
+      "name": "/api/academy exact100000 multibyte units",
+      "path": "/api/academy",
+      "method": "POST",
+      "status": 400,
+      "passed": true
+    },
+    {
+      "name": "/api/academy exact100000 emoji units",
+      "path": "/api/academy",
+      "method": "POST",
+      "status": 400,
+      "passed": true
+    },
+    {
+      "name": "/api/academy leading BOM plus exact boundary",
+      "path": "/api/academy",
+      "method": "POST",
+      "status": 400,
+      "passed": true
+    },
+    {
+      "name": "/api/academy raw400001 bytes",
+      "path": "/api/academy",
+      "method": "POST",
+      "status": 413,
+      "passed": true
+    }
+  ],
+  "activeCase": {
+    "name": "/api/academy safe empty object",
+    "path": "/api/academy",
+    "method": "POST",
+    "expectedStatus": 401
+  },
+  "responseDiagnostic": {
+    "status": 503,
+    "contentType": "text/plain;charset=UTF-8",
+    "bodyBytes": 125,
+    "bodySha256": "b1ebbf32d9d2110d76675bfe0d62376a89291189f489aa728f2114c6f66ef58f"
+  },
+  "existingFictionalRows": {
+    "before": null,
+    "after": null
+  },
+  "sources": [
+    {
+      "file": "lib/academy-request-body.ts",
+      "sha256": "f2afaa3857a965690bf1908ddc40219624707418047a546a2f519d3a426404b7"
+    },
+    {
+      "file": "app/api/academy/route.ts",
+      "sha256": "10cf1912ded720bc16e196f3bfc31bf455fd7bb3f177d31b061a29c8a1916dfe"
+    },
+    {
+      "file": "app/api/teams/route.ts",
+      "sha256": "88e02a60d314ec6b637d9df0cfc3648a63474740888f624ee647ef28650c7247"
+    },
+    {
+      "file": "app/api/academy/records/check/route.ts",
+      "sha256": "27f8ff9dc95eabaf27aa024b7f0e51c077b7d36e07cd8cf8f3a561bc313d8de3"
+    }
+  ],
+  "runtimeEvidence": [
+    {
+      "file": "server/index.js",
+      "sha256": "5b805d9a47e09ffdb8bc7d4ca6de75a475e1d8ecda649e679ff49647da3b0530"
+    },
+    {
+      "file": "server/wrangler.json",
+      "sha256": "40037e9c9498735a53ecbe4fcaecbf765e98afbbd00b35a63c311843592b8397"
+    }
+  ],
+  "error": "/api/academy safe empty object did not return JSON (HTTP 503)",
+  "limitations": [
+    "No valid mutation command or fixture creation attempted. Raw non-JSON body not recorded; status/size/hash only."
+  ]
+}

@@ -1,0 +1,12 @@
+field	scope	source	persistence	validation_or_boundary
+content attention item	current owner projection	permitted draft/publication snapshot	derived only	exact scope/program/version cohort match
+content review date	publication	current projection	existing canonical field	invalid/future ages remain informational or unknown
+content authorAvailable/reviewerAvailable	current owner projection	active member roles and independence	derived only	no identity takeover or reviewer grant
+help requested language	own learner	accepted access preference and explicit checkbox	appended only to unsent text until ordinary submit	unchecked by default; no translation approval
+help assistance preference	own learner	accepted self-declaration and explicit checkbox	appended only to unsent text until ordinary submit	no accommodation approval
+help course title/language	own selected enrollment	accepted exact pin and current selected cohort	appended only after explicit selection	no foreign/withdrawn/unavailable fallback
+support intake fields	account and workspace	learner input	RAM draft store only until normal submit	category/cohort/title/body retained within own scope
+support acknowledgement fence	account/workspace/fields/audience	local JSON equality key	RAM only	clear on input, intent, close/reopen, scope or audience change
+partner inspection	personal lab	current accepted choice, exact pin and clock	derived only	cannot grant/test/deliver
+partner discussion brief	generic adapter	constant contract and open decisions	local download	no account or learning values
+receipt presentation clock	personal lab	current informational observation time	not stored	future receipt presentation unavailable; no canonical rewrite

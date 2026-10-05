@@ -1,0 +1,332 @@
+{
+  "at": "2026-10-05T21:00:39.358Z",
+  "passed": true,
+  "cases": 32,
+  "assertions": 193,
+  "results": [
+    {
+      "name": "/api/academy unauthenticated GET",
+      "path": "/api/academy",
+      "method": "GET",
+      "status": 401,
+      "passed": true
+    },
+    {
+      "name": "/api/academy media",
+      "path": "/api/academy",
+      "method": "POST",
+      "status": 415,
+      "passed": true
+    },
+    {
+      "name": "/api/academy invalid JSON",
+      "path": "/api/academy",
+      "method": "POST",
+      "status": 400,
+      "passed": true
+    },
+    {
+      "name": "/api/academy empty body",
+      "path": "/api/academy",
+      "method": "POST",
+      "status": 400,
+      "passed": true
+    },
+    {
+      "name": "/api/academy exact100000 units",
+      "path": "/api/academy",
+      "method": "POST",
+      "status": 400,
+      "passed": true
+    },
+    {
+      "name": "/api/academy 100001 units",
+      "path": "/api/academy",
+      "method": "POST",
+      "status": 413,
+      "passed": true
+    },
+    {
+      "name": "/api/academy exact100000 multibyte units",
+      "path": "/api/academy",
+      "method": "POST",
+      "status": 400,
+      "passed": true
+    },
+    {
+      "name": "/api/academy exact100000 emoji units",
+      "path": "/api/academy",
+      "method": "POST",
+      "status": 400,
+      "passed": true
+    },
+    {
+      "name": "/api/academy leading BOM plus exact boundary",
+      "path": "/api/academy",
+      "method": "POST",
+      "status": 400,
+      "passed": true
+    },
+    {
+      "name": "/api/academy raw400001 bytes",
+      "path": "/api/academy",
+      "method": "POST",
+      "status": 413,
+      "passed": true
+    },
+    {
+      "name": "/api/academy safe empty object",
+      "path": "/api/academy",
+      "method": "POST",
+      "status": 401,
+      "passed": true
+    },
+    {
+      "name": "/api/teams unauthenticated GET",
+      "path": "/api/teams",
+      "method": "GET",
+      "status": 401,
+      "passed": true
+    },
+    {
+      "name": "/api/teams media",
+      "path": "/api/teams",
+      "method": "POST",
+      "status": 415,
+      "passed": true
+    },
+    {
+      "name": "/api/teams invalid JSON",
+      "path": "/api/teams",
+      "method": "POST",
+      "status": 400,
+      "passed": true
+    },
+    {
+      "name": "/api/teams empty body",
+      "path": "/api/teams",
+      "method": "POST",
+      "status": 400,
+      "passed": true
+    },
+    {
+      "name": "/api/teams exact100000 units",
+      "path": "/api/teams",
+      "method": "POST",
+      "status": 400,
+      "passed": true
+    },
+    {
+      "name": "/api/teams 100001 units",
+      "path": "/api/teams",
+      "method": "POST",
+      "status": 413,
+      "passed": true
+    },
+    {
+      "name": "/api/teams exact100000 multibyte units",
+      "path": "/api/teams",
+      "method": "POST",
+      "status": 400,
+      "passed": true
+    },
+    {
+      "name": "/api/teams exact100000 emoji units",
+      "path": "/api/teams",
+      "method": "POST",
+      "status": 400,
+      "passed": true
+    },
+    {
+      "name": "/api/teams leading BOM plus exact boundary",
+      "path": "/api/teams",
+      "method": "POST",
+      "status": 400,
+      "passed": true
+    },
+    {
+      "name": "/api/teams raw400001 bytes",
+      "path": "/api/teams",
+      "method": "POST",
+      "status": 413,
+      "passed": true
+    },
+    {
+      "name": "/api/teams safe empty object",
+      "path": "/api/teams",
+      "method": "POST",
+      "status": 400,
+      "passed": true
+    },
+    {
+      "name": "record invalid JSON",
+      "path": "/api/academy/records/check",
+      "method": "POST",
+      "status": 400,
+      "passed": true
+    },
+    {
+      "name": "record exact2000 units",
+      "path": "/api/academy/records/check",
+      "method": "POST",
+      "status": 400,
+      "passed": true
+    },
+    {
+      "name": "record 2001 units",
+      "path": "/api/academy/records/check",
+      "method": "POST",
+      "status": 413,
+      "passed": true
+    },
+    {
+      "name": "record exact4000 decoded bytes",
+      "path": "/api/academy/records/check",
+      "method": "POST",
+      "status": 400,
+      "passed": true
+    },
+    {
+      "name": "record 4001 decoded bytes",
+      "path": "/api/academy/records/check",
+      "method": "POST",
+      "status": 413,
+      "passed": true
+    },
+    {
+      "name": "record leading BOM exact4000 decoded bytes",
+      "path": "/api/academy/records/check",
+      "method": "POST",
+      "status": 400,
+      "passed": true
+    },
+    {
+      "name": "record raw8001 bytes",
+      "path": "/api/academy/records/check",
+      "method": "POST",
+      "status": 413,
+      "passed": true
+    },
+    {
+      "name": "record safe malformed record shape",
+      "path": "/api/academy/records/check",
+      "method": "POST",
+      "status": 400,
+      "passed": true
+    },
+    {
+      "name": "record read-only record authentication",
+      "path": "/api/academy/records/check",
+      "method": "POST",
+      "status": 401,
+      "passed": true
+    },
+    {
+      "name": "record media",
+      "path": "/api/academy/records/check",
+      "method": "POST",
+      "status": 415,
+      "passed": true
+    }
+  ],
+  "sources": [
+    {
+      "file": "app/api/academy/records/check/route.ts",
+      "sha256": "9f161b661c9d5fa3fe45c127b98914b8bc4e332477ba051c32370bac94244da0"
+    },
+    {
+      "file": "app/api/academy/route.ts",
+      "sha256": "22c78adf5c62a809a1aef4505c7c047b797b7ac4f2afd42bbcb1cd3b9af338b7"
+    },
+    {
+      "file": "app/api/teams/route.ts",
+      "sha256": "6901cdab339f6ce0b4d60e3b778a6bd68d7e9d8e9807f13e81df9bbc1b29025e"
+    },
+    {
+      "file": "lib/academy-authoring.ts",
+      "sha256": "a4c8b781153b2b811ef4f9b0ff853520f757ac9dda7cb3e927be7b485809de5f"
+    },
+    {
+      "file": "lib/academy-curriculum.ts",
+      "sha256": "02a7e32aa7f56e1bc06694987946f804d33fdd17ab781749142f72f42bda722c"
+    },
+    {
+      "file": "lib/academy-ecosystem-guard.ts",
+      "sha256": "cd166d20798b7fc62a80b584a6d8084498dc5d6976924d206541a7c7a2d74fe8"
+    },
+    {
+      "file": "lib/academy-ecosystems.ts",
+      "sha256": "d12b3a3c6af5b35a38af5e99b0fc674ead9f0cb7ed58c0d31c4a4f5d2a6af19a"
+    },
+    {
+      "file": "lib/academy-engine.ts",
+      "sha256": "4747712f10c39cc08eaed66939bd99013d8064e4eb3097218590fbcc63bebff7"
+    },
+    {
+      "file": "lib/academy-inclusive-learning.ts",
+      "sha256": "483e64778ad762e93880a5ea41bec0b873fe48c62bdc1aa5fefc0b26c8f626ac"
+    },
+    {
+      "file": "lib/academy-job-template-create.ts",
+      "sha256": "a737617bc6a64c06169b5b6a6b638f2fedc3538fa92de3a1b197fddc02e805e4"
+    },
+    {
+      "file": "lib/academy-job-templates.ts",
+      "sha256": "c3162a5da1f1df25eb3d56e1c681f1478fe404aea9d38eb3c6ecac15062ab035"
+    },
+    {
+      "file": "lib/academy-network.ts",
+      "sha256": "780610d02d4f063f5413db588455079ea98136eb0f7f0f576fff4390ae047414"
+    },
+    {
+      "file": "lib/academy-personal-storage.ts",
+      "sha256": "26355595e3630d19e9d576bcfa48a1e688dddad387012fe5b2643848f17df804"
+    },
+    {
+      "file": "lib/academy-plan.ts",
+      "sha256": "c619f823371951643585bfe5c5b55cb071454791bc19b958caa635c5fbfd0f9b"
+    },
+    {
+      "file": "lib/academy-record-check.ts",
+      "sha256": "a0cb4c97794b7416be57e0b136b7d4f79c9eafbaac1ac419e09d685565b9296c"
+    },
+    {
+      "file": "lib/academy-record-service.ts",
+      "sha256": "fbfee7ad07fd23f865c0c785dad5147c7ffc05e0a7e7021bcff52d61f355fef6"
+    },
+    {
+      "file": "lib/academy-storage.ts",
+      "sha256": "3eef88f741c7177cf00ba01dac4a8ecbee3da97e146e8999509929c9829f9941"
+    },
+    {
+      "file": "lib/academy-support.ts",
+      "sha256": "304b51e0558a76f34775405ed7e31884a2aebcdf3649d8fe7dab9658672876e1"
+    },
+    {
+      "file": "lib/academy-teams.ts",
+      "sha256": "ff3430cb05af22f8ce953f1f30cd9ff20bc536bbef0dfab6942014b10183b807"
+    },
+    {
+      "file": "lib/curriculum-versions/0.1-review-draft.json",
+      "sha256": "9fc83c8dd615456db8f49d140f56bff566e05c14d32ebb70a14cdcb73078b7e4"
+    }
+  ],
+  "runtimeEvidence": [
+    {
+      "file": "server/index.js",
+      "sha256": "81372e2068aa40a0e3dec05982aba11ac4de50a45f3875171d50037d3f698c24"
+    },
+    {
+      "file": "server/wrangler.json",
+      "sha256": "40037e9c9498735a53ecbe4fcaecbf765e98afbbd00b35a63c311843592b8397"
+    }
+  ],
+  "readerProvenance": "Native Request.text plus existing post-read size limits; streaming helper deferred outside product.",
+  "existingFictionalRows": {
+    "before": null,
+    "after": null
+  },
+  "limitations": [
+    "Only authless GET and incapable malformed/oversized POSTs on explicit loopback8787. No auth headers, actionId, command, fixture creation or valid write. Request.text fault/log sanitization is covered separately by actual-root mocked-host tests; native connection faults not claimed. Optional SQLite inspection is mode=ro over existing qa-* rows only. No hosted/provider requests. Frozen entry/config hashes identify supplied runtime, not every imported chunk. Actual source list derives from current baseline esbuild imports and excludes deferred helper."
+  ]
+}

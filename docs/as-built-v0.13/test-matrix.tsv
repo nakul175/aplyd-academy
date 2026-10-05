@@ -1,0 +1,17 @@
+id	feature	scenario	expected	evidence_scope
+M3-C01	content review	retired edition with newer same-program cohort	only complete exact-reference cohorts listed	actual-root pure + read-only intercepted browser
+M3-C02	content review	independent reviewer or author loses owner authority	accurate next step; no edit takeover or role grant	actual-root pure + read-only display fixtures
+M3-C03	content review	elapsed/unknown date, paused cohort	date observation and stored closure/pause distinct	actual-root pure + actual read-only browser
+M3-H01	own help	fresh/reopened optional disclosure	checkboxes and course unselected; acknowledgement cleared	actual-root pure + read-only browser
+M3-H02	own help	append selected/unchecked details	existing description prefix and other fields retained; no unselected private values	actual-root pure + read-only browser
+M3-H03	own help	exact2000 or overflow	exact boundary allowed; overflow rejected without truncation	actual-root pure + read-only browser
+M3-H04	own help	cohort/pin/account/workspace change	no fallback; draft isolation; acknowledgement reset	actual-root pure + read-only display fixtures
+M3-H05	own help	keyboard prepare details	focus returns to same current description; no replacement-dialog focus	read-only browser; final result required
+M3-P01	partner inspection	unsaved form or current-scope transition	only accepted saved personal choice shown; earlier scope masked	actual-root pure + read-only browser
+M3-P02	partner inspection	expired/withdrawn/paused/malformed/future/capacity	no inferred live exchange; valid independent withdrawal remains separate	actual-root pure + read-only intercepted browser
+M3-P03	partner brief	download each generic contract	exact detached constants without learner/account/receipt values	actual-root pure + read-only browser
+M3-P04	partner inspection	Health or shared workspace	no personal return mapping or receiving-account claim	actual-root pure + read-only browser
+M3-A01	accessibility	390/768/1440 width and200 percent text	bounded keyboard/layout controls and no unintended scrolling	read-only browser; no human screen-reader certification claim
+M3-R01	retained request reader	origin/media/JSON/unit/decoded-byte boundaries and immediate recovery after413	existing contract and normally handled next request	actual native32cases/193assertions
+M3-R02	private logs	injected DB/JSON/read failure	sanitized503 with fixed-category/no private-canary log	actual-handler mocked host
+M3-D01	deferred research	streaming readers after oversized native upload	failed differential preserved; reader excluded from release	three failed native variants and passing baseline

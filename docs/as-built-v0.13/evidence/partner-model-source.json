@@ -1,0 +1,50 @@
+{
+  "passed": true,
+  "typeDiagnostics": 0,
+  "mode": "actual-adopted-checkout",
+  "app": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/aplyd-academy",
+  "source": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/aplyd-academy",
+  "at": "2026-10-05T20:32:17.660Z",
+  "rootSourcesBefore": {
+    "lib/academy-ecosystems.ts": "d12b3a3c6af5b35a38af5e99b0fc674ead9f0cb7ed58c0d31c4a4f5d2a6af19a",
+    "lib/academy-curriculum.ts": "02a7e32aa7f56e1bc06694987946f804d33fdd17ab781749142f72f42bda722c",
+    "lib/academy-engine.ts": "4747712f10c39cc08eaed66939bd99013d8064e4eb3097218590fbcc63bebff7",
+    "lib/curriculum-versions/0.1-review-draft.json": "9fc83c8dd615456db8f49d140f56bff566e05c14d32ebb70a14cdcb73078b7e4",
+    "lib/curriculum.json": "9fc83c8dd615456db8f49d140f56bff566e05c14d32ebb70a14cdcb73078b7e4",
+    "app/academy-ecosystems.tsx": "f16a4e2bbdade40faeedc0068afa1ec8f989e5e35642fe81234490f2828862d0"
+  },
+  "rootUnchanged": true,
+  "clockBeforeReader": true,
+  "files": [
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/aplyd-academy/lib/academy-partner-readiness.ts",
+      "sha256": "3c99c402213c2341bb523f6a389780dbe155a635629b429e8fe9b0b658eed07c"
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/aplyd-academy/app/academy-partner-readiness.tsx",
+      "sha256": "90a77aebe71a37975fdbe0caf858b91067da88c7b36c4ff50ff7bb650c38afbe"
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/aplyd-academy/app/academy-ecosystems.tsx",
+      "sha256": "f16a4e2bbdade40faeedc0068afa1ec8f989e5e35642fe81234490f2828862d0"
+    },
+    {
+      "path": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/aplyd-academy/app/academy-partner-readiness.module.css",
+      "sha256": "29894f44b3308c87e066b87a758239596284a53bd6359a7333738e5502cc9ce6"
+    }
+  ],
+  "dependencies": {
+    "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/aplyd-academy/lib/academy-ecosystems.ts": "d12b3a3c6af5b35a38af5e99b0fc674ead9f0cb7ed58c0d31c4a4f5d2a6af19a",
+    "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/aplyd-academy/lib/curriculum-versions/0.1-review-draft.json": "9fc83c8dd615456db8f49d140f56bff566e05c14d32ebb70a14cdcb73078b7e4",
+    "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/aplyd-academy/lib/academy-curriculum.ts": "02a7e32aa7f56e1bc06694987946f804d33fdd17ab781749142f72f42bda722c",
+    "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/aplyd-academy/lib/academy-partner-readiness.ts": "3c99c402213c2341bb523f6a389780dbe155a635629b429e8fe9b0b658eed07c",
+    "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/aplyd-academy/lib/academy-inclusive-learning.ts": "483e64778ad762e93880a5ea41bec0b873fe48c62bdc1aa5fefc0b26c8f626ac",
+    "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/aplyd-academy/lib/academy-ecosystem-guard.ts": "cd166d20798b7fc62a80b584a6d8084498dc5d6976924d206541a7c7a2d74fe8",
+    "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/aplyd-academy/lib/academy-plan.ts": "c619f823371951643585bfe5c5b55cb071454791bc19b958caa635c5fbfd0f9b",
+    "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/aplyd-academy/lib/academy-engine.ts": "4747712f10c39cc08eaed66939bd99013d8064e4eb3097218590fbcc63bebff7",
+    "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/aplyd-academy/.sites-runtime/partner-readiness-qa/entry.ts": "ee0a267814bdd08e6d075b722bcf020d7a145f4b11dc4e2d2c2c2714a105260d"
+  },
+  "limits": [
+    "Pure compiler/typecheck only. No app framework build, server, API, browser, storage mutation or external partner call."
+  ]
+}

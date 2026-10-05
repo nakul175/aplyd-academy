@@ -1,4 +1,4 @@
-# Aplyd Academy working pilot · v0.10.1
+# Aplyd Academy working pilot · v0.13.0
 
 A durable learning application for farmers, MSME owners and public servants. Learners practise on fictional source packets, check supplied AI drafts, submit practical evidence, receive reasoned feedback and reflect on their work.
 
@@ -20,6 +20,11 @@ A durable learning application for farmers, MSME owners and public servants. Lea
 - Read-only workspace operations for current owners and scoped facilitators, with exact queue counts, review dates, session observations and reference-only navigation.
 - Denied-read privacy masking, account-specific in-memory drafts and current-authority attendance dialogs.
 
+- Personal English study packets and passphrase-sealed offline draft capture, followed by an explicit fresh-version comparison before a separate online save.
+- Learner-selected language and assistance preferences, own fresh snapshot downloads and private record checks against the accepted exact enrollment or assigned open appeal decision.
+- Four editable job-practice templates for private owner content drafts; independent review and publication remain separate steps.
+- Clear next-step guidance and draft status, exact content-review/cohort attention, optional learner-selected details appended to an unsent help request, and a read-only inspection of local ecosystem choices.
+
 - Searchable reference library: five supplied collections and20 unchanged Word/PDF/PowerPoint originals, source filenames, audience recommendations and review notes. Browsing and downloads do not alter learning or issue records.
 
 ## Access
@@ -34,7 +39,7 @@ D1 stores private owner documents and separate shared-workspace documents. Prote
 
 Globally unique invitation-token hashes are indexed in a separate table and committed with the workspace mutation. Tokens expire after seven days, are recipient-email bound, and cannot be reused. An issuer losing owner authority invalidates its outstanding invitations. The platform supplies the email; invitation request fields cannot impersonate a recipient.
 
-This is a bounded pilot architecture: up to ten created workspaces per account, 100 members, 20 cohorts and 200 historical invitations per workspace, one megabyte per personal lab, a 1.2 MB ordinary shared-content budget and a 1.8 MB protective ceiling. Older administrative/moderation history is archived atomically. Aggregate contention and membership-directory scanning require a normalized repository before large cohorts or broad rollout. No load-capacity claim is made.
+This is a bounded pilot architecture: up to ten created workspaces per account, 100 members, 20 cohorts and 200 historical invitations per workspace, one megabyte per personal lab, a 1.2 MB ordinary shared-content budget and a 1.8 MB protective ceiling. Older administrative/moderation history is archived atomically. The membership directory uses a per-user projection with a legacy fallback and transactional write triggers. Aggregate contention and broad rollout still require capacity testing and a normalized repository plan. No load-capacity claim is made.
 
 ## Development and verification
 
@@ -44,10 +49,10 @@ Run TypeScript checking with `node node_modules/typescript/bin/tsc --noEmit`. Bu
 
 `tests/api-integration.mjs`, `tests/teams-api.mjs`, networking/archive scripts and `tests/teams-browser.mjs` target the **built local worker at port 8787**, using synthetic identity headers. Never point them at a hosted Academy. Other browser regression scripts use the local development sign-in simulator at port 5173; set `ACADEMY_QA_BUILT=1` for the built Worker fixture. Set `QA_LOCAL_DB_SQL=1` for direct archive/audit consistency checks. `tests/archive-failure.mjs` injects and removes a constraint fault only in its new isolated local fixture. Browser scripts reference this workspace's Playwright runtime and Chrome; adjust those paths elsewhere. Local fixtures are never seeded into the published database.
 
-See `docs/workspace-operations.md`, `docs/as-built-v0.7/`, `docs/as-built-v0.9/`, `docs/as-built-v0.10/`, `docs/release-notes.md`, `docs/test-evidence.json` , `docs/shared-workspaces.md` and `docs/networking-and-history.md` and `docs/plans-and-pinned-content.md` and `docs/support-and-refresh.md` and `docs/private-content-studio.md` for actual checks, permission rules and limits.
+See `docs/as-built-v0.13/`, `docs/as-built-v0.12/`, `docs/as-built-v0.11/` and `docs/test-evidence.json` for the current implementation, acceptance evidence and unexecuted test scopes. Earlier workspace, networking, plan, support and studio specifications remain under `docs/`.
 
 ## Remaining production work
 
 Approve sector content and validate real learner journeys; arrange site access and exercise actual participant sign-in; establish staff recruitment, assessor calibration and turnaround; validate private curriculum adaptation and independent content-review operations; validate reviewed translations, low-bandwidth/offline and assisted/oral journeys; connect one real partner; define formal retention/erasure, recovery, accessibility and capacity controls. Recognized credentials require issuer authority and public verification/revocation policy.
 
-External event/mentor-provider bookings, host reassignment, commerce, uploads, clinical training and embedded AI remain unimplemented. No external partner receives the ecosystem simulation, and no AI service is called. Existing BRD/FSD/HLD/LLD describe the broader target; the six-table SQLite implementation does not claim the full reference PostgreSQL schema or API contract.
+External event/mentor-provider bookings, host reassignment, commerce, uploads, clinical training and embedded AI remain unimplemented. No external partner receives the ecosystem simulation, and no AI service is called. Existing BRD/FSD/HLD/LLD describe the broader target; the seven-table SQLite implementation does not claim the full reference PostgreSQL schema or API contract. Full local template API/browser tests and mutating record browser tests remain held pending explicit fictional-test approval after automatic approval review rejected their launch. Pure/mocked and strictly read-only checks have separate evidence.

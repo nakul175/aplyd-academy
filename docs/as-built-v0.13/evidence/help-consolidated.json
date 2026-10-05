@@ -1,0 +1,59 @@
+{
+  "passed": true,
+  "worker": "74111",
+  "rootHead": "1fea626a611f11403bd9db7e88977a619f49c360",
+  "selectedBrowserAssertions": 200,
+  "executedScenarios": 18,
+  "reports": {
+    "readonly-browser-result.json": {
+      "sha256": "b3bd5058053c767cce7da8acf36fff75462683907cb1a2fbdeaf0c7fafac22a9",
+      "assertions": 170,
+      "executedScenarios": 13
+    },
+    "focus-browser-result.json": {
+      "sha256": "d73bc2f285dc6f042a166f057e690c4ff3acf46dbf8a75f462e776decf3f302f",
+      "assertions": 30,
+      "executedScenarios": 5
+    }
+  },
+  "candidateSyntheticGuardChecks": 19,
+  "candidateChecksCountedSeparately": true,
+  "protectedWriteAttempts": 0,
+  "externalRequests": 0,
+  "pageErrors": 0,
+  "savedFixturesUnchanged": true,
+  "rootSourceAndBuildUnchanged": true,
+  "copiedPreviewRuntimeAndConfigUnchanged": true,
+  "copiedBundleMatchesRootBuild": true,
+  "allBrowsersAndTestProcessesClosed": true,
+  "closureEvidence": "Both suites explicitly awaited all contexts/browser.close; their Node sessions exited 0. No application server was started/stopped by this workstream.",
+  "focusDefect": {
+    "initialWorker": "34352",
+    "initialAttemptsRetained": [
+      "readonly-browser-attempt-01.json",
+      "readonly-browser-attempt-02.json",
+      "readonly-browser-attempt-03.json",
+      "readonly-browser-attempt-04-50ms.json"
+    ],
+    "firstAttemptHarnessPortalSelectorCorrected": true,
+    "confirmedAfterTwoRafsPlus50ms": true,
+    "fixAdoptedByRoot": true,
+    "actualRebuiltRootProofPassed": true
+  },
+  "visualInspection": {
+    "phoneWidth": 390,
+    "cssRootTextPercent": 200,
+    "helpDialogScreenshotReviewed": true,
+    "contentFullPageScreenshotReviewedWithReadOnlyCrops": true,
+    "horizontalFit": true,
+    "controlsReadableAndWrap": true,
+    "manualScreenReaderOrTrueBrowserZoomCertified": false
+  },
+  "limits": [
+    "Read-only existing synthetic trusted-header loopback accounts. No POST, protected write, new fixture, provider, third-party message, production call or hosted authentication proof.",
+    "Interceptions modify only permitted local GET display copies; display-only orphan, missing-pin and language vectors are not proof of a stored server condition.",
+    "Unsent retention is navigation/authority remount memory only; this does not claim retention through browser close or reload.",
+    "390px and CSS-root 200% text checks plus keyboard/focus are bounded layout checks; no human screen-reader conformance or farmer/MSME field usability claim."
+  ],
+  "nextWork": "Root authorized outside-checkout compact own weekly-review candidate for existing Plan. No new browser/API/build signal for that work yet."
+}
