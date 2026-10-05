@@ -1,4 +1,4 @@
-# Aplyd Academy working pilot · v0.4
+# Aplyd Academy working pilot · v0.5
 
 A durable learning application for farmers, MSME owners and public servants. Learners practise on fictional source packets, check supplied AI drafts, submit practical evidence, receive reasoned feedback and reflect on their work.
 
@@ -14,6 +14,7 @@ A durable learning application for farmers, MSME owners and public servants. Lea
 - Nonaccredited practice records with review provenance, adverse-appeal suspension, downloads and learner exports.
 - Explicitly opted-in cohort directory, real scheduled practice sessions, atomic RSVP capacity, cancellations and observed attendance with correction history. Own session history remains readable/exportable after access ends.
 - Reading mode, browser read-aloud, accurate lesson resume, nullable work-reflection estimates and keyboard/dialog focus recovery.
+- Private in-app support requests with independent handlers, current scoped access, preserved resolution history and own export.
 - Protected storage reserve and atomic archival administrative/moderation history with current scoped reads.
 
 ## Access
@@ -38,7 +39,7 @@ Run TypeScript checking with `node node_modules/typescript/bin/tsc --noEmit`. Bu
 
 `tests/api-integration.mjs`, `tests/teams-api.mjs`, networking/archive scripts and `tests/teams-browser.mjs` target the **built local worker at port 8787**, using synthetic identity headers. Never point them at a hosted Academy. Other browser regression scripts use the local development sign-in simulator at port 5173; set `ACADEMY_QA_BUILT=1` for the built Worker fixture. Set `QA_LOCAL_DB_SQL=1` for direct archive/audit consistency checks. `tests/archive-failure.mjs` injects and removes a constraint fault only in its new isolated local fixture. Browser scripts reference this workspace's Playwright runtime and Chrome; adjust those paths elsewhere. Local fixtures are never seeded into the published database.
 
-See `docs/release-notes.md`, `docs/test-evidence.json` , `docs/shared-workspaces.md` and `docs/networking-and-history.md` and `docs/plans-and-pinned-content.md` for actual checks, permission rules and limits.
+See `docs/release-notes.md`, `docs/test-evidence.json` , `docs/shared-workspaces.md` and `docs/networking-and-history.md` and `docs/plans-and-pinned-content.md` and `docs/support-and-refresh.md` for actual checks, permission rules and limits.
 
 ## Remaining production work
 

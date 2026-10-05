@@ -54,3 +54,12 @@ New cohorts and enrollments carry exact content references. Legacy explicit vers
 Local ecosystem previews now enforce partner/pathway mapping and block Health. Boolean preferences create no scoped grant or external connection. Selections are independent per partner and historical receipts remain readable without being reinterpreted.
 
 Executed checks: 107 checkout rule tests plus 49 historical-content regressions; 356 local database assertions; full personal/shared/planner/ecosystem browser journeys; 138 responsive surfaces; 29 planner keyboard/form checks; ten unavailable-content UI fixtures. The tablet planner overflow at doubled text size was corrected and its complete journey rerun. Details and limits are in plans-and-pinned-content.md and test-evidence.json. No schema migration or content-seed update was required.
+
+
+# v0.5 · Private support and safe refresh
+
+Shared members can request help, follow private replies, reopen a resolved request or withdraw it while retaining history. Owners and appropriately scoped facilitators arrange independent handling through metadata queues; only a current assigned handler receives bodies. Role/scope loss durably releases the assignment, and restoration requires a fresh claim. Sensitive categories use owner handling. Own export includes only requests opened by that learner. No staffed response time, external notification, emergency service, accommodation approval or erasure is promised.
+
+Client writes now invalidate earlier reads and serialize immediately. Conflicts refresh current authority while retaining own unsent form input. Revoked handlers lose the private thread on refresh. Dynamic byte reservations keep final withdrawal possible for every open request even when support storage is full. Existing private plans, learning, assessments and appeals retain their rules.
+
+See `support-and-refresh.md` for exact permissions and limits, and `test-evidence.json` for executed evidence.
