@@ -16,5 +16,5 @@ export async function readAcademyResponse(response:Response,mode:'read'|'write')
 }
 export const verifiedAcademySubject=(id:unknown):id is string=>typeof id==='string'&&id.trim().length>0;
 
-/** Basic render-safe profile, not domain or permission validation. */
-export const verifiedAcademyState=(state:unknown):boolean=>academyObject(state)&&academyObject(state.profile)&&typeof state.profile.name==='string'&&state.profile.name.trim().length>0&&['farmer','msme','public'].includes(state.profile.context)&&typeof state.profile.reading==='boolean'&&typeof state.profile.networking==='boolean'&&Array.isArray(state.enrollments);
+/** Basic profile/enrollment render shape, not domain or permission validation. */
+export const verifiedAcademyState=(state:unknown):boolean=>academyObject(state)&&academyObject(state.profile)&&typeof state.profile.name==='string'&&state.profile.name.trim().length>0&&['farmer','msme','public'].includes(state.profile.context)&&typeof state.profile.reading==='boolean'&&typeof state.profile.networking==='boolean'&&Array.isArray(state.enrollments)&&state.enrollments.every((e:any)=>academyObject(e)&&verifiedAcademySubject(e.id)&&verifiedAcademySubject(e.programId)&&Array.isArray(e.completed)&&e.completed.every((id:unknown)=>typeof id==='string')&&Array.isArray(e.attempts)&&e.attempts.every(academyObject)&&Array.isArray(e.appeals)&&e.appeals.every(academyObject)&&academyObject(e.practice)&&academyObject(e.draft)&&(e.record==null||academyObject(e.record)));

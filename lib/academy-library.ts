@@ -1,0 +1,243 @@
+/** Supplied original references. Audience labels are recommendations, not permissions. */
+export const collections = [
+  {
+    "id": "government",
+    "title": "Governing AI in Government",
+    "summary": "For public-sector decision-makers: use the FIT Test, failure forensics, procurement and governance tools, and crisis exercises.",
+    "reviewNote": "Some India examples and figures are labelled composite or indicative. Review current rules and institutional authority before adapting them.",
+    "resources": [
+      {
+        "id": "government-participant-handbook",
+        "title": "Governing AI in Government · Participant handbook",
+        "audience": "participant",
+        "format": "docx",
+        "bytes": 18615,
+        "href": "/library/government-participant-handbook.docx",
+        "sha256": "81360739af138a451c01d2eb7a78ace68c79c9e69470f4d5e4648c951104616b",
+        "sourceFilename": "APLYD_C1_Participant_Handbook.docx"
+      },
+      {
+        "id": "government-printables",
+        "title": "Governing AI in Government · Workshop printables",
+        "audience": "all",
+        "format": "pdf",
+        "bytes": 189884,
+        "href": "/library/government-printables.pdf",
+        "sha256": "322ac195b10c4d08ebe7c345b96a8b01f0d951a653e48737e85e0371f14ae092",
+        "sourceFilename": "APLYD_C1_Printables.pdf"
+      },
+      {
+        "id": "government-trainer-handbook",
+        "title": "Governing AI in Government · Trainer handbook",
+        "audience": "trainer",
+        "format": "docx",
+        "bytes": 34899,
+        "href": "/library/government-trainer-handbook.docx",
+        "sha256": "a3124b639858b9a640d7224585a935d56564374363cd7ce7e074b924e508d7e9",
+        "sourceFilename": "APLYD_C1_Trainer_Handbook.docx"
+      },
+      {
+        "id": "government-slide-deck",
+        "title": "Governing AI in Government · Workshop slide deck",
+        "audience": "trainer",
+        "format": "pptx",
+        "bytes": 2205586,
+        "href": "/library/government-slide-deck.pptx",
+        "sha256": "01f02980fe3f38693fc523996df6f9834268e70d804f9061f03dbbd52bd4a738",
+        "sourceFilename": "APLYD_Deck_C1_Government.pptx"
+      }
+    ]
+  },
+  {
+    "id": "development",
+    "title": "Governing AI in the Development Sector",
+    "summary": "For funders and programme leads: use the FIT Test with subgroup reporting, audit/remediation rights, and funded exit plans for grants and portfolios.",
+    "reviewNote": "Governance frameworks are teaching references. Review current rules and institutional authority before adapting them.",
+    "resources": [
+      {
+        "id": "development-participant-handbook",
+        "title": "Governing AI in the Development Sector · Participant handbook",
+        "audience": "participant",
+        "format": "docx",
+        "bytes": 16752,
+        "href": "/library/development-participant-handbook.docx",
+        "sha256": "73a3db8b1baed88d1cbcda63f16c3072ad7f2f44ee21331c243e668648d219f9",
+        "sourceFilename": "APLYD_C2_Participant_Handbook.docx"
+      },
+      {
+        "id": "development-printables",
+        "title": "Governing AI in the Development Sector · Workshop printables",
+        "audience": "all",
+        "format": "pdf",
+        "bytes": 189780,
+        "href": "/library/development-printables.pdf",
+        "sha256": "f7c594ac3d49048c233fb198aa2926d3b9c455a91817c5aebf7a780e03d4e450",
+        "sourceFilename": "APLYD_C2_Printables.pdf"
+      },
+      {
+        "id": "development-trainer-handbook",
+        "title": "Governing AI in the Development Sector · Trainer handbook",
+        "audience": "trainer",
+        "format": "docx",
+        "bytes": 31325,
+        "href": "/library/development-trainer-handbook.docx",
+        "sha256": "9130e3294b723576f2bac7825db81a7039730f08b2a7cabd8e65827f6b3aa193",
+        "sourceFilename": "APLYD_C2_Trainer_Handbook.docx"
+      },
+      {
+        "id": "development-slide-deck",
+        "title": "Governing AI in the Development Sector · Workshop slide deck",
+        "audience": "trainer",
+        "format": "pptx",
+        "bytes": 2037453,
+        "href": "/library/development-slide-deck.pptx",
+        "sha256": "1b24658bd74442ad710dcd0cfd31c8d8771510bd017b3c42ae957401ae1dc45d",
+        "sourceFilename": "APLYD_Deck_C2_DevelopmentSector.pptx"
+      }
+    ]
+  },
+  {
+    "id": "oversight",
+    "title": "Governing AI in Oversight Institutions",
+    "summary": "For regulators and oversight institutions: use the FIT Test, failure forensics and governance frameworks to examine evidence and accountability.",
+    "reviewNote": "Governance frameworks are teaching references. Review current rules and institutional authority before adapting them.",
+    "resources": [
+      {
+        "id": "oversight-participant-handbook",
+        "title": "Governing AI in Oversight Institutions · Participant handbook",
+        "audience": "participant",
+        "format": "docx",
+        "bytes": 16748,
+        "href": "/library/oversight-participant-handbook.docx",
+        "sha256": "433194a4448ed87b3efaddd90da1bbcaa92cf12740588169612d35257ecb6b4b",
+        "sourceFilename": "APLYD_C3_Participant_Handbook.docx"
+      },
+      {
+        "id": "oversight-printables",
+        "title": "Governing AI in Oversight Institutions · Workshop printables",
+        "audience": "all",
+        "format": "pdf",
+        "bytes": 189856,
+        "href": "/library/oversight-printables.pdf",
+        "sha256": "331df254b7cef6a354b156903030be7df9b1bd6f0883adcd79f9784fecbad86b",
+        "sourceFilename": "APLYD_C3_Printables.pdf"
+      },
+      {
+        "id": "oversight-trainer-handbook",
+        "title": "Governing AI in Oversight Institutions · Trainer handbook",
+        "audience": "trainer",
+        "format": "docx",
+        "bytes": 31393,
+        "href": "/library/oversight-trainer-handbook.docx",
+        "sha256": "888e9d481973178ad49abb2f2e10a8dd053584c808464791b71a9e4a0b690638",
+        "sourceFilename": "APLYD_C3_Trainer_Handbook.docx"
+      },
+      {
+        "id": "oversight-slide-deck",
+        "title": "Governing AI in Oversight Institutions · Workshop slide deck",
+        "audience": "trainer",
+        "format": "pptx",
+        "bytes": 2113065,
+        "href": "/library/oversight-slide-deck.pptx",
+        "sha256": "4be03d9af5bfe08e1cf24e58a450081f0e1cdc2bf3b382ae68663f82cafc7739",
+        "sourceFilename": "APLYD_Deck_C3_Oversight.pptx"
+      }
+    ]
+  },
+  {
+    "id": "emerging-leaders",
+    "title": "Governing the AI You Will Inherit",
+    "summary": "For emerging institutional leaders: practise the FIT Test, build/buy/partner decisions, governance and crisis exercises, with India composites.",
+    "reviewNote": "Some India examples and figures are labelled composite or indicative. Review current rules and institutional authority before adapting them.",
+    "resources": [
+      {
+        "id": "emerging-leaders-participant-handbook",
+        "title": "Governing the AI You Will Inherit · Participant handbook",
+        "audience": "participant",
+        "format": "docx",
+        "bytes": 18660,
+        "href": "/library/emerging-leaders-participant-handbook.docx",
+        "sha256": "707fd17f1a52a5e5100e5276538efc2f8a858fffee5ba5106c2da61b946b2d93",
+        "sourceFilename": "APLYD_C4_Participant_Handbook.docx"
+      },
+      {
+        "id": "emerging-leaders-printables",
+        "title": "Governing the AI You Will Inherit · Workshop printables",
+        "audience": "all",
+        "format": "pdf",
+        "bytes": 190520,
+        "href": "/library/emerging-leaders-printables.pdf",
+        "sha256": "32db613b49e1fedfdfbd9a65a664739dd1c716e1fe35d2e3f55acd1d1e911c3f",
+        "sourceFilename": "APLYD_C4_Printables.pdf"
+      },
+      {
+        "id": "emerging-leaders-trainer-handbook",
+        "title": "Governing the AI You Will Inherit · Trainer handbook",
+        "audience": "trainer",
+        "format": "docx",
+        "bytes": 35234,
+        "href": "/library/emerging-leaders-trainer-handbook.docx",
+        "sha256": "853292027ce64b2f8e4842eeae97d9768205037d8c6657c95541f24efea07f31",
+        "sourceFilename": "APLYD_C4_Trainer_Handbook.docx"
+      },
+      {
+        "id": "emerging-leaders-slide-deck",
+        "title": "Governing the AI You Will Inherit · Workshop slide deck",
+        "audience": "trainer",
+        "format": "pptx",
+        "bytes": 2223064,
+        "href": "/library/emerging-leaders-slide-deck.pptx",
+        "sha256": "7e7bc915e8cb30e7a1055a5c652eb1f77d3eb276e530bb9abc6deab14fd2720c",
+        "sourceFilename": "APLYD_Deck_C4_EmergingLeaders.pptx"
+      }
+    ]
+  },
+  {
+    "id": "frontline",
+    "title": "Using AI Well at the Point of Delivery",
+    "summary": "For frontline workers: use Spot / Override / Flag exercises to check AI in daily work. Apply overrides only with agreed workplace authority.",
+    "reviewNote": "The source leaves local override authority, worker protection and escalation arrangements open. Agree these for your workplace before using the exercises.",
+    "resources": [
+      {
+        "id": "frontline-participant-handbook",
+        "title": "Using AI Well at the Point of Delivery · Participant handbook",
+        "audience": "participant",
+        "format": "docx",
+        "bytes": 13113,
+        "href": "/library/frontline-participant-handbook.docx",
+        "sha256": "7fd54ad0d76bfb341b90d6519107a670dd4a3555e184d9f52344dd49c5d97781",
+        "sourceFilename": "APLYD_C5_Participant_Handbook.docx"
+      },
+      {
+        "id": "frontline-printables",
+        "title": "Using AI Well at the Point of Delivery · Workshop printables",
+        "audience": "all",
+        "format": "pdf",
+        "bytes": 109337,
+        "href": "/library/frontline-printables.pdf",
+        "sha256": "1590f9ecf54b1e7c4170a5727729ebdbfad9011e546936d1b5d14c309fe0e780",
+        "sourceFilename": "APLYD_C5_Printables.pdf"
+      },
+      {
+        "id": "frontline-trainer-handbook",
+        "title": "Using AI Well at the Point of Delivery · Trainer handbook",
+        "audience": "trainer",
+        "format": "docx",
+        "bytes": 18848,
+        "href": "/library/frontline-trainer-handbook.docx",
+        "sha256": "6a377e3668bc455079420034f0cb846579091c685582fe69fb4c792b8307e941",
+        "sourceFilename": "APLYD_C5_Trainer_Handbook.docx"
+      },
+      {
+        "id": "frontline-slide-deck",
+        "title": "Using AI Well at the Point of Delivery · Workshop slide deck",
+        "audience": "trainer",
+        "format": "pptx",
+        "bytes": 719920,
+        "href": "/library/frontline-slide-deck.pptx",
+        "sha256": "2406c36a7fb6fd924162c47a6b64c2583c4e78257702e1093ebb6f3241fb6037",
+        "sourceFilename": "APLYD_Deck_C5_Frontline.pptx"
+      }
+    ]
+  }
+] as const;

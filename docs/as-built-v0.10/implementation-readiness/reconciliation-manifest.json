@@ -1,0 +1,94 @@
+{
+  "reconciledAt": "2026-10-05T11:06:58.151432+00:00",
+  "sourceGapFile": "outputs/aplyd-academy-sprint/product-readiness/acceptance-gaps.json",
+  "sourceGapSha256": "8970a4e93ed65a93c49b9847c6351d2479229c2fee26e57c0c18e9b26ccf717f",
+  "sourceReleaseEvidence": "work/aplyd-academy/docs/test-evidence.json",
+  "sourceReleaseEvidenceSha256": "c3d7ee7538272f725d777f3e955d3d6e69de454903a78f6b1ca2f08f6f5b6741",
+  "capturedReleases": {
+    "0.9": {
+      "path": "evidence/release-v0.9.json",
+      "sourceJsonPointer": "/previousReleaseEvidence",
+      "source": "work/aplyd-academy/docs/test-evidence.json"
+    },
+    "0.8": {
+      "path": "evidence/release-v0.8.json",
+      "sourceJsonPointer": "/previousReleaseEvidence/previousReleaseEvidence",
+      "source": "work/aplyd-academy/docs/test-evidence.json"
+    },
+    "0.7": {
+      "path": "evidence/release-v0.7.json",
+      "sourceJsonPointer": "/previousReleaseEvidence/previousReleaseEvidence/previousReleaseEvidence",
+      "source": "work/aplyd-academy/docs/test-evidence.json"
+    },
+    "0.6": {
+      "path": "evidence/release-v0.6.json",
+      "sourceJsonPointer": "/previousReleaseEvidence/previousReleaseEvidence/previousReleaseEvidence/previousReleaseEvidence",
+      "source": "work/aplyd-academy/docs/test-evidence.json"
+    },
+    "0.5": {
+      "path": "evidence/release-v0.5.json",
+      "sourceJsonPointer": "/previousReleaseEvidence/previousReleaseEvidence/previousReleaseEvidence/previousReleaseEvidence/previousReleaseEvidence",
+      "source": "work/aplyd-academy/docs/test-evidence.json"
+    },
+    "0.4": {
+      "path": "evidence/release-v0.4.json",
+      "sourceJsonPointer": "/previousReleaseEvidence/previousReleaseEvidence/previousReleaseEvidence/previousReleaseEvidence/previousReleaseEvidence/previousReleaseEvidence",
+      "source": "work/aplyd-academy/docs/test-evidence.json"
+    },
+    "0.3": {
+      "path": "evidence/release-v0.3.json",
+      "sourceJsonPointer": "/previousReleaseEvidence/previousReleaseEvidence/previousReleaseEvidence/previousReleaseEvidence/previousReleaseEvidence/previousReleaseEvidence/previousReleaseEvidence",
+      "source": "work/aplyd-academy/docs/test-evidence.json"
+    }
+  },
+  "currentIntegratedDomainTAP": {
+    "path": "evidence/v10-domain-tests.tap",
+    "tests": 315,
+    "passed": 315,
+    "failed": 0,
+    "note": "Read from actual root TAP; includes library25, not315 independent browser/API/UAT cases."
+  },
+  "libraryCurrent": {
+    "actualModelAnd20LocalFiles": "evidence/v10-library-acceptance.json",
+    "browserAcceptance": "Pending separate final browser runner at reconciliation; not counted here."
+  },
+  "limits": [
+    "No prior files overwritten; outside-only documentation and evidence snapshots",
+    "Historical release evidence is not a fresh comprehensive rerun on current v0.10",
+    "No hosted recipient, real UAT, staffing, partner, recognized issuer, load or backup restore verification claimed"
+  ],
+  "supplementalLocalAcceptance": {
+    "id": "PR-05",
+    "path": "pr05-supplemental/evidence/network-cancel-race-result.json",
+    "sha256": "9de043c478ea75d572e317895d55e7f6fc03000eef530d245129b65cfe307152",
+    "checks": 41,
+    "worker": "65210",
+    "completedAt": "2026-10-05T11:10:01.174Z",
+    "actualObservedWinner": "rsvp",
+    "actualObservedLoser": "cancel",
+    "stopped": true,
+    "limit": "One actual local same-revision race order; no SQL/clock injection, forced internal authorization barrier or production claim"
+  },
+  "supplementalServerClockAcceptance": {
+    "id": "PR-08",
+    "path": "pr08-server-clock/evidence/network-attendance-clock-result.json",
+    "sha256": "4afea5fc4ec35e1938727cd4ea0ec7fc1df3eacaccf4ef082fd373c649cdbf3f",
+    "checks": 49,
+    "worker": "16902",
+    "completedAt": "2026-10-05T11:14:51.027Z",
+    "stopped": true,
+    "limits": [
+      "Actual local server clock boundary and supported API only; no SQL or injected clock",
+      "All accounts/session/reasons fictional; no human attendance observed or verified",
+      "Seven-day post-end expiry remains existing pure-rule coverage, not a seven-day live wait",
+      "Export assertions are own API projection plus exact current UI export field contract; no browser download performed",
+      "No unsafe POST retry, production identity, notification, load or restore claim"
+    ]
+  },
+  "finalRootAddendum": {
+    "unitTests": 323,
+    "libraryBrowser": "../final-acceptance-summary.json",
+    "enrollmentShape": "../enrollment-response-acceptance.json",
+    "note": "Historical release snapshots and original review hashes describe their executed versions; final root evidence is separately identified."
+  }
+}

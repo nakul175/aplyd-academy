@@ -1,0 +1,72 @@
+{
+  "passed": true,
+  "startedAt": "2026-10-05T11:13:07.715Z",
+  "completedAt": "2026-10-05T11:13:19.293Z",
+  "scenarios": [
+    {
+      "name": "cold personal Overview does not load Library code or original files",
+      "passed": true
+    },
+    {
+      "name": "keyboard Library navigation focuses main, direct hash works and no files eagerly fetched",
+      "passed": true
+    },
+    {
+      "name": "collection/search/audience filters show exact catalog resources and clear restores all",
+      "passed": true
+    },
+    {
+      "name": "every supplied URL returns exact bytes/hash and anchors retain original source filename",
+      "passed": true
+    },
+    {
+      "name": "actual browser downloads for DOCX/PDF/PPTX keep original filenames and source hashes",
+      "passed": true
+    },
+    {
+      "name": "a delayed Library consumer respects subsequent manual Overview navigation",
+      "passed": true
+    },
+    {
+      "name": "reference cards and controls stay within mobile/tablet/desktop normal and true200% text",
+      "passed": true
+    }
+  ],
+  "layouts": 6,
+  "exactDownloadChecks": 20,
+  "actualBrowserDownloads": [
+    {
+      "id": "government-participant-handbook",
+      "format": "docx",
+      "sourceFilename": "APLYD_C1_Participant_Handbook.docx",
+      "bytes": 18615,
+      "sha256": "81360739af138a451c01d2eb7a78ace68c79c9e69470f4d5e4648c951104616b",
+      "passed": true
+    },
+    {
+      "id": "government-printables",
+      "format": "pdf",
+      "sourceFilename": "APLYD_C1_Printables.pdf",
+      "bytes": 189884,
+      "sha256": "322ac195b10c4d08ebe7c345b96a8b01f0d951a653e48737e85e0371f14ae092",
+      "passed": true
+    },
+    {
+      "id": "government-slide-deck",
+      "format": "pptx",
+      "sourceFilename": "APLYD_Deck_C1_Government.pptx",
+      "bytes": 2205586,
+      "sha256": "01f02980fe3f38693fc523996df6f9834268e70d804f9061f03dbbd52bd4a738",
+      "passed": true
+    }
+  ],
+  "pdfOpened": true,
+  "readOnlyStateChecks": 7,
+  "posts": 0,
+  "pageErrors": [],
+  "limits": [
+    "Only parent-confirmed stable loopback build and synthetic local identity",
+    "Supplied reference files only; no completion, practice record or credential granted",
+    "No production authentication, private-hosting authorization, latency or document layout claim"
+  ]
+}

@@ -1,0 +1,30 @@
+Entity	Field	Type / allowed values	Validation / semantics	Source / storage
+LibraryCatalog	collections	LibraryCollection[]	Integrated catalog contains exactly 5 collections/20 resources; reader accepts 1..5 collections and at most 20 resources; whole catalog unavailable on invalid metadata	lib/academy-library.ts; lib/academy-library-view.ts libraryIndex
+LibraryCollection	id	government | development | oversight | emerging-leaders | frontline	Known unique collection ID; context grouping, not course ID or authority scope	lib/academy-library.ts
+LibraryCollection	title	string	Nonempty/control-free; at most 180 characters; source-grounded collection title	lib/academy-library.ts
+LibraryCollection	summary	string	Nonempty/control-free; at most 700 characters; searchable recommendation summary, not verified source claim	lib/academy-library.ts
+LibraryCollection	reviewNote	string | null	Optional nonempty/control-free text at most 1000 characters; rendered as Review before use	lib/academy-library.ts; normalized by libraryIndex
+LibraryCollection	resources	LibraryResource[]	1..4 items per collection; integrated catalog has the four original resource kinds	lib/academy-library.ts
+LibraryResource	id	string	Nonempty/control-free; at most 100 characters; unique across catalog; card/test identity only	lib/academy-library.ts
+LibraryResource	title	string	Nonempty/control-free; at most 200 characters; accessible original-resource display title	lib/academy-library.ts
+LibraryResource	audience	participant | trainer | all	Recommendation only; participant/trainer filter also includes all; no workspace-role grant or file access restriction	lib/academy-library.ts; libraryResults
+LibraryResource	format	docx | pdf | pptx	Original file format; matching href/source filename extension required	lib/academy-library.ts; libraryFilename
+LibraryResource	bytes	positive safe integer	1..50000000; exact original size in manifest; decimal KB/MB display is derived	lib/academy-library.ts; librarySize
+LibraryResource	href	string	Same-origin /library/ path at most 500 characters; decoded safe ASCII path; no query/fragment/backslash/traversal/doubled slash; unique raw href	lib/academy-library.ts; libraryFilename
+LibraryResource	sha256	string	Lowercase 64 hexadecimal characters; expected digest of unchanged original; no factual approval or runtime verification implied	lib/academy-library.ts; provenance.json
+LibraryResource	sourceFilename	string	Original ZIP member basename; nonempty/control-free; at most 180 characters; no slash/backslash; extension matches format	lib/academy-library.ts
+LibraryResource	filename	string	Normalized alias of sourceFilename, displayed and used as download attribute; destination slug remains separate	lib/academy-library-view.ts libraryIndex
+LibraryUI	query	string	Local mounted-view state, max 120 characters; all whitespace-separated words must match combined searchable metadata, case-insensitive	app/academy-library.tsx; libraryResults
+LibraryUI	collection	all | LibraryCollection.id	Local exact collection filter; not persisted to server	app/academy-library.tsx
+LibraryUI	audience	all | participant | trainer	Local Suggested audience filter; all means Everyone; never access enforcement	app/academy-library.tsx
+LibraryUI	shown / total	integer	Derived live count of visible/all resources; no learner progress meaning	app/academy-library.tsx
+LibraryUI	kind	derived string	Printables for PDF; Slide deck for PPTX; Participant/Trainer handbook for DOCX; searchable metadata	lib/academy-library-view.ts resourceKind
+LibraryUI	view / hash	library / #library	Reference library navigation; lazily loaded client view; no new API route	app/academy.tsx
+OriginalAsset	content	unchanged binary	20 supplied originals: 10 DOCX, 5 PDF, 5 PPTX; static directory location does not change existing private Site policy	public/library/; original ZIP provenance
+Provenance	sourceZipEntry	string	Original known ZIP member path; reviewed without traversal/execution; not published as a download archive	library-source/provenance.json
+Provenance	publishedPath	string	Relative static destination public/library/<slug>.<format>; maps to href, separate from original basename	library-source/provenance.json
+Provenance	sourceZipSha256	string	Digest of supplied ZIP retained for provenance; not a verified release date or source ownership claim	library-source/provenance.json
+Provenance	referencesOnly	true	Resource use does not cause enrollment/completion/assessment/publication/record effects	library-source/provenance.json
+Provenance	noCompletionOrCredentialEffect	true per original	Blank certificate templates and downloads issue no Academy credential or practice record	library-source/provenance.json originalFiles
+Provenance	schemaChanges	[]	No database migration, new learner data or API command in this increment	library-source/provenance.json
+HostingBoundary	Site audience	existing owner-private policy	External hosting access gate must protect app and direct static assets; suggested reading labels do not implement this; hosted checks NOT RUN here	Site configuration/operator acceptance; not enforced by library model

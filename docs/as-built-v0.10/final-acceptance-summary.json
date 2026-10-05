@@ -1,0 +1,43 @@
+{
+  "at": "2026-10-05T11:13:35.455530+00:00",
+  "worker": "16902",
+  "allPassed": true,
+  "library": {
+    "scenarios": 7,
+    "layouts": 6,
+    "httpIntegrity": 20,
+    "actualDownloads": 3,
+    "actualPdfOpen": true,
+    "unchangedPersonalStateAndRevision": 7,
+    "posts": 0
+  },
+  "recovery": {
+    "strictReadAnd503Cache": 12,
+    "malformedResponseAndWrite": 8,
+    "identityAndScratch": 9
+  },
+  "limitations": [
+    "Local synthetic fixtures only; no hosted audience/authentication test.",
+    "Recovery tests save two fictional local invitation links; nothing is sent.",
+    "Malformed enrollment probes are separately owned by curriculum_authoring."
+  ],
+  "sources": {
+    "app/academy-response.ts": "d016b784f63575fe66a8c3eb83bb2cfbc834e8d2697586c9e2a19eb451a4e0ba",
+    "app/academy.tsx": "9e6037f121064509388fbbdf9427b925867299b1bf126877b83472b4b6356a16",
+    "app/academy-library.tsx": "73a553d816abe9018a87dc1e40e6acc9c33d6a7f00dc727efb971b62c3003510",
+    "app/academy-library.module.css": "65948dfd42f4bf3ec445e94e0f4a77e6db40870150dd57c7aa61107afbdf59a4",
+    "lib/academy-library.ts": "76b893df0537a82fce5bbfd5213b404c511986de822718b222b2483f2f458512",
+    "tests/library-browser.mjs": "476b7000d4791bce26d9e30b9d8a717ee958ed6dd3cd6ec5cf4c088ebbcf024a",
+    "tests/scoped-workbench-qa/nonjson-read-browser.mjs": "6f69ae17d68a58df58cc7e42e03c868012d6e40497d1ae3ca80ad48451207c77",
+    "tests/scoped-workbench-qa/response-recovery-browser.mjs": "310f0ff3f81e0c5b3542352f5960f2f290a1c6e824ccd9f84290b46aab1c9e5d",
+    "tests/identity-browser.mjs": "35dcde8eda01cc41296a9668241fb51a28d5da7650529741e8ccd8b96276fb16"
+  },
+  "visualInspection": {
+    "finalWorkerTopViewports": [
+      "390 at true 200% text",
+      "768 at true 200% text"
+    ],
+    "result": "Main library text remains readable within viewport. Existing narrow tablet sidebar workspace label wraps midword; this unchanged cosmetic advisory does not obstruct library controls.",
+    "resourceCards": "Prior resource-card visual inspection remains applicable: final source hashes for Library UI/CSS/manifest are unchanged."
+  }
+}

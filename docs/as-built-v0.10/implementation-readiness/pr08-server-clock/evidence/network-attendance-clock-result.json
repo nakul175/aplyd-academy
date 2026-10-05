@@ -1,0 +1,67 @@
+{
+  "passed": true,
+  "startedAt": "2026-10-05T11:14:19.700Z",
+  "completedAt": "2026-10-05T11:14:51.027Z",
+  "worker": "16902",
+  "base": "http://127.0.0.1:8787",
+  "fixtureId": "tw-1f4ef0b2-9bc1-4e8e-8b91-44b537e1a6f9",
+  "sessionId": "07c3283a-254e-4dae-9fee-8f9d74e2dbb4",
+  "checks": 49,
+  "observations": [
+    {
+      "phase": "before start",
+      "requestedStart": "2026-10-05T11:14:49.953Z",
+      "requestAt": "2026-10-05T11:14:20.005Z",
+      "status": 422,
+      "revisionUnchanged": true,
+      "realWaitMilliseconds": 30948
+    },
+    {
+      "phase": "actual after-start marks",
+      "firstServerRecordedAt": "2026-10-05T11:14:50.972Z",
+      "correctionServerRecordedAt": "2026-10-05T11:14:50.984Z",
+      "statusHistory": [
+        "attended",
+        "absent"
+      ],
+      "wrongActorStatus": 403,
+      "serverStartBoundaryVerified": true,
+      "peerAttendanceHidden": true,
+      "learningUnchanged": true
+    },
+    {
+      "phase": "former history and projection-backed export",
+      "ownHistoryRetained": true,
+      "correctionReasonsRetained": true,
+      "joiningInstructionsAndPeerRosterAbsent": true,
+      "platformSubjectsAbsent": true,
+      "newFormerParticipantMarkStatus": 404,
+      "actualBrowserDownloadTested": false
+    }
+  ],
+  "sourceHashes": [
+    {
+      "file": "tests/local-qa.mjs",
+      "sha256": "bfb738dbef13c9c6382901be6488f53cf7f553bb6f9e3a572ef1d4a24e9fbf90"
+    },
+    {
+      "file": "app/api/teams/route.ts",
+      "sha256": "2c1c4e1ccff48a0fd45aed0728a594aed45fe2136114a6510ac0533cf2584b95"
+    },
+    {
+      "file": "lib/academy-network.ts",
+      "sha256": "780610d02d4f063f5413db588455079ea98136eb0f7f0f576fff4390ae047414"
+    },
+    {
+      "file": "app/academy-teams-ui.tsx",
+      "sha256": "0a8d32ff4331e9a10e5a67561104bf3a0a92b2ecbd1ac2451fa0f0c36089040d"
+    }
+  ],
+  "limits": [
+    "Actual local server clock boundary and supported API only; no SQL or injected clock",
+    "All accounts/session/reasons fictional; no human attendance observed or verified",
+    "Seven-day post-end expiry remains existing pure-rule coverage, not a seven-day live wait",
+    "Export assertions are own API projection plus exact current UI export field contract; no browser download performed",
+    "No unsafe POST retry, production identity, notification, load or restore claim"
+  ]
+}

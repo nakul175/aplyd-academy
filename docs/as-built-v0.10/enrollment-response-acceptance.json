@@ -1,0 +1,192 @@
+{
+  "passed": true,
+  "worker": "http://127.0.0.1:8787",
+  "at": "2026-10-05T11:14:12.886Z",
+  "expectation": "hardened",
+  "sourceSnapshotHashes": {
+    "app/academy.tsx": "9e6037f121064509388fbbdf9427b925867299b1bf126877b83472b4b6356a16",
+    "app/academy-response.ts": "d016b784f63575fe66a8c3eb83bb2cfbc834e8d2697586c9e2a19eb451a4e0ba"
+  },
+  "scope": "Only intercepted successful JSON response bodies and synthetic local header. No command POST, checkout change, rebuild or production call. Source snapshot hashes do not independently prove loaded server bundle identity.",
+  "results": [
+    {
+      "name": "minimal profile and empty enrollments, omitted auxiliary arrays",
+      "successful200Body": {
+        "currentUserId": "qa-overview-shape-9d9c30dd-8568-478d-8a9a-da3b736d61d5",
+        "revision": 0,
+        "state": {
+          "profile": {
+            "name": "Synthetic shape audit",
+            "context": "msme",
+            "reading": false,
+            "networking": false
+          },
+          "enrollments": []
+        }
+      },
+      "apiGets": 1,
+      "posts": 0,
+      "pageErrors": [],
+      "overviewVisible": true,
+      "renderErrorBoundary": false,
+      "verificationNotice": false,
+      "savedContentUnavailable": false,
+      "bodyPreview": "Skip to content\na\naplyd.\nACADEMY\nPersonal practice lab\n\nYOUR WORKSPACE\n\nWorkspaces & cohorts\nOverview\nMy learning plan\nLearning pathways\nReference library\nCommunity\nPeople & opportunities\nMy achievements\nEcosystem connections\nSupport & help\nBetter work. Careful AI.\n\nPractise with fictional information. Check before you act.\n\nReview studio\nPreferences & privacy\nS\nSynthetic shape audit\nPersonal practice lab\nToggle Sidebar\nAplyd Academy / Overview\nSaved privately\nWorking pilot\n\nPersonal practice lab · Private discussions · Sample staff reviews and ecosystem tests are labelled.\n\nLEARN IT. PRACTISE"
+    },
+    {
+      "name": "null enrollment is rejected before HOME rendering",
+      "successful200Body": {
+        "currentUserId": "qa-overview-shape-9d9c30dd-8568-478d-8a9a-da3b736d61d5",
+        "revision": 0,
+        "state": {
+          "profile": {
+            "name": "Synthetic shape audit",
+            "context": "msme",
+            "reading": false,
+            "networking": false
+          },
+          "enrollments": [
+            null
+          ],
+          "posts": [],
+          "reports": [],
+          "interests": [],
+          "connections": {},
+          "deliveries": [],
+          "followups": [],
+          "paused": [],
+          "seen": []
+        }
+      },
+      "apiGets": 1,
+      "posts": 0,
+      "pageErrors": [],
+      "overviewVisible": false,
+      "renderErrorBoundary": false,
+      "verificationNotice": true,
+      "savedContentUnavailable": false,
+      "bodyPreview": "Skip to content\na\naplyd.\nACADEMY\nPersonal practice lab\n\nYOUR WORKSPACE\n\nWorkspaces & cohorts\nOverview\nMy learning plan\nLearning pathways\nReference library\nCommunity\nPeople & opportunities\nMy achievements\nEcosystem connections\nSupport & help\nBetter work. Careful AI.\n\nPractise with fictional information. Check before you act.\n\nReview studio\nPreferences & privacy\nL\nLearner\nPersonal practice lab\nToggle Sidebar\nAplyd Academy / Overview\nRetry connection\nYour work needs attention.\n\nYour signed-in learning space could not be verified. Refresh saved progress to verify your access.\n\nRefresh saved progre"
+    },
+    {
+      "name": "matching enrollment missing completed array",
+      "successful200Body": {
+        "currentUserId": "qa-overview-shape-9d9c30dd-8568-478d-8a9a-da3b736d61d5",
+        "revision": 0,
+        "state": {
+          "profile": {
+            "name": "Synthetic shape audit",
+            "context": "msme",
+            "reading": false,
+            "networking": false
+          },
+          "enrollments": [
+            {
+              "id": "qa-e",
+              "programId": "msme-customer-operations",
+              "version": "0.1-review-draft",
+              "withdrawn": false,
+              "attempts": [],
+              "appeals": [],
+              "practice": {},
+              "draft": {},
+              "quizAnswers": {}
+            }
+          ],
+          "posts": [],
+          "reports": [],
+          "interests": [],
+          "connections": {},
+          "deliveries": [],
+          "followups": [],
+          "paused": [],
+          "seen": []
+        }
+      },
+      "apiGets": 1,
+      "posts": 0,
+      "pageErrors": [],
+      "overviewVisible": false,
+      "renderErrorBoundary": false,
+      "verificationNotice": true,
+      "savedContentUnavailable": false,
+      "bodyPreview": "Skip to content\na\naplyd.\nACADEMY\nPersonal practice lab\n\nYOUR WORKSPACE\n\nWorkspaces & cohorts\nOverview\nMy learning plan\nLearning pathways\nReference library\nCommunity\nPeople & opportunities\nMy achievements\nEcosystem connections\nSupport & help\nBetter work. Careful AI.\n\nPractise with fictional information. Check before you act.\n\nReview studio\nPreferences & privacy\nL\nLearner\nPersonal practice lab\nToggle Sidebar\nAplyd Academy / Overview\nRetry connection\nYour work needs attention.\n\nYour signed-in learning space could not be verified. Refresh saved progress to verify your access.\n\nRefresh saved progre"
+    },
+    {
+      "name": "ordinary empty full workspace still renders",
+      "successful200Body": {
+        "currentUserId": "qa-overview-shape-9d9c30dd-8568-478d-8a9a-da3b736d61d5",
+        "revision": 0,
+        "state": {
+          "profile": {
+            "name": "Synthetic shape audit",
+            "context": "msme",
+            "reading": false,
+            "networking": false
+          },
+          "enrollments": [],
+          "posts": [],
+          "reports": [],
+          "interests": [],
+          "connections": {},
+          "deliveries": [],
+          "followups": [],
+          "paused": [],
+          "seen": []
+        }
+      },
+      "apiGets": 1,
+      "posts": 0,
+      "pageErrors": [],
+      "overviewVisible": true,
+      "renderErrorBoundary": false,
+      "verificationNotice": false,
+      "savedContentUnavailable": false,
+      "bodyPreview": "Skip to content\na\naplyd.\nACADEMY\nPersonal practice lab\n\nYOUR WORKSPACE\n\nWorkspaces & cohorts\nOverview\nMy learning plan\nLearning pathways\nReference library\nCommunity\nPeople & opportunities\nMy achievements\nEcosystem connections\nSupport & help\nBetter work. Careful AI.\n\nPractise with fictional information. Check before you act.\n\nReview studio\nPreferences & privacy\nS\nSynthetic shape audit\nPersonal practice lab\nToggle Sidebar\nAplyd Academy / Overview\nSaved privately\nWorking pilot\n\nPersonal practice lab · Private discussions · Sample staff reviews and ecosystem tests are labelled.\n\nLEARN IT. PRACTISE"
+    },
+    {
+      "name": "well-shaped unknown content version retained safely",
+      "successful200Body": {
+        "currentUserId": "qa-overview-shape-9d9c30dd-8568-478d-8a9a-da3b736d61d5",
+        "revision": 0,
+        "state": {
+          "profile": {
+            "name": "Synthetic shape audit",
+            "context": "msme",
+            "reading": false,
+            "networking": false
+          },
+          "enrollments": [
+            {
+              "id": "qa-unknown-e",
+              "programId": "msme-customer-operations",
+              "version": "not-a-published-version",
+              "withdrawn": false,
+              "completed": [],
+              "attempts": [],
+              "appeals": [],
+              "practice": {},
+              "draft": {},
+              "record": null
+            }
+          ],
+          "posts": [],
+          "reports": [],
+          "interests": [],
+          "connections": {},
+          "deliveries": [],
+          "followups": [],
+          "paused": [],
+          "seen": []
+        }
+      },
+      "apiGets": 1,
+      "posts": 0,
+      "pageErrors": [],
+      "overviewVisible": true,
+      "renderErrorBoundary": false,
+      "verificationNotice": false,
+      "savedContentUnavailable": true,
+      "bodyPreview": "Skip to content\na\naplyd.\nACADEMY\nPersonal practice lab\n\nYOUR WORKSPACE\n\nWorkspaces & cohorts\nOverview\nMy learning plan\nLearning pathways\nReference library\nCommunity\nPeople & opportunities\nMy achievements\nEcosystem connections\nSupport & help\nBetter work. Careful AI.\n\nPractise with fictional information. Check before you act.\n\nReview studio\nPreferences & privacy\nS\nSynthetic shape audit\nPersonal practice lab\nToggle Sidebar\nAplyd Academy / Overview\nSaved privately\nWorking pilot\n\nPersonal practice lab · Private discussions · Sample staff reviews and ecosystem tests are labelled.\n\nLEARN IT. PRACTISE"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+APLYD ACADEMY v0.10 — AS-BUILT REFERENCE LIBRARY DELTA
+Prepared from integrated local source and reviewed staged originals, 5 October 2026.
+This describes the reference-library increment. Hosted release/access acceptance remains pending; it is not an accredited course release or approval of source factual/legal claims.
+
+SOURCE MAP
+App root: work/aplyd-academy/
+lib/academy-library.ts — fixed metadata catalog, five collections and twenty resources.
+lib/academy-library-view.ts — bounded metadata validation, filename checks, local search/filter model.
+app/academy-library.tsx and academy-library.module.css — reference cards, controls and download links.
+app/academy.tsx — Reference library navigation, #library route and lazy view loading.
+public/library/ — original DOCX/PDF/PPTX bytes under safe destination names.
+Review/provenance: outputs/aplyd-academy-sprint/library-source/provenance.json and library-review/staged-manifest-review.json. Source ZIP and extracted originals remain reference material.
+
+FUNCTIONAL BEHAVIOUR
+Reference library opens “Learning for the work ahead”, with five collections and twenty supplied files. Every collection contains one participant handbook, one trainer handbook, one printable PDF and one PowerPoint deck. The collections are government, development sector, oversight institutions, emerging leaders and frontline delivery. These are source context labels, not new Academy pathway versions.
+
+Search the library accepts up to 120 characters. Search is local, case-insensitive, and requires every query word to match the combined collection title/summary, resource title, original filename, audience or resource kind. Collection and Suggested audience filters combine with search. Participants or Trainers & facilitators include the shared printables; Everyone includes all files. Empty groups disappear. A live result count reports files shown; Clear library filters restores all twenty. No result shows “No matching reference files”.
+
+Each card displays resource kind, suggested audience, original format, decimal KB/MB size and exact Source file name. Open uses a same-origin original-file link in a new tab with noopener/noreferrer. Download suggests the original source filename. Native browser handling applies: Word/PowerPoint Open may download. The UI does not embed or eagerly fetch document contents and sends no learning command.
+
+The catalog reader rejects a malformed catalog as a whole, displaying “Reference library unavailable”. Bounds are at most five known unique collections, four resources per collection and twenty total, with unique resource IDs and hrefs. Valid files have positive bounded byte sizes, lowercase SHA-256 metadata and matching DOCX/PDF/PPTX extensions. Paths are restricted to safe /library/ assets: no query, fragment, backslash, traversal, doubled slash or external URL. The digest describes original-file integrity; it is not a runtime content approval or automatic download verification.
+
+REFERENCE AND AUTHORITY BOUNDARIES
+Participant/trainer/all are reading recommendations. They neither grant nor restrict Academy workspace roles. The existing owner-private Site audience must be preserved for both the application and direct static-file URLs. public/library is an asset directory name, not an instruction to expose material publicly; these UI links do not implement the outer hosting access gate.
+
+The supplied originals are unchanged references. The library does not create enrollments, lesson completion, assessment attempts, practice records, certificates, content publications or ecosystem grants. Blank certificate templates issue no credential. Existing immutable curriculum references and learner evidence remain unchanged. There is no migration, new database schema, new API endpoint or command for this increment; search/filter state stays in the mounted client view.
+
+“Review before use” notes qualify source use. Government/emerging-leader examples can be composite or indicative; development/oversight frameworks require current rules and institutional authority review. Frontline source arrangements for override authority, worker protection and escalation are OPEN: agree them in the workplace before using exercises. Health examples do not activate Health integration or authorise clinical actions. Original source dates, programme promises, statistics and legal statements are not presented as verified Academy claims.
+
+EVIDENCE AND LIMITS
+Independent staged review matched all twenty source filenames, byte sizes and SHA-256 digests to the supplied ZIP, with no correction required. The Library UI/model owner reports twenty-five passing tests against actual integrated local source and exact-original checks; evidence is library-ui-candidate/integrated-root-evidence/. These do not prove browser behaviour, hosting audience enforcement, legal currency or full document rendering. Root final local browser/build: PASS on final Worker16902;7 browser scenarios,6 layouts,20 exact HTTP originals,3 browser downloads,PDF Open,7 unchanged state/revision comparisons,0 commandPOSTs,0pageerrors.323 unit tests, typecheck and Workerbuild pass. Hosted owner file access, anonymous denial, and recipient/identity access: NOT RUN in this documentation workstream.
+
+Final response guard hardening: a successfulJSON response with a null or incomplete enrollment previously reached root render selectors. The basic profile/enrollment shape check now rejects these before state adoption, without domain fallback or storage mutation. Current malformed reads show the ordinary verification/refresh notice; retained unknown content versions remain unavailable rather than rejected. This is not complete nested-view schema or domain/permission validation.

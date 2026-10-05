@@ -1,0 +1,7 @@
+Reference library architecture · v0.10
+
+The existing Academy shell owns navigation and read authority. Its Library view is loaded on demand through the existing generic loading surface. A constant reviewed five-collection manifest is validated by a bounded pure presentation model. Search is local and bounded at120characters; collection/audience selectors filter displayed metadata. Original files are static build assets reached only by explicit Open or Download. No iframe, background document fetch, upload endpoint, embedding service or content extraction runs in a learner browser.
+
+Original bytes andSHA256 values are checked in the checkout and through the localWorker. Source file names are preserved by the download attribute. Route requests remain inside the existing privateSite. Hosting access is the configured Site gate; Academy memberships and suggested audience filters do not establish separate file permissions. Hosted recipient access and direct-file authorization are unexecuted operator checks.
+
+No new database tables, migrations, APIcommands, enrollment states, completion events, record issue paths, AIprovider calls or partnertransports. Earlier pinned course versions remain unchanged. Source programme/faculty/followup promises are not implemented by downloading a file.

@@ -1,0 +1,29 @@
+APLYD ACADEMY v0.10 — REFERENCE LIBRARY OPERATOR ACCEPTANCE
+Use synthetic local accounts for local checks; record actual release, identity, date and evidence for hosted checks. Source-only review is not a hosted access result.
+
+LOCAL ACCEPTANCE
+[ ] Open Reference library through navigation and #library. Confirm five named collections and twenty cards; no page errors or unsolicited original-file fetches. Navigate back to saved learning without changing its completion/evidence/record state.
+[ ] Search by topic and exact Source file name; combine Collection with Participants and Trainers & facilitators. Shared printables remain in both audience filters. Verify live counts, an empty result and Clear library filters restoring twenty.
+[ ] Open/download examples in DOCX, PDF and PPTX. Native Office-file downloads are acceptable. Downloaded bytes and SHA-256 must equal manifest/provenance, not merely a successful HTTP response. Verify all twenty links and exact original names.
+[ ] Confirm the reference-only notice, original-format notice, and visible Review before use notes. Frontline override/worker-protection/escalation authority stays conditional; composite/indicative examples are not relabelled verified facts. Certificate templates change no Academy progress or practice record.
+[ ] Keyboard-test labels, filters, clear control and every Open/Download link. Check 1440/768/390 widths and enlarged text: headings/source filenames/actions wrap, no lost controls or horizontal overflow.
+[ ] Observe no command POSTs while searching, filtering, opening or downloading. Compare saved course pins, completion, assessment and practice records before/after. No library migration/API command is expected.
+[ ] In an isolated invalid-metadata fixture, confirm Reference library unavailable, no partial catalog/download links, and saved learning remains accessible. Do not corrupt a live deployment to exercise this case.
+
+LOCAL EVIDENCE SNAPSHOT
+PASS (source evidence): all twenty staged filenames/bytes/hashes match the original ZIP; five collection summaries and review notes grounded in source sampling. library-review/staged-manifest-review.json.
+PASS (reported actual integrated pure evidence): twenty-five model/filter/security cases and twenty exact-original manifest checks. library-ui-candidate/integrated-root-evidence/.
+PASS on root final Worker16902:7 browser scenarios,6 layouts,20 exact HTTP originals,3 browser downloads and PDFOpen;7 unchanged state/revision comparisons,0 commandPOSTs,0pageerrors.323 pure tests, typecheck and Workerbuild passed. See browser-acceptance.json and ../test-evidence.json. Unchecked checklist items retain their operator meaning; no hosted checks inferred.
+
+HOSTED ACCEPTANCE — NOT RUN HERE
+[ ] Before publication, verify the existing owner-private Site audience is retained. Keep publication metadata/audience evidence; the static directory name public/library is not proof of public access or private enforcement.
+[ ] As the authorised owner, access the hosted library and direct /library/ URLs in all three formats. Confirm returned file bytes/hash equal provenance and links use the same private Site context.
+[ ] In a signed-out browser/session, try the application and at least one direct file URL in each format. Expect the platform access gate and no original file bytes. Also test a copied direct URL; obscurity of the slug is not access control.
+[ ] In a signed-in non-owner identity not in the Site audience, repeat direct-file and library access. Expect no original bytes. If the hosting policy provides explicit recipients, test an approved recipient and an excluded/revoked recipient against that policy; a workspace invitation or Suggested audience label is not Site permission.
+[ ] After identity/sign-out changes, confirm the current hosting gate governs subsequent direct downloads. Treat any retained authorised local copy according to ordinary downloaded-file handling; the UI provides no remote deletion claim.
+Hosted owner-file access: NOT RUN. Hosted anonymous access: NOT RUN. Hosted recipient/identity access: NOT RUN. Do not mark release access accepted until actual results are recorded.
+
+CONTENT ADAPTATION FOLLOW-UP
+Keep supplied originals and provenance. Before using these materials as assessed courses, separately review legal/statistical currency, composite labels, translations, source reuse rights, institutional override/protection/escalation authority and actual assessment validity. Publish any later adaptation through the immutable content lifecycle; do not replace existing course pins or infer completion from downloads.
+
+Final response guard hardening: a successfulJSON response with a null or incomplete enrollment previously reached root render selectors. The basic profile/enrollment shape check now rejects these before state adoption, without domain fallback or storage mutation. Current malformed reads show the ordinary verification/refresh notice; retained unknown content versions remain unavailable rather than rejected. This is not complete nested-view schema or domain/permission validation.

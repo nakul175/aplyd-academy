@@ -1,0 +1,88 @@
+Launch gaps after v0.3–v0.9 implementation and integrated v0.10 model checks
+
+The product now has shared learning/assessment/independent appeals, optional
+cohort networking, bounded sessions and own history, private plans, exact content
+versions and private course authoring, private help requests, an operations view,
+safe read recovery, deferred views and an explicit local ecosystem workbench.
+The integrated Library model accepts five source collections and 20 unchanged
+originals. The current root TAP reports323 tests passed/0failed. These are local
+rule/regression tests; they are not323 user journeys or production acceptance.
+Final Library browser acceptance passed on Worker16902:7 scenarios,6 layouts,20 exact files,3 downloads,PDFOpen and7 unchanged state/revision checks. See ../final-acceptance-summary.json. Historical release snapshots are evidence of their executed versions,
+not a new comprehensive v0.10 rerun.
+
+Required before a real supervised pilot
+
+1. Hosted recipient and trusted identity (PR-18): use authorized actual accounts
+   to prove private hosting permission and Academy invitation separately, account
+   identity continuity and refusal of impersonating client headers. Local synthetic
+   identity fixtures establish application behavior only. Keep owner-private
+   hosting until the intended recipients' access is explicitly arranged.
+2. Representative UAT (PR-19): farmers, MSME owners and public-service users must
+   complete chosen real tasks with permitted information, check/correct an artifact
+   and explain remaining uncertainty. Record assistance, language, literacy,
+   connectivity and device barriers. Three English draft pathways and governance
+   reference archives are not all-audience validation or measured productivity.
+3. Named staff and observed operations (PR-20): recruit and calibrate assessors and
+   independent reviewers; assign support/moderation/escalation responsibilities;
+   test actual handoffs and coverage. An in-app queue does not establish response
+   staffing, a deadline, an emergency service or accommodation approval.
+4. Content and institutional approval: review sector examples, translations,
+   verification/AI-use procedures and information classification with accountable
+   owners. Supplied source statistics/legal maps and composite cases remain
+   teaching references. Frontline override authority, protection from retaliation
+   and escalation arrangements are explicitly unresolved locally. Agree them
+   before exercises are used as workplace instructions.
+5. Retention, privacy and recovery operations: agree actual retention/erasure,
+   access reviews, incident handling and backup ownership; demonstrate restore
+   and recovery against an approved dataset. Injected local transaction rollback
+   is not backup restoration or production-outage recovery.
+
+Specific remaining local acceptance/policy vectors
+
+- PR-01: additive migration plus regression/rollback evidence exists. The exact
+  original populated v0.2 deployment with all listed drafts/attempts/decisions/
+  invitations/reasons compared before and after is not separately recorded.
+- PR-05 now has a supplemental actual cancellation-versus-RSVP same-revision API
+  race: one 200 / one 409, deliberate refreshed loser retry and safe final cancellation
+  all pass. One scheduling order was observed; no deterministic internal barrier
+  or production contention claim is made. See pr05-supplemental/evidence/.
+- PR-08 now has a supplemental real local server-clock start-window API check:
+  early refusal, after-start fictional marking and correction, current/former own
+  history and unchanged learning all pass. No human attendance was observed; the
+  seven-day post-end expiry still has pure-rule evidence. Export checks here use
+  the own projection/current UI export contract, not a new browser download.
+- PR-09: own former-member history is retained/exportable. New attendance marking
+  still requires current participant eligibility. Accept this narrower declared
+  pilot policy or implement broader historical marking deliberately.
+- Accessibility checks cover sampled keyboard/modal and measured 200% body/input
+  layouts. Screen readers, browser zoom, wider device coverage and conformance
+  require separate evaluation. Existing tablet-sidebar label wrapping is an
+  advisory, not a claim that every interface is flawless.
+- Bounded storage/CAS/reserve checks do not establish load, endurance or wide
+  rollout capacity. Run agreed load/security/restore acceptance before expansion.
+
+Beyond the current pilot, before corresponding public claims
+
+A live Agri Saha/MSME/public-service partner needs an authenticated contract,
+field mapping, delivery/receipt, revocation-at-recipient, failure and interoperability
+verification. The current workbench creates local historical receipts only; no
+partner is contacted. Health remains blocked pending domain review.
+
+Recognized certification needs an approved issuer, qualification rules, issuance/
+revocation governance and public verification arrangements. Existing practice
+records are nonaccredited; downloaded source certificate templates confer none.
+
+Embedded AI, approved employer tools, delivered reminders, meeting-provider
+booking, recordings, direct messages, uploads, commerce and offline assisted
+journeys are not implied by present screens. Evaluate them as separate features;
+no automatic sender or service-level promise has been introduced.
+
+Evidence index
+
+implementation-matrix.tsv maps every original PR-01–PR-20 to exact evidence and
+remaining limits. reconciliation-manifest.json identifies immutable source hashes
+and historical JSON pointers. evidence/release-v0.3.json through release-v0.9.json
+are preserved executed release snapshots; evidence/v10-domain-tests.tap is actual
+integrated root output; evidence/v10-library-acceptance.json and
+v10-library-manifest-result.json cover actual integrated model and 20 local files.
+The original acceptance-gaps.json and readiness-report.txt remain unchanged.

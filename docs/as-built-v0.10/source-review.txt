@@ -1,0 +1,24 @@
+Final staged Library source review
+
+No framework misplacement or unsupported product claim found.
+C1–C4 participant handbooks explicitly teach FIT Test (P18/P66). Summaries place
+it in Government/Development/Oversight/Emerging Leaders and preserve teaching context.
+C5 participant P14–17 is Spot/Override/Flag; final summary confines overrides to
+agreed workplace authority. Its review note keeps unresolved local authority,
+worker protection and escalation open (Trainer P237–241), rather than promising them.
+
+All20 sourceFilename values exactly match ZIP entry basenames; bytes and hashes
+match reviewed originals. Participant handbooks are suggested for participants;
+trainer handbooks/decks for trainers and facilitators; printable worksheets are
+shared references. These are recommendations, not permission controls.
+
+UI explicitly says downloads/certificate templates do not complete Academycourses
+or issue practice records. No source release metadata, faculty/alumni commitments,
+app course duration, clinical/legal authority or accreditation is asserted.
+
+Final staged manifest SHA256:
+76b893df0537a82fce5bbfd5213b404c511986de822718b222b2483f2f458512
+
+Ready for root integration review. Model/source execution against integrated
+checkout remains pending root adoption; browser acceptance belongs to functionalQA.
+No source/checkouts edited or browser/API/build calls made.

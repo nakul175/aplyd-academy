@@ -1,0 +1,14 @@
+{
+  "release": "0.10",
+  "integration": "verified locally",
+  "pureTestsPassed": 323,
+  "typecheck": "passed",
+  "workerBuild": "passed",
+  "libraryBrowserScenarios": 7,
+  "responsiveLayouts": 6,
+  "originalFiles": 20,
+  "collections": 5,
+  "audience": "owner-private preserved",
+  "hostedRecipientAndDirectFileAuthorization": "NOT RUN",
+  "correctedEnrollmentResponseGuard": "5 actual malformed/retained-version HOME cases passed on final Worker16902"
+}

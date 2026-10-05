@@ -1,0 +1,65 @@
+{
+  "passed": true,
+  "startedAt": "2026-10-05T11:10:00.948Z",
+  "completedAt": "2026-10-05T11:10:01.174Z",
+  "base": "http://127.0.0.1:8787",
+  "worker": "65210",
+  "fixtureId": "tw-68e2751a-7e34-44cc-9af6-5c2b49d9145f",
+  "sessionId": "ded7e66c-176f-4a78-96f4-352ecb65190d",
+  "checks": 41,
+  "observations": [
+    {
+      "phase": "concurrent pair",
+      "sameRevision": 15,
+      "statuses": {
+        "cancel": 409,
+        "rsvp": 200
+      },
+      "winner": "rsvp",
+      "loser": "cancel",
+      "committedRevision": 16
+    },
+    {
+      "phase": "deliberate refreshed loser retry",
+      "actorRole": "host",
+      "command": "session-cancel",
+      "revision": 16,
+      "status": 200,
+      "actionId": "73f6dc8b-ac25-45bf-bd0d-82d4544de3d4"
+    },
+    {
+      "phase": "final reads",
+      "revision": 17,
+      "sessionStatus": "cancelled",
+      "cancellationReasonVisible": true,
+      "joiningInstructionsAbsent": true,
+      "earlierRegistrationPreserved": true,
+      "uncommittedRegistrationHistoryAbsent": false,
+      "finalNewRSVPStatuses": [
+        409,
+        409
+      ],
+      "learningUnchanged": true
+    }
+  ],
+  "sourceHashes": [
+    {
+      "file": "tests/local-qa.mjs",
+      "sha256": "bfb738dbef13c9c6382901be6488f53cf7f553bb6f9e3a572ef1d4a24e9fbf90"
+    },
+    {
+      "file": "app/api/teams/route.ts",
+      "sha256": "2c1c4e1ccff48a0fd45aed0728a594aed45fe2136114a6510ac0533cf2584b95"
+    },
+    {
+      "file": "lib/academy-network.ts",
+      "sha256": "780610d02d4f063f5413db588455079ea98136eb0f7f0f576fff4390ae047414"
+    }
+  ],
+  "limits": [
+    "Fresh synthetic local identities and supported API only; existing fixtures are not modified",
+    "One actual nondeterministic cancel-vs-RSVP race; this run does not prove both possible scheduling orders",
+    "No SQL, clock injection, production request, notification, hosted identity, actual attendance or throughput claim",
+    "Reservation going in own history is the prior saved choice; cancelled session status and reason prevent an attendance/completion inference"
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "measuredAt": "2026-10-05T11:14:51.576661+00:00",
+  "files": [
+    {
+      "path": "app/academy.tsx",
+      "sha256": "9e6037f121064509388fbbdf9427b925867299b1bf126877b83472b4b6356a16",
+      "bytes": 27621
+    },
+    {
+      "path": "app/academy-library.tsx",
+      "sha256": "73a553d816abe9018a87dc1e40e6acc9c33d6a7f00dc727efb971b62c3003510",
+      "bytes": 5393
+    },
+    {
+      "path": "app/academy-library.module.css",
+      "sha256": "65948dfd42f4bf3ec445e94e0f4a77e6db40870150dd57c7aa61107afbdf59a4",
+      "bytes": 3573
+    },
+    {
+      "path": "app/academy-response.ts",
+      "sha256": "d016b784f63575fe66a8c3eb83bb2cfbc834e8d2697586c9e2a19eb451a4e0ba",
+      "bytes": 2085
+    },
+    {
+      "path": "lib/academy-library.ts",
+      "sha256": "76b893df0537a82fce5bbfd5213b404c511986de822718b222b2483f2f458512",
+      "bytes": 10751
+    },
+    {
+      "path": "lib/academy-library-view.ts",
+      "sha256": "0f302d64979f00352006c7df803abdceaebcbab0322f1117b87ab7e9289fd291",
+      "bytes": 3999
+    },
+    {
+      "path": "tests/library-browser.mjs",
+      "sha256": "476b7000d4791bce26d9e30b9d8a717ee958ed6dd3cd6ec5cf4c088ebbcf024a",
+      "bytes": 14538
+    },
+    {
+      "path": "tests/response.test.mjs",
+      "sha256": "ffe748e5caab68bd7f033e17fbee141c45b67dba60f578269636c2db820cee17",
+      "bytes": 3788
+    },
+    {
+      "path": "tests/overview-response-browser.mjs",
+      "sha256": "509093df00415380dbdb3b5aa680d9d27e508013951ec08baf974ac31b2d4d9d",
+      "bytes": 4727
+    },
+    {
+      "path": "tests/network-cancel-race.mjs",
+      "sha256": "48d95bee587bbc83db17060994c1a587dae7b1fe84e38958d1a9c4169538bd27",
+      "bytes": 7978
+    },
+    {
+      "path": "tests/network-attendance-clock.mjs",
+      "sha256": "cbaace710164aa75efca8fc4940160ac8e3cbc3840367580098ab36595cb2092",
+      "bytes": 9119
+    }
+  ]
+}

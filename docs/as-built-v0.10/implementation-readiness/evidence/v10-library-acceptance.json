@@ -1,0 +1,38 @@
+{
+  "passed": true,
+  "executedAt": "2026-10-05T11:03:27.157862+00:00",
+  "modelTests": {
+    "script": "work/aplyd-academy/tests/library-view.test.mjs",
+    "tests": 25,
+    "passed": 25,
+    "failed": 0,
+    "exitCode": 0,
+    "source": {
+      "executedAt": "2026-10-05T11:03:11.754Z",
+      "file": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/aplyd-academy/lib/academy-library-view.ts",
+      "relative": "lib/academy-library-view.ts",
+      "sha256": "0f302d64979f00352006c7df803abdceaebcbab0322f1117b87ab7e9289fd291",
+      "typescriptVersion": "5.9.3",
+      "syntaxDiagnostics": 0,
+      "note": "No candidate fallback. The25 tests below exercise this exact selected checkout source."
+    }
+  },
+  "manifestIntegrity": {
+    "script": "work/aplyd-academy/tests/library-manifest-check.mjs",
+    "collections": 5,
+    "files": 20,
+    "passed": true,
+    "exitCode": 0,
+    "manifest": {
+      "file": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/aplyd-academy/lib/academy-library.ts",
+      "relative": "lib/academy-library.ts",
+      "sha256": "76b893df0537a82fce5bbfd5213b404c511986de822718b222b2483f2f458512",
+      "typescriptVersion": "5.9.3",
+      "syntaxDiagnostics": 0
+    }
+  },
+  "limits": [
+    "Actual integrated root source and20 public originals, self-compiled without candidate fallback",
+    "No browser/API/build/dist checks or checkout edits; root full build/typecheck and browser acceptance separate"
+  ]
+}
