@@ -1,0 +1,17 @@
+import {resolve} from 'node:path';
+import {fileURLToPath} from 'node:url';
+import {mkdirSync,readFileSync,writeFileSync} from 'node:fs';
+import {createRequire} from 'node:module';
+import {createHash} from 'node:crypto';
+const app=fileURLToPath(new URL('../',import.meta.url)),out=resolve(app,'.sites-runtime/record-qa');mkdirSync(out,{recursive:true});
+const require=createRequire(app+'/package.json'),esbuild=require('esbuild');
+const files=['lib/academy-record-check.ts','lib/academy-record-service.ts','lib/academy-record-response.ts','app/academy-record-client.ts','app/academy-record-status.tsx','app/academy.tsx','app/api/academy/records/check/route.ts','lib/academy-engine.ts','lib/academy-teams.ts','lib/curriculum-versions/0.1-review-draft.json'];
+const hashes=()=>Object.fromEntries(files.map(f=>[f,createHash('sha256').update(readFileSync(resolve(app,f))).digest('hex')])),before=hashes();
+const paths=['lib/academy-record-check.ts','lib/academy-record-service.ts','lib/academy-record-response.ts','app/academy-record-client.ts'];
+const entry=paths.map(p=>`export * from ${JSON.stringify(resolve(app,p))};`).join('\n')+`\nexport {programs,currentRef,curriculumRegistry,createCurriculumRegistry,resolvePinnedContent,LEGACY_SOURCE_SHA256} from ${JSON.stringify(resolve(app,'lib/academy-curriculum.ts'))};\nexport {applyCommand,freshWorkspace} from ${JSON.stringify(resolve(app,'lib/academy-engine.ts'))};\nexport {createTeam,applyTeamCommand,projectTeam} from ${JSON.stringify(resolve(app,'lib/academy-teams.ts'))};\nexport {workspaceRegistry,requireAvailablePublication} from ${JSON.stringify(resolve(app,'lib/academy-authoring.ts'))};`;
+await esbuild.build({stdin:{contents:entry,resolveDir:app,sourcefile:'record-tests.ts'},outfile:out+'/record-check.mjs',bundle:true,platform:'node',format:'esm',target:'es2022',tsconfig:app+'/tsconfig.json'});
+const mock=out+'/route-mock.ts';writeFileSync(mock,'export const env:{DB:any}={DB:null};let identity:any=null;export function setIdentity(v:any){identity=v;}export async function getChatGPTUser(){return identity;}');
+await esbuild.build({stdin:{contents:`export {POST} from ${JSON.stringify(resolve(app,'app/api/academy/records/check/route.ts'))};export {env,setIdentity} from ${JSON.stringify(mock)};`,resolveDir:app,sourcefile:'record-route-tests.ts'},outfile:out+'/record-route.mjs',bundle:true,platform:'node',format:'esm',target:'es2022',tsconfig:app+'/tsconfig.json',plugins:[{name:'pure-route-host',setup(build){build.onResolve({filter:/^cloudflare:workers$|chatgpt-auth$/},()=>({path:mock}));}}]});
+const after=hashes();if(JSON.stringify(before)!==JSON.stringify(after))throw Error('Record sources changed during compilation.');
+writeFileSync(out+'/source-evidence.json',JSON.stringify({at:new Date().toISOString(),actualRootSources:true,sourceStable:true,sourceHashes:after,limits:['Adopted actual models/client and pure mocked-host route. Actual API/browser proof is separate.']},null,2)+'\n');
+console.log(JSON.stringify({actualRootSources:true,sourceStable:true}));

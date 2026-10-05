@@ -15,7 +15,7 @@ const settled=p=>p.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>r
 try{
  for(const kind of ['primary','directory'])for(const status of [401,403,404,503]){
   const context=await browser.newContext({viewport:{width:1440,height:1000},extraHTTPHeaders:headers(f.a)}),p=await context.newPage();p.on('pageerror',e=>errors.push(e.message));
-  await p.goto(base+'/?workspace='+f.id+'#operations');await p.getByText('Workspace saved',{exact:true}).waitFor();await p.locator('[data-operations-workspace]').waitFor();
+  await p.goto(base+'/?workspace='+f.id+'#operations');await p.locator('[data-save-state="loaded"]').waitFor();await p.locator('[data-operations-workspace]').waitFor();
   assert.equal(await p.getByRole('button',{name:'Workspace operations',exact:true}).count(),1);assert.equal(await p.locator(`[data-operations-cohort-id="${f.cid}"]`).count(),1);
   let intercepted=0;await p.route('**/api/teams*',async route=>{
    if((kind==='primary'?target:directory)(route.request())){intercepted++;return route.fulfill(status===503?{status,contentType:'application/json',json:{error:'Synthetic temporary service unavailable.'}}:{status,contentType:status===403?'text/html':'text/plain',body:status===403?'<html><body>Access denied</body></html>':'Synthetic access unavailable.'});}return route.continue();

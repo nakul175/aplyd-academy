@@ -11,7 +11,7 @@ try {
  const page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));
  await page.goto(base+'/?workspace='+id+'#support');
  await page.getByRole('heading',{name:'Help with your learning',exact:true}).waitFor();
- await page.getByText('Workspace saved',{exact:true}).waitFor();
+ await page.locator('[data-save-state="loaded"]').waitFor();
  for(const [width,enlarged] of [[1440,false],[390,true]]) {
   await page.setViewportSize({width,height:1000});
   const font=await page.evaluate(enlarged=>{document.documentElement.style.fontSize='';document.body.style.fontSize='';const root=parseFloat(getComputedStyle(document.documentElement).fontSize),body=parseFloat(getComputedStyle(document.body).fontSize);if(enlarged){document.documentElement.style.fontSize=(root*2)+'px';document.body.style.fontSize=(body*2)+'px'}return {baselineBody:body,actualBody:parseFloat(getComputedStyle(document.body).fontSize)}},enlarged);

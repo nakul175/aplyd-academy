@@ -17,7 +17,7 @@ try{
   try{
    await page.goto(base+'/?workspace='+f.id+'#home');const retry=page.getByRole('button',{name,exact:true});await retry.waitFor();await retry.focus();await retry.press('Enter');await captured.promise;
    const whilePending=await page.evaluate(()=>({id:document.activeElement?.id,tag:document.activeElement?.tagName}));assert.equal(whilePending.id,'main','Manual retry must focus main before its pending read completes.');
-   release.resolve();await delivered.promise;await page.getByText('Workspace saved',{exact:true}).waitFor();await frames(page);const afterSuccess=await page.evaluate(()=>({id:document.activeElement?.id,tag:document.activeElement?.tagName}));assert.equal(afterSuccess.id,'main','Removing the successful retry control must retain main focus.');scenarios.push({name,passed:true,whilePending,afterSuccess});
+   release.resolve();await delivered.promise;await page.locator('[data-save-state="loaded"]').waitFor();await frames(page);const afterSuccess=await page.evaluate(()=>({id:document.activeElement?.id,tag:document.activeElement?.tagName}));assert.equal(afterSuccess.id,'main','Removing the successful retry control must retain main focus.');scenarios.push({name,passed:true,whilePending,afterSuccess});
   }catch(error){scenarios.push({name,passed:false,error:String(error)});throw error}finally{release.resolve();await context.close()}
  }
  record('read-retry-focus-result.json',{passed:true,startedAt,completedAt:new Date().toISOString(),scenarios,limits:['Actual current local UI with held genuine GET response','No rebuild or server change','No asynchronous focus steal after response']});console.log(JSON.stringify({passed:true,scenarios}));

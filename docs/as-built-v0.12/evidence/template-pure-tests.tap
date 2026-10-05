@@ -1,0 +1,41 @@
+✔ farmer-expert-brief creates complete editable private draft with exact seed and no publication (5.38ms)
+✔ farmer-expert-brief preserves locked seed fields and IDs while tailoring factual sources (1.231375ms)
+✔ farmer-expert-brief still needs independent current owner review before immutable publication (8.970208ms)
+✔ msme-customer-commitments creates complete editable private draft with exact seed and no publication (2.486792ms)
+✔ msme-customer-commitments preserves locked seed fields and IDs while tailoring factual sources (0.78775ms)
+✔ msme-customer-commitments still needs independent current owner review before immutable publication (6.817084ms)
+✔ public-source-brief creates complete editable private draft with exact seed and no publication (2.266209ms)
+✔ public-source-brief preserves locked seed fields and IDs while tailoring factual sources (0.915666ms)
+✔ public-source-brief still needs independent current owner review before immutable publication (5.75575ms)
+✔ frontline-spot-override-flag creates complete editable private draft with exact seed and no publication (2.640625ms)
+✔ frontline-spot-override-flag preserves locked seed fields and IDs while tailoring factual sources (0.741834ms)
+✔ frontline-spot-override-flag still needs independent current owner review before immutable publication (6.174084ms)
+✔ Only a current owner may create a template draft (0.232792ms)
+✔ Exact create command rejects existing draft/document/reference/actor fields (0.147583ms)
+✔ Unavailable or prototype-like template never chooses a fallback (0.053917ms)
+✔ Metadata has template version and referenced teaching sources without approval claim (1.824375ms)
+✔ Every reference resolves to one supplied immutable library resource (0.053292ms)
+✔ Exact fictional arithmetic and limits agree with source packets and keys (0.06875ms)
+✔ Four-active and24-retained capacity limits remain actual-authoring gates (20.254334ms)
+✔ Template creation preserves all previous draft/publication bodies and origins (10.224583ms)
+✔ Owner can edit normally; template origin remains historical starting-point metadata (2.996667ms)
+✔ Learner and outsider projections never gain unpublished templates or review notes (2.32725ms)
+✔ Template metadata and document outputs detach from exported definitions (1.831667ms)
+✔ Structural maintenance fault cannot return a partial created host (0.61625ms)
+✔ Optional provenance renders only exact trusted origin and never an approval or foreign seed (2.608459ms)
+✔ Every phase quiz includes a source-supported boundary and a designated human route (8.265166ms)
+✔ Final origin bytes and closure reserve enforce exact authoring capacity without a partial draft (637.775875ms)
+✔ Adopted root team handler emits one aggregate activity with the server-created draft identity (2.640041ms)
+✔ Adopted root team handler preserves current membership/role denials and exact error statuses (0.226375ms)
+✔ Adopted root team projection gives only current owners unpublished template bodies (2.391084ms)
+✔ Adopted root team review/publication/cohort commands retain exact private pins and do not change an earlier cohort (11.911667ms)
+✔ Other current owner may archive a new template without replacing its canonical document or starting-point history (2.583958ms)
+✔ Original global archive bytes remain exact supplied version (0.292542ms)
+ℹ tests 33
+ℹ suites 0
+ℹ pass 33
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 792.617833

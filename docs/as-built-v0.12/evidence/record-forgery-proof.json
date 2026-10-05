@@ -1,0 +1,78 @@
+{
+  "at": "2026-10-05T20:23:19.201Z",
+  "scope": "Pure actual baseline versus staged two-file fix; rehashed internally consistent malicious successful responses, no server or network",
+  "vectors": [
+    {
+      "vector": "pinned language",
+      "baselineAccepted": true,
+      "stagedRejected": true
+    },
+    {
+      "vector": "pinned title",
+      "baselineAccepted": true,
+      "stagedRejected": true
+    },
+    {
+      "vector": "pinned claim",
+      "baselineAccepted": true,
+      "stagedRejected": true
+    },
+    {
+      "vector": "pinned exclusions",
+      "baselineAccepted": true,
+      "stagedRejected": true
+    },
+    {
+      "vector": "stored issuer display",
+      "baselineAccepted": true,
+      "stagedRejected": true
+    },
+    {
+      "vector": "internally consistent initial issuance",
+      "baselineAccepted": true,
+      "stagedRejected": true
+    },
+    {
+      "vector": "invented resolved adverse appeal and suspended status",
+      "baselineAccepted": true,
+      "stagedRejected": true
+    },
+    {
+      "vector": "invented open appeal flag",
+      "baselineAccepted": true,
+      "stagedRejected": true
+    },
+    {
+      "vector": "invented later pending assessment after false appeal",
+      "baselineAccepted": true,
+      "stagedRejected": true
+    },
+    {
+      "vector": "assigned original actor display",
+      "baselineAccepted": true,
+      "stagedRejected": true
+    },
+    {
+      "vector": "assigned original actor reference",
+      "baselineAccepted": true,
+      "stagedRejected": true
+    },
+    {
+      "vector": "assigned original decision time",
+      "baselineAccepted": true,
+      "stagedRejected": true
+    },
+    {
+      "vector": "assigned original result",
+      "baselineAccepted": true,
+      "stagedRejected": true
+    },
+    {
+      "vector": "assigned original attempt reference",
+      "baselineAccepted": true,
+      "stagedRejected": true
+    }
+  ],
+  "baselineAccepted": 14,
+  "stagedRejected": 14
+}

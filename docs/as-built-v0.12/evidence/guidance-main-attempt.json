@@ -1,0 +1,102 @@
+{
+  "passed": false,
+  "at": "2026-10-05T20:18:04.062Z",
+  "head": "77852f152f44d1ee7fe8472a0b19fe27a5ab1b94",
+  "worker": "http://127.0.0.1:8787",
+  "checks": 58,
+  "checkNames": [
+    "Overview has one next-step card",
+    "featured browse has associated visible label and explanation",
+    "featured context browsing sends no POST",
+    "featured browsing keeps saved work context",
+    "next-step catalog navigation focuses main",
+    "Catalog removes ineffective featured-context control",
+    "Catalog actual filter has a visible label",
+    "real Farmer filter changes catalog results",
+    "filtered card names its actual fictional-task pathway",
+    "Clear filters restores available seed pathways",
+    "Settings starts from actual saved preference",
+    "Save preferences acknowledges the chosen durable context",
+    "a later accepted read restores saved context in featured browsing",
+    "steady indicator describes loaded saved learning",
+    "browsing Farmer keeps MSME next lesson from saved profile/plan",
+    "next-step source is explained",
+    "supported exact seed lesson has offline navigation",
+    "exact lesson navigation focuses main",
+    "resume navigation preserves actual next lesson identifier",
+    "resumed lesson uses unchanged source text",
+    "loaded indicator remains accurate while typing",
+    "typing current lesson text sends no POST",
+    "draft save is pending before its accepted acknowledgement",
+    "saved notice agrees with actual accepted stored draft",
+    "draft status preserves exact trailing whitespace",
+    "draft notice includes accepted quiz choices",
+    "lost acknowledgement retains exact unsent screen text",
+    "lost acknowledgement performs one POST without automatic retry",
+    "lost response fixture committed only to its actual fictional account",
+    "fresh accepted read reconciles committed draft without POST",
+    "draft saves do not complete lessons, submit evidence or issue records",
+    "draft actions keep exact content pin",
+    "lesson 390/false fits viewport horizontally",
+    "lesson text really enlarges 390/false",
+    "Overview 390/false fits viewport horizontally",
+    "keyboard resume 390/false focuses main",
+    "lesson 390/true fits viewport horizontally",
+    "lesson text really enlarges 390/true",
+    "Overview 390/true fits viewport horizontally",
+    "keyboard resume 390/true focuses main",
+    "lesson 768/false fits viewport horizontally",
+    "lesson text really enlarges 768/false",
+    "Overview 768/false fits viewport horizontally",
+    "keyboard resume 768/false focuses main",
+    "lesson 768/true fits viewport horizontally",
+    "lesson text really enlarges 768/true",
+    "Overview 768/true fits viewport horizontally",
+    "keyboard resume 768/true focuses main",
+    "paused next step has no offline offer",
+    "paused learning keeps draft action disabled",
+    "personal pending review explicitly names sample studio",
+    "pending review navigates to feedback",
+    "open appeal preserves feedback destination",
+    "open appeal continues to block another submission",
+    "unavailable read fixture offers no offline or latest edition",
+    "missing edition display posts no replacement action",
+    "missing-pin display leaves real stored fixture state intact",
+    "shared first step navigates to actual cohorts without enrolling"
+  ],
+  "errors": [
+    "locator.fill: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByLabel('Your corrected work and reasoning', { exact: true })\u001b[22m\n\n    at /Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/aplyd-academy-eight-hour/learner-guidance/integrated/guidance-browser.mjs:88:833"
+  ],
+  "fixtureNotes": [
+    "First-session and saved-preference checks use one new local account with no enrollment.",
+    "Unavailable pin display used a local intercepted GET copy with an explicit synthetic version; no server edition or answer key was changed."
+  ],
+  "sourceHashes": {
+    "app/academy.tsx": "8128ec1b0d8abccadb41d46e25c812ffb0ee694453d2df9eedd44f465efdb52f",
+    "app/academy-context-select.tsx": "2cce98d1dc80b22194b00e5b4d038fc255e9e662ae55c89b1ab20b816005a681",
+    "app/academy-plan.tsx": "6d462d9600249ab7e30908d6eddf56edf6f4fa7d579794d5a14cc146861f711a",
+    "app/academy-learning.tsx": "e37c481d7e99d5df03ae442c0ff473a7ff1d298b10a01ee0327e77ea3324aa7f",
+    "app/academy-learner-guidance.tsx": "354fd8900ebe30b46d71327c69c81acc4c2378fc2150f1b99ff94135829e05d1",
+    "lib/academy-learner-guidance.mjs": "831efcb74fed6f7f2dc7629d411be41db3255f355c163fdb1cc861f7bb5067c9",
+    "lib/academy-plan.ts": "c619f823371951643585bfe5c5b55cb071454791bc19b958caa635c5fbfd0f9b",
+    "lib/academy-engine.ts": "4747712f10c39cc08eaed66939bd99013d8064e4eb3097218590fbcc63bebff7",
+    "lib/curriculum.json": "9fc83c8dd615456db8f49d140f56bff566e05c14d32ebb70a14cdcb73078b7e4",
+    "app/globals.css": "8524d96594f222401d8c3ee1ba633fcbe5d70a67f12d4fdc476b3c8633cad7ae"
+  },
+  "sourceUnchanged": true,
+  "buildHashes": {
+    "dist/server/wrangler.json": {
+      "sha256": "40037e9c9498735a53ecbe4fcaecbf765e98afbbd00b35a63c311843592b8397",
+      "mtime": "2026-10-05T20:15:38.820Z"
+    },
+    "dist/server/index.js": {
+      "sha256": "4886c26066c8ad2c7e6fba59210423978c28abca8d111ba6566ce97ef8bad6fe",
+      "mtime": "2026-10-05T20:15:38.817Z"
+    }
+  },
+  "limits": [
+    "Synthetic trusted-header local accounts only; no hosted sign-in, field users or external delivery.",
+    "Text enlargement is CSS-root resizing and responsive layout inspection, not manual VoiceOver or genuine browser zoom certification.",
+    "Missing-pin browser check, when used, is a clearly labelled intercepted local read fixture; saved server records are not corrupted."
+  ]
+}

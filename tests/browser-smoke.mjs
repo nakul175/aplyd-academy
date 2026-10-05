@@ -6,7 +6,7 @@ const context=await browser.newContext({viewport:{width:1440,height:1000},extraH
 page.on('pageerror',e=>errors.push(e.message));
 await page.goto(qaOrigin+'/');
 await page.getByText('What will you put to work today?').waitFor();
-await page.getByText('Saved privately',{exact:true}).waitFor();
+await page.locator('[data-save-state="loaded"]').waitFor();
 await page.screenshot({path:'.sites-runtime/desktop.png',fullPage:true});
 const checked=[];
 for(const [hash,title] of [['programs','Choose a skill. Make it useful.'],['community','Good questions make better work.'],['network','Keep learning through connection.'],['credentials','A skill you can explain and apply.'],['connections','Choose the summary. Check the contract.'],['studio','Feedback that makes learning credible.'],['settings','Make learning work for you.']]){

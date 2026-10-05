@@ -1,0 +1,262 @@
+{
+  "passed": true,
+  "at": "2026-10-05T20:18:05.662Z",
+  "worker": "47804-m2-20261005T201604Z",
+  "base": "http://127.0.0.1:8787",
+  "assertions": 230,
+  "cases": [
+    {
+      "name": "authentication and adopted route prepared SQL is read-only",
+      "passed": true,
+      "assertions": 8
+    },
+    {
+      "name": "actual personal completion checks exact source and does not mutate saved state",
+      "passed": true,
+      "assertions": 20
+    },
+    {
+      "name": "unknown exact record/other account/stale revision and injected authority fail closed",
+      "passed": true,
+      "assertions": 20
+    },
+    {
+      "name": "actual shared assigned assessment yields own reviewed practice record",
+      "passed": true,
+      "assertions": 26
+    },
+    {
+      "name": "current assigned-open appeal access disappears on scope removal and after closure",
+      "passed": true,
+      "assertions": 45
+    },
+    {
+      "name": "passing retry preserves original issuance and inactive own history remains checkable",
+      "passed": true,
+      "assertions": 35
+    },
+    {
+      "name": "retired private publication keeps original record pin despite newer title/rubric edition",
+      "passed": true,
+      "assertions": 36
+    },
+    {
+      "name": "review-due private publication closes new offering while retaining exact completed-record status",
+      "passed": true,
+      "assertions": 38
+    },
+    {
+      "name": "leave a current assigned-open appeal and canonical own fixture for actual browser checks",
+      "passed": true,
+      "assertions": 1
+    }
+  ],
+  "requestLog": [
+    {
+      "method": "POST",
+      "path": "/api/academy/records/check",
+      "workspaceId": null,
+      "sourceRevision": 0,
+      "targetKind": "record",
+      "targetId": "not-present",
+      "status": 401
+    },
+    {
+      "method": "POST",
+      "path": "/api/academy/records/check",
+      "workspaceId": null,
+      "sourceRevision": 6,
+      "targetKind": "record",
+      "targetId": "89c4819d-4855-4298-9497-c47dd65c3fa0",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/academy/records/check",
+      "workspaceId": null,
+      "sourceRevision": 6,
+      "targetKind": "record",
+      "targetId": "unknown-record",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/api/academy/records/check",
+      "workspaceId": null,
+      "sourceRevision": 0,
+      "targetKind": "record",
+      "targetId": "89c4819d-4855-4298-9497-c47dd65c3fa0",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/api/academy/records/check",
+      "workspaceId": null,
+      "sourceRevision": 5,
+      "targetKind": "record",
+      "targetId": "89c4819d-4855-4298-9497-c47dd65c3fa0",
+      "status": 409
+    },
+    {
+      "method": "POST",
+      "path": "/api/academy/records/check",
+      "workspaceId": null,
+      "sourceRevision": 6,
+      "targetKind": "record",
+      "targetId": "89c4819d-4855-4298-9497-c47dd65c3fa0",
+      "status": 400
+    },
+    {
+      "method": "POST",
+      "path": "/api/academy/records/check",
+      "workspaceId": "tw-0c68ebc1-a662-4324-a3fe-90ba2f5081d2",
+      "sourceRevision": 24,
+      "targetKind": "record",
+      "targetId": "3ae83e77-c798-4183-93d4-ad5758b6c1c9",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/academy/records/check",
+      "workspaceId": "tw-0c68ebc1-a662-4324-a3fe-90ba2f5081d2",
+      "sourceRevision": 24,
+      "targetKind": "record",
+      "targetId": "3ae83e77-c798-4183-93d4-ad5758b6c1c9",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/api/academy/records/check",
+      "workspaceId": "tw-0c68ebc1-a662-4324-a3fe-90ba2f5081d2",
+      "sourceRevision": 0,
+      "targetKind": "record",
+      "targetId": "3ae83e77-c798-4183-93d4-ad5758b6c1c9",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/api/academy/records/check",
+      "workspaceId": "tw-0c68ebc1-a662-4324-a3fe-90ba2f5081d2",
+      "sourceRevision": 26,
+      "targetKind": "decision",
+      "targetId": "57b8fffb-b891-44ec-b5d0-f20567a255ed",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/academy/records/check",
+      "workspaceId": "tw-0c68ebc1-a662-4324-a3fe-90ba2f5081d2",
+      "sourceRevision": 26,
+      "targetKind": "decision",
+      "targetId": "57b8fffb-b891-44ec-b5d0-f20567a255ed",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/api/academy/records/check",
+      "workspaceId": "tw-0c68ebc1-a662-4324-a3fe-90ba2f5081d2",
+      "sourceRevision": 27,
+      "targetKind": "decision",
+      "targetId": "57b8fffb-b891-44ec-b5d0-f20567a255ed",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/api/academy/records/check",
+      "workspaceId": "tw-0c68ebc1-a662-4324-a3fe-90ba2f5081d2",
+      "sourceRevision": 30,
+      "targetKind": "decision",
+      "targetId": "57b8fffb-b891-44ec-b5d0-f20567a255ed",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/api/academy/records/check",
+      "workspaceId": "tw-0c68ebc1-a662-4324-a3fe-90ba2f5081d2",
+      "sourceRevision": 30,
+      "targetKind": "record",
+      "targetId": "3ae83e77-c798-4183-93d4-ad5758b6c1c9",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/academy/records/check",
+      "workspaceId": "tw-0c68ebc1-a662-4324-a3fe-90ba2f5081d2",
+      "sourceRevision": 33,
+      "targetKind": "record",
+      "targetId": "3ae83e77-c798-4183-93d4-ad5758b6c1c9",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/academy/records/check",
+      "workspaceId": "tw-0c68ebc1-a662-4324-a3fe-90ba2f5081d2",
+      "sourceRevision": 34,
+      "targetKind": "record",
+      "targetId": "3ae83e77-c798-4183-93d4-ad5758b6c1c9",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/academy/records/check",
+      "workspaceId": "tw-0c68ebc1-a662-4324-a3fe-90ba2f5081d2",
+      "sourceRevision": 49,
+      "targetKind": "record",
+      "targetId": "9b818a4a-faea-4cd8-a3a3-8963e1193f50",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/academy/records/check",
+      "workspaceId": "tw-0c68ebc1-a662-4324-a3fe-90ba2f5081d2",
+      "sourceRevision": 55,
+      "targetKind": "record",
+      "targetId": "9b818a4a-faea-4cd8-a3a3-8963e1193f50",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/academy/records/check",
+      "workspaceId": "tw-0c68ebc1-a662-4324-a3fe-90ba2f5081d2",
+      "sourceRevision": 64,
+      "targetKind": "record",
+      "targetId": "c267fc39-53c2-4ecc-81ac-62b3ac9db99e",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/academy/records/check",
+      "workspaceId": "tw-0c68ebc1-a662-4324-a3fe-90ba2f5081d2",
+      "sourceRevision": 64,
+      "targetKind": "record",
+      "targetId": "c267fc39-53c2-4ecc-81ac-62b3ac9db99e",
+      "status": 200
+    }
+  ],
+  "sourceHashes": {
+    "lib/academy-record-check.ts": "a0cb4c97794b7416be57e0b136b7d4f79c9eafbaac1ac419e09d685565b9296c",
+    "lib/academy-record-service.ts": "fbfee7ad07fd23f865c0c785dad5147c7ffc05e0a7e7021bcff52d61f355fef6",
+    "lib/academy-record-response.ts": "b30fce80b70cc91c522b870ed9ee91f35812924c3bd27362e9ebb3274be732fa",
+    "app/academy-record-client.ts": "28622b96caf15521841b95edb638ea59f33e2e9499c9b5a4cc34d2d887429e5d",
+    "app/academy-record-status.tsx": "5a188a2a708e346e049bf5ec724e1789e02345e2f12bd5ccead1ae902bee9c48",
+    "app/api/academy/records/check/route.ts": "9f161b661c9d5fa3fe45c127b98914b8bc4e332477ba051c32370bac94244da0",
+    "app/academy.tsx": "8128ec1b0d8abccadb41d46e25c812ffb0ee694453d2df9eedd44f465efdb52f",
+    "app/academy-settings.tsx": "bb1152706c67db928161c8e6a5580a0d801f2b3ca18b93f3acd406c8fc6ca78d",
+    "app/academy-studio.tsx": "73768ce0f22d1cb32c7d644e5283b06035bd4c1a6b59201cb3126ff3496415d4",
+    "app/academy-context.tsx": "15ae4ab655c7ad8a680f89aa63010afd733d31dca8884efcaa7658ebc8905fd1",
+    "app/globals.css": "8524d96594f222401d8c3ee1ba633fcbe5d70a67f12d4fdc476b3c8633cad7ae",
+    "lib/academy-curriculum.ts": "02a7e32aa7f56e1bc06694987946f804d33fdd17ab781749142f72f42bda722c",
+    "lib/academy-engine.ts": "4747712f10c39cc08eaed66939bd99013d8064e4eb3097218590fbcc63bebff7",
+    "lib/academy-teams.ts": "ff3430cb05af22f8ce953f1f30cd9ff20bc536bbef0dfab6942014b10183b807",
+    "lib/academy-authoring.ts": "a4c8b781153b2b811ef4f9b0ff853520f757ac9dda7cb3e927be7b485809de5f",
+    "lib/curriculum.json": "9fc83c8dd615456db8f49d140f56bff566e05c14d32ebb70a14cdcb73078b7e4",
+    "lib/curriculum-versions/0.1-review-draft.json": "9fc83c8dd615456db8f49d140f56bff566e05c14d32ebb70a14cdcb73078b7e4"
+  },
+  "limits": [
+    "Actual local loopback Worker with synthetic trusted-header accounts only; not hosted sign-in or production identity proof.",
+    "Read-only status POST tested saved-state/revision/projected activity and literal SELECT source; hidden database audit tables were not queried.",
+    "Actual review-due scenario uses a short synthetic future publication date; no clock patch or SQL mutation.",
+    "Unknown persisted pin remains pure-model coverage; no unsupported API or local DB corruption fixture was introduced.",
+    "No provider/partner/public issuer transport; host private audience unchanged."
+  ]
+}

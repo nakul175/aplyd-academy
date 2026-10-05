@@ -1,0 +1,20 @@
+{
+  "at": "2026-10-05T20:24:01.976Z",
+  "actualRootSources": true,
+  "sourceStable": true,
+  "sourceHashes": {
+    "lib/academy-record-check.ts": "a0cb4c97794b7416be57e0b136b7d4f79c9eafbaac1ac419e09d685565b9296c",
+    "lib/academy-record-service.ts": "fbfee7ad07fd23f865c0c785dad5147c7ffc05e0a7e7021bcff52d61f355fef6",
+    "lib/academy-record-response.ts": "13d20bfa2927df8a3a4b7d70f2c8d05278a8550b8d7910030815427355bdb174",
+    "app/academy-record-client.ts": "a836e710d1e58ab60a185fa0cb224c1e18a16d452db8b5bca0dd4280f44a689f",
+    "app/academy-record-status.tsx": "5a188a2a708e346e049bf5ec724e1789e02345e2f12bd5ccead1ae902bee9c48",
+    "app/academy.tsx": "8128ec1b0d8abccadb41d46e25c812ffb0ee694453d2df9eedd44f465efdb52f",
+    "app/api/academy/records/check/route.ts": "9f161b661c9d5fa3fe45c127b98914b8bc4e332477ba051c32370bac94244da0",
+    "lib/academy-engine.ts": "4747712f10c39cc08eaed66939bd99013d8064e4eb3097218590fbcc63bebff7",
+    "lib/academy-teams.ts": "ff3430cb05af22f8ce953f1f30cd9ff20bc536bbef0dfab6942014b10183b807",
+    "lib/curriculum-versions/0.1-review-draft.json": "9fc83c8dd615456db8f49d140f56bff566e05c14d32ebb70a14cdcb73078b7e4"
+  },
+  "limits": [
+    "Adopted actual models/client and pure mocked-host route. Actual API/browser proof is separate."
+  ]
+}

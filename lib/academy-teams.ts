@@ -1,3 +1,5 @@
+import {applyJobPracticeTemplate} from './academy-job-template-create';
+import {JobTemplateError} from './academy-job-templates';
 import {applyWorkspaceContentCommand,isContentCommand,AuthoringError,workspaceRegistry,requireAvailablePublication,projectWorkspaceContent,type AuthoringState} from './academy-authoring';
 import {applySupportCommand,projectSupport,reconcileSupportAssignments,SupportRuleError,type SupportRequest} from './academy-support';
 import {currentRef,pinnedRef,resolvePinnedContent,ContentResolutionError,type ContentContext} from './academy-curriculum';
@@ -40,7 +42,17 @@ export function applyTeamCommand(original:Team,u:Identity,c:any,now=new Date().t
  const t=copy(original);if(!c||typeof c.type!=='string')throw new RuleError('Choose a valid workspace action.',400);
  if(c.type==='accept'){exact(c,['tokenHash']);const i=invitation(t,c.tokenHash,u,now);if(i.status==='accepted')return finishAccess(t,now);if(t.members.length>=100&&!t.members.some(m=>m.userId===u.userId))throw new RuleError('This pilot workspace supports up to 100 members.',409);if(!t.members.some(m=>m.userId===u.userId))t.members.push({userId:u.userId,email:normalizeEmail(u.email),name:label(u),roles:i.roles,scopes:i.scopes,active:true,joinedAt:now});i.status='accepted';i.acceptedBy=u.userId;i.acceptedAt=now;return finishAccess(t,now)}
  const m=member(t,u.userId);
- if(isContentCommand(c))return applyWorkspaceContentCommand(t,u,c,now).then(next=>{finishAccess(next,now);next.activity??=[];if(!['content-retire','content-archive'].includes(c.type))next.activity.push({id:crypto.randomUUID(),actor:u.userId,actorName:String(m.name||'Workspace owner').slice(0,80),action:c.type,createdAt:new Date(now).toISOString(),detail:{draftId:c.draftId,publicationId:c.publicationId}});return next}).catch(error=>{if(error instanceof AuthoringError)throw new RuleError(error.message,error.status);throw error;});
+ if(isContentCommand(c)||c.type==='content-job-template'){
+  const operation=c.type==='content-job-template'?applyJobPracticeTemplate(t,u,c,now):applyWorkspaceContentCommand(t,u,c,now);
+  return operation.then(next=>{
+   finishAccess(next,now);next.activity??=[];
+   if(!['content-retire','content-archive'].includes(c.type)){
+    const createdDraft=c.type==='content-job-template'?next.content?.drafts.find(d=>!t.content?.drafts.some(previous=>previous.id===d.id)):undefined;
+    next.activity.push({id:crypto.randomUUID(),actor:u.userId,actorName:String(m.name||'Workspace owner').slice(0,80),action:c.type,createdAt:new Date(now).toISOString(),detail:c.type==='content-job-template'?{draftId:createdDraft?.id,templateId:c.templateId}:{draftId:c.draftId,publicationId:c.publicationId}});
+   }
+   return next;
+  }).catch(error=>{if(error instanceof AuthoringError||error instanceof JobTemplateError)throw new RuleError(error.message,error.status);throw error;});
+ }
  let registryContext:ContentContext|undefined;const contentContext=()=>registryContext??={registry:workspaceRegistry(t),allowedScopes:['global',t.id as any]};
 
  if(isLearningPlanCommand(c)){const l=learner(t,u);l.state.learningPlan=applyOwnPlan(l.state,c,planOptions(now,{memberActive:m.active,canLearn:m.roles.includes('learner'),cohorts:t.cohorts},contentContext()));return finishAccess(t,now);}

@@ -1,0 +1,53 @@
+{
+  "passed": true,
+  "at": "2026-10-05T20:20:36.745Z",
+  "files": [
+    {
+      "file": "lib/academy-job-templates.ts",
+      "sha256": "c3162a5da1f1df25eb3d56e1c681f1478fe404aea9d38eb3c6ecac15062ab035"
+    },
+    {
+      "file": "lib/academy-job-template-create.ts",
+      "sha256": "a737617bc6a64c06169b5b6a6b638f2fedc3538fa92de3a1b197fddc02e805e4"
+    },
+    {
+      "file": "lib/academy-authoring.ts",
+      "sha256": "a4c8b781153b2b811ef4f9b0ff853520f757ac9dda7cb3e927be7b485809de5f"
+    },
+    {
+      "file": "lib/academy-teams.ts",
+      "sha256": "ff3430cb05af22f8ce953f1f30cd9ff20bc536bbef0dfab6942014b10183b807"
+    },
+    {
+      "file": "lib/academy-curriculum.ts",
+      "sha256": "02a7e32aa7f56e1bc06694987946f804d33fdd17ab781749142f72f42bda722c"
+    },
+    {
+      "file": "lib/academy-library.ts",
+      "sha256": "76b893df0537a82fce5bbfd5213b404c511986de822718b222b2483f2f458512"
+    },
+    {
+      "file": "lib/curriculum-versions/0.1-review-draft.json",
+      "sha256": "9fc83c8dd615456db8f49d140f56bff566e05c14d32ebb70a14cdcb73078b7e4"
+    },
+    {
+      "file": "app/academy-authoring.tsx",
+      "sha256": "89b596197a444caa7dd10bd2cfb4126cc035da06aebaf4e52a6567968b348d68"
+    },
+    {
+      "file": "app/academy-job-template-picker.tsx",
+      "sha256": "b892384a119b0e81c78fe8d3a3ca5287a248f8f1baf859330832127b0885bb21"
+    },
+    {
+      "file": "app/academy-job-template-picker.module.css",
+      "sha256": "76088b90798fd93839698a9746ea06a3cb75025fa4550e8a50661ea68c5baeba"
+    },
+    {
+      "file": "app/api/teams/route.ts",
+      "sha256": "b885dfcfd2f7a7d6f5ddcbb8c1f0ef5fb7257b0892c7672067117e907fece5e8"
+    }
+  ],
+  "limits": [
+    "Read-only bundle of current adopted root pure modules; no team overlay, app build, Worker/API/browser or publication."
+  ]
+}

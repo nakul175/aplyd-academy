@@ -1,3 +1,4 @@
+import type {JobTemplateOrigin} from './academy-job-templates';
 import {
   curriculumRegistry, createCurriculumRegistry, contentRef, pinnedRef,
   programs, LEGACY_CONTENT_VERSION, contentKey,
@@ -10,7 +11,7 @@ const CLAIM='Demonstrated the published synthetic practice exercise through chec
 const EXCLUSIONS=['Nonaccredited private practice record','No medical, legal, financial, agricultural or other professional qualification','No authority to make consequential professional decisions'];
 const NOTICE='All sources, people, work records and AI drafts in this pathway are fictional teaching fixtures. Submit no actual private work records or credentials.';
 export type Issue={path:string;kind:'shape'|'locked'|'limit'|'required'|'consistency';message:string};
-export type Draft={id:string;programId:string;baseRef:ContentRef;authorId:string;authorName:string;state:'draft'|'in_review'|'approved'|'published'|'archived';revision:number;documentRevision:number;document:any;createdAt:string;updatedAt:string;reviewerId?:string;reviewDueAt?:string;approval?:{reviewerId:string;reviewerName:string;documentRevision:number;documentHash:string;reviewedAt:string;note:string;checks:Record<string,boolean>};publishedRef?:ContentRef;history:any[]};
+export type Draft={templateOrigin?:JobTemplateOrigin;id:string;programId:string;baseRef:ContentRef;authorId:string;authorName:string;state:'draft'|'in_review'|'approved'|'published'|'archived';revision:number;documentRevision:number;document:any;createdAt:string;updatedAt:string;reviewerId?:string;reviewDueAt?:string;approval?:{reviewerId:string;reviewerName:string;documentRevision:number;documentHash:string;reviewedAt:string;note:string;checks:Record<string,boolean>};publishedRef?:ContentRef;history:any[]};
 export type Publication={id:string;snapshot:ContentSnapshot&{policy:any};documentHash:string;authorId:string;authorName:string;reviewerId:string;reviewerName:string;reviewedAt:string;publishedBy:string;publishedByName:string;publishedAt:string;reviewDueAt:string;availability:'available'|'retired';retirement?:{reason:string;actor:string;actorName:string;at:string}};
 export type AuthoringState={drafts:Draft[];publications:Publication[]};
 export type ContentHost={id:string;members:{userId:string;name?:string;active:boolean;roles:string[]}[];content?:AuthoringState};

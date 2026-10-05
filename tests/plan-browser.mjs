@@ -69,12 +69,12 @@ async function finishVisibleLesson(page,lesson){
 try{
   let x=await labAction({type:'enroll',programId:p.id}),eid=x.state.enrollments[0].id;
   const first=p.lessons[0];await labAction({type:'lesson',enrollmentId:eid,lessonId:first.id,practice:'A checked synthetic practice answer uses the source references and keeps human approval.',answers:first.quiz.map(q=>q.correctOptionIndex)});
-  const page=await pageFor(u);await page.goto(base+'/');await page.getByText('Saved privately',{exact:true}).waitFor();await openPlan(page);
+  const page=await pageFor(u);await page.goto(base+'/');await page.locator('[data-save-state="loaded"]').waitFor();await openPlan(page);
   await select(page,ui.goalTheme,ui.goalOption);await page.getByLabel(ui.personalGoal,{exact:true}).fill(goal);
   await page.getByLabel(ui.weeklyMinutes,{exact:true}).fill('45');await page.getByLabel(ui.timeZone,{exact:true}).fill('Asia/Kolkata');await setReminders(page,false);
   await uiWrite(page,()=>page.getByRole('button',{name:ui.savePreferences,exact:true}).click());
   const practice=await addTask(page,ui.practiceKind,{title:'Check my fictional customer draft',privateNote:note});equal(practice.dueDate,null);
-  await page.reload();await page.getByText('Saved privately',{exact:true}).waitFor();await page.getByRole('heading',{name:ui.heading,exact:true}).waitFor();
+  await page.reload();await page.locator('[data-save-state="loaded"]').waitFor();await page.getByRole('heading',{name:ui.heading,exact:true}).waitFor();
   equal(await page.getByLabel(ui.personalGoal,{exact:true}).inputValue(),goal);equal(await page.getByLabel(ui.weeklyMinutes,{exact:true}).inputValue(),'45');equal(await page.getByLabel(ui.timeZone,{exact:true}).inputValue(),'Asia/Kolkata');
   truth((await taskRow(page,practice.id).innerText()).includes(note));truth((await taskRow(page,practice.id).innerText()).includes('Unscheduled'));
   coverage.push('Personal preferences and nullable private activity persist across reload');
@@ -112,7 +112,7 @@ try{
 
   const attempt=submitted.state.enrollments[0].attempts.at(-1);
   await labAction({type:'assess',enrollmentId:eid,attemptId:attempt.id,actor:'assessor-a',scores:p.practicalAssessment.rubric.map(()=>4),gates:p.practicalAssessment.rubric.filter(r=>r.criticalGate).map(()=>true),notes:p.practicalAssessment.rubric.map(()=>'Checked the synthetic source reference against the submitted evidence.'),feedback:'This synthetic local fixture demonstrates careful checks, permitted data and a clear human approval route.'});
-  await page.reload();await page.getByText('Saved privately',{exact:true}).waitFor();
+  await page.reload();await page.locator('[data-save-state="loaded"]').waitFor();
   const reflection=await addTask(page,ui.reflectionKind,{dueDate:'',minutes:'15'});
   await taskRow(page,reflection.id).getByRole('button',{name:ui.openLearning,exact:true}).click();
   await select(page,'Pathway for reflection',p.title);await page.getByLabel('My return-to-work reflection',{exact:true}).fill('I checked a fictional customer draft against its source packet, removed an unsupported promise, and kept human approval.');
@@ -138,13 +138,13 @@ try{
   coverage.push('Plan and activity dialog at desktop/tablet/phone widths and 200% text');
 
   const team=await fixture(),teamPage=await pageFor(team.a),ownerPage=await pageFor(team.owner);
-  await teamPage.goto(base+'/?workspace='+encodeURIComponent(team.id)+'#plan');await teamPage.getByText('Workspace saved',{exact:true}).waitFor();
+  await teamPage.goto(base+'/?workspace='+encodeURIComponent(team.id)+'#plan');await teamPage.locator('[data-save-state="loaded"]').waitFor();
   await teamPage.getByLabel(ui.personalGoal,{exact:true}).fill(goal);await uiWrite(teamPage,()=>teamPage.getByRole('button',{name:ui.savePreferences,exact:true}).click());
   const privateTeamTask=await addTask(teamPage,ui.practiceKind,{title:'Synthetic team learner private practice',privateNote:note});
-  await ownerPage.goto(base+'/?workspace='+encodeURIComponent(team.id)+'#teams');await ownerPage.getByText('Workspace saved',{exact:true}).waitFor();
+  await ownerPage.goto(base+'/?workspace='+encodeURIComponent(team.id)+'#teams');await ownerPage.locator('[data-save-state="loaded"]').waitFor();
   truth(!(await ownerPage.locator('body').innerText()).includes(goal));truth(!(await ownerPage.locator('body').innerText()).includes(note));
   await action(team.owner,team.id,{type:'member',userId:team.a.id,roles:['learner'],scopes:[],active:false});
-  await teamPage.reload();await teamPage.getByText('Workspace saved',{exact:true}).waitFor();
+  await teamPage.reload();await teamPage.locator('[data-save-state="loaded"]').waitFor();
   equal(await teamPage.getByLabel(ui.personalGoal,{exact:true}).inputValue(),goal);truth((await taskRow(teamPage,privateTeamTask.id).innerText()).includes(note));
   truth(await teamPage.getByRole('button',{name:ui.savePreferences,exact:true}).isDisabled());truth(await teamPage.getByRole('button',{name:ui.add,exact:true}).isDisabled());
   coverage.push('Team private plan retained after removal; owner UI excludes private data and removed learner writes are disabled');
