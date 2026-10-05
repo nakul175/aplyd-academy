@@ -1,4 +1,4 @@
-# Aplyd Academy working pilot · v0.2
+# Aplyd Academy working pilot · v0.3
 
 A durable learning application for farmers, MSME owners and public servants. Learners practise on fictional source packets, check supplied AI drafts, submit practical evidence, receive reasoned feedback and reflect on their work.
 
@@ -11,7 +11,9 @@ A durable learning application for farmers, MSME owners and public servants. Lea
 - Explicit assessment/appeal assignments to signed-in accounts. Self-review and original-assessor appeal review are forbidden. Owners/facilitators receive progress summaries without private evidence.
 - Cohort discussion with prepublication moderation, restricted reports and reasoned moderation history.
 - Nonaccredited practice records with review provenance, adverse-appeal suspension, downloads and learner exports.
-- Reading mode, browser read-aloud, saved peer-learning interests and work reflections.
+- Explicitly opted-in cohort directory, real scheduled practice sessions, atomic RSVP capacity, cancellations and observed attendance with correction history. Own session history remains readable/exportable after access ends.
+- Reading mode, browser read-aloud, accurate lesson resume, nullable work-reflection estimates and keyboard/dialog focus recovery.
+- Protected storage reserve and atomic archival administrative/moderation history with current scoped reads.
 
 ## Access
 
@@ -25,20 +27,20 @@ D1 stores private owner documents and separate shared-workspace documents. Prote
 
 Globally unique invitation-token hashes are indexed in a separate table and committed with the workspace mutation. Tokens expire after seven days, are recipient-email bound, and cannot be reused. An issuer losing owner authority invalidates its outstanding invitations. The platform supplies the email; invitation request fields cannot impersonate a recipient.
 
-This is a bounded pilot architecture: up to ten created workspaces per account, 100 members, 20 cohorts and 200 historical invitations per workspace, one megabyte per personal lab and 1.5 megabytes per shared workspace. Aggregate contention and membership-directory scanning require a normalized repository before large cohorts or broad rollout. No load-capacity claim is made.
+This is a bounded pilot architecture: up to ten created workspaces per account, 100 members, 20 cohorts and 200 historical invitations per workspace, one megabyte per personal lab, a 1.2 MB ordinary shared-content budget and a 1.8 MB protective ceiling. Older administrative/moderation history is archived atomically. Aggregate contention and membership-directory scanning require a normalized repository before large cohorts or broad rollout. No load-capacity claim is made.
 
 ## Development and verification
 
 Use the configured Node/npm runtime and retained Sites installer/build workflow. `npm run dev` opens the local sign-in simulator. Generate additive D1 schema changes with `npm run db:generate`; inspect every migration, preserve applied history, and apply only pending migrations to the local test database. Sites applies generated migrations during deployment.
 
-Run TypeScript checking with `node node_modules/typescript/bin/tsc --noEmit`. Bundle `lib/academy-engine.ts` and `lib/academy-teams.ts` with the installed esbuild into `.sites-runtime/engine.mjs` and `.sites-runtime/teams.mjs`, then run `node --test tests/engine.test.mjs tests/teams.test.mjs`.
+Run TypeScript checking with `node node_modules/typescript/bin/tsc --noEmit`. Bundle `lib/academy-engine.ts`, `lib/academy-teams.ts` and `lib/academy-storage.ts` with the installed esbuild into `.sites-runtime/engine.mjs` and the corresponding teams/storage bundles, then run `node --test tests/engine.test.mjs tests/teams.test.mjs tests/network.test.mjs tests/storage.test.mjs`.
 
-`tests/api-integration.mjs`, `tests/teams-api.mjs` and `tests/teams-browser.mjs` target the **built local worker at port 8787**, using synthetic identity headers. Never point them at a hosted Academy. Other browser regression scripts use the local development sign-in simulator at port 5173. Browser scripts reference this workspace's Playwright runtime and Chrome; adjust those paths elsewhere. Local fixtures are never seeded into the published database.
+`tests/api-integration.mjs`, `tests/teams-api.mjs`, networking/archive scripts and `tests/teams-browser.mjs` target the **built local worker at port 8787**, using synthetic identity headers. Never point them at a hosted Academy. Other browser regression scripts use the local development sign-in simulator at port 5173; set `ACADEMY_QA_BUILT=1` for the built Worker fixture. Set `QA_LOCAL_DB_SQL=1` for direct archive/audit consistency checks. `tests/archive-failure.mjs` injects and removes a constraint fault only in its new isolated local fixture. Browser scripts reference this workspace's Playwright runtime and Chrome; adjust those paths elsewhere. Local fixtures are never seeded into the published database.
 
-See `docs/release-notes.md`, `docs/test-evidence.json` and `docs/shared-workspaces.md` for actual checks, permission rules and limits.
+See `docs/release-notes.md`, `docs/test-evidence.json` , `docs/shared-workspaces.md` and `docs/networking-and-history.md` for actual checks, permission rules and limits.
 
 ## Remaining production work
 
 Approve sector content and validate real learner journeys; arrange site access and exercise actual participant sign-in; establish staff recruitment, assessor calibration and turnaround; implement a durable multi-version curriculum registry; validate reviewed translations, low-bandwidth/offline and assisted/oral journeys; connect one real partner; define formal retention/erasure, recovery, accessibility and capacity controls. Recognized credentials require issuer authority and public verification/revocation policy.
 
-Real event/mentor bookings, commerce, uploads, clinical training and embedded AI remain unimplemented. No external partner receives the ecosystem simulation, and no AI service is called. Existing BRD/FSD/HLD/LLD describe the broader target; the five-table SQLite implementation does not claim the full reference PostgreSQL schema or API contract.
+External event/mentor-provider bookings, host reassignment, commerce, uploads, clinical training and embedded AI remain unimplemented. No external partner receives the ecosystem simulation, and no AI service is called. Existing BRD/FSD/HLD/LLD describe the broader target; the six-table SQLite implementation does not claim the full reference PostgreSQL schema or API contract.

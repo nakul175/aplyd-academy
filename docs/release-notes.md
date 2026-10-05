@@ -30,3 +30,16 @@ The release uses a bounded shared aggregate with one revision and atomic audit/u
 Draft version `0.1-review-draft` remains unchanged. Sector approval, a durable multi-version registry, assessor recruitment/calibration and turnaround, reviewed translations, assisted/oral and offline journeys, one real ecosystem integration, recognized issuer/public verification arrangements, real events/mentor bookings, commerce, uploads and embedded AI remain launch work. Health Saha is still a domain-review placeholder.
 
 See `shared-workspaces.md` for the implemented role matrix, lifecycle and command contract, and `test-evidence.json` for machine-readable executed results.
+
+
+# v0.3 · Cohort networking and protective operations
+
+Shared members can explicitly share a narrow cohort profile and reserve real scheduled practice sessions. Owners/scoped facilitators host, current eligible participants receive joining instructions, and only hosts receive rosters. Access loss cancels future reservations and removes profile scopes; restoration never resurrects a seat or sharing choice. Session cancellations retain reasons. Host-observed attendance keeps correction history and never affects learning completion. Members retain their own session history after removal.
+
+A shared content flood can no longer consume the capacity needed to remove access. Ordinary growth has a 1.2 MB budget; protective actions have a 1.8 MB ceiling. The previous 1,000-event administrative blocker is removed. Older hot histories are archived with the aggregate update and action receipt in one transaction, and historical reads apply current permissions in one snapshot. Workspace directory reads select summaries rather than retrieving every full evidence aggregate.
+
+Learner resume opens the first unfinished lesson or the relevant practical/feedback stage. Missing reflection estimates remain null; explicit zero is retained. UI changes add one main landmark, navigation focus, controlled-dialog focus restoration, form errors inside open dialogs and wrapping at actual 200% body/input text.
+
+Executed verification is recorded in `test-evidence.json`. Tests use isolated local identity fixtures; no real learner was invited, no external message/meeting request was sent, and hosted authentication remains unverified. Existing draft curriculum remains unchanged and practice records remain nonaccredited. See `networking-and-history.md` for exact scope and deferred operations.
+
+Verification for v0.3: 46 pure rule tests; 295 database assertions across personal/shared learning, networking, archival history and injected D1 packet-failure recovery; full personal, shared and networking browser journeys; 54 personal + 60 shared + 18 networking layout checks; 54 keyboard/dialog/text-size audit checks. Counts in scenario scripts are assertions, not independent test cases. New migration0004 was applied to a populated local database, and the real local D1 constraint-failure check confirmed complete rollback and successful retry.
