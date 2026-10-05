@@ -1,0 +1,1683 @@
+{
+  "observedAtUtc": "2026-10-05T21:08:25.003489+00:00",
+  "workstreamProductExecutions": 0,
+  "countPolicy": "Suite units remain separate; no summed pass total.",
+  "records": [
+    {
+      "id": "E13-RULES",
+      "executionStatus": "EXECUTED_ACTUAL_ROOT",
+      "counts": {
+        "testEntries": 635,
+        "passedEntries": 635,
+        "failedEntries": 0
+      },
+      "scope": "Retained actual-root model/rule transcript after streaming body-reader deferral.",
+      "limitations": "Exact Node transcript entries, not HTTP calls/assertions or an overall product-completion count. Documentation agent did not rerun it.",
+      "files": [
+        {
+          "path": "work/aplyd-academy/docs/as-built-v0.13/evidence/model-tests.tap",
+          "sha256": "714869a8d658fec751f75d0925eac5262323902e41308f3db01f725aec44e9b5",
+          "bytes": 61519
+        }
+      ],
+      "reportedSourceAgreementAtReview": []
+    },
+    {
+      "id": "E13-LOGS",
+      "executionStatus": "EXECUTED_ACTUAL_HANDLER_MOCK",
+      "counts": {
+        "groups": 27,
+        "assertions": 309
+      },
+      "scope": "Retained actual routes with mocked auth/D1 and disabled HTTP/SQL writes.",
+      "limitations": "Fixed-category logs and known validation errors; no hosted network/identity or native injected DB-fault proof.",
+      "files": [
+        {
+          "path": "work/aplyd-academy/docs/as-built-v0.13/evidence/route-error-model.json",
+          "sha256": "9169c759dfcde5a654ef54028c5565a65015d3c9b1dda0ec764c3df852ce5a5e",
+          "bytes": 7348
+        },
+        {
+          "path": "work/aplyd-academy/docs/as-built-v0.13/evidence/route-error-source.json",
+          "sha256": "3aac093f32b65c0af5e400cccd4cec8e87d6ddbd3a6f6761c166393af439b4c1",
+          "bytes": 3407
+        }
+      ],
+      "reportedSourceAgreementAtReview": [
+        {
+          "source": "app/api/academy/records/check/route.ts",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "9f161b661c9d5fa3fe45c127b98914b8bc4e332477ba051c32370bac94244da0",
+          "currentHash": "9f161b661c9d5fa3fe45c127b98914b8bc4e332477ba051c32370bac94244da0",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "app/api/academy/route.ts",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "22c78adf5c62a809a1aef4505c7c047b797b7ac4f2afd42bbcb1cd3b9af338b7",
+          "currentHash": "22c78adf5c62a809a1aef4505c7c047b797b7ac4f2afd42bbcb1cd3b9af338b7",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "app/api/teams/route.ts",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "6901cdab339f6ce0b4d60e3b778a6bd68d7e9d8e9807f13e81df9bbc1b29025e",
+          "currentHash": "6901cdab339f6ce0b4d60e3b778a6bd68d7e9d8e9807f13e81df9bbc1b29025e",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "lib/academy-authoring.ts",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "a4c8b781153b2b811ef4f9b0ff853520f757ac9dda7cb3e927be7b485809de5f",
+          "currentHash": "a4c8b781153b2b811ef4f9b0ff853520f757ac9dda7cb3e927be7b485809de5f",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "lib/academy-curriculum.ts",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "02a7e32aa7f56e1bc06694987946f804d33fdd17ab781749142f72f42bda722c",
+          "currentHash": "02a7e32aa7f56e1bc06694987946f804d33fdd17ab781749142f72f42bda722c",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "lib/academy-ecosystem-guard.ts",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "cd166d20798b7fc62a80b584a6d8084498dc5d6976924d206541a7c7a2d74fe8",
+          "currentHash": "cd166d20798b7fc62a80b584a6d8084498dc5d6976924d206541a7c7a2d74fe8",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "lib/academy-ecosystems.ts",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "d12b3a3c6af5b35a38af5e99b0fc674ead9f0cb7ed58c0d31c4a4f5d2a6af19a",
+          "currentHash": "d12b3a3c6af5b35a38af5e99b0fc674ead9f0cb7ed58c0d31c4a4f5d2a6af19a",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "lib/academy-engine.ts",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "4747712f10c39cc08eaed66939bd99013d8064e4eb3097218590fbcc63bebff7",
+          "currentHash": "4747712f10c39cc08eaed66939bd99013d8064e4eb3097218590fbcc63bebff7",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "lib/academy-inclusive-learning.ts",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "483e64778ad762e93880a5ea41bec0b873fe48c62bdc1aa5fefc0b26c8f626ac",
+          "currentHash": "483e64778ad762e93880a5ea41bec0b873fe48c62bdc1aa5fefc0b26c8f626ac",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "lib/academy-job-template-create.ts",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "a737617bc6a64c06169b5b6a6b638f2fedc3538fa92de3a1b197fddc02e805e4",
+          "currentHash": "a737617bc6a64c06169b5b6a6b638f2fedc3538fa92de3a1b197fddc02e805e4",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "lib/academy-job-templates.ts",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "c3162a5da1f1df25eb3d56e1c681f1478fe404aea9d38eb3c6ecac15062ab035",
+          "currentHash": "c3162a5da1f1df25eb3d56e1c681f1478fe404aea9d38eb3c6ecac15062ab035",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "lib/academy-network.ts",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "780610d02d4f063f5413db588455079ea98136eb0f7f0f576fff4390ae047414",
+          "currentHash": "780610d02d4f063f5413db588455079ea98136eb0f7f0f576fff4390ae047414",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "lib/academy-personal-storage.ts",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "26355595e3630d19e9d576bcfa48a1e688dddad387012fe5b2643848f17df804",
+          "currentHash": "26355595e3630d19e9d576bcfa48a1e688dddad387012fe5b2643848f17df804",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "lib/academy-plan.ts",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "c619f823371951643585bfe5c5b55cb071454791bc19b958caa635c5fbfd0f9b",
+          "currentHash": "c619f823371951643585bfe5c5b55cb071454791bc19b958caa635c5fbfd0f9b",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "lib/academy-record-check.ts",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "a0cb4c97794b7416be57e0b136b7d4f79c9eafbaac1ac419e09d685565b9296c",
+          "currentHash": "a0cb4c97794b7416be57e0b136b7d4f79c9eafbaac1ac419e09d685565b9296c",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "lib/academy-record-service.ts",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "fbfee7ad07fd23f865c0c785dad5147c7ffc05e0a7e7021bcff52d61f355fef6",
+          "currentHash": "fbfee7ad07fd23f865c0c785dad5147c7ffc05e0a7e7021bcff52d61f355fef6",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "lib/academy-storage.ts",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "3eef88f741c7177cf00ba01dac4a8ecbee3da97e146e8999509929c9829f9941",
+          "currentHash": "3eef88f741c7177cf00ba01dac4a8ecbee3da97e146e8999509929c9829f9941",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "lib/academy-support.ts",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "304b51e0558a76f34775405ed7e31884a2aebcdf3649d8fe7dab9658672876e1",
+          "currentHash": "304b51e0558a76f34775405ed7e31884a2aebcdf3649d8fe7dab9658672876e1",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "lib/academy-teams.ts",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "ff3430cb05af22f8ce953f1f30cd9ff20bc536bbef0dfab6942014b10183b807",
+          "currentHash": "ff3430cb05af22f8ce953f1f30cd9ff20bc536bbef0dfab6942014b10183b807",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "lib/curriculum-versions/0.1-review-draft.json",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "9fc83c8dd615456db8f49d140f56bff566e05c14d32ebb70a14cdcb73078b7e4",
+          "currentHash": "9fc83c8dd615456db8f49d140f56bff566e05c14d32ebb70a14cdcb73078b7e4",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        }
+      ]
+    },
+    {
+      "id": "E13-NATIVE",
+      "executionStatus": "EXECUTED_NATIVE_LOCAL",
+      "counts": {
+        "cases": 32,
+        "assertions": 193
+      },
+      "scope": "Final frozen packaged v0.13 build tested at2026-10-05T21:00:39.358Z. Retained native Request.text routes with only authless GET/incapable POST/read-only checks and immediate post413 recovery.",
+      "limitations": "32cases/193assertions. No authenticated mutation, valid actionId+command, fixture creation, hosted request, or incremental-memory/time-bound guarantee. Runtime hash matches the release-evidence packaged build.",
+      "files": [
+        {
+          "path": "work/aplyd-academy/docs/as-built-v0.13/evidence/native-endpoints.json",
+          "sha256": "2b2e25beea32ab2e4eda75957412d1de62cfceaa4c4e3a455f4aef35e2236cb6",
+          "bytes": 9102
+        }
+      ],
+      "reportedSourceAgreementAtReview": [
+        {
+          "source": "app/api/academy/records/check/route.ts",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "9f161b661c9d5fa3fe45c127b98914b8bc4e332477ba051c32370bac94244da0",
+          "currentHash": "9f161b661c9d5fa3fe45c127b98914b8bc4e332477ba051c32370bac94244da0",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "app/api/academy/route.ts",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "22c78adf5c62a809a1aef4505c7c047b797b7ac4f2afd42bbcb1cd3b9af338b7",
+          "currentHash": "22c78adf5c62a809a1aef4505c7c047b797b7ac4f2afd42bbcb1cd3b9af338b7",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "app/api/teams/route.ts",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "6901cdab339f6ce0b4d60e3b778a6bd68d7e9d8e9807f13e81df9bbc1b29025e",
+          "currentHash": "6901cdab339f6ce0b4d60e3b778a6bd68d7e9d8e9807f13e81df9bbc1b29025e",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "lib/academy-authoring.ts",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "a4c8b781153b2b811ef4f9b0ff853520f757ac9dda7cb3e927be7b485809de5f",
+          "currentHash": "a4c8b781153b2b811ef4f9b0ff853520f757ac9dda7cb3e927be7b485809de5f",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "lib/academy-curriculum.ts",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "02a7e32aa7f56e1bc06694987946f804d33fdd17ab781749142f72f42bda722c",
+          "currentHash": "02a7e32aa7f56e1bc06694987946f804d33fdd17ab781749142f72f42bda722c",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "lib/academy-ecosystem-guard.ts",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "cd166d20798b7fc62a80b584a6d8084498dc5d6976924d206541a7c7a2d74fe8",
+          "currentHash": "cd166d20798b7fc62a80b584a6d8084498dc5d6976924d206541a7c7a2d74fe8",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "lib/academy-ecosystems.ts",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "d12b3a3c6af5b35a38af5e99b0fc674ead9f0cb7ed58c0d31c4a4f5d2a6af19a",
+          "currentHash": "d12b3a3c6af5b35a38af5e99b0fc674ead9f0cb7ed58c0d31c4a4f5d2a6af19a",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "lib/academy-engine.ts",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "4747712f10c39cc08eaed66939bd99013d8064e4eb3097218590fbcc63bebff7",
+          "currentHash": "4747712f10c39cc08eaed66939bd99013d8064e4eb3097218590fbcc63bebff7",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "lib/academy-inclusive-learning.ts",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "483e64778ad762e93880a5ea41bec0b873fe48c62bdc1aa5fefc0b26c8f626ac",
+          "currentHash": "483e64778ad762e93880a5ea41bec0b873fe48c62bdc1aa5fefc0b26c8f626ac",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "lib/academy-job-template-create.ts",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "a737617bc6a64c06169b5b6a6b638f2fedc3538fa92de3a1b197fddc02e805e4",
+          "currentHash": "a737617bc6a64c06169b5b6a6b638f2fedc3538fa92de3a1b197fddc02e805e4",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "lib/academy-job-templates.ts",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "c3162a5da1f1df25eb3d56e1c681f1478fe404aea9d38eb3c6ecac15062ab035",
+          "currentHash": "c3162a5da1f1df25eb3d56e1c681f1478fe404aea9d38eb3c6ecac15062ab035",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "lib/academy-network.ts",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "780610d02d4f063f5413db588455079ea98136eb0f7f0f576fff4390ae047414",
+          "currentHash": "780610d02d4f063f5413db588455079ea98136eb0f7f0f576fff4390ae047414",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "lib/academy-personal-storage.ts",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "26355595e3630d19e9d576bcfa48a1e688dddad387012fe5b2643848f17df804",
+          "currentHash": "26355595e3630d19e9d576bcfa48a1e688dddad387012fe5b2643848f17df804",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "lib/academy-plan.ts",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "c619f823371951643585bfe5c5b55cb071454791bc19b958caa635c5fbfd0f9b",
+          "currentHash": "c619f823371951643585bfe5c5b55cb071454791bc19b958caa635c5fbfd0f9b",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "lib/academy-record-check.ts",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "a0cb4c97794b7416be57e0b136b7d4f79c9eafbaac1ac419e09d685565b9296c",
+          "currentHash": "a0cb4c97794b7416be57e0b136b7d4f79c9eafbaac1ac419e09d685565b9296c",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "lib/academy-record-service.ts",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "fbfee7ad07fd23f865c0c785dad5147c7ffc05e0a7e7021bcff52d61f355fef6",
+          "currentHash": "fbfee7ad07fd23f865c0c785dad5147c7ffc05e0a7e7021bcff52d61f355fef6",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "lib/academy-storage.ts",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "3eef88f741c7177cf00ba01dac4a8ecbee3da97e146e8999509929c9829f9941",
+          "currentHash": "3eef88f741c7177cf00ba01dac4a8ecbee3da97e146e8999509929c9829f9941",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "lib/academy-support.ts",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "304b51e0558a76f34775405ed7e31884a2aebcdf3649d8fe7dab9658672876e1",
+          "currentHash": "304b51e0558a76f34775405ed7e31884a2aebcdf3649d8fe7dab9658672876e1",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "lib/academy-teams.ts",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "ff3430cb05af22f8ce953f1f30cd9ff20bc536bbef0dfab6942014b10183b807",
+          "currentHash": "ff3430cb05af22f8ce953f1f30cd9ff20bc536bbef0dfab6942014b10183b807",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "lib/curriculum-versions/0.1-review-draft.json",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "9fc83c8dd615456db8f49d140f56bff566e05c14d32ebb70a14cdcb73078b7e4",
+          "currentHash": "9fc83c8dd615456db8f49d140f56bff566e05c14d32ebb70a14cdcb73078b7e4",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        }
+      ],
+      "packagedRuntimeAgreement": [
+        {
+          "file": "server/index.js",
+          "agrees": true
+        },
+        {
+          "file": "server/wrangler.json",
+          "agrees": true
+        }
+      ]
+    },
+    {
+      "id": "E13-HELP-BROWSER",
+      "executionStatus": "EXECUTED_READ_ONLY_LOCAL",
+      "counts": {
+        "selectedAssertions": 200,
+        "executedScenarios": 18,
+        "parts": [
+          170,
+          30
+        ],
+        "pageErrors": 0,
+        "protectedWrites": 0
+      },
+      "scope": "Actual adopted/rebuilt content/help UI; GET-only current fictional subjects and permitted intercepted display variants; actual corrected focus proof.",
+      "limitations": "Displayed missing/orphan/private language variants are not stored server conditions; no support-open command. CSS text/keyboard checks do not certify screen-reader or field use.",
+      "files": [
+        {
+          "path": "work/aplyd-academy/docs/as-built-v0.13/evidence/help-consolidated.json",
+          "sha256": "b7ad6804f7b7713b124dda595633a35a81a866546f778efb5a1b897b8d9ac898",
+          "bytes": 2657
+        },
+        {
+          "path": "work/aplyd-academy/docs/as-built-v0.13/evidence/help-browser.json",
+          "sha256": "b3bd5058053c767cce7da8acf36fff75462683907cb1a2fbdeaf0c7fafac22a9",
+          "bytes": 81371
+        },
+        {
+          "path": "work/aplyd-academy/docs/as-built-v0.13/evidence/help-focus-browser.json",
+          "sha256": "d73bc2f285dc6f042a166f057e690c4ff3acf46dbf8a75f462e776decf3f302f",
+          "bytes": 26527
+        }
+      ],
+      "reportedSourceAgreementAtReview": [
+        {
+          "source": "app/academy.tsx",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "8128ec1b0d8abccadb41d46e25c812ffb0ee694453d2df9eedd44f465efdb52f",
+          "currentHash": "8128ec1b0d8abccadb41d46e25c812ffb0ee694453d2df9eedd44f465efdb52f",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "app/academy-context.tsx",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "15ae4ab655c7ad8a680f89aa63010afd733d31dca8884efcaa7658ebc8905fd1",
+          "currentHash": "15ae4ab655c7ad8a680f89aa63010afd733d31dca8884efcaa7658ebc8905fd1",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "app/academy-support.tsx",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "b668f525eb2b41d1be24cf34208a71c915c02ae60ae7daa4563549adff035561",
+          "currentHash": "b668f525eb2b41d1be24cf34208a71c915c02ae60ae7daa4563549adff035561",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "app/academy-learning-help-disclosure.tsx",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "4a323475508dbb2212eb05fb740d3492fa5f1909864d9e7854c58ccf5b2c79de",
+          "currentHash": "4a323475508dbb2212eb05fb740d3492fa5f1909864d9e7854c58ccf5b2c79de",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "app/academy-operations.tsx",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "d4cfcf0ff49839243093dd4f9ec003bfc94aa010e73215eb5fa11a1510c65dea",
+          "currentHash": "d4cfcf0ff49839243093dd4f9ec003bfc94aa010e73215eb5fa11a1510c65dea",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "app/academy-content-readiness.tsx",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "e50e8f413d560195a5e14cb3d851f051a05df2ba83df991e0ba351622c301045",
+          "currentHash": "e50e8f413d560195a5e14cb3d851f051a05df2ba83df991e0ba351622c301045",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "app/academy-acceptance.ts",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "ce2bf2f00d49a64b72da02dbb54e1b2ea9af3a7306b43af87ed1c81555e325bf",
+          "currentHash": "ce2bf2f00d49a64b72da02dbb54e1b2ea9af3a7306b43af87ed1c81555e325bf",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "app/globals.css",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "8524d96594f222401d8c3ee1ba633fcbe5d70a67f12d4fdc476b3c8633cad7ae",
+          "currentHash": "8524d96594f222401d8c3ee1ba633fcbe5d70a67f12d4fdc476b3c8633cad7ae",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "lib/academy-content-readiness.ts",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "6f52a762509eb49a65d3753b7d8354c640b60ccc007c15ad8a1dca005242caa2",
+          "currentHash": "6f52a762509eb49a65d3753b7d8354c640b60ccc007c15ad8a1dca005242caa2",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "lib/academy-content-readiness-adoption.mjs",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "a9d30abbd0f7fac2f66bd2f1f38db5aea68819edd76c867ff7be6698a538b79a",
+          "currentHash": "a9d30abbd0f7fac2f66bd2f1f38db5aea68819edd76c867ff7be6698a538b79a",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "lib/academy-inclusive-learning.ts",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "483e64778ad762e93880a5ea41bec0b873fe48c62bdc1aa5fefc0b26c8f626ac",
+          "currentHash": "483e64778ad762e93880a5ea41bec0b873fe48c62bdc1aa5fefc0b26c8f626ac",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "lib/academy-authoring.ts",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "a4c8b781153b2b811ef4f9b0ff853520f757ac9dda7cb3e927be7b485809de5f",
+          "currentHash": "a4c8b781153b2b811ef4f9b0ff853520f757ac9dda7cb3e927be7b485809de5f",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "app/academy.tsx",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "8128ec1b0d8abccadb41d46e25c812ffb0ee694453d2df9eedd44f465efdb52f",
+          "currentHash": "8128ec1b0d8abccadb41d46e25c812ffb0ee694453d2df9eedd44f465efdb52f",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "app/academy-context.tsx",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "15ae4ab655c7ad8a680f89aa63010afd733d31dca8884efcaa7658ebc8905fd1",
+          "currentHash": "15ae4ab655c7ad8a680f89aa63010afd733d31dca8884efcaa7658ebc8905fd1",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "app/academy-support.tsx",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "b668f525eb2b41d1be24cf34208a71c915c02ae60ae7daa4563549adff035561",
+          "currentHash": "b668f525eb2b41d1be24cf34208a71c915c02ae60ae7daa4563549adff035561",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "app/academy-learning-help-disclosure.tsx",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "4a323475508dbb2212eb05fb740d3492fa5f1909864d9e7854c58ccf5b2c79de",
+          "currentHash": "4a323475508dbb2212eb05fb740d3492fa5f1909864d9e7854c58ccf5b2c79de",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "app/academy-operations.tsx",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "d4cfcf0ff49839243093dd4f9ec003bfc94aa010e73215eb5fa11a1510c65dea",
+          "currentHash": "d4cfcf0ff49839243093dd4f9ec003bfc94aa010e73215eb5fa11a1510c65dea",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "app/academy-content-readiness.tsx",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "e50e8f413d560195a5e14cb3d851f051a05df2ba83df991e0ba351622c301045",
+          "currentHash": "e50e8f413d560195a5e14cb3d851f051a05df2ba83df991e0ba351622c301045",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "app/academy-acceptance.ts",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "ce2bf2f00d49a64b72da02dbb54e1b2ea9af3a7306b43af87ed1c81555e325bf",
+          "currentHash": "ce2bf2f00d49a64b72da02dbb54e1b2ea9af3a7306b43af87ed1c81555e325bf",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "app/globals.css",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "8524d96594f222401d8c3ee1ba633fcbe5d70a67f12d4fdc476b3c8633cad7ae",
+          "currentHash": "8524d96594f222401d8c3ee1ba633fcbe5d70a67f12d4fdc476b3c8633cad7ae",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "lib/academy-content-readiness.ts",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "6f52a762509eb49a65d3753b7d8354c640b60ccc007c15ad8a1dca005242caa2",
+          "currentHash": "6f52a762509eb49a65d3753b7d8354c640b60ccc007c15ad8a1dca005242caa2",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "lib/academy-content-readiness-adoption.mjs",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "a9d30abbd0f7fac2f66bd2f1f38db5aea68819edd76c867ff7be6698a538b79a",
+          "currentHash": "a9d30abbd0f7fac2f66bd2f1f38db5aea68819edd76c867ff7be6698a538b79a",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "lib/academy-inclusive-learning.ts",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "483e64778ad762e93880a5ea41bec0b873fe48c62bdc1aa5fefc0b26c8f626ac",
+          "currentHash": "483e64778ad762e93880a5ea41bec0b873fe48c62bdc1aa5fefc0b26c8f626ac",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "lib/academy-authoring.ts",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "a4c8b781153b2b811ef4f9b0ff853520f757ac9dda7cb3e927be7b485809de5f",
+          "currentHash": "a4c8b781153b2b811ef4f9b0ff853520f757ac9dda7cb3e927be7b485809de5f",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        }
+      ]
+    },
+    {
+      "id": "E13-PARTNER-BROWSER",
+      "executionStatus": "EXECUTED_READ_ONLY_LOCAL",
+      "counts": {
+        "scenarios": 20,
+        "forbiddenRequests": 0,
+        "pageErrors": 0
+      },
+      "scope": "Adopted personal inspector, current shell, generic briefs and scope changes using GET-only existing fictional identities.",
+      "limitations": "In-memory display choices/receipts do not prove stored mutation or partner dispatch. Layout combinations belong inside20scenarios.",
+      "files": [
+        {
+          "path": "work/aplyd-academy/docs/as-built-v0.13/evidence/partner-browser.json",
+          "sha256": "b001a4717cb347bcdb9e2198558da071242dc09555ae3925c8c17fb4e2966b87",
+          "bytes": 100843
+        }
+      ],
+      "reportedSourceAgreementAtReview": [
+        {
+          "source": "lib/academy-partner-readiness.ts",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "3c99c402213c2341bb523f6a389780dbe155a635629b429e8fe9b0b658eed07c",
+          "currentHash": "3c99c402213c2341bb523f6a389780dbe155a635629b429e8fe9b0b658eed07c",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "app/academy-partner-readiness.tsx",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "90a77aebe71a37975fdbe0caf858b91067da88c7b36c4ff50ff7bb650c38afbe",
+          "currentHash": "90a77aebe71a37975fdbe0caf858b91067da88c7b36c4ff50ff7bb650c38afbe",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "app/academy-partner-readiness.module.css",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "29894f44b3308c87e066b87a758239596284a53bd6359a7333738e5502cc9ce6",
+          "currentHash": "29894f44b3308c87e066b87a758239596284a53bd6359a7333738e5502cc9ce6",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "app/academy-ecosystems.tsx",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "f16a4e2bbdade40faeedc0068afa1ec8f989e5e35642fe81234490f2828862d0",
+          "currentHash": "f16a4e2bbdade40faeedc0068afa1ec8f989e5e35642fe81234490f2828862d0",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "lib/academy-ecosystems.ts",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "d12b3a3c6af5b35a38af5e99b0fc674ead9f0cb7ed58c0d31c4a4f5d2a6af19a",
+          "currentHash": "d12b3a3c6af5b35a38af5e99b0fc674ead9f0cb7ed58c0d31c4a4f5d2a6af19a",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "lib/academy-engine.ts",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "4747712f10c39cc08eaed66939bd99013d8064e4eb3097218590fbcc63bebff7",
+          "currentHash": "4747712f10c39cc08eaed66939bd99013d8064e4eb3097218590fbcc63bebff7",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "lib/academy-curriculum.ts",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "02a7e32aa7f56e1bc06694987946f804d33fdd17ab781749142f72f42bda722c",
+          "currentHash": "02a7e32aa7f56e1bc06694987946f804d33fdd17ab781749142f72f42bda722c",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "lib/curriculum.json",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "9fc83c8dd615456db8f49d140f56bff566e05c14d32ebb70a14cdcb73078b7e4",
+          "currentHash": "9fc83c8dd615456db8f49d140f56bff566e05c14d32ebb70a14cdcb73078b7e4",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "lib/curriculum-versions/0.1-review-draft.json",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "9fc83c8dd615456db8f49d140f56bff566e05c14d32ebb70a14cdcb73078b7e4",
+          "currentHash": "9fc83c8dd615456db8f49d140f56bff566e05c14d32ebb70a14cdcb73078b7e4",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "app/academy.tsx",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "8128ec1b0d8abccadb41d46e25c812ffb0ee694453d2df9eedd44f465efdb52f",
+          "currentHash": "8128ec1b0d8abccadb41d46e25c812ffb0ee694453d2df9eedd44f465efdb52f",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "app/academy-context.tsx",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "15ae4ab655c7ad8a680f89aa63010afd733d31dca8884efcaa7658ebc8905fd1",
+          "currentHash": "15ae4ab655c7ad8a680f89aa63010afd733d31dca8884efcaa7658ebc8905fd1",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        }
+      ]
+    },
+    {
+      "id": "E12-RECORD-PURE",
+      "executionStatus": "EXECUTED_ACTUAL_ROOT",
+      "counts": {
+        "focusedGroups": 98
+      },
+      "scope": "Actual adopted service/response/client models and captured-projection agreement.",
+      "limitations": "Do not add focused groups to full root transcript; provider/issuer/transport excluded.",
+      "files": [
+        {
+          "path": "work/aplyd-academy/docs/as-built-v0.12/evidence/record-pure-tests.tap",
+          "sha256": "5af17bb7705c050786401030e0ca446a7da5d5b5d2e371482bef9725e1b4a3ff",
+          "bytes": 10229
+        },
+        {
+          "path": "outputs/aplyd-academy-eight-hour/record-verification/integrated/final-record-verification.json",
+          "sha256": "f3764406fa6d5a436c7480adf41ce39bcfc37d0079fe1be8ee0a318174053fab",
+          "bytes": 2265
+        }
+      ],
+      "reportedSourceAgreementAtReview": []
+    },
+    {
+      "id": "E12-FORGERY",
+      "executionStatus": "EXECUTED_ACTUAL_MODEL",
+      "counts": {
+        "baselineRehashedAccepted": 14,
+        "fixedRehashedRejected": 14
+      },
+      "scope": "Adopted correction compares full thin metadata/history with detached captured saved projection.",
+      "limitations": "Demonstrates the fixed vectors; not a public signature, cryptographic issuer identity or unrestricted vulnerability scan.",
+      "files": [
+        {
+          "path": "work/aplyd-academy/docs/as-built-v0.12/evidence/record-forgery-proof.json",
+          "sha256": "2019bd90fd54e0511d23df6456da081574b40dce711151f1255f9ff6038e4387",
+          "bytes": 1970
+        }
+      ],
+      "reportedSourceAgreementAtReview": []
+    },
+    {
+      "id": "E12-RECORD-API",
+      "executionStatus": "EXECUTED_LOCAL_FIXTURE",
+      "counts": {
+        "assertions": 230,
+        "scenarios": 9,
+        "readOnlyRecordChecks": 20
+      },
+      "scope": "Earlier approved fixture workflow; current record route/service remain unchanged after client-only consistency fix.",
+      "limitations": "Fixture creation occurred before the current approval gate; do not rerun held mutating fixtures without explicit answer. Record checks themselves read-only.",
+      "files": [
+        {
+          "path": "work/aplyd-academy/docs/as-built-v0.12/evidence/record-api.json",
+          "sha256": "ffea46dca73bf533d18f759f5af98d460fc672ced5fb7824915587b33880cca6",
+          "bytes": 9324
+        }
+      ],
+      "reportedSourceAgreementAtReview": [
+        {
+          "source": "lib/academy-record-check.ts",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "a0cb4c97794b7416be57e0b136b7d4f79c9eafbaac1ac419e09d685565b9296c",
+          "currentHash": "a0cb4c97794b7416be57e0b136b7d4f79c9eafbaac1ac419e09d685565b9296c",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "lib/academy-record-service.ts",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "fbfee7ad07fd23f865c0c785dad5147c7ffc05e0a7e7021bcff52d61f355fef6",
+          "currentHash": "fbfee7ad07fd23f865c0c785dad5147c7ffc05e0a7e7021bcff52d61f355fef6",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "lib/academy-record-response.ts",
+          "currentExists": true,
+          "agrees": false,
+          "evidenceHash": "b30fce80b70cc91c522b870ed9ee91f35812924c3bd27362e9ebb3274be732fa",
+          "currentHash": "13d20bfa2927df8a3a4b7d70f2c8d05278a8550b8d7910030815427355bdb174",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "app/academy-record-client.ts",
+          "currentExists": true,
+          "agrees": false,
+          "evidenceHash": "28622b96caf15521841b95edb638ea59f33e2e9499c9b5a4cc34d2d887429e5d",
+          "currentHash": "a836e710d1e58ab60a185fa0cb224c1e18a16d452db8b5bca0dd4280f44a689f",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "app/academy-record-status.tsx",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "5a188a2a708e346e049bf5ec724e1789e02345e2f12bd5ccead1ae902bee9c48",
+          "currentHash": "5a188a2a708e346e049bf5ec724e1789e02345e2f12bd5ccead1ae902bee9c48",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "app/api/academy/records/check/route.ts",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "9f161b661c9d5fa3fe45c127b98914b8bc4e332477ba051c32370bac94244da0",
+          "currentHash": "9f161b661c9d5fa3fe45c127b98914b8bc4e332477ba051c32370bac94244da0",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "app/academy.tsx",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "8128ec1b0d8abccadb41d46e25c812ffb0ee694453d2df9eedd44f465efdb52f",
+          "currentHash": "8128ec1b0d8abccadb41d46e25c812ffb0ee694453d2df9eedd44f465efdb52f",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "app/academy-settings.tsx",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "bb1152706c67db928161c8e6a5580a0d801f2b3ca18b93f3acd406c8fc6ca78d",
+          "currentHash": "bb1152706c67db928161c8e6a5580a0d801f2b3ca18b93f3acd406c8fc6ca78d",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "app/academy-studio.tsx",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "73768ce0f22d1cb32c7d644e5283b06035bd4c1a6b59201cb3126ff3496415d4",
+          "currentHash": "73768ce0f22d1cb32c7d644e5283b06035bd4c1a6b59201cb3126ff3496415d4",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "app/academy-context.tsx",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "15ae4ab655c7ad8a680f89aa63010afd733d31dca8884efcaa7658ebc8905fd1",
+          "currentHash": "15ae4ab655c7ad8a680f89aa63010afd733d31dca8884efcaa7658ebc8905fd1",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "app/globals.css",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "8524d96594f222401d8c3ee1ba633fcbe5d70a67f12d4fdc476b3c8633cad7ae",
+          "currentHash": "8524d96594f222401d8c3ee1ba633fcbe5d70a67f12d4fdc476b3c8633cad7ae",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "lib/academy-curriculum.ts",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "02a7e32aa7f56e1bc06694987946f804d33fdd17ab781749142f72f42bda722c",
+          "currentHash": "02a7e32aa7f56e1bc06694987946f804d33fdd17ab781749142f72f42bda722c",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "lib/academy-engine.ts",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "4747712f10c39cc08eaed66939bd99013d8064e4eb3097218590fbcc63bebff7",
+          "currentHash": "4747712f10c39cc08eaed66939bd99013d8064e4eb3097218590fbcc63bebff7",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "lib/academy-teams.ts",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "ff3430cb05af22f8ce953f1f30cd9ff20bc536bbef0dfab6942014b10183b807",
+          "currentHash": "ff3430cb05af22f8ce953f1f30cd9ff20bc536bbef0dfab6942014b10183b807",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "lib/academy-authoring.ts",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "a4c8b781153b2b811ef4f9b0ff853520f757ac9dda7cb3e927be7b485809de5f",
+          "currentHash": "a4c8b781153b2b811ef4f9b0ff853520f757ac9dda7cb3e927be7b485809de5f",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "lib/curriculum.json",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "9fc83c8dd615456db8f49d140f56bff566e05c14d32ebb70a14cdcb73078b7e4",
+          "currentHash": "9fc83c8dd615456db8f49d140f56bff566e05c14d32ebb70a14cdcb73078b7e4",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "lib/curriculum-versions/0.1-review-draft.json",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "9fc83c8dd615456db8f49d140f56bff566e05c14d32ebb70a14cdcb73078b7e4",
+          "currentHash": "9fc83c8dd615456db8f49d140f56bff566e05c14d32ebb70a14cdcb73078b7e4",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        }
+      ]
+    },
+    {
+      "id": "E12-RECORD-BROWSER",
+      "executionStatus": "EXECUTED_READ_ONLY_LOCAL",
+      "counts": {
+        "scenarios": 31,
+        "readOnlyRecordChecks": 32,
+        "pageErrors": 0,
+        "forbiddenRequests": 0
+      },
+      "scope": "Corrected actual record UI with only local GET and read-only record-check POST.",
+      "limitations": "Unknown-pin vector is intercepted display, not persisted corruption. Full mutating browser workflow remains held.",
+      "files": [
+        {
+          "path": "work/aplyd-academy/docs/as-built-v0.12/evidence/record-browser.json",
+          "sha256": "61e3f7fc0a73829ea5203ae20d67331ec4fa05b9a1f62eb19beeebaee601e9ca",
+          "bytes": 188185
+        }
+      ],
+      "reportedSourceAgreementAtReview": [
+        {
+          "source": "lib/academy-record-check.ts",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "a0cb4c97794b7416be57e0b136b7d4f79c9eafbaac1ac419e09d685565b9296c",
+          "currentHash": "a0cb4c97794b7416be57e0b136b7d4f79c9eafbaac1ac419e09d685565b9296c",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "lib/academy-record-service.ts",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "fbfee7ad07fd23f865c0c785dad5147c7ffc05e0a7e7021bcff52d61f355fef6",
+          "currentHash": "fbfee7ad07fd23f865c0c785dad5147c7ffc05e0a7e7021bcff52d61f355fef6",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "lib/academy-record-response.ts",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "13d20bfa2927df8a3a4b7d70f2c8d05278a8550b8d7910030815427355bdb174",
+          "currentHash": "13d20bfa2927df8a3a4b7d70f2c8d05278a8550b8d7910030815427355bdb174",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "app/academy-record-client.ts",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "a836e710d1e58ab60a185fa0cb224c1e18a16d452db8b5bca0dd4280f44a689f",
+          "currentHash": "a836e710d1e58ab60a185fa0cb224c1e18a16d452db8b5bca0dd4280f44a689f",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "app/academy-record-status.tsx",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "5a188a2a708e346e049bf5ec724e1789e02345e2f12bd5ccead1ae902bee9c48",
+          "currentHash": "5a188a2a708e346e049bf5ec724e1789e02345e2f12bd5ccead1ae902bee9c48",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "app/api/academy/records/check/route.ts",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "9f161b661c9d5fa3fe45c127b98914b8bc4e332477ba051c32370bac94244da0",
+          "currentHash": "9f161b661c9d5fa3fe45c127b98914b8bc4e332477ba051c32370bac94244da0",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "app/academy.tsx",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "8128ec1b0d8abccadb41d46e25c812ffb0ee694453d2df9eedd44f465efdb52f",
+          "currentHash": "8128ec1b0d8abccadb41d46e25c812ffb0ee694453d2df9eedd44f465efdb52f",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "app/academy-settings.tsx",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "bb1152706c67db928161c8e6a5580a0d801f2b3ca18b93f3acd406c8fc6ca78d",
+          "currentHash": "bb1152706c67db928161c8e6a5580a0d801f2b3ca18b93f3acd406c8fc6ca78d",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "app/academy-studio.tsx",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "73768ce0f22d1cb32c7d644e5283b06035bd4c1a6b59201cb3126ff3496415d4",
+          "currentHash": "73768ce0f22d1cb32c7d644e5283b06035bd4c1a6b59201cb3126ff3496415d4",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "app/academy-context.tsx",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "15ae4ab655c7ad8a680f89aa63010afd733d31dca8884efcaa7658ebc8905fd1",
+          "currentHash": "15ae4ab655c7ad8a680f89aa63010afd733d31dca8884efcaa7658ebc8905fd1",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "app/globals.css",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "8524d96594f222401d8c3ee1ba633fcbe5d70a67f12d4fdc476b3c8633cad7ae",
+          "currentHash": "8524d96594f222401d8c3ee1ba633fcbe5d70a67f12d4fdc476b3c8633cad7ae",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "lib/academy-curriculum.ts",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "02a7e32aa7f56e1bc06694987946f804d33fdd17ab781749142f72f42bda722c",
+          "currentHash": "02a7e32aa7f56e1bc06694987946f804d33fdd17ab781749142f72f42bda722c",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "lib/academy-engine.ts",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "4747712f10c39cc08eaed66939bd99013d8064e4eb3097218590fbcc63bebff7",
+          "currentHash": "4747712f10c39cc08eaed66939bd99013d8064e4eb3097218590fbcc63bebff7",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "lib/academy-teams.ts",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "ff3430cb05af22f8ce953f1f30cd9ff20bc536bbef0dfab6942014b10183b807",
+          "currentHash": "ff3430cb05af22f8ce953f1f30cd9ff20bc536bbef0dfab6942014b10183b807",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "lib/academy-authoring.ts",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "a4c8b781153b2b811ef4f9b0ff853520f757ac9dda7cb3e927be7b485809de5f",
+          "currentHash": "a4c8b781153b2b811ef4f9b0ff853520f757ac9dda7cb3e927be7b485809de5f",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "lib/curriculum.json",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "9fc83c8dd615456db8f49d140f56bff566e05c14d32ebb70a14cdcb73078b7e4",
+          "currentHash": "9fc83c8dd615456db8f49d140f56bff566e05c14d32ebb70a14cdcb73078b7e4",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "lib/curriculum-versions/0.1-review-draft.json",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "9fc83c8dd615456db8f49d140f56bff566e05c14d32ebb70a14cdcb73078b7e4",
+          "currentHash": "9fc83c8dd615456db8f49d140f56bff566e05c14d32ebb70a14cdcb73078b7e4",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        }
+      ]
+    },
+    {
+      "id": "E12-GUIDANCE",
+      "executionStatus": "EXECUTED_LOCAL_BROWSER_SELECTED_PARTS",
+      "counts": {
+        "selectedPassingAssertions": 73,
+        "parts": [
+          58,
+          15
+        ]
+      },
+      "scope": "Actual main guidance run plus focused shared completion; initial harness-only stops retained.",
+      "limitations": "Not one successful uninterrupted73-assertion run; duplicate first-attempt assertions excluded.",
+      "files": [
+        {
+          "path": "work/aplyd-academy/docs/as-built-v0.12/evidence/guidance-browser.json",
+          "sha256": "db4f5b7992dedb45dcffc72b6bf1889b6515c4eae02eb355a25fc5694d183133",
+          "bytes": 3130
+        }
+      ],
+      "reportedSourceAgreementAtReview": [
+        {
+          "source": "app/academy.tsx",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "8128ec1b0d8abccadb41d46e25c812ffb0ee694453d2df9eedd44f465efdb52f",
+          "currentHash": "8128ec1b0d8abccadb41d46e25c812ffb0ee694453d2df9eedd44f465efdb52f",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "app/academy-context-select.tsx",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "2cce98d1dc80b22194b00e5b4d038fc255e9e662ae55c89b1ab20b816005a681",
+          "currentHash": "2cce98d1dc80b22194b00e5b4d038fc255e9e662ae55c89b1ab20b816005a681",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "app/academy-plan.tsx",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "6d462d9600249ab7e30908d6eddf56edf6f4fa7d579794d5a14cc146861f711a",
+          "currentHash": "6d462d9600249ab7e30908d6eddf56edf6f4fa7d579794d5a14cc146861f711a",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "app/academy-learning.tsx",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "e37c481d7e99d5df03ae442c0ff473a7ff1d298b10a01ee0327e77ea3324aa7f",
+          "currentHash": "e37c481d7e99d5df03ae442c0ff473a7ff1d298b10a01ee0327e77ea3324aa7f",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "app/academy-learner-guidance.tsx",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "354fd8900ebe30b46d71327c69c81acc4c2378fc2150f1b99ff94135829e05d1",
+          "currentHash": "354fd8900ebe30b46d71327c69c81acc4c2378fc2150f1b99ff94135829e05d1",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "lib/academy-learner-guidance.mjs",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "831efcb74fed6f7f2dc7629d411be41db3255f355c163fdb1cc861f7bb5067c9",
+          "currentHash": "831efcb74fed6f7f2dc7629d411be41db3255f355c163fdb1cc861f7bb5067c9",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "lib/academy-plan.ts",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "c619f823371951643585bfe5c5b55cb071454791bc19b958caa635c5fbfd0f9b",
+          "currentHash": "c619f823371951643585bfe5c5b55cb071454791bc19b958caa635c5fbfd0f9b",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "lib/academy-engine.ts",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "4747712f10c39cc08eaed66939bd99013d8064e4eb3097218590fbcc63bebff7",
+          "currentHash": "4747712f10c39cc08eaed66939bd99013d8064e4eb3097218590fbcc63bebff7",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "lib/curriculum.json",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "9fc83c8dd615456db8f49d140f56bff566e05c14d32ebb70a14cdcb73078b7e4",
+          "currentHash": "9fc83c8dd615456db8f49d140f56bff566e05c14d32ebb70a14cdcb73078b7e4",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "app/globals.css",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "8524d96594f222401d8c3ee1ba633fcbe5d70a67f12d4fdc476b3c8633cad7ae",
+          "currentHash": "8524d96594f222401d8c3ee1ba633fcbe5d70a67f12d4fdc476b3c8633cad7ae",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        }
+      ]
+    },
+    {
+      "id": "E12-TEMPLATE-PURE",
+      "executionStatus": "EXECUTED_ACTUAL_MODEL",
+      "counts": {
+        "groups": 33
+      },
+      "scope": "Actual integrated template composition/current owner/review/budget/original-byte boundaries.",
+      "limitations": "Model integration is not full native API/browser workflow.",
+      "files": [
+        {
+          "path": "work/aplyd-academy/docs/as-built-v0.12/evidence/template-pure-tests.tap",
+          "sha256": "94ea7454ea702c2650c01ae92acc16ff11a5010112df86b6aa08ff14c71495f2",
+          "bytes": 3531
+        },
+        {
+          "path": "work/aplyd-academy/docs/as-built-v0.12/evidence/template-source.json",
+          "sha256": "85da95e791999ec0e3e3ebb64dd4e96d534635b6eb543d35a536527f19d1a8ab",
+          "bytes": 1792
+        }
+      ],
+      "reportedSourceAgreementAtReview": []
+    },
+    {
+      "id": "E12-TEMPLATE-HELD",
+      "executionStatus": "PREPARED_NOT_RUN_APPROVAL_PENDING",
+      "counts": {
+        "executedWorkflowCases": 0
+      },
+      "scope": "Portable template API/browser fixture suites prepared.",
+      "limitations": "Automatic approval reviewer rejected mutating fixture execution before any requests; explicit user local fictional-test-data answer pending.",
+      "files": [
+        {
+          "path": "work/aplyd-academy/tests/job-template-qa/README.txt",
+          "sha256": "686416da85f139790bcdbc1587a3c99891296603cd755146b389537e98f58c21",
+          "bytes": 766
+        }
+      ],
+      "reportedSourceAgreementAtReview": []
+    },
+    {
+      "id": "E12-RECORD-HELD",
+      "executionStatus": "PREPARED_NOT_RUN_APPROVAL_PENDING",
+      "counts": {
+        "executedFullMutationBrowserCases": 0
+      },
+      "scope": "Full mutation-capable record browser workflow held.",
+      "limitations": "Passing separate read-only suite does not claim this workflow executed.",
+      "files": [
+        {
+          "path": "outputs/aplyd-academy-eight-hour/record-verification/integrated/final-record-verification.json",
+          "sha256": "f3764406fa6d5a436c7480adf41ce39bcfc37d0079fe1be8ee0a318174053fab",
+          "bytes": 2265
+        }
+      ],
+      "reportedSourceAgreementAtReview": []
+    },
+    {
+      "id": "E11-PURE",
+      "executionStatus": "EXECUTED_EARLIER_ACTUAL_ROOT",
+      "counts": {
+        "passedEntries": 427,
+        "failedEntries": 0
+      },
+      "scope": "v0.11 exact-source rules; later retained rule transcript is current model proof.",
+      "limitations": "Historical checkpoint, not current test total.",
+      "files": [
+        {
+          "path": "work/aplyd-academy/docs/as-built-v0.11/evidence/pure-tests.tap",
+          "sha256": "0953f89426cf48fcbb1dbf266e34558c0a19d19cbd99cd753a69c15a5aa8c683",
+          "bytes": 40876
+        }
+      ],
+      "reportedSourceAgreementAtReview": []
+    },
+    {
+      "id": "E11-API",
+      "executionStatus": "EXECUTED_EARLIER_LOCAL_FIXTURE",
+      "counts": {
+        "assertions": 628,
+        "loopbackCalls": 544
+      },
+      "scope": "Earlier approved fictional integrated personal/shared workflows and final source-bound regression.",
+      "limitations": "Protected domain/persistence rules retained; later route fixed-log byte change is validated separately. No new held fixture/API run claimed.",
+      "files": [
+        {
+          "path": "work/aplyd-academy/docs/as-built-v0.11/evidence/final-integrated-api.json",
+          "sha256": "112a90db011b6db12f8a9f33ca3561d969e8130fc308a5061c3715c6cd994be1",
+          "bytes": 157180
+        },
+        {
+          "path": "work/aplyd-academy/docs/as-built-v0.11/evidence/integrated-qa.json",
+          "sha256": "d4b8631e0b94cc3575926fbc9de51f4ad3f56137ba56b447bde3c5a03e3c9d05",
+          "bytes": 1559
+        }
+      ],
+      "reportedSourceAgreementAtReview": []
+    },
+    {
+      "id": "E11-DIRECTORY",
+      "executionStatus": "EXECUTED_LOCAL_D1",
+      "counts": {
+        "checks": 16
+      },
+      "scope": "Local indexed directory, retained inactive discovery and audit behavior.",
+      "limitations": "Live seven-table native presence is separate; no production query-plan/load proof.",
+      "files": [
+        {
+          "path": "work/aplyd-academy/docs/as-built-v0.11/evidence/directory-local.json",
+          "sha256": "41084cce3047e0757c2a959d68f4b2ecd6911ed1af8454655e5f975e827b5e5a",
+          "bytes": 928
+        }
+      ],
+      "reportedSourceAgreementAtReview": []
+    },
+    {
+      "id": "E11-ISOLATED-D1",
+      "executionStatus": "EXECUTED_LOCAL_D1",
+      "counts": {
+        "correctedChecks": 23
+      },
+      "scope": "Corrected isolated local D1 exact RETURNING/CAS/trigger compatibility.",
+      "limitations": "Earlier meta.changes-based harness stop not counted as a passing result; not a live production migration run.",
+      "files": [
+        {
+          "path": "work/aplyd-academy/.sites-runtime/directory-probe/result-returning.json",
+          "sha256": "276136a7654b47b5eb0bb428b32e7197e9d8e4b3f7315003c056c6a21da56170",
+          "bytes": 4539
+        }
+      ],
+      "reportedSourceAgreementAtReview": []
+    },
+    {
+      "id": "E11-RESPONSE",
+      "executionStatus": "EXECUTED_EARLIER_LOCAL_BROWSER",
+      "counts": {
+        "scenarios": 43
+      },
+      "scope": "Accepted response/identity/nonJSON/conflict/lost-ack recovery and retained input.",
+      "limitations": "Bounded fictional local/browser interception; source agreement evaluated separately per artifact.",
+      "files": [
+        {
+          "path": "work/aplyd-academy/docs/as-built-v0.11/evidence/response-recovery-browser.json",
+          "sha256": "39839621950034eea7c8c9a32bcd6f1bfb2e5b6a3cdf9a0ac0ab0b8cb321b1a8",
+          "bytes": 1294
+        }
+      ],
+      "reportedSourceAgreementAtReview": []
+    },
+    {
+      "id": "E11-SNAPSHOT",
+      "executionStatus": "EXECUTED_EARLIER_LOCAL",
+      "counts": {
+        "apiChecks": 4,
+        "browserChecks": 6
+      },
+      "scope": "Freshest own snapshot wrapper, local integrity/account inspection.",
+      "limitations": "Unsigned/un-encrypted inspection copy; no restore/import/upload.",
+      "files": [
+        {
+          "path": "work/aplyd-academy/.sites-runtime/snapshot-api/result.json",
+          "sha256": "6ba18d87802051d74852ec6df29b351e6afb13e2ec0c500193562a80422091b5",
+          "bytes": 737
+        },
+        {
+          "path": "work/aplyd-academy/.sites-runtime/snapshot-browser/result.json",
+          "sha256": "c4fa251ca8ad32d76742483339cd30b75978203e1ea6bbebf96be13a300958b9",
+          "bytes": 621
+        }
+      ],
+      "reportedSourceAgreementAtReview": [
+        {
+          "source": "app/academy-snapshot.tsx",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "ab4e317474eaf3be60eba2317c53f5e92a012f1740b4bc134b536cd74c25341a",
+          "currentHash": "ab4e317474eaf3be60eba2317c53f5e92a012f1740b4bc134b536cd74c25341a",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "lib/academy-snapshot.ts",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "bc557badd8bf446cc25a95ba3e074dcf19c3968ad5911bcc20ad6f3aee667c00",
+          "currentHash": "bc557badd8bf446cc25a95ba3e074dcf19c3968ad5911bcc20ad6f3aee667c00",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "app/academy-settings.tsx",
+          "currentExists": true,
+          "agrees": false,
+          "evidenceHash": "5c2db2aa1e63f2cc067f7ac8d6533c70d2c0c4fd2e86fda3fbd7eeb5a45eee5a",
+          "currentHash": "bb1152706c67db928161c8e6a5580a0d801f2b3ca18b93f3acd406c8fc6ca78d",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        }
+      ]
+    },
+    {
+      "id": "E11-OFFLINE",
+      "executionStatus": "EXECUTED_EARLIER_LOCAL_BROWSER",
+      "counts": {
+        "assertions": 89
+      },
+      "scope": "Exact static packet, personal offline/sealed draft preparation, explicit current refresh/compare/draft save.",
+      "limitations": "Authenticated app remains online; no private packet evidence/keys or automatic submission.",
+      "files": [
+        {
+          "path": "work/aplyd-academy/docs/as-built-v0.11/evidence/offline-browser.json",
+          "sha256": "4ac58636ca68760a0dd8aa1bd15f2794ebbfa557833fb761b393c31a3053379f",
+          "bytes": 5348
+        }
+      ],
+      "reportedSourceAgreementAtReview": [
+        {
+          "source": "app/academy-offline.tsx",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "11fcd7d24a5934fe1366b1d322d4f5681decc94fb1a8023eddc838d167e6bd2b",
+          "currentHash": "11fcd7d24a5934fe1366b1d322d4f5681decc94fb1a8023eddc838d167e6bd2b",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "app/academy-offline.module.css",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "5b99282f143e0d69e6721e4d0ad2a05cb08e6820036b3b38f5aefd8343d375a9",
+          "currentHash": "5b99282f143e0d69e6721e4d0ad2a05cb08e6820036b3b38f5aefd8343d375a9",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "lib/academy-offline.ts",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "0f5cc198c757803678b8e2d4adfe3a979c377b5fef94a4ff42692912ed19223c",
+          "currentHash": "0f5cc198c757803678b8e2d4adfe3a979c377b5fef94a4ff42692912ed19223c",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "lib/academy-offline-sealed.ts",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "50e37576f6f1cf2efce106e6f1c5f894bffb4e777cb5becf1e6fe36dc9a48f3e",
+          "currentHash": "50e37576f6f1cf2efce106e6f1c5f894bffb4e777cb5becf1e6fe36dc9a48f3e",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "app/academy.tsx",
+          "currentExists": true,
+          "agrees": false,
+          "evidenceHash": "87f7e6ad61b3badd90c5b8264060791d18b02abb9f090e86c4b85312e316ec31",
+          "currentHash": "8128ec1b0d8abccadb41d46e25c812ffb0ee694453d2df9eedd44f465efdb52f",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "app/globals.css",
+          "currentExists": true,
+          "agrees": false,
+          "evidenceHash": "1974ec2e051b924d728512d138b7542bd17756b9bf54a58202564ad2386c4628",
+          "currentHash": "8524d96594f222401d8c3ee1ba633fcbe5d70a67f12d4fdc476b3c8633cad7ae",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        }
+      ]
+    },
+    {
+      "id": "E11-INCLUSIVE",
+      "executionStatus": "EXECUTED_EARLIER_LOCAL_BROWSER",
+      "counts": {
+        "assertions": 67
+      },
+      "scope": "Own request preferences, explicit browser voice and exact-version declared read-back.",
+      "limitations": "No reviewed translation, staffed assistance or human screen-reader certification.",
+      "files": [
+        {
+          "path": "work/aplyd-academy/docs/as-built-v0.11/evidence/inclusive-browser.json",
+          "sha256": "4036d8277d84cdf34057e0647bb23288dd152acf66b78b2d43d0673a814b3a72",
+          "bytes": 3930
+        }
+      ],
+      "reportedSourceAgreementAtReview": [
+        {
+          "source": "app/academy-inclusive-learning.tsx",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "c20d9f2802ef65521007dcff027cda836107c745cf7081e5d9b4074baac180da",
+          "currentHash": "c20d9f2802ef65521007dcff027cda836107c745cf7081e5d9b4074baac180da",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "app/academy-learning-drafts.tsx",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "7925ba46c75f04351d65ff84f4b95bf4ccaf6d6da4d9979bd4d806f5c8246c9e",
+          "currentHash": "7925ba46c75f04351d65ff84f4b95bf4ccaf6d6da4d9979bd4d806f5c8246c9e",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "app/academy-learning.tsx",
+          "currentExists": true,
+          "agrees": false,
+          "evidenceHash": "a092ca0ff1d1c8ac20067aeecd622e6341bc16c07929ea0a9da5291bca1a8d48",
+          "currentHash": "e37c481d7e99d5df03ae442c0ff473a7ff1d298b10a01ee0327e77ea3324aa7f",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "app/academy-snapshot.tsx",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "ab4e317474eaf3be60eba2317c53f5e92a012f1740b4bc134b536cd74c25341a",
+          "currentHash": "ab4e317474eaf3be60eba2317c53f5e92a012f1740b4bc134b536cd74c25341a",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "components/ui/dialog.tsx",
+          "currentExists": true,
+          "agrees": true,
+          "evidenceHash": "37eff78da23f122fc5606b8937f46ff4c95ed38d9d59eb9a52407e2b6aa6a953",
+          "currentHash": "37eff78da23f122fc5606b8937f46ff4c95ed38d9d59eb9a52407e2b6aa6a953",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "app/globals.css",
+          "currentExists": true,
+          "agrees": false,
+          "evidenceHash": "1974ec2e051b924d728512d138b7542bd17756b9bf54a58202564ad2386c4628",
+          "currentHash": "8524d96594f222401d8c3ee1ba633fcbe5d70a67f12d4fdc476b3c8633cad7ae",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        }
+      ]
+    },
+    {
+      "id": "E10-LIBRARY",
+      "executionStatus": "EXECUTED_EARLIER_LOCAL",
+      "counts": {
+        "collections": 5,
+        "resources": 20
+      },
+      "scope": "Reference Library original-file provenance and bounded local UI/download acceptance.",
+      "limitations": "Earlier library baseline; source/reference teaching guidance does not approve content/domain/issuer authority.",
+      "files": [
+        {
+          "path": "work/aplyd-academy/docs/as-built-v0.10/implementation-readiness/evidence/v10-library-acceptance.json",
+          "sha256": "0280e8be37ec355dc32d16e07e704b42abdda1b3683b6b3637d0b3ebd878da78",
+          "bytes": 1509
+        },
+        {
+          "path": "work/aplyd-academy/docs/as-built-v0.10/implementation-readiness/evidence/v10-library-manifest-result.json",
+          "sha256": "a42c156b79bbf23bc4fa95fb82877ebfb3259028f62dbed1e49d1021f3e25e70",
+          "bytes": 8948
+        }
+      ],
+      "reportedSourceAgreementAtReview": []
+    },
+    {
+      "id": "E13-STREAM-DEFERRED",
+      "executionStatus": "DEFERRED_FAILED_CANDIDATE",
+      "counts": {
+        "nativeVariantsFailed": 3
+      },
+      "scope": "Outside-checkout streaming variants failed immediate native recovery after oversized request; retained baseline passed separately.",
+      "limitations": "No candidate production deployment; passing pure29groups did not establish native compatibility.",
+      "files": [
+        {
+          "path": "work/aplyd-academy/docs/as-built-v0.13/evidence/deferred-stream-original.json",
+          "sha256": "8614d9b0438cf0e31a227cf407e314cd49b09d827ad0d8bbce4b704d2a4b3323",
+          "bytes": 3163
+        },
+        {
+          "path": "work/aplyd-academy/docs/as-built-v0.13/evidence/deferred-stream-bounded.json",
+          "sha256": "6da103cbcd018dbe90410db37488b5b2c42ed817bddee877648280d340bbbf09",
+          "bytes": 3163
+        },
+        {
+          "path": "work/aplyd-academy/docs/as-built-v0.13/evidence/deferred-stream-size-policy.json",
+          "sha256": "61d948e993697ef2c92dc8fe285a9c67eb6efaca341db3c9d1d4681cd0c05857",
+          "bytes": 3163
+        }
+      ],
+      "reportedSourceAgreementAtReview": [
+        {
+          "source": "lib/academy-request-body.ts",
+          "currentExists": false,
+          "agrees": false,
+          "evidenceHash": "f2afaa3857a965690bf1908ddc40219624707418047a546a2f519d3a426404b7",
+          "currentHash": null,
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "app/api/academy/route.ts",
+          "currentExists": true,
+          "agrees": false,
+          "evidenceHash": "10cf1912ded720bc16e196f3bfc31bf455fd7bb3f177d31b061a29c8a1916dfe",
+          "currentHash": "22c78adf5c62a809a1aef4505c7c047b797b7ac4f2afd42bbcb1cd3b9af338b7",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "app/api/teams/route.ts",
+          "currentExists": true,
+          "agrees": false,
+          "evidenceHash": "88e02a60d314ec6b637d9df0cfc3648a63474740888f624ee647ef28650c7247",
+          "currentHash": "6901cdab339f6ce0b4d60e3b778a6bd68d7e9d8e9807f13e81df9bbc1b29025e",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "app/api/academy/records/check/route.ts",
+          "currentExists": true,
+          "agrees": false,
+          "evidenceHash": "27f8ff9dc95eabaf27aa024b7f0e51c077b7d36e07cd8cf8f3a561bc313d8de3",
+          "currentHash": "9f161b661c9d5fa3fe45c127b98914b8bc4e332477ba051c32370bac94244da0",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "lib/academy-request-body.ts",
+          "currentExists": false,
+          "agrees": false,
+          "evidenceHash": "2c650900df0e5877aa7bd8cc0c8afe18706c5a0a01a4751ae7612cd1460fdcd0",
+          "currentHash": null,
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "app/api/academy/route.ts",
+          "currentExists": true,
+          "agrees": false,
+          "evidenceHash": "10cf1912ded720bc16e196f3bfc31bf455fd7bb3f177d31b061a29c8a1916dfe",
+          "currentHash": "22c78adf5c62a809a1aef4505c7c047b797b7ac4f2afd42bbcb1cd3b9af338b7",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "app/api/teams/route.ts",
+          "currentExists": true,
+          "agrees": false,
+          "evidenceHash": "88e02a60d314ec6b637d9df0cfc3648a63474740888f624ee647ef28650c7247",
+          "currentHash": "6901cdab339f6ce0b4d60e3b778a6bd68d7e9d8e9807f13e81df9bbc1b29025e",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "app/api/academy/records/check/route.ts",
+          "currentExists": true,
+          "agrees": false,
+          "evidenceHash": "27f8ff9dc95eabaf27aa024b7f0e51c077b7d36e07cd8cf8f3a561bc313d8de3",
+          "currentHash": "9f161b661c9d5fa3fe45c127b98914b8bc4e332477ba051c32370bac94244da0",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "lib/academy-request-body.ts",
+          "currentExists": false,
+          "agrees": false,
+          "evidenceHash": "a101242b876406cf1e6903ec1466ab3683ea0c2cf75ecf7fb8e13073ba979d74",
+          "currentHash": null,
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "app/api/academy/route.ts",
+          "currentExists": true,
+          "agrees": false,
+          "evidenceHash": "10cf1912ded720bc16e196f3bfc31bf455fd7bb3f177d31b061a29c8a1916dfe",
+          "currentHash": "22c78adf5c62a809a1aef4505c7c047b797b7ac4f2afd42bbcb1cd3b9af338b7",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "app/api/teams/route.ts",
+          "currentExists": true,
+          "agrees": false,
+          "evidenceHash": "88e02a60d314ec6b637d9df0cfc3648a63474740888f624ee647ef28650c7247",
+          "currentHash": "6901cdab339f6ce0b4d60e3b778a6bd68d7e9d8e9807f13e81df9bbc1b29025e",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        },
+        {
+          "source": "app/api/academy/records/check/route.ts",
+          "currentExists": true,
+          "agrees": false,
+          "evidenceHash": "27f8ff9dc95eabaf27aa024b7f0e51c077b7d36e07cd8cf8f3a561bc313d8de3",
+          "currentHash": "9f161b661c9d5fa3fe45c127b98914b8bc4e332477ba051c32370bac94244da0",
+          "comparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+        }
+      ]
+    },
+    {
+      "id": "E13-PUBLICATION",
+      "executionStatus": "NATIVE_DEPLOYMENT_SUCCEEDED",
+      "counts": {
+        "nativeSiteVersion": 14
+      },
+      "scope": "Exact main8a769a24415169ea24b45b6f97ae89e050c99b19 publication to existing owner-private demo at2026-10-05T21:06:00.655274+00:00. Root native receipt; no production URL fetch needed.",
+      "limitations": "Native deployment success and unchanged audience do not establish hosted identity, multi-user access, fieldUAT or production performance/restore.",
+      "files": [
+        {
+          "path": "outputs/aplyd-academy-eight-hour/m3-publication.json",
+          "sha256": "19c045a176df19a7db1934b07fdf549c88b5232ec9dde6663824d1783b403c3a",
+          "bytes": 808
+        }
+      ],
+      "reportedSourceAgreementAtReview": []
+    }
+  ],
+  "releaseRegister": "work/aplyd-academy/docs/as-built-v0.13/release-evidence.json",
+  "sourceComparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19"
+}

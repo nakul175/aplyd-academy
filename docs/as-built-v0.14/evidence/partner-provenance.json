@@ -1,0 +1,16 @@
+{
+  "passed": true,
+  "groups": 6,
+  "cases": [
+    "government-trainer-handbook: exact original section 4.6 · Procurement craft (Part 5)",
+    "government-trainer-handbook: exact original section 4.8 · Governance architecture (Part 7)",
+    "government-trainer-handbook: exact original section 4.15 · Sunset — retiring a deployment deliberately",
+    "frontline-trainer-handbook: exact original section 6.7 · The consent conversation",
+    "frontline-trainer-handbook: exact original section 8 · Before you deliver — the OPEN items",
+    "development-trainer-handbook: exact original section 4.11 · The funder's portfolio — conditions, not operations"
+  ],
+  "mode": "original-read-only-docx-text-and-checksum",
+  "limits": [
+    "Teaching provenance only. Source sections do not establish institutional authority, partner approval or current law. No original file modified."
+  ]
+}

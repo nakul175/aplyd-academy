@@ -1,0 +1,324 @@
+{
+  "reviewScope": "Actual retained source of published v0.13/main8a769a24415169ea24b45b6f97ae89e050c99b19; native version14 succeeded; M4 candidates excluded",
+  "identity": {
+    "source": "app/chatgpt-auth.ts",
+    "requiredHostHeaders": [
+      "oai-authenticated-user-id",
+      "oai-authenticated-user-email"
+    ],
+    "fullName": "Optional percent-encoded UTF8 only with matching encoding header",
+    "authorization": "Canonical current owner/member/role/scope/assignment/lifecycle decisions in domain modules; client and directory projections do not grant authority",
+    "testLimit": "Trusted-header loopback testing does not establish hosted edge header integrity or multi-user hosted acceptance"
+  },
+  "commonWriteRules": {
+    "origin": "If Origin exists it must equal request URL origin. Missing Origin is allowed.",
+    "media": "Personal/shared require application/json before semicolon without whitespace trim; record-check trims the media token.",
+    "reading": "Native Request.text; post-read limits. No incremental raw-byte cap or timeout/cancellation guarantee adopted.",
+    "json": "Malformed JSON400. Array/non-object envelopes rejected. Additional envelope-field policy differs by route.",
+    "revision": "Current aggregate revision precondition plus conditional database mutation for writes; record check uses read precondition and second revision read.",
+    "actionId": "Personal/shared: /^[a-z0-9-]{20,80}$/i",
+    "idempotency": "SHA256 of JSON.stringify(input.command); matching prior event returns latest permitted projected state with replayed:true; different hash409; no automatic retry",
+    "time": "Server mutation time, rather than browser inspector clock, supplies domain action timestamp",
+    "unexpectedFailure": "Sanitized503; personal/shared unexpected logs fixed category only; private-record route does not log private exception details",
+    "responseHeaders": [
+      "Cache-Control:no-store",
+      "X-Content-Type-Options:nosniff"
+    ]
+  },
+  "endpoints": [
+    {
+      "method": "GET",
+      "path": "/api/academy",
+      "source": "app/api/academy/route.ts:8",
+      "request": "No account selector",
+      "authority": "Current trusted own account",
+      "read": [
+        "academy_workspaces by owner"
+      ],
+      "writes": false,
+      "returns": [
+        "currentUserId",
+        "state",
+        "revision",
+        "programs",
+        "user.displayName",
+        "mode:private-pilot"
+      ],
+      "absentRow": "freshWorkspace(),revision0; no implicit insert",
+      "knownErrors": [
+        401,
+        503
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/api/academy",
+      "source": "app/api/academy/route.ts:9",
+      "envelope": {
+        "revision": "number equal current saved revision",
+        "actionId": "validated action reference",
+        "command": "personal supported command"
+      },
+      "extraEnvelopeKeys": "Not prohibited by outer route; domain command validation varies. Do not document this envelope as strict exact-key.",
+      "bodyLimit": "100000 decoded UTF16 code units after Request.text; no separate raw-byte cap",
+      "validationOrder": [
+        "optional Origin",
+        "media",
+        "native text and decoded-unit size",
+        "JSON/object",
+        "auth/DB/current own row",
+        "actionId",
+        "command hash and existing audit",
+        "revision",
+        "applyCommand",
+        "personal effective bytes",
+        "atomic update and conditional audit"
+      ],
+      "authority": "Own row; personal sample assessor/reviewer are fixture labels, not shared staff authority",
+      "tablesWritten": [
+        "academy_workspaces",
+        "academy_audit"
+      ],
+      "sizing": "1000000 effective UTF8 serialized bytes including outstanding grant withdrawal reserve",
+      "returns": [
+        "currentUserId",
+        "state",
+        "revision",
+        "replayed:true on prior matching action"
+      ],
+      "knownErrors": [
+        400,
+        401,
+        403,
+        409,
+        413,
+        415,
+        422,
+        503
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/api/academy/export",
+      "source": "app/api/academy/export/route.ts:7",
+      "request": "No account selector",
+      "authority": "Current own personal row",
+      "writes": false,
+      "returns": "aplyd-academy-personal-snapshot/1 wrapper with exact stored snapshotJson and SHA256",
+      "headers": [
+        "no-store",
+        "nosniff",
+        "Referrer-Policy:no-referrer",
+        "Content-Disposition:attachment; filename=aplyd-personal-snapshot.json"
+      ],
+      "limits": "Download is unsigned/unencrypted. Local inspection reads at most8MBfile/1MBcontent; no restore/import/upload.",
+      "knownErrors": [
+        401,
+        503
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "source": "app/api/teams/route.ts:15",
+      "requestVariants": [
+        "no query: own retained membership directory",
+        "id: canonical permitted workspace projection",
+        "invite: account-specific token preview"
+      ],
+      "authority": "Canonical retained own membership or exact normalized invited account plus current issuer authority",
+      "writes": false,
+      "read": "Indexed own directory candidates UNION legacy unprojected fallback; canonical own member filter. Invite joins token hash to current team.",
+      "returns": {
+        "directory": [
+          "workspaces:id,name,context,active,roles",
+          "user:id,name,email"
+        ],
+        "workspace": [
+          "state:own only",
+          "team:currentUserId,id,name,purpose,context,roles,active,cohorts",
+          "support/network/scoped moderation/assigned/submitted snapshots/summaries",
+          "admin-only member/invite/pending/activity/content metadata",
+          "contentVersions:exact required permitted private snapshots"
+        ],
+        "invitation": [
+          "id,workspaceId,workspaceName,purpose,roles,cohort title scopes,expiresAt,status,recipientEmail",
+          "revision"
+        ]
+      },
+      "privacy": "Admin summary does not provide another learner raw evidence/draft. Support queue headers do not provide thread bodies. Inactive retained member gets own history with roles[] and no staff/board queue.",
+      "knownErrors": [
+        400,
+        401,
+        403,
+        404,
+        409,
+        503
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "source": "app/api/teams/route.ts:17",
+      "envelope": {
+        "teamId": "current team ID; absent/falsy for create; exact invitation team for accept",
+        "revision": "integer equal current loaded revision;0 for create",
+        "actionId": "validated action reference",
+        "command": "nonarray object with supported type and exact per-command fields"
+      },
+      "extraEnvelopeKeys": "Only teamId/revision/actionId/command permitted",
+      "bodyLimit": "100000 decoded UTF16 units after native text read",
+      "validationOrder": [
+        "optional Origin",
+        "media/native text/unit size",
+        "strict JSON/object/envelope",
+        "auth/DB",
+        "hash original command",
+        "create/by-token/by-team canonical load/current membership",
+        "matching prior audit",
+        "revision",
+        "domain command/current authority",
+        "history separation and mutation budget",
+        "atomic conditional update/token/history/audit",
+        "exact RETURNING id/revision acceptance"
+      ],
+      "authority": "Current canonical role+scope+assignment+independence and lifecycle; valid create/accept are scoped exceptions before normal member lookup",
+      "tablesWritten": [
+        "academy_teams",
+        "academy_team_audit",
+        "academy_invite_tokens on winning invitation",
+        "academy_team_history when archival needed",
+        "academy_team_directory via existing member-change triggers"
+      ],
+      "returns": "Fresh projectTeam current subject/workspace and revision; replayed:true on matching prior command",
+      "sizing": "1200000 normal aggregate /1800000 protective growth caps plus support/content closure reserve; content650000 limit",
+      "knownErrors": [
+        400,
+        401,
+        403,
+        404,
+        409,
+        413,
+        415,
+        422,
+        503
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams/history",
+      "source": "app/api/teams/history/route.ts:7",
+      "query": {
+        "teamId": "required",
+        "before": "safe integer>=1, omitted defaults MAX_SAFE_INTEGER"
+      },
+      "authority": "Current active admin or moderator. Admin receives activity. Moderator receives only currently scoped cohort moderation. Roles combine.",
+      "writes": false,
+      "returns": [
+        "asOfRevision",
+        "packets:revision,archivedAt,activity,moderation",
+        "nextBefore"
+      ],
+      "pagination": "Fetch6 rows below before; return5, next cursor only when more. Canonical current team membership read alongside archive query.",
+      "knownErrors": [
+        400,
+        401,
+        403,
+        404,
+        503
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/api/academy/records/check",
+      "source": "app/api/academy/records/check/route.ts:11",
+      "purpose": "Read-only body keeps exact private record references out of query URLs",
+      "strictEnvelope": {
+        "workspaceId": "null personal or valid tw-ID",
+        "sourceRevision": "safe integer>=0 read precondition",
+        "recordId XOR decisionId": "exactly one bounded ID; decision only shared"
+      },
+      "bodyLimit": "2000 decoded UTF16 units AND4000 UTF8 bytes re-encoded from Request.text output; neither is an incremental raw upload cap",
+      "validationOrder": [
+        "optional Origin",
+        "trimmed media token",
+        "native text and unit/decoded-byte size",
+        "JSON/strict shape",
+        "trusted auth/DB",
+        "canonical current row",
+        "membership/projectTeam before shared revision comparison",
+        "exact own record or assigned OPEN appeal original decision",
+        "thin result hash",
+        "second current revision read"
+      ],
+      "authority": "Own record including retained inactive own history; assigned original decision only current eligible assigned open appeal. Owner/original actor/historical assignment alone grants no other record read.",
+      "writes": false,
+      "returns": {
+        "format": "aplyd-academy-private-record-check",
+        "formatVersion": 1,
+        "currentUserId": "current trusted subject",
+        "workspaceId": "request exact space",
+        "sourceRevision": "request exact freshness revision",
+        "checkedAt": "canonical server timestamp",
+        "target": "{kind:record|decision,id}",
+        "result": "checked with thin snapshot+integrity OR unavailable with message"
+      },
+      "privacy": "Thin result excludes raw evidence/drafts/feedback/contact/support/preferences; no public or bearer verification URL.",
+      "freshness": "Revision rechecked after async hashing, an as-of check rather than a permanent lock. Client additionally requires complete agreement with detached captured accepted projection across authority/read generations.",
+      "knownErrors": [
+        400,
+        401,
+        403,
+        404,
+        409,
+        413,
+        415,
+        503
+      ]
+    }
+  ],
+  "commandFamilies": {
+    "personal": [
+      "profile",
+      "learning-access-preferences",
+      "enroll",
+      "lesson-draft",
+      "lesson",
+      "draft",
+      "submit",
+      "assess sample",
+      "appeal",
+      "resolve sample",
+      "share",
+      "withdraw",
+      "post/reply/report/moderate sample",
+      "interest",
+      "ecosystem-grant/test/withdraw local only",
+      "connection legacy local",
+      "followup",
+      "pause sample",
+      "reset",
+      "learning-plan/plan-task/plan-task-status/plan-task-remove"
+    ],
+    "shared": [
+      "create/accept/invite/revoke-invite/member",
+      "cohort-create/cohort-status",
+      "assign/assess/resolve",
+      "own learning/profile/preferences/plan/appeal/share/withdraw/followup/interest",
+      "post/reply/report/moderate",
+      "content-copy/save/submit/recall/review/publish/retire/archive",
+      "content-job-template",
+      "support-open/claim/reply/resolve/reopen/withdraw",
+      "network-profile/session-create/rsvp/cancel/attendance"
+    ]
+  },
+  "v013Delta": "Presentation/current accepted projection+RAM help fields; fixed-category unexpected personal/shared logging; no new route, command, table or provider/partner call",
+  "limitsNotEstablished": [
+    "hosted anonymous/recipient/header spoofing acceptance",
+    "recognized issuer/credential signature",
+    "partner account/link/receipt/transport",
+    "reviewed translation or staffed assistance",
+    "production load, recovery and restore",
+    "field acceptance and human screen-reader certification"
+  ]
+}

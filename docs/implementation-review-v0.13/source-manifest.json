@@ -1,0 +1,328 @@
+{
+  "observedAtUtc": "2026-10-05T21:05:42.192456+00:00",
+  "rootHeadAtRead": "8a769a24415169ea24b45b6f97ae89e050c99b19",
+  "rootBranchAtRead": "main",
+  "scope": "As-built published v0.13 exact immutable commit; ongoing root M4 working-tree changes are excluded, not overwritten.",
+  "files": [
+    {
+      "path": "work/aplyd-academy/app/academy-acceptance.ts",
+      "sha256": "ce2bf2f00d49a64b72da02dbb54e1b2ea9af3a7306b43af87ed1c81555e325bf",
+      "bytes": 8453
+    },
+    {
+      "path": "work/aplyd-academy/app/academy-content-readiness.tsx",
+      "sha256": "e50e8f413d560195a5e14cb3d851f051a05df2ba83df991e0ba351622c301045",
+      "bytes": 5073
+    },
+    {
+      "path": "work/aplyd-academy/app/academy-ecosystems.tsx",
+      "sha256": "f16a4e2bbdade40faeedc0068afa1ec8f989e5e35642fe81234490f2828862d0",
+      "bytes": 11536
+    },
+    {
+      "path": "work/aplyd-academy/app/academy-learning-help-disclosure.tsx",
+      "sha256": "4a323475508dbb2212eb05fb740d3492fa5f1909864d9e7854c58ccf5b2c79de",
+      "bytes": 5728
+    },
+    {
+      "path": "work/aplyd-academy/app/academy-operations.tsx",
+      "sha256": "d4cfcf0ff49839243093dd4f9ec003bfc94aa010e73215eb5fa11a1510c65dea",
+      "bytes": 10715
+    },
+    {
+      "path": "work/aplyd-academy/app/academy-partner-readiness.tsx",
+      "sha256": "90a77aebe71a37975fdbe0caf858b91067da88c7b36c4ff50ff7bb650c38afbe",
+      "bytes": 4482
+    },
+    {
+      "path": "work/aplyd-academy/app/academy-record-client.ts",
+      "sha256": "a836e710d1e58ab60a185fa0cb224c1e18a16d452db8b5bca0dd4280f44a689f",
+      "bytes": 7026
+    },
+    {
+      "path": "work/aplyd-academy/app/academy-record-status.tsx",
+      "sha256": "5a188a2a708e346e049bf5ec724e1789e02345e2f12bd5ccead1ae902bee9c48",
+      "bytes": 5435
+    },
+    {
+      "path": "work/aplyd-academy/app/academy-response.ts",
+      "sha256": "d016b784f63575fe66a8c3eb83bb2cfbc834e8d2697586c9e2a19eb451a4e0ba",
+      "bytes": 2085
+    },
+    {
+      "path": "work/aplyd-academy/app/academy-support.tsx",
+      "sha256": "b668f525eb2b41d1be24cf34208a71c915c02ae60ae7daa4563549adff035561",
+      "bytes": 18258
+    },
+    {
+      "path": "work/aplyd-academy/app/academy.tsx",
+      "sha256": "8128ec1b0d8abccadb41d46e25c812ffb0ee694453d2df9eedd44f465efdb52f",
+      "bytes": 31486
+    },
+    {
+      "path": "work/aplyd-academy/app/api/academy/export/route.ts",
+      "sha256": "130685dd4564fa8078a968db7303d4640b986da99ad33e09be678d280dd9d995",
+      "bytes": 1294
+    },
+    {
+      "path": "work/aplyd-academy/app/api/academy/records/check/route.ts",
+      "sha256": "9f161b661c9d5fa3fe45c127b98914b8bc4e332477ba051c32370bac94244da0",
+      "bytes": 3203
+    },
+    {
+      "path": "work/aplyd-academy/app/api/academy/route.ts",
+      "sha256": "22c78adf5c62a809a1aef4505c7c047b797b7ac4f2afd42bbcb1cd3b9af338b7",
+      "bytes": 3979
+    },
+    {
+      "path": "work/aplyd-academy/app/api/teams/history/route.ts",
+      "sha256": "0ecebf4fe00083514d81cefbbc7a0e76c277531b823eb49a71238481c0b54838",
+      "bytes": 2041
+    },
+    {
+      "path": "work/aplyd-academy/app/api/teams/route.ts",
+      "sha256": "6901cdab339f6ce0b4d60e3b778a6bd68d7e9d8e9807f13e81df9bbc1b29025e",
+      "bytes": 8802
+    },
+    {
+      "path": "work/aplyd-academy/app/chatgpt-auth.ts",
+      "sha256": "4265a2e7c2dcb3a6f4b7026f762bf5b6e4caec76cc13c0a45987ee9a9f2e42cc",
+      "bytes": 2550
+    },
+    {
+      "path": "work/aplyd-academy/db/schema.ts",
+      "sha256": "8d63e08a69dc77b587bc360d14f40f66402914c5d5245ac7701565803e8b058f",
+      "bytes": 2348
+    },
+    {
+      "path": "work/aplyd-academy/drizzle/0000_strange_dazzler.sql",
+      "sha256": "bfd2a4f5d663d38ec7e484dcb55c7fc3c5f115ff87c38fc182bca09f8cde761b",
+      "bytes": 504
+    },
+    {
+      "path": "work/aplyd-academy/drizzle/0001_complex_deathbird.sql",
+      "sha256": "bb499509398fe933ea8912ec8eb12bd5a65261d5885637fad15049e7cd242532",
+      "bytes": 244
+    },
+    {
+      "path": "work/aplyd-academy/drizzle/0002_silky_tempest.sql",
+      "sha256": "ee7d1008a437871b5d0b6c0530f94558932f77c6fe036a6bd363683d4973bde8",
+      "bytes": 695
+    },
+    {
+      "path": "work/aplyd-academy/drizzle/0003_massive_franklin_storm.sql",
+      "sha256": "2a482c72a541e36382a907d655565bf55129d30361cb0862c29cf185c8aca780",
+      "bytes": 136
+    },
+    {
+      "path": "work/aplyd-academy/drizzle/0004_red_trauma.sql",
+      "sha256": "1c55bac21db77a790cc0bbc3bde41b4c9c6ba8883e6428ada49e7c9ca42e3701",
+      "bytes": 185
+    },
+    {
+      "path": "work/aplyd-academy/drizzle/0005_tearful_angel.sql",
+      "sha256": "503264c742696c9fa4eddc9017b6a5d8232092007551b85e9bf5675df27011f6",
+      "bytes": 1641
+    },
+    {
+      "path": "work/aplyd-academy/lib/academy-authoring.ts",
+      "sha256": "a4c8b781153b2b811ef4f9b0ff853520f757ac9dda7cb3e927be7b485809de5f",
+      "bytes": 26995
+    },
+    {
+      "path": "work/aplyd-academy/lib/academy-content-readiness-adoption.d.mts",
+      "sha256": "0b650df11983045c03597b6953e010e06bf6d1b81bb1a2b068d4745c2af6c81d",
+      "bytes": 1121
+    },
+    {
+      "path": "work/aplyd-academy/lib/academy-content-readiness-adoption.mjs",
+      "sha256": "a9d30abbd0f7fac2f66bd2f1f38db5aea68819edd76c867ff7be6698a538b79a",
+      "bytes": 4033
+    },
+    {
+      "path": "work/aplyd-academy/lib/academy-content-readiness.ts",
+      "sha256": "6f52a762509eb49a65d3753b7d8354c640b60ccc007c15ad8a1dca005242caa2",
+      "bytes": 15958
+    },
+    {
+      "path": "work/aplyd-academy/lib/academy-curriculum.ts",
+      "sha256": "02a7e32aa7f56e1bc06694987946f804d33fdd17ab781749142f72f42bda722c",
+      "bytes": 7719
+    },
+    {
+      "path": "work/aplyd-academy/lib/academy-ecosystem-guard.ts",
+      "sha256": "cd166d20798b7fc62a80b584a6d8084498dc5d6976924d206541a7c7a2d74fe8",
+      "bytes": 5153
+    },
+    {
+      "path": "work/aplyd-academy/lib/academy-ecosystems.ts",
+      "sha256": "d12b3a3c6af5b35a38af5e99b0fc674ead9f0cb7ed58c0d31c4a4f5d2a6af19a",
+      "bytes": 15022
+    },
+    {
+      "path": "work/aplyd-academy/lib/academy-engine.ts",
+      "sha256": "4747712f10c39cc08eaed66939bd99013d8064e4eb3097218590fbcc63bebff7",
+      "bytes": 20052
+    },
+    {
+      "path": "work/aplyd-academy/lib/academy-inclusive-learning.ts",
+      "sha256": "483e64778ad762e93880a5ea41bec0b873fe48c62bdc1aa5fefc0b26c8f626ac",
+      "bytes": 10178
+    },
+    {
+      "path": "work/aplyd-academy/lib/academy-job-template-create.ts",
+      "sha256": "a737617bc6a64c06169b5b6a6b638f2fedc3538fa92de3a1b197fddc02e805e4",
+      "bytes": 2925
+    },
+    {
+      "path": "work/aplyd-academy/lib/academy-job-templates.ts",
+      "sha256": "c3162a5da1f1df25eb3d56e1c681f1478fe404aea9d38eb3c6ecac15062ab035",
+      "bytes": 31788
+    },
+    {
+      "path": "work/aplyd-academy/lib/academy-learner-guidance.d.mts",
+      "sha256": "3f79ac2cba03e92d71ff7a623422a8d0fc69869cdd9cc82dfde3f292c55737aa",
+      "bytes": 722
+    },
+    {
+      "path": "work/aplyd-academy/lib/academy-learner-guidance.mjs",
+      "sha256": "831efcb74fed6f7f2dc7629d411be41db3255f355c163fdb1cc861f7bb5067c9",
+      "bytes": 6159
+    },
+    {
+      "path": "work/aplyd-academy/lib/academy-library-view.ts",
+      "sha256": "0f302d64979f00352006c7df803abdceaebcbab0322f1117b87ab7e9289fd291",
+      "bytes": 3999
+    },
+    {
+      "path": "work/aplyd-academy/lib/academy-library.ts",
+      "sha256": "76b893df0537a82fce5bbfd5213b404c511986de822718b222b2483f2f458512",
+      "bytes": 10751
+    },
+    {
+      "path": "work/aplyd-academy/lib/academy-network.ts",
+      "sha256": "780610d02d4f063f5413db588455079ea98136eb0f7f0f576fff4390ae047414",
+      "bytes": 10629
+    },
+    {
+      "path": "work/aplyd-academy/lib/academy-offline-sealed.ts",
+      "sha256": "50e37576f6f1cf2efce106e6f1c5f894bffb4e777cb5becf1e6fe36dc9a48f3e",
+      "bytes": 8805
+    },
+    {
+      "path": "work/aplyd-academy/lib/academy-offline.ts",
+      "sha256": "0f5cc198c757803678b8e2d4adfe3a979c377b5fef94a4ff42692912ed19223c",
+      "bytes": 23030
+    },
+    {
+      "path": "work/aplyd-academy/lib/academy-operations-access.ts",
+      "sha256": "2c148f6e933d63c70dd40cc4603d8dce71b8e09b12ed9e6c7cebd3fa98bda82e",
+      "bytes": 186
+    },
+    {
+      "path": "work/aplyd-academy/lib/academy-operations.ts",
+      "sha256": "a285fbc81b0837d46a13de5bc45c90f1b04762320124c372db85621ec5826ef0",
+      "bytes": 14027
+    },
+    {
+      "path": "work/aplyd-academy/lib/academy-partner-readiness.ts",
+      "sha256": "3c99c402213c2341bb523f6a389780dbe155a635629b429e8fe9b0b658eed07c",
+      "bytes": 13219
+    },
+    {
+      "path": "work/aplyd-academy/lib/academy-personal-storage.ts",
+      "sha256": "26355595e3630d19e9d576bcfa48a1e688dddad387012fe5b2643848f17df804",
+      "bytes": 1706
+    },
+    {
+      "path": "work/aplyd-academy/lib/academy-plan.ts",
+      "sha256": "c619f823371951643585bfe5c5b55cb071454791bc19b958caa635c5fbfd0f9b",
+      "bytes": 28477
+    },
+    {
+      "path": "work/aplyd-academy/lib/academy-record-check.ts",
+      "sha256": "a0cb4c97794b7416be57e0b136b7d4f79c9eafbaac1ac419e09d685565b9296c",
+      "bytes": 16182
+    },
+    {
+      "path": "work/aplyd-academy/lib/academy-record-response.ts",
+      "sha256": "13d20bfa2927df8a3a4b7d70f2c8d05278a8550b8d7910030815427355bdb174",
+      "bytes": 12989
+    },
+    {
+      "path": "work/aplyd-academy/lib/academy-record-service.ts",
+      "sha256": "fbfee7ad07fd23f865c0c785dad5147c7ffc05e0a7e7021bcff52d61f355fef6",
+      "bytes": 5774
+    },
+    {
+      "path": "work/aplyd-academy/lib/academy-snapshot.ts",
+      "sha256": "bc557badd8bf446cc25a95ba3e074dcf19c3968ad5911bcc20ad6f3aee667c00",
+      "bytes": 5470
+    },
+    {
+      "path": "work/aplyd-academy/lib/academy-storage.ts",
+      "sha256": "3eef88f741c7177cf00ba01dac4a8ecbee3da97e146e8999509929c9829f9941",
+      "bytes": 3209
+    },
+    {
+      "path": "work/aplyd-academy/lib/academy-support.ts",
+      "sha256": "304b51e0558a76f34775405ed7e31884a2aebcdf3649d8fe7dab9658672876e1",
+      "bytes": 12618
+    },
+    {
+      "path": "work/aplyd-academy/lib/academy-teams.ts",
+      "sha256": "ff3430cb05af22f8ce953f1f30cd9ff20bc536bbef0dfab6942014b10183b807",
+      "bytes": 23733
+    },
+    {
+      "path": "work/aplyd-academy/lib/curriculum-versions/0.1-review-draft.json",
+      "sha256": "9fc83c8dd615456db8f49d140f56bff566e05c14d32ebb70a14cdcb73078b7e4",
+      "bytes": 65054
+    },
+    {
+      "path": "work/aplyd-academy/lib/curriculum.json",
+      "sha256": "9fc83c8dd615456db8f49d140f56bff566e05c14d32ebb70a14cdcb73078b7e4",
+      "bytes": 65054
+    },
+    {
+      "path": "work/aplyd-academy/app/academy-partner-readiness.module.css",
+      "sha256": "29894f44b3308c87e066b87a758239596284a53bd6359a7333738e5502cc9ce6",
+      "bytes": 1299
+    },
+    {
+      "path": "work/aplyd-academy/app/academy-library.module.css",
+      "sha256": "65948dfd42f4bf3ec445e94e0f4a77e6db40870150dd57c7aa61107afbdf59a4",
+      "bytes": 3573
+    },
+    {
+      "path": "work/aplyd-academy/app/academy-job-template-picker.module.css",
+      "sha256": "76088b90798fd93839698a9746ea06a3cb75025fa4550e8a50661ea68c5baeba",
+      "bytes": 1090
+    },
+    {
+      "path": "work/aplyd-academy/app/academy-offline.module.css",
+      "sha256": "5b99282f143e0d69e6721e4d0ad2a05cb08e6820036b3b38f5aefd8343d375a9",
+      "bytes": 2085
+    }
+  ],
+  "globalOriginalAndArchivedSha256": "9fc83c8dd615456db8f49d140f56bff566e05c14d32ebb70a14cdcb73078b7e4",
+  "deferredHelperPresent": false,
+  "nativePublication": {
+    "release": "0.13.0",
+    "commit": "8a769a24415169ea24b45b6f97ae89e050c99b19",
+    "mainCommit": "8a769a24415169ea24b45b6f97ae89e050c99b19",
+    "versionId": "appgprj_6ac33ba1f2b88191818a5045301c4683~appgver_9fb219eeab4c81919eb068f907390a05",
+    "deploymentId": "appgdep_6ac4111af1fc8191b8b707d8d795acdd",
+    "publishedAtUtc": "2026-10-05T21:06:00.655274+00:00",
+    "url": "https://aplyd-academy.nakul1729233.chatgpt.site",
+    "nativeVersion": 14,
+    "audience": "owner-private",
+    "nativeAudiencePreserved": true
+  },
+  "publicationReceiptPath": "outputs/aplyd-academy-eight-hour/m3-publication.json",
+  "validationReference": "8a769a24415169ea24b45b6f97ae89e050c99b19",
+  "publishedSourceAgrees": true,
+  "rootWorkingTreeDifferencesAtFinalReview": [
+    "work/aplyd-academy/app/academy-partner-readiness.tsx"
+  ]
+}

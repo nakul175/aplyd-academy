@@ -1,0 +1,86 @@
+{
+  "contentVersion": "0.1-review-draft",
+  "curriculumSha256": "9fc83c8dd615456db8f49d140f56bff566e05c14d32ebb70a14cdcb73078b7e4",
+  "libraryCatalogSha256": "76b893df0537a82fce5bbfd5213b404c511986de822718b222b2483f2f458512",
+  "ecosystemSourceSha256": "d12b3a3c6af5b35a38af5e99b0fc674ead9f0cb7ed58c0d31c4a4f5d2a6af19a",
+  "partners": {
+    "agri": {
+      "id": "agri",
+      "name": "Agri Saha",
+      "pathwayId": "farmer-work-records",
+      "task": "Prepare an expert question brief from a fictional farm activity record.",
+      "learningTitle": "Farm records and better questions with AI",
+      "credentialClaim": "Demonstrated farm-record organization, information checking and expert-question preparation using synthetic training data",
+      "credentialExclusions": [
+        "No agricultural professional qualification",
+        "No certification to prescribe farm inputs or make agronomic decisions"
+      ],
+      "learningSourceNotice": "Synthetic farm records supplied within each activity are the only factual source for this exercise."
+    },
+    "msme": {
+      "id": "msme",
+      "name": "MSME",
+      "pathwayId": "msme-customer-operations",
+      "task": "Prepare an accurate customer response and a daily work checklist.",
+      "learningTitle": "Customer communication and daily operations with AI",
+      "credentialClaim": "Demonstrated customer-draft preparation, operations checklist creation and responsible AI checking using synthetic business records",
+      "credentialExclusions": [
+        "No financial, tax or legal professional qualification",
+        "No assurance of business results or automated customer commitments"
+      ],
+      "learningSourceNotice": "The example order policy and records are fictional fixtures, not a recommended business policy."
+    },
+    "public": {
+      "id": "public",
+      "name": "Public service",
+      "pathwayId": "public-servant-source-briefs",
+      "task": "Prepare a source-based brief with checked policy limits.",
+      "learningTitle": "Clear administrative briefs with accountable AI use",
+      "credentialClaim": "Demonstrated administrative drafting, source verification and responsible information-handling using synthetic training material",
+      "credentialExclusions": [
+        "No authority to issue official decisions",
+        "No legal or statutory qualification",
+        "No assurance that an external AI tool is approved by an employer"
+      ],
+      "learningSourceNotice": "Every notice, department, programme, figure and policy below is fictional. No actual law, administrative direction or citizen service rule is stated."
+    }
+  },
+  "references": [
+    {
+      "id": "government-trainer-handbook",
+      "title": "Governing AI in Government · Trainer handbook",
+      "sourceFilename": "APLYD_C1_Trainer_Handbook.docx",
+      "sha256": "a3124b639858b9a640d7224585a935d56564374363cd7ce7e074b924e508d7e9",
+      "bytes": 34899,
+      "sections": [
+        "4.6 · Procurement craft (Part 5)",
+        "4.8 · Governance architecture (Part 7)",
+        "4.15 · Sunset — retiring a deployment deliberately"
+      ],
+      "use": "Teaching reference only; does not establish partner or institutional authority."
+    },
+    {
+      "id": "frontline-trainer-handbook",
+      "title": "Using AI Well at the Point of Delivery · Trainer handbook",
+      "sourceFilename": "APLYD_C5_Trainer_Handbook.docx",
+      "sha256": "6a377e3668bc455079420034f0cb846579091c685582fe69fb4c792b8307e941",
+      "bytes": 18848,
+      "sections": [
+        "6.7 · The consent conversation",
+        "8 · Before you deliver — the OPEN items"
+      ],
+      "use": "Teaching reference only; does not establish partner or institutional authority."
+    },
+    {
+      "id": "development-trainer-handbook",
+      "title": "Governing AI in the Development Sector · Trainer handbook",
+      "sourceFilename": "APLYD_C2_Trainer_Handbook.docx",
+      "sha256": "9130e3294b723576f2bac7825db81a7039730f08b2a7cabd8e65827f6b3aa193",
+      "bytes": 31325,
+      "sections": [
+        "4.11 · The funder's portfolio — conditions, not operations"
+      ],
+      "use": "Teaching reference only; does not establish partner or institutional authority."
+    }
+  ]
+}

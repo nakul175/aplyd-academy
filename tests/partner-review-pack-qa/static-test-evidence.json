@@ -1,0 +1,41 @@
+{
+  "passed": true,
+  "groups": 21,
+  "cases": [
+    "Source snapshot matches the current immutable curriculum, contract and Library catalog",
+    "Only three exact partner keys accepted; health and prototype-like values rejected",
+    "A hostile object is rejected without reading, coercing or traversing it",
+    "agri: exact curriculum title, claim, exclusions and source limits retained",
+    "agri: pack contains only fixed authority denials and open decisions",
+    "agri: printable file is entirely offline and contains no executable or write controls",
+    "agri: downloaded HTML and JSON equal a fresh detached render",
+    "msme: exact curriculum title, claim, exclusions and source limits retained",
+    "msme: pack contains only fixed authority denials and open decisions",
+    "msme: printable file is entirely offline and contains no executable or write controls",
+    "msme: downloaded HTML and JSON equal a fresh detached render",
+    "public: exact curriculum title, claim, exclusions and source limits retained",
+    "public: pack contains only fixed authority denials and open decisions",
+    "public: printable file is entirely offline and contains no executable or write controls",
+    "public: downloaded HTML and JSON equal a fresh detached render",
+    "Mutating a returned pack cannot affect another download or permit a forged decision",
+    "Exact field allowlist and presence groups described without supplying learner values",
+    "Library resource metadata is exact and original files have the listed checksum",
+    "UI adoption is one local HTML download and excludes health/shared without state input",
+    "Boundary checklist covers rejection, exact expiry, stopping and retained history",
+    "All checked checkout source hashes remain unchanged"
+  ],
+  "failures": [],
+  "modulePath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/aplyd-academy/lib/academy-partner-review-pack.mjs",
+  "moduleSha256": "e8f2258ccdf1ffaff0a4a29346aa04be0a5d5831497a19ff73461768120367b3",
+  "sourceHashes": {
+    "lib/academy-ecosystems.ts": "d12b3a3c6af5b35a38af5e99b0fc674ead9f0cb7ed58c0d31c4a4f5d2a6af19a",
+    "lib/academy-library.ts": "76b893df0537a82fce5bbfd5213b404c511986de822718b222b2483f2f458512",
+    "lib/curriculum-versions/0.1-review-draft.json": "9fc83c8dd615456db8f49d140f56bff566e05c14d32ebb70a14cdcb73078b7e4",
+    "app/academy-partner-readiness.tsx": "f77724a637824941b62481d940f1c7998027577951aa6237369c11a8e535a2cd"
+  },
+  "rootUnchanged": true,
+  "mode": "candidate-fixed-data-and-offline-render",
+  "limits": [
+    "No compiler, app build, server, browser, API or saved-state writes. Visual print/mobile layout not yet browser-verified. Root domain integration tests are staged separately."
+  ]
+}

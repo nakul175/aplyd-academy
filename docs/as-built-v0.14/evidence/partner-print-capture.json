@@ -1,0 +1,66 @@
+{
+  "passed": true,
+  "worker": "91739",
+  "sourceHash": "e8f2258ccdf1ffaff0a4a29346aa04be0a5d5831497a19ff73461768120367b3",
+  "modulePath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/aplyd-academy/lib/academy-partner-review-pack.mjs",
+  "candidateOnly": false,
+  "documents": [
+    {
+      "partner": "agri",
+      "moduleSha256": "e8f2258ccdf1ffaff0a4a29346aa04be0a5d5831497a19ff73461768120367b3",
+      "htmlSha256": "c4215bea55ffee1b2cce5c59eeb41ef318e145affbb1ac0c1072d8c979fff89a",
+      "pdfSha256": "fc83d379f618386322274006d2cf7df5ccb59f3da44439ae350aa2fb7f41957b",
+      "screenFontSizesPx": {
+        "header > p:not(.eyebrow)": 16,
+        ".open": 14,
+        ".meta": 14,
+        "code": 14,
+        "table td": 14,
+        "h3": 16
+      },
+      "pdf": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/aplyd-academy-eight-hour/partner-onboarding-next/peer-review/final-runtime/print/agri-a4.pdf",
+      "rendering": "Actual adopted fixed renderer; normal browser A4 print, CSS page margin14mm",
+      "visualReview": "All six final100dpi A4 page PNGs visually inspected: no clipped/overlapping text; whole decision cards; repeated table header; white canvas including after final footer."
+    },
+    {
+      "partner": "msme",
+      "moduleSha256": "e8f2258ccdf1ffaff0a4a29346aa04be0a5d5831497a19ff73461768120367b3",
+      "htmlSha256": "ed265e4929c8aecc5d0a948eed032b6061fe631433d0c0e15795d6cb3f2f0ea5",
+      "pdfSha256": "c5c27d887085e5169e5dbfa8917e84812749ee844f0d1e5caaab3dcc37158c48",
+      "screenFontSizesPx": {
+        "header > p:not(.eyebrow)": 16,
+        ".open": 14,
+        ".meta": 14,
+        "code": 14,
+        "table td": 14,
+        "h3": 16
+      },
+      "pdf": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/aplyd-academy-eight-hour/partner-onboarding-next/peer-review/final-runtime/print/msme-a4.pdf",
+      "rendering": "Actual adopted fixed renderer; normal browser A4 print, CSS page margin14mm",
+      "visualReview": "All six final100dpi A4 page PNGs visually inspected: no clipped/overlapping text; whole decision cards; repeated table header; white canvas including after final footer."
+    },
+    {
+      "partner": "public",
+      "moduleSha256": "e8f2258ccdf1ffaff0a4a29346aa04be0a5d5831497a19ff73461768120367b3",
+      "htmlSha256": "c9c6dbf92ce406c1df8d9d2010c9843b2843a3fce45f2ed33078976a2605b328",
+      "pdfSha256": "7e2815fc8c0ec25dc118c96d5586578a34d2b4b154f4d22ea6f3e372e2a900fa",
+      "screenFontSizesPx": {
+        "header > p:not(.eyebrow)": 16,
+        ".open": 14,
+        ".meta": 14,
+        "code": 14,
+        "table td": 14,
+        "h3": 16
+      },
+      "pdf": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/aplyd-academy-eight-hour/partner-onboarding-next/peer-review/final-runtime/print/public-a4.pdf",
+      "rendering": "Actual adopted fixed renderer; normal browser A4 print, CSS page margin14mm",
+      "visualReview": "All six final100dpi A4 page PNGs visually inspected: no clipped/overlapping text; whole decision cards; repeated table header; white canvas including after final footer."
+    }
+  ],
+  "requests": [],
+  "pageErrors": [],
+  "limits": [
+    "Offline rendered fixed generic materials only; no HTTP requests, stored data or partner account.",
+    "PDF page-break quality remains pending image inspection, not established by successful capture."
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "passed": true,
+  "groups": 32,
+  "cases": [
+    "Every packet matches the actual current adapter, local constants and scope limits",
+    "agri: actual local payload contains exactly the described fields for each scope selection",
+    "agri: exact expiry rejects a new local test while retaining old receipts",
+    "agri: withdrawal stops new tests and preserves the old snapshot",
+    "msme: actual local payload contains exactly the described fields for each scope selection",
+    "msme: exact expiry rejects a new local test while retaining old receipts",
+    "msme: withdrawal stops new tests and preserves the old snapshot",
+    "public: actual local payload contains exactly the described fields for each scope selection",
+    "public: exact expiry rejects a new local test while retaining old receipts",
+    "public: withdrawal stops new tests and preserves the old snapshot",
+    "Unsupported top-level and nested payload fields are rejected",
+    "Missing metadata or selected summary, extra summary, unsupported or repeated scopes reject",
+    "Identifiers, times, versions, mapping and fixed contract values have no permissive fallback",
+    "Progress bounds and completed versus in-progress semantics are exact",
+    "Non-accredited status and sample-workflow combinations neither imply issuer authority nor widen",
+    "Only exact 1, 7 and 30 day choices are accepted, with canonical duration",
+    "Caller-injected approval, content version and payload cannot enter a command",
+    "Wrong partner mapping, private pin and mismatched retained version reject",
+    "Unknown historical version does not use the currently available curriculum",
+    "Invented or duplicate completed lesson IDs are refused by the actual command",
+    "Independent withdrawal works with paused learning, unknown pin and malformed history",
+    "Repeated withdrawal retains its first timestamp and does not remove history",
+    "Replacing a choice withdraws its predecessor but preserves prior local receipts",
+    "Future receipt, receipt before its choice and receipt at expiry are rejected",
+    "A receipt at withdrawal can remain history but a later one is rejected",
+    "Retained receipt wrapper identity must agree with payload and exact retained choice",
+    "Current practice status change does not rewrite a prior local snapshot",
+    "Paused or withdrawn learning rejects a new test while preserving retained choices",
+    "Receipt capacity rejects another test but permits independent withdrawal",
+    "Choice capacity retains history and independent withdrawal",
+    "Health, unknown ecosystem and legacy delivery never enable tests or transport",
+    "Actual domain source hashes remain unchanged"
+  ],
+  "failures": [],
+  "mode": "existing-actual-checkout-domain-in-memory",
+  "modulePath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/aplyd-academy/lib/academy-partner-review-pack.mjs",
+  "moduleSha256": "e8f2258ccdf1ffaff0a4a29346aa04be0a5d5831497a19ff73461768120367b3",
+  "runtime": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/aplyd-academy/.sites-runtime/scoped-workbench-qa/runtime/domain.mjs",
+  "sourceHashes": {
+    "lib/academy-engine.ts": "4747712f10c39cc08eaed66939bd99013d8064e4eb3097218590fbcc63bebff7",
+    "lib/academy-ecosystems.ts": "d12b3a3c6af5b35a38af5e99b0fc674ead9f0cb7ed58c0d31c4a4f5d2a6af19a",
+    "lib/academy-personal-storage.ts": "26355595e3630d19e9d576bcfa48a1e688dddad387012fe5b2643848f17df804"
+  },
+  "rootUnchanged": true,
+  "limits": [
+    "No compilation, Worker, API, browser, saved storage or outbound requests. Local state is fictional and in memory only. Does not prove a live partner contract or institutional authorization."
+  ]
+}

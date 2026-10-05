@@ -1,0 +1,32 @@
+(node:34497) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ empty own plan gives distinct zero counts and saved timezone without mutation (9.252959ms)
+✔ actual planning commands retain permitted long linked titles without suppressing the recap (1.770792ms)
+✔ oversized private practice and excessive linked titles remain unavailable for review (0.527833ms)
+✔ weekly intention follows due dates and includes completed scheduled items but excludes skipped (0.870208ms)
+✔ self-reported practice completion never becomes saved course evidence (0.631083ms)
+✔ actual projected lesson/submission/reflection actions remain distinct from practice (0.815167ms)
+✔ forged stored linked done flag is ignored by actual existing projection (0.238ms)
+✔ planned dates and completion dates are independent across week boundaries (0.409291ms)
+✔ saved timezone places Sunday UTC evidence into Monday local week (0.660625ms)
+✔ DST repeated hour does not invent duplicate practice or elapsed time (0.415542ms)
+✔ blocked, undated and earlier open attention counts overlap explicitly (0.304041ms)
+✔ unknown exact pin never resolves a newer title but retains existing saved evidence (0.325ms)
+✔ inactive and removed learner role preserve history without relaxing current blocks (0.45275ms)
+✔ paused lesson and open appeal practical keep existing blocked gates (0.543541ms)
+✔ missing and future completion times are separate and cannot inflate this week (0.312375ms)
+✔ six-row attention preview keeps full counts and existing source is unchanged (0.286875ms)
+✔ malformed week/timezone/task/date/duplicate/oversized projection is refused (0.806334ms)
+✔ recap strictly omits free text/evidence/contact/account/workspace/task/pin fields (0.35625ms)
+✔ recap is detached and cannot mutate saved own plan through returned fields (0.238042ms)
+✔ invalid export count/budget/evidence total cannot produce a fabricated recap (1.060583ms)
+✔ printable HTML contains only aggregate whitelist and no scripts/external assets (0.681625ms)
+✔ recap carries no saved permission, command, network or qualification fields (0.3ms)
+ℹ tests 22
+ℹ suites 0
+ℹ pass 22
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 114.197959

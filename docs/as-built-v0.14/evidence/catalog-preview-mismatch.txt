@@ -1,0 +1,20 @@
+Existing journey issue — private catalog card and default preview select different editions
+
+Reproduced on frozen M4 Worker51441 with clearly labelled in-memory GET display fixture; no persisted content or enrollment.
+
+Fixture: one exact private program has two independently reviewed memory-only publications and two open cohorts. Earlier cohort is first in the existing cohort list; revised cohort is second. Both have five available seats.
+1. Open Learning pathways: collapsed program card says Display fixture — revised customer practice.
+2. Click that card: LearningView resolves the first open cohort and displays the earlier edition, including its earlier prerequisites and exact older pin.
+3. Explicitly choose Revised display cohort: the preview now resolves revised title/prerequisites. No enrolment request was sent; actual state/revision remained unchanged.
+
+Cause:
+- app/academy.tsx:83 privatePrograms overwrites a Map entry by programId on each cohort; the final eligible cohort supplies the card document.
+- app/academy.tsx:92 PathwayCard forwards only programId through go('learn',p.id); exact offering/content reference is not carried.
+- app/academy-learning.tsx:20 selectedCohort independently chooses first open contentOpen cohort when offeringId is blank.
+
+Evidence:
+- runtime/browser-first-selector-failure/failure-1.png shows revised catalog card. The initial test expected the earlier title and therefore timed out; this original artifact is retained as selector-assumption failure, not hidden.
+- runtime/browser/browser-evidence.json records exact earlier-pin preview followed by explicit revised-cohort selection passing.
+- runtime/browser/before-start-1440-normal.png and before-start-390-normal.png show earlier prerequisite and cohort choice after keyboard selection.
+
+Assessment: existing journey inconsistency, not a Before-start content fallback or silent persisted migration. Enrollment button still requires an explicit cohort value. Fix in a later isolated milestone: carry an exact offering choice from the catalog or present an explicit offering chooser before showing course details; preserve current enrolled/retained pins and never silently upgrade.

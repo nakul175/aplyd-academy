@@ -1,0 +1,65 @@
+{
+  "at": "2026-10-05T21:18:18.559Z",
+  "projection": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/aplyd-academy/lib/academy-before-start.mjs",
+  "files": [
+    {
+      "file": "lib/curriculum-versions/0.1-review-draft.json",
+      "sha256": "9fc83c8dd615456db8f49d140f56bff566e05c14d32ebb70a14cdcb73078b7e4"
+    },
+    {
+      "file": "lib/academy-curriculum.ts",
+      "sha256": "02a7e32aa7f56e1bc06694987946f804d33fdd17ab781749142f72f42bda722c"
+    },
+    {
+      "file": "lib/academy-inclusive-learning.ts",
+      "sha256": "483e64778ad762e93880a5ea41bec0b873fe48c62bdc1aa5fefc0b26c8f626ac"
+    },
+    {
+      "file": "lib/academy-ecosystems.ts",
+      "sha256": "d12b3a3c6af5b35a38af5e99b0fc674ead9f0cb7ed58c0d31c4a4f5d2a6af19a"
+    },
+    {
+      "file": "lib/academy-ecosystem-guard.ts",
+      "sha256": "cd166d20798b7fc62a80b584a6d8084498dc5d6976924d206541a7c7a2d74fe8"
+    },
+    {
+      "file": "lib/academy-plan.ts",
+      "sha256": "c619f823371951643585bfe5c5b55cb071454791bc19b958caa635c5fbfd0f9b"
+    },
+    {
+      "file": "lib/academy-engine.ts",
+      "sha256": "4747712f10c39cc08eaed66939bd99013d8064e4eb3097218590fbcc63bebff7"
+    },
+    {
+      "file": "lib/academy-authoring.ts",
+      "sha256": "a4c8b781153b2b811ef4f9b0ff853520f757ac9dda7cb3e927be7b485809de5f"
+    },
+    {
+      "file": "lib/academy-job-templates.ts",
+      "sha256": "c3162a5da1f1df25eb3d56e1c681f1478fe404aea9d38eb3c6ecac15062ab035"
+    },
+    {
+      "file": "lib/academy-job-template-create.ts",
+      "sha256": "a737617bc6a64c06169b5b6a6b638f2fedc3538fa92de3a1b197fddc02e805e4"
+    },
+    {
+      "file": "lib/academy-support.ts",
+      "sha256": "304b51e0558a76f34775405ed7e31884a2aebcdf3649d8fe7dab9658672876e1"
+    },
+    {
+      "file": "lib/academy-network.ts",
+      "sha256": "780610d02d4f063f5413db588455079ea98136eb0f7f0f576fff4390ae047414"
+    },
+    {
+      "file": "lib/academy-teams.ts",
+      "sha256": "ff3430cb05af22f8ce953f1f30cd9ff20bc536bbef0dfab6942014b10183b807"
+    },
+    {
+      "file": "lib/academy-before-start.mjs",
+      "sha256": "7267d476bfe6e6c33fd68f62cce1fd92b3826213b0debf1ea30b73e864f60265"
+    }
+  ],
+  "limits": [
+    "Actual adopted root pure modules plus explicitly staged display guard. No application build, Worker, network, browser, SQL or persistent mutation."
+  ]
+}

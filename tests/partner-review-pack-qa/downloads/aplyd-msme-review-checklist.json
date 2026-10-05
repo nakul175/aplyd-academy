@@ -1,0 +1,314 @@
+{
+  "format": "aplyd.partner-review-checklist/1",
+  "mode": "discussion-only",
+  "partner": {
+    "id": "msme",
+    "name": "MSME",
+    "pathwayId": "msme-customer-operations",
+    "task": "Prepare an accurate customer response and a daily work checklist.",
+    "learningTitle": "Customer communication and daily operations with AI",
+    "credentialClaim": "Demonstrated customer-draft preparation, operations checklist creation and responsible AI checking using synthetic business records",
+    "credentialExclusions": [
+      "No financial, tax or legal professional qualification",
+      "No assurance of business results or automated customer commitments"
+    ],
+    "learningSourceNotice": "The example order policy and records are fictional fixtures, not a recommended business policy.",
+    "contentScope": "global",
+    "contentVersion": "0.1-review-draft",
+    "curriculumSha256": "9fc83c8dd615456db8f49d140f56bff566e05c14d32ebb70a14cdcb73078b7e4"
+  },
+  "authority": {
+    "liveExchangeEnabled": false,
+    "recipientConnected": false,
+    "authorizesDelivery": false,
+    "authorizesLocalTest": false,
+    "decisionsEstablished": false
+  },
+  "localContract": {
+    "version": "aplyd.learning-return/1.0-test",
+    "purpose": "local-return-contract-review",
+    "transport": "none",
+    "fields": [
+      {
+        "name": "contract_version",
+        "type": "string",
+        "requiredWhen": "always",
+        "constraint": "Exactly aplyd.learning-return/1.0-test."
+      },
+      {
+        "name": "mode",
+        "type": "string",
+        "requiredWhen": "always",
+        "constraint": "Exactly local-test."
+      },
+      {
+        "name": "partner",
+        "type": "string",
+        "requiredWhen": "always",
+        "constraint": "Exactly the partner ID shown in this checklist: agri, msme or public."
+      },
+      {
+        "name": "event_id",
+        "type": "string",
+        "requiredWhen": "always",
+        "constraint": "Internal local event reference; 1–100 ASCII letters, digits, underscore or hyphen. Does not identify a receiving partner account."
+      },
+      {
+        "name": "occurred_at",
+        "type": "string",
+        "requiredWhen": "always",
+        "constraint": "Canonical UTC timestamp YYYY-MM-DDTHH:mm:ss.sssZ, checked by a date round-trip."
+      },
+      {
+        "name": "enrollment_ref",
+        "type": "string",
+        "requiredWhen": "always",
+        "constraint": "Internal saved-learning reference; 1–100 ASCII letters, digits, underscore or hyphen. Not a partner account link."
+      },
+      {
+        "name": "pathway_id",
+        "type": "string",
+        "requiredWhen": "always",
+        "constraint": "Exactly this partner’s mapped pathway."
+      },
+      {
+        "name": "content_version",
+        "type": "string",
+        "requiredWhen": "always",
+        "constraint": "1–100 ASCII letters, digits, period, underscore or hyphen. A local test must match the exact retained enrollment and choice version; no substitute version."
+      },
+      {
+        "name": "purpose",
+        "type": "string",
+        "requiredWhen": "always",
+        "constraint": "Exactly local-return-contract-review."
+      },
+      {
+        "name": "scopes",
+        "type": "array of strings",
+        "requiredWhen": "always",
+        "constraint": "One or both of learning.progress and practice.record, each once. The builder uses that order. Optional summary objects must exactly match these scopes."
+      },
+      {
+        "name": "learning.completed_lessons",
+        "type": "integer",
+        "requiredWhen": "learning.progress",
+        "constraint": "0 through total_lessons; the command verifies distinct completed lesson IDs against the exact pinned curriculum."
+      },
+      {
+        "name": "learning.total_lessons",
+        "type": "integer",
+        "requiredWhen": "learning.progress",
+        "constraint": "1 through 100; taken from the exact pinned curriculum."
+      },
+      {
+        "name": "learning.status",
+        "type": "string",
+        "requiredWhen": "learning.progress",
+        "constraint": "completed if the two counts are equal; otherwise in-progress."
+      },
+      {
+        "name": "practice_record.status",
+        "type": "string",
+        "requiredWhen": "practice.record",
+        "constraint": "not-issued, active or suspended. This is a local non-accredited practice status."
+      },
+      {
+        "name": "practice_record.claim_type",
+        "type": "string",
+        "requiredWhen": "practice.record",
+        "constraint": "Exactly nonaccredited-practice."
+      },
+      {
+        "name": "practice_record.review_mode",
+        "type": "string",
+        "requiredWhen": "practice.record",
+        "constraint": "not-reviewed exactly when status is not-issued; otherwise sample-workflow. Does not establish a professional or institutional review."
+      }
+    ],
+    "scopeGroups": [
+      {
+        "id": "learning.progress",
+        "object": "learning",
+        "keys": [
+          "completed_lessons",
+          "total_lessons",
+          "status"
+        ]
+      },
+      {
+        "id": "practice.record",
+        "object": "practice_record",
+        "keys": [
+          "status",
+          "claim_type",
+          "review_mode"
+        ]
+      }
+    ],
+    "choiceDurationDays": [
+      1,
+      7,
+      30
+    ],
+    "retainedChoiceLimit": 24,
+    "retainedReceiptLimit": 100,
+    "shapeRule": "The top-level envelope and selected summary objects reject unsupported fields. Optional summary objects are present exactly when selected. Local receipts are simulated, never partner acknowledgements.",
+    "historyRule": "The server checks the current saved choice and pinned learning for every new local test. Existing valid receipts remain snapshots after expiry, withdrawal or a later practice-status change."
+  },
+  "excludedFields": [
+    "names and contact details",
+    "private task evidence",
+    "assessment scores and review notes",
+    "goals and reflections",
+    "support conversations",
+    "other people’s records"
+  ],
+  "decisions": [
+    {
+      "id": "recipient",
+      "question": "Which service receives the summary, and how is the right account confirmed?",
+      "evidenceNeeded": "Partner service specification and account-link/authentication design. Do not record account identifiers in this checklist.",
+      "references": [
+        "frontline-trainer-handbook:6.7"
+      ],
+      "status": "open"
+    },
+    {
+      "id": "purpose",
+      "question": "What exact purpose and fields are permitted, and what happens if a learner declines?",
+      "evidenceNeeded": "Agreed purpose, minimum field list, retention period and an accessible explanation of declining. A local choice is not approval for a live return.",
+      "references": [
+        "frontline-trainer-handbook:6.7"
+      ],
+      "status": "open"
+    },
+    {
+      "id": "contract",
+      "question": "Which partner-owned specification and compatibility tests will both sides accept?",
+      "evidenceNeeded": "Version policy, acknowledgements, retries, duplicate-event handling, errors and status-correction tests. The current local contract establishes none of these for a partner.",
+      "references": [],
+      "status": "open"
+    },
+    {
+      "id": "withdrawal",
+      "question": "Where does stopping take effect, and who handles a changed status or retained data?",
+      "evidenceNeeded": "Stop boundary, in-flight requests, correction process, retention/deletion responsibilities and evidence of a stop test. Local withdrawal only stops future local tests.",
+      "references": [
+        "government-trainer-handbook:4.6",
+        "government-trainer-handbook:4.15"
+      ],
+      "status": "open"
+    },
+    {
+      "id": "authority",
+      "question": "Which responsible roles can pause, resolve and resume an exchange?",
+      "evidenceNeeded": "Operating owner role, backup role, pause authority, escalation route and recovery exercise. Academy membership is not institutional authority.",
+      "references": [
+        "government-trainer-handbook:4.8"
+      ],
+      "status": "open"
+    },
+    {
+      "id": "frontline",
+      "question": "Which override, failure and reporting protections are confirmed for the people doing the work?",
+      "evidenceNeeded": "Institution-confirmed written override permission, responsibility for failures and protection for reporting concerns. These items are open in the supplied teaching material.",
+      "references": [
+        "frontline-trainer-handbook:8"
+      ],
+      "status": "open"
+    },
+    {
+      "id": "exit",
+      "question": "What continues if the partner or programme leaves?",
+      "evidenceNeeded": "Audit/remediation rights, export and continuity responsibilities, and a funded exit plan where relevant.",
+      "references": [
+        "government-trainer-handbook:4.6",
+        "government-trainer-handbook:4.15",
+        "development-trainer-handbook:4.11"
+      ],
+      "status": "open"
+    }
+  ],
+  "boundaryChecks": [
+    {
+      "id": "extra-fields",
+      "check": "Add a name, score, note or any unsupported payload field.",
+      "expected": "Reject the return. No extra field is transmitted or accepted by this local contract."
+    },
+    {
+      "id": "wrong-scope",
+      "check": "Omit a selected summary, add an unselected summary, repeat a scope or use an unsupported scope.",
+      "expected": "Reject the return; selected fields and summary objects must agree."
+    },
+    {
+      "id": "wrong-pin",
+      "check": "Use another mapped pathway, private workspace pin or a different retained version.",
+      "expected": "Reject a new local test. Do not substitute the current curriculum for an unavailable pin."
+    },
+    {
+      "id": "expiry",
+      "check": "Run a new test at the exact saved expiry time.",
+      "expected": "Reject the new test at now >= expiry. Earlier valid receipts remain historical local snapshots."
+    },
+    {
+      "id": "withdraw",
+      "check": "Withdraw a valid retained choice, then try a new test.",
+      "expected": "Reject the new test. Preserve earlier receipts; withdrawal is not a partner deletion promise."
+    },
+    {
+      "id": "independent-stop",
+      "check": "Withdraw a valid retained choice while learning is paused or retained receipt history is malformed.",
+      "expected": "Allow the independent withdrawal. Do not require a new test or readable receipt history to stop future local tests."
+    },
+    {
+      "id": "history-clock",
+      "check": "Present a receipt created in the future, before its retained choice, at/after expiry or after withdrawal.",
+      "expected": "Reject that receipt history. Current time and retained choice timing are checked; a valid old receipt is not current permission."
+    },
+    {
+      "id": "capacity",
+      "check": "Reach 24 retained choices or 100 retained receipts.",
+      "expected": "Reject a further choice or test respectively. Keep retained history and independent withdrawal available."
+    }
+  ],
+  "references": [
+    {
+      "id": "government-trainer-handbook",
+      "title": "Governing AI in Government · Trainer handbook",
+      "sourceFilename": "APLYD_C1_Trainer_Handbook.docx",
+      "sha256": "a3124b639858b9a640d7224585a935d56564374363cd7ce7e074b924e508d7e9",
+      "bytes": 34899,
+      "sections": [
+        "4.6 · Procurement craft (Part 5)",
+        "4.8 · Governance architecture (Part 7)",
+        "4.15 · Sunset — retiring a deployment deliberately"
+      ],
+      "use": "Teaching reference only; does not establish partner or institutional authority."
+    },
+    {
+      "id": "frontline-trainer-handbook",
+      "title": "Using AI Well at the Point of Delivery · Trainer handbook",
+      "sourceFilename": "APLYD_C5_Trainer_Handbook.docx",
+      "sha256": "6a377e3668bc455079420034f0cb846579091c685582fe69fb4c792b8307e941",
+      "bytes": 18848,
+      "sections": [
+        "6.7 · The consent conversation",
+        "8 · Before you deliver — the OPEN items"
+      ],
+      "use": "Teaching reference only; does not establish partner or institutional authority."
+    },
+    {
+      "id": "development-trainer-handbook",
+      "title": "Governing AI in the Development Sector · Trainer handbook",
+      "sourceFilename": "APLYD_C2_Trainer_Handbook.docx",
+      "sha256": "9130e3294b723576f2bac7825db81a7039730f08b2a7cabd8e65827f6b3aa193",
+      "bytes": 31325,
+      "sections": [
+        "4.11 · The funder's portfolio — conditions, not operations"
+      ],
+      "use": "Teaching reference only; does not establish partner or institutional authority."
+    }
+  ],
+  "note": "Generic fixed material only. Contains no learner, account, enrollment, choice, receipt, progress or status values. No endpoint, recipient, signature, approval or consent record is configured by this document. Library teaching references do not confer institutional authority."
+}

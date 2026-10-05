@@ -1,0 +1,4015 @@
+{
+  "passed": true,
+  "at": "2026-10-05T21:27:07.102Z",
+  "rootHead": "8a769a24415169ea24b45b6f97ae89e050c99b19",
+  "worker": "97593",
+  "base": "http://127.0.0.1:8787",
+  "selectedCases": "all",
+  "executedScenarios": 18,
+  "assertions": 138,
+  "checks": [
+    "Exactly one own weekly review",
+    "Old combined weekly stats removed",
+    "Existing goal form retained once",
+    "Optional details initially collapsed",
+    "Current actual saved timezone shown",
+    "Filename contains week dates only",
+    "Actual empty plan recap matches unchanged planning projection",
+    "Recap excludes private marker/identity OWN_WEEKLY_PRIVATE",
+    "Recap excludes private marker/identity qa-record-personal-f8b0ce5a-6e94-4ad4-a1cb-1797cd71dea4",
+    "Recap excludes private marker/identity record-personal-f8b0ce5a-6e94-4ad4-a1cb-1797cd71dea4@academy.test",
+    "Recap excludes private marker/identity tw-31e24331-3dcd-48d5-b73d-9833067cd19d",
+    "Recap excludes private marker/identity 25ae6d90-b8f5-49d6-b451-89ddad3ac069",
+    "Recap excludes private marker/identity 62d592f3-cef3-4d25-a765-b2ffa0823db0",
+    "Recap excludes private marker/identity 89c4819d-4855-4298-9497-c47dd65c3fa0",
+    "Actual own recap attempted zero protected writes",
+    "Actual own recap attempted zero external requests",
+    "Filename contains week dates only",
+    "Counts match actual unchanged taskProgress projection",
+    "Three course-action items stay distinct from one self-reported private practice",
+    "Dated intention follows due dates and excludes skipped/undated activities",
+    "Recap excludes private marker/identity OWN_WEEKLY_PRIVATE",
+    "Recap excludes private marker/identity qa-record-personal-f8b0ce5a-6e94-4ad4-a1cb-1797cd71dea4",
+    "Recap excludes private marker/identity record-personal-f8b0ce5a-6e94-4ad4-a1cb-1797cd71dea4@academy.test",
+    "Recap excludes private marker/identity tw-31e24331-3dcd-48d5-b73d-9833067cd19d",
+    "Recap excludes private marker/identity 25ae6d90-b8f5-49d6-b451-89ddad3ac069",
+    "Recap excludes private marker/identity 62d592f3-cef3-4d25-a765-b2ffa0823db0",
+    "Recap excludes private marker/identity 89c4819d-4855-4298-9497-c47dd65c3fa0",
+    "Filename contains week dates only",
+    "Recap excludes private marker/identity OWN_WEEKLY_PRIVATE",
+    "Recap excludes private marker/identity qa-record-personal-f8b0ce5a-6e94-4ad4-a1cb-1797cd71dea4",
+    "Recap excludes private marker/identity record-personal-f8b0ce5a-6e94-4ad4-a1cb-1797cd71dea4@academy.test",
+    "Recap excludes private marker/identity tw-31e24331-3dcd-48d5-b73d-9833067cd19d",
+    "Recap excludes private marker/identity 25ae6d90-b8f5-49d6-b451-89ddad3ac069",
+    "Recap excludes private marker/identity 62d592f3-cef3-4d25-a765-b2ffa0823db0",
+    "Recap excludes private marker/identity 89c4819d-4855-4298-9497-c47dd65c3fa0",
+    "Printable recap has no scripts, links, external assets or automatic print",
+    "Display recap attempted zero protected writes",
+    "Display recap attempted zero external requests",
+    "Filename contains week dates only",
+    "Existing form reports unsaved choices",
+    "Filename contains week dates only",
+    "Recap still uses saved budget/timezone/counts",
+    "Unsent goal is absent from persistent browser storage",
+    "Unsent preferences attempted zero protected writes",
+    "Unsent preferences attempted zero external requests",
+    "Six attention links only",
+    "Full attention count remains explicit",
+    "Find activity focuses the exact existing activity card",
+    "Focus reaches existing first control without clicking it",
+    "Attention uses retained own title",
+    "Attention keyboard navigation attempted zero protected writes",
+    "Attention keyboard navigation attempted zero external requests",
+    "Current exact block reason retained",
+    "Filename contains week dates only",
+    "Retained saved completion remains while next own activity is blocked",
+    "No newer-title/version fallback introduced",
+    "Recap excludes private marker/identity OWN_WEEKLY_PRIVATE",
+    "Recap excludes private marker/identity qa-record-personal-f8b0ce5a-6e94-4ad4-a1cb-1797cd71dea4",
+    "Recap excludes private marker/identity record-personal-f8b0ce5a-6e94-4ad4-a1cb-1797cd71dea4@academy.test",
+    "Recap excludes private marker/identity tw-31e24331-3dcd-48d5-b73d-9833067cd19d",
+    "Recap excludes private marker/identity 25ae6d90-b8f5-49d6-b451-89ddad3ac069",
+    "Recap excludes private marker/identity 62d592f3-cef3-4d25-a765-b2ffa0823db0",
+    "Recap excludes private marker/identity 89c4819d-4855-4298-9497-c47dd65c3fa0",
+    "unknown vector attempted zero protected writes",
+    "unknown vector attempted zero external requests",
+    "Current exact block reason retained",
+    "Filename contains week dates only",
+    "Retained saved completion remains while next own activity is blocked",
+    "No newer-title/version fallback introduced",
+    "Recap excludes private marker/identity OWN_WEEKLY_PRIVATE",
+    "Recap excludes private marker/identity qa-record-personal-f8b0ce5a-6e94-4ad4-a1cb-1797cd71dea4",
+    "Recap excludes private marker/identity record-personal-f8b0ce5a-6e94-4ad4-a1cb-1797cd71dea4@academy.test",
+    "Recap excludes private marker/identity tw-31e24331-3dcd-48d5-b73d-9833067cd19d",
+    "Recap excludes private marker/identity 25ae6d90-b8f5-49d6-b451-89ddad3ac069",
+    "Recap excludes private marker/identity 62d592f3-cef3-4d25-a765-b2ffa0823db0",
+    "Recap excludes private marker/identity 89c4819d-4855-4298-9497-c47dd65c3fa0",
+    "paused vector attempted zero protected writes",
+    "paused vector attempted zero external requests",
+    "Date uncertainty is visible",
+    "Filename contains week dates only",
+    "Missing/future dates excluded from completed weekly counts",
+    "Long linked title does not suppress recap",
+    "Filename contains week dates only",
+    "Retained long title stays out of recap",
+    "Own history-only notice retained",
+    "Accepted inactive own history permits aggregate local download",
+    "Filename contains week dates only",
+    "Historical self-report remains honestly named",
+    "No current learning action enabled by recap",
+    "Failed read cannot download recap",
+    "Unverified read has explicit refresh guidance",
+    "Mismatched actor/directory prevents export",
+    "Shell excludes private former/wrong-subject rows",
+    "New workspace recap has no former own lab attention titles",
+    "Filename contains week dates only",
+    "New accepted workspace empty plan has its own counts",
+    "Fresh accepted other account displays none of prior private plan text",
+    "Filename contains week dates only",
+    "Other existing account recap comes from its accepted own empty plan",
+    "Invalid review has no export action",
+    "Existing own plan remains in its separate view",
+    "Disclosure has a44px keyboard target",
+    "Every new review control, including Find this activity, has44px target",
+    "Review fits current viewport",
+    "Review fits viewport at200% text",
+    "Every new review control retains44px target at200% text",
+    "Explicit download control remains focusable with44px target",
+    "Responsive review attempted zero protected writes",
+    "Responsive review attempted zero external requests",
+    "Disclosure has a44px keyboard target",
+    "Every new review control, including Find this activity, has44px target",
+    "Review fits current viewport",
+    "Review fits viewport at200% text",
+    "Every new review control retains44px target at200% text",
+    "Explicit download control remains focusable with44px target",
+    "Responsive review attempted zero protected writes",
+    "Responsive review attempted zero external requests",
+    "Disclosure has a44px keyboard target",
+    "Every new review control, including Find this activity, has44px target",
+    "Review fits current viewport",
+    "Review fits viewport at200% text",
+    "Every new review control retains44px target at200% text",
+    "Explicit download control remains focusable with44px target",
+    "Responsive review attempted zero protected writes",
+    "Responsive review attempted zero external requests",
+    "Standalone document contains no active/remote elements",
+    "Printable recap fits390px",
+    "Printable recap fits390px with200% text",
+    "Downloaded recap retains32px enlarged body text",
+    "Downloaded recap gives labels the remaining phone width",
+    "Completed stays a whole word in the downloaded phone recap",
+    "Every displayed count stays on one line in the downloaded recap",
+    "Standalone document attempted zero protected writes",
+    "Standalone document attempted zero external requests",
+    "Existing saved person-lab state/revision/team unchanged",
+    "Existing saved person-team state/revision/team unchanged",
+    "Existing saved learner-a state/revision/team unchanged",
+    "Existing saved other-lab state/revision/team unchanged"
+  ],
+  "cases": [
+    {
+      "number": 1,
+      "name": "actual own empty plan replaces the combined weekly figure once",
+      "kind": "actual accepted existing GET",
+      "passed": true,
+      "assertions": 16
+    },
+    {
+      "number": 2,
+      "name": "display-only retained actions, intention and self-report remain distinct",
+      "kind": "labelled own GET display copy",
+      "passed": true,
+      "assertions": 22
+    },
+    {
+      "number": 3,
+      "name": "unsaved goal, minute budget and timezone never enter the current recap",
+      "kind": "normal unsent form typing only",
+      "passed": true,
+      "assertions": 7
+    },
+    {
+      "number": 4,
+      "name": "attention navigation focuses an actual own activity without performing it",
+      "kind": "keyboard local navigation",
+      "passed": true,
+      "assertions": 7
+    },
+    {
+      "number": 5,
+      "name": "unknown exact saved learning retains historical evidence and current block",
+      "kind": "labelled own GET display copy",
+      "passed": true,
+      "assertions": 13
+    },
+    {
+      "number": 6,
+      "name": "paused exact saved learning retains historical evidence and current block",
+      "kind": "labelled own GET display copy",
+      "passed": true,
+      "assertions": 13
+    },
+    {
+      "number": 7,
+      "name": "missing and future completion dates cannot inflate weekly activity",
+      "kind": "labelled own GET display copy",
+      "passed": true,
+      "assertions": 3
+    },
+    {
+      "number": 8,
+      "name": "permitted retained long linked title remains readable and excluded from files",
+      "kind": "labelled own GET display copy plus actual-command pure regression",
+      "passed": true,
+      "assertions": 3
+    },
+    {
+      "number": 9,
+      "name": "accepted own inactive workspace history is still readable and exportable",
+      "kind": "labelled inactive own team GET copy",
+      "passed": true,
+      "assertions": 5
+    },
+    {
+      "number": 10,
+      "name": "read error disables export until an accepted current own projection",
+      "kind": "initial deliberate GET failure only",
+      "passed": true,
+      "assertions": 2
+    },
+    {
+      "number": 11,
+      "name": "wrong-subject successful payload is masked rather than exporting remembered data",
+      "kind": "initial mismatched GET display envelope",
+      "passed": true,
+      "assertions": 2
+    },
+    {
+      "number": 12,
+      "name": "workspace switch removes personal recap and accepts only the new own scope",
+      "kind": "existing account and workspace navigation",
+      "passed": true,
+      "assertions": 3
+    },
+    {
+      "number": 13,
+      "name": "fresh accepted account change cannot reuse the prior recap",
+      "kind": "existing fictional account switch via denied team read",
+      "passed": true,
+      "assertions": 3
+    },
+    {
+      "number": 14,
+      "name": "malformed projected planning counts do not offer recap exports",
+      "kind": "labelled malformed own GET display copy",
+      "passed": true,
+      "assertions": 2
+    },
+    {
+      "number": 15,
+      "name": "390px and200% text keep review/navigation/downloads usable",
+      "kind": "bounded actual UI layout and keyboard",
+      "passed": true,
+      "assertions": 8
+    },
+    {
+      "number": 16,
+      "name": "768px and200% text keep review/navigation/downloads usable",
+      "kind": "bounded actual UI layout and keyboard",
+      "passed": true,
+      "assertions": 8
+    },
+    {
+      "number": 17,
+      "name": "1440px and200% text keep review/navigation/downloads usable",
+      "kind": "bounded actual UI layout and keyboard",
+      "passed": true,
+      "assertions": 8
+    },
+    {
+      "number": 18,
+      "name": "standalone printable recap fits phone and200% text without network content",
+      "kind": "actual downloaded HTML re-rendered locally",
+      "passed": true,
+      "assertions": 9
+    }
+  ],
+  "requests": [
+    {
+      "method": "GET",
+      "path": "/"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/css/index.B2k5NZU6.css"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/css/academy.D3YF1VaC.css"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/rolldown-runtime-C60lm6uB.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/framework-D_rUT4EX.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/layout-segment-context-iwBkQSNr.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-vMumNEWj.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-context-select-B01XAYua.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-ui-DK8-YxKQ.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-context-TKO0J8zA.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/createLucideIcon-CVUKbSmH.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-download-BxeMJ1DT.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-learner-guidance-CBw1Yv7w.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-engine-CbPBEI6I.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-curriculum-Cr_l1EJ1.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-ecosystems-CQU6Ulm6.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-inclusive-learning-BzD0EQyu.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-plan-Dvnshm4i.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/calendar-days-CygB-Z4e.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-response-CSC_3mhQ.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-view-loading-DKHVUHCL.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/alert-dialog-mrZLNApg.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/dist-BsrAxEPl.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/checkbox-B86EFo0h.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/dialog-Gw0IUd_c.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/tabs-Bs7oQ7FS.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-operations-access-CA_9Odjm.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-offline-D26XY6gk.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/book-open-zmC_b9Df.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/clipboard-check-BXAvXHoR.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/download-DYF70Q1J.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/heart-handshake-PBJzOlWF.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/lock-keyhole-D2XK78Bh.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/message-square-CNUzDsRp.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/refresh-cw-mjmNvREE.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/search-BQFM0Akj.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/shield-check-BiJHj4-6.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/users-CeKOCHWO.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/index-CgCMcJ8Y.js"
+    },
+    {
+      "method": "GET",
+      "path": "/api/academy"
+    },
+    {
+      "method": "GET",
+      "path": "/favicon.svg"
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams"
+    },
+    {
+      "method": "GET",
+      "path": "/favicon.svg"
+    },
+    {
+      "method": "GET",
+      "path": "/"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/css/index.B2k5NZU6.css"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/css/academy.D3YF1VaC.css"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/rolldown-runtime-C60lm6uB.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/framework-D_rUT4EX.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/layout-segment-context-iwBkQSNr.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-vMumNEWj.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-context-select-B01XAYua.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-ui-DK8-YxKQ.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-context-TKO0J8zA.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/createLucideIcon-CVUKbSmH.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-download-BxeMJ1DT.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-learner-guidance-CBw1Yv7w.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-engine-CbPBEI6I.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-curriculum-Cr_l1EJ1.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-ecosystems-CQU6Ulm6.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-inclusive-learning-BzD0EQyu.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-plan-Dvnshm4i.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/calendar-days-CygB-Z4e.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-response-CSC_3mhQ.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-view-loading-DKHVUHCL.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/alert-dialog-mrZLNApg.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/dist-BsrAxEPl.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/checkbox-B86EFo0h.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/dialog-Gw0IUd_c.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/tabs-Bs7oQ7FS.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-operations-access-CA_9Odjm.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-offline-D26XY6gk.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/book-open-zmC_b9Df.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/clipboard-check-BXAvXHoR.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/download-DYF70Q1J.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/heart-handshake-PBJzOlWF.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/lock-keyhole-D2XK78Bh.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/message-square-CNUzDsRp.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/refresh-cw-mjmNvREE.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/search-BQFM0Akj.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/shield-check-BiJHj4-6.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/users-CeKOCHWO.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/index-CgCMcJ8Y.js"
+    },
+    {
+      "method": "GET",
+      "path": "/api/academy"
+    },
+    {
+      "method": "GET",
+      "path": "/favicon.svg"
+    },
+    {
+      "method": "GET",
+      "path": "/favicon.svg"
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams"
+    },
+    {
+      "method": "GET",
+      "path": "/"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/css/index.B2k5NZU6.css"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/css/academy.D3YF1VaC.css"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/rolldown-runtime-C60lm6uB.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/framework-D_rUT4EX.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/layout-segment-context-iwBkQSNr.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-vMumNEWj.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-context-select-B01XAYua.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-ui-DK8-YxKQ.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-context-TKO0J8zA.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/createLucideIcon-CVUKbSmH.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-download-BxeMJ1DT.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-learner-guidance-CBw1Yv7w.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-engine-CbPBEI6I.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-curriculum-Cr_l1EJ1.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-ecosystems-CQU6Ulm6.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-inclusive-learning-BzD0EQyu.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-plan-Dvnshm4i.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/calendar-days-CygB-Z4e.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-response-CSC_3mhQ.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-view-loading-DKHVUHCL.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/alert-dialog-mrZLNApg.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/dist-BsrAxEPl.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/checkbox-B86EFo0h.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/dialog-Gw0IUd_c.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/tabs-Bs7oQ7FS.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-operations-access-CA_9Odjm.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-offline-D26XY6gk.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/book-open-zmC_b9Df.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/clipboard-check-BXAvXHoR.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/download-DYF70Q1J.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/heart-handshake-PBJzOlWF.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/lock-keyhole-D2XK78Bh.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/message-square-CNUzDsRp.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/refresh-cw-mjmNvREE.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/search-BQFM0Akj.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/shield-check-BiJHj4-6.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/users-CeKOCHWO.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/index-CgCMcJ8Y.js"
+    },
+    {
+      "method": "GET",
+      "path": "/favicon.svg"
+    },
+    {
+      "method": "GET",
+      "path": "/api/academy"
+    },
+    {
+      "method": "GET",
+      "path": "/favicon.svg"
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams"
+    },
+    {
+      "method": "GET",
+      "path": "/"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/css/index.B2k5NZU6.css"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/css/academy.D3YF1VaC.css"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/rolldown-runtime-C60lm6uB.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/framework-D_rUT4EX.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/layout-segment-context-iwBkQSNr.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-vMumNEWj.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-context-select-B01XAYua.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-ui-DK8-YxKQ.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-context-TKO0J8zA.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/createLucideIcon-CVUKbSmH.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-download-BxeMJ1DT.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-learner-guidance-CBw1Yv7w.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-engine-CbPBEI6I.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-curriculum-Cr_l1EJ1.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-ecosystems-CQU6Ulm6.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-inclusive-learning-BzD0EQyu.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-plan-Dvnshm4i.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/calendar-days-CygB-Z4e.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-response-CSC_3mhQ.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-view-loading-DKHVUHCL.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/alert-dialog-mrZLNApg.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/dist-BsrAxEPl.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/checkbox-B86EFo0h.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/dialog-Gw0IUd_c.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/tabs-Bs7oQ7FS.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-operations-access-CA_9Odjm.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-offline-D26XY6gk.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/book-open-zmC_b9Df.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/clipboard-check-BXAvXHoR.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/download-DYF70Q1J.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/heart-handshake-PBJzOlWF.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/lock-keyhole-D2XK78Bh.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/message-square-CNUzDsRp.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/refresh-cw-mjmNvREE.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/search-BQFM0Akj.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/shield-check-BiJHj4-6.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/users-CeKOCHWO.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/index-CgCMcJ8Y.js"
+    },
+    {
+      "method": "GET",
+      "path": "/favicon.svg"
+    },
+    {
+      "method": "GET",
+      "path": "/api/academy"
+    },
+    {
+      "method": "GET",
+      "path": "/favicon.svg"
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams"
+    },
+    {
+      "method": "GET",
+      "path": "/"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/css/index.B2k5NZU6.css"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/css/academy.D3YF1VaC.css"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/rolldown-runtime-C60lm6uB.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/framework-D_rUT4EX.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/layout-segment-context-iwBkQSNr.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-vMumNEWj.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-context-select-B01XAYua.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-ui-DK8-YxKQ.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-context-TKO0J8zA.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/createLucideIcon-CVUKbSmH.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-download-BxeMJ1DT.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-learner-guidance-CBw1Yv7w.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-engine-CbPBEI6I.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-curriculum-Cr_l1EJ1.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-ecosystems-CQU6Ulm6.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-inclusive-learning-BzD0EQyu.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-plan-Dvnshm4i.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/calendar-days-CygB-Z4e.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-response-CSC_3mhQ.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-view-loading-DKHVUHCL.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/alert-dialog-mrZLNApg.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/dist-BsrAxEPl.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/checkbox-B86EFo0h.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/dialog-Gw0IUd_c.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/tabs-Bs7oQ7FS.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-operations-access-CA_9Odjm.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-offline-D26XY6gk.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/book-open-zmC_b9Df.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/clipboard-check-BXAvXHoR.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/download-DYF70Q1J.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/heart-handshake-PBJzOlWF.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/lock-keyhole-D2XK78Bh.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/message-square-CNUzDsRp.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/refresh-cw-mjmNvREE.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/search-BQFM0Akj.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/shield-check-BiJHj4-6.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/users-CeKOCHWO.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/index-CgCMcJ8Y.js"
+    },
+    {
+      "method": "GET",
+      "path": "/api/academy"
+    },
+    {
+      "method": "GET",
+      "path": "/favicon.svg"
+    },
+    {
+      "method": "GET",
+      "path": "/favicon.svg"
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams"
+    },
+    {
+      "method": "GET",
+      "path": "/"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/css/index.B2k5NZU6.css"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/css/academy.D3YF1VaC.css"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/rolldown-runtime-C60lm6uB.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/framework-D_rUT4EX.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/layout-segment-context-iwBkQSNr.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-vMumNEWj.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-context-select-B01XAYua.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-ui-DK8-YxKQ.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-context-TKO0J8zA.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/createLucideIcon-CVUKbSmH.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-download-BxeMJ1DT.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-learner-guidance-CBw1Yv7w.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-engine-CbPBEI6I.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-curriculum-Cr_l1EJ1.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-ecosystems-CQU6Ulm6.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-inclusive-learning-BzD0EQyu.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-plan-Dvnshm4i.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/calendar-days-CygB-Z4e.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-response-CSC_3mhQ.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-view-loading-DKHVUHCL.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/alert-dialog-mrZLNApg.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/dist-BsrAxEPl.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/checkbox-B86EFo0h.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/dialog-Gw0IUd_c.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/tabs-Bs7oQ7FS.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-operations-access-CA_9Odjm.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-offline-D26XY6gk.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/book-open-zmC_b9Df.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/clipboard-check-BXAvXHoR.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/download-DYF70Q1J.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/heart-handshake-PBJzOlWF.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/lock-keyhole-D2XK78Bh.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/message-square-CNUzDsRp.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/refresh-cw-mjmNvREE.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/search-BQFM0Akj.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/shield-check-BiJHj4-6.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/users-CeKOCHWO.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/index-CgCMcJ8Y.js"
+    },
+    {
+      "method": "GET",
+      "path": "/favicon.svg"
+    },
+    {
+      "method": "GET",
+      "path": "/api/academy"
+    },
+    {
+      "method": "GET",
+      "path": "/favicon.svg"
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams"
+    },
+    {
+      "method": "GET",
+      "path": "/"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/css/index.B2k5NZU6.css"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/css/academy.D3YF1VaC.css"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/rolldown-runtime-C60lm6uB.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/framework-D_rUT4EX.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/layout-segment-context-iwBkQSNr.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-vMumNEWj.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-context-select-B01XAYua.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-ui-DK8-YxKQ.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-context-TKO0J8zA.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/createLucideIcon-CVUKbSmH.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-download-BxeMJ1DT.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-learner-guidance-CBw1Yv7w.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-engine-CbPBEI6I.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-curriculum-Cr_l1EJ1.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-ecosystems-CQU6Ulm6.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-inclusive-learning-BzD0EQyu.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-plan-Dvnshm4i.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/calendar-days-CygB-Z4e.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-response-CSC_3mhQ.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-view-loading-DKHVUHCL.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/alert-dialog-mrZLNApg.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/dist-BsrAxEPl.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/checkbox-B86EFo0h.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/dialog-Gw0IUd_c.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/tabs-Bs7oQ7FS.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-operations-access-CA_9Odjm.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-offline-D26XY6gk.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/book-open-zmC_b9Df.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/clipboard-check-BXAvXHoR.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/download-DYF70Q1J.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/heart-handshake-PBJzOlWF.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/lock-keyhole-D2XK78Bh.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/message-square-CNUzDsRp.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/refresh-cw-mjmNvREE.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/search-BQFM0Akj.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/shield-check-BiJHj4-6.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/users-CeKOCHWO.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/index-CgCMcJ8Y.js"
+    },
+    {
+      "method": "GET",
+      "path": "/favicon.svg"
+    },
+    {
+      "method": "GET",
+      "path": "/api/academy"
+    },
+    {
+      "method": "GET",
+      "path": "/favicon.svg"
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams"
+    },
+    {
+      "method": "GET",
+      "path": "/"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/css/index.B2k5NZU6.css"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/css/academy.D3YF1VaC.css"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/rolldown-runtime-C60lm6uB.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/framework-D_rUT4EX.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/layout-segment-context-iwBkQSNr.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-vMumNEWj.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-context-select-B01XAYua.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-ui-DK8-YxKQ.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-context-TKO0J8zA.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/createLucideIcon-CVUKbSmH.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-download-BxeMJ1DT.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-learner-guidance-CBw1Yv7w.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-engine-CbPBEI6I.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-curriculum-Cr_l1EJ1.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-ecosystems-CQU6Ulm6.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-inclusive-learning-BzD0EQyu.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-plan-Dvnshm4i.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/calendar-days-CygB-Z4e.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-response-CSC_3mhQ.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-view-loading-DKHVUHCL.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/alert-dialog-mrZLNApg.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/dist-BsrAxEPl.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/checkbox-B86EFo0h.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/dialog-Gw0IUd_c.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/tabs-Bs7oQ7FS.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-operations-access-CA_9Odjm.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-offline-D26XY6gk.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/book-open-zmC_b9Df.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/clipboard-check-BXAvXHoR.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/download-DYF70Q1J.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/heart-handshake-PBJzOlWF.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/lock-keyhole-D2XK78Bh.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/message-square-CNUzDsRp.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/refresh-cw-mjmNvREE.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/search-BQFM0Akj.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/shield-check-BiJHj4-6.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/users-CeKOCHWO.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/index-CgCMcJ8Y.js"
+    },
+    {
+      "method": "GET",
+      "path": "/api/academy"
+    },
+    {
+      "method": "GET",
+      "path": "/favicon.svg"
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams"
+    },
+    {
+      "method": "GET",
+      "path": "/favicon.svg"
+    },
+    {
+      "method": "GET",
+      "path": "/"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/css/index.B2k5NZU6.css"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/css/academy.D3YF1VaC.css"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/rolldown-runtime-C60lm6uB.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/framework-D_rUT4EX.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/layout-segment-context-iwBkQSNr.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-vMumNEWj.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-context-select-B01XAYua.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-ui-DK8-YxKQ.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-context-TKO0J8zA.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/createLucideIcon-CVUKbSmH.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-download-BxeMJ1DT.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-learner-guidance-CBw1Yv7w.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-engine-CbPBEI6I.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-curriculum-Cr_l1EJ1.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-ecosystems-CQU6Ulm6.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-inclusive-learning-BzD0EQyu.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-plan-Dvnshm4i.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/calendar-days-CygB-Z4e.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-response-CSC_3mhQ.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-view-loading-DKHVUHCL.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/alert-dialog-mrZLNApg.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/dist-BsrAxEPl.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/checkbox-B86EFo0h.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/dialog-Gw0IUd_c.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/tabs-Bs7oQ7FS.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-operations-access-CA_9Odjm.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-offline-D26XY6gk.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/book-open-zmC_b9Df.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/clipboard-check-BXAvXHoR.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/download-DYF70Q1J.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/heart-handshake-PBJzOlWF.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/lock-keyhole-D2XK78Bh.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/message-square-CNUzDsRp.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/refresh-cw-mjmNvREE.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/search-BQFM0Akj.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/shield-check-BiJHj4-6.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/users-CeKOCHWO.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/index-CgCMcJ8Y.js"
+    },
+    {
+      "method": "GET",
+      "path": "/favicon.svg"
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams"
+    },
+    {
+      "method": "GET",
+      "path": "/favicon.svg"
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams"
+    },
+    {
+      "method": "GET",
+      "path": "/"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/css/index.B2k5NZU6.css"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/css/academy.D3YF1VaC.css"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/rolldown-runtime-C60lm6uB.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/framework-D_rUT4EX.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/layout-segment-context-iwBkQSNr.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-vMumNEWj.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-context-select-B01XAYua.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-ui-DK8-YxKQ.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-context-TKO0J8zA.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/createLucideIcon-CVUKbSmH.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-download-BxeMJ1DT.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-learner-guidance-CBw1Yv7w.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-engine-CbPBEI6I.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-curriculum-Cr_l1EJ1.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-ecosystems-CQU6Ulm6.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-inclusive-learning-BzD0EQyu.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-plan-Dvnshm4i.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/calendar-days-CygB-Z4e.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-response-CSC_3mhQ.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-view-loading-DKHVUHCL.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/alert-dialog-mrZLNApg.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/dist-BsrAxEPl.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/checkbox-B86EFo0h.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/dialog-Gw0IUd_c.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/tabs-Bs7oQ7FS.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-operations-access-CA_9Odjm.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-offline-D26XY6gk.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/book-open-zmC_b9Df.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/clipboard-check-BXAvXHoR.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/download-DYF70Q1J.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/heart-handshake-PBJzOlWF.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/lock-keyhole-D2XK78Bh.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/message-square-CNUzDsRp.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/refresh-cw-mjmNvREE.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/search-BQFM0Akj.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/shield-check-BiJHj4-6.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/users-CeKOCHWO.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/index-CgCMcJ8Y.js"
+    },
+    {
+      "method": "GET",
+      "path": "/favicon.svg"
+    },
+    {
+      "method": "GET",
+      "path": "/api/academy"
+    },
+    {
+      "method": "GET",
+      "path": "/favicon.svg"
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams"
+    },
+    {
+      "method": "GET",
+      "path": "/"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/css/index.B2k5NZU6.css"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/css/academy.D3YF1VaC.css"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/rolldown-runtime-C60lm6uB.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/framework-D_rUT4EX.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/layout-segment-context-iwBkQSNr.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-vMumNEWj.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-context-select-B01XAYua.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-ui-DK8-YxKQ.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-context-TKO0J8zA.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/createLucideIcon-CVUKbSmH.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-download-BxeMJ1DT.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-learner-guidance-CBw1Yv7w.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-engine-CbPBEI6I.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-curriculum-Cr_l1EJ1.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-ecosystems-CQU6Ulm6.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-inclusive-learning-BzD0EQyu.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-plan-Dvnshm4i.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/calendar-days-CygB-Z4e.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-response-CSC_3mhQ.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-view-loading-DKHVUHCL.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/alert-dialog-mrZLNApg.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/dist-BsrAxEPl.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/checkbox-B86EFo0h.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/dialog-Gw0IUd_c.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/tabs-Bs7oQ7FS.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-operations-access-CA_9Odjm.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-offline-D26XY6gk.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/book-open-zmC_b9Df.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/clipboard-check-BXAvXHoR.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/download-DYF70Q1J.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/heart-handshake-PBJzOlWF.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/lock-keyhole-D2XK78Bh.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/message-square-CNUzDsRp.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/refresh-cw-mjmNvREE.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/search-BQFM0Akj.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/shield-check-BiJHj4-6.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/users-CeKOCHWO.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/index-CgCMcJ8Y.js"
+    },
+    {
+      "method": "GET",
+      "path": "/api/academy"
+    },
+    {
+      "method": "GET",
+      "path": "/favicon.svg"
+    },
+    {
+      "method": "GET",
+      "path": "/favicon.svg"
+    },
+    {
+      "method": "GET",
+      "path": "/"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/css/index.B2k5NZU6.css"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/css/academy.D3YF1VaC.css"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/rolldown-runtime-C60lm6uB.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/framework-D_rUT4EX.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/layout-segment-context-iwBkQSNr.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-vMumNEWj.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-context-select-B01XAYua.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-ui-DK8-YxKQ.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-context-TKO0J8zA.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/createLucideIcon-CVUKbSmH.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-download-BxeMJ1DT.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-learner-guidance-CBw1Yv7w.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-engine-CbPBEI6I.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-curriculum-Cr_l1EJ1.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-ecosystems-CQU6Ulm6.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-inclusive-learning-BzD0EQyu.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-plan-Dvnshm4i.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/calendar-days-CygB-Z4e.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-response-CSC_3mhQ.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-view-loading-DKHVUHCL.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/alert-dialog-mrZLNApg.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/dist-BsrAxEPl.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/checkbox-B86EFo0h.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/dialog-Gw0IUd_c.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/tabs-Bs7oQ7FS.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-operations-access-CA_9Odjm.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-offline-D26XY6gk.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/book-open-zmC_b9Df.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/clipboard-check-BXAvXHoR.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/download-DYF70Q1J.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/heart-handshake-PBJzOlWF.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/lock-keyhole-D2XK78Bh.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/message-square-CNUzDsRp.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/refresh-cw-mjmNvREE.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/search-BQFM0Akj.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/shield-check-BiJHj4-6.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/users-CeKOCHWO.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/index-CgCMcJ8Y.js"
+    },
+    {
+      "method": "GET",
+      "path": "/api/academy"
+    },
+    {
+      "method": "GET",
+      "path": "/favicon.svg"
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams"
+    },
+    {
+      "method": "GET",
+      "path": "/favicon.svg"
+    },
+    {
+      "method": "GET",
+      "path": "/"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/css/index.B2k5NZU6.css"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/css/academy.D3YF1VaC.css"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/rolldown-runtime-C60lm6uB.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/framework-D_rUT4EX.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/layout-segment-context-iwBkQSNr.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-vMumNEWj.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-context-select-B01XAYua.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-ui-DK8-YxKQ.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-context-TKO0J8zA.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/createLucideIcon-CVUKbSmH.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-download-BxeMJ1DT.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-learner-guidance-CBw1Yv7w.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-engine-CbPBEI6I.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-curriculum-Cr_l1EJ1.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-ecosystems-CQU6Ulm6.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-inclusive-learning-BzD0EQyu.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-plan-Dvnshm4i.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/calendar-days-CygB-Z4e.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-response-CSC_3mhQ.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-view-loading-DKHVUHCL.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/alert-dialog-mrZLNApg.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/dist-BsrAxEPl.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/checkbox-B86EFo0h.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/dialog-Gw0IUd_c.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/tabs-Bs7oQ7FS.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-operations-access-CA_9Odjm.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-offline-D26XY6gk.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/book-open-zmC_b9Df.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/clipboard-check-BXAvXHoR.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/download-DYF70Q1J.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/heart-handshake-PBJzOlWF.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/lock-keyhole-D2XK78Bh.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/message-square-CNUzDsRp.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/refresh-cw-mjmNvREE.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/search-BQFM0Akj.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/shield-check-BiJHj4-6.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/users-CeKOCHWO.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/index-CgCMcJ8Y.js"
+    },
+    {
+      "method": "GET",
+      "path": "/api/academy"
+    },
+    {
+      "method": "GET",
+      "path": "/favicon.svg"
+    },
+    {
+      "method": "GET",
+      "path": "/favicon.svg"
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams"
+    },
+    {
+      "method": "GET",
+      "path": "/"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/css/index.B2k5NZU6.css"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/css/academy.D3YF1VaC.css"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/rolldown-runtime-C60lm6uB.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/framework-D_rUT4EX.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/layout-segment-context-iwBkQSNr.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-vMumNEWj.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-context-select-B01XAYua.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-ui-DK8-YxKQ.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-context-TKO0J8zA.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/createLucideIcon-CVUKbSmH.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-download-BxeMJ1DT.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-learner-guidance-CBw1Yv7w.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-engine-CbPBEI6I.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-curriculum-Cr_l1EJ1.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-ecosystems-CQU6Ulm6.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-inclusive-learning-BzD0EQyu.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-plan-Dvnshm4i.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/calendar-days-CygB-Z4e.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-response-CSC_3mhQ.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-view-loading-DKHVUHCL.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/alert-dialog-mrZLNApg.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/dist-BsrAxEPl.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/checkbox-B86EFo0h.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/dialog-Gw0IUd_c.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/tabs-Bs7oQ7FS.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-operations-access-CA_9Odjm.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-offline-D26XY6gk.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/book-open-zmC_b9Df.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/clipboard-check-BXAvXHoR.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/download-DYF70Q1J.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/heart-handshake-PBJzOlWF.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/lock-keyhole-D2XK78Bh.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/message-square-CNUzDsRp.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/refresh-cw-mjmNvREE.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/search-BQFM0Akj.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/shield-check-BiJHj4-6.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/users-CeKOCHWO.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/index-CgCMcJ8Y.js"
+    },
+    {
+      "method": "GET",
+      "path": "/api/academy"
+    },
+    {
+      "method": "GET",
+      "path": "/favicon.svg"
+    },
+    {
+      "method": "GET",
+      "path": "/favicon.svg"
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams"
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams"
+    },
+    {
+      "method": "GET",
+      "path": "/"
+    },
+    {
+      "method": "GET",
+      "path": "/favicon.svg"
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams"
+    },
+    {
+      "method": "GET",
+      "path": "/favicon.svg"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-teams-ui-2KcqJmDQ.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-inclusive-learning-CGPEZi1V.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/table-BlAE3CnU.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/copy-CMH2B48F.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/file-check-corner-B9dR5HEc.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/plus-Dq-HoQC9.js"
+    },
+    {
+      "method": "GET",
+      "path": "/favicon.svg"
+    },
+    {
+      "method": "GET",
+      "path": "/favicon.svg"
+    },
+    {
+      "method": "GET",
+      "path": "/"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/css/index.B2k5NZU6.css"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/css/academy.D3YF1VaC.css"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/rolldown-runtime-C60lm6uB.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/framework-D_rUT4EX.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/layout-segment-context-iwBkQSNr.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-vMumNEWj.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-context-select-B01XAYua.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-ui-DK8-YxKQ.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-context-TKO0J8zA.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/createLucideIcon-CVUKbSmH.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-download-BxeMJ1DT.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-learner-guidance-CBw1Yv7w.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-engine-CbPBEI6I.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-curriculum-Cr_l1EJ1.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-ecosystems-CQU6Ulm6.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-inclusive-learning-BzD0EQyu.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-plan-Dvnshm4i.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/calendar-days-CygB-Z4e.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-response-CSC_3mhQ.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-view-loading-DKHVUHCL.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/alert-dialog-mrZLNApg.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/dist-BsrAxEPl.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/checkbox-B86EFo0h.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/dialog-Gw0IUd_c.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/tabs-Bs7oQ7FS.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-operations-access-CA_9Odjm.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-offline-D26XY6gk.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/book-open-zmC_b9Df.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/clipboard-check-BXAvXHoR.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/download-DYF70Q1J.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/heart-handshake-PBJzOlWF.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/lock-keyhole-D2XK78Bh.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/message-square-CNUzDsRp.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/refresh-cw-mjmNvREE.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/search-BQFM0Akj.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/shield-check-BiJHj4-6.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/users-CeKOCHWO.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/index-CgCMcJ8Y.js"
+    },
+    {
+      "method": "GET",
+      "path": "/api/academy"
+    },
+    {
+      "method": "GET",
+      "path": "/favicon.svg"
+    },
+    {
+      "method": "GET",
+      "path": "/favicon.svg"
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams"
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams"
+    },
+    {
+      "method": "GET",
+      "path": "/"
+    },
+    {
+      "method": "GET",
+      "path": "/favicon.svg"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-teams-ui-2KcqJmDQ.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-inclusive-learning-CGPEZi1V.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/table-BlAE3CnU.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/copy-CMH2B48F.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/file-check-corner-B9dR5HEc.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/plus-Dq-HoQC9.js"
+    },
+    {
+      "method": "GET",
+      "path": "/favicon.svg"
+    },
+    {
+      "method": "GET",
+      "path": "/api/academy"
+    },
+    {
+      "method": "GET",
+      "path": "/favicon.svg"
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams"
+    },
+    {
+      "method": "GET",
+      "path": "/favicon.svg"
+    },
+    {
+      "method": "GET",
+      "path": "/favicon.svg"
+    },
+    {
+      "method": "GET",
+      "path": "/favicon.svg"
+    },
+    {
+      "method": "GET",
+      "path": "/"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/css/index.B2k5NZU6.css"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/css/academy.D3YF1VaC.css"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/rolldown-runtime-C60lm6uB.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/framework-D_rUT4EX.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/layout-segment-context-iwBkQSNr.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-vMumNEWj.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-context-select-B01XAYua.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-ui-DK8-YxKQ.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-context-TKO0J8zA.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/createLucideIcon-CVUKbSmH.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-download-BxeMJ1DT.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-learner-guidance-CBw1Yv7w.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-engine-CbPBEI6I.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-curriculum-Cr_l1EJ1.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-ecosystems-CQU6Ulm6.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-inclusive-learning-BzD0EQyu.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-plan-Dvnshm4i.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/calendar-days-CygB-Z4e.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-response-CSC_3mhQ.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-view-loading-DKHVUHCL.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/alert-dialog-mrZLNApg.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/dist-BsrAxEPl.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/checkbox-B86EFo0h.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/dialog-Gw0IUd_c.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/tabs-Bs7oQ7FS.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-operations-access-CA_9Odjm.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-offline-D26XY6gk.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/book-open-zmC_b9Df.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/clipboard-check-BXAvXHoR.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/download-DYF70Q1J.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/heart-handshake-PBJzOlWF.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/lock-keyhole-D2XK78Bh.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/message-square-CNUzDsRp.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/refresh-cw-mjmNvREE.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/search-BQFM0Akj.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/shield-check-BiJHj4-6.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/users-CeKOCHWO.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/index-CgCMcJ8Y.js"
+    },
+    {
+      "method": "GET",
+      "path": "/api/academy"
+    },
+    {
+      "method": "GET",
+      "path": "/favicon.svg"
+    },
+    {
+      "method": "GET",
+      "path": "/favicon.svg"
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams"
+    },
+    {
+      "method": "GET",
+      "path": "/"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/css/index.B2k5NZU6.css"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/css/academy.D3YF1VaC.css"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/rolldown-runtime-C60lm6uB.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/framework-D_rUT4EX.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/layout-segment-context-iwBkQSNr.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-vMumNEWj.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-context-select-B01XAYua.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-ui-DK8-YxKQ.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-context-TKO0J8zA.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/createLucideIcon-CVUKbSmH.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-download-BxeMJ1DT.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-learner-guidance-CBw1Yv7w.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-engine-CbPBEI6I.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-curriculum-Cr_l1EJ1.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-ecosystems-CQU6Ulm6.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-inclusive-learning-BzD0EQyu.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-plan-Dvnshm4i.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/calendar-days-CygB-Z4e.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-response-CSC_3mhQ.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-view-loading-DKHVUHCL.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/alert-dialog-mrZLNApg.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/dist-BsrAxEPl.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/checkbox-B86EFo0h.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/dialog-Gw0IUd_c.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/tabs-Bs7oQ7FS.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-operations-access-CA_9Odjm.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-offline-D26XY6gk.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/book-open-zmC_b9Df.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/clipboard-check-BXAvXHoR.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/download-DYF70Q1J.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/heart-handshake-PBJzOlWF.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/lock-keyhole-D2XK78Bh.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/message-square-CNUzDsRp.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/refresh-cw-mjmNvREE.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/search-BQFM0Akj.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/shield-check-BiJHj4-6.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/users-CeKOCHWO.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/index-CgCMcJ8Y.js"
+    },
+    {
+      "method": "GET",
+      "path": "/api/academy"
+    },
+    {
+      "method": "GET",
+      "path": "/favicon.svg"
+    },
+    {
+      "method": "GET",
+      "path": "/favicon.svg"
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams"
+    },
+    {
+      "method": "GET",
+      "path": "/"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/css/index.B2k5NZU6.css"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/css/academy.D3YF1VaC.css"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/rolldown-runtime-C60lm6uB.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/framework-D_rUT4EX.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/layout-segment-context-iwBkQSNr.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-vMumNEWj.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-context-select-B01XAYua.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-ui-DK8-YxKQ.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-context-TKO0J8zA.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/createLucideIcon-CVUKbSmH.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-download-BxeMJ1DT.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-learner-guidance-CBw1Yv7w.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-engine-CbPBEI6I.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-curriculum-Cr_l1EJ1.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-ecosystems-CQU6Ulm6.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-inclusive-learning-BzD0EQyu.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-plan-Dvnshm4i.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/calendar-days-CygB-Z4e.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-response-CSC_3mhQ.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-view-loading-DKHVUHCL.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/alert-dialog-mrZLNApg.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/dist-BsrAxEPl.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/checkbox-B86EFo0h.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/dialog-Gw0IUd_c.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/tabs-Bs7oQ7FS.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-operations-access-CA_9Odjm.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-offline-D26XY6gk.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/book-open-zmC_b9Df.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/clipboard-check-BXAvXHoR.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/download-DYF70Q1J.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/heart-handshake-PBJzOlWF.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/lock-keyhole-D2XK78Bh.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/message-square-CNUzDsRp.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/refresh-cw-mjmNvREE.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/search-BQFM0Akj.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/shield-check-BiJHj4-6.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/users-CeKOCHWO.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/index-CgCMcJ8Y.js"
+    },
+    {
+      "method": "GET",
+      "path": "/api/academy"
+    },
+    {
+      "method": "GET",
+      "path": "/favicon.svg"
+    },
+    {
+      "method": "GET",
+      "path": "/favicon.svg"
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams"
+    },
+    {
+      "method": "GET",
+      "path": "/"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/css/index.B2k5NZU6.css"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/css/academy.D3YF1VaC.css"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/rolldown-runtime-C60lm6uB.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/framework-D_rUT4EX.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/layout-segment-context-iwBkQSNr.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-vMumNEWj.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-context-select-B01XAYua.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-ui-DK8-YxKQ.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-context-TKO0J8zA.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/createLucideIcon-CVUKbSmH.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-download-BxeMJ1DT.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-learner-guidance-CBw1Yv7w.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-engine-CbPBEI6I.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-curriculum-Cr_l1EJ1.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-ecosystems-CQU6Ulm6.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-inclusive-learning-BzD0EQyu.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-plan-Dvnshm4i.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/calendar-days-CygB-Z4e.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-response-CSC_3mhQ.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-view-loading-DKHVUHCL.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/alert-dialog-mrZLNApg.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/dist-BsrAxEPl.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/checkbox-B86EFo0h.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/dialog-Gw0IUd_c.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/tabs-Bs7oQ7FS.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-operations-access-CA_9Odjm.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-offline-D26XY6gk.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/book-open-zmC_b9Df.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/clipboard-check-BXAvXHoR.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/download-DYF70Q1J.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/heart-handshake-PBJzOlWF.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/lock-keyhole-D2XK78Bh.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/message-square-CNUzDsRp.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/refresh-cw-mjmNvREE.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/search-BQFM0Akj.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/shield-check-BiJHj4-6.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/users-CeKOCHWO.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/index-CgCMcJ8Y.js"
+    },
+    {
+      "method": "GET",
+      "path": "/favicon.svg"
+    },
+    {
+      "method": "GET",
+      "path": "/api/academy"
+    },
+    {
+      "method": "GET",
+      "path": "/favicon.svg"
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams"
+    },
+    {
+      "method": "GET",
+      "path": "/"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/css/index.B2k5NZU6.css"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/css/academy.D3YF1VaC.css"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/rolldown-runtime-C60lm6uB.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/framework-D_rUT4EX.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/layout-segment-context-iwBkQSNr.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-vMumNEWj.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-context-select-B01XAYua.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-ui-DK8-YxKQ.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-context-TKO0J8zA.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/createLucideIcon-CVUKbSmH.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-download-BxeMJ1DT.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-learner-guidance-CBw1Yv7w.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-engine-CbPBEI6I.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-curriculum-Cr_l1EJ1.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-ecosystems-CQU6Ulm6.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-inclusive-learning-BzD0EQyu.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-plan-Dvnshm4i.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/calendar-days-CygB-Z4e.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-response-CSC_3mhQ.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-view-loading-DKHVUHCL.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/alert-dialog-mrZLNApg.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/dist-BsrAxEPl.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/checkbox-B86EFo0h.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/dialog-Gw0IUd_c.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/tabs-Bs7oQ7FS.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-operations-access-CA_9Odjm.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/academy-offline-D26XY6gk.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/book-open-zmC_b9Df.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/clipboard-check-BXAvXHoR.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/download-DYF70Q1J.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/heart-handshake-PBJzOlWF.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/lock-keyhole-D2XK78Bh.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/message-square-CNUzDsRp.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/refresh-cw-mjmNvREE.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/search-BQFM0Akj.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/shield-check-BiJHj4-6.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/users-CeKOCHWO.js"
+    },
+    {
+      "method": "GET",
+      "path": "/_next/static/chunks/index-CgCMcJ8Y.js"
+    },
+    {
+      "method": "GET",
+      "path": "/api/academy"
+    },
+    {
+      "method": "GET",
+      "path": "/favicon.svg"
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams"
+    },
+    {
+      "method": "GET",
+      "path": "/favicon.svg"
+    }
+  ],
+  "attemptedWrites": [],
+  "blockedExternal": [],
+  "pageErrors": [],
+  "displayFixtures": [
+    "Mixed vector adds own planning rows and one own reflection only in the existing personal GET copy; no plan/action/reflection is saved.",
+    "Inactive vector reduces only learner-a own GET team active/roles fields and supplies one retained own planning row; no membership or plan is changed on the server."
+  ],
+  "standaloneGeometry": [
+    {
+      "bodyFont": "32px",
+      "labelWidth": 270.546875,
+      "countWidth": 55.453125,
+      "completedWordLines": 1,
+      "countRects": [
+        {
+          "value": "2",
+          "rects": [
+            {
+              "width": 19.703125,
+              "height": 38
+            }
+          ]
+        },
+        {
+          "value": "50",
+          "rects": [
+            {
+              "width": 41.796875,
+              "height": 38
+            }
+          ]
+        },
+        {
+          "value": "90",
+          "rects": [
+            {
+              "width": 42.671875,
+              "height": 38
+            }
+          ]
+        },
+        {
+          "value": "1",
+          "rects": [
+            {
+              "width": 15.765625,
+              "height": 38
+            }
+          ]
+        },
+        {
+          "value": "1",
+          "rects": [
+            {
+              "width": 15.765625,
+              "height": 38
+            }
+          ]
+        },
+        {
+          "value": "1",
+          "rects": [
+            {
+              "width": 15.765625,
+              "height": 38
+            }
+          ]
+        },
+        {
+          "value": "1",
+          "rects": [
+            {
+              "width": 15.765625,
+              "height": 38
+            }
+          ]
+        },
+        {
+          "value": "1",
+          "rects": [
+            {
+              "width": 15.765625,
+              "height": 38
+            }
+          ]
+        },
+        {
+          "value": "0",
+          "rects": [
+            {
+              "width": 21.390625,
+              "height": 38
+            }
+          ]
+        },
+        {
+          "value": "0",
+          "rects": [
+            {
+              "width": 21.390625,
+              "height": 38
+            }
+          ]
+        },
+        {
+          "value": "0",
+          "rects": [
+            {
+              "width": 21.390625,
+              "height": 38
+            }
+          ]
+        },
+        {
+          "value": "1",
+          "rects": [
+            {
+              "width": 15.765625,
+              "height": 38
+            }
+          ]
+        },
+        {
+          "value": "0",
+          "rects": [
+            {
+              "width": 21.390625,
+              "height": 38
+            }
+          ]
+        }
+      ],
+      "scrollWidth": 390
+    }
+  ],
+  "sourceHashes": {
+    "lib/academy-weekly-review.mjs": "79ff82d3e993e048328297d0084b2538978f27fe9580694e6f2a31a753da802e",
+    "lib/academy-weekly-review.d.mts": "1829461cf440a6702b5c50e3bb4d5eb979b8c78985c1f50a5b37632de307058b",
+    "app/academy-weekly-review.tsx": "c5f5ca8c3c8ea4e3796b879c450c0512d6e3f27a74a2b5ef01eefcb4ea6e35e1",
+    "app/academy-weekly-review.module.css": "7b4b2d23b854ae850b6e0adfa769b1dfcc33996f546207368b19bb27387dd31a",
+    "app/academy-plan.tsx": "114087ca7044b9c5b26d33590b5c89370504342fe6d9e9fa4a5f320fe35bc286",
+    "lib/academy-plan.ts": "c619f823371951643585bfe5c5b55cb071454791bc19b958caa635c5fbfd0f9b",
+    "app/academy.tsx": "8128ec1b0d8abccadb41d46e25c812ffb0ee694453d2df9eedd44f465efdb52f",
+    "app/academy-context.tsx": "15ae4ab655c7ad8a680f89aa63010afd733d31dca8884efcaa7658ebc8905fd1",
+    "app/academy-acceptance.ts": "ce2bf2f00d49a64b72da02dbb54e1b2ea9af3a7306b43af87ed1c81555e325bf",
+    "app/globals.css": "8524d96594f222401d8c3ee1ba633fcbe5d70a67f12d4fdc476b3c8633cad7ae",
+    "lib/academy-authoring.ts": "a4c8b781153b2b811ef4f9b0ff853520f757ac9dda7cb3e927be7b485809de5f",
+    "lib/curriculum.json": "9fc83c8dd615456db8f49d140f56bff566e05c14d32ebb70a14cdcb73078b7e4",
+    "lib/curriculum-versions/0.1-review-draft.json": "9fc83c8dd615456db8f49d140f56bff566e05c14d32ebb70a14cdcb73078b7e4"
+  },
+  "buildHashes": {
+    "dist/server/index.js": "a7d4229dc48e16451de6df8623cd15716601ed0b1f0f5d4a5f68014bb8caa46b",
+    "dist/server/wrangler.json": "40037e9c9498735a53ecbe4fcaecbf765e98afbbd00b35a63c311843592b8397"
+  },
+  "previewHashes": {
+    "server/index.js": "a7d4229dc48e16451de6df8623cd15716601ed0b1f0f5d4a5f68014bb8caa46b",
+    "server/wrangler.json": "40037e9c9498735a53ecbe4fcaecbf765e98afbbd00b35a63c311843592b8397"
+  },
+  "copiedBundleMatchesRootBuild": true,
+  "sourceUnchanged": true,
+  "buildUnchanged": true,
+  "previewRuntimeUnchanged": true,
+  "fixtureFileSha256": "e753b6bf75af311d56e7e9738c47178d2cb0e3eed64aa298d713b09be5581ddb",
+  "savedBeforeHashes": {
+    "person-lab": "96dbfc78e1d19780165bbc096bfd67fd0f6beabc772c6206952709087d0ae7b4",
+    "person-team": "5d566a4f38927ac986b944218529178e257bbf482fc5f0c6286862368a8507a5",
+    "learner-a": "a398fd8a86d2946bcbe8bbe150ee26b45a7133a1d9c3223893a2433e4b23ed4f",
+    "other-lab": "a5ee176b63b787a15c718bd569de74fdc6e8b2e5f60ccef87372acead25c5f3b"
+  },
+  "savedAfterHashes": {
+    "person-lab": "96dbfc78e1d19780165bbc096bfd67fd0f6beabc772c6206952709087d0ae7b4",
+    "person-team": "5d566a4f38927ac986b944218529178e257bbf482fc5f0c6286862368a8507a5",
+    "learner-a": "a398fd8a86d2946bcbe8bbe150ee26b45a7133a1d9c3223893a2433e4b23ed4f",
+    "other-lab": "a5ee176b63b787a15c718bd569de74fdc6e8b2e5f60ccef87372acead25c5f3b"
+  },
+  "browsersClosed": true,
+  "limits": [
+    "GET/HEAD-only existing approved fictional loopback accounts; every non-read request and external origin blocked. No fixture creation or protected write.",
+    "Modified plan/unknown-pin/paused/inactive/missing/future states are labelled own GET display copies; they prove rendering and local download guards, not saved server states or membership decisions.",
+    "Saving guard inspected in source; no pending protected write started to exercise it.",
+    "CSS200% text/mobile keyboard/layout are bounded checks; no human screen-reader certification, field-user UAT or production identity proof.",
+    "Count downloads remain local aggregate snapshots, not independently verified records, credentials or job-impact evidence."
+  ]
+}

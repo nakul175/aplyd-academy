@@ -1,0 +1,8 @@
+{
+  "passed": true,
+  "groups": 18,
+  "at": "2026-10-05T21:25:51.721Z",
+  "limits": [
+    "Actual scoring/authoring pure modules; staged policy guard. No network, persistent mutation or integrated browser acceptance."
+  ]
+}

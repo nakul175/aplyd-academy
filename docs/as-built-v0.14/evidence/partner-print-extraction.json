@@ -1,0 +1,225 @@
+{
+  "passed": true,
+  "documents": [
+    {
+      "partner": "agri",
+      "pdf": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/aplyd-academy-eight-hour/partner-onboarding-next/peer-review/final-runtime/print/agri-a4.pdf",
+      "pages": 6,
+      "textPresencePassed": true,
+      "nonBlankPagesPassed": true,
+      "all16FieldNamesPresent": true,
+      "openDecisionsPresent": 7,
+      "pageBounds": [
+        {
+          "page": 1,
+          "widthPt": 595.91998,
+          "heightPt": 842.88,
+          "textCharacters": 1768,
+          "leftPt": 39.74999834375,
+          "rightPt": 551.0225211898146,
+          "topPt": 48.407224523032255,
+          "bottomPt": 778.4750651935376
+        },
+        {
+          "page": 2,
+          "widthPt": 595.91998,
+          "heightPt": 842.88,
+          "textCharacters": 1633,
+          "leftPt": 50.999997875,
+          "rightPt": 544.9867697663044,
+          "topPt": 50.54296661404305,
+          "bottomPt": 665.2250699122877
+        },
+        {
+          "page": 3,
+          "widthPt": 595.91998,
+          "heightPt": 842.88,
+          "textCharacters": 388,
+          "leftPt": 50.999997875,
+          "rightPt": 538.4977836925914,
+          "topPt": 50.542966614043166,
+          "bottomPt": 161.97509088103777
+        },
+        {
+          "page": 4,
+          "widthPt": 595.91998,
+          "heightPt": 842.88,
+          "textCharacters": 1795,
+          "leftPt": 39.74999834375,
+          "rightPt": 553.9057385605932,
+          "topPt": 60.7697728229258,
+          "bottomPt": 779.6571940542818
+        },
+        {
+          "page": 5,
+          "widthPt": 595.91998,
+          "heightPt": 842.88,
+          "textCharacters": 2386,
+          "leftPt": 39.74999834375,
+          "rightPt": 553.3998271300852,
+          "topPt": 47.65722455428204,
+          "bottomPt": 788.8685779294309
+        },
+        {
+          "page": 6,
+          "widthPt": 595.91998,
+          "heightPt": 842.88,
+          "textCharacters": 1079,
+          "leftPt": 39.74999834375,
+          "rightPt": 554.7978303434227,
+          "topPt": 42.37110910849333,
+          "bottomPt": 400.1572098667822
+        }
+      ],
+      "visualReview": "All six final100dpi A4 page PNGs inspected."
+    },
+    {
+      "partner": "msme",
+      "pdf": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/aplyd-academy-eight-hour/partner-onboarding-next/peer-review/final-runtime/print/msme-a4.pdf",
+      "pages": 6,
+      "textPresencePassed": true,
+      "nonBlankPagesPassed": true,
+      "all16FieldNamesPresent": true,
+      "openDecisionsPresent": 7,
+      "pageBounds": [
+        {
+          "page": 1,
+          "widthPt": 595.91998,
+          "heightPt": 842.88,
+          "textCharacters": 1785,
+          "leftPt": 39.74999834375,
+          "rightPt": 552.0781697708294,
+          "topPt": 48.407224523032255,
+          "bottomPt": 778.4750651935376
+        },
+        {
+          "page": 2,
+          "widthPt": 595.91998,
+          "heightPt": 842.88,
+          "textCharacters": 1633,
+          "leftPt": 50.999997875,
+          "rightPt": 544.9867697663044,
+          "topPt": 50.54296661404305,
+          "bottomPt": 665.2250699122877
+        },
+        {
+          "page": 3,
+          "widthPt": 595.91998,
+          "heightPt": 842.88,
+          "textCharacters": 388,
+          "leftPt": 50.999997875,
+          "rightPt": 538.4977836925914,
+          "topPt": 50.542966614043166,
+          "bottomPt": 161.97509088103777
+        },
+        {
+          "page": 4,
+          "widthPt": 595.91998,
+          "heightPt": 842.88,
+          "textCharacters": 1795,
+          "leftPt": 39.74999834375,
+          "rightPt": 553.9057385605932,
+          "topPt": 60.7697728229258,
+          "bottomPt": 779.6571940542818
+        },
+        {
+          "page": 5,
+          "widthPt": 595.91998,
+          "heightPt": 842.88,
+          "textCharacters": 2386,
+          "leftPt": 39.74999834375,
+          "rightPt": 553.3998271300852,
+          "topPt": 47.65722455428204,
+          "bottomPt": 788.8685779294309
+        },
+        {
+          "page": 6,
+          "widthPt": 595.91998,
+          "heightPt": 842.88,
+          "textCharacters": 1079,
+          "leftPt": 39.74999834375,
+          "rightPt": 554.7978303434227,
+          "topPt": 42.37110910849333,
+          "bottomPt": 400.1572098667822
+        }
+      ],
+      "visualReview": "All six final100dpi A4 page PNGs inspected."
+    },
+    {
+      "partner": "public",
+      "pdf": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/aplyd-academy-eight-hour/partner-onboarding-next/peer-review/final-runtime/print/public-a4.pdf",
+      "pages": 6,
+      "textPresencePassed": true,
+      "nonBlankPagesPassed": true,
+      "all16FieldNamesPresent": true,
+      "openDecisionsPresent": 7,
+      "pageBounds": [
+        {
+          "page": 1,
+          "widthPt": 595.91998,
+          "heightPt": 842.88,
+          "textCharacters": 1471,
+          "leftPt": 39.74999834375,
+          "rightPt": 551.0225211898146,
+          "topPt": 48.407224523032255,
+          "bottomPt": 645.7250707247877
+        },
+        {
+          "page": 2,
+          "widthPt": 595.91998,
+          "heightPt": 842.88,
+          "textCharacters": 1596,
+          "leftPt": 50.999997875,
+          "rightPt": 538.4977836925914,
+          "topPt": 50.54296661404305,
+          "bottomPt": 665.2250699122877
+        },
+        {
+          "page": 3,
+          "widthPt": 595.91998,
+          "heightPt": 842.88,
+          "textCharacters": 805,
+          "leftPt": 50.999997875,
+          "rightPt": 544.9867697663044,
+          "topPt": 50.542966614043166,
+          "bottomPt": 324.72508409978775
+        },
+        {
+          "page": 4,
+          "widthPt": 595.91998,
+          "heightPt": 842.88,
+          "textCharacters": 1797,
+          "leftPt": 39.74999834375,
+          "rightPt": 553.9057385605932,
+          "topPt": 60.7697728229258,
+          "bottomPt": 779.6571940542818
+        },
+        {
+          "page": 5,
+          "widthPt": 595.91998,
+          "heightPt": 842.88,
+          "textCharacters": 2386,
+          "leftPt": 39.74999834375,
+          "rightPt": 553.3998271300852,
+          "topPt": 47.65722455428204,
+          "bottomPt": 788.8685779294309
+        },
+        {
+          "page": 6,
+          "widthPt": 595.91998,
+          "heightPt": 842.88,
+          "textCharacters": 1079,
+          "leftPt": 39.74999834375,
+          "rightPt": 554.7978303434227,
+          "topPt": 42.37110910849333,
+          "bottomPt": 400.1572098667822
+        }
+      ],
+      "visualReview": "All six final100dpi A4 page PNGs inspected."
+    }
+  ],
+  "limitations": [
+    "Text extraction and page bounds supplement rendered-page inspection; they do not prove all layout quality.",
+    "No original source or product artifact changed."
+  ]
+}

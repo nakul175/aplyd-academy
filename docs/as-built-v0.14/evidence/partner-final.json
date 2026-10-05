@@ -1,0 +1,77 @@
+{
+  "status": "passed-actual-final-frozen-runtime",
+  "recordedAtUtc": "2026-10-05T21:21:51.319696+00:00",
+  "worker": "91739",
+  "frozenDist": "/private/tmp/academy-m4-publish-preview-f3zl8g_o/dist",
+  "bundleSha256": "0cb0efb9052fdf7e03b48a0d22edbb3a5d02dba4a48ff687158997bc6ad3233f",
+  "wranglerConfigSha256": "40037e9c9498735a53ecbe4fcaecbf765e98afbbd00b35a63c311843592b8397",
+  "sourceHashes": {
+    "lib/academy-partner-review-pack.mjs": "e8f2258ccdf1ffaff0a4a29346aa04be0a5d5831497a19ff73461768120367b3",
+    "lib/academy-partner-review-pack.d.mts": "542bb8ac7d931cc2cff3992768234f60d4dd5a034a5caa9a112eac8852f2abdd",
+    "app/academy-partner-readiness.tsx": "f77724a637824941b62481d940f1c7998027577951aa6237369c11a8e535a2cd",
+    "lib/academy-ecosystems.ts": "d12b3a3c6af5b35a38af5e99b0fc674ead9f0cb7ed58c0d31c4a4f5d2a6af19a",
+    "lib/academy-engine.ts": "4747712f10c39cc08eaed66939bd99013d8064e4eb3097218590fbcc63bebff7",
+    "lib/academy-library.ts": "76b893df0537a82fce5bbfd5213b404c511986de822718b222b2483f2f458512",
+    "lib/curriculum-versions/0.1-review-draft.json": "9fc83c8dd615456db8f49d140f56bff566e05c14d32ebb70a14cdcb73078b7e4",
+    "app/academy-ecosystems.tsx": "f16a4e2bbdade40faeedc0068afa1ec8f989e5e35642fe81234490f2828862d0",
+    "app/academy.tsx": "8128ec1b0d8abccadb41d46e25c812ffb0ee694453d2df9eedd44f465efdb52f",
+    "app/academy-context.tsx": "15ae4ab655c7ad8a680f89aa63010afd733d31dca8884efcaa7658ebc8905fd1"
+  },
+  "browser": {
+    "scenariosPassed": 11,
+    "scenariosFailed": 0,
+    "pageErrors": 0,
+    "forbiddenRequests": 0,
+    "stateAndRevisionEqualityAssertionsPassed": true,
+    "all10SourceHashesUnchanged": true,
+    "coverage": [
+      "Three exact generic downloads with no API/storage side effects",
+      "Health and shared-workspace exclusion",
+      "Valid private text GET-display fixture cannot leak into generic download",
+      "Wrong-subject response masks current summary while generic download stays independent",
+      "Keyboard download and44px-or-larger action at390/768/1440px",
+      "200% text action layout and entirely offline HTML layout"
+    ]
+  },
+  "offlinePrint": {
+    "partners": 3,
+    "screenWidthPx": 390,
+    "textScaleChecksPercent": [
+      100,
+      200
+    ],
+    "bodyTextPx": 16,
+    "tableCodeMetadataBadgeMinimumPx": 14,
+    "requests": 0,
+    "pageErrors": 0,
+    "pagesPerPartner": 6,
+    "totalRenderedPagesInspected": 18,
+    "all16FieldDefinitionsPresentEach": true,
+    "all7OpenDecisionsPresentEach": true,
+    "pageMarginBoundsPassed": true,
+    "wholeDecisionCards": true,
+    "tableHeadersRepeatAcrossPages": true,
+    "clippedOrOverlappingTextFound": false,
+    "whitePrintCanvasVerified": true
+  },
+  "evidenceFiles": {
+    "browser/browser-evidence.json": "91fffd3a411ae11f4b72f805266e87441ecc20b416197aa70d9e27ccc98ec528",
+    "print/print-capture-evidence.json": "bccc46382c146f292b912c811e35762b7320e7ff6c0d7359cf3f4f5a972aaf3b",
+    "print/print-extraction-evidence.json": "5efb5c8ba47d57c7ac52a42612ab53666ba2e477e308b97621c76caed6cd736b"
+  },
+  "processes": {
+    "browserSessionIds": [
+      93505,
+      76811
+    ],
+    "closed": true,
+    "workerRequestsPending": false,
+    "workerOwnedAndStoppedBy": "root only"
+  },
+  "limitations": [
+    "Existing approved fictional fixtures only; no learner/course/cohort/choice/receipt/profile/role mutations.",
+    "GET-display fixtures are labelled browser-response variants, never persisted-state scenarios.",
+    "Generic worksheet downloads are discussion material, not partner approval, recipient connection, credential accreditation, consent or live exchange.",
+    "Desktop Chromium native keyboard/layout and generated A4 printing checked; no human screen-reader, real partner UAT or institution approval claimed."
+  ]
+}

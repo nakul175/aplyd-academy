@@ -1,0 +1,20 @@
+{
+  "checkedAtUtc": "2026-10-05T21:08:48.536329+00:00",
+  "passed": true,
+  "fileCounts": {
+    "permission-matrix.tsv": 33,
+    "data-dictionary.tsv": 110,
+    "test-traceability.tsv": 43
+  },
+  "evidenceReferences": 24,
+  "sourceFiles": 60,
+  "sourceComparisonReference": "8a769a24415169ea24b45b6f97ae89e050c99b19",
+  "publishedSourceDifferences": [],
+  "ongoingRootWorkingTreeDifferencesExcluded": [
+    "work/aplyd-academy/app/academy-partner-readiness.tsx"
+  ],
+  "errors": [],
+  "publicationMetadataAgrees": true,
+  "productExecutions": 0,
+  "verificationScope": "JSON/TSV/link/source/preserved-evidence and root publication-metadata integrity only. Source checked against published immutable commit; ongoing root M4 working tree excluded. No application/API/database/browser/build/deployment execution by documentation agent."
+}

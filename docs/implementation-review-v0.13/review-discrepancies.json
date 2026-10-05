@@ -1,0 +1,66 @@
+{
+  "observedAtUtc": "2026-10-05T21:08:25.003489+00:00",
+  "sourceBoundary": "Published v0.13/main8a769a24415169ea24b45b6f97ae89e050c99b19; native version14 succeeded",
+  "applicationDefectsEstablished": [],
+  "items": [
+    {
+      "id": "DOC01",
+      "status": "RESOLVED_BY_ROOT",
+      "artifact": "outputs/aplyd-academy-development-status.json",
+      "observation": "Earlier mixed0.11/0.12 top-level metadata was preserved as history and corrected after v0.13 native publication. Current release/commit/mainCommit/version/deployment/timestamps/URL/nativeVersion/audience tuple agrees with the immutable M3 receipt, and sprint.mainMergedThrough matches main8a769a.",
+      "impact": "A reader using top-level commit/version/time or totals could report the wrong release/evidence.",
+      "action": "Use current development status and immutable publication receipt; keep future handoff updates coherent.",
+      "applicationDefect": false
+    },
+    {
+      "id": "DOC02",
+      "status": "RESOLVED_BY_ROOT",
+      "artifact": "work/aplyd-academy/docs/as-built-v0.13/release-evidence.json",
+      "observation": "Earlier checkpoint-status had665entries/44route groups from streaming research. Root replaced it with635retained Node entries and separate27actual-handler groups/309assertions; deferred variants recorded separately.",
+      "impact": "Superseded candidate counts must not describe the retained release.",
+      "action": "Use committed v0.13 release-evidence and its source/evidence hashes; keep separate suite units.",
+      "applicationDefect": false
+    },
+    {
+      "id": "DOC03",
+      "status": "RESOLVED_BY_ROOT",
+      "artifact": "work/aplyd-academy/docs/test-evidence.json",
+      "observation": "Pointer initially named0.12 publication pending. Current pointer names0.13 shipped-scope evidence and explicitly external native receipt. Older archived0.12 source can keep its before-publication wording.",
+      "action": "Final native publication tuple remains outside the source archive; no retrospective rewrite needed.",
+      "applicationDefect": false
+    },
+    {
+      "id": "DOC04",
+      "status": "DOCUMENTED_CONTRACT_CLARIFICATION",
+      "artifact": "API envelopes/physical dictionary",
+      "observation": "Personal outer envelope does not reject extra keys like the strict shared/record envelope. Personal/shared post-read cap is100000decodedUTF16units, not a raw byte cap. Record additionally caps4000reencodeddecodedUTF8bytes. SQL has keys/indexes/nonblank directory-user check but no FK/JSON schema/revision/date checks.",
+      "action": "Preserve actual route differences and label runtime versus physical constraints; do not silently tighten schema/error status for documentation consistency.",
+      "applicationDefect": false
+    },
+    {
+      "id": "DOC05",
+      "status": "DEFERRED_OUTSIDE_IMPLEMENTATION",
+      "artifact": "outputs/aplyd-academy-eight-hour/body-stream-qa",
+      "observation": "Three streaming cleanup policies failed native post-oversized-request recovery. Retained original Request.text reader passed exact native differential and final frozen build.",
+      "action": "Leave candidate outside shipped source; do not count candidate pure passes as native compatibility or report a retained-route defect.",
+      "applicationDefect": false
+    },
+    {
+      "id": "DOC06",
+      "status": "PENDING_EXPLICIT_TEST_DATA_DECISION",
+      "artifact": "template and full record mutation browser suites",
+      "observation": "Prepared mutating workflows were rejected before launch by automatic approval review; explicit local fictional-test-data answer remains pending. Separate actual model/read-only UI proof executed.",
+      "action": "Do not label held workflows passed or route around rejected execution. Root resumes only after explicit trusted user answer.",
+      "applicationDefect": false
+    },
+    {
+      "id": "DOC07",
+      "status": "M4_CANDIDATES_EXCLUDED",
+      "artifact": "continuous-learning/weekly-review; partner-onboarding-next; release-readiness/before-start",
+      "observation": "These are outside-checkout proposals at review time.",
+      "action": "Reconcile design/API/data/test trace only after root adoption/current-source verification and recorded release.",
+      "applicationDefect": false
+    }
+  ],
+  "scopeLimit": "Launch-gap prioritization remains in the separate release-readiness pack. This review maps actual contracts rather than expanding BRD targets or introducing approval requirements."
+}

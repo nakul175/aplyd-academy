@@ -1,0 +1,5 @@
+.review{padding:1.2rem;min-width:0;overflow-wrap:anywhere;margin:1rem 0}.metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.8rem;margin:1rem 0}.metrics>div{padding:.8rem;background:var(--muted);border-radius:.7rem;min-width:0}.metrics dt{font-size:.9rem;color:var(--muted-foreground)}.metrics dd{font-size:1.6rem;font-weight:700;margin:.25rem 0}.metrics small{font-size:.8rem}.attention{list-style:none;padding:0;margin:1rem 0;display:grid;gap:1rem}.attention li{padding-top:.8rem;border-top:1px solid var(--border);min-width:0}.attention li>div{display:flex;flex-wrap:wrap;gap:.4rem;margin:.4rem 0}.attention button{margin-top:.6rem}@media(max-width:40rem){.metrics{grid-template-columns:minmax(0,1fr)}}
+
+/* Touch targets stay inside the own recap; other Plan controls are untouched. */
+.review summary{min-height:44px;padding-block:.35rem}
+.review button{min-height:44px}

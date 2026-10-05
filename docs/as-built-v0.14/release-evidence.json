@@ -1,0 +1,390 @@
+{
+  "release": "0.14.0",
+  "milestone": "M4",
+  "status": "LOCAL_SCOPES_ACCEPTED_NATIVE_PUBLICATION_PENDING",
+  "recordedAtUtc": "2026-10-05T21:34:53.346786+00:00",
+  "portableDestination": "docs/as-built-v0.14/",
+  "publishedBaseline": {
+    "release": "0.13.0",
+    "mainCommit": "8a769a24415169ea24b45b6f97ae89e050c99b19",
+    "nativeReceiptExternalPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/aplyd-academy-eight-hour/m3-publication.json"
+  },
+  "candidate": {
+    "basedOnHead": "8a769a24415169ea24b45b6f97ae89e050c99b19",
+    "sourceManifest": {
+      "lib/academy-weekly-review.mjs": "79ff82d3e993e048328297d0084b2538978f27fe9580694e6f2a31a753da802e",
+      "lib/academy-weekly-review.d.mts": "1829461cf440a6702b5c50e3bb4d5eb979b8c78985c1f50a5b37632de307058b",
+      "app/academy-weekly-review.tsx": "c5f5ca8c3c8ea4e3796b879c450c0512d6e3f27a74a2b5ef01eefcb4ea6e35e1",
+      "app/academy-weekly-review.module.css": "7b4b2d23b854ae850b6e0adfa769b1dfcc33996f546207368b19bb27387dd31a",
+      "app/academy-plan.tsx": "114087ca7044b9c5b26d33590b5c89370504342fe6d9e9fa4a5f320fe35bc286",
+      "lib/academy-plan.ts": "c619f823371951643585bfe5c5b55cb071454791bc19b958caa635c5fbfd0f9b",
+      "app/academy.tsx": "8128ec1b0d8abccadb41d46e25c812ffb0ee694453d2df9eedd44f465efdb52f",
+      "app/academy-context.tsx": "15ae4ab655c7ad8a680f89aa63010afd733d31dca8884efcaa7658ebc8905fd1",
+      "app/academy-acceptance.ts": "ce2bf2f00d49a64b72da02dbb54e1b2ea9af3a7306b43af87ed1c81555e325bf",
+      "app/globals.css": "8524d96594f222401d8c3ee1ba633fcbe5d70a67f12d4fdc476b3c8633cad7ae",
+      "lib/academy-authoring.ts": "a4c8b781153b2b811ef4f9b0ff853520f757ac9dda7cb3e927be7b485809de5f",
+      "lib/curriculum.json": "9fc83c8dd615456db8f49d140f56bff566e05c14d32ebb70a14cdcb73078b7e4",
+      "lib/curriculum-versions/0.1-review-draft.json": "9fc83c8dd615456db8f49d140f56bff566e05c14d32ebb70a14cdcb73078b7e4",
+      "app/academy-learning.tsx": "5b891347026daefc3e2b90b41220fcc18697720e4331039a97bca7e208403430",
+      "lib/academy-before-start.mjs": "7267d476bfe6e6c33fd68f62cce1fd92b3826213b0debf1ea30b73e864f60265",
+      "lib/academy-before-start.d.mts": "4b1b629fb49ab1c652b95a930378f32dd886da56dac4047c1ef324540a2fb669",
+      "lib/academy-engine.ts": "4747712f10c39cc08eaed66939bd99013d8064e4eb3097218590fbcc63bebff7",
+      "lib/academy-curriculum.ts": "02a7e32aa7f56e1bc06694987946f804d33fdd17ab781749142f72f42bda722c",
+      "lib/academy-partner-review-pack.mjs": "e8f2258ccdf1ffaff0a4a29346aa04be0a5d5831497a19ff73461768120367b3",
+      "lib/academy-partner-review-pack.d.mts": "542bb8ac7d931cc2cff3992768234f60d4dd5a034a5caa9a112eac8852f2abdd",
+      "app/academy-partner-readiness.tsx": "f77724a637824941b62481d940f1c7998027577951aa6237369c11a8e535a2cd",
+      "lib/academy-ecosystems.ts": "d12b3a3c6af5b35a38af5e99b0fc674ead9f0cb7ed58c0d31c4a4f5d2a6af19a",
+      "lib/academy-library.ts": "76b893df0537a82fce5bbfd5213b404c511986de822718b222b2483f2f458512",
+      "app/academy-ecosystems.tsx": "f16a4e2bbdade40faeedc0068afa1ec8f989e5e35642fe81234490f2828862d0"
+    },
+    "newMainCommit": null,
+    "nativePublicationReceipt": null,
+    "demoUrl": "https://aplyd-academy.nakul1729233.chatgpt.site/",
+    "hostedV014Acceptance": "NOT_ESTABLISHED"
+  },
+  "finalWeeklyRuntime": {
+    "worker": "97593",
+    "recordedAtUtc": "2026-10-05T21:27:07.102Z",
+    "entrySha256": "a7d4229dc48e16451de6df8623cd15716601ed0b1f0f5d4a5f68014bb8caa46b",
+    "configSha256": "40037e9c9498735a53ecbe4fcaecbf765e98afbbd00b35a63c311843592b8397",
+    "scenarios": 18,
+    "assertions": 138,
+    "sourceBuildRuntimeUnchanged": true,
+    "fourSavedSnapshotsUnchanged": true,
+    "writeAttempts": 0,
+    "externalRequests": 0,
+    "pageErrors": 0,
+    "historical18Scenarios134Assertions": "Superseded by final18/138; not added"
+  },
+  "unchangedModuleBrowserWindow": {
+    "worker": "91739",
+    "entrySha256": "0cb0efb9052fdf7e03b48a0d22edbb3a5d02dba4a48ff687158997bc6ad3233f",
+    "configSha256": "40037e9c9498735a53ecbe4fcaecbf765e98afbbd00b35a63c311843592b8397",
+    "beforeStartCases": 16,
+    "partnerCases": 11,
+    "partnerA4PagesInspected": 18,
+    "beforeStartNamedSourceHashes": 9,
+    "partnerNamedSourceHashes": 10,
+    "allNamedHashesMatchFinalSource": true,
+    "qualification": "These suites ran on0cb; later delta only weekly standalone HTML count-column CSS. They were not rerun on the whole finala7d bundle."
+  },
+  "validationUnits": {
+    "retainedNodeEntries": {
+      "passed": 675,
+      "failed": 0
+    },
+    "weeklyPureGroups": 22,
+    "beforeStartPolicyGroups": 18,
+    "partnerStaticCustomGroups": 21,
+    "partnerDomainCustomGroups": 32,
+    "originalDocxProvenanceChecks": 6,
+    "partnerFinalModuleSha256": "e8f2258ccdf1ffaff0a4a29346aa04be0a5d5831497a19ff73461768120367b3",
+    "countRule": "Different/repeated/supplemental units are not summed; final weekly138 is primary."
+  },
+  "unchangedContractFiles": [
+    {
+      "path": "app/api/academy/route.ts",
+      "sha256": "22c78adf5c62a809a1aef4505c7c047b797b7ac4f2afd42bbcb1cd3b9af338b7",
+      "matchesPublishedBaseline": true
+    },
+    {
+      "path": "app/api/academy/records/check/route.ts",
+      "sha256": "9f161b661c9d5fa3fe45c127b98914b8bc4e332477ba051c32370bac94244da0",
+      "matchesPublishedBaseline": true
+    },
+    {
+      "path": "app/api/academy/export/route.ts",
+      "sha256": "130685dd4564fa8078a968db7303d4640b986da99ad33e09be678d280dd9d995",
+      "matchesPublishedBaseline": true
+    },
+    {
+      "path": "app/api/teams/route.ts",
+      "sha256": "6901cdab339f6ce0b4d60e3b778a6bd68d7e9d8e9807f13e81df9bbc1b29025e",
+      "matchesPublishedBaseline": true
+    },
+    {
+      "path": "app/api/teams/history/route.ts",
+      "sha256": "0ecebf4fe00083514d81cefbbc7a0e76c277531b823eb49a71238481c0b54838",
+      "matchesPublishedBaseline": true
+    },
+    {
+      "path": "drizzle/0003_massive_franklin_storm.sql",
+      "sha256": "2a482c72a541e36382a907d655565bf55129d30361cb0862c29cf185c8aca780",
+      "matchesPublishedBaseline": true
+    },
+    {
+      "path": "drizzle/0001_complex_deathbird.sql",
+      "sha256": "bb499509398fe933ea8912ec8eb12bd5a65261d5885637fad15049e7cd242532",
+      "matchesPublishedBaseline": true
+    },
+    {
+      "path": "drizzle/0002_silky_tempest.sql",
+      "sha256": "ee7d1008a437871b5d0b6c0530f94558932f77c6fe036a6bd363683d4973bde8",
+      "matchesPublishedBaseline": true
+    },
+    {
+      "path": "drizzle/0004_red_trauma.sql",
+      "sha256": "1c55bac21db77a790cc0bbc3bde41b4c9c6ba8883e6428ada49e7c9ca42e3701",
+      "matchesPublishedBaseline": true
+    },
+    {
+      "path": "drizzle/0005_tearful_angel.sql",
+      "sha256": "503264c742696c9fa4eddc9017b6a5d8232092007551b85e9bf5675df27011f6",
+      "matchesPublishedBaseline": true
+    },
+    {
+      "path": "drizzle/0000_strange_dazzler.sql",
+      "sha256": "bfd2a4f5d663d38ec7e484dcb55c7fc3c5f115ff87c38fc182bca09f8cde761b",
+      "matchesPublishedBaseline": true
+    },
+    {
+      "path": "lib/academy-personal-storage.ts",
+      "sha256": "26355595e3630d19e9d576bcfa48a1e688dddad387012fe5b2643848f17df804",
+      "matchesPublishedBaseline": true
+    },
+    {
+      "path": "lib/academy-storage.ts",
+      "sha256": "3eef88f741c7177cf00ba01dac4a8ecbee3da97e146e8999509929c9829f9941",
+      "matchesPublishedBaseline": true
+    },
+    {
+      "path": "lib/academy-teams.ts",
+      "sha256": "ff3430cb05af22f8ce953f1f30cd9ff20bc536bbef0dfab6942014b10183b807",
+      "matchesPublishedBaseline": true
+    }
+  ],
+  "schemaApiCommandsRolesDelta": "NONE; existing routes/storage/migrations unchanged; no new M4 persisted fields.",
+  "dictionaryScope": "M4 read models/artifact definitions; seven-table baseline remains in implementation-review-v0.13.",
+  "privacyBoundaries": {
+    "weeklyExport": "Fresh count/date/timezone/fixed-text whitelist; excludes private bodies/titles/goals/contacts/IDs/pins/revisions.",
+    "weeklySavingGuard": "Source-inspected; runtime protected-write exercise NOT RUN.",
+    "partnerExport": "Exact generic key only; no current learner/account/enrollment/choice/receipt values; all five authority flags false."
+  },
+  "evidence": [
+    {
+      "id": "retainedNode",
+      "path": "evidence/retained-node.tap",
+      "originalPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/aplyd-academy/.sites-runtime/m4-publish-retained-rules.tap",
+      "sha256": "fab5c9c900864e643327b908438b026ac96e18455252658f60d108ec984a4ebb",
+      "originalCopiedExactly": true
+    },
+    {
+      "id": "weeklyPure",
+      "path": "evidence/weekly-pure.tap",
+      "originalPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/aplyd-academy/.sites-runtime/m4-weekly-test.tap",
+      "sha256": "d2cb85a7ce1eb4789f0ebecb6ac6f95e43a2baa3a255d00eea6ce66879873d2b",
+      "originalCopiedExactly": true
+    },
+    {
+      "id": "beforeStartPolicy",
+      "path": "evidence/before-start-policy.json",
+      "originalPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/aplyd-academy/.sites-runtime/before-start-qa/policy-test-evidence.json",
+      "sha256": "89927ae7e7fe251640e56f7fdf9d2a9f60ab29a1a3c0de64355df93cf9d204b8",
+      "originalCopiedExactly": true
+    },
+    {
+      "id": "beforeStartPolicySources",
+      "path": "evidence/before-start-policy-sources.json",
+      "originalPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/aplyd-academy/.sites-runtime/before-start-qa/source-evidence.json",
+      "sha256": "2f96219a68f6226ca203f346d1646c0f601419cc993165eded1e4b7460345413",
+      "originalCopiedExactly": true
+    },
+    {
+      "id": "partnerStatic",
+      "path": "evidence/partner-static.json",
+      "originalPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/aplyd-academy/tests/partner-review-pack-qa/static-test-evidence.json",
+      "sha256": "cb683c2830e23bce9462c33e52b09cb208bdaeeae2346dde0565ba28f2d82407",
+      "originalCopiedExactly": true
+    },
+    {
+      "id": "partnerDomain",
+      "path": "evidence/partner-domain.json",
+      "originalPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/aplyd-academy/tests/partner-review-pack-qa/domain-test-evidence.json",
+      "sha256": "494fa722d5b2fa6cbbdfbc93dd1cfc2c8ec02c41dc3c7a44249f2b78a32ce417",
+      "originalCopiedExactly": true
+    },
+    {
+      "id": "partnerProvenance",
+      "path": "evidence/partner-provenance.json",
+      "originalPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/aplyd-academy-eight-hour/partner-onboarding-next/provenance-test-evidence.json",
+      "sha256": "8cc296160d0936c5190495f89038e6ca4d23d6d7739b956af696b59aac1dd3ab",
+      "originalCopiedExactly": true
+    },
+    {
+      "id": "weeklyFinalBrowser",
+      "path": "evidence/weekly-final-browser.json",
+      "originalPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/aplyd-academy-eight-hour/continuous-learning/weekly-review/qa/publish-runtime-evidence/browser-evidence.json",
+      "sha256": "7b4174e80f8c19b11e6d8686a5808847bdc9b3a25112a20fd0b60e1b98b04c7b",
+      "originalCopiedExactly": true
+    },
+    {
+      "id": "beforeStartBrowser",
+      "path": "evidence/before-start-browser.json",
+      "originalPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/aplyd-academy-eight-hour/m4-before-start-qa/runtime/browser-final/browser-evidence.json",
+      "sha256": "3ffe351576258184ce1659f5076b3492113b6528c3658041fc87c1eeef141188",
+      "originalCopiedExactly": true
+    },
+    {
+      "id": "partnerFinal",
+      "path": "evidence/partner-final.json",
+      "originalPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/aplyd-academy-eight-hour/partner-onboarding-next/peer-review/final-runtime/final-acceptance.json",
+      "sha256": "48e800ec30621742d29235d65f1d5bd763ebef76681b4e4661771054c05e1d03",
+      "originalCopiedExactly": true
+    },
+    {
+      "id": "partnerBrowser",
+      "path": "evidence/partner-browser.json",
+      "originalPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/aplyd-academy-eight-hour/partner-onboarding-next/peer-review/final-runtime/browser/browser-evidence.json",
+      "sha256": "91fffd3a411ae11f4b72f805266e87441ecc20b416197aa70d9e27ccc98ec528",
+      "originalCopiedExactly": true
+    },
+    {
+      "id": "partnerPrintCapture",
+      "path": "evidence/partner-print-capture.json",
+      "originalPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/aplyd-academy-eight-hour/partner-onboarding-next/peer-review/final-runtime/print/print-capture-evidence.json",
+      "sha256": "bccc46382c146f292b912c811e35762b7320e7ff6c0d7359cf3f4f5a972aaf3b",
+      "originalCopiedExactly": true
+    },
+    {
+      "id": "partnerPrintExtraction",
+      "path": "evidence/partner-print-extraction.json",
+      "originalPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/aplyd-academy-eight-hour/partner-onboarding-next/peer-review/final-runtime/print/print-extraction-evidence.json",
+      "sha256": "5efb5c8ba47d57c7ac52a42612ab53666ba2e477e308b97621c76caed6cd736b",
+      "originalCopiedExactly": true
+    },
+    {
+      "id": "finalBuild",
+      "path": "evidence/final-build.log",
+      "originalPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/aplyd-academy/.sites-runtime/m4-publish-final-build.log",
+      "sha256": "45de4c8fa17da4a720878ab6817992fe4d44249a362608864dbb98b8a0788346",
+      "originalCopiedExactly": true
+    },
+    {
+      "id": "finalTypecheck",
+      "path": "evidence/final-typecheck.log",
+      "originalPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/aplyd-academy/.sites-runtime/m4-publish-final-typecheck.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "originalCopiedExactly": true
+    },
+    {
+      "id": "catalogMismatch",
+      "path": "evidence/catalog-preview-mismatch.txt",
+      "originalPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/aplyd-academy-eight-hour/m4-before-start-qa/catalog-preview-mismatch.txt",
+      "sha256": "4b9898e88f93f0d8bcf118e27defc866dd12de7502b1a607adb5396093fdc5b0",
+      "originalCopiedExactly": true
+    }
+  ],
+  "screenshots": [
+    {
+      "path": "screenshots/before-start-desktop.png",
+      "sha256": "57d6cfe68c47ce7a1a242880badad0d0d315c7ed8988c47c4e41169a6bea85a3",
+      "width": 1440,
+      "height": 1000,
+      "visualReview": "Inspected; original local artifact; weekly captures are full-page images."
+    },
+    {
+      "path": "screenshots/before-start-mobile.png",
+      "sha256": "5ecbac9af579eba77b84a0d52637d920c6cd1c3cf8ee8671d685885c489d86ff",
+      "width": 390,
+      "height": 1000,
+      "visualReview": "Inspected; original local artifact; weekly captures are full-page images."
+    },
+    {
+      "path": "screenshots/partner-print.png",
+      "sha256": "3454367c19e5755918dc8344eb55e2ff7164838247ee49946b96cd7ad60b270b",
+      "width": 828,
+      "height": 1171,
+      "visualReview": "Inspected; original local artifact; weekly captures are full-page images."
+    },
+    {
+      "path": "screenshots/weekly-desktop.png",
+      "sha256": "d9c46c8d13985e7e808c5f15e327f363c411ccc631750b4f19d64f7dfe25a8e8",
+      "width": 1440,
+      "height": 4614,
+      "visualReview": "Inspected; original local artifact; weekly captures are full-page images."
+    },
+    {
+      "path": "screenshots/weekly-mobile.png",
+      "sha256": "7dee36463f2a5ebc7ea4f7efb15b756d8cc9f9ad81de415186ffeef0daef6c15",
+      "width": 390,
+      "height": 9274,
+      "visualReview": "Inspected; original local artifact; weekly captures are full-page images."
+    }
+  ],
+  "fullPartnerPrintExternalDirectory": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/aplyd-academy-eight-hour/partner-onboarding-next/peer-review/final-runtime/print",
+  "knownIssue": {
+    "id": "M4-KNOWN-01",
+    "status": "OPEN_REPRODUCED_EXISTING_JOURNEY",
+    "description": "Last eligible private catalog edition vs first-open default preview edition; explicit cohort choice resolves correctly; no silent persisted migration.",
+    "evidencePath": "evidence/catalog-preview-mismatch.txt"
+  },
+  "historicalEvidence": {
+    "policy": "Earlier weekly18/134 and initial selector/keyboard harness failures retained separately; neither erased nor counted as final passes.",
+    "beforeStartDirectory": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/aplyd-academy-eight-hour/m4-before-start-qa/runtime",
+    "weeklyDirectory": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/aplyd-academy-eight-hour/continuous-learning/weekly-review/qa"
+  },
+  "unexecutedOrHeld": [
+    "Full mutating fictional template/record workflows: automatic approval review rejected fixture launch; explicit user answer pending",
+    "Pending-save export runtime: source inspection only",
+    "Live AI credentials/provider",
+    "Live partner specification/recipient/return/stop and partner UAT",
+    "Recognized issuer/accreditation",
+    "Hosted multi-user authentication/authorization validation",
+    "Field UAT and human screen-reader/formal accessibility",
+    "Load, resilience and backup restore",
+    "Native v0.14 receipt/exact new main commit"
+  ],
+  "reviewOnlyScope": "No application edits/builds/servers/network/new test execution or saved-state writes by architecture docs review; originals and archived v0.13 pack unchanged.",
+  "documentationChecks": {
+    "passed": true,
+    "tsv": [
+      {
+        "file": "data-dictionary.tsv",
+        "rows": 55,
+        "columns": 8,
+        "uniqueKeys": true,
+        "actualTabSeparators": true
+      },
+      {
+        "file": "test-matrix.tsv",
+        "rows": 28,
+        "columns": 8,
+        "uniqueKeys": true,
+        "actualTabSeparators": true
+      }
+    ],
+    "markdownExistingLocalLinks": 23,
+    "htmlExistingLinksAndAnchors": 11,
+    "htmlImages": 5,
+    "allFivePngHeadersAndDimensionsValid": true,
+    "fiveImagesVisuallyInspected": true,
+    "galleryHtmlReview": "Static source/asset/link review; no new browser render.",
+    "portableSourceBaselineLinksValidatedAgainstApplication": true,
+    "documents": [
+      {
+        "path": "README.md",
+        "sha256": "ec64c76d6030d0d14884b99cb744db514d89904754addc5bf349d600123e0d5a"
+      },
+      {
+        "path": "functional-design.md",
+        "sha256": "79cffd56a81b6b8a46092aaaf116c4d4075899c9aabd5111434667480b973227"
+      },
+      {
+        "path": "architecture-and-contract.md",
+        "sha256": "98e8d3496893ff8adb58113821c3581d682d38a5a647d105b56228f7f167e71a"
+      },
+      {
+        "path": "data-dictionary.tsv",
+        "sha256": "50e07a10dde676aa67b4de52af306184f34213161090f944109e8d07d8a23438"
+      },
+      {
+        "path": "test-matrix.tsv",
+        "sha256": "a375790ccb102d37031ad678d4261d5f9251c12352348ff21e8f500a9402f156"
+      },
+      {
+        "path": "wireframes-and-journeys.html",
+        "sha256": "13c3d2de1d77f21e9a1a9325c1098d9bd0804c1e10c6f1c900d0e66eee875273"
+      }
+    ]
+  }
+}

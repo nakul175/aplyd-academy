@@ -1,10 +1,17 @@
 'use client';
 import {buildPartnerDiscussionBrief,ONBOARDING_QUESTIONS,type PartnerInspection} from '../lib/academy-partner-readiness';
+import {hasPartnerReviewPack,renderPartnerReviewPack} from '../lib/academy-partner-review-pack.mjs';
 import styles from './academy-partner-readiness.module.css';
 
 function downloadBrief(partner:PartnerInspection['partner']) {
   const url=URL.createObjectURL(new Blob([JSON.stringify(buildPartnerDiscussionBrief(partner),null,2)],{type:'application/json'}));
   const a=document.createElement('a');a.href=url;a.download=`aplyd-${partner}-discussion-brief.json`;
+  a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
+function downloadReviewChecklist(partner:PartnerInspection['partner']) {
+  if(!hasPartnerReviewPack(partner))return;
+  const url=URL.createObjectURL(new Blob([renderPartnerReviewPack(partner)],{type:'text/html;charset=utf-8'}));
+  const a=document.createElement('a');a.href=url;a.download=`aplyd-${partner}-review-checklist.html`;
   a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
 }
 /** Read-only component. Pass the current accepted shell projection on every render. */
@@ -40,9 +47,10 @@ export function PartnerReadiness({inspection:m,onOpenReferences}:{inspection:Par
       <ul className={styles.questions}>{ONBOARDING_QUESTIONS.map(q=><li key={q.id}><strong>{q.title}</strong><p>{q.detail}</p><small>{q.source}</small></li>)}</ul>
       {m.partner==='health'&&<p>Health Saha also needs a reviewed domain scope. The reference materials do not grant clinical authority or provide a clinical mapping.</p>}
       <p>Saving, withdrawing or replacing a local choice changes future local tests. It does not retract a historical receipt or promise deletion by a partner.</p>
-      <p>The discussion brief contains the generic contract questions and field names. It excludes your learning, identity, choice and receipt details.</p>
+      <p>The downloads contain generic questions and field definitions. The printable checklist adds open decisions, learning limits and source references. They exclude your learning, identity, choice and receipt details.</p>
       <div className={styles.actions}>
         <button type="button" onClick={()=>downloadBrief(m.partner)}>Download partner discussion brief</button>
+        {hasPartnerReviewPack(m.partner)&&<button type="button" onClick={()=>downloadReviewChecklist(m.partner)}>Download printable review checklist</button>}
         {onOpenReferences&&<button type="button" onClick={onOpenReferences}>Read the governance references</button>}
       </div>
       <p className={styles.note}>Teaching references support the discussion. They do not establish institutional approvals, permissions or a service-level agreement.</p>
