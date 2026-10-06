@@ -4,6 +4,7 @@ import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {projectTeam,deriveReportRollup,exportReport} from '../../.sites-runtime/wave3-qa/model.mjs';
 import {NOW,at,apply,u,workspace,withReport,escalate,status,PROG_A,PROG_B,LONG} from '../escalation-qa/fixture.mjs';
+import {projectOrgOverview} from '../../.sites-runtime/wave4-qa/model.mjs';
 
 const same=(a,b,label)=>{assert.ok(a,label+': denied call must fail');assert.ok(b,label+': unknown call must fail');assert.deepEqual(a,b,label+': denied and unknown must be indistinguishable')};
 const attempt=(t,who,c)=>status(()=>apply(t,who,c));
@@ -171,4 +172,145 @@ test('regression: posting to a cohort without board access is indistinguishable 
  const w=rich(),body={type:'post',title:'A fictional post title',body:'A fictional body that is long enough to post.'};
  for(const who of ['modB','assessB'])same(attempt(w.t,u(w,who),{...body,cohortId:w.A}),attempt(w.t,u(w,who),{...body,cohortId:'cccccccc-cccc-4ccc-8ccc-cccccccccccc'}),who+' post');
 });
-test('data requests and recovery requests: not part of this worktree',{skip:'lib/academy-data-requests and recovery modules are not present in this wave 3 worktree; their own suites (tests/data-request-qa, tests/recovery-qa) own those checks'},()=>{});
+/* Data requests (BR-44) and recovery requests (BR-04): boundaries across workspaces, cohorts and roles. */
+const DR_SECRET='PRIVATE-REQUEST-DETAIL-A1';
+function withRequests(id='ws-one',ownerId='owner'){
+ let w=rich(id,ownerId);
+ w.t=apply(w.t,u(w,'lrnA2'),{type:'draft',enrollmentId:w.t.learners.find(l=>l.userId===w.ids.lrnA2).state.enrollments[0].id,fields:{task:'PRIVATE-DRAFT-A2 not for anyone else.'}});
+ w.t=apply(w.t,u(w,'lrnA1'),{type:'data-request-open',kind:'export',detail:DR_SECRET+' please export my records.'});
+ w.reqId=w.t.dataRequests.requests[0].id;
+ w.t=apply(w.t,u(w,'plain'),{type:'recovery-request',claimedEmail:`lrnA3@${id}.example.test`,cohortHint:'RECOVERY-HINT-PLAIN',activityHint:'',note:'RECOVERY-NOTE-PLAIN'});
+ w.recId=w.t.recovery[0].id;
+ return w;
+}
+const U1='11111111-1111-4111-8111-111111111111';
+const drCmds=(id,rev=1)=>[{type:'data-request-verify',requestId:id,requestRev:rev,passed:['account-email','roster-details']},{type:'data-request-decide',requestId:id,requestRev:rev,outcome:'decline',reason:'A fictional reason long enough.'},{type:'data-request-withdraw',requestId:id,requestRev:rev},{type:'data-request-restriction',requestId:id,requestRev:rev,restricted:true,reason:'A fictional reason long enough.'}];
+test('data requests: other learners, staff and other-cohort users cannot read or act on a request; denied equals unknown',()=>{
+ const w=withRequests();
+ for(const who of ['lrnA2','lrnA3','lrnB1','plain','modA','modB','facA','revA','assessB']){
+  const dr=projectTeam(w.t,u(w,who)).team.dataRequests,blob=fp(dr);
+  assert.ok(!blob.includes(DR_SECRET),who+' read request text');assert.equal(dr.queue.length,0,who+' has a queue');
+  assert.ok(!dr.mine.some(r=>r.id===w.reqId),who);
+  const real=drCmds(w.reqId),fake=drCmds(U1);
+  real.forEach((c,i)=>same(attempt(w.t,u(w,who),c),attempt(w.t,u(w,who),fake[i]),who+' '+c.type));
+ }
+ // the one request is visible to its requester and to the workspace owner only
+ assert.ok(fp(projectTeam(w.t,u(w,'lrnA1')).team.dataRequests.mine).includes(DR_SECRET));assert.ok(fp(projectTeam(w.t,u(w,'owner')).team.dataRequests.queue).includes(DR_SECRET));
+ // the requester cannot verify or decide their own request
+ for(const c of drCmds(w.reqId).filter(c=>['data-request-verify','data-request-decide','data-request-restriction'].includes(c.type)))assert.equal(attempt(w.t,u(w,'lrnA1'),c)?.status,403,c.type);
+});
+test('data requests: an export holds only the requester own records, and its body reaches the requester only',()=>{
+ let w=withRequests();
+ w.t=apply(w.t,'owner',{type:'data-request-verify',requestId:w.reqId,requestRev:1,passed:['account-email','roster-details']});
+ w.t=apply(w.t,'owner',{type:'data-request-decide',requestId:w.reqId,requestRev:2,outcome:'approve',reason:'Checks passed; fictional approval.'});
+ const mine=projectTeam(w.t,u(w,'lrnA1')).team.dataRequests.mine[0],json=mine.export?.json??'';
+ assert.ok(json.length>100,'requester receives the export body');
+ for(const s of ['PRIVATE-DRAFT-A2','SUPPORT-SUBJECT-A1','SUPPORT-BODY-A1','ESCALATION-REASON-A','DIRECTORY-BIO-MODA','JOIN-INSTRUCTIONS-A',w.ids.lrnB1,w.ids.modA,'tokenHash'])assert.ok(!json.includes(s),'export leaked '+s);
+ const q=projectTeam(w.t,u(w,'owner')).team.dataRequests.queue[0];assert.ok(q.export&&!('json' in q.export),'owner queue holds only the checksum, not the body');
+ for(const who of ['lrnA2','modA','modB','lrnB1','facA'])assert.ok(!fp(projectTeam(w.t,u(w,who)).team.dataRequests).includes(mine.sha256),who+' saw the export checksum');
+});
+test('data requests: no standing across workspaces; ids replayed in another workspace fail like unknown ids',()=>{
+ const one=withRequests('ws-one','owner'),two=withRequests('ws-two','owner2');
+ const intruders=[u(one,'owner'),u(one,'lrnA1'),u(one,'modA')];
+ for(const who of intruders)for(const c of [{type:'data-request-open',kind:'export',detail:'A fictional probe from another workspace.'},...drCmds(two.reqId)])assert.equal(attempt(two.t,who,c)?.status,404,who.userId+' '+c.type);
+ for(const who of ['owner2','lrnA1','lrnA2','modA']){
+  const real=drCmds(one.reqId),fake=drCmds(U1);real.forEach((c,i)=>same(attempt(two.t,u(two,who),c),attempt(two.t,u(two,who),fake[i]),who+' '+c.type));
+ }
+ assert.ok(!fp(projectTeam(two.t,u(two,'owner2'))).includes('ws-one')&&!fp(projectTeam(two.t,u(two,'owner2')).team.dataRequests).includes(one.reqId));
+ assert.equal(one.t.dataRequests.requests.length,1);assert.equal(two.t.dataRequests.requests.length,1);
+});
+test('data requests: removed members lose queue and filing rights; a removed owner can decide nothing; own history stays readable',()=>{
+ let w=withRequests();
+ w.t=apply(w.t,'owner',{type:'invite',email:'co@x.example.test',roles:['admin'],scopes:[],tokenHash:'c'.repeat(64)});const co={userId:'co',email:'co@x.example.test'};w.t=apply(w.t,co,{type:'accept',tokenHash:'c'.repeat(64)});
+ assert.equal(projectTeam(w.t,co).team.dataRequests.queue.length,1);
+ w.t=apply(w.t,'owner',{type:'member',userId:'co',roles:['admin'],scopes:[],active:false});
+ assert.equal(projectTeam(w.t,co).team.dataRequests.queue.length,0);assert.ok(!fp(projectTeam(w.t,co).team.dataRequests).includes(DR_SECRET));
+ for(const c of drCmds(w.reqId))assert.equal(attempt(w.t,co,c)?.status,403,'removed '+c.type);
+ w.t=apply(w.t,'owner',{type:'member',userId:w.ids.lrnA1,roles:['learner'],scopes:[],active:false});
+ assert.equal(attempt(w.t,u(w,'lrnA1'),{type:'data-request-open',kind:'correction',detail:'A fictional correction long enough.',proposed:{name:'New Name'}})?.status,403);
+ assert.ok(fp(projectTeam(w.t,u(w,'lrnA1')).team.dataRequests.mine).includes(DR_SECRET),'own history stays readable');
+});
+test('recovery: requests, candidates and decisions are visible to owners and the requester only; outsiders get the unknown-id error',()=>{
+ const w=withRequests();
+ const dec=id=>({type:'recovery-decide',requestId:id,decision:'decline',reason:'A fictional reason long enough.',checklist:{cohort:true,email:true,lastActivity:false},reviewedVersion:1});
+ for(const who of ['lrnA1','lrnA2','lrnA3','lrnB1','modA','modB','facA','revA','assessB']){
+  const r=projectTeam(w.t,u(w,who)).team.recovery,blob=fp(r);
+  assert.equal(r.queue.length,0,who);assert.ok(!blob.includes('RECOVERY-HINT-PLAIN')&&!blob.includes('RECOVERY-NOTE-PLAIN')&&!blob.includes(w.ids.lrnA3),who+' read a recovery request');assert.equal(r.mine.length,0,who);
+  same(attempt(w.t,u(w,who),{type:'recovery-withdraw',requestId:w.recId}),attempt(w.t,u(w,who),{type:'recovery-withdraw',requestId:U1}),who+' withdraw');
+  same(attempt(w.t,u(w,who),dec(w.recId)),attempt(w.t,u(w,who),dec(U1)),who+' decide');assert.equal(attempt(w.t,u(w,who),dec(w.recId)).status,403,who+' decide is a plain refusal');
+ }
+ const own=projectTeam(w.t,u(w,'plain')).team.recovery;assert.equal(own.mine.length,1);assert.equal(own.queue.length,0);assert.ok(!fp(own).includes(w.ids.lrnA3),'the requester is not told which account matched');
+ const q=projectTeam(w.t,u(w,'owner')).team.recovery.queue;assert.equal(q.length,1);assert.equal(q[0].candidate.email,'lrna3@ws-one.example.test');
+});
+test('recovery: the same response whether the claimed email matches a member or not; the requester cannot decide their own request',()=>{
+ const w=withRequests(),hit=projectTeam(w.t,u(w,'plain')).team.recovery.mine[0];
+ let t=apply(w.t,u(w,'plain'),{type:'recovery-withdraw',requestId:w.recId});
+ t=apply(t,u(w,'plain'),{type:'recovery-request',claimedEmail:'nobody-here@example.test',cohortHint:'',activityHint:'',note:''});
+ const miss=projectTeam(t,u(w,'plain')).team.recovery.mine.at(-1),shape=r=>({status:r.status,reason:r.reason,decidedAt:r.decidedAt,keys:Object.keys(r).sort()});
+ assert.deepEqual(shape(miss),shape({...hit,status:'pending'}));
+ assert.equal(attempt(t,u(w,'plain'),{type:'recovery-decide',requestId:t.recovery.at(-1).id,decision:'approve',reason:'A fictional self approval.',checklist:{cohort:true,email:true,lastActivity:true},reviewedVersion:t.recovery.at(-1).version})?.status,403);
+});
+test('recovery: no standing across workspaces; a foreign request id fails like an unknown id; a member of another workspace cannot be recovered into this one',()=>{
+ const one=withRequests('ws-one','owner'),two=withRequests('ws-two','owner2');
+ for(const who of [u(one,'owner'),u(one,'plain'),u(one,'modA')])for(const c of [{type:'recovery-request',claimedEmail:'a@b.example.test',cohortHint:'',activityHint:'',note:''},{type:'recovery-withdraw',requestId:two.recId},{type:'recovery-decide',requestId:two.recId,decision:'decline',reason:'A fictional reason long enough.',checklist:{cohort:true,email:true,lastActivity:false},reviewedVersion:1}])assert.equal(attempt(two.t,who,c)?.status,404,who.userId+' '+c.type);
+ const dec=id=>({type:'recovery-decide',requestId:id,decision:'approve',reason:'A fictional approval long enough.',checklist:{cohort:true,email:true,lastActivity:true},reviewedVersion:1});
+ same(attempt(two.t,u(two,'owner2'),dec(one.recId)),attempt(two.t,u(two,'owner2'),dec(U1)),'owner2 replays a ws-one id');
+ // lrnA2 in ws-one claims the email of a member who exists only in ws-two: nothing resolves and approval is refused
+ const t=apply(one.t,u(one,'lrnA2'),{type:'recovery-request',claimedEmail:'lrnA3@ws-two.example.test',cohortHint:'',activityHint:'',note:''});
+ const rid=t.recovery.at(-1).id;assert.equal(t.recovery.at(-1).oldMemberId,null);
+ assert.equal(attempt(t,'owner',{...dec(rid),reviewedVersion:t.recovery.at(-1).version})?.status,409);
+ assert.equal(t.learners.find(l=>l.userId===one.ids.lrnA2).state.enrollments.length,1);
+});
+test('recovery: staff access is never re-issued by recovery; a learner relink moves only that learner record',()=>{
+ const w=withRequests();
+ const dec=(t,id)=>({type:'recovery-decide',requestId:id,decision:'approve',reason:'A fictional approval long enough.',checklist:{cohort:true,email:true,lastActivity:true},reviewedVersion:t.recovery.find(r=>r.id===id).version});
+ let t=apply(w.t,u(w,'plain'),{type:'recovery-withdraw',requestId:w.recId});
+ t=apply(t,u(w,'plain'),{type:'recovery-request',claimedEmail:'modA@ws-one.example.test',cohortHint:'',activityHint:'',note:''});
+ assert.equal(attempt(t,'owner',dec(t,t.recovery.at(-1).id))?.status,409);
+ const before=fp(t.learners.find(l=>l.userId===w.ids.lrnA2).state);
+ t=apply(t,u(w,'plain'),{type:'recovery-withdraw',requestId:t.recovery.at(-1).id});
+ t=apply(t,u(w,'plain'),{type:'recovery-request',claimedEmail:'lrnA3@ws-one.example.test',cohortHint:'',activityHint:'',note:''});
+ t=apply(t,'owner',dec(t,t.recovery.at(-1).id));
+ assert.equal(fp(t.learners.find(l=>l.userId===w.ids.lrnA2).state),before,'another learner record is untouched');
+ assert.equal(t.learners.some(l=>l.userId===w.ids.lrnA3),false);assert.equal(t.learners.some(l=>l.userId===w.ids.plain),true);
+ assert.equal(projectTeam(t,u(w,'plain')).state.enrollments.length,1);assert.equal(projectTeam(t,u(w,'lrnA3')).team.active,false);assert.equal(projectTeam(t,u(w,'lrnA3')).state.enrollments.length,0,'the old account no longer holds the record');
+ for(const who of ['lrnA2','modB','lrnB1'])assert.ok(!fp(projectTeam(t,u(w,who)).team.recovery).includes('lrnA3@'));
+});
+
+/* Programme spaces and organisation overview (BR-32, BR-38) */
+const SP_A='programme:'+PROG_A.id,SPACE_TEXT='A fictional pathway room discussion body long enough.';
+function withSpaces(id='ws-one',owner='owner'){
+ let w=rich(id,owner);
+ w.t=apply(w.t,u(w,'lrnA1'),{type:'space-post',spaceId:SP_A,title:'SPACE-TITLE-A',body:SPACE_TEXT});const pid=w.t.spaces.posts[0].id;
+ w.t=apply(w.t,u(w,'modA'),{type:'space-moderate',postId:pid,status:'visible',reason:'Publishing a fictional room post.'});
+ w.t=apply(w.t,u(w,'lrnA2'),{type:'space-report',postId:pid,reason:'A fictional concern for the room moderators.'});
+ w.spacePostId=pid;return w;
+}
+test('programme spaces: cohort B and other-pathway users never receive pathway A room content; denied equals unknown',()=>{
+ const w=withSpaces();
+ for(const who of ['modB','assessB','lrnB1','plain']){
+  const blob=fp(projectTeam(w.t,u(w,who)));assert.ok(!blob.includes('SPACE-TITLE-A')&&!blob.includes(SPACE_TEXT)&&!blob.includes(w.spacePostId),who);
+  for(const [type,extra] of [['space-reply',{body:'A fictional reply long enough.'}],['space-report',{reason:'A fictional reason long enough.'}],['space-moderate',{status:'hidden',reason:'A fictional reason long enough.'}]])same(attempt(w.t,u(w,who),{type,postId:w.spacePostId,...extra}),attempt(w.t,u(w,who),{type,postId:U1,...extra}),who+' '+type);
+  same(attempt(w.t,u(w,who),{type:'space-post',spaceId:SP_A,title:'A fictional title',body:SPACE_TEXT}),attempt(w.t,u(w,who),{type:'space-post',spaceId:'programme:nope',title:'A fictional title',body:SPACE_TEXT}),who+' post');
+ }
+ for(const who of ['lrnA1','lrnA3','facA'])assert.equal(projectTeam(w.t,u(w,who)).team.spaces.reports.length,0,who+' received reports');
+ assert.equal(projectTeam(w.t,u(w,'modA')).team.spaces.reports.length,1);assert.equal(projectTeam(w.t,u(w,'modB')).team.spaces.reports.length,0);
+});
+test('programme and ecosystem spaces: no standing across workspaces; removed members keep nothing but attribution',()=>{
+ const one=withSpaces('ws-one','owner'),two=withSpaces('ws-two','owner2');
+ one.t=apply(one.t,'owner',{type:'space-ecosystem',enabled:true});
+ for(const who of [u(one,'owner'),u(one,'modA'),u(one,'lrnA1'),u(one,'plain')])for(const c of [{type:'space-post',spaceId:SP_A,title:'A fictional title',body:SPACE_TEXT},{type:'space-post',spaceId:'ecosystem',title:'A fictional title',body:SPACE_TEXT},{type:'space-moderate',postId:two.spacePostId,status:'hidden',reason:'A fictional reason long enough.'},{type:'space-ecosystem',enabled:true}])assert.equal(attempt(two.t,who,c)?.status,404,who.userId+' '+c.type);
+ for(const who of ['owner2','modA','lrnA1','plain'])same(attempt(two.t,u(two,who),{type:'space-reply',postId:one.spacePostId,body:'A fictional reply long enough.'}),attempt(two.t,u(two,who),{type:'space-reply',postId:U1,body:'A fictional reply long enough.'}),who+' foreign space id');
+ assert.equal(two.t.spaces.ecosystemOpen,false);
+ const t=apply(one.t,'owner',{type:'member',userId:one.ids.lrnA1,roles:['learner'],scopes:[],active:false});
+ const gone=projectTeam(t,u(one,'lrnA1')).team.spaces;assert.deepEqual([gone.items,gone.posts,gone.reports],[[],[],[]]);
+ assert.ok(projectTeam(t,u(one,'lrnA2')).team.spaces.posts.some(p=>p.id===one.spacePostId&&p.author));
+});
+test('organisation overview: non-owners, owners of another workspace and removed owners get nothing; the overview carries no learner content',()=>{
+ const one=withSpaces('ws-one','owner'),two=withSpaces('ws-two','owner2');
+ for(const who of ['modA','facA','lrnA1','plain','lrnB1','owner2'])assert.deepEqual(projectOrgOverview([one.t],one.ids[who]??who,NOW).workspaces,[],who);
+ const o=projectOrgOverview([one.t,two.t],'owner',NOW);assert.deepEqual(o.workspaces.map(w=>w.workspaceId),['ws-one']);
+ const blob=fp(o);for(const s of [...A_SECRETS,'SPACE-TITLE-A',SPACE_TEXT,'ws-two','example.test','tokenHash'])assert.ok(!blob.includes(s),'overview leaked '+s);
+ let t=apply(one.t,'owner',{type:'invite',email:'co@x.example.test',roles:['admin'],scopes:[],tokenHash:'c'.repeat(64)});t=apply(t,{userId:'co',email:'co@x.example.test'},{type:'accept',tokenHash:'c'.repeat(64)});
+ assert.equal(projectOrgOverview([t],'co',NOW).workspaces.length,1);t=apply(t,'owner',{type:'member',userId:'co',roles:['admin'],scopes:[],active:false});assert.equal(projectOrgOverview([t],'co',NOW).workspaces.length,0);
+});
