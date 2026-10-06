@@ -266,7 +266,17 @@ export function taskProgress(state: PlanLearnerState, task: PlanTask, options: P
     completedAt = attempt?.submittedAt ?? null;
     label = 'Evidence submitted';
   } else {
-    const reflection = (state.followups ?? []).find((f: any) => f.enrollmentId === e.id && Date.parse(f.createdAt) >= Date.parse(task.createdAt));
+    // Newer reflections remain history; the first qualifying action completed this plan item.
+    const createdAt = Date.parse(task.createdAt);
+    let reflection: any = null;
+    let earliest = Infinity;
+    for (const f of state.followups ?? []) {
+      const savedAt = typeof f?.createdAt === 'string' ? Date.parse(f.createdAt) : NaN;
+      if (f?.enrollmentId === e.id && Number.isFinite(savedAt) && savedAt >= createdAt && savedAt < earliest) {
+        reflection = f;
+        earliest = savedAt;
+      }
+    }
     completed = !!reflection;
     completedAt = reflection?.createdAt ?? null;
     label = 'Reflection saved';
