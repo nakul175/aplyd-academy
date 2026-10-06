@@ -35,3 +35,6 @@ Routes: `/demo/switch?as=<key>&next=/path`, `/demo/overview`, `/demo/health`. Ev
 - No WebSocket/upgrade proxying (not needed for `wrangler dev` start; Vite HMR not supported through the proxy).
 - If the app ever sends a strict CSP, the inline bar script would be blocked.
 - The demo bar is client-side overlay: a user with devtools can hide it. It only guards against the app removing it.
+
+## Overview and guide (wave 4)
+`/demo/overview` now also shows escalations, accommodations and assessment methods, credentials by status, data requests, recovery, the programme rollup (with `<3` cells), the partner link, audit counts by type, and a "dummy, partial or not built" strip. `demo-script.json` has 18 steps (8 added for the newer features). The overview reads the audit log and each role view with GET only and never prints emails.

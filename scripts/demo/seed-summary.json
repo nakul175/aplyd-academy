@@ -1,15 +1,15 @@
 {
-  "baseUrl": "http://127.0.0.1:8791",
-  "teamId": "tw-69f779f4-eaa9-48ba-8879-475a8af82e9b",
-  "nonce": "03ea066d",
+  "baseUrl": "http://127.0.0.1:8811",
+  "teamId": "tw-3d2f4f6f-2f89-4b1e-9ccb-16e17e51adef",
+  "nonce": "8d602033",
   "cohorts": {
-    "farm": "e82bf50b-f43a-4433-8a2e-6e1998c36708",
-    "msme": "bd92e9e4-d1d8-4c53-b0fd-d395c3f18527",
-    "publicServant": "538ffd06-1719-4a31-bd93-ccc046459ec4"
+    "farm": "d2dfe5a2-e22f-4f0e-861c-f0b221124fb6",
+    "msme": "bcf10cad-6327-43ce-8cc1-0f24dab853fd",
+    "publicServant": "d86932a0-f488-4b8f-8075-4b10c8936b74"
   },
   "sessions": {
-    "attendance": "08e3d25f-00f1-4be4-b0f8-ed9fe9e0422b",
-    "upcoming": "b68b8716-89dd-4f3b-aa0d-a299f1d6e1e8"
+    "attendance": "3b250f7b-8ff2-4359-9a9e-a2642542f9d1",
+    "upcoming": "360c1cbb-467c-40d3-9e8b-1333b25c43d5"
   },
   "learners": [
     {
@@ -89,16 +89,41 @@
     }
   ],
   "counts": {
-    "learners": 15,
+    "learners": 19,
     "staff": 6,
     "cohorts": 3,
-    "posts": 5,
+    "posts": 6,
     "sessions": 2,
     "networkProfiles": 3,
-    "supportRequests": 1
+    "supportRequests": 1,
+    "escalations": 2,
+    "accommodations": 3,
+    "dataRequests": 5,
+    "recoveryPending": 1,
+    "assistedInvites": 1,
+    "credentials": 4
+  },
+  "wave4": {
+    "partner": {
+      "seeded": false,
+      "note": "DEMO_PARTNER_URL is not set: partner link skipped. Start scripts/demo/dummy-partner.mjs and give the worker ACADEMY_DUMMY_PARTNER_URL (see README-seed.md)."
+    },
+    "escalations": {
+      "open": "82421cfe-b893-4914-b2cb-07b83f8c126b",
+      "resolved": "05d34144-a397-4bc7-a1b9-63f2bf35b814"
+    },
+    "credentials": {
+      "active": "acv_Zj94wuVUjTpBluwdjPANZsraQZ2-tRj5",
+      "revoked": "acv_kltyfYVxSPNqrZi_7bR_Sxa1y69_YTLd",
+      "suspended": "acv_K-kaKgH8hjAtYisJQ4evybyp2OAb4YiN",
+      "privateActive": "acv_u8aopm9onPfeY8vHyivQza_5s9x2KraR"
+    },
+    "wave4Assertions": 35
   },
   "verification": {
-    "checks": 33,
-    "failures": []
+    "checks": 68,
+    "failures": [],
+    "wave4Assertions": 35,
+    "originalAssertions": 33
   }
 }
