@@ -1,0 +1,10 @@
+import {createRequire} from 'node:module';
+import {writeFileSync,mkdirSync} from 'node:fs';
+import {resolve,dirname} from 'node:path';
+import {fileURLToPath} from 'node:url';
+const here=dirname(fileURLToPath(import.meta.url)),app=resolve(process.env.ACADEMY_APP_PATH??here+'/../..'),output=resolve(process.env.ACADEMY_DISCOVERY_QA_OUTPUT??app+'/.sites-runtime/discovery-qa');
+mkdirSync(output,{recursive:true});
+const require=createRequire(app+'/package.json'),esbuild=require('esbuild'),entry=output+'/entry.ts';
+writeFileSync(entry,`export * from ${JSON.stringify(app+'/lib/academy-catalog-facets.ts')};export * from ${JSON.stringify(app+'/lib/academy-recommendations.ts')};export * from ${JSON.stringify(app+'/lib/academy-pre-enrollment.ts')};export * from ${JSON.stringify(app+'/lib/academy-extra-views-access.ts')};export {deriveBeforeStartSummary} from ${JSON.stringify(app+'/lib/academy-before-start.mjs')};`);
+await esbuild.build({entryPoints:[entry],bundle:true,platform:'node',format:'esm',outfile:output+'/model.mjs'});
+console.log('Bundled discovery modules to '+output+'/model.mjs');
