@@ -1,0 +1,190 @@
+{
+  "baseUrl": "http://127.0.0.1:8791",
+  "teamId": "tw-8a6dcbc6-19f9-49c2-8f07-c6ee35672041",
+  "identities": [
+    {
+      "key": "admin",
+      "label": "Workspace admin",
+      "role": "admin",
+      "id": "demo-admin-1-59a4cd5a",
+      "email": "admin-1-59a4cd5a@academy.test",
+      "name": "Demo Admin Meera (synthetic)"
+    },
+    {
+      "key": "facilitator-1",
+      "label": "Facilitator, farm circle",
+      "role": "facilitator",
+      "id": "demo-facilitator-1-59a4cd5a",
+      "email": "facilitator-1-59a4cd5a@academy.test",
+      "name": "Demo Facilitator Rohan (synthetic)"
+    },
+    {
+      "key": "facilitator-2",
+      "label": "Facilitator, MSME circle",
+      "role": "facilitator",
+      "id": "demo-facilitator-2-59a4cd5a",
+      "email": "facilitator-2-59a4cd5a@academy.test",
+      "name": "Demo Facilitator Tara (synthetic)"
+    },
+    {
+      "key": "assessor-1",
+      "label": "Assessor, farm and MSME",
+      "role": "assessor",
+      "id": "demo-assessor-1-59a4cd5a",
+      "email": "assessor-1-59a4cd5a@academy.test",
+      "name": "Demo Assessor Imran (synthetic)"
+    },
+    {
+      "key": "assessor-2",
+      "label": "Assessor, MSME and public servant",
+      "role": "assessor",
+      "id": "demo-assessor-2-59a4cd5a",
+      "email": "assessor-2-59a4cd5a@academy.test",
+      "name": "Demo Assessor Lila (synthetic)"
+    },
+    {
+      "key": "reviewer",
+      "label": "Independent appeal reviewer",
+      "role": "reviewer",
+      "id": "demo-reviewer-1-59a4cd5a",
+      "email": "reviewer-1-59a4cd5a@academy.test",
+      "name": "Demo Reviewer Nikhil (synthetic)"
+    },
+    {
+      "key": "moderator",
+      "label": "Community moderator",
+      "role": "moderator",
+      "id": "demo-moderator-1-59a4cd5a",
+      "email": "moderator-1-59a4cd5a@academy.test",
+      "name": "Demo Moderator Sana (synthetic)"
+    },
+    {
+      "key": "learner-new",
+      "label": "Learner, enrolled, not started",
+      "role": "learner",
+      "id": "demo-learner-1-59a4cd5a",
+      "email": "learner-1-59a4cd5a@academy.test",
+      "name": "Demo Learner Asha (synthetic)"
+    },
+    {
+      "key": "learner-progress",
+      "label": "Learner, mid-lesson with a saved draft",
+      "role": "learner",
+      "id": "demo-learner-2-59a4cd5a",
+      "email": "learner-2-59a4cd5a@academy.test",
+      "name": "Demo Learner Bilal (synthetic)"
+    },
+    {
+      "key": "learner-withdrawn",
+      "label": "Learner, withdrawn",
+      "role": "learner",
+      "id": "demo-learner-3-59a4cd5a",
+      "email": "learner-3-59a4cd5a@academy.test",
+      "name": "Demo Learner Chitra (synthetic)"
+    },
+    {
+      "key": "learner-lessons-done",
+      "label": "Learner, all lessons done, not submitted",
+      "role": "learner",
+      "id": "demo-learner-4-59a4cd5a",
+      "email": "learner-4-59a4cd5a@academy.test",
+      "name": "Demo Learner Dev (synthetic)"
+    },
+    {
+      "key": "learner-submitted-farm",
+      "label": "Learner, submitted, awaiting review (assigned)",
+      "role": "learner",
+      "id": "demo-learner-5-59a4cd5a",
+      "email": "learner-5-59a4cd5a@academy.test",
+      "name": "Demo Learner Esha (synthetic)"
+    },
+    {
+      "key": "learner-complete",
+      "label": "Learner, assessed pass with record",
+      "role": "learner",
+      "id": "demo-learner-6-59a4cd5a",
+      "email": "learner-6-59a4cd5a@academy.test",
+      "name": "Demo Learner Farid (synthetic)"
+    },
+    {
+      "key": "learner-failed-gate",
+      "label": "Learner, assessed fail on a critical gate",
+      "role": "learner",
+      "id": "demo-learner-7-59a4cd5a",
+      "email": "learner-7-59a4cd5a@academy.test",
+      "name": "Demo Learner Gita (synthetic)"
+    },
+    {
+      "key": "learner-appealed",
+      "label": "Learner, assessed fail, appeal open",
+      "role": "learner",
+      "id": "demo-learner-8-59a4cd5a",
+      "email": "learner-8-59a4cd5a@academy.test",
+      "name": "Demo Learner Harish (synthetic)"
+    },
+    {
+      "key": "learner-appeal-resolved",
+      "label": "Learner, appeal resolved by a different reviewer",
+      "role": "learner",
+      "id": "demo-learner-9-59a4cd5a",
+      "email": "learner-9-59a4cd5a@academy.test",
+      "name": "Demo Learner Indu (synthetic)"
+    },
+    {
+      "key": "learner-submitted-msme",
+      "label": "Learner, submitted, awaiting assignment",
+      "role": "learner",
+      "id": "demo-learner-10-59a4cd5a",
+      "email": "learner-10-59a4cd5a@academy.test",
+      "name": "Demo Learner Jai (synthetic)"
+    },
+    {
+      "key": "learner-msme-progress",
+      "label": "Learner, one lesson done",
+      "role": "learner",
+      "id": "demo-learner-11-59a4cd5a",
+      "email": "learner-11-59a4cd5a@academy.test",
+      "name": "Demo Learner Kiran (synthetic)"
+    },
+    {
+      "key": "learner-ps-new",
+      "label": "Learner, enrolled, not started",
+      "role": "learner",
+      "id": "demo-learner-12-59a4cd5a",
+      "email": "learner-12-59a4cd5a@academy.test",
+      "name": "Demo Learner Lata (synthetic)"
+    },
+    {
+      "key": "learner-ps-progress",
+      "label": "Learner, mid-lesson",
+      "role": "learner",
+      "id": "demo-learner-13-59a4cd5a",
+      "email": "learner-13-59a4cd5a@academy.test",
+      "name": "Demo Learner Manoj (synthetic)"
+    },
+    {
+      "key": "learner-ps-complete",
+      "label": "Learner, assessed pass",
+      "role": "learner",
+      "id": "demo-learner-14-59a4cd5a",
+      "email": "learner-14-59a4cd5a@academy.test",
+      "name": "Demo Learner Nisha (synthetic)"
+    },
+    {
+      "key": "learner-ps-two-lessons",
+      "label": "Learner, two lessons done",
+      "role": "learner",
+      "id": "demo-learner-15-59a4cd5a",
+      "email": "learner-15-59a4cd5a@academy.test",
+      "name": "Demo Learner Om (synthetic)"
+    },
+    {
+      "key": "personal-learner",
+      "label": "Personal-lab learner (own state)",
+      "role": "personal-learner",
+      "id": "demo-personal-1-59a4cd5a",
+      "email": "personal-1-59a4cd5a@academy.test",
+      "name": "Demo Personal Learner Kavya (synthetic)"
+    }
+  ]
+}
