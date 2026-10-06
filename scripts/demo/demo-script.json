@@ -70,7 +70,7 @@
       "role": "learner-complete",
       "title": "The learner decides what leaves their record",
       "say": "Nothing is shared unless the learner chooses it. They can include a practice record in a profile export, and they can export their whole workspace at any time.",
-      "do": "Open 'My achievements', switch on 'Include this record in my learning profile export', then open 'Preferences & privacy' and choose 'Export chosen learning profile' or 'Export my workspace'.",
+      "do": "Open 'My achievements'. The record is already shared (the public credential page works); switch 'Include this record in my learning profile export' off and on to show the learner decides, then open 'Preferences & privacy' and choose 'Export chosen learning profile' or 'Export my workspace'.",
       "link": "/#credentials"
     },
     {
@@ -78,8 +78,72 @@
       "role": "admin",
       "title": "What is not built or is dummy",
       "say": "This is a private pilot, and we would rather say plainly what is not real. Everything here is fictional and local; none of it is a live service.",
-      "do": "Stay on the overview page and read this list aloud. Dummy or sample: all people, emails, cohorts, posts and sessions; the staff identities that were created for this demo. Not built or not connected: public verifiable credentials and public share pages (records are nonaccredited practice records and sharing only controls a profile export); a support desk and any email or message delivery; payments and sponsored access; the in-lesson AI assistant; the content shown is draft. Open the workload overview to show the live numbers are real reads from the local app.",
+      "do": "Stay on the overview page and read this list aloud. Dummy or sample: all people, emails, cohorts, posts and sessions; the staff identities that were created for this demo. Not built or not connected: a real credential issuer (the credential here is signed by a DUMMY demo key and marked DEMO / not accredited); a real partner (the registry is a fictional loopback service); real identity proofing for recovery and data requests (a synthetic two-of-three tick); a support desk and any email or message delivery; payments and sponsored access; the in-lesson AI assistant; the content shown is draft. Open the workload overview to show the live numbers are real reads from the local app. Also say: overdue data requests and escalations cannot be shown because the server stamps the clock.",
       "link": "/#operations"
+    },
+    {
+      "id": "escalation",
+      "role": "moderator",
+      "title": "The moderator escalates a report; the owner decides",
+      "say": "A moderator can pass a serious report to a workspace owner with a severity. The owner decides to resolve or dismiss, and the person who reported only learns that it was reviewed.",
+      "do": "As moderator, open 'Escalations': the high-severity escalation about the 'confident AI answer' post is open. Switch to admin, open 'Escalations', open it, read the target (24 hours for high) and resolve it with a reason. Then switch to learner-submitted-msme to show the generic notice on the resolved one.",
+      "link": "/#escalations"
+    },
+    {
+      "id": "accommodation",
+      "role": "assessor-1",
+      "title": "An approved accommodation is shown to the assessor, never to the score",
+      "say": "An accommodation changes how work is shown, not the rubric or pass mark. It is decided by someone other than the requester and appears on the assessor's review.",
+      "do": "As assessor-1 open 'Review studio' and the pending farm review: the approved large-print accommodation is listed on it. Switch to facilitator-2, open 'Review studio' and its accommodations tab to show the pending request from the MSME cohort; approve it with a reason.",
+      "link": "/#studio"
+    },
+    {
+      "id": "methods-remediation",
+      "role": "learner-failed-gate",
+      "title": "Assessment methods, and what to do next after a fail",
+      "say": "Decisions record the method used (practical, observed or oral). A learner who did not pass gets specific next steps tied to the failed gate and the reviewer's own notes.",
+      "do": "As learner-failed-gate open the pathway, then the 'feedback' tab: read the failed gate and the 'what to do next' routes. Then as learner-revoked (observed task) and learner-suspended (oral) open feedback to show the method on the decision.",
+      "link": "/#learn/msme-customer-operations/feedback"
+    },
+    {
+      "id": "credentials",
+      "role": "learner-complete",
+      "title": "Credentials: active, suspended, revoked, and a public check",
+      "say": "Passing a human review issues a DEMO credential. A learner can share it; anyone with the link sees only its status. A reviewer can suspend or revoke with a reason, and an adverse appeal suspends it automatically.",
+      "do": "As learner-complete open 'My achievements' and open the public page. Then open the public page of learner-revoked (revoked) from the workload overview, and note learner-suspended and learner-ps-complete have sharing off, so their link shows nothing. Say plainly: the issuer is a dummy.",
+      "link": "/#credentials"
+    },
+    {
+      "id": "recovery-live",
+      "role": "admin",
+      "title": "Approve a recovery request live",
+      "say": "A learner who signed in with a new account asks to get their earlier place back. An owner checks two of three synthetic proofs and approves; the learning moves over, nothing is emailed.",
+      "do": "As admin open 'Account recovery': one pending request from the new account. Open it, tick two of the three checks, enter a reason and approve. Then open 'Workspaces & cohorts' to show the assisted invitation (set up on a learner's behalf) still waiting to be accepted.",
+      "link": "/#recovery"
+    },
+    {
+      "id": "data-requests",
+      "role": "admin",
+      "title": "Data requests follow a documented, verified process",
+      "say": "Export, correction and erasure requests each have a 30-day target and an owner who records identity checks. An approved erasure is held, never deleted.",
+      "do": "As admin open 'Data requests': one request each in received, verified, verification failed, completed and held. Verify and complete the 'received' export, then show the held erasure with its retention label. As learner-ps-complete show the completed export and its checksum.",
+      "link": "/#requests"
+    },
+    {
+      "id": "reports-audit",
+      "role": "admin",
+      "title": "Programme reports with small numbers hidden, and the audit log",
+      "say": "Reports give counts only, never names. Any count under three shows as '<3'. The audit log shows who changed what, with pseudonymous actors.",
+      "do": "As admin open 'Programme reports': read the cohort table, point at the '<3' cells and download the CSV. Then open 'Audit log' and filter by type. Say: newer action types currently appear as 'other'. As facilitator-1 open 'Programme reports' to show only their own cohort.",
+      "link": "/#reports"
+    },
+    {
+      "id": "partner",
+      "role": "personal-learner",
+      "title": "A fictional partner gets only what the learner grants",
+      "say": "The learner links a fictional partner code and grants named scopes. The partner can read or receive only those, and the learner can withdraw at any time.",
+      "do": "As personal-learner open 'Partner link (DUMMY)'. If the demo was seeded with a partner address, a link with progress and credential-status consent is shown; withdraw one scope and send an update to show it is blocked. If not, say the dummy partner was not started.",
+      "link": "/#partner-dummy"
     }
   ]
 }

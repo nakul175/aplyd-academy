@@ -48,6 +48,15 @@ const L = [
   ['learner-ps-two-lessons', 'Learner, two lessons done', 2, 'Om'],
 ];
 L.forEach(([key, label, cohort, first], i) => { people[key] = {...ident(key, label, 'learner', `learner-${i + 1}`, `Demo Learner ${first} (synthetic)`), cohort}; });
+// Wave 4 additions (identity keys are only ever ADDED to the contract). cohort null = workspace member without a seat.
+const NL = [
+  ['learner-accommodation', 'Learner, accommodation request waiting for a decision', 1, 'Pooja'],
+  ['learner-revoked', 'Learner, observed-task pass, credential revoked by the reviewer', 1, 'Qasim'],
+  ['learner-suspended', 'Learner, oral pass, credential suspended after an adverse appeal', 2, 'Rina'],
+  ['learner-recovery-new', 'New account with a pending recovery request (not approved)', null, 'Sunil'],
+];
+NL.forEach(([key, label, cohort, first], i) => { people[key] = {...ident(key, label, 'learner', `learner-${L.length + i + 1}`, `Demo Learner ${first} (synthetic)`), cohort}; });
+people['assisted-invitee'] = ident('assisted-invitee', 'Invited with assistance, invitation not yet accepted', 'learner', 'assisted-1', 'Demo Invitee Uma (synthetic)');
 
 // ---------- HTTP ----------
 const headers = u => ({'Content-Type': 'application/json', 'oai-authenticated-user-id': u.id, 'oai-authenticated-user-email': u.email, 'oai-authenticated-user-full-name': encodeURIComponent(u.name), 'oai-authenticated-user-full-name-encoding': 'percent-encoded-utf-8'});
@@ -202,9 +211,10 @@ await lab(PL, {type: 'plan-task-status', taskId: plan.state.learningPlan.tasks[0
 
 // ---------- identities file ----------
 const order = ['admin', 'facilitator-1', 'facilitator-2', 'assessor-1', 'assessor-2', 'reviewer', 'moderator', ...L.map(l => l[0]), 'personal-learner'];
-const identities = order.map(k => { const p = people[k]; return {key: p.key, label: p.label, role: p.role, id: p.id, email: p.email, name: p.name}; });
-const out = {baseUrl: base, teamId: TEAM, identities};
-writeFileSync(resolve(here, 'demo-identities.json'), JSON.stringify(out, null, 2) + '\n');
+const orderAll = [...order, ...NL.map(l => l[0]), 'assisted-invitee'];
+const writeIdentities = keys => writeFileSync(resolve(here, 'demo-identities.json'), JSON.stringify({baseUrl: base, teamId: TEAM, identities: keys.map(k => { const p = people[k]; return {key: p.key, label: p.label, role: p.role, id: p.id, email: p.email, name: p.name}; })}, null, 2) + '\n');
+writeIdentities(order); // the original contract first; the wave 4 keys are appended at the end of the run
+const identities = order.map(k => people[k]);
 
 // ---------- verification ----------
 let checks = 0; const failures = [];
@@ -274,10 +284,209 @@ const sb = (await view('facilitator-2')).team.network.sessions.find(s => s.id ==
 check('session B: 4 RSVPs, scheduled two days out', sb.occupied === 4 && sb.status === 'scheduled');
 check('learner sees own attendance only', (await view('learner-progress')).team.network.sessions.find(s => s.id === sessA).myAttendance?.status === 'attended');
 
-summary.counts = {learners: L.length, staff: staff.length, cohorts: 3, posts: 5, sessions: 2, networkProfiles: 3, supportRequests: 1};
-writeFileSync(resolve(here, 'seed-summary.json'), JSON.stringify({baseUrl: base, teamId: TEAM, nonce, cohorts: {farm: C1, msme: C2, publicServant: C3}, sessions: {attendance: sessA, upcoming: sessB}, learners: L.map(([key, label, c]) => ({key, label, cohort: ['farm', 'msme', 'public-servant'][c]})), counts: summary.counts, verification: {checks, failures}}, null, 2) + '\n');
+// =====================================================================================
+// WAVE 4: data for the twelve newer features. Everything below runs AFTER the original 33
+// assertions, so those still check the original scenario exactly. All fictional, loopback only.
+// =====================================================================================
+log('\nWave 4 seed: recovery, data requests, escalations, accommodations, methods, credentials, reports, partner');
+const stage = {};          // ids for the summary and the overview
+const w4 = [];             // assertion names added in wave 4
+const check4 = (name, cond) => { w4.push(name); check(name, cond); };
+
+// ---- new members (invite + accept) and enrolments: two MSME, one public servant, one seatless ----
+await join(people['learner-accommodation'], ['learner'], []);
+await join(people['learner-revoked'], ['learner'], []);
+await join(people['learner-suspended'], ['learner'], []);
+await join(people['learner-recovery-new'], ['learner'], []);
+await act(people['learner-accommodation'], {type: 'enroll', programId: P1.id, cohortId: C2}, 'enroll accommodation');
+await act(people['learner-revoked'], {type: 'enroll', programId: P1.id, cohortId: C2}, 'enroll revoked');
+await act(people['learner-suspended'], {type: 'enroll', programId: P2.id, cohortId: C3}, 'enroll suspended');
+{ const en = await mine(people['learner-accommodation'], P1); await doLessons(people['learner-accommodation'], P1, en.id, 2); }
+for (const [k, p] of [['learner-revoked', P1], ['learner-suspended', P2]]) { const en = await mine(people[k], p); await doLessons(people[k], p, en.id, 3); }
+
+// ---- BR-24 accommodations: one pending (MSME cohort), one approved and shown to the assigned assessor ----
+{
+  const en = await mine(people['learner-accommodation'], P1);
+  await act(people['learner-accommodation'], {type: 'accommodation-request', enrollmentId: en.id, accommodationType: 'assistive-technology', detail: 'DEMO: I use a screen reader and would like the practical packet as plain text.'}, 'accommodation request');
+  const es = await mine(people['learner-submitted-farm'], P0);
+  await act(people['learner-submitted-farm'], {type: 'accommodation-request', enrollmentId: es.id, accommodationType: 'alternative-format', detail: 'DEMO: please give the packet in large print.'}, 'accommodation request');
+  const reqId = (await mine(people['learner-submitted-farm'], P0)).accommodations[0].id;
+  await act(people['facilitator-1'], {type: 'accommodation-decide', enrollmentId: es.id, learnerId: people['learner-submitted-farm'].id, requestId: reqId, outcome: 'approved', reason: 'DEMO decision: large print changes how the packet is read, not what is assessed.'}, 'accommodation approve');
+}
+
+// ---- BR-27 assessment methods + BR-24 accommodation stamped on a decision + BR-29/30 credentials ----
+{
+  // learner-revoked: accommodation approved BEFORE the review, then an observed-task pass, then revoked by the reviewer
+  const k = 'learner-revoked', en0 = await mine(people[k], P1);
+  await act(people[k], {type: 'accommodation-request', enrollmentId: en0.id, accommodationType: 'extra-time', detail: 'DEMO: I need more time to write up the practical.'}, 'accommodation request');
+  const rq = (await mine(people[k], P1)).accommodations[0].id;
+  await act(people['facilitator-2'], {type: 'accommodation-decide', enrollmentId: en0.id, learnerId: people[k].id, requestId: rq, outcome: 'approved', reason: 'DEMO decision: extra time is allowed; the rubric and pass mark are unchanged.'}, 'accommodation approve');
+  sub[k] = await submit(people[k], P1);
+  await assign('assessment', sub[k].id, 'assessor-2');
+  await act(people['assessor-2'], {...grade(P1, en0, sub[k], people[k], [4, 3, 4, 3], true, feedbackPass), method: 'observed'}, 'assess observed');
+  const en = await mine(people[k], P1);
+  await act(people[k], {type: 'share', enrollmentId: en.id, enabled: true}, 'share on');
+  await act(people.reviewer, {type: 'credential-lifecycle', enrollmentId: en.id, learnerId: people[k].id, action: 'revoke', reason: 'DEMO reason: the observation note was later found to describe a different task.'}, 'revoke');
+
+  // learner-suspended: oral-method pass, learner appeals the pass, independent reviewer resolves it adversely -> suspended
+  const k2 = 'learner-suspended', en2 = await mine(people[k2], P2);
+  sub[k2] = await submit(people[k2], P2);
+  await assign('assessment', sub[k2].id, 'assessor-2');
+  await act(people['assessor-2'], {...grade(P2, en2, sub[k2], people[k2], [4, 4, 3, 4], true, feedbackPass), method: 'oral'}, 'assess oral');
+  await act(people[k2], {type: 'appeal', enrollmentId: en2.id, attemptId: sub[k2].id, reason: 'DEMO: please re-check whether the oral explanation covered the verification gate before this record stands.'}, 'appeal');
+  const ap = (await mine(people[k2], P2)).appeals[0];
+  await assign('appeal', ap.id, 'reviewer');
+  await act(people.reviewer, {type: 'resolve', learnerId: people[k2].id, enrollmentId: en2.id, appealId: ap.id, scores: [2, 2, 2, 2], gates: Array(gateCount(P2)).fill(true), notes: notes(P2), feedback: 'Independent review: the recorded explanation does not support the verification gate; the earlier pass is overturned.'}, 'resolve adverse');
+}
+// learner-complete shares their active credential; learner-ps-complete keeps theirs private (share stays off)
+{ const en = await mine(people['learner-complete'], P1); await act(people['learner-complete'], {type: 'share', enrollmentId: en.id, enabled: true}, 'share on'); }
+
+// ---- BR-33 escalations (+ the community posts they need) ----
+{
+  let mod = await view('moderator');
+  const openReport = mod.state.reports.find(r => r.status === 'open' && r.reason.includes('Please recheck the claim'));
+  await act(people.moderator, {type: 'escalate-report', reportId: openReport.id, severity: 'high', reason: 'DEMO escalation: a confident-answer claim may mislead other learners; an owner should decide.'}, 'escalate high');
+  const p6 = await post('learner-appeal-resolved', C2, 'Skip the human approval step to save time?', 'I think we can send AI customer replies straight away on this fictional shop and fix mistakes afterwards.');
+  await publish(p6);
+  await act(people['learner-submitted-msme'], {type: 'report', postId: p6, reason: 'This advice tells people to skip the human approval step that the pathway requires.'}, 'report');
+  mod = await view('moderator');
+  const rep2 = mod.state.reports.find(r => r.postId === p6 && r.status === 'open');
+  await act(people.moderator, {type: 'escalate-report', reportId: rep2.id, severity: 'medium', reason: 'DEMO escalation: repeats advice the pathway rejects; asking an owner to decide on visibility.'}, 'escalate medium');
+  const esc2 = (await view('admin')).team.escalations.items.find(e => e.severity === 'medium');
+  await act(A, {type: 'escalation-resolve', escalationId: esc2.id, decision: 'resolve', hidePost: true, expectedHistory: esc2.historyLength, reason: 'DEMO decision: the post is hidden; a reminder about human approval was added to the cohort notes.'}, 'resolve escalation');
+}
+
+// ---- BR-44 data requests: received, verified, verification-failed, completed, held (erasure) ----
+{
+  const open = (k, kind, detail) => act(people[k], {type: 'data-request-open', kind, detail}, 'data request ' + kind);
+  const queue = async () => (await view('admin')).team.dataRequests.queue;
+  const mineReq = async k => (await queue()).find(r => r.requesterId === people[k].id);
+  const verify = async (k, passed, note) => { const r = await mineReq(k); await act(A, {type: 'data-request-verify', requestId: r.id, requestRev: r.rev, passed, note}, 'verify'); };
+  const decide = async (k, outcome, reason) => { const r = await mineReq(k); await act(A, {type: 'data-request-decide', requestId: r.id, requestRev: r.rev, outcome, reason}, 'decide'); };
+  await open('learner-new', 'export', 'DEMO: I would like a copy of my learning record.');                       // received
+  await open('learner-progress', 'export', 'DEMO: copy of my saved work, please.'); await verify('learner-progress', ['account-email', 'roster-details'], 'DEMO: synthetic checks passed.');   // verified
+  await open('learner-ps-progress', 'export', 'DEMO: export please.'); await verify('learner-ps-progress', ['account-email'], 'DEMO: only one synthetic check could be confirmed.');           // verification-failed
+  await open('learner-ps-complete', 'export', 'DEMO: export of my records for my own file.'); await verify('learner-ps-complete', ['account-email', 'roster-details', 'recent-activity'], 'DEMO: all three checks passed.'); await decide('learner-ps-complete', 'approve', 'DEMO decision: the export contains only this learner’s own records.');   // completed
+  await open('learner-withdrawn', 'erasure', 'DEMO: I left the cohort and want my records erased.'); await verify('learner-withdrawn', ['account-email', 'recent-activity'], 'DEMO: synthetic checks passed.'); await decide('learner-withdrawn', 'approve', 'DEMO decision: recorded and held, nothing is deleted while retention policy is pending.');   // held
+}
+
+// ---- BR-04 recovery: one PENDING request (left undecided so approval can be shown live) + one assisted invitation ----
+{
+  const old = people['learner-ps-new'];
+  await act(people['learner-recovery-new'], {type: 'recovery-request', claimedEmail: old.email, cohortHint: 'Public servant briefs circle', activityHint: 'Started the first lesson', note: 'DEMO: I changed my sign-in and need my earlier place back.'}, 'recovery request');
+  await act(A, {type: 'invite', email: people['assisted-invitee'].email, roles: ['learner'], scopes: [C2], token: tok(), assistedNote: 'DEMO: set up on the learner\'s behalf after a phone call; she has no email access of her own.'}, 'assisted invite');
+}
+
+// ---- BR-42/43 dummy partner: link + consent scopes on the personal-lab learner, only when a partner URL is provided ----
+const partnerUrl = (process.env.DEMO_PARTNER_URL ?? '').replace(/\/$/, '');
+let partner = {seeded: false, note: 'DEMO_PARTNER_URL is not set: partner link skipped. Start scripts/demo/dummy-partner.mjs and give the worker ACADEMY_DUMMY_PARTNER_URL (see README-seed.md).'};
+if (partnerUrl) {
+  try {
+    assert.ok(['127.0.0.1', '[::1]'].includes(new URL(partnerUrl).hostname), 'DEMO_PARTNER_URL must be loopback');
+    const h = await fetch(partnerUrl + '/health').then(r => r.json()).catch(() => null);
+    if (!h?.ok) throw new Error('the dummy partner did not answer /health');
+    const PLe = (await get(PL, '/api/academy')).state.enrollments[0];
+    const pcall = async (path, body) => { const r = await fetch(base + path, {method: 'POST', headers: headers(PL), body: JSON.stringify(body)}); const j2 = await r.json().catch(() => ({})); assert.equal(r.status, 200, `${path}: ${JSON.stringify(j2).slice(0, 300)}`); return j2; };
+    const linked = await pcall('/api/partner/links', {type: 'link', memberCode: 'DEMO-AAA001', enrollmentId: PLe.id});
+    const linkId = linked.links.at(-1).id;
+    await pcall('/api/partner/links', {type: 'grant', linkId, scope: 'progress', days: 30});
+    // 'completion' is deliberately NOT granted: for a learner who has completed, the app builds a completion payload that its own validator
+    // rejects ("Completion is invalid"), so no delivery could ever succeed. See README-seed.md, known app defects.
+    await pcall('/api/partner/links', {type: 'grant', linkId, scope: 'credential-status', days: 30});
+    const dl = await pcall('/api/partner/deliver', {linkId});
+    partner = {seeded: true, url: partnerUrl, memberCode: 'DEMO-AAA001', linkId, delivery: dl.result?.status ?? null, note: 'Linked to the personal-lab learner with progress and credential-status consent; completion is not granted (see README-seed.md).'};
+  } catch (err) { const m = String(err?.message ?? err); partner = {seeded: false, note: 'Partner link skipped: ' + m.slice(0, 160) + (m.includes('did not answer') ? ' (known app defect: workerd rejects fetch redirect "error" in lib/academy-partner-dummy-service.ts; see README-seed.md)' : '')}; }
+}
+log('  partner: ' + partner.note);
+
+// ---- verification (as the identities that should, and should not, see each new thing) ----
+log('\nWave 4 verification');
+const adminV = await view('admin'), modV = await view('moderator');
+// escalations
+const escItems = adminV.team.escalations.items;
+const escOpen = escItems.find(e => e.status === 'open'), escDone = escItems.find(e => e.status === 'resolved');
+check4('escalation: owner sees one open HIGH escalation raised by the moderator', escItems.length === 2 && escOpen?.severity === 'high' && escOpen.escalatedByName === people.moderator.name && adminV.team.escalations.counts.open === 1);
+check4('escalation: a second one is resolved and its post was hidden', escDone?.resolution?.decision === 'resolve' && escDone.resolution.hidPost === true);
+check4('escalation: the moderator sees only their own two, as "You"', modV.team.escalations.items.length === 2 && modV.team.escalations.items.every(e => e.escalatedByName === 'You'));
+const jaiV = await view('learner-submitted-msme');
+check4('escalation: the reporter gets only a generic notice (no severity, no reason)', jaiV.team.escalations.notices.length === 1 && jaiV.team.escalations.notices[0].text === 'Your report was reviewed and action was taken.' && !JSON.stringify(jaiV.team.escalations.notices).includes('severity') && jaiV.team.escalations.items.length === 0);
+check4('escalation: other learners and facilitators see no escalations and no notices', (await view('learner-new')).team.escalations.items.length === 0 && (await view('learner-new')).team.escalations.notices.length === 0 && (await view('facilitator-2')).team.escalations.items.length === 0);
+// accommodations
+const fac2 = await view('facilitator-2'), fac1 = await view('facilitator-1'), asr1 = await view('assessor-1'), asr2 = await view('assessor-2');
+check4('accommodation: one request is pending for the MSME cohort decider (facilitator-2)', fac2.team.accommodationQueue.length === 1 && fac2.team.accommodationQueue[0].learnerName === people['learner-accommodation'].name);
+check4('accommodation: the farm facilitator and an unrelated learner do not see that queue', fac1.team.accommodationQueue.length === 0 && (await view('learner-ps-new')).team.accommodationQueue.length === 0);
+check4('accommodation: the assigned assessor sees the approved accommodation with the pending farm review', asr1.team.assigned.length === 1 && asr1.team.assigned[0].e.accommodations?.[0]?.status === 'approved' && asr1.team.assigned[0].e.accommodations[0].type === 'alternative-format');
+check4('accommodation: an assessor who is not assigned sees nothing of it', asr2.team.assigned.length === 0);
+const accV = (await view('learner-accommodation')).state.enrollments[0];
+check4('accommodation: the requester sees their own request as requested (not decided)', accV.accommodations.length === 1 && accV.accommodations[0].status === 'requested' && accV.accommodations[0].decision === null);
+// methods
+const revV = (await view('learner-revoked')).state.enrollments[0], susV = (await view('learner-suspended')).state.enrollments[0];
+check4('method: a decision recorded with the OBSERVED method and the accommodation it considered', revV.attempts[0].decision.method === 'observed' && revV.attempts[0].decision.accommodationsConsidered?.length === 1 && revV.attempts[0].decision.passed === true);
+check4('method: a decision recorded with the ORAL method', susV.attempts[0].decision.method === 'oral');
+// remediation
+const gateV = (await view('learner-failed-gate')).state.enrollments[0];
+check4('remediation: the failed-gate learner has a fail with a failed critical gate and written notes to build "what to do next" from', gateV.attempts[0].decision.passed === false && gateV.attempts[0].decision.gates.includes(false) && gateV.attempts[0].decision.notes.length > 0 && gateV.attempts.length === 1);
+// credentials
+const credOf = async k => { const v = await view(k); return v.state.enrollments.find(e => e.credential)?.credential ?? null; };
+const credComplete = await credOf('learner-complete'), credRevoked = await credOf('learner-revoked'), credSusp = await credOf('learner-suspended'), credPs = await credOf('learner-ps-complete');
+check4('credential: learner-complete holds an ACTIVE competence credential (DUMMY issuer)', credComplete?.label === 'competence' && credComplete.status === 'active' && credComplete.issuer === 'DUMMY');
+check4('credential: learner-suspended holds a SUSPENDED credential caused by the adverse appeal', credSusp?.status === 'suspended' && credSusp.history.some(h => h.action === 'suspend' && h.cause === 'appeal') && susV.record.status === 'suspended');
+check4('credential: learner-revoked holds a REVOKED credential whose history keeps the reviewer\'s reason', credRevoked?.status === 'revoked' && credRevoked.history.some(h => h.action === 'revoke' && h.reason.includes('observation note') && h.actor.role === 'reviewer'));
+const pub = async c => { const r = await fetch(`${base}/api/verify/${c.id}`); return {status: r.status, body: await r.json().catch(() => ({}))}; };
+const [vOn, vRev, vSus, vPs] = [await pub(credComplete), await pub(credRevoked), await pub(credSusp), await pub(credPs)];
+check4('credential: share ON -> public /verify shows ACTIVE and no name, email or learner id', vOn.status === 200 && vOn.body.status === 'active' && !JSON.stringify(vOn.body).includes('@') && !JSON.stringify(vOn.body).includes(people['learner-complete'].id) && !JSON.stringify(vOn.body).includes('Farid'));
+check4('credential: share ON -> public /verify shows REVOKED', vRev.status === 200 && vRev.body.status === 'revoked');
+check4('credential: share OFF (suspended, and learner-ps-complete) -> public /verify is an identical 404', vSus.status === 404 && vPs.status === 404 && JSON.stringify(vSus.body) === JSON.stringify(vPs.body));
+const selfRevoke = await send(people['learner-complete'], '/api/teams', {teamId: TEAM, command: {type: 'credential-lifecycle', enrollmentId: (await mine(people['learner-complete'], P1)).id, learnerId: people['learner-complete'].id, action: 'revoke', reason: 'DEMO attempt to revoke my own credential'}, revision: (await cur(people['learner-complete'], TEAM)).revision});
+check4('credential: a learner cannot revoke their own credential and cannot read another learner\'s', selfRevoke.status === 403 && !JSON.stringify(await view('learner-new')).includes(credComplete.id));
+// recovery + assisted invite
+const recA = adminV.team.recovery, recN = (await view('learner-recovery-new')).team.recovery;
+check4('recovery: the owner sees ONE pending request with a recoverable candidate (not approved)', recA.canDecide && recA.queue.length === 1 && recA.queue[0].status === 'pending' && recA.queue[0].candidate?.recoverable === true);
+check4('recovery: the new account sees only its own pending request and cannot decide', recN.mine.length === 1 && recN.mine[0].status === 'pending' && recN.canDecide === false && recN.queue.length === 0);
+check4('recovery: nobody else sees it, and the old account is still active and unmoved', (await view('learner-new')).team.recovery.mine.length === 0 && modV.team.recovery.queue.length === 0 && adminV.team.members.find(m => m.userId === people['learner-ps-new'].id).active === true);
+const assisted = adminV.team.invites.find(i => i.assisted);
+check4('assisted invite: the owner sees an assisted, still-active invitation with the helper\'s note', !!assisted && assisted.status === 'active' && assisted.assisted.note.startsWith('DEMO') && assisted.assisted.byName === people.admin.name);
+check4('assisted invite: the activity record shows the assisted invite and the recovery request', adminV.team.activity.some(a => a.action === 'assisted-invite') && adminV.team.activity.some(a => a.action === 'recovery-request'));
+// data requests
+const dq = adminV.team.dataRequests.queue, st = s => dq.filter(r => r.status === s).length;
+check4('data requests: the owner queue has one each of received, verified, verification-failed, completed and held', ['received', 'verified', 'verification-failed', 'completed', 'held'].every(s => st(s) === 1) && dq.length === 5);
+check4('data requests: none overdue (a 30-day SLA is stamped by the server clock and cannot be back-dated through the API)', dq.every(r => r.overdue === false) && dq.every(r => Date.parse(r.dueAt) > Date.now() + 29 * 86400000));
+const heldV = await view('learner-withdrawn');
+check4('data requests: the erasure is HELD with the retention label, nothing deleted, requester restricted', heldV.team.dataRequests.mine[0].status === 'held' && heldV.team.dataRequests.mine[0].hold.label === 'Held — retention policy pending' && heldV.team.dataRequests.restrictedSelf === true && heldV.state.enrollments.length === 1);
+const doneV = (await view('learner-ps-complete')).team.dataRequests.mine[0], newV = await view('learner-new');
+check4('data requests: the completed export (with checksum) is visible to its requester only, with no other learner\'s data', doneV.status === 'completed' && !!doneV.export?.sha256 && !doneV.export.json.includes(people['learner-complete'].id) && newV.team.dataRequests.mine.length === 1 && newV.team.dataRequests.queue.length === 0);
+// reports
+const rollup = adminV.team.reports, fRoll = fac1.team.reports;
+const cells = rollup.cohorts.flatMap(c => [c.enrolled, c.passed, c.appeals, c.needsRetry]);
+check4('reports: the owner rollup covers 3 cohorts, with real counts of 3 or more and small cells shown as "<3"', rollup.cohorts.length === 3 && rollup.cohorts.some(c => typeof c.enrolled === 'number' && c.enrolled >= 3) && cells.includes('<3') && rollup.suppression.marker === '<3');
+check4('reports: a facilitator sees only their own cohort; learners and the moderator get no rollup', fRoll.cohorts.length === 1 && fRoll.cohortIds[0] === C1 && newV.team.reports === null && modV.team.reports === null);
+check4('reports: the rollup carries no names, ids, emails or evidence text', !/@|SUBMITTED-SYNTHETIC|Demo Learner/.test(JSON.stringify(rollup)));
+// partner
+if (partner.seeded) {
+  const pv = await (await fetch(base + '/api/partner/links', {headers: headers(PL)})).json();
+  check4('partner: the personal-lab learner has one live link with ONLY progress and credential-status granted', pv.links.length === 1 && JSON.stringify(pv.links[0].activeScopes) === JSON.stringify(['progress', 'credential-status']));
+  const rc = await (await fetch(partnerUrl + '/receipts')).json();
+  check4('partner: the dummy partner received one signed callback with the granted scopes and no personal fields', partner.delivery === 'delivered' && rc.receipts.length >= 1 && !/name|email|answer|score|evidence/i.test(JSON.stringify(rc.receipts.at(-1).payload)) && rc.receipts.at(-1).payload.scopes.length === 2 && !('completion' in rc.receipts.at(-1).payload));
+  const {DEMO_SECRET} = await import('./dummy-partner.mjs'), {createHmac, randomBytes} = await import('node:crypto');
+  const pcheck = async code => { const ts = String(Date.now()), nonce = randomBytes(16).toString('hex'), sig = createHmac('sha256', DEMO_SECRET).update(`aplyd.dummy-partner/1.${ts}.${nonce}.verify:${code}`).digest('hex'); const r = await fetch(`${base}/api/partner/verify/${code}`, {headers: {'x-demo-timestamp': ts, 'x-demo-nonce': nonce, 'x-demo-signature': sig}}); return {status: r.status, body: await r.json().catch(() => ({}))}; };
+  const okV = await pcheck('DEMO-AAA001'), noV = await pcheck('DEMO-AAA002'), anon = await fetch(`${base}/api/partner/verify/DEMO-AAA001`);
+  check4('partner: a signed verify returns only granted fields (no completion); an ungranted member and an unsigned call are refused', okV.status === 200 && okV.body.granted_scopes.length === 2 && !('completion' in okV.body) && !!okV.body.progress && noV.status === 404 && anon.status === 401);
+}
+// audit (owner only)
+{
+  const ar = await get(A, `/api/teams/audit?teamId=${encodeURIComponent(TEAM)}&limit=50`);
+  // Finding: the audit viewer names only the original command types; the wave 4 commands (escalations, data requests, recovery, accommodations, credential lifecycle) are logged with type 'other'.
+  check4('audit: the owner can read the workspace audit (original types are named; the newer commands appear as "other", a known gap)', ar.status === 200 && ar.items.length === 50 && ar.items.some(i => i.type === 'assess') && ar.items.some(i => i.type === 'other') && ar.items.every(i => /^a-[0-9a-f]{12}$/.test(i.actor)));
+  check4('audit: a learner and the moderator get the same 404 as an outsider', (await get(people['learner-new'], `/api/teams/audit?teamId=${encodeURIComponent(TEAM)}`)).status === 404 && (await get(people.moderator, `/api/teams/audit?teamId=${encodeURIComponent(TEAM)}`)).status === 404);
+}
+check4('pending reviews are still exactly the original 3 (every new review in wave 4 was decided)', adminV.team.pending.length === 3);
+writeIdentities(orderAll);
+Object.assign(stage, {partner, escalations: {open: escOpen?.id ?? null, resolved: escDone?.id ?? null}, credentials: {active: credComplete?.id ?? null, revoked: credRevoked?.id ?? null, suspended: credSusp?.id ?? null, privateActive: credPs?.id ?? null}, wave4Assertions: w4.length});
+
+summary.counts = {learners: L.length + NL.filter(n => n[2] !== null).length + 1, staff: staff.length, cohorts: 3, posts: 6, sessions: 2, networkProfiles: 3, supportRequests: 1, escalations: 2, accommodations: 3, dataRequests: 5, recoveryPending: 1, assistedInvites: 1, credentials: 4};
+writeFileSync(resolve(here, 'seed-summary.json'), JSON.stringify({baseUrl: base, teamId: TEAM, nonce, cohorts: {farm: C1, msme: C2, publicServant: C3}, sessions: {attendance: sessA, upcoming: sessB}, learners: L.map(([key, label, c]) => ({key, label, cohort: ['farm', 'msme', 'public-servant'][c]})), counts: summary.counts, wave4: stage, verification: {checks, failures, wave4Assertions: w4.length, originalAssertions: checks - w4.length}}, null, 2) + '\n');
 log(`\nSeed summary: workspace ${TEAM} on ${base}`);
-log(`  cohorts: ${cohorts.length} (capacities ${capacities.join('/')}), learners: ${L.length}, staff: ${staff.length}, posts: 5, sessions: 2, directory profiles: 3, support requests: 1, personal learner: 1`);
-log(`  identities written to scripts/demo/demo-identities.json (${identities.length})`);
-log(`  assertions: ${checks - failures.length}/${checks} passed`);
+log(`  cohorts: ${cohorts.length} (capacities ${capacities.join('/')}), learners: ${L.length} + ${NL.length} wave 4, staff: ${staff.length}, posts: 6, sessions: 2, directory profiles: 3, support requests: 1, personal learner: 1`);
+log(`  identities written to scripts/demo/demo-identities.json (${orderAll.length})`);
+log(`  assertions: ${checks - failures.length}/${checks} passed (${checks - w4.length} original + ${w4.length} wave 4)`);
 if (failures.length) { log('FAILED: ' + failures.join('; ')); process.exit(1); }
