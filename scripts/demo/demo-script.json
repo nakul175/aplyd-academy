@@ -1,0 +1,85 @@
+{
+  "title": "Aplyd Academy — guided demo",
+  "steps": [
+    {
+      "id": "discover",
+      "role": "learner-1",
+      "title": "A new learner finds a pathway and reads what to expect",
+      "say": "A learner who has just joined sees three plain-language pathways for farmers, small businesses and public servants. Before committing, they can read exactly what they need and what the pathway does not promise.",
+      "do": "Open the sidebar item 'Learning pathways', choose 'Farm records and better questions with AI', then scroll to the section headed 'Before you start'. Note the credential claim and exclusions, then choose 'Start this pathway' and pick the open cohort.",
+      "link": "/#programs"
+    },
+    {
+      "id": "lesson-practical",
+      "role": "learner-1",
+      "title": "The learner works a lesson and the practical",
+      "say": "Lessons use fictional information only, and progress is saved as the learner goes. The practical is submitted as evidence that a person, not the AI, will review.",
+      "do": "Open the pathway, go to the lesson tab and open the first lesson (farm-01). Save a lesson draft and complete it. Then open the 'assessment' tab and choose 'Submit evidence' on the practical.",
+      "link": "/#learn/farmer-work-records/learn/farm-01"
+    },
+    {
+      "id": "assess",
+      "role": "assessor-1",
+      "title": "An assessor scores with the rubric and must explain every score",
+      "say": "The assessor can only open work that was assigned to them and is independent of the learner. Every rubric criterion needs a score, a safety-gate answer and an evidence reference, and the learner gets written feedback.",
+      "do": "Open 'Review studio'. Open the assigned assessment, score each criterion from 0 to 4, answer each critical gate, type an evidence reference of at least 10 characters per criterion, write actionable feedback of at least 30 characters, and submit the decision. Try to submit with empty notes first to show the block.",
+      "link": "/#studio"
+    },
+    {
+      "id": "appeal",
+      "role": "learner-2",
+      "title": "A learner who did not pass reads the feedback and appeals",
+      "say": "A learner sees the score, the reason and the evidence behind it. If they disagree, they can appeal within 14 days, and the original decision stays in the history.",
+      "do": "Open the pathway, then the 'feedback' tab. Read the decision and choose the appeal action, enter a reason and choose 'Submit appeal'. The status changes to appeal pending.",
+      "link": "/#learn/farmer-work-records/feedback"
+    },
+    {
+      "id": "independent-review",
+      "role": "reviewer",
+      "title": "A different reviewer resolves the appeal",
+      "say": "The reviewer is not the learner and not the original assessor. The system refuses the original assessor, which is the independence rule in action.",
+      "do": "Open 'Review studio' and find 'Independent appeals'. Open the assigned appeal, score and give feedback, then resolve it. To show the guard, switch to assessor-1 and open the same page: the appeal does not appear for them.",
+      "link": "/#studio"
+    },
+    {
+      "id": "facilitator-operations",
+      "role": "facilitator-1",
+      "title": "A facilitator runs the cohort and sees the workload",
+      "say": "The facilitator sees only the cohorts they are scoped to: seats taken, who is in which stage, what is waiting for review, open support requests and upcoming sessions.",
+      "do": "Open 'Workspace operations' and read the cohort seat counts and review queue. Then open 'People & opportunities' and record attendance on a session you host.",
+      "link": "/#operations"
+    },
+    {
+      "id": "moderation",
+      "role": "moderator",
+      "title": "A moderator handles a reported post",
+      "say": "Discussion posts wait for a moderator before others see them. A reported post can be hidden with a written reason, and the decision is kept in a history.",
+      "do": "Open 'Community' to show a post awaiting moderation, then open 'Review studio', find the reported post, choose hide, enter a reason of at least 10 characters and confirm.",
+      "link": "/#studio"
+    },
+    {
+      "id": "admin-workspace",
+      "role": "admin",
+      "title": "The owner manages the workspace, invitations and the record of actions",
+      "say": "The owner creates cohorts, invites people by account email with specific roles and cohort scopes, assigns reviews, and every one of those actions lands in an activity log.",
+      "do": "Open 'Workspaces & cohorts'. Show the members and their roles, create an invitation for a fictional email with the facilitator role scoped to one cohort, then scroll to the activity list and point out the entry.",
+      "link": "/#teams"
+    },
+    {
+      "id": "sharing-export",
+      "role": "learner-1",
+      "title": "The learner decides what leaves their record",
+      "say": "Nothing is shared unless the learner chooses it. They can include a practice record in a profile export, and they can export their whole workspace at any time.",
+      "do": "Open 'My achievements', switch on 'Include this record in my learning profile export', then open 'Preferences & privacy' and choose 'Export chosen learning profile' or 'Export my workspace'.",
+      "link": "/#credentials"
+    },
+    {
+      "id": "not-built",
+      "role": "admin",
+      "title": "What is not built or is dummy",
+      "say": "This is a private pilot, and we would rather say plainly what is not real. Everything here is fictional and local; none of it is a live service.",
+      "do": "Stay on the overview page and read this list aloud. Dummy or sample: all people, emails, cohorts, posts and sessions; the staff identities that were created for this demo. Not built or not connected: public verifiable credentials and public share pages (records are nonaccredited practice records and sharing only controls a profile export); a support desk and any email or message delivery; payments and sponsored access; the in-lesson AI assistant; the content shown is draft. Open the workload overview to show the live numbers are real reads from the local app.",
+      "link": "/#operations"
+    }
+  ]
+}
