@@ -179,10 +179,13 @@ let drId='';
 // (3c) moderator escalates -> owner resolves
 // =====================================================================================
 {
+ // The seed already escalates its open reports, so file a fresh post + report for this flow (local throw-away state).
+ {const lm=ID['learner-msme-progress'],tv=await jget(lm,'/api/teams?id='+encodeURIComponent(TEAM)),cid=(tv.team?.cohorts??[]).find(c=>c.boardAccess)?.id;
+  if(cid){const t='ACCEPT escalation post '+Date.now();const r=await teamAct(lm,{type:'post',cohortId:cid,title:t,body:'Acceptance post that claims no human check is needed.'});const pid=r.state?.posts?.find(x=>x.title===t)?.id;if(pid)await teamAct(ID.moderator,{type:'moderate',postId:pid,status:'visible',reason:'Acceptance: visible so it can be reported.'});if(pid)await teamAct(ID['learner-submitted-msme'],{type:'report',postId:pid,reason:'Acceptance report: advice skips the human approval step.'});}}
  const M=await viaProxy('moderator',1280,860),A=await viaProxy('admin',1280,860);
  await check('escalations','moderator escalates the open report',async()=>{await open(M,PBASE,'escalations');await M.locator('textarea[id^="escalate-"]').first().fill('Needs an owner decision on the claim.');await M.getByRole('button',{name:'Escalate to owner'}).click();await toast(M,/escalated/i);await sleep(500);
   if(!/open/i.test(await M.locator('#esc-list').locator('..').innerText()))throw new Error('no open escalation listed');await shot(M,'moderator-escalated-1280')});
- await check('escalations','owner resolves the escalation',async()=>{await open(A,PBASE,'escalations');const li=A.locator('[data-escalation-id]').first();await li.waitFor();await li.locator('textarea[id^="decide-"]').fill('Resolved in the acceptance run after review.');await li.getByRole('button',{name:'Resolve escalation'}).click();await toast(A,/resolved/i);await sleep(500);
+ await check('escalations','owner resolves the escalation',async()=>{await open(A,PBASE,'escalations');const li=A.locator('[data-escalation-id]').filter({hasText:'Needs an owner decision on the claim.'}).first();await li.waitFor();await li.locator('textarea[id^="decide-"]').fill('Resolved in the acceptance run after review.');await li.getByRole('button',{name:'Resolve escalation'}).click();await toast(A,/resolved/i);await sleep(500);
   if(!/Resolved/.test(await li.innerText()))throw new Error('not Resolved');await shot(A,'admin-escalation-resolved-1280')});
  await check('escalations','moderator sees outcome, not reviewer identity',async()=>{await M.reload();await ready(M);const t=await mainText(M);if(!/Resolved/.test(t))throw new Error('outcome not shown')});
 }

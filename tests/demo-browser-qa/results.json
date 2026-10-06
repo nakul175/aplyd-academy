@@ -1,15 +1,9 @@
 {
- "when": "2026-10-06T20:36:32.443Z",
+ "when": "2026-10-06T21:28:44.475Z",
  "total": 318,
- "failed": 6,
+ "failed": 0,
  "pageErrors": [],
- "consoleErrors": [
-  {
-   "label": "learner-new",
-   "url": "http://127.0.0.1:8802/?workspace=tw-7a108473-ce2b-439e-8311-acad546cab03#requests",
-   "msg": "Failed to load resource: the server responded with a status of 409 (Conflict)"
-  }
- ],
+ "consoleErrors": [],
  "results": [
   {
    "area": "sweep",
@@ -1754,32 +1748,32 @@
   {
    "area": "data-requests",
    "name": "learner files an export request",
-   "ok": false,
-   "note": "locator.waitFor: Timeout 15000ms exceeded."
+   "ok": true,
+   "note": ""
   },
   {
    "area": "data-requests",
    "name": "admin cannot decide before 2-of-3 verification (approve disabled)",
-   "ok": false,
-   "note": "locator.waitFor: Timeout 30000ms exceeded."
+   "ok": true,
+   "note": ""
   },
   {
    "area": "data-requests",
    "name": "admin records ONE check -> not verified",
-   "ok": false,
-   "note": "locator.click: Timeout 30000ms exceeded."
+   "ok": true,
+   "note": ""
   },
   {
    "area": "data-requests",
    "name": "admin records 2-of-3 -> verified, then decides with reason",
-   "ok": false,
-   "note": "locator.click: Timeout 30000ms exceeded."
+   "ok": true,
+   "note": ""
   },
   {
    "area": "data-requests",
    "name": "learner sees decision and downloads own-only export",
-   "ok": false,
-   "note": "no decision shown"
+   "ok": true,
+   "note": "export 2875 bytes, emails="
   },
   {
    "area": "data-requests",
@@ -1814,8 +1808,8 @@
   {
    "area": "escalations",
    "name": "moderator escalates the open report",
-   "ok": false,
-   "note": "locator.fill: Timeout 30000ms exceeded."
+   "ok": true,
+   "note": ""
   },
   {
    "area": "escalations",
