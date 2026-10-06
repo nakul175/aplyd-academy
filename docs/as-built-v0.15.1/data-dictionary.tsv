@@ -1,0 +1,11 @@
+field	type	storage	scope	constraint	boundary
+PlanTaskProgress.completedAt (kind reflection)	ISO-8601 string or null	derived at read time; never stored	authenticated learner's own aggregate	Stored createdAt string of the earliest followup for the same enrollment whose finite timestamp is at or after PlanTask.createdAt; null when none or when the item is skipped	Changed in v0.15.1; v0.15.0 returned the first match in stored (newest-first) order
+PlanTaskProgress.status (kind reflection)	planned | done | skipped	derived at read time	own	done when a qualifying followup exists and the stored status is not skipped	Unchanged
+PlanTaskProgress.label (kind reflection)	string	derived at read time	own	Reflection saved when done; Planned reflection or a blocked reason otherwise	Unchanged
+PlanTask.createdAt	ISO-8601 string	stored in learningPlan.tasks	own	Set once by the plan-task command from the server or engine timestamp	Unchanged; the lower bound for completion
+PlanTask.completedAt	ISO-8601 string or null	stored in learningPlan.tasks	own	Written only for self-reported practice items; linked kinds keep null and derive completion	Unchanged
+Workspace.followups[]	array of followup objects, newest first	stored in the learner's personal or shared aggregate	own	Engine prepends on each followup command; plan derivation never sorts, copies or mutates it	Unchanged; full history retained
+followup.createdAt	ISO-8601 string	stored	own	new Date().toISOString() at save	Unchanged
+followup.enrollmentId	string	stored	own	Exact enrollment the reflection belongs to	Unchanged; only an exact match completes a plan item
+OwnWeeklyReview.evidence.reflections	integer 0-200	derived in the browser	own	Reflection plan items whose derived completedAt falls in the current plan week, in the saved plan timezone, and not in the future	Values follow the corrected completedAt
+weekly recap JSON savedCourseActions.reflections	integer	local download only	own device	Same as OwnWeeklyReview.evidence.reflections; format aplyd-academy-own-weekly-plan-recap schemaVersion 1	Format unchanged

@@ -1,0 +1,51 @@
+
+> site-creator-vinext-starter@0.1.0 build
+> node scripts/run-framework.mjs build
+
+
+  vinext build  (Vite 8.0.13)
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mProxy environment variables detected. We'll use your proxy for fetch requests.[0m
+
+
+[1/5] analyze client references...
+[2Ktransforming...✓ 253 modules transformed.
+rendering chunks...
+✓ built in 1.40s
+[2/5] analyze server references...
+[2Ktransforming...✓ 322 modules transformed.
+rendering chunks...
+✓ built in 1.18s
+[3/5] build rsc environment...
+[2Ktransforming...✓ 250 modules transformed.
+rendering chunks...
+computing gzip size...
+✓ built in 1.03s
+[4/5] build client environment...
+[2Ktransforming...✓ 2131 modules transformed.
+rendering chunks...
+computing gzip size...
+✓ built in 2.91s
+[5/5] build ssr environment...
+[2Ktransforming...✓ 328 modules transformed.
+rendering chunks...
+computing gzip size...
+✓ built in 1.28s
+[0m
+  Route (app)
+  ┌ ƒ /                         
+  ├ λ /api/academy              
+  ├ λ /api/academy/export       
+  ├ λ /api/academy/records/check
+  ├ λ /api/teams                
+  ├ λ /api/teams/history        
+  └ ƒ /join                     
+
+  λ API  ƒ Dynamic
+
+  Build complete. Run `vinext start` to start the production server.
+
+
+real	0m10.630s
+user	0m13.003s
+sys	0m1.938s

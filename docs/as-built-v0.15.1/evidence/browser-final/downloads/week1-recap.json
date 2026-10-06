@@ -1,0 +1,38 @@
+{
+  "format": "aplyd-academy-own-weekly-plan-recap",
+  "schemaVersion": 1,
+  "coverage": "Retained activities in my own saved plan; this does not include all course actions.",
+  "week": {
+    "start": "2026-10-05",
+    "end": "2026-10-11",
+    "timeZone": "UTC"
+  },
+  "planned": {
+    "activities": 1,
+    "minutes": 15,
+    "budgetMinutes": 60,
+    "stillOpen": 0
+  },
+  "savedCourseActions": {
+    "lessons": 0,
+    "submissions": 0,
+    "reflections": 1,
+    "total": 1
+  },
+  "selfReportedPractice": 0,
+  "attention": {
+    "blockedOpen": 0,
+    "undatedOpen": 0,
+    "earlierOpen": 0,
+    "openTotal": 0,
+    "skippedThisWeek": 0,
+    "completionDateNeedsCheck": 0
+  },
+  "limits": [
+    "Planned minutes and budget describe intention, not verified time spent.",
+    "Course counts describe saved lesson, submission or reflection actions; they do not claim a passed assessment, qualification or job impact.",
+    "Private practice completion is self-reported.",
+    "Planned and completion dates are independent. Open attention counts can overlap. Items with missing or future completion dates are not counted as completed in the week.",
+    "No private notes, goals, activity titles, evidence, contact details or account/workspace/task identifiers are included."
+  ]
+}

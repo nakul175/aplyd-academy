@@ -1,0 +1,8 @@
+commit=059868abc3ae9667980d8caad6395efe4e70f55a
+tree=cbf74c740ebeafcc0a2a40ed9c88dd955b9f1c3c
+method=git archive of the commit into an empty directory; node_modules symlinked from the npm ci install
+command=node node_modules/typescript/bin/tsc --noEmit
+typescript=Version 5.9.3
+started=2026-10-06T07:21:49Z
+exit_code=0
+output_bytes=0

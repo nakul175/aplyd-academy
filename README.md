@@ -1,11 +1,11 @@
-# Aplyd Academy working pilot · v0.15.0
+# Aplyd Academy working pilot · v0.15.1
 
 A durable learning application for farmers, MSME owners and public servants. Learners practise on fictional source packets, check supplied AI drafts, submit practical evidence, receive reasoned feedback and reflect on their work.
 
 ## What works
 
 - Three pinned draft pathways, nine lessons and 27 explained quiz checks, with an immutable archived-content resolver and exact references on new cohorts/enrollments.
-- Private learning goals, weekly budgets, timezone-aware plans, four activity types, evidence-derived completion, optional in-app due notices and truthful next actions.
+- Private learning goals, weekly budgets, timezone-aware plans, four activity types, evidence-derived completion, optional in-app due notices and truthful next actions. A completed reflection plan item keeps the date of its first qualifying reflection; later reflections stay in history and are not counted again for it.
 - Saved lesson/practical drafts, sequential progression, immutable submissions, critical-gate rubrics, three attempts and 14-day independent appeals.
 - A **personal practice lab** with sample staff roles, private discussion, explicit ecosystem summary/expiry choices and local contract receipts, learning export and lab-data deletion.
 - Separate **shared workspaces** with account-bound invitations, memberships, scoped staff roles, cohorts, capacity enforcement and withdrawal.
@@ -51,7 +51,7 @@ Run TypeScript checking with `node node_modules/typescript/bin/tsc --noEmit`. Bu
 
 `tests/api-integration.mjs`, `tests/teams-api.mjs`, networking/archive scripts and `tests/teams-browser.mjs` target the **built local worker at port 8787**, using synthetic identity headers. Never point them at a hosted Academy. Other browser regression scripts use the local development sign-in simulator at port 5173; set `ACADEMY_QA_BUILT=1` for the built Worker fixture. Set `QA_LOCAL_DB_SQL=1` for direct archive/audit consistency checks. `tests/archive-failure.mjs` injects and removes a constraint fault only in its new isolated local fixture. Browser scripts reference this workspace's Playwright runtime and Chrome; adjust those paths elsewhere. Local fixtures are never seeded into the published database.
 
-See `docs/as-built-v0.15/`, `docs/as-built-v0.14/`, `docs/implementation-review-v0.13/`, earlier `docs/as-built-v0.13/`, `docs/as-built-v0.12/`, `docs/as-built-v0.11/` and `docs/test-evidence.json` for implemented designs, data dictionaries, permissions, as-built journeys and validation evidence. Current model/domain validation passes 727 Node test entries. Exact offering navigation passes 30 read-only browser scenarios including five actual retained-learning JSON downloads; 80 network-free request-guard checks are separate. The v0.14 weekly review (18 scenarios/138 assertions), before-enrollment (16 scenarios) and partner worksheets (11 scenarios/18 printed pages) remain recorded in their original source/runtime scopes. These local checks do not establish hosted or field-user acceptance.
+See `docs/as-built-v0.15.1/`, `docs/as-built-v0.15/`, `docs/as-built-v0.14/`, `docs/implementation-review-v0.13/`, earlier `docs/as-built-v0.13/`, `docs/as-built-v0.12/`, `docs/as-built-v0.11/` and `docs/test-evidence.json` for implemented designs, data dictionaries, permissions, as-built journeys and validation evidence. Current model/domain validation passes 738 Node test entries: the v0.15 set of 727 plus 11 reflection-completion entries (run `node tests/reflection-completion-qa/build-model.mjs` before the suite). The v0.15.1 reflection fix passes 11 read-only Plan/weekly browser scenarios including three local recap downloads. Exact offering navigation passes 30 read-only browser scenarios including five actual retained-learning JSON downloads in its v0.15 scope; 80 network-free request-guard checks are separate. The v0.14 weekly review (18 scenarios/138 assertions), before-enrollment (16 scenarios) and partner worksheets (11 scenarios/18 printed pages) remain recorded in their original source/runtime scopes. These local checks do not establish hosted or field-user acceptance.
 
 ## Remaining production work
 
@@ -61,4 +61,4 @@ External event/mentor-provider bookings, host reassignment, commerce, uploads, c
 
 ## Continue development
 
-Start with [CLAUDE.md](CLAUDE.md) and [the handoff](docs/CLAUDE-HANDOFF.md). The original product target, historical agent materials and unadopted reflection correction are preserved in Git under docs/product-specifications, docs/development-archive and docs/candidates.
+Start with [CLAUDE.md](CLAUDE.md) and [the handoff](docs/CLAUDE-HANDOFF.md). The original product target, historical agent materials and the reflection-completion candidate (adopted in v0.15.1) are preserved in Git under docs/product-specifications, docs/development-archive and docs/candidates.

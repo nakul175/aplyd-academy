@@ -1,0 +1,13 @@
+{
+  "purpose": "Provenance of the unpatched contrast runtime used by browser-before-contrast",
+  "sourceCommit": "32c89826ca410794396a0380a8994ee7bf5dadac",
+  "exportMethod": "git archive 32c8982 extracted to a separate directory; node_modules symlinked from the tested checkout (same package-lock install)",
+  "trackedFilesCompared": 700,
+  "byteMismatches": [],
+  "missingFiles": [],
+  "untrackedSourceFilesInExport": [],
+  "exportPlanSha256": "c619f823371951643585bfe5c5b55cb071454791bc19b958caa635c5fbfd0f9b",
+  "builtEntrySha256": "30239c32580625f6cdac81f49d15dbbc9c0a192997b3b30b2eca469902119208",
+  "frozenContrastEntrySha256": "30239c32580625f6cdac81f49d15dbbc9c0a192997b3b30b2eca469902119208",
+  "note": "The contrast browser-evidence.json sourceHashes and modelHash describe the harness expectation model built from the patched checkout, not the runtime under test; the runtime under test is identified by frozenContrastEntrySha256 above."
+}

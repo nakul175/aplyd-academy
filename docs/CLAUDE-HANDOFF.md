@@ -2,6 +2,21 @@
 
 The user requested reconciliation, Git merge and documentation so development can continue in Claude without losing work. This handoff preserves the implemented pilot through v0.15, the original broader specifications, source-bound test evidence and unfinished candidates. Start from main; do not treat all archived agent outputs as merged product behavior. The lead will record the resulting exact main/source SHA, successful native deployment and portable Git bundle in outputs/aplyd-academy-eight-hour/handoff/final-receipt.json after commit. The committed acceptance pack cannot contain its own future SHA.
 
+## Current state: v0.15.1 (Claude, 6 October 2026)
+
+This section supersedes the rest of this document where they differ. Everything below it is the original handoff, kept as written.
+
+- Reflection completion (M6) is adopted. Tested source commit `059868abc3ae9667980d8caad6395efe4e70f55a`; a documentation-only commit follows it on main. Evidence and design: `as-built-v0.15.1/`.
+- The hosted Site still serves v0.15.0, native version 16, owner-private, until the owner publishes main through the Sites workflow. Claude cannot obtain that workflow's credential and must not handle it.
+- Full model/domain command: the v0.15 invocation below plus `tests/reflection-completion-qa/reflection-completion.test.mjs`, after running all builders including `node tests/reflection-completion-qa/build-model.mjs`. It gives 738 entries. The 80-case guard suite is unchanged and separate. Plan/weekly browser acceptance: `tests/reflection-completion-qa/browser-readonly.mjs`, 11 scenarios. The exact command list is in `as-built-v0.15.1/release-evidence.json`.
+- The setup was verified on Linux without Mac paths: `npm run install:ci` from the lockfile, all 15 builders, the full suite, typecheck and `npm run build`. Browser harnesses built on `tests/scoped-workbench-qa/browser-runtime.mjs` accept `ACADEMY_PLAYWRIGHT_MODULE`.
+- Worker builds embed a random build ID. Compare source commits, not bundle hashes, across separate builds.
+- Working on the owner's Mac from a Cowork session: the connected folder blocks deletes by default, so git cannot remove its own lock files. A read-only `git status` left a stale `.git/index.lock` until delete permission was granted for this folder. Grant delete permission for the repository folder before running any git command there.
+- Commit as `Claude <noreply@anthropic.com>` with the workspace's commit signing, never with the owner's identity. The first v0.15.1 commits used the owner's identity by mistake and were replaced before publication (see `as-built-v0.15.1/README.md`, Provenance).
+- Next candidate: re-running the lesson command for a completed lesson moves that lesson's plan item date. It is reachable only by a direct API call. It needs a decision on engine semantics before code; see `as-built-v0.15.1/README.md`.
+- Small follow-ups for the next milestone that touches these files: pin the mixed past-plus-future reflection case in `tests/reflection-completion-qa` (behaviour documented in `as-built-v0.15.1/functional-design.md`); move the browser guard from `page.route` to `context.route` so popups are covered; normalise the `/api` path match in that harness.
+- Pending gates are unchanged: mutating fictional-fixture approval, the live AI credential choice, and the external product dependencies listed below.
+
 ## Read first
 
 1. ../README.md lists implemented behavior and external dependencies.
@@ -48,7 +63,7 @@ Automatic approval review rejected launches of mutating local fictional-fixture 
 
 Live AI work is gated on the user’s credential choice under the API-key workflow; no usable key or decision was supplied and no provider-backed feature was built. Do not expose/store credentials. Ecosystem adapters and printable partner worksheets are local simulations/discussion aids; no live Agri/MSME/public partner exchange and no Health mapping. Recognized certification requires issuer/governance policy. Reviewed translations, actual participant hosting access, sector content approval, staff/calibration coverage, representative learner UAT, privacy/retention/erasure, restore and capacity/security acceptance remain outstanding. Source-owned library contains20 unchanged originals/five collections; teaching reference is not institutional policy approval.
 
-## Next engineering task
+## Next engineering task (done in v0.15.1; see Current state)
 
 Review candidates/reflection-completion/integration.patch: later engine followups are unshifted, while current taskProgress selects the first qualifying reflection. A second later reflection can move an existing completed plan item into a new week. The candidate chooses the earliest finite exact-enrollment date>=task.createdAt, preserving all raw reflection history and lifecycle gates. BEFORE actual pure workflow reproduces the bug; staged AFTER strict TypeScript and11 groups/62 assertions pass. This is not integrated. Apply only the bounded patch after review, prepare actual-root compiler evidence, run focused+full model suites/typecheck/build and affected Plan/weekly read-only acceptance, then commit/publish separately. Do not blindly copy the staged full file or claim62 current-root assertions.
 

@@ -1,0 +1,490 @@
+TAP version 13
+# Subtest: fallback refuses {"method":"POST"} before transport
+ok 1 - fallback refuses {"method":"POST"} before transport
+  ---
+  duration_ms: 3.881241
+  type: 'test'
+  ...
+# Subtest: fallback refuses {"method":"DELETE"} before transport
+ok 2 - fallback refuses {"method":"DELETE"} before transport
+  ---
+  duration_ms: 0.305718
+  type: 'test'
+  ...
+# Subtest: fallback refuses {"method":"PUT"} before transport
+ok 3 - fallback refuses {"method":"PUT"} before transport
+  ---
+  duration_ms: 0.115946
+  type: 'test'
+  ...
+# Subtest: fallback refuses {"method":"PATCH"} before transport
+ok 4 - fallback refuses {"method":"PATCH"} before transport
+  ---
+  duration_ms: 0.210181
+  type: 'test'
+  ...
+# Subtest: fallback refuses {"url":"https://unrelated.example/api/teams?id=approved-existing"} before transport
+ok 5 - fallback refuses {"url":"https://unrelated.example/api/teams?id=approved-existing"} before transport
+  ---
+  duration_ms: 0.193987
+  type: 'test'
+  ...
+# Subtest: fallback refuses {"method":"HEAD","url":"https://unrelated.example/api/academy"} before transport
+ok 6 - fallback refuses {"method":"HEAD","url":"https://unrelated.example/api/academy"} before transport
+  ---
+  duration_ms: 0.097385
+  type: 'test'
+  ...
+# Subtest: fallback refuses {"url":"https://127.0.0.1:8787/api/academy"} before transport
+ok 7 - fallback refuses {"url":"https://127.0.0.1:8787/api/academy"} before transport
+  ---
+  duration_ms: 0.138913
+  type: 'test'
+  ...
+# Subtest: fallback refuses {"url":"http://127.0.0.1:9999/api/academy"} before transport
+ok 8 - fallback refuses {"url":"http://127.0.0.1:9999/api/academy"} before transport
+  ---
+  duration_ms: 0.094746
+  type: 'test'
+  ...
+# Subtest: fallback rejects response {"status":301,"headers":{"location":"http://127.0.0.1:8787/same-origin-redirect"}} before JSON or fulfill
+ok 9 - fallback rejects response {"status":301,"headers":{"location":"http://127.0.0.1:8787/same-origin-redirect"}} before JSON or fulfill
+  ---
+  duration_ms: 0.8592
+  type: 'test'
+  ...
+# Subtest: fallback rejects response {"status":302,"headers":{"location":"https://unrelated.example/redirect"}} before JSON or fulfill
+ok 10 - fallback rejects response {"status":302,"headers":{"location":"https://unrelated.example/redirect"}} before JSON or fulfill
+  ---
+  duration_ms: 0.482634
+  type: 'test'
+  ...
+# Subtest: fallback rejects response {"status":303,"headers":{}} before JSON or fulfill
+ok 11 - fallback rejects response {"status":303,"headers":{}} before JSON or fulfill
+  ---
+  duration_ms: 0.183493
+  type: 'test'
+  ...
+# Subtest: fallback rejects response {"status":304,"headers":{}} before JSON or fulfill
+ok 12 - fallback rejects response {"status":304,"headers":{}} before JSON or fulfill
+  ---
+  duration_ms: 0.101147
+  type: 'test'
+  ...
+# Subtest: fallback rejects response {"status":307,"headers":{"Location":"https://unrelated.example/redirect"}} before JSON or fulfill
+ok 13 - fallback rejects response {"status":307,"headers":{"Location":"https://unrelated.example/redirect"}} before JSON or fulfill
+  ---
+  duration_ms: 0.081326
+  type: 'test'
+  ...
+# Subtest: fallback rejects response {"status":308,"headers":{"location":"http://127.0.0.1:8787/same-origin-redirect"}} before JSON or fulfill
+ok 14 - fallback rejects response {"status":308,"headers":{"location":"http://127.0.0.1:8787/same-origin-redirect"}} before JSON or fulfill
+  ---
+  duration_ms: 0.086588
+  type: 'test'
+  ...
+# Subtest: fallback rejects response {"status":200,"headers":{"Location":"https://unrelated.example/unusual-response"}} before JSON or fulfill
+ok 15 - fallback rejects response {"status":200,"headers":{"Location":"https://unrelated.example/unusual-response"}} before JSON or fulfill
+  ---
+  duration_ms: 0.072146
+  type: 'test'
+  ...
+# Subtest: fallback rejects response {"status":200,"headers":{"location":""}} before JSON or fulfill
+ok 16 - fallback rejects response {"status":200,"headers":{"location":""}} before JSON or fulfill
+  ---
+  duration_ms: 0.10852
+  type: 'test'
+  ...
+# Subtest: fallback rejects response {"status":200,"responseUrl":"https://unrelated.example/unexpected-response"} before JSON or fulfill
+ok 17 - fallback rejects response {"status":200,"responseUrl":"https://unrelated.example/unexpected-response"} before JSON or fulfill
+  ---
+  duration_ms: 0.156736
+  type: 'test'
+  ...
+# Subtest: fallback rejects response {"status":200,"responseUrl":"not a url"} before JSON or fulfill
+ok 18 - fallback rejects response {"status":200,"responseUrl":"not a url"} before JSON or fulfill
+  ---
+  duration_ms: 0.125995
+  type: 'test'
+  ...
+# Subtest: fallback accepts guarded same-origin GET response
+ok 19 - fallback accepts guarded same-origin GET response
+  ---
+  duration_ms: 0.269149
+  type: 'test'
+  ...
+# Subtest: fallback accepts guarded same-origin HEAD response
+ok 20 - fallback accepts guarded same-origin HEAD response
+  ---
+  duration_ms: 0.098152
+  type: 'test'
+  ...
+# Subtest: personal refuses {"method":"POST"} before transport
+ok 21 - personal refuses {"method":"POST"} before transport
+  ---
+  duration_ms: 0.151272
+  type: 'test'
+  ...
+# Subtest: personal refuses {"method":"DELETE"} before transport
+ok 22 - personal refuses {"method":"DELETE"} before transport
+  ---
+  duration_ms: 0.846523
+  type: 'test'
+  ...
+# Subtest: personal refuses {"method":"PUT"} before transport
+ok 23 - personal refuses {"method":"PUT"} before transport
+  ---
+  duration_ms: 0.113224
+  type: 'test'
+  ...
+# Subtest: personal refuses {"method":"PATCH"} before transport
+ok 24 - personal refuses {"method":"PATCH"} before transport
+  ---
+  duration_ms: 0.10149
+  type: 'test'
+  ...
+# Subtest: personal refuses {"url":"https://unrelated.example/api/teams?id=approved-existing"} before transport
+ok 25 - personal refuses {"url":"https://unrelated.example/api/teams?id=approved-existing"} before transport
+  ---
+  duration_ms: 0.066085
+  type: 'test'
+  ...
+# Subtest: personal refuses {"method":"HEAD","url":"https://unrelated.example/api/academy"} before transport
+ok 26 - personal refuses {"method":"HEAD","url":"https://unrelated.example/api/academy"} before transport
+  ---
+  duration_ms: 0.1798
+  type: 'test'
+  ...
+# Subtest: personal refuses {"url":"https://127.0.0.1:8787/api/academy"} before transport
+ok 27 - personal refuses {"url":"https://127.0.0.1:8787/api/academy"} before transport
+  ---
+  duration_ms: 0.05522
+  type: 'test'
+  ...
+# Subtest: personal refuses {"url":"http://127.0.0.1:9999/api/academy"} before transport
+ok 28 - personal refuses {"url":"http://127.0.0.1:9999/api/academy"} before transport
+  ---
+  duration_ms: 0.044586
+  type: 'test'
+  ...
+# Subtest: personal rejects response {"status":301,"headers":{"location":"http://127.0.0.1:8787/same-origin-redirect"}} before JSON or fulfill
+ok 29 - personal rejects response {"status":301,"headers":{"location":"http://127.0.0.1:8787/same-origin-redirect"}} before JSON or fulfill
+  ---
+  duration_ms: 0.155361
+  type: 'test'
+  ...
+# Subtest: personal rejects response {"status":302,"headers":{"location":"https://unrelated.example/redirect"}} before JSON or fulfill
+ok 30 - personal rejects response {"status":302,"headers":{"location":"https://unrelated.example/redirect"}} before JSON or fulfill
+  ---
+  duration_ms: 0.084098
+  type: 'test'
+  ...
+# Subtest: personal rejects response {"status":303,"headers":{}} before JSON or fulfill
+ok 31 - personal rejects response {"status":303,"headers":{}} before JSON or fulfill
+  ---
+  duration_ms: 0.067823
+  type: 'test'
+  ...
+# Subtest: personal rejects response {"status":304,"headers":{}} before JSON or fulfill
+ok 32 - personal rejects response {"status":304,"headers":{}} before JSON or fulfill
+  ---
+  duration_ms: 0.075481
+  type: 'test'
+  ...
+# Subtest: personal rejects response {"status":307,"headers":{"Location":"https://unrelated.example/redirect"}} before JSON or fulfill
+ok 33 - personal rejects response {"status":307,"headers":{"Location":"https://unrelated.example/redirect"}} before JSON or fulfill
+  ---
+  duration_ms: 0.06228
+  type: 'test'
+  ...
+# Subtest: personal rejects response {"status":308,"headers":{"location":"http://127.0.0.1:8787/same-origin-redirect"}} before JSON or fulfill
+ok 34 - personal rejects response {"status":308,"headers":{"location":"http://127.0.0.1:8787/same-origin-redirect"}} before JSON or fulfill
+  ---
+  duration_ms: 0.105288
+  type: 'test'
+  ...
+# Subtest: personal rejects response {"status":200,"headers":{"Location":"https://unrelated.example/unusual-response"}} before JSON or fulfill
+ok 35 - personal rejects response {"status":200,"headers":{"Location":"https://unrelated.example/unusual-response"}} before JSON or fulfill
+  ---
+  duration_ms: 0.119861
+  type: 'test'
+  ...
+# Subtest: personal rejects response {"status":200,"headers":{"location":""}} before JSON or fulfill
+ok 36 - personal rejects response {"status":200,"headers":{"location":""}} before JSON or fulfill
+  ---
+  duration_ms: 0.073133
+  type: 'test'
+  ...
+# Subtest: personal rejects response {"status":200,"responseUrl":"https://unrelated.example/unexpected-response"} before JSON or fulfill
+ok 37 - personal rejects response {"status":200,"responseUrl":"https://unrelated.example/unexpected-response"} before JSON or fulfill
+  ---
+  duration_ms: 0.080508
+  type: 'test'
+  ...
+# Subtest: personal rejects response {"status":200,"responseUrl":"not a url"} before JSON or fulfill
+ok 38 - personal rejects response {"status":200,"responseUrl":"not a url"} before JSON or fulfill
+  ---
+  duration_ms: 0.071732
+  type: 'test'
+  ...
+# Subtest: personal accepts guarded same-origin GET response
+ok 39 - personal accepts guarded same-origin GET response
+  ---
+  duration_ms: 0.200553
+  type: 'test'
+  ...
+# Subtest: personal accepts guarded same-origin HEAD response
+ok 40 - personal accepts guarded same-origin HEAD response
+  ---
+  duration_ms: 0.091667
+  type: 'test'
+  ...
+# Subtest: selectedTeam refuses {"method":"POST"} before transport
+ok 41 - selectedTeam refuses {"method":"POST"} before transport
+  ---
+  duration_ms: 0.047789
+  type: 'test'
+  ...
+# Subtest: selectedTeam refuses {"method":"DELETE"} before transport
+ok 42 - selectedTeam refuses {"method":"DELETE"} before transport
+  ---
+  duration_ms: 0.045653
+  type: 'test'
+  ...
+# Subtest: selectedTeam refuses {"method":"PUT"} before transport
+ok 43 - selectedTeam refuses {"method":"PUT"} before transport
+  ---
+  duration_ms: 0.03922
+  type: 'test'
+  ...
+# Subtest: selectedTeam refuses {"method":"PATCH"} before transport
+ok 44 - selectedTeam refuses {"method":"PATCH"} before transport
+  ---
+  duration_ms: 0.065586
+  type: 'test'
+  ...
+# Subtest: selectedTeam refuses {"url":"https://unrelated.example/api/teams?id=approved-existing"} before transport
+ok 45 - selectedTeam refuses {"url":"https://unrelated.example/api/teams?id=approved-existing"} before transport
+  ---
+  duration_ms: 0.051931
+  type: 'test'
+  ...
+# Subtest: selectedTeam refuses {"method":"HEAD","url":"https://unrelated.example/api/academy"} before transport
+ok 46 - selectedTeam refuses {"method":"HEAD","url":"https://unrelated.example/api/academy"} before transport
+  ---
+  duration_ms: 0.043854
+  type: 'test'
+  ...
+# Subtest: selectedTeam refuses {"url":"https://127.0.0.1:8787/api/academy"} before transport
+ok 47 - selectedTeam refuses {"url":"https://127.0.0.1:8787/api/academy"} before transport
+  ---
+  duration_ms: 0.041884
+  type: 'test'
+  ...
+# Subtest: selectedTeam refuses {"url":"http://127.0.0.1:9999/api/academy"} before transport
+ok 48 - selectedTeam refuses {"url":"http://127.0.0.1:9999/api/academy"} before transport
+  ---
+  duration_ms: 0.050149
+  type: 'test'
+  ...
+# Subtest: selectedTeam rejects response {"status":301,"headers":{"location":"http://127.0.0.1:8787/same-origin-redirect"}} before JSON or fulfill
+ok 49 - selectedTeam rejects response {"status":301,"headers":{"location":"http://127.0.0.1:8787/same-origin-redirect"}} before JSON or fulfill
+  ---
+  duration_ms: 0.162867
+  type: 'test'
+  ...
+# Subtest: selectedTeam rejects response {"status":302,"headers":{"location":"https://unrelated.example/redirect"}} before JSON or fulfill
+ok 50 - selectedTeam rejects response {"status":302,"headers":{"location":"https://unrelated.example/redirect"}} before JSON or fulfill
+  ---
+  duration_ms: 0.077709
+  type: 'test'
+  ...
+# Subtest: selectedTeam rejects response {"status":303,"headers":{}} before JSON or fulfill
+ok 51 - selectedTeam rejects response {"status":303,"headers":{}} before JSON or fulfill
+  ---
+  duration_ms: 0.075232
+  type: 'test'
+  ...
+# Subtest: selectedTeam rejects response {"status":304,"headers":{}} before JSON or fulfill
+ok 52 - selectedTeam rejects response {"status":304,"headers":{}} before JSON or fulfill
+  ---
+  duration_ms: 0.078136
+  type: 'test'
+  ...
+# Subtest: selectedTeam rejects response {"status":307,"headers":{"Location":"https://unrelated.example/redirect"}} before JSON or fulfill
+ok 53 - selectedTeam rejects response {"status":307,"headers":{"Location":"https://unrelated.example/redirect"}} before JSON or fulfill
+  ---
+  duration_ms: 0.1303
+  type: 'test'
+  ...
+# Subtest: selectedTeam rejects response {"status":308,"headers":{"location":"http://127.0.0.1:8787/same-origin-redirect"}} before JSON or fulfill
+ok 54 - selectedTeam rejects response {"status":308,"headers":{"location":"http://127.0.0.1:8787/same-origin-redirect"}} before JSON or fulfill
+  ---
+  duration_ms: 0.086288
+  type: 'test'
+  ...
+# Subtest: selectedTeam rejects response {"status":200,"headers":{"Location":"https://unrelated.example/unusual-response"}} before JSON or fulfill
+ok 55 - selectedTeam rejects response {"status":200,"headers":{"Location":"https://unrelated.example/unusual-response"}} before JSON or fulfill
+  ---
+  duration_ms: 0.114156
+  type: 'test'
+  ...
+# Subtest: selectedTeam rejects response {"status":200,"headers":{"location":""}} before JSON or fulfill
+ok 56 - selectedTeam rejects response {"status":200,"headers":{"location":""}} before JSON or fulfill
+  ---
+  duration_ms: 0.0892
+  type: 'test'
+  ...
+# Subtest: selectedTeam rejects response {"status":200,"responseUrl":"https://unrelated.example/unexpected-response"} before JSON or fulfill
+ok 57 - selectedTeam rejects response {"status":200,"responseUrl":"https://unrelated.example/unexpected-response"} before JSON or fulfill
+  ---
+  duration_ms: 0.080813
+  type: 'test'
+  ...
+# Subtest: selectedTeam rejects response {"status":200,"responseUrl":"not a url"} before JSON or fulfill
+ok 58 - selectedTeam rejects response {"status":200,"responseUrl":"not a url"} before JSON or fulfill
+  ---
+  duration_ms: 0.102509
+  type: 'test'
+  ...
+# Subtest: selectedTeam accepts guarded same-origin GET response
+ok 59 - selectedTeam accepts guarded same-origin GET response
+  ---
+  duration_ms: 0.170136
+  type: 'test'
+  ...
+# Subtest: selectedTeam accepts guarded same-origin HEAD response
+ok 60 - selectedTeam accepts guarded same-origin HEAD response
+  ---
+  duration_ms: 0.100622
+  type: 'test'
+  ...
+# Subtest: unselectedTeam refuses {"method":"POST"} before transport
+ok 61 - unselectedTeam refuses {"method":"POST"} before transport
+  ---
+  duration_ms: 0.055239
+  type: 'test'
+  ...
+# Subtest: unselectedTeam refuses {"method":"DELETE"} before transport
+ok 62 - unselectedTeam refuses {"method":"DELETE"} before transport
+  ---
+  duration_ms: 0.056473
+  type: 'test'
+  ...
+# Subtest: unselectedTeam refuses {"method":"PUT"} before transport
+ok 63 - unselectedTeam refuses {"method":"PUT"} before transport
+  ---
+  duration_ms: 0.050907
+  type: 'test'
+  ...
+# Subtest: unselectedTeam refuses {"method":"PATCH"} before transport
+ok 64 - unselectedTeam refuses {"method":"PATCH"} before transport
+  ---
+  duration_ms: 0.091103
+  type: 'test'
+  ...
+# Subtest: unselectedTeam refuses {"url":"https://unrelated.example/api/teams?id=approved-existing"} before transport
+ok 65 - unselectedTeam refuses {"url":"https://unrelated.example/api/teams?id=approved-existing"} before transport
+  ---
+  duration_ms: 0.064451
+  type: 'test'
+  ...
+# Subtest: unselectedTeam refuses {"method":"HEAD","url":"https://unrelated.example/api/academy"} before transport
+ok 66 - unselectedTeam refuses {"method":"HEAD","url":"https://unrelated.example/api/academy"} before transport
+  ---
+  duration_ms: 0.051423
+  type: 'test'
+  ...
+# Subtest: unselectedTeam refuses {"url":"https://127.0.0.1:8787/api/academy"} before transport
+ok 67 - unselectedTeam refuses {"url":"https://127.0.0.1:8787/api/academy"} before transport
+  ---
+  duration_ms: 0.053871
+  type: 'test'
+  ...
+# Subtest: unselectedTeam refuses {"url":"http://127.0.0.1:9999/api/academy"} before transport
+ok 68 - unselectedTeam refuses {"url":"http://127.0.0.1:9999/api/academy"} before transport
+  ---
+  duration_ms: 0.104575
+  type: 'test'
+  ...
+# Subtest: unselectedTeam rejects response {"status":301,"headers":{"location":"http://127.0.0.1:8787/same-origin-redirect"}} before JSON or fulfill
+ok 69 - unselectedTeam rejects response {"status":301,"headers":{"location":"http://127.0.0.1:8787/same-origin-redirect"}} before JSON or fulfill
+  ---
+  duration_ms: 0.212781
+  type: 'test'
+  ...
+# Subtest: unselectedTeam rejects response {"status":302,"headers":{"location":"https://unrelated.example/redirect"}} before JSON or fulfill
+ok 70 - unselectedTeam rejects response {"status":302,"headers":{"location":"https://unrelated.example/redirect"}} before JSON or fulfill
+  ---
+  duration_ms: 0.1054
+  type: 'test'
+  ...
+# Subtest: unselectedTeam rejects response {"status":303,"headers":{}} before JSON or fulfill
+ok 71 - unselectedTeam rejects response {"status":303,"headers":{}} before JSON or fulfill
+  ---
+  duration_ms: 0.087044
+  type: 'test'
+  ...
+# Subtest: unselectedTeam rejects response {"status":304,"headers":{}} before JSON or fulfill
+ok 72 - unselectedTeam rejects response {"status":304,"headers":{}} before JSON or fulfill
+  ---
+  duration_ms: 0.184225
+  type: 'test'
+  ...
+# Subtest: unselectedTeam rejects response {"status":307,"headers":{"Location":"https://unrelated.example/redirect"}} before JSON or fulfill
+ok 73 - unselectedTeam rejects response {"status":307,"headers":{"Location":"https://unrelated.example/redirect"}} before JSON or fulfill
+  ---
+  duration_ms: 0.100604
+  type: 'test'
+  ...
+# Subtest: unselectedTeam rejects response {"status":308,"headers":{"location":"http://127.0.0.1:8787/same-origin-redirect"}} before JSON or fulfill
+ok 74 - unselectedTeam rejects response {"status":308,"headers":{"location":"http://127.0.0.1:8787/same-origin-redirect"}} before JSON or fulfill
+  ---
+  duration_ms: 0.084901
+  type: 'test'
+  ...
+# Subtest: unselectedTeam rejects response {"status":200,"headers":{"Location":"https://unrelated.example/unusual-response"}} before JSON or fulfill
+ok 75 - unselectedTeam rejects response {"status":200,"headers":{"Location":"https://unrelated.example/unusual-response"}} before JSON or fulfill
+  ---
+  duration_ms: 0.092016
+  type: 'test'
+  ...
+# Subtest: unselectedTeam rejects response {"status":200,"headers":{"location":""}} before JSON or fulfill
+ok 76 - unselectedTeam rejects response {"status":200,"headers":{"location":""}} before JSON or fulfill
+  ---
+  duration_ms: 1.124578
+  type: 'test'
+  ...
+# Subtest: unselectedTeam rejects response {"status":200,"responseUrl":"https://unrelated.example/unexpected-response"} before JSON or fulfill
+ok 77 - unselectedTeam rejects response {"status":200,"responseUrl":"https://unrelated.example/unexpected-response"} before JSON or fulfill
+  ---
+  duration_ms: 0.09345
+  type: 'test'
+  ...
+# Subtest: unselectedTeam rejects response {"status":200,"responseUrl":"not a url"} before JSON or fulfill
+ok 78 - unselectedTeam rejects response {"status":200,"responseUrl":"not a url"} before JSON or fulfill
+  ---
+  duration_ms: 0.077668
+  type: 'test'
+  ...
+# Subtest: unselectedTeam accepts guarded same-origin GET response
+ok 79 - unselectedTeam accepts guarded same-origin GET response
+  ---
+  duration_ms: 0.08083
+  type: 'test'
+  ...
+# Subtest: unselectedTeam accepts guarded same-origin HEAD response
+ok 80 - unselectedTeam accepts guarded same-origin HEAD response
+  ---
+  duration_ms: 0.07108
+  type: 'test'
+  ...
+1..80
+# tests 80
+# suites 0
+# pass 80
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 169.811288

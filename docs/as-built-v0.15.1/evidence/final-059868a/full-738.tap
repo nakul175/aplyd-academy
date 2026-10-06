@@ -1,0 +1,4440 @@
+TAP version 13
+# Subtest: ordinary successful team read requires its requested workspace
+ok 1 - ordinary successful team read requires its requested workspace
+  ---
+  duration_ms: 2.361624
+  type: 'test'
+  ...
+# Subtest: ordinary write cannot move workspace through its acknowledgement
+ok 2 - ordinary write cannot move workspace through its acknowledgement
+  ---
+  duration_ms: 0.403734
+  type: 'test'
+  ...
+# Subtest: personal and shared writes require the captured canonical actor
+ok 3 - personal and shared writes require the captured canonical actor
+  ---
+  duration_ms: 0.300158
+  type: 'test'
+  ...
+# Subtest: a new validated read may legitimately establish a changed account
+ok 4 - a new validated read may legitimately establish a changed account
+  ---
+  duration_ms: 1.980475
+  type: 'test'
+  ...
+# Subtest: unconfirmed account cannot produce an accepted write
+ok 5 - unconfirmed account cannot produce an accepted write
+  ---
+  duration_ms: 0.294057
+  type: 'test'
+  ...
+# Subtest: create is bound to exactly its captured action UUID
+ok 6 - create is bound to exactly its captured action UUID
+  ---
+  duration_ms: 1.407346
+  type: 'test'
+  ...
+# Subtest: accept uses the captured invitation target without an arbitrary switch
+ok 7 - accept uses the captured invitation target without an arbitrary switch
+  ---
+  duration_ms: 1.168882
+  type: 'test'
+  ...
+# Subtest: lab responses never introduce a returned shared Team
+ok 8 - lab responses never introduce a returned shared Team
+  ---
+  duration_ms: 0.316066
+  type: 'test'
+  ...
+# Subtest: malformed snapshot containers fail before root filter or registry rendering
+ok 9 - malformed snapshot containers fail before root filter or registry rendering
+  ---
+  duration_ms: 1.541417
+  type: 'test'
+  ...
+# Subtest: all actual seed programs have accepted private snapshot render shape
+ok 10 - all actual seed programs have accepted private snapshot render shape
+  ---
+  duration_ms: 5.278451
+  type: 'test'
+  ...
+# Subtest: private snapshots require matching unique pins and known root render fields
+ok 11 - private snapshots require matching unique pins and known root render fields
+  ---
+  duration_ms: 3.409545
+  type: 'test'
+  ...
+# Subtest: unavailable legacy pin and malformed diagnostic receipt history stay unchanged
+ok 12 - unavailable legacy pin and malformed diagnostic receipt history stay unchanged
+  ---
+  duration_ms: 2.570621
+  type: 'test'
+  ...
+# Subtest: view defaults never mutate or masquerade as raw server acknowledgement fields
+ok 13 - view defaults never mutate or masquerade as raw server acknowledgement fields
+  ---
+  duration_ms: 0.666193
+  type: 'test'
+  ...
+# Subtest: present damaged view arrays are refused rather than silently cleared
+ok 14 - present damaged view arrays are refused rather than silently cleared
+  ---
+  duration_ms: 0.440966
+  type: 'test'
+  ...
+# Subtest: removed own history remains valid and staff roles never survive inactive projection
+ok 15 - removed own history remains valid and staff roles never survive inactive projection
+  ---
+  duration_ms: 1.241505
+  type: 'test'
+  ...
+# Subtest: malformed cohort/network date/thread containers are rejected before consumers
+ok 16 - malformed cohort/network date/thread containers are rejected before consumers
+  ---
+  duration_ms: 1.310989
+  type: 'test'
+  ...
+# Subtest: directory rejects null, duplicate, malformed and mismatched-subject rows
+ok 17 - directory rejects null, duplicate, malformed and mismatched-subject rows
+  ---
+  duration_ms: 0.366828
+  type: 'test'
+  ...
+# Subtest: empty directory and many valid joined workspaces preserve discovery
+ok 18 - empty directory and many valid joined workspaces preserve discovery
+  ---
+  duration_ms: 0.260451
+  type: 'test'
+  ...
+# Subtest: successful write must advance its captured revision before becoming an acknowledgement
+ok 19 - successful write must advance its captured revision before becoming an acknowledgement
+  ---
+  duration_ms: 0.228219
+  type: 'test'
+  ...
+# Subtest: global farm archive still contains the unmodified intentional T02 copy
+ok 20 - global farm archive still contains the unmodified intentional T02 copy
+  ---
+  duration_ms: 1.509628
+  type: 'test'
+  ...
+# Subtest: private annotation preserves all four rows, facts, source note and correct totals
+ok 21 - private annotation preserves all four rows, facts, source note and correct totals
+  ---
+  duration_ms: 5.795555
+  type: 'test'
+  ...
+# Subtest: every lesson quiz, numeric answer, expected evidence and practical anchor remain accurate
+ok 22 - every lesson quiz, numeric answer, expected evidence and practical anchor remain accurate
+  ---
+  duration_ms: 3.258355
+  type: 'test'
+  ...
+# Subtest: private time floor and source wrapping leave global minutes/text unchanged
+ok 23 - private time floor and source wrapping leave global minutes/text unchanged
+  ---
+  duration_ms: 4.162113
+  type: 'test'
+  ...
+# Subtest: complete copied farming document can request independent review
+ok 24 - complete copied farming document can request independent review
+  ---
+  duration_ms: 10.551282
+  type: 'test'
+  ...
+# Subtest: unmarked duplicate draft stays unmarked and cannot request review
+ok 25 - unmarked duplicate draft stays unmarked and cannot request review
+  ---
+  duration_ms: 9.653926
+  type: 'test'
+  ...
+# Subtest: duplicate marker must identify the original matching transaction
+ok 26 - duplicate marker must identify the original matching transaction
+  ---
+  duration_ms: 8.452675
+  type: 'test'
+  ...
+# Subtest: a marker without a prior original cannot create its own evidence
+ok 27 - a marker without a prior original cannot create its own evidence
+  ---
+  duration_ms: 8.668131
+  type: 'test'
+  ...
+# Subtest: a first unique row cannot label itself as an established duplicate
+ok 28 - a first unique row cannot label itself as an established duplicate
+  ---
+  duration_ms: 8.810939
+  type: 'test'
+  ...
+# Subtest: duplicate confirmation needs a preserved explanatory source note
+ok 29 - duplicate confirmation needs a preserved explanatory source note
+  ---
+  duration_ms: 16.687377
+  type: 'test'
+  ...
+# Subtest: trimmed duplicate source IDs still require the canonical matching explicit marker
+ok 30 - trimmed duplicate source IDs still require the canonical matching explicit marker
+  ---
+  duration_ms: 14.492206
+  type: 'test'
+  ...
+# Subtest: duplicate metadata and note alone cannot replace fictional source facts
+ok 31 - duplicate metadata and note alone cannot replace fictional source facts
+  ---
+  duration_ms: 8.599386
+  type: 'test'
+  ...
+# Subtest: actual Team archive translates errors, retains history100 as101 and never restores publication authority
+ok 32 - actual Team archive translates errors, retains history100 as101 and never restores publication authority
+  ---
+  duration_ms: 535.869357
+  type: 'test'
+  ...
+# Subtest: actual archive keeps an approved attestation as history while terminal state prevents every publication
+ok 33 - actual archive keeps an approved attestation as history while terminal state prevents every publication
+  ---
+  duration_ms: 26.187299
+  type: 'test'
+  ...
+# Subtest: actual eight publications and four active drafts all close at effective650KB without body/hash/history loss
+ok 34 - actual eight publications and four active drafts all close at effective650KB without body/hash/history loss
+  ---
+  duration_ms: 5593.936099
+  type: 'test'
+  ...
+# Subtest: actual global budget protects all content/support closures and rejects unrelated protective growth at1.8MB
+ok 35 - actual global budget protects all content/support closures and rejects unrelated protective growth at1.8MB
+  ---
+  duration_ms: 5966.023497
+  type: 'test'
+  ...
+# Subtest: actual scoped engine and plan context deny a foreign snapshot even if a mixed registry was mistakenly assembled
+ok 36 - actual scoped engine and plan context deny a foreign snapshot even if a mixed registry was mistakenly assembled
+  ---
+  duration_ms: 18.945834
+  type: 'test'
+  ...
+# Subtest: private seed copies preserve archive bytes and require explicit justified markers for intentional teaching duplicates
+ok 37 - private seed copies preserve archive bytes and require explicit justified markers for intentional teaching duplicates
+  ---
+  duration_ms: 17.933611
+  type: 'test'
+  ...
+# Subtest: actual archived drafts free active slots but total24 retained documents cannot grow without bound
+ok 38 - actual archived drafts free active slots but total24 retained documents cannot grow without bound
+  ---
+  duration_ms: 570.999299
+  type: 'test'
+  ...
+# Subtest: actual authoring validates visible quiz choices, substantive source facts and total-time consistency
+ok 39 - actual authoring validates visible quiz choices, substantive source facts and total-time consistency
+  ---
+  duration_ms: 22.358412
+  type: 'test'
+  ...
+# Subtest: actual authoring names and clocks remain bounded across drafts, approvals, publication and hot metadata
+ok 40 - actual authoring names and clocks remain bounded across drafts, approvals, publication and hot metadata
+  ---
+  duration_ms: 22.792063
+  type: 'test'
+  ...
+# Subtest: actual member acceptance cannot spend650KB closure capacity by introducing a wider future actor ID
+ok 41 - actual member acceptance cannot spend650KB closure capacity by introducing a wider future actor ID
+  ---
+  duration_ms: 34.191579
+  type: 'test'
+  ...
+# Subtest: copy creates a new workspace-local pathway identity and leaves the source unchanged
+ok 42 - copy creates a new workspace-local pathway identity and leaves the source unchanged
+  ---
+  duration_ms: 13.720175
+  type: 'test'
+  ...
+# Subtest: all three pilot copies normalize only private legacy source strings and validate for review
+ok 43 - all three pilot copies normalize only private legacy source strings and validate for review
+  ---
+  duration_ms: 19.682775
+  type: 'test'
+  ...
+# Subtest: authoring denies learner, removed owner and outsider
+ok 44 - authoring denies learner, removed owner and outsider
+  ---
+  duration_ms: 1.231128
+  type: 'test'
+  ...
+# Subtest: copying a foreign workspace reference cannot cross the workspace boundary
+ok 45 - copying a foreign workspace reference cannot cross the workspace boundary
+  ---
+  duration_ms: 0.401843
+  type: 'test'
+  ...
+# Subtest: malformed reference and unsupported actor/classification fields reject
+ok 46 - malformed reference and unsupported actor/classification fields reject
+  ---
+  duration_ms: 0.976549
+  type: 'test'
+  ...
+# Subtest: blank required text can save as a draft but prevents submission
+ok 47 - blank required text can save as a draft but prevents submission
+  ---
+  duration_ms: 9.549881
+  type: 'test'
+  ...
+# Subtest: non-author owner cannot edit or submit another owner draft
+ok 48 - non-author owner cannot edit or submit another owner draft
+  ---
+  duration_ms: 3.009805
+  type: 'test'
+  ...
+# Subtest: stale draft revisions fail without changing original state
+ok 49 - stale draft revisions fail without changing original state
+  ---
+  duration_ms: 2.778824
+  type: 'test'
+  ...
+# Subtest: save supports explanatory lessons, quiz answers, source facts and rubric anchor editing
+ok 50 - save supports explanatory lessons, quiz answers, source facts and rubric anchor editing
+  ---
+  duration_ms: 7.492558
+  type: 'test'
+  ...
+# Subtest: save preserves locked programId
+ok 51 - save preserves locked programId
+  ---
+  duration_ms: 4.896061
+  type: 'test'
+  ...
+# Subtest: save preserves locked lessonId
+ok 52 - save preserves locked lessonId
+  ---
+  duration_ms: 3.737125
+  type: 'test'
+  ...
+# Subtest: save preserves locked quizId
+ok 53 - save preserves locked quizId
+  ---
+  duration_ms: 4.231122
+  type: 'test'
+  ...
+# Subtest: save preserves locked promptId
+ok 54 - save preserves locked promptId
+  ---
+  duration_ms: 3.853115
+  type: 'test'
+  ...
+# Subtest: save preserves locked rubricId
+ok 55 - save preserves locked rubricId
+  ---
+  duration_ms: 4.319047
+  type: 'test'
+  ...
+# Subtest: save preserves locked credentialClaim
+ok 56 - save preserves locked credentialClaim
+  ---
+  duration_ms: 3.563278
+  type: 'test'
+  ...
+# Subtest: save preserves locked credentialExclusions
+ok 57 - save preserves locked credentialExclusions
+  ---
+  duration_ms: 4.37767
+  type: 'test'
+  ...
+# Subtest: save preserves locked role
+ok 58 - save preserves locked role
+  ---
+  duration_ms: 3.750525
+  type: 'test'
+  ...
+# Subtest: save preserves locked sourceNotice
+ok 59 - save preserves locked sourceNotice
+  ---
+  duration_ms: 4.107722
+  type: 'test'
+  ...
+# Subtest: a fourth lesson, unknown object field, nested source payload and prototype field reject
+ok 60 - a fourth lesson, unknown object field, nested source payload and prototype field reject
+  ---
+  duration_ms: 8.8427
+  type: 'test'
+  ...
+# Subtest: text and complete document caps prevent oversized authoring payloads
+ok 61 - text and complete document caps prevent oversized authoring payloads
+  ---
+  duration_ms: 4.245313
+  type: 'test'
+  ...
+# Subtest: invalid quiz key, missing gate and incorrect weight total cannot request review
+ok 62 - invalid quiz key, missing gate and incorrect weight total cannot request review
+  ---
+  duration_ms: 17.478514
+  type: 'test'
+  ...
+# Subtest: self-review, absent reviewer, inactive reviewer and nonowner reviewer are rejected
+ok 63 - self-review, absent reviewer, inactive reviewer and nonowner reviewer are rejected
+  ---
+  duration_ms: 15.61025
+  type: 'test'
+  ...
+# Subtest: invalid, past and too-distant review dates are rejected
+ok 64 - invalid, past and too-distant review dates are rejected
+  ---
+  duration_ms: 10.17788
+  type: 'test'
+  ...
+# Subtest: in-review draft is frozen for its author until recall or requested changes
+ok 65 - in-review draft is frozen for its author until recall or requested changes
+  ---
+  duration_ms: 5.235604
+  type: 'test'
+  ...
+# Subtest: only the assigned independent owner may approve
+ok 66 - only the assigned independent owner may approve
+  ---
+  duration_ms: 4.945508
+  type: 'test'
+  ...
+# Subtest: approval requires every review declaration and reasoned notes
+ok 67 - approval requires every review declaration and reasoned notes
+  ---
+  duration_ms: 6.147052
+  type: 'test'
+  ...
+# Subtest: changes requested return a draft and preserve the independent reviewer note
+ok 68 - changes requested return a draft and preserve the independent reviewer note
+  ---
+  duration_ms: 6.002242
+  type: 'test'
+  ...
+# Subtest: recalling approved content invalidates its approval, and editing requires a new review
+ok 69 - recalling approved content invalidates its approval, and editing requires a new review
+  ---
+  duration_ms: 28.820173
+  type: 'test'
+  ...
+# Subtest: publication pins the approved hash, workspace scope, fixed policy and nonaccredited classification
+ok 70 - publication pins the approved hash, workspace scope, fixed policy and nonaccredited classification
+  ---
+  duration_ms: 29.968241
+  type: 'test'
+  ...
+# Subtest: published draft cannot be saved, recalled or published again
+ok 71 - published draft cannot be saved, recalled or published again
+  ---
+  duration_ms: 14.40158
+  type: 'test'
+  ...
+# Subtest: tampered approved document or document revision fails publication
+ok 72 - tampered approved document or document revision fails publication
+  ---
+  duration_ms: 29.925573
+  type: 'test'
+  ...
+# Subtest: revoked reviewer permission prevents publication while preserving approval history
+ok 73 - revoked reviewer permission prevents publication while preserving approval history
+  ---
+  duration_ms: 9.185327
+  type: 'test'
+  ...
+# Subtest: new version of an existing private program never changes the original snapshot
+ok 74 - new version of an existing private program never changes the original snapshot
+  ---
+  duration_ms: 39.058207
+  type: 'test'
+  ...
+# Subtest: retirement closes new enrollment while preserving immutable content and private historical reads
+ok 75 - retirement closes new enrollment while preserving immutable content and private historical reads
+  ---
+  duration_ms: 16.027618
+  type: 'test'
+  ...
+# Subtest: content review expiry blocks new enrollment but does not delete history
+ok 76 - content review expiry blocks new enrollment but does not delete history
+  ---
+  duration_ms: 13.340364
+  type: 'test'
+  ...
+# Subtest: learners get only server-selected published definitions, never draft contents or owner review notes
+ok 77 - learners get only server-selected published definitions, never draft contents or owner review notes
+  ---
+  duration_ms: 16.365261
+  type: 'test'
+  ...
+# Subtest: outsiders cannot project private definitions even with known publication references
+ok 78 - outsiders cannot project private definitions even with known publication references
+  ---
+  duration_ms: 15.093072
+  type: 'test'
+  ...
+# Subtest: preview is restricted to current owners and exposes actionable structured validation
+ok 79 - preview is restricted to current owners and exposes actionable structured validation
+  ---
+  duration_ms: 3.82021
+  type: 'test'
+  ...
+# Subtest: four active drafts cap applies without preventing publication transitions
+ok 80 - four active drafts cap applies without preventing publication transitions
+  ---
+  duration_ms: 16.10998
+  type: 'test'
+  ...
+# Subtest: canonical content hashing does not depend on object key insertion order
+ok 81 - canonical content hashing does not depend on object key insertion order
+  ---
+  duration_ms: 1.637272
+  type: 'test'
+  ...
+# Subtest: markup remains literal content, requiring escaped React rendering rather than executable HTML
+ok 82 - markup remains literal content, requiring escaped React rendering rather than executable HTML
+  ---
+  duration_ms: 5.890942
+  type: 'test'
+  ...
+# Subtest: every archived global pathway retains its own prerequisites and exact policy wording
+ok 83 - every archived global pathway retains its own prerequisites and exact policy wording
+  ---
+  duration_ms: 3.422076
+  type: 'test'
+  ...
+# Subtest: current authoring publication constants agree with actual server scoring
+ok 84 - current authoring publication constants agree with actual server scoring
+  ---
+  duration_ms: 6.33226
+  type: 'test'
+  ...
+# Subtest: actual scoring refuses scores above four and cannot average a critical failure away
+ok 85 - actual scoring refuses scores above four and cannot average a critical failure away
+  ---
+  duration_ms: 0.852992
+  type: 'test'
+  ...
+# Subtest: actual scoreDecision uses seventy even if an unsupported saved private policy says seventy-five
+ok 86 - actual scoreDecision uses seventy even if an unsupported saved private policy says seventy-five
+  ---
+  duration_ms: 0.81481
+  type: 'test'
+  ...
+# Subtest: doubled rubric is rejected by actual authoring and cannot manufacture out-of-two-hundred rule
+ok 87 - doubled rubric is rejected by actual authoring and cannot manufacture out-of-two-hundred rule
+  ---
+  duration_ms: 1.402862
+  type: 'test'
+  ...
+# Subtest: current threshold cannot hide an unsupported two-hundred-point or ninety-nine-point rubric
+ok 88 - current threshold cannot hide an unsupported two-hundred-point or ninety-nine-point rubric
+  ---
+  duration_ms: 0.677829
+  type: 'test'
+  ...
+# Subtest: noninteger same-total rubric is rejected by actual authoring and display guard
+ok 89 - noninteger same-total rubric is rejected by actual authoring and display guard
+  ---
+  duration_ms: 1.434297
+  type: 'test'
+  ...
+# Subtest: malformed private policy values never borrow global policy
+ok 90 - malformed private policy values never borrow global policy
+  ---
+  duration_ms: 1.814502
+  type: 'test'
+  ...
+# Subtest: unsupported numerical policies stay unavailable even when mathematically positive
+ok 91 - unsupported numerical policies stay unavailable even when mathematically positive
+  ---
+  duration_ms: 3.073417
+  type: 'test'
+  ...
+# Subtest: missing/null/array/nonfinite or out-of-range rubric rows stay unavailable
+ok 92 - missing/null/array/nonfinite or out-of-range rubric rows stay unavailable
+  ---
+  duration_ms: 1.691035
+  type: 'test'
+  ...
+# Subtest: malformed critical-gate shape cannot present a supported safety policy
+ok 93 - malformed critical-gate shape cannot present a supported safety policy
+  ---
+  duration_ms: 1.040952
+  type: 'test'
+  ...
+# Subtest: private prerequisites are from the resolved older pin despite a newer same-program document
+ok 94 - private prerequisites are from the resolved older pin despite a newer same-program document
+  ---
+  duration_ms: 0.707998
+  type: 'test'
+  ...
+# Subtest: unknown global edition has no fallback to the archived seed rule
+ok 95 - unknown global edition has no fallback to the archived seed rule
+  ---
+  duration_ms: 0.140229
+  type: 'test'
+  ...
+# Subtest: mismatched or malformed content identity is omitted
+ok 96 - mismatched or malformed content identity is omitted
+  ---
+  duration_ms: 0.773651
+  type: 'test'
+  ...
+# Subtest: unavailable resolution cannot invent readiness
+ok 97 - unavailable resolution cannot invent readiness
+  ---
+  duration_ms: 0.112168
+  type: 'test'
+  ...
+# Subtest: invalid prerequisites are not invented or borrowed
+ok 98 - invalid prerequisites are not invented or borrowed
+  ---
+  duration_ms: 0.679536
+  type: 'test'
+  ...
+# Subtest: empty prerequisite list remains honestly empty
+ok 99 - empty prerequisite list remains honestly empty
+  ---
+  duration_ms: 0.260756
+  type: 'test'
+  ...
+# Subtest: projection never mutates snapshot/global seed and detaches prerequisite display
+ok 100 - projection never mutates snapshot/global seed and detaches prerequisite display
+  ---
+  duration_ms: 1.06799
+  type: 'test'
+  ...
+# Subtest: existing owner content adapter selects exact retired/cohort attention without another support dashboard
+ok 101 - existing owner content adapter selects exact retired/cohort attention without another support dashboard
+  ---
+  duration_ms: 6.529642
+  type: 'test'
+  ...
+# Subtest: existing owner-only panel refuses facilitator, removed and raw authority inputs
+ok 102 - existing owner-only panel refuses facilitator, removed and raw authority inputs
+  ---
+  duration_ms: 0.399835
+  type: 'test'
+  ...
+# Subtest: explicit preparation appends exact existing description and returns description only
+ok 103 - explicit preparation appends exact existing description and returns description only
+  ---
+  duration_ms: 0.818655
+  type: 'test'
+  ...
+# Subtest: no selected disclosures never copy saved preference, course, private evidence or staff input
+ok 104 - no selected disclosures never copy saved preference, course, private evidence or staff input
+  ---
+  duration_ms: 0.21161
+  type: 'test'
+  ...
+# Subtest: description cap refuses an overflow without changing or truncating existing text
+ok 105 - description cap refuses an overflow without changing or truncating existing text
+  ---
+  duration_ms: 0.83037
+  type: 'test'
+  ...
+# Subtest: the full 2000-character body limit accepts exact boundary and refuses one additional character
+ok 106 - the full 2000-character body limit accepts exact boundary and refuses one additional character
+  ---
+  duration_ms: 0.316438
+  type: 'test'
+  ...
+# Subtest: explicit own enrollment and selected cohort produce title/language only
+ok 107 - explicit own enrollment and selected cohort produce title/language only
+  ---
+  duration_ms: 0.607078
+  type: 'test'
+  ...
+# Subtest: no enrollment choice, no workspace-course fallback and withdrawn records yield no course
+ok 108 - no enrollment choice, no workspace-course fallback and withdrawn records yield no course
+  ---
+  duration_ms: 0.257697
+  type: 'test'
+  ...
+# Subtest: unknown exact pin is not replaced by a first available course
+ok 109 - unknown exact pin is not replaced by a first available course
+  ---
+  duration_ms: 0.458995
+  type: 'test'
+  ...
+# Subtest: malformed resolved snapshots produce no course disclosure or fallback
+ok 110 - malformed resolved snapshots produce no course disclosure or fallback
+  ---
+  duration_ms: 0.714596
+  type: 'test'
+  ...
+# Subtest: resolved foreign or changed version/cohort references do not enter a help description
+ok 111 - resolved foreign or changed version/cohort references do not enter a help description
+  ---
+  duration_ms: 0.410996
+  type: 'test'
+  ...
+# Subtest: in-memory acknowledgement fence differs for every request input and account/workspace/audience change
+ok 112 - in-memory acknowledgement fence differs for every request input and account/workspace/audience change
+  ---
+  duration_ms: 0.247609
+  type: 'test'
+  ...
+# Subtest: current owner or facilitator authority is required; raw Team does not qualify
+ok 113 - current owner or facilitator authority is required; raw Team does not qualify
+  ---
+  duration_ms: 4.34937
+  type: 'test'
+  ...
+# Subtest: retired publication maps only exact edition cohorts and does not pause them
+ok 114 - retired publication maps only exact edition cohorts and does not pause them
+  ---
+  duration_ms: 1.863979
+  type: 'test'
+  ...
+# Subtest: calendar elapsed date and server snapshot enrollment closure remain separate observations
+ok 115 - calendar elapsed date and server snapshot enrollment closure remain separate observations
+  ---
+  duration_ms: 0.686269
+  type: 'test'
+  ...
+# Subtest: invalid review date is unknown, not an invented elapsed date or safety finding
+ok 116 - invalid review date is unknown, not an invented elapsed date or safety finding
+  ---
+  duration_ms: 0.460064
+  type: 'test'
+  ...
+# Subtest: pending draft shows independent reviewer loss and correct recall route
+ok 117 - pending draft shows independent reviewer loss and correct recall route
+  ---
+  duration_ms: 0.958577
+  type: 'test'
+  ...
+# Subtest: orphaned author draft offers archive and separate-copy route, not another owner edit takeover
+ok 118 - orphaned author draft offers archive and separate-copy route, not another owner edit takeover
+  ---
+  duration_ms: 0.313731
+  type: 'test'
+  ...
+# Subtest: an assigned author cannot be counted as independent content reviewer
+ok 119 - an assigned author cannot be counted as independent content reviewer
+  ---
+  duration_ms: 0.530121
+  type: 'test'
+  ...
+# Subtest: author loss alone does not fabricate a block on current independent review or unchanged publication
+ok 120 - author loss alone does not fabricate a block on current independent review or unchanged publication
+  ---
+  duration_ms: 0.360446
+  type: 'test'
+  ...
+# Subtest: future draft timestamps have unavailable waiting age and no negative days
+ok 121 - future draft timestamps have unavailable waiting age and no negative days
+  ---
+  duration_ms: 0.523759
+  type: 'test'
+  ...
+# Subtest: facilitator scope excludes learner-visible unrelated cohorts and owner-only content
+ok 122 - facilitator scope excludes learner-visible unrelated cohorts and owner-only content
+  ---
+  duration_ms: 0.690067
+  type: 'test'
+  ...
+# Subtest: facilitator cannot count privacy/accessibility cases or unrelated-cohort learning cases
+ok 123 - facilitator cannot count privacy/accessibility cases or unrelated-cohort learning cases
+  ---
+  duration_ms: 0.328629
+  type: 'test'
+  ...
+# Subtest: support summaries do not copy titles, messages, resolutions, requester identity or private preferences
+ok 124 - support summaries do not copy titles, messages, resolutions, requester identity or private preferences
+  ---
+  duration_ms: 0.19811
+  type: 'test'
+  ...
+# Subtest: bounded input refusal never silently truncates oversized aggregate snapshots
+ok 125 - bounded input refusal never silently truncates oversized aggregate snapshots
+  ---
+  duration_ms: 1.368785
+  type: 'test'
+  ...
+# Subtest: duplicate IDs and foreign publication references refuse ambiguous or cross-workspace content
+ok 126 - duplicate IDs and foreign publication references refuse ambiguous or cross-workspace content
+  ---
+  duration_ms: 0.18466
+  type: 'test'
+  ...
+# Subtest: malformed support handling metadata does not create an invented healthy queue
+ok 127 - malformed support handling metadata does not create an invented healthy queue
+  ---
+  duration_ms: 0.16206
+  type: 'test'
+  ...
+# Subtest: row cap preserves whole attention counts; it does not imply all items were shown
+ok 128 - row cap preserves whole attention counts; it does not imply all items were shown
+  ---
+  duration_ms: 8.73475
+  type: 'test'
+  ...
+# Subtest: no disclosure choices include no private preference or course information
+ok 129 - no disclosure choices include no private preference or course information
+  ---
+  duration_ms: 0.356568
+  type: 'test'
+  ...
+# Subtest: each learning-help disclosure is independently selected and remains an unsent draft
+ok 130 - each learning-help disclosure is independently selected and remains an unsent draft
+  ---
+  duration_ms: 0.215986
+  type: 'test'
+  ...
+# Subtest: unsupported disclosure choices and unreviewed language values do not become support commands
+ok 131 - unsupported disclosure choices and unreviewed language values do not become support commands
+  ---
+  duration_ms: 0.318137
+  type: 'test'
+  ...
+# Subtest: archived seed has its original byte length and SHA256; original source remains untouched
+ok 132 - archived seed has its original byte length and SHA256; original source remains untouched
+  ---
+  duration_ms: 11.222688
+  type: 'test'
+  ...
+# Subtest: current discovery version remains exactly the existing legacy version
+ok 133 - current discovery version remains exactly the existing legacy version
+  ---
+  duration_ms: 1.086273
+  type: 'test'
+  ...
+# Subtest: legacy rows resolve exact global reference without mutation
+ok 134 - legacy rows resolve exact global reference without mutation
+  ---
+  duration_ms: 0.45304
+  type: 'test'
+  ...
+# Subtest: missing version and unknown version never fall back to current
+ok 135 - missing version and unknown version never fall back to current
+  ---
+  duration_ms: 0.6828
+  type: 'test'
+  ...
+# Subtest: explicit reference must agree with both legacy compatibility fields
+ok 136 - explicit reference must agree with both legacy compatibility fields
+  ---
+  duration_ms: 0.543725
+  type: 'test'
+  ...
+# Subtest: malformed references and delimiter-bearing identities cannot form keys
+ok 137 - malformed references and delimiter-bearing identities cannot form keys
+  ---
+  duration_ms: 0.745276
+  type: 'test'
+  ...
+# Subtest: deeply nested published content and registry returns cannot be mutated
+ok 138 - deeply nested published content and registry returns cannot be mutated
+  ---
+  duration_ms: 0.435446
+  type: 'test'
+  ...
+# Subtest: registry owns detached content even when its caller later changes source objects
+ok 139 - registry owns detached content even when its caller later changes source objects
+  ---
+  duration_ms: 2.41652
+  type: 'test'
+  ...
+# Subtest: same program/version in two scopes are distinct, and workspace content needs explicit allowed scope
+ok 140 - same program/version in two scopes are distinct, and workspace content needs explicit allowed scope
+  ---
+  duration_ms: 1.995301
+  type: 'test'
+  ...
+# Subtest: multiple explicit versions coexist and old decisions keep their original standard
+ok 141 - multiple explicit versions coexist and old decisions keep their original standard
+  ---
+  duration_ms: 1.627775
+  type: 'test'
+  ...
+# Subtest: immutable registry rejects duplicate reference keys and mismatched pathway identity
+ok 142 - immutable registry rejects duplicate reference keys and mismatched pathway identity
+  ---
+  duration_ms: 0.985633
+  type: 'test'
+  ...
+# Subtest: has and safe UI result do not invent availability
+ok 143 - has and safe UI result do not invent availability
+  ---
+  duration_ms: 0.27903
+  type: 'test'
+  ...
+# Subtest: legacy delivery is always refused while Boolean preferences never create scoped authority
+ok 144 - legacy delivery is always refused while Boolean preferences never create scoped authority
+  ---
+  duration_ms: 8.353872
+  type: 'test'
+  ...
+# Subtest: Health and every cross-partner mapping remain rejected by explicit scoped choices
+ok 145 - Health and every cross-partner mapping remain rejected by explicit scoped choices
+  ---
+  duration_ms: 3.344744
+  type: 'test'
+  ...
+# Subtest: historical invalid Health and mismatched legacy previews remain separate and are never migrated
+ok 146 - historical invalid Health and mismatched legacy previews remain separate and are never migrated
+  ---
+  duration_ms: 1.922955
+  type: 'test'
+  ...
+# Subtest: new scoped receipt preserves the previous snapshot and reads current suspended practice status
+ok 147 - new scoped receipt preserves the previous snapshot and reads current suspended practice status
+  ---
+  duration_ms: 1.875274
+  type: 'test'
+  ...
+# Subtest: explicit receipt fields, exact pin and own-choice withdrawal stay independent from legacy preferences
+ok 148 - explicit receipt fields, exact pin and own-choice withdrawal stay independent from legacy preferences
+  ---
+  duration_ms: 1.691765
+  type: 'test'
+  ...
+# Subtest: all three approved preview mappings accept only their matching saved learning
+ok 149 - all three approved preview mappings accept only their matching saved learning
+  ---
+  duration_ms: 2.891037
+  type: 'test'
+  ...
+# Subtest: all six cross-partner pathway combinations fail at the guard
+ok 150 - all six cross-partner pathway combinations fail at the guard
+  ---
+  duration_ms: 0.787847
+  type: 'test'
+  ...
+# Subtest: Health enabling and testing fail despite a historical true boolean
+ok 151 - Health enabling and testing fail despite a historical true boolean
+  ---
+  duration_ms: 0.270651
+  type: 'test'
+  ...
+# Subtest: Health disabling stays available without deleting earlier own simulated receipts
+ok 152 - Health disabling stays available without deleting earlier own simulated receipts
+  ---
+  duration_ms: 1.4777
+  type: 'test'
+  ...
+# Subtest: unknown and inherited partner labels do not pass either guard
+ok 153 - unknown and inherited partner labels do not pass either guard
+  ---
+  duration_ms: 0.417905
+  type: 'test'
+  ...
+# Subtest: only explicit own boolean true enables a local summary preview
+ok 154 - only explicit own boolean true enables a local summary preview
+  ---
+  duration_ms: 0.301806
+  type: 'test'
+  ...
+# Subtest: legacy booleans never mint, select or upgrade a scoped test grant
+ok 155 - legacy booleans never mint, select or upgrade a scoped test grant
+  ---
+  duration_ms: 0.298573
+  type: 'test'
+  ...
+# Subtest: commands reject caller-supplied payload, account, scope, version, endpoint and grant fields
+ok 156 - commands reject caller-supplied payload, account, scope, version, endpoint and grant fields
+  ---
+  duration_ms: 0.591924
+  type: 'test'
+  ...
+# Subtest: foreign enrollment references fail even if the owner has a preview preference
+ok 157 - foreign enrollment references fail even if the owner has a preview preference
+  ---
+  duration_ms: 0.468163
+  type: 'test'
+  ...
+# Subtest: withdrawn, unavailable-version and unavailable-pathway previews fail closed
+ok 158 - withdrawn, unavailable-version and unavailable-pathway previews fail closed
+  ---
+  duration_ms: 0.548302
+  type: 'test'
+  ...
+# Subtest: content pause blocks new previews and preserves all historical snapshots
+ok 159 - content pause blocks new previews and preserves all historical snapshots
+  ---
+  duration_ms: 0.213386
+  type: 'test'
+  ...
+# Subtest: duplicate or unknown activity references cannot overstate saved progress
+ok 160 - duplicate or unknown activity references cannot overstate saved progress
+  ---
+  duration_ms: 0.19162
+  type: 'test'
+  ...
+# Subtest: summary is built from current minimal state and excludes private data
+ok 161 - summary is built from current minimal state and excludes private data
+  ---
+  duration_ms: 0.160815
+  type: 'test'
+  ...
+# Subtest: malformed record status rejects while no issued record remains testable
+ok 162 - malformed record status rejects while no issued record remains testable
+  ---
+  duration_ms: 0.116897
+  type: 'test'
+  ...
+# Subtest: unsupported command types and sharing values are rejected
+ok 163 - unsupported command types and sharing values are rejected
+  ---
+  duration_ms: 0.132933
+  type: 'test'
+  ...
+# Subtest: critical gates override a maximum score
+ok 164 - critical gates override a maximum score
+  ---
+  duration_ms: 2.237671
+  type: 'test'
+  ...
+# Subtest: 70 passes; 68.75 fails without rounding up
+ok 165 - 70 passes; 68.75 fails without rounding up
+  ---
+  duration_ms: 1.250706
+  type: 'test'
+  ...
+# Subtest: invalid scores and malformed gates reject
+ok 166 - invalid scores and malformed gates reject
+  ---
+  duration_ms: 0.487507
+  type: 'test'
+  ...
+# Subtest: duplicate enrollment is idempotent
+ok 167 - duplicate enrollment is idempotent
+  ---
+  duration_ms: 6.031483
+  type: 'test'
+  ...
+# Subtest: lessons enforce prerequisites and answer key
+ok 168 - lessons enforce prerequisites and answer key
+  ---
+  duration_ms: 0.563854
+  type: 'test'
+  ...
+# Subtest: quiz alone and incomplete evidence cannot issue a record
+ok 169 - quiz alone and incomplete evidence cannot issue a record
+  ---
+  duration_ms: 0.409175
+  type: 'test'
+  ...
+# Subtest: partial drafts preserve fields and oversized text rejects atomically
+ok 170 - partial drafts preserve fields and oversized text rejects atomically
+  ---
+  duration_ms: 0.428685
+  type: 'test'
+  ...
+# Subtest: immutable evidence and decisions retained; second review rejects
+ok 171 - immutable evidence and decisions retained; second review rejects
+  ---
+  duration_ms: 1.449406
+  type: 'test'
+  ...
+# Subtest: failed critical gate blocks record; independent appeal can supersede
+ok 172 - failed critical gate blocks record; independent appeal can supersede
+  ---
+  duration_ms: 1.024052
+  type: 'test'
+  ...
+# Subtest: adverse appeal suspends an already issued record
+ok 173 - adverse appeal suspends an already issued record
+  ---
+  duration_ms: 0.807213
+  type: 'test'
+  ...
+# Subtest: legacy delivery always refuses explicit-choice guidance and preferences never mint authority
+ok 174 - legacy delivery always refuses explicit-choice guidance and preferences never mint authority
+  ---
+  duration_ms: 1.157266
+  type: 'test'
+  ...
+# Subtest: explicit scoped return is minimal, independent of old preference, and denied after its own withdrawal
+ok 175 - explicit scoped return is minimal, independent of old preference, and denied after its own withdrawal
+  ---
+  duration_ms: 3.489986
+  type: 'test'
+  ...
+# Subtest: withdrawal and pause prevent later progress
+ok 176 - withdrawal and pause prevent later progress
+  ---
+  duration_ms: 0.369933
+  type: 'test'
+  ...
+# Subtest: unsupported pinned version blocks instead of mislabelling current content
+ok 177 - unsupported pinned version blocks instead of mislabelling current content
+  ---
+  duration_ms: 0.260956
+  type: 'test'
+  ...
+# Subtest: moderating a reply does not close a report on its parent
+ok 178 - moderating a reply does not close a report on its parent
+  ---
+  duration_ms: 0.341962
+  type: 'test'
+  ...
+# Subtest: reset removes learner content, legacy preferences and explicit scoped choices/receipts
+ok 179 - reset removes learner content, legacy preferences and explicit scoped choices/receipts
+  ---
+  duration_ms: 0.693437
+  type: 'test'
+  ...
+# Subtest: resume chooses the next unfinished lesson, practical task or pending feedback
+ok 180 - resume chooses the next unfinished lesson, practical task or pending feedback
+  ---
+  duration_ms: 0.34849
+  type: 'test'
+  ...
+# Subtest: blank reflection estimates remain missing while explicit zero remains zero
+ok 181 - blank reflection estimates remain missing while explicit zero remains zero
+  ---
+  duration_ms: 0.688148
+  type: 'test'
+  ...
+# Subtest: single existing catalog chooses a program and exact offering from the same final current cohort
+ok 182 - single existing catalog chooses a program and exact offering from the same final current cohort
+  ---
+  duration_ms: 2.931593
+  type: 'test'
+  ...
+# Subtest: catalog target previews precisely its own edition despite an earlier first-open cohort
+ok 183 - catalog target previews precisely its own edition despite an earlier first-open cohort
+  ---
+  duration_ms: 0.44845
+  type: 'test'
+  ...
+# Subtest: current own active enrollment remains catalog priority, with no new-offering target
+ok 184 - current own active enrollment remains catalog priority, with no new-offering target
+  ---
+  duration_ms: 0.228059
+  type: 'test'
+  ...
+# Subtest: withdrawn enrollment does not quietly replace a currently displayed offering
+ok 185 - withdrawn enrollment does not quietly replace a currently displayed offering
+  ---
+  duration_ms: 1.186943
+  type: 'test'
+  ...
+# Subtest: unavailable saved enrollment cannot substitute an unrelated newer body
+ok 186 - unavailable saved enrollment cannot substitute an unrelated newer body
+  ---
+  duration_ms: 0.678017
+  type: 'test'
+  ...
+# Subtest: global seed programs are not duplicated into a second private catalog
+ok 187 - global seed programs are not duplicated into a second private catalog
+  ---
+  duration_ms: 0.26371
+  type: 'test'
+  ...
+# Subtest: legacy private card preference for content-open remains current and does not mutate cohort order
+ok 188 - legacy private card preference for content-open remains current and does not mutate cohort order
+  ---
+  duration_ms: 0.358932
+  type: 'test'
+  ...
+# Subtest: foreign resolver bodies are never eligible private catalog entries
+ok 189 - foreign resolver bodies are never eligible private catalog entries
+  ---
+  duration_ms: 0.22446
+  type: 'test'
+  ...
+# Subtest: target creation uses actual pinnedRef consistency and accepts no mixed legacy/new pin
+ok 190 - target creation uses actual pinnedRef consistency and accepts no mixed legacy/new pin
+  ---
+  duration_ms: 0.504573
+  type: 'test'
+  ...
+# Subtest: metadata contains no program body, evidence, progress or account identity
+ok 191 - metadata contains no program body, evidence, progress or account identity
+  ---
+  duration_ms: 0.804186
+  type: 'test'
+  ...
+# Subtest: reload serializes only exact bounded ids and reselects the same current cohort
+ok 192 - reload serializes only exact bounded ids and reselects the same current cohort
+  ---
+  duration_ms: 0.631334
+  type: 'test'
+  ...
+# Subtest: browser history old and new URLs select their own pins independently
+ok 193 - browser history old and new URLs select their own pins independently
+  ---
+  duration_ms: 0.562331
+  type: 'test'
+  ...
+# Subtest: cohort removal after a click is unavailable and never falls back to another offering
+ok 194 - cohort removal after a click is unavailable and never falls back to another offering
+  ---
+  duration_ms: 0.27257
+  type: 'test'
+  ...
+# Subtest: cohort repoint after a click does not silently upgrade or downgrade its pin
+ok 195 - cohort repoint after a click does not silently upgrade or downgrade its pin
+  ---
+  duration_ms: 0.195425
+  type: 'test'
+  ...
+# Subtest: cross-workspace navigation never selects a same-id cohort from the new projection
+ok 196 - cross-workspace navigation never selects a same-id cohort from the new projection
+  ---
+  duration_ms: 0.127748
+  type: 'test'
+  ...
+# Subtest: different program, foreign scope or invalid reference in hash never gains a fallback
+ok 197 - different program, foreign scope or invalid reference in hash never gains a fallback
+  ---
+  duration_ms: 0.25016
+  type: 'test'
+  ...
+# Subtest: own enrolled old edition takes precedence over a clicked newer offering without mutation
+ok 198 - own enrolled old edition takes precedence over a clicked newer offering without mutation
+  ---
+  duration_ms: 0.20118
+  type: 'test'
+  ...
+# Subtest: same offering needs no different-edition notice while malformed or foreign intent stays generic
+ok 199 - same offering needs no different-edition notice while malformed or foreign intent stays generic
+  ---
+  duration_ms: 0.133942
+  type: 'test'
+  ...
+# Subtest: legacy shared direct URL keeps its old first-open preview and unconfirmed enrollment gate
+ok 200 - legacy shared direct URL keeps its old first-open preview and unconfirmed enrollment gate
+  ---
+  duration_ms: 0.119315
+  type: 'test'
+  ...
+# Subtest: personal legacy URL has no cohort intent and no new workspace authority
+ok 201 - personal legacy URL has no cohort intent and no new workspace authority
+  ---
+  duration_ms: 0.1272
+  type: 'test'
+  ...
+# Subtest: all existing lesson, practical and feedback URLs retain their exact callbacks and shape
+ok 202 - all existing lesson, practical and feedback URLs retain their exact callbacks and shape
+  ---
+  duration_ms: 0.208988
+  type: 'test'
+  ...
+# Subtest: malformed/overlong/traversal/extra hash segments preserve unavailable intent rather than default
+ok 203 - malformed/overlong/traversal/extra hash segments preserve unavailable intent rather than default
+  ---
+  duration_ms: 0.187009
+  type: 'test'
+  ...
+# Subtest: untrusted target extra keys and oversized IDs cannot be serialized into a valid offering URL
+ok 204 - untrusted target extra keys and oversized IDs cannot be serialized into a valid offering URL
+  ---
+  duration_ms: 0.134882
+  type: 'test'
+  ...
+# Subtest: manual explicit cohort choice captures the current exact pin and is independent of former target
+ok 205 - manual explicit cohort choice captures the current exact pin and is independent of former target
+  ---
+  duration_ms: 0.131938
+  type: 'test'
+  ...
+# Subtest: current active learner with exact available open offering can click Start separately
+ok 206 - current active learner with exact available open offering can click Start separately
+  ---
+  duration_ms: 0.104305
+  type: 'test'
+  ...
+# Subtest: removed, staff-only, closed, paused, full and content-review-due do not gain enrollment
+ok 207 - removed, staff-only, closed, paused, full and content-review-due do not gain enrollment
+  ---
+  duration_ms: 2.683782
+  type: 'test'
+  ...
+# Subtest: unavailable resolver or a mismatched successful snapshot cannot open the Start gate
+ok 208 - unavailable resolver or a mismatched successful snapshot cannot open the Start gate
+  ---
+  duration_ms: 0.277058
+  type: 'test'
+  ...
+# Subtest: bad capacity and occupancy cannot manufacture a place
+ok 209 - bad capacity and occupancy cannot manufacture a place
+  ---
+  duration_ms: 0.331686
+  type: 'test'
+  ...
+# Subtest: actual unknown pin remains unavailable after metadata validation and has no global/newer substitution
+ok 210 - actual unknown pin remains unavailable after metadata validation and has no global/newer substitution
+  ---
+  duration_ms: 0.149755
+  type: 'test'
+  ...
+# Subtest: all helpers are read-only; no target changes prior projection or registry
+ok 211 - all helpers are read-only; no target changes prior projection or registry
+  ---
+  duration_ms: 0.201608
+  type: 'test'
+  ...
+# Subtest: preference defaults are detached and imply no consent, translation or helper access
+ok 212 - preference defaults are detached and imply no consent, translation or helper access
+  ---
+  duration_ms: 3.29644
+  type: 'test'
+  ...
+# Subtest: canonical ordinary language tags preserve script and region
+ok 213 - canonical ordinary language tags preserve script and region
+  ---
+  duration_ms: 0.612811
+  type: 'test'
+  ...
+# Subtest: malformed, oversized, private-extension and control language inputs reject
+ok 214 - malformed, oversized, private-extension and control language inputs reject
+  ---
+  duration_ms: 0.869145
+  type: 'test'
+  ...
+# Subtest: saved preference shape rejects legacy booleans and authority claims without fallback
+ok 215 - saved preference shape rejects legacy booleans and authority claims without fallback
+  ---
+  duration_ms: 0.528394
+  type: 'test'
+  ...
+# Subtest: own preference model leaves learning, plans, existing choices and records untouched
+ok 216 - own preference model leaves learning, plans, existing choices and records untouched
+  ---
+  duration_ms: 2.750576
+  type: 'test'
+  ...
+# Subtest: preference command cannot address another learner/helper or forge approval
+ok 217 - preference command cannot address another learner/helper or forge approval
+  ---
+  duration_ms: 0.34812
+  type: 'test'
+  ...
+# Subtest: actual farmer-work-records pin is English and not altered by Hindi preference
+ok 218 - actual farmer-work-records pin is English and not altered by Hindi preference
+  ---
+  duration_ms: 0.694669
+  type: 'test'
+  ...
+# Subtest: actual msme-customer-operations pin is English and not altered by Hindi preference
+ok 219 - actual msme-customer-operations pin is English and not altered by Hindi preference
+  ---
+  duration_ms: 0.267394
+  type: 'test'
+  ...
+# Subtest: actual public-servant-source-briefs pin is English and not altered by Hindi preference
+ok 220 - actual public-servant-source-briefs pin is English and not altered by Hindi preference
+  ---
+  duration_ms: 0.6251
+  type: 'test'
+  ...
+# Subtest: actual English preference matches pin without accrediting its draft classification
+ok 221 - actual English preference matches pin without accrediting its draft classification
+  ---
+  duration_ms: 1.013281
+  type: 'test'
+  ...
+# Subtest: unknown explicit version fails closed and preserves original enrollment
+ok 222 - unknown explicit version fails closed and preserves original enrollment
+  ---
+  duration_ms: 0.554747
+  type: 'test'
+  ...
+# Subtest: missing legacy version and mixed explicit version/reference reject without English/latest default
+ok 223 - missing legacy version and mixed explicit version/reference reject without English/latest default
+  ---
+  duration_ms: 0.304251
+  type: 'test'
+  ...
+# Subtest: a new catalog version cannot change historical language projection
+ok 224 - a new catalog version cannot change historical language projection
+  ---
+  duration_ms: 1.083713
+  type: 'test'
+  ...
+# Subtest: private scope is allowed only by trusted context, never by requested language/reference
+ok 225 - private scope is allowed only by trusted context, never by requested language/reference
+  ---
+  duration_ms: 0.913524
+  type: 'test'
+  ...
+# Subtest: read aloud reads actual English pin even when Hindi is requested
+ok 226 - read aloud reads actual English pin even when Hindi is requested
+  ---
+  duration_ms: 1.750139
+  type: 'test'
+  ...
+# Subtest: unsupported speech, pending voices and no matching voice have truthful distinct states
+ok 227 - unsupported speech, pending voices and no matching voice have truthful distinct states
+  ---
+  duration_ms: 0.386402
+  type: 'test'
+  ...
+# Subtest: unknown pin and malformed voice tags never enable read aloud
+ok 228 - unknown pin and malformed voice tags never enable read aloud
+  ---
+  duration_ms: 0.416727
+  type: 'test'
+  ...
+# Subtest: human capture needs explicit consent, read-back and no-answer-coaching declarations
+ok 229 - human capture needs explicit consent, read-back and no-answer-coaching declarations
+  ---
+  duration_ms: 1.01583
+  type: 'test'
+  ...
+# Subtest: preference alone never enables policy, method or response-language assessment
+ok 230 - preference alone never enables policy, method or response-language assessment
+  ---
+  duration_ms: 0.463794
+  type: 'test'
+  ...
+# Subtest: trusted assisted policy must belong to exact immutable offering pin
+ok 231 - trusted assisted policy must belong to exact immutable offering pin
+  ---
+  duration_ms: 0.283318
+  type: 'test'
+  ...
+# Subtest: capture allows only exact prompts and current evidence-length requirements
+ok 232 - capture allows only exact prompts and current evidence-length requirements
+  ---
+  duration_ms: 0.381191
+  type: 'test'
+  ...
+# Subtest: confirmed copy is immutable; later editing requires another learner confirmation
+ok 233 - confirmed copy is immutable; later editing requires another learner confirmation
+  ---
+  duration_ms: 0.528008
+  type: 'test'
+  ...
+# Subtest: capture confirmation cannot follow a different published pin or unavailable version
+ok 234 - capture confirmation cannot follow a different published pin or unavailable version
+  ---
+  duration_ms: 0.28531
+  type: 'test'
+  ...
+# Subtest: actual root submit keeps sequential progression and only legacy assistance self-declaration
+ok 235 - actual root submit keeps sequential progression and only legacy assistance self-declaration
+  ---
+  duration_ms: 1.043789
+  type: 'test'
+  ...
+# Subtest: actual root withdrawal remains an action fence after in-memory confirmation
+ok 236 - actual root withdrawal remains an action fence after in-memory confirmation
+  ---
+  duration_ms: 0.494513
+  type: 'test'
+  ...
+# Subtest: actual source archive/current JSON remain byte-identical to preserved 0.1 hash
+ok 237 - actual source archive/current JSON remain byte-identical to preserved 0.1 hash
+  ---
+  duration_ms: 0.600674
+  type: 'test'
+  ...
+# Subtest: remote or unknown-locality browser voices do not satisfy matching local reading
+ok 238 - remote or unknown-locality browser voices do not satisfy matching local reading
+  ---
+  duration_ms: 1.617752
+  type: 'test'
+  ...
+# Subtest: current offering policy may close or change after capture without granting lasting authority
+ok 239 - current offering policy may close or change after capture without granting lasting authority
+  ---
+  duration_ms: 0.580415
+  type: 'test'
+  ...
+# Subtest: actual own preference command is strict, separate from profile and enrollment authority
+ok 240 - actual own preference command is strict, separate from profile and enrollment authority
+  ---
+  duration_ms: 0.680499
+  type: 'test'
+  ...
+# Subtest: shared preferences stay learner-owned and never become staff summaries or directory choices
+ok 241 - shared preferences stay learner-owned and never become staff summaries or directory choices
+  ---
+  duration_ms: 4.624596
+  type: 'test'
+  ...
+# Subtest: actual submission stores bounded same-language learner declarations on its immutable attempt only
+ok 242 - actual submission stores bounded same-language learner declarations on its immutable attempt only
+  ---
+  duration_ms: 1.659317
+  type: 'test'
+  ...
+# Subtest: farmer-expert-brief creates complete editable private draft with exact seed and no publication
+ok 243 - farmer-expert-brief creates complete editable private draft with exact seed and no publication
+  ---
+  duration_ms: 17.812185
+  type: 'test'
+  ...
+# Subtest: farmer-expert-brief preserves locked seed fields and IDs while tailoring factual sources
+ok 244 - farmer-expert-brief preserves locked seed fields and IDs while tailoring factual sources
+  ---
+  duration_ms: 2.990296
+  type: 'test'
+  ...
+# Subtest: farmer-expert-brief still needs independent current owner review before immutable publication
+ok 245 - farmer-expert-brief still needs independent current owner review before immutable publication
+  ---
+  duration_ms: 32.181645
+  type: 'test'
+  ...
+# Subtest: msme-customer-commitments creates complete editable private draft with exact seed and no publication
+ok 246 - msme-customer-commitments creates complete editable private draft with exact seed and no publication
+  ---
+  duration_ms: 11.183016
+  type: 'test'
+  ...
+# Subtest: msme-customer-commitments preserves locked seed fields and IDs while tailoring factual sources
+ok 247 - msme-customer-commitments preserves locked seed fields and IDs while tailoring factual sources
+  ---
+  duration_ms: 7.746748
+  type: 'test'
+  ...
+# Subtest: msme-customer-commitments still needs independent current owner review before immutable publication
+ok 248 - msme-customer-commitments still needs independent current owner review before immutable publication
+  ---
+  duration_ms: 29.762854
+  type: 'test'
+  ...
+# Subtest: public-source-brief creates complete editable private draft with exact seed and no publication
+ok 249 - public-source-brief creates complete editable private draft with exact seed and no publication
+  ---
+  duration_ms: 8.921975
+  type: 'test'
+  ...
+# Subtest: public-source-brief preserves locked seed fields and IDs while tailoring factual sources
+ok 250 - public-source-brief preserves locked seed fields and IDs while tailoring factual sources
+  ---
+  duration_ms: 3.967861
+  type: 'test'
+  ...
+# Subtest: public-source-brief still needs independent current owner review before immutable publication
+ok 251 - public-source-brief still needs independent current owner review before immutable publication
+  ---
+  duration_ms: 25.887231
+  type: 'test'
+  ...
+# Subtest: frontline-spot-override-flag creates complete editable private draft with exact seed and no publication
+ok 252 - frontline-spot-override-flag creates complete editable private draft with exact seed and no publication
+  ---
+  duration_ms: 10.365277
+  type: 'test'
+  ...
+# Subtest: frontline-spot-override-flag preserves locked seed fields and IDs while tailoring factual sources
+ok 253 - frontline-spot-override-flag preserves locked seed fields and IDs while tailoring factual sources
+  ---
+  duration_ms: 3.475556
+  type: 'test'
+  ...
+# Subtest: frontline-spot-override-flag still needs independent current owner review before immutable publication
+ok 254 - frontline-spot-override-flag still needs independent current owner review before immutable publication
+  ---
+  duration_ms: 28.145436
+  type: 'test'
+  ...
+# Subtest: Only a current owner may create a template draft
+ok 255 - Only a current owner may create a template draft
+  ---
+  duration_ms: 1.321557
+  type: 'test'
+  ...
+# Subtest: Exact create command rejects existing draft/document/reference/actor fields
+ok 256 - Exact create command rejects existing draft/document/reference/actor fields
+  ---
+  duration_ms: 1.64046
+  type: 'test'
+  ...
+# Subtest: Unavailable or prototype-like template never chooses a fallback
+ok 257 - Unavailable or prototype-like template never chooses a fallback
+  ---
+  duration_ms: 0.795492
+  type: 'test'
+  ...
+# Subtest: Metadata has template version and referenced teaching sources without approval claim
+ok 258 - Metadata has template version and referenced teaching sources without approval claim
+  ---
+  duration_ms: 9.14214
+  type: 'test'
+  ...
+# Subtest: Every reference resolves to one supplied immutable library resource
+ok 259 - Every reference resolves to one supplied immutable library resource
+  ---
+  duration_ms: 0.263702
+  type: 'test'
+  ...
+# Subtest: Exact fictional arithmetic and limits agree with source packets and keys
+ok 260 - Exact fictional arithmetic and limits agree with source packets and keys
+  ---
+  duration_ms: 0.35148
+  type: 'test'
+  ...
+# Subtest: Four-active and24-retained capacity limits remain actual-authoring gates
+ok 261 - Four-active and24-retained capacity limits remain actual-authoring gates
+  ---
+  duration_ms: 65.827006
+  type: 'test'
+  ...
+# Subtest: Template creation preserves all previous draft/publication bodies and origins
+ok 262 - Template creation preserves all previous draft/publication bodies and origins
+  ---
+  duration_ms: 32.152274
+  type: 'test'
+  ...
+# Subtest: Owner can edit normally; template origin remains historical starting-point metadata
+ok 263 - Owner can edit normally; template origin remains historical starting-point metadata
+  ---
+  duration_ms: 8.631077
+  type: 'test'
+  ...
+# Subtest: Learner and outsider projections never gain unpublished templates or review notes
+ok 264 - Learner and outsider projections never gain unpublished templates or review notes
+  ---
+  duration_ms: 5.574757
+  type: 'test'
+  ...
+# Subtest: Template metadata and document outputs detach from exported definitions
+ok 265 - Template metadata and document outputs detach from exported definitions
+  ---
+  duration_ms: 5.29539
+  type: 'test'
+  ...
+# Subtest: Structural maintenance fault cannot return a partial created host
+ok 266 - Structural maintenance fault cannot return a partial created host
+  ---
+  duration_ms: 2.066719
+  type: 'test'
+  ...
+# Subtest: Optional provenance renders only exact trusted origin and never an approval or foreign seed
+ok 267 - Optional provenance renders only exact trusted origin and never an approval or foreign seed
+  ---
+  duration_ms: 8.393196
+  type: 'test'
+  ...
+# Subtest: Every phase quiz includes a source-supported boundary and a designated human route
+ok 268 - Every phase quiz includes a source-supported boundary and a designated human route
+  ---
+  duration_ms: 24.144436
+  type: 'test'
+  ...
+# Subtest: Final origin bytes and closure reserve enforce exact authoring capacity without a partial draft
+ok 269 - Final origin bytes and closure reserve enforce exact authoring capacity without a partial draft
+  ---
+  duration_ms: 1931.705588
+  type: 'test'
+  ...
+# Subtest: Adopted root team handler emits one aggregate activity with the server-created draft identity
+ok 270 - Adopted root team handler emits one aggregate activity with the server-created draft identity
+  ---
+  duration_ms: 6.328403
+  type: 'test'
+  ...
+# Subtest: Adopted root team handler preserves current membership/role denials and exact error statuses
+ok 271 - Adopted root team handler preserves current membership/role denials and exact error statuses
+  ---
+  duration_ms: 0.855659
+  type: 'test'
+  ...
+# Subtest: Adopted root team projection gives only current owners unpublished template bodies
+ok 272 - Adopted root team projection gives only current owners unpublished template bodies
+  ---
+  duration_ms: 6.568992
+  type: 'test'
+  ...
+# Subtest: Adopted root team review/publication/cohort commands retain exact private pins and do not change an earlier cohort
+ok 273 - Adopted root team review/publication/cohort commands retain exact private pins and do not change an earlier cohort
+  ---
+  duration_ms: 40.347519
+  type: 'test'
+  ...
+# Subtest: Other current owner may archive a new template without replacing its canonical document or starting-point history
+ok 274 - Other current owner may archive a new template without replacing its canonical document or starting-point history
+  ---
+  duration_ms: 5.841541
+  type: 'test'
+  ...
+# Subtest: Original global archive bytes remain exact supplied version
+ok 275 - Original global archive bytes remain exact supplied version
+  ---
+  duration_ms: 0.747571
+  type: 'test'
+  ...
+# Subtest: first personal session goes to actual catalog without enrolling or exposing work
+ok 276 - first personal session goes to actual catalog without enrolling or exposing work
+  ---
+  duration_ms: 17.205347
+  type: 'test'
+  ...
+# Subtest: first shared learner chooses a cohort while nonlearner gets explicit access help
+ok 277 - first shared learner chooses a cohort while nonlearner gets explicit access help
+  ---
+  duration_ms: 0.802254
+  type: 'test'
+  ...
+# Subtest: the next lesson uses the existing exact action and agrees with actual resumeLearning
+ok 278 - the next lesson uses the existing exact action and agrees with actual resumeLearning
+  ---
+  duration_ms: 5.694399
+  type: 'test'
+  ...
+# Subtest: unknown saved edition retains unavailable gate and never offers offline
+ok 279 - unknown saved edition retains unavailable gate and never offers offline
+  ---
+  duration_ms: 0.50371
+  type: 'test'
+  ...
+# Subtest: unknown saved edition preserves pending review and appeal priority without retargeting
+ok 280 - unknown saved edition preserves pending review and appeal priority without retargeting
+  ---
+  duration_ms: 0.849776
+  type: 'test'
+  ...
+# Subtest: paused content and inactive membership keep their existing gates and have no offline action
+ok 281 - paused content and inactive membership keep their existing gates and have no offline action
+  ---
+  duration_ms: 0.58418
+  type: 'test'
+  ...
+# Subtest: pending review wording and destinations distinguish sample lab from assigned shared staff
+ok 282 - pending review wording and destinations distinguish sample lab from assigned shared staff
+  ---
+  duration_ms: 0.838241
+  type: 'test'
+  ...
+# Subtest: appeals remain on feedback and do not offer another submission
+ok 283 - appeals remain on feedback and do not offer another submission
+  ---
+  duration_ms: 0.44884
+  type: 'test'
+  ...
+# Subtest: practical, exhausted attempts and suspended decisions retain actual gates
+ok 284 - practical, exhausted attempts and suspended decisions retain actual gates
+  ---
+  duration_ms: 1.026987
+  type: 'test'
+  ...
+# Subtest: private workspace editions, shared work and nonlearners never get offline navigation
+ok 285 - private workspace editions, shared work and nonlearners never get offline navigation
+  ---
+  duration_ms: 1.249954
+  type: 'test'
+  ...
+# Subtest: suspended decisions keep feedback ahead of another practical submission
+ok 286 - suspended decisions keep feedback ahead of another practical submission
+  ---
+  duration_ms: 1.070252
+  type: 'test'
+  ...
+# Subtest: a chosen private practice plan remains a plan destination and self-reported
+ok 287 - a chosen private practice plan remains a plan destination and self-reported
+  ---
+  duration_ms: 1.598439
+  type: 'test'
+  ...
+# Subtest: saving is pending until accepted data arrives, even when old text matched
+ok 288 - saving is pending until accepted data arrives, even when old text matched
+  ---
+  duration_ms: 0.295658
+  type: 'test'
+  ...
+# Subtest: typing and changed quiz choices are unsaved; equal text is compared exactly
+ok 289 - typing and changed quiz choices are unsaved; equal text is compared exactly
+  ---
+  duration_ms: 0.145648
+  type: 'test'
+  ...
+# Subtest: first blank screen never claims it has a stored online draft
+ok 290 - first blank screen never claims it has a stored online draft
+  ---
+  duration_ms: 0.072964
+  type: 'test'
+  ...
+# Subtest: exact source names, size, hash and authored review note retained without source bodies
+ok 291 - exact source names, size, hash and authored review note retained without source bodies
+  ---
+  duration_ms: 1.96831
+  type: 'test'
+  ...
+# Subtest: collection and all-term case-insensitive search use filename plus collection context
+ok 292 - collection and all-term case-insensitive search use filename plus collection context
+  ---
+  duration_ms: 0.602854
+  type: 'test'
+  ...
+# Subtest: audience recommendation includes shared references and all is always recoverable
+ok 293 - audience recommendation includes shared references and all is always recoverable
+  ---
+  duration_ms: 0.426952
+  type: 'test'
+  ...
+# Subtest: four distinct types and accurate decimal file size labels
+ok 294 - four distinct types and accurate decimal file size labels
+  ---
+  duration_ms: 0.229441
+  type: 'test'
+  ...
+# Subtest: fails closed for unsafe/mismatched href https://example.test/file.pdf
+ok 295 - fails closed for unsafe/mismatched href https://example.test/file.pdf
+  ---
+  duration_ms: 0.116073
+  type: 'test'
+  ...
+# Subtest: fails closed for unsafe/mismatched href //example.test/file.pdf
+ok 296 - fails closed for unsafe/mismatched href //example.test/file.pdf
+  ---
+  duration_ms: 0.073547
+  type: 'test'
+  ...
+# Subtest: fails closed for unsafe/mismatched href /library/../secret.pdf
+ok 297 - fails closed for unsafe/mismatched href /library/../secret.pdf
+  ---
+  duration_ms: 0.138071
+  type: 'test'
+  ...
+# Subtest: fails closed for unsafe/mismatched href /library/%2e%2e/secret.pdf
+ok 298 - fails closed for unsafe/mismatched href /library/%2e%2e/secret.pdf
+  ---
+  duration_ms: 0.076245
+  type: 'test'
+  ...
+# Subtest: fails closed for unsafe/mismatched href /library/%2Fsecret.pdf
+ok 299 - fails closed for unsafe/mismatched href /library/%2Fsecret.pdf
+  ---
+  duration_ms: 0.30796
+  type: 'test'
+  ...
+# Subtest: fails closed for unsafe/mismatched href /library/file.pdf?redirect=other
+ok 300 - fails closed for unsafe/mismatched href /library/file.pdf?redirect=other
+  ---
+  duration_ms: 0.304133
+  type: 'test'
+  ...
+# Subtest: fails closed for unsafe/mismatched href /library/file.pdf\#fragment
+ok 301 - fails closed for unsafe/mismatched href /library/file.pdf\#fragment
+  ---
+  duration_ms: 0.125457
+  type: 'test'
+  ...
+# Subtest: fails closed for unsafe/mismatched href /library/file%0a.pdf
+ok 302 - fails closed for unsafe/mismatched href /library/file%0a.pdf
+  ---
+  duration_ms: 0.173311
+  type: 'test'
+  ...
+# Subtest: fails closed for unsafe/mismatched href /library/file%ZZ.pdf
+ok 303 - fails closed for unsafe/mismatched href /library/file%ZZ.pdf
+  ---
+  duration_ms: 0.107449
+  type: 'test'
+  ...
+# Subtest: fails closed for unsafe/mismatched href /api/academy
+ok 304 - fails closed for unsafe/mismatched href /api/academy
+  ---
+  duration_ms: 0.058568
+  type: 'test'
+  ...
+# Subtest: fails closed for unsafe/mismatched href /library/file.docx
+ok 305 - fails closed for unsafe/mismatched href /library/file.docx
+  ---
+  duration_ms: 0.069343
+  type: 'test'
+  ...
+# Subtest: rejects entire catalog on unknown collection
+ok 306 - rejects entire catalog on unknown collection
+  ---
+  duration_ms: 0.142924
+  type: 'test'
+  ...
+# Subtest: rejects entire catalog on duplicate resource ID
+ok 307 - rejects entire catalog on duplicate resource ID
+  ---
+  duration_ms: 0.099245
+  type: 'test'
+  ...
+# Subtest: rejects entire catalog on duplicate href
+ok 308 - rejects entire catalog on duplicate href
+  ---
+  duration_ms: 0.102325
+  type: 'test'
+  ...
+# Subtest: rejects entire catalog on missing exact source filename
+ok 309 - rejects entire catalog on missing exact source filename
+  ---
+  duration_ms: 0.073957
+  type: 'test'
+  ...
+# Subtest: rejects entire catalog on source filename path
+ok 310 - rejects entire catalog on source filename path
+  ---
+  duration_ms: 0.058296
+  type: 'test'
+  ...
+# Subtest: rejects entire catalog on unsafe count
+ok 311 - rejects entire catalog on unsafe count
+  ---
+  duration_ms: 0.064504
+  type: 'test'
+  ...
+# Subtest: rejects entire catalog on invalid bytes
+ok 312 - rejects entire catalog on invalid bytes
+  ---
+  duration_ms: 0.109665
+  type: 'test'
+  ...
+# Subtest: rejects entire catalog on invalid hash
+ok 313 - rejects entire catalog on invalid hash
+  ---
+  duration_ms: 0.069605
+  type: 'test'
+  ...
+# Subtest: rejects entire catalog on unbounded note
+ok 314 - rejects entire catalog on unbounded note
+  ---
+  duration_ms: 0.058542
+  type: 'test'
+  ...
+# Subtest: optional omitted/null review notes stay absent
+ok 315 - optional omitted/null review notes stay absent
+  ---
+  duration_ms: 0.135455
+  type: 'test'
+  ...
+# Subtest: old networking preference never publishes a directory profile; explicit choice has narrow projection
+ok 316 - old networking preference never publishes a directory profile; explicit choice has narrow projection
+  ---
+  duration_ms: 21.472651
+  type: 'test'
+  ...
+# Subtest: directory and session access follow current cohort authorization rather than offering discovery
+ok 317 - directory and session access follow current cohort authorization rather than offering discovery
+  ---
+  duration_ms: 6.90746
+  type: 'test'
+  ...
+# Subtest: only owners or scoped facilitators host; learner cannot inject host or participant identity
+ok 318 - only owners or scoped facilitators host; learner cannot inject host or participant identity
+  ---
+  duration_ms: 4.913337
+  type: 'test'
+  ...
+# Subtest: seat allocation is bounded and idempotent; instructions and roster are minimized
+ok 319 - seat allocation is bounded and idempotent; instructions and roster are minimized
+  ---
+  duration_ms: 7.364016
+  type: 'test'
+  ...
+# Subtest: membership removal and withdrawal release seats, remove directory access and hide joining data
+ok 320 - membership removal and withdrawal release seats, remove directory access and hide joining data
+  ---
+  duration_ms: 6.007459
+  type: 'test'
+  ...
+# Subtest: paused cohort blocks reservations and creation but cancellations remain available
+ok 321 - paused cohort blocks reservations and creation but cancellations remain available
+  ---
+  duration_ms: 4.137679
+  type: 'test'
+  ...
+# Subtest: attendance is observed, retains correction history and never completes learning
+ok 322 - attendance is observed, retains correction history and never completes learning
+  ---
+  duration_ms: 4.747742
+  type: 'test'
+  ...
+# Subtest: time, bounds and unsupported fields reject invalid sessions without changing original
+ok 323 - time, bounds and unsupported fields reject invalid sessions without changing original
+  ---
+  duration_ms: 5.271752
+  type: 'test'
+  ...
+# Subtest: restoring membership or re-enrolling cannot resurrect a released reservation or profile
+ok 324 - restoring membership or re-enrolling cannot resurrect a released reservation or profile
+  ---
+  duration_ms: 6.093027
+  type: 'test'
+  ...
+# Subtest: calendar normalization never converts an impossible scheduled day silently
+ok 325 - calendar normalization never converts an impossible scheduled day silently
+  ---
+  duration_ms: 2.579846
+  type: 'test'
+  ...
+# Subtest: former members retain only their own reservation and attendance history
+ok 326 - former members retain only their own reservation and attendance history
+  ---
+  duration_ms: 5.157923
+  type: 'test'
+  ...
+# Subtest: real WebCrypto seals exact own draft and reveals no plaintext account/text/passphrase in saved bytes
+ok 327 - real WebCrypto seals exact own draft and reveals no plaintext account/text/passphrase in saved bytes
+  ---
+  duration_ms: 82.660765
+  type: 'test'
+  ...
+# Subtest: each encryption uses fresh salt and IV even for identical text
+ok 328 - each encryption uses fresh salt and IV even for identical text
+  ---
+  duration_ms: 61.937923
+  type: 'test'
+  ...
+# Subtest: wrong passphrase and wrong account cannot unlock or return a partial queue
+ok 329 - wrong passphrase and wrong account cannot unlock or return a partial queue
+  ---
+  duration_ms: 59.001812
+  type: 'test'
+  ...
+# Subtest: AEAD corruption and authenticated metadata tampering refuse plaintext
+ok 330 - AEAD corruption and authenticated metadata tampering refuse plaintext
+  ---
+  duration_ms: 385.393907
+  type: 'test'
+  ...
+# Subtest: shape/algorithm/KDF/base64/size/time bounds reject unsupported files before expensive unlock
+ok 331 - shape/algorithm/KDF/base64/size/time bounds reject unsupported files before expensive unlock
+  ---
+  duration_ms: 5.062296
+  type: 'test'
+  ...
+# Subtest: 24-hour expiry blocks unlock but retains a metadata-only delete path
+ok 332 - 24-hour expiry blocks unlock but retains a metadata-only delete path
+  ---
+  duration_ms: 0.977045
+  type: 'test'
+  ...
+# Subtest: short/overlong passphrases and empty/mixed-owner queues cannot be sealed
+ok 333 - short/overlong passphrases and empty/mixed-owner queues cannot be sealed
+  ---
+  duration_ms: 0.970729
+  type: 'test'
+  ...
+# Subtest: storage adapter writes ciphertext only and does not decrypt when loading
+ok 334 - storage adapter writes ciphertext only and does not decrypt when loading
+  ---
+  duration_ms: 0.418758
+  type: 'test'
+  ...
+# Subtest: delete-all touches only the fixed sealed-draft namespace
+ok 335 - delete-all touches only the fixed sealed-draft namespace
+  ---
+  duration_ms: 0.617422
+  type: 'test'
+  ...
+# Subtest: storage quota/denial/invalid JSON failures produce plain recovery errors without secrets
+ok 336 - storage quota/denial/invalid JSON failures produce plain recovery errors without secrets
+  ---
+  duration_ms: 1.009236
+  type: 'test'
+  ...
+# Subtest: packet source SHA independently matches the exact referenced archived bytes
+ok 337 - packet source SHA independently matches the exact referenced archived bytes
+  ---
+  duration_ms: 1.370057
+  type: 'test'
+  ...
+# Subtest: all three actual archived pathways yield bounded immutable source-only packets
+ok 338 - all three actual archived pathways yield bounded immutable source-only packets
+  ---
+  duration_ms: 2.718633
+  type: 'test'
+  ...
+# Subtest: offline packets exclude learner/protected bodies and answer/assessment authority
+ok 339 - offline packets exclude learner/protected bodies and answer/assessment authority
+  ---
+  duration_ms: 0.56723
+  type: 'test'
+  ...
+# Subtest: packet restore rejects tampered source/hash/version/scope and extra identity fields
+ok 340 - packet restore rejects tampered source/hash/version/scope and extra identity fields
+  ---
+  duration_ms: 5.052037
+  type: 'test'
+  ...
+# Subtest: static printable packet contains no executable/network/form surfaces or user draft
+ok 341 - static printable packet contains no executable/network/form surfaces or user draft
+  ---
+  duration_ms: 1.058538
+  type: 'test'
+  ...
+# Subtest: source download requires a fresh canonical own active personal read
+ok 342 - source download requires a fresh canonical own active personal read
+  ---
+  duration_ms: 0.549575
+  type: 'test'
+  ...
+# Subtest: withdrawn paused malformed and contradictory exact enrollments fail closed
+ok 343 - withdrawn paused malformed and contradictory exact enrollments fail closed
+  ---
+  duration_ms: 0.354776
+  type: 'test'
+  ...
+# Subtest: creating a draft requires explicit fictional-input acknowledgement and excludes evidence/history
+ok 344 - creating a draft requires explicit fictional-input acknowledgement and excludes evidence/history
+  ---
+  duration_ms: 0.914858
+  type: 'test'
+  ...
+# Subtest: only a currently unlocked unfinished lesson can admit an offline draft
+ok 345 - only a currently unlocked unfinished lesson can admit an offline draft
+  ---
+  duration_ms: 0.724478
+  type: 'test'
+  ...
+# Subtest: practical admission requires completed lessons and an available next attempt
+ok 346 - practical admission requires completed lessons and an available next attempt
+  ---
+  duration_ms: 0.846326
+  type: 'test'
+  ...
+# Subtest: online completion after admission blocks queue preparation and rebase, retaining its reference
+ok 347 - online completion after admission blocks queue preparation and rebase, retaining its reference
+  ---
+  duration_ms: 1.03037
+  type: 'test'
+  ...
+# Subtest: pending review or completed record after practical admission cannot be queued again
+ok 348 - pending review or completed record after practical admission cannot be queued again
+  ---
+  duration_ms: 0.822185
+  type: 'test'
+  ...
+# Subtest: lesson/practical draft scope cannot accept finalization actor or arbitrary field payloads
+ok 349 - lesson/practical draft scope cannot accept finalization actor or arbitrary field payloads
+  ---
+  duration_ms: 0.817691
+  type: 'test'
+  ...
+# Subtest: draft changes preserve exact text/whitespace, detach inputs and increment local generation
+ok 350 - draft changes preserve exact text/whitespace, detach inputs and increment local generation
+  ---
+  duration_ms: 0.334525
+  type: 'test'
+  ...
+# Subtest: own draft restoration rejects another account/workspace rather than exposing text
+ok 351 - own draft restoration rejects another account/workspace rather than exposing text
+  ---
+  duration_ms: 0.298582
+  type: 'test'
+  ...
+# Subtest: local expiry and backward/malformed timing block restores without granting renewed access
+ok 352 - local expiry and backward/malformed timing block restores without granting renewed access
+  ---
+  duration_ms: 0.38982
+  type: 'test'
+  ...
+# Subtest: serialized character escaping counts toward real byte budget
+ok 353 - serialized character escaping counts toward real byte budget
+  ---
+  duration_ms: 1.623915
+  type: 'test'
+  ...
+# Subtest: reconnection rejects stale directory/unknown identity role loss withdrawn and changed pin
+ok 354 - reconnection rejects stale directory/unknown identity role loss withdrawn and changed pin
+  ---
+  duration_ms: 0.776678
+  type: 'test'
+  ...
+# Subtest: no mutation is prepared without an explicit review action
+ok 355 - no mutation is prepared without an explicit review action
+  ---
+  duration_ms: 0.652053
+  type: 'test'
+  ...
+# Subtest: lesson draft command keeps actual fresh online quiz answers and never completes learning
+ok 356 - lesson draft command keeps actual fresh online quiz answers and never completes learning
+  ---
+  duration_ms: 1.75112
+  type: 'test'
+  ...
+# Subtest: malformed saved online quiz answers block draft save instead of replacing answers
+ok 357 - malformed saved online quiz answers block draft save instead of replacing answers
+  ---
+  duration_ms: 0.627735
+  type: 'test'
+  ...
+# Subtest: online edited same field requires manual merge and leaves both snapshots untouched
+ok 358 - online edited same field requires manual merge and leaves both snapshots untouched
+  ---
+  duration_ms: 1.65491
+  type: 'test'
+  ...
+# Subtest: review exposes only current own target fields and explicit rebase preserves original expiry
+ok 359 - review exposes only current own target fields and explicit rebase preserves original expiry
+  ---
+  duration_ms: 0.7979
+  type: 'test'
+  ...
+# Subtest: merge cannot escape own scope or introduce finalization/unknown fields
+ok 360 - merge cannot escape own scope or introduce finalization/unknown fields
+  ---
+  duration_ms: 0.536737
+  type: 'test'
+  ...
+# Subtest: practical offline changes merge only changed fields and preserve unrelated online work
+ok 361 - practical offline changes merge only changed fields and preserve unrelated online work
+  ---
+  duration_ms: 0.657999
+  type: 'test'
+  ...
+# Subtest: already committed or unchanged text is not automatically replayed
+ok 362 - already committed or unchanged text is not automatically replayed
+  ---
+  duration_ms: 0.437409
+  type: 'test'
+  ...
+# Subtest: only a verified exact write acknowledgement clears the prepared generation
+ok 363 - only a verified exact write acknowledgement clears the prepared generation
+  ---
+  duration_ms: 0.608329
+  type: 'test'
+  ...
+# Subtest: unknown/denied/stale/wrong-account/unsaved response does not erase local work
+ok 364 - unknown/denied/stale/wrong-account/unsaved response does not erase local work
+  ---
+  duration_ms: 0.594557
+  type: 'test'
+  ...
+# Subtest: a confirmed save for an older local generation preserves new unsent edits
+ok 365 - a confirmed save for an older local generation preserves new unsent edits
+  ---
+  duration_ms: 0.460291
+  type: 'test'
+  ...
+# Subtest: forged partial/extra ticket fields cannot clear other unsaved work
+ok 366 - forged partial/extra ticket fields cannot clear other unsaved work
+  ---
+  duration_ms: 0.94658
+  type: 'test'
+  ...
+# Subtest: identity tuple key separates scope/enrollment/target without delimiter collisions
+ok 367 - identity tuple key separates scope/enrollment/target without delimiter collisions
+  ---
+  duration_ms: 0.430883
+  type: 'test'
+  ...
+# Subtest: queue restore rejects mixed owners duplicate targets/references oversized count
+ok 368 - queue restore rejects mixed owners duplicate targets/references oversized count
+  ---
+  duration_ms: 0.531948
+  type: 'test'
+  ...
+# Subtest: combined own queue bytes remain bounded even when every individual target is legal
+ok 369 - combined own queue bytes remain bounded even when every individual target is legal
+  ---
+  duration_ms: 15.937647
+  type: 'test'
+  ...
+# Subtest: queue update preserves newer local drafts and does not replace a different unsent entry
+ok 370 - queue update preserves newer local drafts and does not replace a different unsent entry
+  ---
+  duration_ms: 1.007264
+  type: 'test'
+  ...
+# Subtest: actual root summaries preserve active record AND open appeal independently
+ok 371 - actual root summaries preserve active record AND open appeal independently
+  ---
+  duration_ms: 23.292789
+  type: 'test'
+  ...
+# Subtest: current assessor authority removal clears pending assignment/read and blocks finalization without mutating evidence
+ok 372 - current assessor authority removal clears pending assignment/read and blocks finalization without mutating evidence
+  ---
+  duration_ms: 9.060482
+  type: 'test'
+  ...
+# Subtest: current appeal-reviewer revocation removes body access and cannot finalize against its retained former assignment
+ok 373 - current appeal-reviewer revocation removes body access and cannot finalize against its retained former assignment
+  ---
+  duration_ms: 7.187732
+  type: 'test'
+  ...
+# Subtest: adverse appeal preserves original decision/issuance and stamps exact independent decision provenance
+ok 374 - adverse appeal preserves original decision/issuance and stamps exact independent decision provenance
+  ---
+  duration_ms: 6.37151
+  type: 'test'
+  ...
+# Subtest: successful retry replaces current record provenance with its own assessor, leaving failed appeal immutable
+ok 375 - successful retry replaces current record provenance with its own assessor, leaving failed appeal immutable
+  ---
+  duration_ms: 7.833766
+  type: 'test'
+  ...
+# Subtest: retired private publication blocks new intake while existing pending assessor retains exact source and can finalize
+ok 376 - retired private publication blocks new intake while existing pending assessor retains exact source and can finalize
+  ---
+  duration_ms: 37.322818
+  type: 'test'
+  ...
+# Subtest: review date expiry blocks new private intake without making existing version unresolved or suspending a pending record
+ok 377 - review date expiry blocks new private intake without making existing version unresolved or suspending a pending record
+  ---
+  duration_ms: 25.05171
+  type: 'test'
+  ...
+# Subtest: operations output remains metadata-only even when the legitimate owner projection contains its explicitly assigned evidence
+ok 378 - operations output remains metadata-only even when the legitimate owner projection contains its explicitly assigned evidence
+  ---
+  duration_ms: 7.846245
+  type: 'test'
+  ...
+# Subtest: actual root thin metadata correctly permits an active record AND open appeal in the same authorized cohort
+ok 379 - actual root thin metadata correctly permits an active record AND open appeal in the same authorized cohort
+  ---
+  duration_ms: 6.869025
+  type: 'test'
+  ...
+# Subtest: actual root metadata tracks suspended record and pending retry independently, retaining its actual decision history
+ok 380 - actual root metadata tracks suspended record and pending retry independently, retaining its actual decision history
+  ---
+  duration_ms: 8.016814
+  type: 'test'
+  ...
+# Subtest: actual root extra summary fields preserve existing scoping and add no submitted evidence or appeal reasons
+ok 381 - actual root extra summary fields preserve existing scoping and add no submitted evidence or appeal reasons
+  ---
+  duration_ms: 7.34282
+  type: 'test'
+  ...
+# Subtest: actual clock-aware due projection plus actual independent metadata shows blocked NEW intake and retained active completion together
+ok 382 - actual clock-aware due projection plus actual independent metadata shows blocked NEW intake and retained active completion together
+  ---
+  duration_ms: 27.12473
+  type: 'test'
+  ...
+# Subtest: admitted opaque staff subjects longer than navigation IDs remain correctly assigned metadata
+ok 383 - admitted opaque staff subjects longer than navigation IDs remain correctly assigned metadata
+  ---
+  duration_ms: 5.308108
+  type: 'test'
+  ...
+# Subtest: elapsed full-day queue boundaries, unknown dates, and never future negative ages
+ok 384 - elapsed full-day queue boundaries, unknown dates, and never future negative ages
+  ---
+  duration_ms: 11.307242
+  type: 'test'
+  ...
+# Subtest: reopened support age is initial opening and not last reply or reopen wait
+ok 385 - reopened support age is initial opening and not last reply or reopen wait
+  ---
+  duration_ms: 0.587986
+  type: 'test'
+  ...
+# Subtest: due-now, expired, due-seven-days, beyond-seven-days and unknown publication dates remain distinct
+ok 386 - due-now, expired, due-seven-days, beyond-seven-days and unknown publication dates remain distinct
+  ---
+  duration_ms: 1.801164
+  type: 'test'
+  ...
+# Subtest: active record and open appeal deliberately overlap while old status is unchanged
+ok 387 - active record and open appeal deliberately overlap while old status is unchanged
+  ---
+  duration_ms: 0.587118
+  type: 'test'
+  ...
+# Subtest: legacy absent metadata fallback differs from explicit false or null
+ok 388 - legacy absent metadata fallback differs from explicit false or null
+  ---
+  duration_ms: 0.306908
+  type: 'test'
+  ...
+# Subtest: facilitator canonical canHost scope and explicit assignment define workload
+ok 389 - facilitator canonical canHost scope and explicit assignment define workload
+  ---
+  duration_ms: 0.690482
+  type: 'test'
+  ...
+# Subtest: current host attendance window inclusive boundary; other host roster cannot invent eligible count
+ok 390 - current host attendance window inclusive boundary; other host roster cannot invent eligible count
+  ---
+  duration_ms: 0.631303
+  type: 'test'
+  ...
+# Subtest: exact totals survive eight rendered-row truncation and duplicate metadata rows
+ok 391 - exact totals survive eight rendered-row truncation and duplicate metadata rows
+  ---
+  duration_ms: 0.788936
+  type: 'test'
+  ...
+# Subtest: protected projected bodies are omitted even for legitimate assigned owners
+ok 392 - protected projected bodies are omitted even for legitimate assigned owners
+  ---
+  duration_ms: 0.716058
+  type: 'test'
+  ...
+# Subtest: inactive, removed, learner-only, malformed clock and bounded refusal fail closed
+ok 393 - inactive, removed, learner-only, malformed clock and bounded refusal fail closed
+  ---
+  duration_ms: 1.705148
+  type: 'test'
+  ...
+# Subtest: learners and removed staff never obtain operations from leftover protected fields
+ok 394 - learners and removed staff never obtain operations from leftover protected fields
+  ---
+  duration_ms: 3.173826
+  type: 'test'
+  ...
+# Subtest: enrollment and saved-lesson counts describe records, not unique people or job impact
+ok 395 - enrollment and saved-lesson counts describe records, not unique people or job impact
+  ---
+  duration_ms: 1.160046
+  type: 'test'
+  ...
+# Subtest: independent thin metadata preserves active practice record plus pending appeal without suspension
+ok 396 - independent thin metadata preserves active practice record plus pending appeal without suspension
+  ---
+  duration_ms: 0.251962
+  type: 'test'
+  ...
+# Subtest: facilitator excludes learner-visible cohorts, unrelated queues and owner-only content
+ok 397 - facilitator excludes learner-visible cohorts, unrelated queues and owner-only content
+  ---
+  duration_ms: 0.748646
+  type: 'test'
+  ...
+# Subtest: review waiting age uses each recorded submission/appeal date and has no invented resolution SLA
+ok 398 - review waiting age uses each recorded submission/appeal date and has no invented resolution SLA
+  ---
+  duration_ms: 0.458601
+  type: 'test'
+  ...
+# Subtest: publication dates and draft-review age are distinct from enrollment safety stops
+ok 399 - publication dates and draft-review age are distinct from enrollment safety stops
+  ---
+  duration_ms: 0.409217
+  type: 'test'
+  ...
+# Subtest: support counts use current queue metadata and do not treat first-open age as reply delay
+ok 400 - support counts use current queue metadata and do not treat first-open age as reply delay
+  ---
+  duration_ms: 8.42135
+  type: 'test'
+  ...
+# Subtest: sessions include seven-day/live work and actual own-host recording window, never learner-only sessions
+ok 401 - sessions include seven-day/live work and actual own-host recording window, never learner-only sessions
+  ---
+  duration_ms: 0.562032
+  type: 'test'
+  ...
+# Subtest: bounded rows retain full counts, overflow refuses partial totals, and derivation is immutable
+ok 402 - bounded rows retain full counts, overflow refuses partial totals, and derivation is immutable
+  ---
+  duration_ms: 5.76479
+  type: 'test'
+  ...
+# Subtest: invalid amounts and unusual status never become fake percentages or prototype-derived fields
+ok 403 - invalid amounts and unusual status never become fake percentages or prototype-derived fields
+  ---
+  duration_ms: 0.553777
+  type: 'test'
+  ...
+# Subtest: own-assignment and host-roster bounds fail closed; owners retain authorized former-cohort queue metadata
+ok 404 - own-assignment and host-roster bounds fail closed; owners retain authorized former-cohort queue metadata
+  ---
+  duration_ms: 0.4538
+  type: 'test'
+  ...
+# Subtest: Fresh lab has no inferred choice or permission
+ok 405 - Fresh lab has no inferred choice or permission
+  ---
+  duration_ms: 1.963899
+  type: 'test'
+  ...
+# Subtest: Legacy Boolean and earlier payload never become scoped choice
+ok 406 - Legacy Boolean and earlier payload never become scoped choice
+  ---
+  duration_ms: 0.50003
+  type: 'test'
+  ...
+# Subtest: Each available adapter has only its exact mapped saved learning
+ok 407 - Each available adapter has only its exact mapped saved learning
+  ---
+  duration_ms: 6.946914
+  type: 'test'
+  ...
+# Subtest: Health stays unconfigured with no summary, even legacy true
+ok 408 - Health stays unconfigured with no summary, even legacy true
+  ---
+  duration_ms: 1.485808
+  type: 'test'
+  ...
+# Subtest: Shared view does not traverse or retain private supplied state
+ok 409 - Shared view does not traverse or retain private supplied state
+  ---
+  duration_ms: 0.166482
+  type: 'test'
+  ...
+# Subtest: Progress-only summary excludes practice record and private fields
+ok 410 - Progress-only summary excludes practice record and private fields
+  ---
+  duration_ms: 0.546289
+  type: 'test'
+  ...
+# Subtest: Record-only summary excludes progress values
+ok 411 - Record-only summary excludes progress values
+  ---
+  duration_ms: 0.931512
+  type: 'test'
+  ...
+# Subtest: Record-only still refuses invented underlying lesson IDs
+ok 412 - Record-only still refuses invented underlying lesson IDs
+  ---
+  duration_ms: 0.490915
+  type: 'test'
+  ...
+# Subtest: Duplicate saved progress refuses rather than inflating completion
+ok 413 - Duplicate saved progress refuses rather than inflating completion
+  ---
+  duration_ms: 1.848828
+  type: 'test'
+  ...
+# Subtest: Exact expiry boundary stops inspection summary but preserves history
+ok 414 - Exact expiry boundary stops inspection summary but preserves history
+  ---
+  duration_ms: 3.682285
+  type: 'test'
+  ...
+# Subtest: Withdrawal stops current summary without rewriting receipt
+ok 415 - Withdrawal stops current summary without rewriting receipt
+  ---
+  duration_ms: 1.129138
+  type: 'test'
+  ...
+# Subtest: Current suspended status does not promote older active receipt
+ok 416 - Current suspended status does not promote older active receipt
+  ---
+  duration_ms: 0.815631
+  type: 'test'
+  ...
+# Subtest: Paused pathway retains choice and historical count but no summary
+ok 417 - Paused pathway retains choice and historical count but no summary
+  ---
+  duration_ms: 0.444683
+  type: 'test'
+  ...
+# Subtest: Withdrawn enrollment retains choice but no new local summary
+ok 418 - Withdrawn enrollment retains choice but no new local summary
+  ---
+  duration_ms: 0.379003
+  type: 'test'
+  ...
+# Subtest: Unknown historical pin is retained and not replaced with current
+ok 419 - Unknown historical pin is retained and not replaced with current
+  ---
+  duration_ms: 0.53238
+  type: 'test'
+  ...
+# Subtest: Private, mismatched or missing enrollment cannot be summarized
+ok 420 - Private, mismatched or missing enrollment cannot be summarized
+  ---
+  duration_ms: 1.06525
+  type: 'test'
+  ...
+# Subtest: Missing basic view containers produce plain unavailable result
+ok 421 - Missing basic view containers produce plain unavailable result
+  ---
+  duration_ms: 0.539923
+  type: 'test'
+  ...
+# Subtest: Malformed state, saved choice or time has no inferred summary
+ok 422 - Malformed state, saved choice or time has no inferred summary
+  ---
+  duration_ms: 0.772161
+  type: 'test'
+  ...
+# Subtest: Future choice or future withdrawal fails closed
+ok 423 - Future choice or future withdrawal fails closed
+  ---
+  duration_ms: 0.457707
+  type: 'test'
+  ...
+# Subtest: Future or malformed receipt is not rendered; retained valid choice inspectable for withdrawal
+ok 424 - Future or malformed receipt is not rendered; retained valid choice inspectable for withdrawal
+  ---
+  duration_ms: 1.329945
+  type: 'test'
+  ...
+# Subtest: Duplicate active partner choices fail closed without leaking IDs
+ok 425 - Duplicate active partner choices fail closed without leaking IDs
+  ---
+  duration_ms: 0.472764
+  type: 'test'
+  ...
+# Subtest: Array order cannot promote older withdrawn choice over active one
+ok 426 - Array order cannot promote older withdrawn choice over active one
+  ---
+  duration_ms: 0.783757
+  type: 'test'
+  ...
+# Subtest: Retained receipt count is partner-filtered but capacity applies across partners
+ok 427 - Retained receipt count is partner-filtered but capacity applies across partners
+  ---
+  duration_ms: 6.196627
+  type: 'test'
+  ...
+# Subtest: Inspection detaches fields and never mutates canonical input
+ok 428 - Inspection detaches fields and never mutates canonical input
+  ---
+  duration_ms: 0.574922
+  type: 'test'
+  ...
+# Subtest: Generic brief has fixed exact shape and zero learner data by construction
+ok 429 - Generic brief has fixed exact shape and zero learner data by construction
+  ---
+  duration_ms: 0.509882
+  type: 'test'
+  ...
+# Subtest: Metadata names are disclosed without exposing actual event or enrollment references
+ok 430 - Metadata names are disclosed without exposing actual event or enrollment references
+  ---
+  duration_ms: 0.727546
+  type: 'test'
+  ...
+# Subtest: Legacy explicit global version remains resolvable without inventing a current pin
+ok 431 - Legacy explicit global version remains resolvable without inventing a current pin
+  ---
+  duration_ms: 0.362726
+  type: 'test'
+  ...
+# Subtest: Selected record cannot claim a private workspace record as personal
+ok 432 - Selected record cannot claim a private workspace record as personal
+  ---
+  duration_ms: 0.326209
+  type: 'test'
+  ...
+# Subtest: Download brief objects cannot mutate shared governance definitions
+ok 433 - Download brief objects cannot mutate shared governance definitions
+  ---
+  duration_ms: 0.220414
+  type: 'test'
+  ...
+# Subtest: Unsupported and prototype-like partner IDs reject without fallback
+ok 434 - Unsupported and prototype-like partner IDs reject without fallback
+  ---
+  duration_ms: 0.539114
+  type: 'test'
+  ...
+# Subtest: Existing receipt reader rejects future-created receipts when passed the current informational clock
+ok 435 - Existing receipt reader rejects future-created receipts when passed the current informational clock
+  ---
+  duration_ms: 0.679967
+  type: 'test'
+  ...
+# Subtest: whole-record plan adapter blocks unknown version with agreeing explicit ref
+ok 436 - whole-record plan adapter blocks unknown version with agreeing explicit ref
+  ---
+  duration_ms: 24.108965
+  type: 'test'
+  ...
+# Subtest: whole-record plan adapter blocks legacy version disagrees with explicit ref
+ok 437 - whole-record plan adapter blocks legacy version disagrees with explicit ref
+  ---
+  duration_ms: 1.343026
+  type: 'test'
+  ...
+# Subtest: whole-record plan adapter blocks explicit ref version disagrees with legacy version
+ok 438 - whole-record plan adapter blocks explicit ref version disagrees with legacy version
+  ---
+  duration_ms: 1.434524
+  type: 'test'
+  ...
+# Subtest: whole-record plan adapter blocks known other program ref disagrees with enrollment
+ok 439 - whole-record plan adapter blocks known other program ref disagrees with enrollment
+  ---
+  duration_ms: 1.349215
+  type: 'test'
+  ...
+# Subtest: whole-record plan adapter blocks private scope cannot fall back to global snapshot
+ok 440 - whole-record plan adapter blocks private scope cannot fall back to global snapshot
+  ---
+  duration_ms: 1.671589
+  type: 'test'
+  ...
+# Subtest: whole-record plan adapter blocks malformed explicit ref cannot silently fall back
+ok 441 - whole-record plan adapter blocks malformed explicit ref cannot silently fall back
+  ---
+  duration_ms: 2.374543
+  type: 'test'
+  ...
+# Subtest: legacy exact version stays readable; missing legacy version never selects current content
+ok 442 - legacy exact version stays readable; missing legacy version never selects current content
+  ---
+  duration_ms: 1.487622
+  type: 'test'
+  ...
+# Subtest: old aggregate defaults are detached; read and derivation do not mutate saved learner evidence
+ok 443 - old aggregate defaults are detached; read and derivation do not mutate saved learner evidence
+  ---
+  duration_ms: 17.890762
+  type: 'test'
+  ...
+# Subtest: preference writes preserve tasks, validate optional in-app reminders and never change enrollment or roles
+ok 444 - preference writes preserve tasks, validate optional in-app reminders and never change enrollment or roles
+  ---
+  duration_ms: 1.546975
+  type: 'test'
+  ...
+# Subtest: unsupported fields, forged learner/actor references and invalid preference values reject atomically
+ok 445 - unsupported fields, forged learner/actor references and invalid preference values reject atomically
+  ---
+  duration_ms: 1.069147
+  type: 'test'
+  ...
+# Subtest: nullable due dates remain unscheduled; leap dates and impossible rollover are validated
+ok 446 - nullable due dates remain unscheduled; leap dates and impossible rollover are validated
+  ---
+  duration_ms: 1.285844
+  type: 'test'
+  ...
+# Subtest: date-only timezone calculations handle UTC midnight, local year boundary and DST without shifting stored dates
+ok 447 - date-only timezone calculations handle UTC midnight, local year boundary and DST without shifting stored dates
+  ---
+  duration_ms: 1.13452
+  type: 'test'
+  ...
+# Subtest: linked titles and lesson estimates use exact pinned content rather than latest content
+ok 448 - linked titles and lesson estimates use exact pinned content rather than latest content
+  ---
+  duration_ms: 1.669699
+  type: 'test'
+  ...
+# Subtest: foreign enrollment/item references and private-practice course links cannot target another learner
+ok 449 - foreign enrollment/item references and private-practice course links cannot target another learner
+  ---
+  duration_ms: 2.204904
+  type: 'test'
+  ...
+# Subtest: a linked planning activity cannot be retargeted or renamed; dates can be cleared without losing note
+ok 450 - a linked planning activity cannot be retargeted or renamed; dates can be cleared without losing note
+  ---
+  duration_ms: 0.743794
+  type: 'test'
+  ...
+# Subtest: private practice completion is self-reported, idempotent in timestamp, reversible, and does not complete a course
+ok 451 - private practice completion is self-reported, idempotent in timestamp, reversible, and does not complete a course
+  ---
+  duration_ms: 1.393748
+  type: 'test'
+  ...
+# Subtest: linked task cannot manually fabricate progress; derived completion requires saved exact own evidence
+ok 452 - linked task cannot manually fabricate progress; derived completion requires saved exact own evidence
+  ---
+  duration_ms: 0.958582
+  type: 'test'
+  ...
+# Subtest: planning a future lesson keeps prerequisite locked and does not issue a learning completion
+ok 453 - planning a future lesson keeps prerequisite locked and does not issue a learning completion
+  ---
+  duration_ms: 0.857258
+  type: 'test'
+  ...
+# Subtest: duplicate linked open task is rejected, including restoring a skipped duplicate
+ok 454 - duplicate linked open task is rejected, including restoring a skipped duplicate
+  ---
+  duration_ms: 2.274239
+  type: 'test'
+  ...
+# Subtest: submission task completes upon a new evidence snapshot, never from an older attempt or an assessment claim
+ok 455 - submission task completes upon a new evidence snapshot, never from an older attempt or an assessment claim
+  ---
+  duration_ms: 0.734475
+  type: 'test'
+  ...
+# Subtest: reflection planning needs an active record; later saved reflection remains historical after record suspension
+ok 456 - reflection planning needs an active record; later saved reflection remains historical after record suspension
+  ---
+  duration_ms: 0.647179
+  type: 'test'
+  ...
+# Subtest: revoked membership blocks every plan write; loss of learner role blocks linked progress but permits own private practice
+ok 457 - revoked membership blocks every plan write; loss of learner role blocks linked progress but permits own private practice
+  ---
+  duration_ms: 0.727954
+  type: 'test'
+  ...
+# Subtest: paused/withdrawn learning blocks new linked progress, preserves plan, and active-record reflection remains allowed
+ok 458 - paused/withdrawn learning blocks new linked progress, preserves plan, and active-record reflection remains allowed
+  ---
+  duration_ms: 0.921714
+  type: 'test'
+  ...
+# Subtest: open and total limits reject without silently deleting plan history
+ok 459 - open and total limits reject without silently deleting plan history
+  ---
+  duration_ms: 313.180243
+  type: 'test'
+  ...
+# Subtest: reminders default off, appear only for available own due tasks, and vanish without erasing the plan
+ok 460 - reminders default off, appear only for available own due tasks, and vanish without erasing the plan
+  ---
+  duration_ms: 3.088336
+  type: 'test'
+  ...
+# Subtest: weekly metrics distinguish planned allocation from actual dated evidence completion
+ok 461 - weekly metrics distinguish planned allocation from actual dated evidence completion
+  ---
+  duration_ms: 1.53364
+  type: 'test'
+  ...
+# Subtest: resume derives first incomplete pinned lesson, saved draft and correct published effort
+ok 462 - resume derives first incomplete pinned lesson, saved draft and correct published effort
+  ---
+  duration_ms: 0.396998
+  type: 'test'
+  ...
+# Subtest: next action reflects no-attempt, pending review, independent appeal, active record, revision and exhausted attempts
+ok 463 - next action reflects no-attempt, pending review, independent appeal, active record, revision and exhausted attempts
+  ---
+  duration_ms: 2.042424
+  type: 'test'
+  ...
+# Subtest: missing pinned version, paused learning, role loss and removed membership never present a working progress action
+ok 464 - missing pinned version, paused learning, role loss and removed membership never present a working progress action
+  ---
+  duration_ms: 1.541211
+  type: 'test'
+  ...
+# Subtest: planned own activity influences next action without bypassing locked prerequisite or enrollment ownership
+ok 465 - planned own activity influences next action without bypassing locked prerequisite or enrollment ownership
+  ---
+  duration_ms: 1.925367
+  type: 'test'
+  ...
+# Subtest: unmatched/no-enrollment learner gets actual catalog exploration and no fabricated recommended course
+ok 466 - unmatched/no-enrollment learner gets actual catalog exploration and no fabricated recommended course
+  ---
+  duration_ms: 0.706533
+  type: 'test'
+  ...
+# Subtest: actual personal pass yields a frozen thin nonaccredited sample status, without mutation
+ok 467 - actual personal pass yields a frozen thin nonaccredited sample status, without mutation
+  ---
+  duration_ms: 23.560521
+  type: 'test'
+  ...
+# Subtest: snapshot excludes all evidence, drafts, notes, feedback, appeal reasons and preference bodies
+ok 468 - snapshot excludes all evidence, drafts, notes, feedback, appeal reasons and preference bodies
+  ---
+  duration_ms: 2.791931
+  type: 'test'
+  ...
+# Subtest: active record and open appeal are independent observations
+ok 469 - active record and open appeal are independent observations
+  ---
+  duration_ms: 2.718637
+  type: 'test'
+  ...
+# Subtest: adverse independent appeal suspends record and preserves initial passing provenance
+ok 470 - adverse independent appeal suspends record and preserves initial passing provenance
+  ---
+  duration_ms: 2.538146
+  type: 'test'
+  ...
+# Subtest: a pending retry preserves suspended status and identifies pending work separately
+ok 471 - a pending retry preserves suspended status and identifies pending work separately
+  ---
+  duration_ms: 2.787704
+  type: 'test'
+  ...
+# Subtest: a passing retry reactivates same record, never rewriting initial issue time or old decisions
+ok 472 - a passing retry reactivates same record, never rewriting initial issue time or old decisions
+  ---
+  duration_ms: 3.045847
+  type: 'test'
+  ...
+# Subtest: a passing appeal after an initial fail establishes first issuance at the appeal decision
+ok 473 - a passing appeal after an initial fail establishes first issuance at the appeal decision
+  ---
+  duration_ms: 2.656899
+  type: 'test'
+  ...
+# Subtest: old active export keeps a valid integrity checksum after current saved record suspends
+ok 474 - old active export keeps a valid integrity checksum after current saved record suspends
+  ---
+  duration_ms: 4.110152
+  type: 'test'
+  ...
+# Subtest: exact revision and check time participate in checksum; key order does not
+ok 475 - exact revision and check time participate in checksum; key order does not
+  ---
+  duration_ms: 4.266533
+  type: 'test'
+  ...
+# Subtest: hash helper rejects undefined, nonfinite numbers and circular values
+ok 476 - hash helper rejects undefined, nonfinite numbers and circular values
+  ---
+  duration_ms: 0.92047
+  type: 'test'
+  ...
+# Subtest: another account cannot check learner-owned record and missing IDs use same 404
+ok 477 - another account cannot check learner-owned record and missing IDs use same 404
+  ---
+  duration_ms: 0.899241
+  type: 'test'
+  ...
+# Subtest: request cannot inject actor, trusted scope, issuer or public share permission
+ok 478 - request cannot inject actor, trusted scope, issuer or public share permission
+  ---
+  duration_ms: 0.576055
+  type: 'test'
+  ...
+# Subtest: unknown explicit pin fails closed while retaining own raw record
+ok 479 - unknown explicit pin fails closed while retaining own raw record
+  ---
+  duration_ms: 0.708484
+  type: 'test'
+  ...
+# Subtest: missing version and mixed explicit reference fail closed rather than latest fallback
+ok 480 - missing version and mixed explicit reference fail closed rather than latest fallback
+  ---
+  duration_ms: 0.62202
+  type: 'test'
+  ...
+# Subtest: stored title, claims and fingerprint use exact historical registry, not current discovery
+ok 481 - stored title, claims and fingerprint use exact historical registry, not current discovery
+  ---
+  duration_ms: 7.351318
+  type: 'test'
+  ...
+# Subtest: unavailable private scope cannot be promoted by a stored content reference
+ok 482 - unavailable private scope cannot be promoted by a stored content reference
+  ---
+  duration_ms: 0.651487
+  type: 'test'
+  ...
+# Subtest: cached score/pass disagreement, wrong safety gates and injected decision fields fail closed
+ok 483 - cached score/pass disagreement, wrong safety gates and injected decision fields fail closed
+  ---
+  duration_ms: 1.015025
+  type: 'test'
+  ...
+# Subtest: issuer, classification, title/claim and exact content-version tampering cannot produce validated status
+ok 484 - issuer, classification, title/claim and exact content-version tampering cannot produce validated status
+  ---
+  duration_ms: 1.315657
+  type: 'test'
+  ...
+# Subtest: personal sample cannot be relabelled as authenticated staff review or acquire shared record metadata
+ok 485 - personal sample cannot be relabelled as authenticated staff review or acquire shared record metadata
+  ---
+  duration_ms: 0.945885
+  type: 'test'
+  ...
+# Subtest: stored active/suspended state must agree with latest settled assessment or appeal
+ok 486 - stored active/suspended state must agree with latest settled assessment or appeal
+  ---
+  duration_ms: 0.814229
+  type: 'test'
+  ...
+# Subtest: future/noncanonical timestamps, altered initial issuance and withdrawal with a record fail closed
+ok 487 - future/noncanonical timestamps, altered initial issuance and withdrawal with a record fail closed
+  ---
+  duration_ms: 1.166264
+  type: 'test'
+  ...
+# Subtest: duplicate record and decision IDs cannot produce a validated check
+ok 488 - duplicate record and decision IDs cannot produce a validated check
+  ---
+  duration_ms: 1.306749
+  type: 'test'
+  ...
+# Subtest: an active record with forged pending retry is unavailable
+ok 489 - an active record with forged pending retry is unavailable
+  ---
+  duration_ms: 0.472414
+  type: 'test'
+  ...
+# Subtest: appeal independence and reference order must remain exact
+ok 490 - appeal independence and reference order must remain exact
+  ---
+  duration_ms: 1.341635
+  type: 'test'
+  ...
+# Subtest: actual shared assigned assessment checks as nonaccredited with saved reviewer metadata
+ok 491 - actual shared assigned assessment checks as nonaccredited with saved reviewer metadata
+  ---
+  duration_ms: 12.701782
+  type: 'test'
+  ...
+# Subtest: actual current assigned appeal exposes only its original decision metadata
+ok 492 - actual current assigned appeal exposes only its original decision metadata
+  ---
+  duration_ms: 10.140651
+  type: 'test'
+  ...
+# Subtest: actual owner role alone and original assessor identity do not grant record check
+ok 493 - actual owner role alone and original assessor identity do not grant record check
+  ---
+  duration_ms: 6.27989
+  type: 'test'
+  ...
+# Subtest: actual role/scope revocation removes assigned decision immediately from projectTeam
+ok 494 - actual role/scope revocation removes assigned decision immediately from projectTeam
+  ---
+  duration_ms: 4.628278
+  type: 'test'
+  ...
+# Subtest: actual reassignment replaces current reviewer access, without disclosing to old actor
+ok 495 - actual reassignment replaces current reviewer access, without disclosing to old actor
+  ---
+  duration_ms: 7.515219
+  type: 'test'
+  ...
+# Subtest: finalizing actual shared appeal removes staff pending access while learner sees current suspension
+ok 496 - finalizing actual shared appeal removes staff pending access while learner sees current suspension
+  ---
+  duration_ms: 7.530611
+  type: 'test'
+  ...
+# Subtest: removed learner retains own private history but gets no staff access
+ok 497 - removed learner retains own private history but gets no staff access
+  ---
+  duration_ms: 6.542587
+  type: 'test'
+  ...
+# Subtest: shared effective record decision reference, time and actor display must agree
+ok 498 - shared effective record decision reference, time and actor display must agree
+  ---
+  duration_ms: 4.470775
+  type: 'test'
+  ...
+# Subtest: trusted opaque account subjects are not restricted to record-ID syntax
+ok 499 - trusted opaque account subjects are not restricted to record-ID syntax
+  ---
+  duration_ms: 2.106528
+  type: 'test'
+  ...
+# Subtest: actual private publication retains exact pin and current record check after retirement closes new offers
+ok 500 - actual private publication retains exact pin and current record check after retirement closes new offers
+  ---
+  duration_ms: 33.566105
+  type: 'test'
+  ...
+# Subtest: actual content-review due date blocks new offerings without voiding own existing record provenance
+ok 501 - actual content-review due date blocks new offerings without voiding own existing record provenance
+  ---
+  duration_ms: 25.507821
+  type: 'test'
+  ...
+# Subtest: actual new private publication never substitutes title, rubric or claim in prior record check
+ok 502 - actual new private publication never substitutes title, rubric or claim in prior record check
+  ---
+  duration_ms: 46.018301
+  type: 'test'
+  ...
+# Subtest: saved completion requires all exact-pinned lesson IDs once, without newest lesson substitution
+ok 503 - saved completion requires all exact-pinned lesson IDs once, without newest lesson substitution
+  ---
+  duration_ms: 1.094628
+  type: 'test'
+  ...
+# Subtest: actual projected staff decision also fails closed on malformed stored appeal chronology or cached score
+ok 504 - actual projected staff decision also fails closed on malformed stored appeal chronology or cached score
+  ---
+  duration_ms: 14.490291
+  type: 'test'
+  ...
+# Subtest: client read sends exact target/current revision with same-origin credentials and no-store; no authority fields
+ok 505 - client read sends exact target/current revision with same-origin credentials and no-store; no authority fields
+  ---
+  duration_ms: 66.964385
+  type: 'test'
+  ...
+# Subtest: account/workspace/epoch/revision/read generation/loading/save transitions fence before transport after source hashing
+ok 506 - account/workspace/epoch/revision/read generation/loading/save transitions fence before transport after source hashing
+  ---
+  duration_ms: 20.074476
+  type: 'test'
+  ...
+# Subtest: response arriving after account/workspace/revision change is discarded without masking the new account
+ok 507 - response arriving after account/workspace/revision change is discarded without masking the new account
+  ---
+  duration_ms: 11.709723
+  type: 'test'
+  ...
+# Subtest: scope changing during JSON parsing prevents late authorization denial from masking new workspace
+ok 508 - scope changing during JSON parsing prevents late authorization denial from masking new workspace
+  ---
+  duration_ms: 2.620861
+  type: 'test'
+  ...
+# Subtest: aborted/unmounted widget fences before transport or discards an already sent response
+ok 509 - aborted/unmounted widget fences before transport or discards an already sent response
+  ---
+  duration_ms: 3.087562
+  type: 'test'
+  ...
+# Subtest: 401/403/404 from current scope mask private authority while a plain changed-revision409 requests refresh
+ok 510 - 401/403/404 from current scope mask private authority while a plain changed-revision409 requests refresh
+  ---
+  duration_ms: 9.121028
+  type: 'test'
+  ...
+# Subtest: non-JSON successful response masks unverifiable access; non-JSON503 retains current scope and never retries
+ok 511 - non-JSON successful response masks unverifiable access; non-JSON503 retains current scope and never retries
+  ---
+  duration_ms: 4.767819
+  type: 'test'
+  ...
+# Subtest: wrong subject/exact record/checksum successful response masks authority and does not publish a result
+ok 512 - wrong subject/exact record/checksum successful response masks authority and does not publish a result
+  ---
+  duration_ms: 7.572642
+  type: 'test'
+  ...
+# Subtest: network failure has no retry and no fabricated read result or account mask
+ok 513 - network failure has no retry and no fabricated read result or account mask
+  ---
+  duration_ms: 1.990282
+  type: 'test'
+  ...
+# Subtest: inactive shared learner can check retained own history: saving flag, not mutation-disabled busy flag
+ok 514 - inactive shared learner can check retained own history: saving flag, not mutation-disabled busy flag
+  ---
+  duration_ms: 14.731399
+  type: 'test'
+  ...
+# Subtest: current assigned appeal client checks exact original only; deleted assignment blocks transport
+ok 515 - current assigned appeal client checks exact original only; deleted assignment blocks transport
+  ---
+  duration_ms: 10.777598
+  type: 'test'
+  ...
+# Subtest: unknown pin and invalid target do not select newest source or send a request
+ok 516 - unknown pin and invalid target do not select newest source or send a request
+  ---
+  duration_ms: 2.303377
+  type: 'test'
+  ...
+# Subtest: client rejects rehashed pinned metadata and masks only the current scope with one read
+ok 517 - client rejects rehashed pinned metadata and masks only the current scope with one read
+  ---
+  duration_ms: 69.189224
+  type: 'test'
+  ...
+# Subtest: captured enrollment is detached before transport so later caller edits cannot authorize a forged reply
+ok 518 - captured enrollment is detached before transport so later caller edits cannot authorize a forged reply
+  ---
+  duration_ms: 6.699448
+  type: 'test'
+  ...
+# Subtest: rehashed late malformed reply cannot mask a changed authority epoch or account
+ok 519 - rehashed late malformed reply cannot mask a changed authority epoch or account
+  ---
+  duration_ms: 11.736076
+  type: 'test'
+  ...
+# Subtest: captured assigned original decision is detached before transport and forged actor metadata is rejected
+ok 520 - captured assigned original decision is detached before transport and forged actor metadata is rejected
+  ---
+  duration_ms: 17.800914
+  type: 'test'
+  ...
+# Subtest: rehashed forgeries cannot alter pinned labels, exclusions, issuer or complete saved status/history
+ok 521 - rehashed forgeries cannot alter pinned labels, exclusions, issuer or complete saved status/history
+  ---
+  duration_ms: 69.901857
+  type: 'test'
+  ...
+# Subtest: mandatory captured derivation fails closed if absent or throws
+ok 522 - mandatory captured derivation fails closed if absent or throws
+  ---
+  duration_ms: 3.294569
+  type: 'test'
+  ...
+# Subtest: a well-shaped unavailable result cannot replace a captured checked result
+ok 523 - a well-shaped unavailable result cannot replace a captured checked result
+  ---
+  duration_ms: 6.560154
+  type: 'test'
+  ...
+# Subtest: unavailable agreement requires the exact derived reason and never produces a snapshot
+ok 524 - unavailable agreement requires the exact derived reason and never produces a snapshot
+  ---
+  duration_ms: 2.895957
+  type: 'test'
+  ...
+# Subtest: body mutation while trusted derivation awaits does not rewrite accepted response bytes
+ok 525 - body mutation while trusted derivation awaits does not rewrite accepted response bytes
+  ---
+  duration_ms: 5.065285
+  type: 'test'
+  ...
+# Subtest: server checkedAt is reused for expected chronology instead of the browser clock
+ok 526 - server checkedAt is reused for expected chronology instead of the browser clock
+  ---
+  duration_ms: 4.2805
+  type: 'test'
+  ...
+# Subtest: legitimate open appeal, adverse resolution, pending retry and passing retry all agree with their exact full captured history
+ok 527 - legitimate open appeal, adverse resolution, pending retry and passing retry all agree with their exact full captured history
+  ---
+  duration_ms: 22.653965
+  type: 'test'
+  ...
+# Subtest: pure route host mocks: current own exact record reads only trusted owner and revision then returns no-store
+ok 528 - pure route host mocks: current own exact record reads only trusted owner and revision then returns no-store
+  ---
+  duration_ms: 71.271176
+  type: 'test'
+  ...
+# Subtest: read-only POST rejects cross-origin and non-JSON before protected reads
+ok 529 - read-only POST rejects cross-origin and non-JSON before protected reads
+  ---
+  duration_ms: 2.267914
+  type: 'test'
+  ...
+# Subtest: malformed/oversized JSON and caller learner ID produce standard sanitized failures with no reads
+ok 530 - malformed/oversized JSON and caller learner ID produce standard sanitized failures with no reads
+  ---
+  duration_ms: 2.620512
+  type: 'test'
+  ...
+# Subtest: missing sign-in and unavailable DB return 401/503 without any data
+ok 531 - missing sign-in and unavailable DB return 401/503 without any data
+  ---
+  duration_ms: 1.647459
+  type: 'test'
+  ...
+# Subtest: changed revision before check and during awaited digest return plain409 with no snapshot
+ok 532 - changed revision before check and during awaited digest return plain409 with no snapshot
+  ---
+  duration_ms: 7.744893
+  type: 'test'
+  ...
+# Subtest: unknown personal exact record is masked404 and never writes an audit event
+ok 533 - unknown personal exact record is masked404 and never writes an audit event
+  ---
+  duration_ms: 0.958689
+  type: 'test'
+  ...
+# Subtest: actual canonical shared projection allows only currently assigned original appeal decision
+ok 534 - actual canonical shared projection allows only currently assigned original appeal decision
+  ---
+  duration_ms: 15.024848
+  type: 'test'
+  ...
+# Subtest: outsider and historical original assessor cannot read record or assigned-original body
+ok 535 - outsider and historical original assessor cannot read record or assigned-original body
+  ---
+  duration_ms: 7.923869
+  type: 'test'
+  ...
+# Subtest: deleted shared row between hash and reply forces plain409
+ok 536 - deleted shared row between hash and reply forces plain409
+  ---
+  duration_ms: 8.922408
+  type: 'test'
+  ...
+# Subtest: invalid saved JSON and database exception are sanitized503 without evidence or exception text
+ok 537 - invalid saved JSON and database exception are sanitized503 without evidence or exception text
+  ---
+  duration_ms: 1.848317
+  type: 'test'
+  ...
+# Subtest: malformed canonical revision is503 and check never advances it
+ok 538 - malformed canonical revision is503 and check never advances it
+  ---
+  duration_ms: 0.882572
+  type: 'test'
+  ...
+# Subtest: unknown exact content pin reports unavailable and retains own raw saved object untouched
+ok 539 - unknown exact content pin reports unavailable and retains own raw saved object untouched
+  ---
+  duration_ms: 1.005017
+  type: 'test'
+  ...
+# Subtest: read request accepts one exact target and trusted revision precondition
+ok 540 - read request accepts one exact target and trusted revision precondition
+  ---
+  duration_ms: 2.777988
+  type: 'test'
+  ...
+# Subtest: read request rejects caller authority, extra fields, both/neither targets and unbounded IDs
+ok 541 - read request rejects caller authority, extra fields, both/neither targets and unbounded IDs
+  ---
+  duration_ms: 0.666188
+  type: 'test'
+  ...
+# Subtest: read request rejects missing workspace/revision, malformed workspace and personal staff decision
+ok 542 - read request rejects missing workspace/revision, malformed workspace and personal staff decision
+  ---
+  duration_ms: 0.363934
+  type: 'test'
+  ...
+# Subtest: revision precondition uses 409 and malformed canonical revision uses 503
+ok 543 - revision precondition uses 409 and malformed canonical revision uses 503
+  ---
+  duration_ms: 0.331478
+  type: 'test'
+  ...
+# Subtest: actual personal saved record produces detached context-bound envelope and recomputable snapshot
+ok 544 - actual personal saved record produces detached context-bound envelope and recomputable snapshot
+  ---
+  duration_ms: 25.001063
+  type: 'test'
+  ...
+# Subtest: no saved personal row or unknown exact own record uses masked 404
+ok 545 - no saved personal row or unknown exact own record uses masked 404
+  ---
+  duration_ms: 1.956032
+  type: 'test'
+  ...
+# Subtest: saved revision mismatch cannot return current status onto an old view
+ok 546 - saved revision mismatch cannot return current status onto an old view
+  ---
+  duration_ms: 0.617166
+  type: 'test'
+  ...
+# Subtest: shared outsider membership is checked before revision comparison; no own or staff lookup
+ok 547 - shared outsider membership is checked before revision comparison; no own or staff lookup
+  ---
+  duration_ms: 10.580522
+  type: 'test'
+  ...
+# Subtest: shared owner cannot check another learner record even with known record ID
+ok 548 - shared owner cannot check another learner record even with known record ID
+  ---
+  duration_ms: 6.815464
+  type: 'test'
+  ...
+# Subtest: inactive member retains own record status and source pin without staff access
+ok 549 - inactive member retains own record status and source pin without staff access
+  ---
+  duration_ms: 10.906737
+  type: 'test'
+  ...
+# Subtest: currently assigned open appeal derives learner server-side and returns only original metadata
+ok 550 - currently assigned open appeal derives learner server-side and returns only original metadata
+  ---
+  duration_ms: 11.248734
+  type: 'test'
+  ...
+# Subtest: past assessor and owner role do not gain current assigned-original access
+ok 551 - past assessor and owner role do not gain current assigned-original access
+  ---
+  duration_ms: 6.891509
+  type: 'test'
+  ...
+# Subtest: current scope revocation removes assigned decision lookup without retained assignment authority
+ok 552 - current scope revocation removes assigned decision lookup without retained assignment authority
+  ---
+  duration_ms: 6.567942
+  type: 'test'
+  ...
+# Subtest: unknown exact pinned version returns unavailable with no substitute status snapshot
+ok 553 - unknown exact pinned version returns unavailable with no substitute status snapshot
+  ---
+  duration_ms: 2.70921
+  type: 'test'
+  ...
+# Subtest: wrong subject/workspace/revision/target responses are rejected independently of valid checksum
+ok 554 - wrong subject/workspace/revision/target responses are rejected independently of valid checksum
+  ---
+  duration_ms: 6.129265
+  type: 'test'
+  ...
+# Subtest: snapshot target/enrollment/exact pin/source fingerprint must match captured canonical view
+ok 555 - snapshot target/enrollment/exact pin/source fingerprint must match captured canonical view
+  ---
+  duration_ms: 3.72721
+  type: 'test'
+  ...
+# Subtest: envelope/snapshot/decision/integrity extras cannot smuggle evidence even with recomputed checksum
+ok 556 - envelope/snapshot/decision/integrity extras cannot smuggle evidence even with recomputed checksum
+  ---
+  duration_ms: 5.242355
+  type: 'test'
+  ...
+# Subtest: invalid JSON-shaped containers, null nested fields, wrong arrays and unsupported formats fail closed
+ok 557 - invalid JSON-shaped containers, null nested fields, wrong arrays and unsupported formats fail closed
+  ---
+  duration_ms: 5.180967
+  type: 'test'
+  ...
+# Subtest: current saved status cannot acquire accredited classification or issuer authority
+ok 558 - current saved status cannot acquire accredited classification or issuer authority
+  ---
+  duration_ms: 4.361802
+  type: 'test'
+  ...
+# Subtest: status/issuance/effective review chronology cannot disagree even with a recomputed checksum
+ok 559 - status/issuance/effective review chronology cannot disagree even with a recomputed checksum
+  ---
+  duration_ms: 3.540177
+  type: 'test'
+  ...
+# Subtest: personal sample identities and modes cannot be promoted to authenticated staff
+ok 560 - personal sample identities and modes cannot be promoted to authenticated staff
+  ---
+  duration_ms: 4.226623
+  type: 'test'
+  ...
+# Subtest: assigned decision cannot disclose record status, change appeal or declare reviewer as original assessor
+ok 561 - assigned decision cannot disclose record status, change appeal or declare reviewer as original assessor
+  ---
+  duration_ms: 12.661509
+  type: 'test'
+  ...
+# Subtest: changed export bytes fail integrity; field key order can vary without changing semantic digest
+ok 562 - changed export bytes fail integrity; field key order can vary without changing semantic digest
+  ---
+  duration_ms: 11.301571
+  type: 'test'
+  ...
+# Subtest: unavailable result is shape-checked and never admits a hidden export snapshot
+ok 563 - unavailable result is shape-checked and never admits a hidden export snapshot
+  ---
+  duration_ms: 5.359544
+  type: 'test'
+  ...
+# Subtest: accepted response detaches from later caller-owned edits
+ok 564 - accepted response detaches from later caller-owned edits
+  ---
+  duration_ms: 5.016892
+  type: 'test'
+  ...
+# Subtest: actual engine newest-first followups retain first qualifying completion after second save
+ok 565 - actual engine newest-first followups retain first qualifying completion after second save
+  ---
+  duration_ms: 28.739423
+  type: 'test'
+  ...
+# Subtest: actual weekly recap keeps old task in original week and never recounts it for later reflection
+ok 566 - actual weekly recap keeps old task in original week and never recounts it for later reflection
+  ---
+  duration_ms: 7.527535
+  type: 'test'
+  ...
+# Subtest: earliest qualifying date is independent of history ordering and derivation leaves inputs unchanged
+ok 567 - earliest qualifying date is independent of history ordering and derivation leaves inputs unchanged
+  ---
+  duration_ms: 2.385658
+  type: 'test'
+  ...
+# Subtest: same-enrollment reflection before task creation is excluded
+ok 568 - same-enrollment reflection before task creation is excluded
+  ---
+  duration_ms: 1.009033
+  type: 'test'
+  ...
+# Subtest: actual separately enrolled/reviewed pathway reflection cannot move exact own task date
+ok 569 - actual separately enrolled/reviewed pathway reflection cannot move exact own task date
+  ---
+  duration_ms: 2.371205
+  type: 'test'
+  ...
+# Subtest: explicit new later plan item binds to the first action after its own creation
+ok 570 - explicit new later plan item binds to the first action after its own creation
+  ---
+  duration_ms: 3.898135
+  type: 'test'
+  ...
+# Subtest: skipped item remains skipped despite legitimate later reflections and contributes no completion
+ok 571 - skipped item remains skipped despite legitimate later reflections and contributes no completion
+  ---
+  duration_ms: 2.185206
+  type: 'test'
+  ...
+# Subtest: retained completed history and existing blocked reasons survive suspension/authority/lifecycle changes
+ok 572 - retained completed history and existing blocked reasons survive suspension/authority/lifecycle changes
+  ---
+  duration_ms: 2.063931
+  type: 'test'
+  ...
+# Subtest: no match/malformed dates never fabricate completion; future-only history keeps existing recap diagnostic
+ok 573 - no match/malformed dates never fabricate completion; future-only history keeps existing recap diagnostic
+  ---
+  duration_ms: 1.877466
+  type: 'test'
+  ...
+# Subtest: exact creation instant qualifies; one millisecond earlier does not; ties retain all raw history
+ok 574 - exact creation instant qualifies; one millisecond earlier does not; ties retain all raw history
+  ---
+  duration_ms: 1.242645
+  type: 'test'
+  ...
+# Subtest: completed exact history does not require a newer pin and private reflection bodies stay out of recap exports
+ok 575 - completed exact history does not require a newer pin and private reflection bodies stay out of recap exports
+  ---
+  duration_ms: 2.713723
+  type: 'test'
+  ...
+# Subtest: unreadable 401 read carries mask metadata and a plain bounded message
+ok 576 - unreadable 401 read carries mask metadata and a plain bounded message
+  ---
+  duration_ms: 41.269433
+  type: 'test'
+  ...
+# Subtest: unreadable 401 write carries mask metadata and a plain bounded message
+ok 577 - unreadable 401 write carries mask metadata and a plain bounded message
+  ---
+  duration_ms: 0.424042
+  type: 'test'
+  ...
+# Subtest: unreadable 403 read carries mask metadata and a plain bounded message
+ok 578 - unreadable 403 read carries mask metadata and a plain bounded message
+  ---
+  duration_ms: 0.382603
+  type: 'test'
+  ...
+# Subtest: unreadable 403 write carries mask metadata and a plain bounded message
+ok 579 - unreadable 403 write carries mask metadata and a plain bounded message
+  ---
+  duration_ms: 0.402258
+  type: 'test'
+  ...
+# Subtest: unreadable 404 read carries mask metadata and a plain bounded message
+ok 580 - unreadable 404 read carries mask metadata and a plain bounded message
+  ---
+  duration_ms: 0.463691
+  type: 'test'
+  ...
+# Subtest: unreadable 404 write carries mask metadata and a plain bounded message
+ok 581 - unreadable 404 write carries mask metadata and a plain bounded message
+  ---
+  duration_ms: 0.352314
+  type: 'test'
+  ...
+# Subtest: unreadable 200 read carries mask metadata and a plain bounded message
+ok 582 - unreadable 200 read carries mask metadata and a plain bounded message
+  ---
+  duration_ms: 0.306327
+  type: 'test'
+  ...
+# Subtest: unreadable 200 write carries mask metadata and a plain bounded message
+ok 583 - unreadable 200 write carries mask metadata and a plain bounded message
+  ---
+  duration_ms: 0.370963
+  type: 'test'
+  ...
+# Subtest: JSON503 is returned unchanged without any parser authority side effects
+ok 584 - JSON503 is returned unchanged without any parser authority side effects
+  ---
+  duration_ms: 2.673969
+  type: 'test'
+  ...
+# Subtest: nonJSON503 preserves cache eligibility
+ok 585 - nonJSON503 preserves cache eligibility
+  ---
+  duration_ms: 0.895841
+  type: 'test'
+  ...
+# Subtest: successful nonobject JSON null is unverified
+ok 586 - successful nonobject JSON null is unverified
+  ---
+  duration_ms: 0.440648
+  type: 'test'
+  ...
+# Subtest: successful nonobject JSON [] is unverified
+ok 587 - successful nonobject JSON [] is unverified
+  ---
+  duration_ms: 0.240387
+  type: 'test'
+  ...
+# Subtest: successful nonobject JSON "html" is unverified
+ok 588 - successful nonobject JSON "html" is unverified
+  ---
+  duration_ms: 0.189457
+  type: 'test'
+  ...
+# Subtest: canonical subject check rejects missing/blank and accepts arbitrary actual nonblank user IDs
+ok 589 - canonical subject check rejects missing/blank and accepts arbitrary actual nonblank user IDs
+  ---
+  duration_ms: 0.154502
+  type: 'test'
+  ...
+# Subtest: valid enrollment render shape retains unavailable content references without domain fallback
+ok 590 - valid enrollment render shape retains unavailable content references without domain fallback
+  ---
+  duration_ms: 0.147949
+  type: 'test'
+  ...
+# Subtest: malformed enrollment null cannot reach root selectors
+ok 591 - malformed enrollment null cannot reach root selectors
+  ---
+  duration_ms: 0.062611
+  type: 'test'
+  ...
+# Subtest: malformed enrollment [] cannot reach root selectors
+ok 592 - malformed enrollment [] cannot reach root selectors
+  ---
+  duration_ms: 0.039202
+  type: 'test'
+  ...
+# Subtest: malformed enrollment 7 cannot reach root selectors
+ok 593 - malformed enrollment 7 cannot reach root selectors
+  ---
+  duration_ms: 0.035908
+  type: 'test'
+  ...
+# Subtest: malformed enrollment "not-an-enrollment" cannot reach root selectors
+ok 594 - malformed enrollment "not-an-enrollment" cannot reach root selectors
+  ---
+  duration_ms: 0.034511
+  type: 'test'
+  ...
+# Subtest: matching enrollment without completion list is rejected before completed.length
+ok 595 - matching enrollment without completion list is rejected before completed.length
+  ---
+  duration_ms: 0.082421
+  type: 'test'
+  ...
+# Subtest: damaged completion/review arrays cannot reach learning render helpers
+ok 596 - damaged completion/review arrays cannot reach learning render helpers
+  ---
+  duration_ms: 0.122153
+  type: 'test'
+  ...
+# Subtest: damaged draft/practice/record objects are rejected without modifying supplied state
+ok 597 - damaged draft/practice/record objects are rejected without modifying supplied state
+  ---
+  duration_ms: 0.105768
+  type: 'test'
+  ...
+# Subtest: own older cohort wins over independently selected newer first-open preview
+ok 598 - own older cohort wins over independently selected newer first-open preview
+  ---
+  duration_ms: 2.805643
+  type: 'test'
+  ...
+# Subtest: matching metadata remains exportable when actual exact private snapshot is unavailable
+ok 599 - matching metadata remains exportable when actual exact private snapshot is unavailable
+  ---
+  duration_ms: 0.462571
+  type: 'test'
+  ...
+# Subtest: removal returns null rather than preview fallback
+ok 600 - removal returns null rather than preview fallback
+  ---
+  duration_ms: 0.190039
+  type: 'test'
+  ...
+# Subtest: same cohort id repointed to newer version returns null
+ok 601 - same cohort id repointed to newer version returns null
+  ---
+  duration_ms: 0.226722
+  type: 'test'
+  ...
+# Subtest: same version but different program returns null
+ok 602 - same version but different program returns null
+  ---
+  duration_ms: 0.212513
+  type: 'test'
+  ...
+# Subtest: same program/version but different scope returns null
+ok 603 - same program/version but different scope returns null
+  ---
+  duration_ms: 0.124469
+  type: 'test'
+  ...
+# Subtest: current accepted workspace must match team even with identical cohort id and pin
+ok 604 - current accepted workspace must match team even with identical cohort id and pin
+  ---
+  duration_ms: 0.155603
+  type: 'test'
+  ...
+# Subtest: own foreign private scope cannot be exported through current team
+ok 605 - own foreign private scope cannot be exported through current team
+  ---
+  duration_ms: 0.120884
+  type: 'test'
+  ...
+# Subtest: personal lab enrollment without cohort returns null despite unrelated preview
+ok 606 - personal lab enrollment without cohort returns null despite unrelated preview
+  ---
+  duration_ms: 0.38743
+  type: 'test'
+  ...
+# Subtest: personal lab never adds cohort metadata even if malformed input supplies shared fields
+ok 607 - personal lab never adds cohort metadata even if malformed input supplies shared fields
+  ---
+  duration_ms: 0.402465
+  type: 'test'
+  ...
+# Subtest: missing team returns null
+ok 608 - missing team returns null
+  ---
+  duration_ms: 0.168682
+  type: 'test'
+  ...
+# Subtest: missing cohort id returns null
+ok 609 - missing cohort id returns null
+  ---
+  duration_ms: 0.092458
+  type: 'test'
+  ...
+# Subtest: malformed own full pin is not replaced by preview
+ok 610 - malformed own full pin is not replaced by preview
+  ---
+  duration_ms: 0.092263
+  type: 'test'
+  ...
+# Subtest: inconsistent cohort legacy version and explicit pin fails closed
+ok 611 - inconsistent cohort legacy version and explicit pin fails closed
+  ---
+  duration_ms: 0.087778
+  type: 'test'
+  ...
+# Subtest: inconsistent own legacy version and explicit pin fails closed
+ok 612 - inconsistent own legacy version and explicit pin fails closed
+  ---
+  duration_ms: 0.091498
+  type: 'test'
+  ...
+# Subtest: duplicate current cohort ids are ambiguous and excluded
+ok 613 - duplicate current cohort ids are ambiguous and excluded
+  ---
+  duration_ms: 0.102306
+  type: 'test'
+  ...
+# Subtest: legacy global cohort pin matches using actual pinnedRef semantics
+ok 614 - legacy global cohort pin matches using actual pinnedRef semantics
+  ---
+  duration_ms: 0.171549
+  type: 'test'
+  ...
+# Subtest: removed membership retains exact accepted own metadata without granting new access
+ok 615 - removed membership retains exact accepted own metadata without granting new access
+  ---
+  duration_ms: 0.093005
+  type: 'test'
+  ...
+# Subtest: retired or paused exact cohort metadata does not become newer or open
+ok 616 - retired or paused exact cohort metadata does not become newer or open
+  ---
+  duration_ms: 0.230614
+  type: 'test'
+  ...
+# Subtest: preview-only export preserves selected unavailable cohort behavior
+ok 617 - preview-only export preserves selected unavailable cohort behavior
+  ---
+  duration_ms: 0.117482
+  type: 'test'
+  ...
+# Subtest: preview-only with no selected cohort remains null
+ok 618 - preview-only with no selected cohort remains null
+  ---
+  duration_ms: 0.067177
+  type: 'test'
+  ...
+# Subtest: own result is detached and source inputs unchanged
+ok 619 - own result is detached and source inputs unchanged
+  ---
+  duration_ms: 0.202473
+  type: 'test'
+  ...
+# Subtest: unsupported saved receipt rejects reader, new test and new choice without mutating saved data
+ok 620 - unsupported saved receipt rejects reader, new test and new choice without mutating saved data
+  ---
+  duration_ms: 10.959338
+  type: 'test'
+  ...
+# Subtest: valid withdrawal preserves raw malformed history while replacing its22-byte reserve
+ok 621 - valid withdrawal preserves raw malformed history while replacing its22-byte reserve
+  ---
+  duration_ms: 1.262501
+  type: 'test'
+  ...
+# Subtest: malformed receipt still permits valid withdrawal at the exact effective1MB boundary
+ok 622 - malformed receipt still permits valid withdrawal at the exact effective1MB boundary
+  ---
+  duration_ms: 20.016815
+  type: 'test'
+  ...
+# Subtest: future saved withdrawal rejects409 and legitimate past withdrawal stays idempotent
+ok 623 - future saved withdrawal rejects409 and legitimate past withdrawal stays idempotent
+  ---
+  duration_ms: 0.772882
+  type: 'test'
+  ...
+# Subtest: actual integrated command creates exact mapped global choice for agri
+ok 624 - actual integrated command creates exact mapped global choice for agri
+  ---
+  duration_ms: 9.579741
+  type: 'test'
+  ...
+# Subtest: actual integrated command creates exact mapped global choice for msme
+ok 625 - actual integrated command creates exact mapped global choice for msme
+  ---
+  duration_ms: 0.772621
+  type: 'test'
+  ...
+# Subtest: actual integrated command creates exact mapped global choice for public
+ok 626 - actual integrated command creates exact mapped global choice for public
+  ---
+  duration_ms: 1.076612
+  type: 'test'
+  ...
+# Subtest: exact command duration allowlist and server timestamp exclude caller refs/expiry/actor
+ok 627 - exact command duration allowlist and server timestamp exclude caller refs/expiry/actor
+  ---
+  duration_ms: 3.690245
+  type: 'test'
+  ...
+# Subtest: Health and all six cross-mapping combinations reject, Boolean preferences never create choice authority
+ok 628 - Health and all six cross-mapping combinations reject, Boolean preferences never create choice authority
+  ---
+  duration_ms: 1.543325
+  type: 'test'
+  ...
+# Subtest: scopes reject empty/duplicate/unsupported values and preserve explicit canonical field order
+ok 629 - scopes reject empty/duplicate/unsupported values and preserve explicit canonical field order
+  ---
+  duration_ms: 1.761397
+  type: 'test'
+  ...
+# Subtest: actual scoped receipt includes only explicit selected fields learning.progress
+ok 630 - actual scoped receipt includes only explicit selected fields learning.progress
+  ---
+  duration_ms: 1.207563
+  type: 'test'
+  ...
+# Subtest: actual scoped receipt includes only explicit selected fields practice.record
+ok 631 - actual scoped receipt includes only explicit selected fields practice.record
+  ---
+  duration_ms: 0.775184
+  type: 'test'
+  ...
+# Subtest: actual scoped receipt includes only explicit selected fields learning.progress+practice.record
+ok 632 - actual scoped receipt includes only explicit selected fields learning.progress+practice.record
+  ---
+  duration_ms: 1.031464
+  type: 'test'
+  ...
+# Subtest: receipt excludes actual own evidence/score/note/plan/reflection canaries
+ok 633 - receipt excludes actual own evidence/score/note/plan/reflection canaries
+  ---
+  duration_ms: 4.639007
+  type: 'test'
+  ...
+# Subtest: actual adverse appeal updates fresh status while original local receipt remains historical
+ok 634 - actual adverse appeal updates fresh status while original local receipt remains historical
+  ---
+  duration_ms: 8.47791
+  type: 'test'
+  ...
+# Subtest: expiry exactly at boundary and withdrawal deny future tests without deleting receipts
+ok 635 - expiry exactly at boundary and withdrawal deny future tests without deleting receipts
+  ---
+  duration_ms: 1.574759
+  type: 'test'
+  ...
+# Subtest: new same-partner choice explicitly withdraws predecessor and keeps one active choice
+ok 636 - new same-partner choice explicitly withdraws predecessor and keeps one active choice
+  ---
+  duration_ms: 0.901489
+  type: 'test'
+  ...
+# Subtest: choices are own enrollment references, cannot access another owner ID or inject selector fields
+ok 637 - choices are own enrollment references, cannot access another owner ID or inject selector fields
+  ---
+  duration_ms: 1.896824
+  type: 'test'
+  ...
+# Subtest: trusted actual resolver rejects unknown saved pin/progress
+ok 638 - trusted actual resolver rejects unknown saved pin/progress
+  ---
+  duration_ms: 0.472131
+  type: 'test'
+  ...
+# Subtest: trusted actual resolver rejects mixed saved pin/progress
+ok 639 - trusted actual resolver rejects mixed saved pin/progress
+  ---
+  duration_ms: 0.355551
+  type: 'test'
+  ...
+# Subtest: trusted actual resolver rejects missing saved pin/progress
+ok 640 - trusted actual resolver rejects missing saved pin/progress
+  ---
+  duration_ms: 0.271982
+  type: 'test'
+  ...
+# Subtest: trusted actual resolver rejects private saved pin/progress
+ok 641 - trusted actual resolver rejects private saved pin/progress
+  ---
+  duration_ms: 0.332868
+  type: 'test'
+  ...
+# Subtest: trusted actual resolver rejects inventedLesson saved pin/progress
+ok 642 - trusted actual resolver rejects inventedLesson saved pin/progress
+  ---
+  duration_ms: 0.271462
+  type: 'test'
+  ...
+# Subtest: trusted actual resolver rejects duplicateLesson saved pin/progress
+ok 643 - trusted actual resolver rejects duplicateLesson saved pin/progress
+  ---
+  duration_ms: 0.248714
+  type: 'test'
+  ...
+# Subtest: testing rechecks exact pinned content even after choice exists; withdrawal remains possible
+ok 644 - testing rechecks exact pinned content even after choice exists; withdrawal remains possible
+  ---
+  duration_ms: 0.697257
+  type: 'test'
+  ...
+# Subtest: paused/withdrawn own learning blocks grant/test but does not block protective withdrawal
+ok 645 - paused/withdrawn own learning blocks grant/test but does not block protective withdrawal
+  ---
+  duration_ms: 1.117219
+  type: 'test'
+  ...
+# Subtest: shared Team actual dispatcher rejects all three workbench commands for current owner
+ok 646 - shared Team actual dispatcher rejects all three workbench commands for current owner
+  ---
+  duration_ms: 1.725971
+  type: 'test'
+  ...
+# Subtest: legacy values and historical receipts stay unchanged; new legacy deliver requires explicit renewal
+ok 647 - legacy values and historical receipts stay unchanged; new legacy deliver requires explicit renewal
+  ---
+  duration_ms: 0.996253
+  type: 'test'
+  ...
+# Subtest: grant and receipt retained caps do not block withdrawal or erase history
+ok 648 - grant and receipt retained caps do not block withdrawal or erase history
+  ---
+  duration_ms: 162.150579
+  type: 'test'
+  ...
+# Subtest: strict saved choice and runtime payload refuse malformed/extraneous data
+ok 649 - strict saved choice and runtime payload refuse malformed/extraneous data
+  ---
+  duration_ms: 0.906864
+  type: 'test'
+  ...
+# Subtest: canonical withdrawal closure is exactly22 bytes, reserved for every null including expired choice
+ok 650 - canonical withdrawal closure is exactly22 bytes, reserved for every null including expired choice
+  ---
+  duration_ms: 0.730199
+  type: 'test'
+  ...
+# Subtest: actual near-cap state with JSON escaping and Unicode can withdraw every current choice at exact1MB
+ok 651 - actual near-cap state with JSON escaping and Unicode can withdraw every current choice at exact1MB
+  ---
+  duration_ms: 1231.780114
+  type: 'test'
+  ...
+# Subtest: all other personal growth, including early-return plan path, must respect choice closure reserve
+ok 652 - all other personal growth, including early-return plan path, must respect choice closure reserve
+  ---
+  duration_ms: 1134.531236
+  type: 'test'
+  ...
+# Subtest: exact effective boundary accepts, one escaped growth byte over rejects; reset removes choices explicitly
+ok 653 - exact effective boundary accepts, one escaped growth byte over rejects; reset removes choices explicitly
+  ---
+  duration_ms: 1048.632356
+  type: 'test'
+  ...
+# Subtest: actual integrated personal API applies the unified sizing check after every domain action before durable update
+ok 654 - actual integrated personal API applies the unified sizing check after every domain action before durable update
+  ---
+  duration_ms: 0.488647
+  type: 'test'
+  ...
+# Subtest: corrupt duplicate current partner choices fail closed, while each protective withdrawal remains possible
+ok 655 - corrupt duplicate current partner choices fail closed, while each protective withdrawal remains possible
+  ---
+  duration_ms: 0.967852
+  type: 'test'
+  ...
+# Subtest: all24 retained null choices reserve528 bytes including expired history and close at exact1MB
+ok 656 - all24 retained null choices reserve528 bytes including expired history and close at exact1MB
+  ---
+  duration_ms: 1171.659913
+  type: 'test'
+  ...
+# Subtest: legacy preview still rejects injected fields400 before explicit-choice409 guidance
+ok 657 - legacy preview still rejects injected fields400 before explicit-choice409 guidance
+  ---
+  duration_ms: 0.812668
+  type: 'test'
+  ...
+# Subtest: strict saved receipt read refuses private extra fields, mismatched identities and duplicate/oversized history
+ok 658 - strict saved receipt read refuses private extra fields, mismatched identities and duplicate/oversized history
+  ---
+  duration_ms: 3.854103
+  type: 'test'
+  ...
+# Subtest: malformed own receipt is unavailable authority but raw sizing and valid protective withdrawal remain possible
+ok 659 - malformed own receipt is unavailable authority but raw sizing and valid protective withdrawal remain possible
+  ---
+  duration_ms: 1.031455
+  type: 'test'
+  ...
+# Subtest: future existing withdrawal refuses rather than claiming success; past legitimate withdrawal is idempotent
+ok 660 - future existing withdrawal refuses rather than claiming success; past legitimate withdrawal is idempotent
+  ---
+  duration_ms: 0.745311
+  type: 'test'
+  ...
+# Subtest: fresh versioned copy uses exact original UTF8 bytes and reports labels only
+ok 661 - fresh versioned copy uses exact original UTF8 bytes and reports labels only
+  ---
+  duration_ms: 10.236128
+  type: 'test'
+  ...
+# Subtest: format metadata remains recognized separately from integrity
+ok 662 - format metadata remains recognized separately from integrity
+  ---
+  duration_ms: 1.666531
+  type: 'test'
+  ...
+# Subtest: own comparison does not authenticate a different account
+ok 663 - own comparison does not authenticate a different account
+  ---
+  duration_ms: 1.331615
+  type: 'test'
+  ...
+# Subtest: exact malformed stored bytes remain exportable for private diagnosis
+ok 664 - exact malformed stored bytes remain exportable for private diagnosis
+  ---
+  duration_ms: 1.299134
+  type: 'test'
+  ...
+# Subtest: checksum does not grant authority to a recomputed edited copy
+ok 665 - checksum does not grant authority to a recomputed edited copy
+  ---
+  duration_ms: 1.741294
+  type: 'test'
+  ...
+# Subtest: unknown versions and outer fields remain unsupported
+ok 666 - unknown versions and outer fields remain unsupported
+  ---
+  duration_ms: 3.272399
+  type: 'test'
+  ...
+# Subtest: unsaved exports describe fresh state without claiming a saved revision
+ok 667 - unsaved exports describe fresh state without claiming a saved revision
+  ---
+  duration_ms: 1.409332
+  type: 'test'
+  ...
+# Subtest: old raw exports stay unversioned rather than promoted
+ok 668 - old raw exports stay unversioned rather than promoted
+  ---
+  duration_ms: 0.382244
+  type: 'test'
+  ...
+# Subtest: invalid JSON, nonobject contents and excess file size are diagnosed safely
+ok 669 - invalid JSON, nonobject contents and excess file size are diagnosed safely
+  ---
+  duration_ms: 16.234907
+  type: 'test'
+  ...
+# Subtest: content size is a separate diagnostic; it is never silently truncated
+ok 670 - content size is a separate diagnostic; it is never silently truncated
+  ---
+  duration_ms: 18.062201
+  type: 'test'
+  ...
+# Subtest: protective operations remain available for previously accepted near-full workspaces
+ok 671 - protective operations remain available for previously accepted near-full workspaces
+  ---
+  duration_ms: 28.759145
+  type: 'test'
+  ...
+# Subtest: grants, restoration, extra scopes and new content cannot consume the protective reserve
+ok 672 - grants, restoration, extra scopes and new content cannot consume the protective reserve
+  ---
+  duration_ms: 58.964011
+  type: 'test'
+  ...
+# Subtest: shrinking writes and directory opt-out remain available above the ordinary limit
+ok 673 - shrinking writes and directory opt-out remain available above the ordinary limit
+  ---
+  duration_ms: 9.470853
+  type: 'test'
+  ...
+# Subtest: administrative history limit cannot block removal; archive separates without losing records
+ok 674 - administrative history limit cannot block removal; archive separates without losing records
+  ---
+  duration_ms: 1.315441
+  type: 'test'
+  ...
+# Subtest: all 100 own open requests can withdraw at the dynamic byte boundary, including a 20-message thread
+ok 675 - all 100 own open requests can withdraw at the dynamic byte boundary, including a 20-message thread
+  ---
+  duration_ms: 1957.520017
+  type: 'test'
+  ...
+# Subtest: every support write retains exact future closure capacity; rejected growth remains atomic
+ok 676 - every support write retains exact future closure capacity; rejected growth remains atomic
+  ---
+  duration_ms: 1413.283539
+  type: 'test'
+  ...
+# Subtest: global protective actions cannot consume support closure reserve and valid final withdrawal still works
+ok 677 - global protective actions cannot consume support closure reserve and valid final withdrawal still works
+  ---
+  duration_ms: 52.792134
+  type: 'test'
+  ...
+# Subtest: revoked assignment cannot revive after restoration when reconciliation is persisted
+ok 678 - revoked assignment cannot revive after restoration when reconciliation is persisted
+  ---
+  duration_ms: 1.440426
+  type: 'test'
+  ...
+# Subtest: name snapshots are bounded and clocks are canonical before storing support events
+ok 679 - name snapshots are bounded and clocks are canonical before storing support events
+  ---
+  duration_ms: 0.342432
+  type: 'test'
+  ...
+# Subtest: extended-year clocks are rejected atomically instead of exceeding the 24-character reserve invariant
+ok 680 - extended-year clocks are rejected atomically instead of exceeding the 24-character reserve invariant
+  ---
+  duration_ms: 0.33686
+  type: 'test'
+  ...
+# Subtest: 100 lifecycle events block ordinary claim growth while the final 101st withdrawal event remains available
+ok 681 - 100 lifecycle events block ordinary claim growth while the final 101st withdrawal event remains available
+  ---
+  duration_ms: 14.648137
+  type: 'test'
+  ...
+# Subtest: old Team documents without support remain readable; unrelated commands are ignored
+ok 682 - old Team documents without support remain readable; unrelated commands are ignored
+  ---
+  duration_ms: 3.81691
+  type: 'test'
+  ...
+# Subtest: intake requires acknowledgement, exact keys and server-bound requester identity
+ok 683 - intake requires acknowledgement, exact keys and server-bound requester identity
+  ---
+  duration_ms: 7.858216
+  type: 'test'
+  ...
+# Subtest: unenrolled learner can ask about an offering even when paused or closed
+ok 684 - unenrolled learner can ask about an offering even when paused or closed
+  ---
+  duration_ms: 1.031192
+  type: 'test'
+  ...
+# Subtest: staff intake uses actual current staff scope rather than broad board access
+ok 685 - staff intake uses actual current staff scope rather than broad board access
+  ---
+  duration_ms: 0.868989
+  type: 'test'
+  ...
+# Subtest: owner and scoped facilitator queue reveals no message, resolution, email or private learning draft
+ok 686 - owner and scoped facilitator queue reveals no message, resolution, email or private learning draft
+  ---
+  duration_ms: 3.320224
+  type: 'test'
+  ...
+# Subtest: unrelated learners, other-cohort facilitators and assessors gain no support queue or body authority
+ok 687 - unrelated learners, other-cohort facilitators and assessors gain no support queue or body authority
+  ---
+  duration_ms: 0.850935
+  type: 'test'
+  ...
+# Subtest: sensitive categories route to owners even when they mention a cohort
+ok 688 - sensitive categories route to owners even when they mention a cohort
+  ---
+  duration_ms: 1.173332
+  type: 'test'
+  ...
+# Subtest: learning or content without a cohort needs owner handling
+ok 689 - learning or content without a cohort needs owner handling
+  ---
+  duration_ms: 0.33094
+  type: 'test'
+  ...
+# Subtest: self handling is forbidden and queue identifies absence of another eligible handler
+ok 690 - self handling is forbidden and queue identifies absence of another eligible handler
+  ---
+  duration_ms: 0.843282
+  type: 'test'
+  ...
+# Subtest: claim is exclusive, and queue authority alone cannot reply or resolve
+ok 691 - claim is exclusive, and queue authority alone cannot reply or resolve
+  ---
+  duration_ms: 1.011469
+  type: 'test'
+  ...
+# Subtest: reply and lifecycle preserve immutable messages, resolutions and historical actor attribution
+ok 692 - reply and lifecycle preserve immutable messages, resolutions and historical actor attribution
+  ---
+  duration_ms: 1.001521
+  type: 'test'
+  ...
+# Subtest: revoking handler membership immediately hides body and permits an independent replacement claim
+ok 693 - revoking handler membership immediately hides body and permits an independent replacement claim
+  ---
+  duration_ms: 0.661985
+  type: 'test'
+  ...
+# Subtest: handler scope loss and owner role loss remove effective assignment without erasing history
+ok 694 - handler scope loss and owner role loss remove effective assignment without erasing history
+  ---
+  duration_ms: 0.564299
+  type: 'test'
+  ...
+# Subtest: withdraw preserves own thread and forbids reopen or further replies
+ok 695 - withdraw preserves own thread and forbids reopen or further replies
+  ---
+  duration_ms: 0.495037
+  type: 'test'
+  ...
+# Subtest: removed requester retains only their own historical thread and cannot write
+ok 696 - removed requester retains only their own historical thread and cannot write
+  ---
+  duration_ms: 0.443502
+  type: 'test'
+  ...
+# Subtest: five-open and 100-total case bounds are checked before state changes
+ok 697 - five-open and 100-total case bounds are checked before state changes
+  ---
+  duration_ms: 4.549034
+  type: 'test'
+  ...
+# Subtest: message bounds and oversized UTF-8 payload reject atomically without discarding old evidence
+ok 698 - message bounds and oversized UTF-8 payload reject atomically without discarding old evidence
+  ---
+  duration_ms: 5.306995
+  type: 'test'
+  ...
+# Subtest: all command payloads reject injected actor, scope, assignment or time fields
+ok 699 - all command payloads reject injected actor, scope, assignment or time fields
+  ---
+  duration_ms: 1.0498
+  type: 'test'
+  ...
+# Subtest: requester and handler are independent from support owner/facilitator privileges
+ok 700 - requester and handler are independent from support owner/facilitator privileges
+  ---
+  duration_ms: 0.481892
+  type: 'test'
+  ...
+# Subtest: queue staff cannot withdraw or reopen another requester thread
+ok 701 - queue staff cannot withdraw or reopen another requester thread
+  ---
+  duration_ms: 0.423232
+  type: 'test'
+  ...
+# Subtest: reconciliation prevents private-thread assignment resurrection after authority restoration
+ok 702 - reconciliation prevents private-thread assignment resurrection after authority restoration
+  ---
+  duration_ms: 0.575767
+  type: 'test'
+  ...
+# Subtest: invitation binds trusted account email and refuses expiry, role injection and removed access
+ok 703 - invitation binds trusted account email and refuses expiry, role injection and removed access
+  ---
+  duration_ms: 18.007757
+  type: 'test'
+  ...
+# Subtest: removed invitation issuer invalidates outstanding grants
+ok 704 - removed invitation issuer invalidates outstanding grants
+  ---
+  duration_ms: 4.954456
+  type: 'test'
+  ...
+# Subtest: last owner, invalid roles and cross-cohort staff scopes cannot bypass rules
+ok 705 - last owner, invalid roles and cross-cohort staff scopes cannot bypass rules
+  ---
+  duration_ms: 4.187055
+  type: 'test'
+  ...
+# Subtest: capacity counts enrollment and withdrawal releases a place
+ok 706 - capacity counts enrollment and withdrawal releases a place
+  ---
+  duration_ms: 10.334737
+  type: 'test'
+  ...
+# Subtest: closed cohorts allow existing learning; paused cohorts block learning but permit timely appeals
+ok 707 - closed cohorts allow existing learning; paused cohorts block learning but permit timely appeals
+  ---
+  duration_ms: 11.30265
+  type: 'test'
+  ...
+# Subtest: admin and facilitator projections exclude private evidence; assigned assessor gets only submitted snapshot
+ok 708 - admin and facilitator projections exclude private evidence; assigned assessor gets only submitted snapshot
+  ---
+  duration_ms: 9.939987
+  type: 'test'
+  ...
+# Subtest: self-review, unassigned review and client sample actor never confer authority
+ok 709 - self-review, unassigned review and client sample actor never confer authority
+  ---
+  duration_ms: 7.11364
+  type: 'test'
+  ...
+# Subtest: appeals require assigned independence against immutable original assessor
+ok 710 - appeals require assigned independence against immutable original assessor
+  ---
+  duration_ms: 9.358454
+  type: 'test'
+  ...
+# Subtest: passing retry records its current assessor instead of an older failed appeal
+ok 711 - passing retry records its current assessor instead of an older failed appeal
+  ---
+  duration_ms: 11.07313
+  type: 'test'
+  ...
+# Subtest: removing staff permission clears assignments and blocks stale finalization
+ok 712 - removing staff permission clears assignments and blocks stale finalization
+  ---
+  duration_ms: 7.56804
+  type: 'test'
+  ...
+# Subtest: cohort posts protect author email and report identity, and moderation preserves reasoned history
+ok 713 - cohort posts protect author email and report identity, and moderation preserves reasoned history
+  ---
+  duration_ms: 5.333951
+  type: 'test'
+  ...
+# Subtest: removed member retains own history, receives no cohort discussion and cannot mutate
+ok 714 - removed member retains own history, receives no cohort discussion and cannot mutate
+  ---
+  duration_ms: 7.445288
+  type: 'test'
+  ...
+# Subtest: an invitation token cannot be reused within a workspace
+ok 715 - an invitation token cannot be reused within a workspace
+  ---
+  duration_ms: 3.26524
+  type: 'test'
+  ...
+# Subtest: a moderator cannot read or moderate another existing cohort without its scope
+ok 716 - a moderator cannot read or moderate another existing cohort without its scope
+  ---
+  duration_ms: 4.521162
+  type: 'test'
+  ...
+# (node:3523) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: empty own plan gives distinct zero counts and saved timezone without mutation
+ok 717 - empty own plan gives distinct zero counts and saved timezone without mutation
+  ---
+  duration_ms: 17.284798
+  type: 'test'
+  ...
+# Subtest: actual planning commands retain permitted long linked titles without suppressing the recap
+ok 718 - actual planning commands retain permitted long linked titles without suppressing the recap
+  ---
+  duration_ms: 4.975203
+  type: 'test'
+  ...
+# Subtest: oversized private practice and excessive linked titles remain unavailable for review
+ok 719 - oversized private practice and excessive linked titles remain unavailable for review
+  ---
+  duration_ms: 2.081281
+  type: 'test'
+  ...
+# Subtest: weekly intention follows due dates and includes completed scheduled items but excludes skipped
+ok 720 - weekly intention follows due dates and includes completed scheduled items but excludes skipped
+  ---
+  duration_ms: 2.848692
+  type: 'test'
+  ...
+# Subtest: self-reported practice completion never becomes saved course evidence
+ok 721 - self-reported practice completion never becomes saved course evidence
+  ---
+  duration_ms: 2.575093
+  type: 'test'
+  ...
+# Subtest: actual projected lesson/submission/reflection actions remain distinct from practice
+ok 722 - actual projected lesson/submission/reflection actions remain distinct from practice
+  ---
+  duration_ms: 2.75
+  type: 'test'
+  ...
+# Subtest: forged stored linked done flag is ignored by actual existing projection
+ok 723 - forged stored linked done flag is ignored by actual existing projection
+  ---
+  duration_ms: 1.055391
+  type: 'test'
+  ...
+# Subtest: planned dates and completion dates are independent across week boundaries
+ok 724 - planned dates and completion dates are independent across week boundaries
+  ---
+  duration_ms: 1.483497
+  type: 'test'
+  ...
+# Subtest: saved timezone places Sunday UTC evidence into Monday local week
+ok 725 - saved timezone places Sunday UTC evidence into Monday local week
+  ---
+  duration_ms: 2.796329
+  type: 'test'
+  ...
+# Subtest: DST repeated hour does not invent duplicate practice or elapsed time
+ok 726 - DST repeated hour does not invent duplicate practice or elapsed time
+  ---
+  duration_ms: 2.161292
+  type: 'test'
+  ...
+# Subtest: blocked, undated and earlier open attention counts overlap explicitly
+ok 727 - blocked, undated and earlier open attention counts overlap explicitly
+  ---
+  duration_ms: 2.436681
+  type: 'test'
+  ...
+# Subtest: unknown exact pin never resolves a newer title but retains existing saved evidence
+ok 728 - unknown exact pin never resolves a newer title but retains existing saved evidence
+  ---
+  duration_ms: 1.25607
+  type: 'test'
+  ...
+# Subtest: inactive and removed learner role preserve history without relaxing current blocks
+ok 729 - inactive and removed learner role preserve history without relaxing current blocks
+  ---
+  duration_ms: 1.73558
+  type: 'test'
+  ...
+# Subtest: paused lesson and open appeal practical keep existing blocked gates
+ok 730 - paused lesson and open appeal practical keep existing blocked gates
+  ---
+  duration_ms: 1.778429
+  type: 'test'
+  ...
+# Subtest: missing and future completion times are separate and cannot inflate this week
+ok 731 - missing and future completion times are separate and cannot inflate this week
+  ---
+  duration_ms: 0.971919
+  type: 'test'
+  ...
+# Subtest: six-row attention preview keeps full counts and existing source is unchanged
+ok 732 - six-row attention preview keeps full counts and existing source is unchanged
+  ---
+  duration_ms: 0.964674
+  type: 'test'
+  ...
+# Subtest: malformed week/timezone/task/date/duplicate/oversized projection is refused
+ok 733 - malformed week/timezone/task/date/duplicate/oversized projection is refused
+  ---
+  duration_ms: 3.161364
+  type: 'test'
+  ...
+# Subtest: recap strictly omits free text/evidence/contact/account/workspace/task/pin fields
+ok 734 - recap strictly omits free text/evidence/contact/account/workspace/task/pin fields
+  ---
+  duration_ms: 1.383552
+  type: 'test'
+  ...
+# Subtest: recap is detached and cannot mutate saved own plan through returned fields
+ok 735 - recap is detached and cannot mutate saved own plan through returned fields
+  ---
+  duration_ms: 0.892222
+  type: 'test'
+  ...
+# Subtest: invalid export count/budget/evidence total cannot produce a fabricated recap
+ok 736 - invalid export count/budget/evidence total cannot produce a fabricated recap
+  ---
+  duration_ms: 3.965657
+  type: 'test'
+  ...
+# Subtest: printable HTML contains only aggregate whitelist and no scripts/external assets
+ok 737 - printable HTML contains only aggregate whitelist and no scripts/external assets
+  ---
+  duration_ms: 1.305684
+  type: 'test'
+  ...
+# Subtest: recap carries no saved permission, command, network or qualification fields
+ok 738 - recap carries no saved permission, command, network or qualification fields
+  ---
+  duration_ms: 1.045859
+  type: 'test'
+  ...
+1..738
+# tests 738
+# suites 0
+# pass 738
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 32399.116727

@@ -1,0 +1,271 @@
+TAP version 13
+# Subtest: actual engine newest-first followups retain first qualifying completion after second save
+not ok 1 - actual engine newest-first followups retain first qualifying completion after second save
+  ---
+  duration_ms: 27.934681
+  type: 'test'
+  location: '/home/claude/work/aplyd-academy/tests/reflection-completion-qa/reflection-completion.test.mjs:12:44'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly deep-equal:
+    + actual - expected
+    
+    + '2026-10-12T10:00:00.000Z'
+    - '2026-10-06T09:00:00.000Z'
+               ^
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: '2026-10-06T09:00:00.000Z'
+  actual: '2026-10-12T10:00:00.000Z'
+  operator: 'deepStrictEqual'
+  stack: |-
+    eq (file:///home/claude/work/aplyd-academy/tests/reflection-completion-qa/reflection-completion.test.mjs:13:42)
+    file:///home/claude/work/aplyd-academy/tests/reflection-completion-qa/reflection-completion.test.mjs:19:47
+    TestContext.<anonymous> (file:///home/claude/work/aplyd-academy/tests/reflection-completion-qa/reflection-completion.test.mjs:12:63)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.start (node:internal/test_runner/test:944:17)
+    startSubtestAfterBootstrap (node:internal/test_runner/harness:296:17)
+  ...
+# Subtest: actual weekly recap keeps old task in original week and never recounts it for later reflection
+not ok 2 - actual weekly recap keeps old task in original week and never recounts it for later reflection
+  ---
+  duration_ms: 4.027134
+  type: 'test'
+  location: '/home/claude/work/aplyd-academy/tests/reflection-completion-qa/reflection-completion.test.mjs:12:44'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly deep-equal:
+    
+    0 !== 1
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 1
+  actual: 0
+  operator: 'deepStrictEqual'
+  stack: |-
+    eq (file:///home/claude/work/aplyd-academy/tests/reflection-completion-qa/reflection-completion.test.mjs:13:42)
+    file:///home/claude/work/aplyd-academy/tests/reflection-completion-qa/reflection-completion.test.mjs:24:2
+    TestContext.<anonymous> (file:///home/claude/work/aplyd-academy/tests/reflection-completion-qa/reflection-completion.test.mjs:12:63)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+# Subtest: earliest qualifying date is independent of history ordering and derivation leaves inputs unchanged
+not ok 3 - earliest qualifying date is independent of history ordering and derivation leaves inputs unchanged
+  ---
+  duration_ms: 1.346249
+  type: 'test'
+  location: '/home/claude/work/aplyd-academy/tests/reflection-completion-qa/reflection-completion.test.mjs:12:44'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly deep-equal:
+    + actual - expected
+    
+    + '2026-10-12T10:00:00.000Z'
+    - '2026-10-06T09:00:00.000Z'
+               ^
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: '2026-10-06T09:00:00.000Z'
+  actual: '2026-10-12T10:00:00.000Z'
+  operator: 'deepStrictEqual'
+  stack: |-
+    eq (file:///home/claude/work/aplyd-academy/tests/reflection-completion-qa/reflection-completion.test.mjs:13:42)
+    file:///home/claude/work/aplyd-academy/tests/reflection-completion-qa/reflection-completion.test.mjs:32:65
+    TestContext.<anonymous> (file:///home/claude/work/aplyd-academy/tests/reflection-completion-qa/reflection-completion.test.mjs:12:63)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: same-enrollment reflection before task creation is excluded
+ok 4 - same-enrollment reflection before task creation is excluded
+  ---
+  duration_ms: 1.119913
+  type: 'test'
+  ...
+# Subtest: actual separately enrolled/reviewed pathway reflection cannot move exact own task date
+not ok 5 - actual separately enrolled/reviewed pathway reflection cannot move exact own task date
+  ---
+  duration_ms: 2.390389
+  type: 'test'
+  location: '/home/claude/work/aplyd-academy/tests/reflection-completion-qa/reflection-completion.test.mjs:12:44'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly deep-equal:
+    + actual - expected
+    
+    + '2026-10-12T10:00:00.000Z'
+    - '2026-10-06T09:00:00.000Z'
+               ^
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: '2026-10-06T09:00:00.000Z'
+  actual: '2026-10-12T10:00:00.000Z'
+  operator: 'deepStrictEqual'
+  stack: |-
+    eq (file:///home/claude/work/aplyd-academy/tests/reflection-completion-qa/reflection-completion.test.mjs:13:42)
+    file:///home/claude/work/aplyd-academy/tests/reflection-completion-qa/reflection-completion.test.mjs:42:80
+    TestContext.<anonymous> (file:///home/claude/work/aplyd-academy/tests/reflection-completion-qa/reflection-completion.test.mjs:12:63)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: explicit new later plan item binds to the first action after its own creation
+not ok 6 - explicit new later plan item binds to the first action after its own creation
+  ---
+  duration_ms: 1.556726
+  type: 'test'
+  location: '/home/claude/work/aplyd-academy/tests/reflection-completion-qa/reflection-completion.test.mjs:12:44'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly deep-equal:
+    + actual - expected
+    
+    + '2026-10-12T10:00:00.000Z'
+    - '2026-10-06T09:00:00.000Z'
+               ^
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: '2026-10-06T09:00:00.000Z'
+  actual: '2026-10-12T10:00:00.000Z'
+  operator: 'deepStrictEqual'
+  stack: |-
+    eq (file:///home/claude/work/aplyd-academy/tests/reflection-completion-qa/reflection-completion.test.mjs:13:42)
+    file:///home/claude/work/aplyd-academy/tests/reflection-completion-qa/reflection-completion.test.mjs:47:2
+    TestContext.<anonymous> (file:///home/claude/work/aplyd-academy/tests/reflection-completion-qa/reflection-completion.test.mjs:12:63)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: skipped item remains skipped despite legitimate later reflections and contributes no completion
+ok 7 - skipped item remains skipped despite legitimate later reflections and contributes no completion
+  ---
+  duration_ms: 2.375576
+  type: 'test'
+  ...
+# Subtest: retained completed history and existing blocked reasons survive suspension/authority/lifecycle changes
+not ok 8 - retained completed history and existing blocked reasons survive suspension/authority/lifecycle changes
+  ---
+  duration_ms: 1.225872
+  type: 'test'
+  location: '/home/claude/work/aplyd-academy/tests/reflection-completion-qa/reflection-completion.test.mjs:12:44'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly deep-equal:
+    + actual - expected
+    
+    + '2026-10-12T10:00:00.000Z'
+    - '2026-10-06T09:00:00.000Z'
+               ^
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: '2026-10-06T09:00:00.000Z'
+  actual: '2026-10-12T10:00:00.000Z'
+  operator: 'deepStrictEqual'
+  stack: |-
+    eq (file:///home/claude/work/aplyd-academy/tests/reflection-completion-qa/reflection-completion.test.mjs:13:42)
+    file:///home/claude/work/aplyd-academy/tests/reflection-completion-qa/reflection-completion.test.mjs:56:2
+    TestContext.<anonymous> (file:///home/claude/work/aplyd-academy/tests/reflection-completion-qa/reflection-completion.test.mjs:12:63)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: no match/malformed dates never fabricate completion; future-only history keeps existing recap diagnostic
+ok 9 - no match/malformed dates never fabricate completion; future-only history keeps existing recap diagnostic
+  ---
+  duration_ms: 1.942525
+  type: 'test'
+  ...
+# Subtest: exact creation instant qualifies; one millisecond earlier does not; ties retain all raw history
+not ok 10 - exact creation instant qualifies; one millisecond earlier does not; ties retain all raw history
+  ---
+  duration_ms: 1.245799
+  type: 'test'
+  location: '/home/claude/work/aplyd-academy/tests/reflection-completion-qa/reflection-completion.test.mjs:12:44'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly deep-equal:
+    + actual - expected
+    
+    + '2026-10-06T09:00:00.000Z'
+    - '2026-10-05T08:00:00.000Z'
+                ^
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: '2026-10-05T08:00:00.000Z'
+  actual: '2026-10-06T09:00:00.000Z'
+  operator: 'deepStrictEqual'
+  stack: |-
+    eq (file:///home/claude/work/aplyd-academy/tests/reflection-completion-qa/reflection-completion.test.mjs:13:42)
+    file:///home/claude/work/aplyd-academy/tests/reflection-completion-qa/reflection-completion.test.mjs:71:2
+    TestContext.<anonymous> (file:///home/claude/work/aplyd-academy/tests/reflection-completion-qa/reflection-completion.test.mjs:12:63)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: completed exact history does not require a newer pin and private reflection bodies stay out of recap exports
+not ok 11 - completed exact history does not require a newer pin and private reflection bodies stay out of recap exports
+  ---
+  duration_ms: 1.196485
+  type: 'test'
+  location: '/home/claude/work/aplyd-academy/tests/reflection-completion-qa/reflection-completion.test.mjs:12:44'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly deep-equal:
+    + actual - expected
+    
+    + '2026-10-12T10:00:00.000Z'
+    - '2026-10-06T09:00:00.000Z'
+               ^
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: '2026-10-06T09:00:00.000Z'
+  actual: '2026-10-12T10:00:00.000Z'
+  operator: 'deepStrictEqual'
+  stack: |-
+    eq (file:///home/claude/work/aplyd-academy/tests/reflection-completion-qa/reflection-completion.test.mjs:13:42)
+    file:///home/claude/work/aplyd-academy/tests/reflection-completion-qa/reflection-completion.test.mjs:76:2
+    TestContext.<anonymous> (file:///home/claude/work/aplyd-academy/tests/reflection-completion-qa/reflection-completion.test.mjs:12:63)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+1..11
+# tests 11
+# suites 0
+# pass 3
+# fail 8
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 159.781697
