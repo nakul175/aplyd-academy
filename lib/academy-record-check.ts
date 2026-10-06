@@ -26,7 +26,7 @@ export async function snapshotChecksum(value:unknown):Promise<string>{
  return [...new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(canonical(value))))].map(x=>x.toString(16).padStart(2,'0')).join('');
 }
 export type DecisionMetadata=Readonly<{decisionId:string;kind:'assessment'|'appeal';attemptId:string;appealId:string|null;actorRef:string;actorDisplay:string;decidedAt:string;mode:string;passed:boolean}>;
-const decisionKeys=['id','score','passed','scores','gates','notes','feedback','actor','actorName','decidedAt','mode'];
+const decisionKeys=['id','score','passed','scores','gates','notes','feedback','actor','actorName','decidedAt','mode','method','accommodationsConsidered'];
 function decision(d:any,kind:'assessment'|'appeal',attemptId:string,appealId:string|null,program:any,context:RecordCheckContext):DecisionMetadata{
  if(!plain(d)||Object.keys(d).some(k=>!decisionKeys.includes(k))||!refString(d.id)||!bounded(d.actor)||!iso(d.decidedAt)||Date.parse(d.decidedAt)>Date.parse(context.checkedAt)||typeof d.passed!=='boolean'||!Number.isFinite(d.score)||!Array.isArray(d.notes)||d.notes.length!==program.practicalAssessment.rubric.length||d.notes.some((n:any)=>typeof n!=='string'||n.trim().length<10||n.length>3000)||typeof d.feedback!=='string'||d.feedback.trim().length<30||d.feedback.length>3000||(d.actorName!==undefined&&!bounded(d.actorName,80)))throw new RecordCheckError('The saved decision metadata needs inspection.');
  let expected;try{expected=scoreDecision(program,d.scores,d.gates)}catch{throw new RecordCheckError('The saved decision does not match its exact rubric.')}
