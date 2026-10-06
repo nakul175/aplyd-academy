@@ -1,0 +1,855 @@
+{
+  "schemaVersion": "1.0",
+  "contentVersion": "0.2-review-draft-hi",
+  "product": "Aplyd Academy",
+  "status": "Hindi draft — machine-assisted, needs native review · Review draft: not approved sector training, accredited curriculum, or professional advice",
+  "language": "hi",
+  "audience": "Adult learners",
+  "editionNotes": [
+    "Hindi draft — machine-assisted, needs native review. Edition 0.2-review-draft (English) is the source. Only the farm pathway exists in Hindi.",
+    "Hindi draft — machine-assisted, needs native review. हिंदी मसौदा: मशीन की मदद से तैयार, किसी मूल हिंदी भाषी की समीक्षा बाकी है। अभ्यास की स्रोत पर्ची, वैकल्पिक AI निर्देश और व्यावहारिक मूल्यांकन इस मसौदे में अंग्रेज़ी में हैं।",
+    "A learner who already started this pathway in another edition stays on that edition. Hindi is never substituted silently."
+  ],
+  "designNotes": [
+    "All people, orders, records, documents, policies and AI outputs in this file are fictional teaching fixtures.",
+    "Supplied AI drafts allow the whole journey to work without an external AI account or API call.",
+    "An approved external AI tool may optionally produce another draft using the synthetic packet only. Learners must not enter real confidential material or credentials.",
+    "Quiz feedback supports learning. A quiz score alone must not issue a competency credential.",
+    "Practical assessment requires an assigned human reviewer. Rubric weights and critical gates are proposed, published training standards for this draft.",
+    "A facilitator may read lesson text and capture an oral response with learner confirmation when an approved accommodation exists. Assistance must be recorded and must not supply the judgment answer."
+  ],
+  "assessmentPolicy": {
+    "scoreScale": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "weightedScoreFormula": "Sum of criterion weight multiplied by criterion score divided by 4; maximum 100",
+    "minimumWeightedScore": 70,
+    "passingRule": "Weighted score is at least 70 AND every declared critical gate is met. A critical failure cannot be averaged away.",
+    "decisionAuthority": "Assigned independent human assessor; no self-assessment or autonomous AI credential decision",
+    "feedbackRule": "Record score, evidence reference, critical-gate decision and actionable feedback for each criterion.",
+    "retryRule": "Retries and deadlines must be published by the offering before enrollment. Do not infer a fixed retry allowance from this seed file.",
+    "appealRule": "A learner may request a reasoned review under the offering's published appeal policy. The appeal reviewer must be independent of the original decision."
+  },
+  "pathways": [
+    {
+      "id": "farmer-work-records",
+      "title": "खेती के रिकॉर्ड और AI से बेहतर सवाल",
+      "ecosystem": "Agri Saha",
+      "role": "Farmer",
+      "level": "Foundation to applied",
+      "summary": "खेती के काम का रिकॉर्ड व्यवस्थित करें, AI के बनाए सारांश की जाँच करें और कृषि विशेषज्ञ के लिए उपयोगी सवाल तैयार करें।",
+      "promise": "आप खेती के एक सरल रिकॉर्ड से जाँचा हुआ सारांश बना सकेंगे और बता सकेंगे कि अब भी किस बात पर विशेषज्ञ की राय चाहिए।",
+      "estimatedMinutes": 170,
+      "prerequisites": [
+        "उदाहरण की रुपये वाली रकमें समझना, ज़रूरत हो तो मदद के साथ",
+        "कोई सरल फ़ॉर्म इस्तेमाल करना, या सहायक की तय मदद लेना"
+      ],
+      "outcomes": [
+        "दोहराए गए लेन-देन और अलग खर्च में फ़र्क करना",
+        "कुल रकम को स्रोत रिकॉर्ड से मिलाना",
+        "AI के बेबुनियाद दावे पहचानना",
+        "विशेषज्ञ के लिए साफ़ सवाल-पत्र बनाना",
+        "निजी या व्यावसायिक रूप से संवेदनशील रिकॉर्ड को बिना मंज़ूरी वाले औज़ारों से दूर रखना"
+      ],
+      "credentialClaim": "Demonstrated farm-record organization, information checking and expert-question preparation using synthetic training data",
+      "credentialExclusions": [
+        "No agricultural professional qualification",
+        "No certification to prescribe farm inputs or make agronomic decisions"
+      ],
+      "sourceNotice": "Synthetic farm records supplied within each activity are the only factual source for this exercise.",
+      "lessons": [
+        {
+          "id": "rai-01",
+          "module": "responsible-ai-foundation",
+          "title": "सटीकता और सीमाएँ: AI भरोसे से बोलकर भी ग़लत हो सकता है",
+          "estimatedMinutes": 15,
+          "objective": "पहचानें कि AI का जवाब सुंदर लगकर भी ग़लत हो सकता है, और इस्तेमाल से पहले हर ज़रूरी दावे को स्रोत से जाँचें।",
+          "lessonText": "AI औज़ार ग़लत जवाब भी बहुत सहज भाषा में लिख देते हैं। वे कोई संख्या, नियम, तारीख़ या स्रोत गढ़ सकते हैं और फिर भी पूरे भरोसे से बोलते हैं। औज़ार आपका खेत, आपकी दुकान या आपका दफ़्तर नहीं जानता। वह सिर्फ़ उन शब्दों से काम करता है जो उसे दिए गए हैं। हर AI जवाब को मसौदा मानें। हर ज़रूरी बात को ऐसे स्रोत से जाँचें जिस पर आपको भरोसा है, जैसे अपना रिकॉर्ड, कोई लिखित नियम या कोई योग्य व्यक्ति। अगर किसी बात का समर्थन न मिले, तो उसे अजाँची लिखें और जो कुछ आप आगे भेजते हैं उसमें न रखें। गणित खुद जाँचें। पूछें कि औज़ार को क्या पता ही नहीं हो सकता था। जो साफ़ कहे कि क्या पता नहीं है, वह छोटा और ईमानदार जवाब अंदाज़े वाले लंबे जवाब से ज़्यादा काम का है।",
+          "steps": [
+            "दिया गया AI मसौदा पढ़ें",
+            "हर तथ्य वाले दावे को रेखांकित करें",
+            "हर दावे के लिए स्रोत पर्ची में समर्थन वाली पंक्ति खोजें",
+            "हर दावे को समर्थित, असमर्थित या अज्ञात चिह्नित करें",
+            "मसौदे को दोबारा लिखें और सिर्फ़ समर्थित दावे रखें"
+          ],
+          "exercise": {
+            "title": "Check a confident AI note against its source",
+            "sourcePacket": [
+              {
+                "sourceId": "F1",
+                "fact": "Fictional price list: seed packet INR 120; fertiliser sack INR 900."
+              },
+              {
+                "sourceId": "F2",
+                "fact": "No information about rainfall, soil or expected yield is supplied in this exercise."
+              }
+            ],
+            "suppliedAiDraft": "Seed costs INR 120 and fertiliser costs INR 900, so the total is INR 1,020. Heavy rain is coming this month, so buy extra fertiliser now.",
+            "optionalAiPrompt": "Using only the supplied fictional price list, write a two-line cost note. Say what is not known. Do not predict weather or yield.",
+            "learnerTask": "Mark each statement in the draft as supported, unsupported or unknown, then write a corrected two-line note.",
+            "expectedEvidence": [
+              "Cost statements marked supported by source F1",
+              "Rain and purchase advice marked unsupported because F2 gives no rainfall information",
+              "Corrected note that states INR 1,020 and names what is not known"
+            ],
+            "assessorReference": "The two prices and the total INR 1,020 (120 + 900) are supported by F1. The heavy-rain claim and the advice to buy extra fertiliser are unsupported, because F2 states that no weather, soil or yield information is supplied. A good answer keeps the supported facts and says what is not known."
+          },
+          "quiz": [
+            {
+              "id": "rai-01-q1",
+              "question": "AI का जवाब बहुत पक्के भरोसे वाला लगता है। इससे यह पता चलता है कि वह सही है?",
+              "options": [
+                "शायद सही है, क्योंकि वह इतने भरोसे से लिखा है",
+                "अपने आप में कुछ नहीं: सहज भाषा सबूत नहीं है, इसलिए जाँचें",
+                "अगर उसमें संख्याएँ हैं तो वह सही है",
+                "अगर वह लंबा है तो वह सही है"
+              ],
+              "correctOptionIndex": 1,
+              "explanation": "भरोसे वाली भाषा सबूत नहीं है। AI गढ़ी हुई बातें भी उसी लहजे में कह सकता है, इसलिए ज़रूरी दावों को स्रोत से जाँचना चाहिए।"
+            },
+            {
+              "id": "rai-01-q2",
+              "question": "स्रोत पर्ची में बारिश के बारे में कुछ नहीं है, पर AI का मसौदा तेज़ बारिश की भविष्यवाणी करता है। आप क्या करें?",
+              "options": [
+                "उसे असमर्थित चिह्नित करें और जो आप साझा करते हैं उसमें न रखें",
+                "उसे रखें, क्योंकि AI औज़ार मौसम जानते हैं",
+                "भविष्यवाणी को और ज़ोरदार बना दें",
+                "उसे आधिकारिक पूर्वानुमान बताकर साझा करें"
+              ],
+              "correctOptionIndex": 0,
+              "explanation": "जिस दावे का स्रोत में समर्थन नहीं है वह असमर्थित है। उसे हटाएँ या साफ़ तौर पर अजाँचा लिखें।"
+            },
+            {
+              "id": "rai-01-q3",
+              "question": "AI औज़ार के निकाले हुए कुल की सबसे अच्छी जाँच कौन-सी है?",
+              "options": [
+                "अगर वह मोटे अक्षरों में है तो मान लें",
+                "औज़ार से पूछें कि क्या वह पक्का है",
+                "स्रोत की संख्याएँ खुद जोड़ें",
+                "उसे नज़दीकी दहाई पर पूरा कर दें"
+              ],
+              "correctOptionIndex": 2,
+              "explanation": "स्रोत की संख्याएँ खुद जोड़ना स्वतंत्र जाँच है। उसी औज़ार से पूछना कि वह पक्का है या नहीं, जाँच नहीं है।"
+            }
+          ],
+          "reflectionPrompt": "कोई ऐसा समय याद करें जब भरोसे से कही गई बात ग़लत निकली। कौन-सी जाँच उसे पकड़ लेती?",
+          "returnToWorkAction": "किसी अनुमत काम में AI का मसौदा इस्तेमाल करने से पहले हर ज़रूरी बात को समर्थित, असमर्थित या अज्ञात चिह्नित करें, और जिसका समर्थन न मिले उसे हटा दें।",
+          "summary": "AI भरोसे से बोलकर भी ग़लत हो सकता है। हर जवाब को मसौदा मानें। हर ज़रूरी दावे को भरोसेमंद स्रोत से जाँचें, संख्याएँ खुद जोड़ें, और जिसका समर्थन न मिले उसे छोड़ दें।",
+          "transcript": "पाठ: सटीकता और सीमाएँ: AI भरोसे से बोलकर भी ग़लत हो सकता है.\n\nउद्देश्य: पहचानें कि AI का जवाब सुंदर लगकर भी ग़लत हो सकता है, और इस्तेमाल से पहले हर ज़रूरी दावे को स्रोत से जाँचें।\n\nAI औज़ार ग़लत जवाब भी बहुत सहज भाषा में लिख देते हैं। वे कोई संख्या, नियम, तारीख़ या स्रोत गढ़ सकते हैं और फिर भी पूरे भरोसे से बोलते हैं। औज़ार आपका खेत, आपकी दुकान या आपका दफ़्तर नहीं जानता। वह सिर्फ़ उन शब्दों से काम करता है जो उसे दिए गए हैं। हर AI जवाब को मसौदा मानें। हर ज़रूरी बात को ऐसे स्रोत से जाँचें जिस पर आपको भरोसा है, जैसे अपना रिकॉर्ड, कोई लिखित नियम या कोई योग्य व्यक्ति। अगर किसी बात का समर्थन न मिले, तो उसे अजाँची लिखें और जो कुछ आप आगे भेजते हैं उसमें न रखें। गणित खुद जाँचें। पूछें कि औज़ार को क्या पता ही नहीं हो सकता था। जो साफ़ कहे कि क्या पता नहीं है, वह छोटा और ईमानदार जवाब अंदाज़े वाले लंबे जवाब से ज़्यादा काम का है।\n\nचरण: पहला चरण। दिया गया AI मसौदा पढ़ें. दूसरा चरण। हर तथ्य वाले दावे को रेखांकित करें. तीसरा चरण। हर दावे के लिए स्रोत पर्ची में समर्थन वाली पंक्ति खोजें. चौथा चरण। हर दावे को समर्थित, असमर्थित या अज्ञात चिह्नित करें. पाँचवाँ चरण। मसौदे को दोबारा लिखें और सिर्फ़ समर्थित दावे रखें.\n\nइस पर सोचें: कोई ऐसा समय याद करें जब भरोसे से कही गई बात ग़लत निकली। कौन-सी जाँच उसे पकड़ लेती?\n\nइसे सावधानी से काम में लाएँ: किसी अनुमत काम में AI का मसौदा इस्तेमाल करने से पहले हर ज़रूरी बात को समर्थित, असमर्थित या अज्ञात चिह्नित करें, और जिसका समर्थन न मिले उसे हटा दें।",
+          "audio": {
+            "status": "not-recorded",
+            "label": "Audio not recorded yet",
+            "note": "यह केवल एक खाली जगह है। इस पाठ की कोई ऑडियो फ़ाइल नहीं है। नीचे पूरा लिखित पाठ पढ़ें, या अपने फ़ोन की बोलकर सुनाने वाली सुविधा इस्तेमाल करें।"
+          }
+        },
+        {
+          "id": "rai-02",
+          "module": "responsible-ai-foundation",
+          "title": "निजता और मानवीय विवेक: क्या बाहर रहे और फ़ैसला कौन करे",
+          "estimatedMinutes": 15,
+          "objective": "निजी जानकारी को बिना मंज़ूरी वाले AI औज़ारों से दूर रखें और जो बात दूसरों को प्रभावित करे उसका फ़ैसला करने वाले ज़िम्मेदार व्यक्ति का नाम तय रखें।",
+          "lessonText": "कुछ जानकारी किसी AI औज़ार में तभी डालनी चाहिए जब आपके संगठन ने उस औज़ार को उसी काम के लिए मंज़ूर किया हो। इसमें नाम, फ़ोन नंबर, बैंक या पहचान की जानकारी, सही जगह का पता, स्वास्थ्य की जानकारी और वह सब आता है जो किसी ने आप पर भरोसा करके बताया हो। इस पाठ्यक्रम में आप सिर्फ़ काल्पनिक रिकॉर्ड इस्तेमाल करते हैं, इसलिए असली रिकॉर्ड की ज़रूरत नहीं पड़ती। दूसरा नियम फ़ैसलों के बारे में है। AI मसौदा बना सकता है, छाँट सकता है और सुझाव दे सकता है। जो बात किसी के पैसे, स्वास्थ्य, सुरक्षा, अधिकार या सेवाओं को प्रभावित करे, उसका फ़ैसला कोई ज़िम्मेदार व्यक्ति करता है। एक छोटा नोट रखें कि काम किसने जाँचा और क्या बदला। अगर आप पक्का नहीं जानते कि कोई काम AI के लिए उपयुक्त है, तो रुकें और आगे बढ़ने से पहले किसी पर्यवेक्षक या योग्य व्यक्ति से पूछें। आप वह काम हमेशा हाथ से भी कर सकते हैं।",
+          "steps": [
+            "तीन काल्पनिक काम-कार्ड पढ़ें",
+            "जो भी जानकारी निजी है उसे चिह्नित करें",
+            "तय करें कि किन कामों में AI मसौदे में मदद कर सकता है",
+            "तय करें कि किन कामों का फ़ैसला किसी व्यक्ति को करना है",
+            "एक वाक्य लिखें कि नतीजा कौन जाँचेगा"
+          ],
+          "exercise": {
+            "title": "Sort tasks by privacy and by who decides",
+            "sourcePacket": [
+              {
+                "sourceId": "P1",
+                "task": "Draft a polite reminder to pay a fictional small bill",
+                "contains": "No personal details"
+              },
+              {
+                "sourceId": "P2",
+                "task": "Decide whether a fictional neighbour qualifies for a support payment",
+                "contains": "Name, identity number and income of one person"
+              },
+              {
+                "sourceId": "P3",
+                "task": "Sort fictional meeting notes into groups",
+                "contains": "No personal details"
+              }
+            ],
+            "suppliedAiDraft": "All three tasks are fine to give to the AI tool. Paste the neighbour's name, identity number and income into it and let it decide who gets paid.",
+            "optionalAiPrompt": "Do not paste any real details. Ask the tool to explain in two lines why a fictional payment decision should stay with an accountable person.",
+            "learnerTask": "Identify the private details, explain why they stay out of the tool, and name who must make the payment decision.",
+            "expectedEvidence": [
+              "P2 identified as holding private details that stay out of an unapproved tool",
+              "P2 identified as a money decision that an accountable person must make",
+              "P1 and P3 identified as tasks AI may help with, with a person checking the result"
+            ],
+            "assessorReference": "P1 and P3 contain no private details and are low-stakes drafting or sorting tasks, so AI may help if a person checks the result. P2 holds personal and financial details and is a decision about a payment, so the details stay out of unapproved tools and an accountable person decides."
+          },
+          "quiz": [
+            {
+              "id": "rai-02-q1",
+              "question": "बिना मंज़ूरी वाले AI औज़ार से कौन-सी जानकारी दूर रहनी चाहिए?",
+              "options": [
+                "इस पाठ्यक्रम की काल्पनिक मूल्य सूची",
+                "किसी ग्राहक का फ़ोन नंबर और बैंक की जानकारी",
+                "तालिका का रूप कैसे बनाएँ, इस बारे में एक आम सवाल",
+                "एक गढ़ा हुआ उदाहरण वाक्य"
+              ],
+              "correctOptionIndex": 1,
+              "explanation": "फ़ोन नंबर और बैंक की जानकारी निजी है। जब तक आपके संगठन ने उस औज़ार को उस काम के लिए मंज़ूर न किया हो, इन्हें उसमें न डालें।"
+            },
+            {
+              "id": "rai-02-q2",
+              "question": "किसी को भुगतान या सेवा मिलेगी या नहीं, यह कौन तय करे?",
+              "options": [
+                "AI औज़ार, क्योंकि वह तेज़ है",
+                "जिसने अनुरोध टाइप किया",
+                "कोई ज़िम्मेदार व्यक्ति, जो AI मसौदे को सिर्फ़ एक इनपुट की तरह ले सकता है",
+                "कोई नहीं, औज़ार नियम अपने-आप लागू कर देता है"
+              ],
+              "correctOptionIndex": 2,
+              "explanation": "जो फ़ैसले किसी के पैसे, अधिकार या सेवाओं पर असर डालते हैं वे ज़िम्मेदार व्यक्ति के होते हैं। AI का मसौदा एक इनपुट हो सकता है, फ़ैसला करने वाला नहीं।"
+            },
+            {
+              "id": "rai-02-q3",
+              "question": "आपको पक्का नहीं पता कि कोई काम AI के लिए उपयुक्त है या नहीं। सबसे अच्छा अगला कदम क्या है?",
+              "options": [
+                "रुकें और किसी पर्यवेक्षक या योग्य व्यक्ति से पूछें",
+                "आगे बढ़ें और गड़बड़ी बाद में ठीक करें",
+                "AI औज़ार से ही काम को मंज़ूरी दिलवाएँ",
+                "परखने के लिए असली रिकॉर्ड डालकर देखें"
+              ],
+              "correctOptionIndex": 0,
+              "explanation": "जब उपयुक्तता साफ़ न हो तो रुककर पूछें। इस बीच काम हाथ से किया जा सकता है।"
+            }
+          ],
+          "reflectionPrompt": "आपके अपने काम की कौन-सी जानकारी आप कभी बिना मंज़ूरी वाले औज़ार में नहीं डालेंगे, और शक होने पर किससे पूछेंगे?",
+          "returnToWorkAction": "अपने काम की तीन तरह की निजी जानकारी लिखें जो AI औज़ारों से दूर रहेगी, और उस व्यक्ति का नाम लिखें जिससे आप तब पूछेंगे जब कोई काम साफ़ न हो।",
+          "summary": "जिस AI औज़ार को आपके संगठन ने मंज़ूर नहीं किया, उसमें निजी जानकारी न डालें। AI मसौदा बना सकता है और छाँट सकता है, पर पैसे, स्वास्थ्य, सुरक्षा, अधिकार या सेवाओं का फ़ैसला ज़िम्मेदार व्यक्ति करता है। शक हो तो रुककर पूछें।",
+          "transcript": "पाठ: निजता और मानवीय विवेक: क्या बाहर रहे और फ़ैसला कौन करे.\n\nउद्देश्य: निजी जानकारी को बिना मंज़ूरी वाले AI औज़ारों से दूर रखें और जो बात दूसरों को प्रभावित करे उसका फ़ैसला करने वाले ज़िम्मेदार व्यक्ति का नाम तय रखें।\n\nकुछ जानकारी किसी AI औज़ार में तभी डालनी चाहिए जब आपके संगठन ने उस औज़ार को उसी काम के लिए मंज़ूर किया हो। इसमें नाम, फ़ोन नंबर, बैंक या पहचान की जानकारी, सही जगह का पता, स्वास्थ्य की जानकारी और वह सब आता है जो किसी ने आप पर भरोसा करके बताया हो। इस पाठ्यक्रम में आप सिर्फ़ काल्पनिक रिकॉर्ड इस्तेमाल करते हैं, इसलिए असली रिकॉर्ड की ज़रूरत नहीं पड़ती। दूसरा नियम फ़ैसलों के बारे में है। AI मसौदा बना सकता है, छाँट सकता है और सुझाव दे सकता है। जो बात किसी के पैसे, स्वास्थ्य, सुरक्षा, अधिकार या सेवाओं को प्रभावित करे, उसका फ़ैसला कोई ज़िम्मेदार व्यक्ति करता है। एक छोटा नोट रखें कि काम किसने जाँचा और क्या बदला। अगर आप पक्का नहीं जानते कि कोई काम AI के लिए उपयुक्त है, तो रुकें और आगे बढ़ने से पहले किसी पर्यवेक्षक या योग्य व्यक्ति से पूछें। आप वह काम हमेशा हाथ से भी कर सकते हैं।\n\nचरण: पहला चरण। तीन काल्पनिक काम-कार्ड पढ़ें. दूसरा चरण। जो भी जानकारी निजी है उसे चिह्नित करें. तीसरा चरण। तय करें कि किन कामों में AI मसौदे में मदद कर सकता है. चौथा चरण। तय करें कि किन कामों का फ़ैसला किसी व्यक्ति को करना है. पाँचवाँ चरण। एक वाक्य लिखें कि नतीजा कौन जाँचेगा.\n\nइस पर सोचें: आपके अपने काम की कौन-सी जानकारी आप कभी बिना मंज़ूरी वाले औज़ार में नहीं डालेंगे, और शक होने पर किससे पूछेंगे?\n\nइसे सावधानी से काम में लाएँ: अपने काम की तीन तरह की निजी जानकारी लिखें जो AI औज़ारों से दूर रहेगी, और उस व्यक्ति का नाम लिखें जिससे आप तब पूछेंगे जब कोई काम साफ़ न हो।",
+          "audio": {
+            "status": "not-recorded",
+            "label": "Audio not recorded yet",
+            "note": "यह केवल एक खाली जगह है। इस पाठ की कोई ऑडियो फ़ाइल नहीं है। नीचे पूरा लिखित पाठ पढ़ें, या अपने फ़ोन की बोलकर सुनाने वाली सुविधा इस्तेमाल करें।"
+          }
+        },
+        {
+          "id": "farm-01",
+          "module": "pathway-core",
+          "title": "काम का उपयोगी रिकॉर्ड बनाएँ",
+          "estimatedMinutes": 25,
+          "objective": "एक सुसंगत रिकॉर्ड बनाएँ और कुल निकालने से पहले दोहराई गई प्रविष्टि की जाँच करें।",
+          "lessonText": "एक अच्छा रिकॉर्ड यह अलग रखता है कि क्या हुआ और आप उसका क्या मतलब निकालते हैं। तारीख, काम, लेन-देन का संदर्भ, रकम और ज़रूरत हो तो इकाई लिखें। एक पंक्ति दोहराई हुई हो सकती है, लेकिन दो मिलते-जुलते खर्च असली भी हो सकते हैं। कुछ भी हटाने से पहले संदर्भ या मूल रसीद देखें। इस अभ्यास में स्रोत पर्ची साफ़ कहती है कि T02 दो बार नक़ल हो गया है और वह परिवहन का एक ही भुगतान है। इस सुधार का नोट रखें। औज़ार के दिए कुल पर भरोसा करने के बजाय जाँची हुई रकमें खुद जोड़ें। AI तालिका बनाने या हिसाब समझाने में मदद कर सकता है, पर सबूत के बिना वह नहीं जान सकता कि कौन-सी प्रविष्टि असली है। बाद में अपने असली रिकॉर्ड इस्तेमाल करते समय मुख्य प्रति अपनी मंज़ूर जगह पर रखें और ऐसा औज़ार चुनें जिसे इस्तेमाल करने की आपको अनुमति है। इस कौशल के अभ्यास के लिए आपको नाम, फ़ोन नंबर, बैंक की जानकारी या सही जगह का पता डालने की ज़रूरत नहीं है।",
+          "steps": [
+            "स्रोत पर्ची पढ़ें",
+            "हर पक्के लेन-देन के लिए एक पंक्ति बनाएँ",
+            "लिखें कि T02 की अतिरिक्त पंक्ति क्यों हटाई गई",
+            "जाँचा हुआ कुल निकालें",
+            "भविष्य के रिकॉर्ड के लिए एक ऐसा कॉलम सोचें जो आप जोड़ेंगे"
+          ],
+          "exercise": {
+            "title": "Clean the fictional farm activity record",
+            "sourcePacket": [
+              {
+                "sourceId": "T01",
+                "date": "2026-10-01",
+                "activity": "Recordkeeping support",
+                "quantity": 3,
+                "unit": "hours",
+                "rate": 150,
+                "amount": 450,
+                "currency": "INR"
+              },
+              {
+                "sourceId": "T02",
+                "date": "2026-10-02",
+                "activity": "Transport",
+                "quantity": 1,
+                "unit": "trip",
+                "rate": 150,
+                "amount": 150,
+                "currency": "INR"
+              },
+              {
+                "sourceId": "T03",
+                "date": "2026-10-03",
+                "activity": "Storage materials",
+                "quantity": 1,
+                "unit": "lot",
+                "rate": 800,
+                "amount": 800,
+                "currency": "INR"
+              },
+              {
+                "sourceId": "T02",
+                "date": "2026-10-02",
+                "activity": "Transport",
+                "quantity": 1,
+                "unit": "trip",
+                "rate": 150,
+                "amount": 150,
+                "currency": "INR",
+                "sourceNote": "Confirmed copied line; same receipt and payment as T02 above",
+                "duplicateOf": "T02"
+              }
+            ],
+            "suppliedAiDraft": "The four entries total INR 1,550. Each row is a separate expense.",
+            "optionalAiPrompt": "Organize the supplied fictional transactions into a table. Use the source note to handle duplicates, show the calculation, and list uncertainty. Do not infer farm area, crop performance or missing transactions.",
+            "learnerTask": "Produce a corrected three-row table, show your total and explain the duplicate correction.",
+            "expectedEvidence": [
+              "Corrected rows with source references",
+              "450 + 150 + 800 = 1,400",
+              "Note that T02 was removed once because the source confirms a copied payment",
+              "One useful future record field such as receipt reference or unit"
+            ],
+            "assessorReference": "There are three confirmed transactions totaling INR 1,400. The raw four-line total is INR 1,550, but that counts the confirmed T02 copy twice. A learner must not generalize that every repeated amount is a duplicate."
+          },
+          "quiz": [
+            {
+              "id": "farm-01-q1",
+              "question": "जाँचा हुआ कुल खर्च कितना है?",
+              "options": [
+                "INR 1,400",
+                "INR 1,550",
+                "INR 1,250",
+                "गतिविधियाँ देखकर अंदाज़ा लगाना होगा"
+              ],
+              "correctOptionIndex": 0,
+              "explanation": "T02 उसी भुगतान की पक्की नक़ल है। तीन जाँची रकमें 450, 150 और 800 हैं, जिनका कुल 1,400 होता है।"
+            },
+            {
+              "id": "farm-01-q2",
+              "question": "दो प्रविष्टियों की रकम एक जैसी है पर रसीद के संदर्भ अलग हैं। आप क्या करें?",
+              "options": [
+                "दूसरी रकम अपने-आप हटा दें",
+                "बिना जाँचे दोनों को पक्का मान लें",
+                "फ़ैसला करने से पहले स्रोत रिकॉर्ड जाँचें कि कोई दोहराई गई है या नहीं",
+                "बिना सबूत AI से असली वाली चुनने को कहें"
+              ],
+              "correctOptionIndex": 2,
+              "explanation": "एक जैसी रकम दोहराव का सबूत नहीं है। मूल संदर्भ और भुगतान का सबूत तय करते हैं कि खर्च अलग हैं या नहीं।"
+            },
+            {
+              "id": "farm-01-q3",
+              "question": "इस अभ्यास के लिए कौन-सी जानकारी उचित है?",
+              "options": [
+                "आपके बैंक के लॉगिन विवरण",
+                "दिया गया काल्पनिक रिकॉर्ड",
+                "किसी पड़ोसी का निजी लेन-देन इतिहास",
+                "कोई भी रिकॉर्ड, क्योंकि AI उसे गुमनाम कर देता है"
+              ],
+              "correctOptionIndex": 1,
+              "explanation": "काल्पनिक रिकॉर्ड अभ्यास के लिए काफ़ी जानकारी देता है। निजी या गोपनीय जानकारी डालना ग़ैर-ज़रूरी और अनुचित है।"
+            }
+          ],
+          "reflectionPrompt": "कौन-सा कॉलम भविष्य में कुल की जाँच आसान करेगा, और क्यों?",
+          "returnToWorkAction": "किसी मंज़ूर जगह पर एक खाली रिकॉर्ड फ़ॉर्म बनाएँ। उसे एक अनुमत काम के लिए इस्तेमाल करें और साझा करने से पहले हर प्रविष्टि को मूल रिकॉर्ड से मिलाएँ।",
+          "summary": "हर असली भुगतान के लिए एक पंक्ति वाला सरल रिकॉर्ड रखें। कोई दोहराई पंक्ति हटाने से पहले रसीद या संदर्भ देखें कि वह सचमुच नक़ल है या नहीं। जाँची हुई रकमें खुद जोड़ें।",
+          "transcript": "पाठ: काम का उपयोगी रिकॉर्ड बनाएँ.\n\nउद्देश्य: एक सुसंगत रिकॉर्ड बनाएँ और कुल निकालने से पहले दोहराई गई प्रविष्टि की जाँच करें।\n\nएक अच्छा रिकॉर्ड यह अलग रखता है कि क्या हुआ और आप उसका क्या मतलब निकालते हैं। तारीख, काम, लेन-देन का संदर्भ, रकम और ज़रूरत हो तो इकाई लिखें। एक पंक्ति दोहराई हुई हो सकती है, लेकिन दो मिलते-जुलते खर्च असली भी हो सकते हैं। कुछ भी हटाने से पहले संदर्भ या मूल रसीद देखें। इस अभ्यास में स्रोत पर्ची साफ़ कहती है कि T02 दो बार नक़ल हो गया है और वह परिवहन का एक ही भुगतान है। इस सुधार का नोट रखें। औज़ार के दिए कुल पर भरोसा करने के बजाय जाँची हुई रकमें खुद जोड़ें। AI तालिका बनाने या हिसाब समझाने में मदद कर सकता है, पर सबूत के बिना वह नहीं जान सकता कि कौन-सी प्रविष्टि असली है। बाद में अपने असली रिकॉर्ड इस्तेमाल करते समय मुख्य प्रति अपनी मंज़ूर जगह पर रखें और ऐसा औज़ार चुनें जिसे इस्तेमाल करने की आपको अनुमति है। इस कौशल के अभ्यास के लिए आपको नाम, फ़ोन नंबर, बैंक की जानकारी या सही जगह का पता डालने की ज़रूरत नहीं है।\n\nचरण: पहला चरण। स्रोत पर्ची पढ़ें. दूसरा चरण। हर पक्के लेन-देन के लिए एक पंक्ति बनाएँ. तीसरा चरण। लिखें कि T02 की अतिरिक्त पंक्ति क्यों हटाई गई. चौथा चरण। जाँचा हुआ कुल निकालें. पाँचवाँ चरण। भविष्य के रिकॉर्ड के लिए एक ऐसा कॉलम सोचें जो आप जोड़ेंगे.\n\nइस पर सोचें: कौन-सा कॉलम भविष्य में कुल की जाँच आसान करेगा, और क्यों?\n\nइसे सावधानी से काम में लाएँ: किसी मंज़ूर जगह पर एक खाली रिकॉर्ड फ़ॉर्म बनाएँ। उसे एक अनुमत काम के लिए इस्तेमाल करें और साझा करने से पहले हर प्रविष्टि को मूल रिकॉर्ड से मिलाएँ।",
+          "audio": {
+            "status": "not-recorded",
+            "label": "Audio not recorded yet",
+            "note": "यह केवल एक खाली जगह है। इस पाठ की कोई ऑडियो फ़ाइल नहीं है। नीचे पूरा लिखित पाठ पढ़ें, या अपने फ़ोन की बोलकर सुनाने वाली सुविधा इस्तेमाल करें।"
+          }
+        },
+        {
+          "id": "farm-02",
+          "module": "pathway-core",
+          "title": "AI का सारांश इस्तेमाल करने से पहले जाँचें",
+          "estimatedMinutes": 20,
+          "objective": "समर्थित बातों, छूटे संदर्भ और बेबुनियाद सिफ़ारिशों को अलग-अलग पहचानें।",
+          "lessonText": "सारांश भरोसे वाला लग सकता है, फिर भी उसमें सही बातों के साथ गढ़ी हुई बातें मिली हो सकती हैं। हर ज़रूरी बात को एक-एक करके जाँचें। पूछें कि इस दावे का सबूत क्या है। कुल रकम को लेन-देन की पंक्तियों से मिलाया जा सकता है। प्रति एकड़ लागत के लिए खेत का क्षेत्रफल चाहिए। फ़सल के नतीजे के दावे के लिए सही सबूत चाहिए, सिर्फ़ खर्च देखकर अंदाज़ा नहीं लगाया जा सकता। इस अभ्यास में जाँचा हुआ खर्च रिकॉर्ड बताता है कि क्या दर्ज हुआ; वह खेत का क्षेत्रफल, पूरा बजट, फ़सल की हालत या संभावित उपज नहीं बताता। इन कमियों को साफ़ लिखें। अगर कोई दावा खेती के किसी बड़े फ़ैसले पर असर डाल सकता है, तो AI के मसौदे को सिफ़ारिश न मानें; किसी उपयुक्त विशेषज्ञ के लिए सवाल तैयार करें। अच्छे सारांश में जाँचा हुआ कुल, उसकी सीमा और जो जानकारी नहीं है, ये तीनों होते हैं। जाँच काम का हिस्सा है, भले ही उसमें मसौदा बनाने से ज़्यादा समय लगे।",
+          "steps": [
+            "कुल की जाँच करें",
+            "हर दावे को समर्थित, असमर्थित या अज्ञात चिह्नित करें",
+            "बताएँ कि प्रति एकड़ आँकड़े के लिए कौन-सा सबूत चाहिए",
+            "सारांश को उसकी सीमाओं के साथ दोबारा लिखें",
+            "वह दावा पहचानें जिसके लिए विशेषज्ञ की राय चाहिए"
+          ],
+          "exercise": {
+            "title": "Find the unsupported claims",
+            "sourcePacket": [
+              {
+                "sourceId": "farm-02-source-1",
+                "content": "Verified transactions: T01 INR 450; T02 INR 150; T03 INR 800."
+              },
+              {
+                "sourceId": "farm-02-source-2",
+                "content": "Recorded total: INR 1,400."
+              },
+              {
+                "sourceId": "farm-02-source-3",
+                "content": "Farm area, crop condition, total seasonal budget and crop outcomes are not supplied."
+              }
+            ],
+            "suppliedAiDraft": "The recorded expenses are INR 1,400. That is INR 700 per acre. These purchases will increase yield by 30%, so the farmer should immediately repeat them.",
+            "optionalAiPrompt": "Summarize only the supplied synthetic expense record. For every statement distinguish source-supported facts from missing context. Do not predict yield or recommend actions.",
+            "learnerTask": "Annotate the draft and create a two- or three-sentence corrected summary.",
+            "expectedEvidence": [
+              "Total supported by the three transaction rows",
+              "Per-acre claim rejected because area is missing",
+              "Yield and immediate-action claims rejected as unsupported",
+              "Corrected summary describes recorded expenses and missing context",
+              "Expert referral for consequential recommendations"
+            ],
+            "assessorReference": "The packet supports only the INR 1,400 recorded total. It does not establish cost per acre, a 30% yield effect or a decision to repeat the purchases. Accept a cautious summary using equivalent plain language."
+          },
+          "quiz": [
+            {
+              "id": "farm-02-q1",
+              "question": "पर्ची से कौन-सा दावा समर्थित है?",
+              "options": [
+                "उपज 30% बढ़ेगी",
+                "खेत दो एकड़ का है",
+                "दर्ज खर्च का कुल INR 1,400 है",
+                "वही खरीद दोहराना सही फ़ैसला है"
+              ],
+              "correctOptionIndex": 2,
+              "explanation": "लेन-देन की रकमें कुल का समर्थन करती हैं। क्षेत्रफल, उपज और कार्रवाई की सलाह स्रोत पर्ची में नहीं हैं।"
+            },
+            {
+              "id": "farm-02-q2",
+              "question": "INR 700 प्रति एकड़ का आँकड़ा अजाँचा क्यों है?",
+              "options": [
+                "क्योंकि वह बहुत छोटा है",
+                "क्योंकि पर्ची में खेत का क्षेत्रफल नहीं दिया गया",
+                "क्योंकि AI की सारी गणनाएँ ग़लत होती हैं",
+                "क्योंकि प्रति एकड़ लागत कभी निकाली ही नहीं जा सकती"
+              ],
+              "correctOptionIndex": 1,
+              "explanation": "प्रति एकड़ लागत के लिए सही क्षेत्रफल और लागत की साफ़ परिभाषा चाहिए। यहाँ क्षेत्रफल नहीं है, इसलिए आँकड़ा असमर्थित है।"
+            },
+            {
+              "id": "farm-02-q3",
+              "question": "मसौदे की उपज वाली सिफ़ारिश पर सही प्रतिक्रिया क्या है?",
+              "options": [
+                "भाषा भरोसे वाली है, इसलिए तुरंत मान लें",
+                "उसे मंज़ूर सलाह बताकर आगे भेज दें",
+                "AI से सिफ़ारिश और ज़ोरदार करने को कहें",
+                "उसे असमर्थित चिह्नित करें और बड़ा कदम उठाने से पहले उपयुक्त विशेषज्ञ की राय लें"
+              ],
+              "correctOptionIndex": 3,
+              "explanation": "दिया गया रिकॉर्ड उपज के अनुमान या किसी कार्रवाई का समर्थन नहीं करता। सीमा पहचानना और बात विशेषज्ञ तक ले जाना ज़िम्मेदार तरीका है।"
+            }
+          ],
+          "reflectionPrompt": "भरोसे से कही गई ऐसी कौन-सी बात है जिसे आप अब भी जाँचना चाहेंगे?",
+          "returnToWorkAction": "अगली बार किसी अनुमत काम में AI का सारांश इस्तेमाल करने से पहले हर ज़रूरी बात को जाँची हुई, अजाँची या विशेषज्ञ की राय वाली चिह्नित करें।",
+          "summary": "AI का सारांश सच्ची और गढ़ी हुई बातें मिला सकता है। हर दावे को अपने रिकॉर्ड से जाँचें, जो जानकारी छूटी है उसे लिखें, और खेती के किसी बड़े फ़ैसले से पहले विशेषज्ञ से पूछें।",
+          "transcript": "पाठ: AI का सारांश इस्तेमाल करने से पहले जाँचें.\n\nउद्देश्य: समर्थित बातों, छूटे संदर्भ और बेबुनियाद सिफ़ारिशों को अलग-अलग पहचानें।\n\nसारांश भरोसे वाला लग सकता है, फिर भी उसमें सही बातों के साथ गढ़ी हुई बातें मिली हो सकती हैं। हर ज़रूरी बात को एक-एक करके जाँचें। पूछें कि इस दावे का सबूत क्या है। कुल रकम को लेन-देन की पंक्तियों से मिलाया जा सकता है। प्रति एकड़ लागत के लिए खेत का क्षेत्रफल चाहिए। फ़सल के नतीजे के दावे के लिए सही सबूत चाहिए, सिर्फ़ खर्च देखकर अंदाज़ा नहीं लगाया जा सकता। इस अभ्यास में जाँचा हुआ खर्च रिकॉर्ड बताता है कि क्या दर्ज हुआ; वह खेत का क्षेत्रफल, पूरा बजट, फ़सल की हालत या संभावित उपज नहीं बताता। इन कमियों को साफ़ लिखें। अगर कोई दावा खेती के किसी बड़े फ़ैसले पर असर डाल सकता है, तो AI के मसौदे को सिफ़ारिश न मानें; किसी उपयुक्त विशेषज्ञ के लिए सवाल तैयार करें। अच्छे सारांश में जाँचा हुआ कुल, उसकी सीमा और जो जानकारी नहीं है, ये तीनों होते हैं। जाँच काम का हिस्सा है, भले ही उसमें मसौदा बनाने से ज़्यादा समय लगे।\n\nचरण: पहला चरण। कुल की जाँच करें. दूसरा चरण। हर दावे को समर्थित, असमर्थित या अज्ञात चिह्नित करें. तीसरा चरण। बताएँ कि प्रति एकड़ आँकड़े के लिए कौन-सा सबूत चाहिए. चौथा चरण। सारांश को उसकी सीमाओं के साथ दोबारा लिखें. पाँचवाँ चरण। वह दावा पहचानें जिसके लिए विशेषज्ञ की राय चाहिए.\n\nइस पर सोचें: भरोसे से कही गई ऐसी कौन-सी बात है जिसे आप अब भी जाँचना चाहेंगे?\n\nइसे सावधानी से काम में लाएँ: अगली बार किसी अनुमत काम में AI का सारांश इस्तेमाल करने से पहले हर ज़रूरी बात को जाँची हुई, अजाँची या विशेषज्ञ की राय वाली चिह्नित करें।",
+          "audio": {
+            "status": "not-recorded",
+            "label": "Audio not recorded yet",
+            "note": "यह केवल एक खाली जगह है। इस पाठ की कोई ऑडियो फ़ाइल नहीं है। नीचे पूरा लिखित पाठ पढ़ें, या अपने फ़ोन की बोलकर सुनाने वाली सुविधा इस्तेमाल करें।"
+          }
+        },
+        {
+          "id": "farm-03",
+          "module": "pathway-core",
+          "title": "विशेषज्ञ से उपयोगी बातचीत की तैयारी करें",
+          "estimatedMinutes": 30,
+          "objective": "जाँचे हुए रिकॉर्ड से एक छोटा सवाल-पत्र बनाएँ, बिना किसी बेबुनियाद फ़ैसले का दावा किए।",
+          "lessonText": "AI तब उपयोगी है जब वह आपके सवाल व्यवस्थित करने में मदद करे, ऐसी बात तय न करे जिसका उसके पास आधार नहीं है। अच्छे सवाल-पत्र में मक़सद, जाँची हुई जानकारी का सार, छूटा हुआ संदर्भ और साफ़ सवाल होते हैं। तथ्य और अनुमान अलग रखें। किसी छूटी हुई बात की जगह गढ़ा हुआ जवाब न लिखें। इस उदाहरण में आप बता सकते हैं कि तीन दर्ज खर्च का कुल INR 1,400 है और पिछले मसौदे में उपज का दावा गढ़ा गया था। आप पूछ सकते हैं कि विशेषज्ञ को और कौन-से रिकॉर्ड चाहिए और किसी सिफ़ारिश को कैसे जाँचा जाए। विशेषज्ञ को प्रशिक्षण पर्ची से ज़्यादा जानकारी चाहिए हो सकती है; उसे केवल मंज़ूर माध्यम से और तभी साझा करें जब वह ज़रूरी हो। सवाल-पत्र इतना छोटा रखें कि बातचीत में काम आए। बाद में लिखें कि क्या पक्का हुआ, क्या अनिश्चित है और अगला कदम कौन उठाएगा। यह पाठ्यक्रम रिकॉर्ड रखना और जानकारी परखना सिखाता है; यह खेती के तरीके तय करने का अधिकार नहीं देता।",
+          "steps": [
+            "बातचीत का मक़सद लिखें",
+            "जाँचे हुए रिकॉर्ड का कुल और स्रोत शामिल करें",
+            "तीन ज़रूरी छूटी जानकारियाँ लिखें",
+            "विशेषज्ञ के लिए तीन साफ़ सवाल लिखें",
+            "सवाल-पत्र इस्तेमाल करने का मंज़ूर तरीका चुनें"
+          ],
+          "exercise": {
+            "title": "Build the expert question brief",
+            "sourcePacket": [
+              {
+                "sourceId": "farm-03-source-1",
+                "content": "Use the verified three-row record from farm-01."
+              },
+              {
+                "sourceId": "farm-03-source-2",
+                "content": "The earlier AI draft's per-acre and yield claims were unsupported."
+              },
+              {
+                "sourceId": "farm-03-source-3",
+                "content": "No farm area, crop condition or complete seasonal expense record is provided."
+              }
+            ],
+            "suppliedAiDraft": "Expert brief: Our two-acre farm will gain 30% yield if we repeat the purchases. Please approve this plan.",
+            "optionalAiPrompt": "Create a short question brief from the supplied fictional packet. Separate verified facts, missing context and questions. Do not invent area, crop condition or outcomes, and do not request approval of an unsupported plan.",
+            "learnerTask": "Produce a 120–200 word brief or equivalent oral response with verified facts, gaps, questions and next action.",
+            "expectedEvidence": [
+              "Purpose: seek informed guidance about what information is needed",
+              "Checked INR 1,400 recorded total with transaction references",
+              "Missing area, crop context and record completeness",
+              "Questions about needed information and verification, rather than a demanded action",
+              "Next action stays within recordkeeping and approved expert consultation"
+            ],
+            "assessorReference": "A suitable brief says the record is limited, removes invented area/yield details, asks what further information is needed and how to verify advice, and uses an approved channel. Equivalent plain-language or approved oral evidence is acceptable."
+          },
+          "quiz": [
+            {
+              "id": "farm-03-q1",
+              "question": "उपलब्ध जानकारी के हिसाब से कौन-सा सवाल सबसे ठीक है?",
+              "options": [
+                "क्या आप वादा किए गए 30% इज़ाफ़े की पुष्टि करेंगे?",
+                "इन दर्ज खर्चों को समझने के लिए आपको और कौन-सी जानकारी चाहिए?",
+                "सबको कौन-सा सामान खरीदना चाहिए?",
+                "क्या हम मूल रिकॉर्ड छोड़ सकते हैं?"
+              ],
+              "correctOptionIndex": 1,
+              "explanation": "यह सवाल पर्ची की सीमित जानकारी को मानता है और विशेषज्ञ से वह संदर्भ माँगता है जो व्याख्या के लिए ज़रूरी है।"
+            },
+            {
+              "id": "farm-03-q2",
+              "question": "सवाल-पत्र में गढ़े हुए \"दो एकड़\" वाले ब्योरे का क्या करें?",
+              "options": [
+                "सुविधाजनक है, इसलिए रखें",
+                "उसे जाँचा हुआ बताएँ",
+                "उसे हटाएँ और लिखें कि क्षेत्रफल दिया नहीं गया",
+                "उसकी जगह कोई और अंदाज़ा लिख दें"
+              ],
+              "correctOptionIndex": 2,
+              "explanation": "छूटी हुई जानकारी तब तक दर्ज कमी बनी रहनी चाहिए जब तक उचित सबूत न मिले।"
+            },
+            {
+              "id": "farm-03-q3",
+              "question": "इस पाठ्यक्रम का योग्यता-प्रमाण क्या दर्शाता है?",
+              "options": [
+                "फ़सल के लिए सामान लिखने का अधिकार",
+                "खेती का पेशेवर प्रमाणपत्र",
+                "उपज बढ़ने की गारंटी",
+                "रिकॉर्ड व्यवस्थित करना, जानकारी जाँचना और विशेषज्ञ के सवाल तैयार करना"
+              ],
+              "correctOptionIndex": 3,
+              "explanation": "प्रमाण वही बताए जो परखा गया है। वह पेशेवर अधिकार नहीं देता और किसी नतीजे की गारंटी नहीं देता।"
+            }
+          ],
+          "reflectionPrompt": "यह सवाल-पत्र विशेषज्ञ को आपका सवाल समझने में कैसे मदद करेगा, बिना यह दिखावा किए कि हर बात पता है?",
+          "returnToWorkAction": "किसी अनुमत बातचीत के लिए तथ्य–कमी–सवाल वाला खाली फ़ॉर्म इस्तेमाल करें। विशेषज्ञ की पक्की सलाह को अपने अनुमानों से अलग लिखें।",
+          "summary": "AI से अपने सवाल व्यवस्थित करवाएँ, जवाब नहीं। लिखें कि आप क्या जानते हैं, क्या छूटा है और क्या पूछना है, और तथ्यों को अनुमानों से अलग रखें।",
+          "transcript": "पाठ: विशेषज्ञ से उपयोगी बातचीत की तैयारी करें.\n\nउद्देश्य: जाँचे हुए रिकॉर्ड से एक छोटा सवाल-पत्र बनाएँ, बिना किसी बेबुनियाद फ़ैसले का दावा किए।\n\nAI तब उपयोगी है जब वह आपके सवाल व्यवस्थित करने में मदद करे, ऐसी बात तय न करे जिसका उसके पास आधार नहीं है। अच्छे सवाल-पत्र में मक़सद, जाँची हुई जानकारी का सार, छूटा हुआ संदर्भ और साफ़ सवाल होते हैं। तथ्य और अनुमान अलग रखें। किसी छूटी हुई बात की जगह गढ़ा हुआ जवाब न लिखें। इस उदाहरण में आप बता सकते हैं कि तीन दर्ज खर्च का कुल INR 1,400 है और पिछले मसौदे में उपज का दावा गढ़ा गया था। आप पूछ सकते हैं कि विशेषज्ञ को और कौन-से रिकॉर्ड चाहिए और किसी सिफ़ारिश को कैसे जाँचा जाए। विशेषज्ञ को प्रशिक्षण पर्ची से ज़्यादा जानकारी चाहिए हो सकती है; उसे केवल मंज़ूर माध्यम से और तभी साझा करें जब वह ज़रूरी हो। सवाल-पत्र इतना छोटा रखें कि बातचीत में काम आए। बाद में लिखें कि क्या पक्का हुआ, क्या अनिश्चित है और अगला कदम कौन उठाएगा। यह पाठ्यक्रम रिकॉर्ड रखना और जानकारी परखना सिखाता है; यह खेती के तरीके तय करने का अधिकार नहीं देता।\n\nचरण: पहला चरण। बातचीत का मक़सद लिखें. दूसरा चरण। जाँचे हुए रिकॉर्ड का कुल और स्रोत शामिल करें. तीसरा चरण। तीन ज़रूरी छूटी जानकारियाँ लिखें. चौथा चरण। विशेषज्ञ के लिए तीन साफ़ सवाल लिखें. पाँचवाँ चरण। सवाल-पत्र इस्तेमाल करने का मंज़ूर तरीका चुनें.\n\nइस पर सोचें: यह सवाल-पत्र विशेषज्ञ को आपका सवाल समझने में कैसे मदद करेगा, बिना यह दिखावा किए कि हर बात पता है?\n\nइसे सावधानी से काम में लाएँ: किसी अनुमत बातचीत के लिए तथ्य–कमी–सवाल वाला खाली फ़ॉर्म इस्तेमाल करें। विशेषज्ञ की पक्की सलाह को अपने अनुमानों से अलग लिखें।",
+          "audio": {
+            "status": "not-recorded",
+            "label": "Audio not recorded yet",
+            "note": "यह केवल एक खाली जगह है। इस पाठ की कोई ऑडियो फ़ाइल नहीं है। नीचे पूरा लिखित पाठ पढ़ें, या अपने फ़ोन की बोलकर सुनाने वाली सुविधा इस्तेमाल करें।"
+          }
+        },
+        {
+          "id": "farm-scn-1",
+          "module": "suitable-unsuitable-use",
+          "title": "AI का उपयुक्त और अनुपयुक्त इस्तेमाल: खेती के काम (भाग 1 / 2)",
+          "estimatedMinutes": 15,
+          "objective": "खेती के रोज़ के कामों को AI के उपयुक्त और अनुपयुक्त इस्तेमाल में बाँटें और हर एक का कारण बताएँ।",
+          "lessonText": "किसी काम में AI इस्तेमाल करने से पहले तीन सवाल पूछें। पहला, क्या काम में निजी जानकारी चाहिए, जैसे नाम, फ़ोन नंबर, बैंक, पहचान या स्वास्थ्य की जानकारी? दूसरा, क्या वह ऐसी बात तय करता है जो किसी फ़सल, पशु या खेत के मज़दूर को, या किसी के पैसे, स्वास्थ्य, सुरक्षा, अधिकार या सेवाओं को प्रभावित करे? तीसरा, क्या कोई व्यक्ति नतीजे को किसी स्रोत से जाँच सकता है? काम तब उपयुक्त है जब उसमें जोखिम कम हो, सिर्फ़ वही जानकारी लगे जो आप साझा कर सकते हैं, और कोई व्यक्ति नतीजा जाँचे। काम तब अनुपयुक्त है जब उसमें बिना मंज़ूरी वाले औज़ार में निजी जानकारी डालनी पड़े, या जब फ़ैसला किसी योग्य या ज़िम्मेदार व्यक्ति का होना चाहिए। कभी कोई काम जैसा माँगा गया वैसा अनुपयुक्त होता है, पर उसका छोटा हिस्सा उपयुक्त होता है, जैसे विशेषज्ञ के लिए सवाल बनाना। पर्ची के कामों को छाँटें, फिर बताएँ कि हर एक को कौन जाँचेगा या तय करेगा।",
+          "steps": [
+            "स्रोत पर्ची का हर काम-कार्ड पढ़ें",
+            "हर काम के लिए तीनों सवाल पूछें",
+            "हर काम को उपयुक्त या अनुपयुक्त में बाँटें",
+            "लिखें कि हर काम को कौन जाँचेगा या तय करेगा",
+            "हर वर्गीकरण के लिए एक कारण लिखें"
+          ],
+          "exercise": {
+            "title": "Sort farm tasks into suitable and unsuitable AI use",
+            "sourcePacket": [
+              {
+                "sourceId": "S1",
+                "task": "Ask an AI tool to turn your fictional list of seed and fertiliser purchases into a tidy table.",
+                "setting": "Farm"
+              },
+              {
+                "sourceId": "S2",
+                "task": "Ask an AI tool to decide how much pesticide to spray on a field and when to spray it.",
+                "setting": "Farm"
+              },
+              {
+                "sourceId": "S3",
+                "task": "Paste a farm worker's name, phone number and bank account number into an AI tool to produce a payment list.",
+                "setting": "Farm"
+              }
+            ],
+            "suppliedAiDraft": "AI can do all of these tasks quickly, so give every task to the tool and use whatever it returns without checking.",
+            "optionalAiPrompt": "Do not paste real details. Ask the tool to explain in two lines why one fictional task might need a human decision.",
+            "learnerTask": "Classify each task as suitable or unsuitable for AI use. For each one, name who checks or who decides, and give one reason.",
+            "expectedEvidence": [
+              "S1 classified as suitable with a human check, with a reason and a named person",
+              "S2 classified as unsuitable, a person must decide, with a reason and a named person",
+              "S3 classified as unsuitable, private details, with a reason and a named person"
+            ],
+            "assessorReference": "S1: suitable with a human check. This organises records you supplied and carries low risk. You still check the total against the receipts. S2: unsuitable, a person must decide. The decision affects the crop, safety and health. A qualified agriculture expert decides; an AI draft is not enough. S3: unsuitable, private details. These are private details. They stay out of tools that are not approved for them, and a list can use reference codes instead."
+          },
+          "quiz": [
+            {
+              "id": "farm-scn-1-q1",
+              "question": "इस काम को वर्गीकृत करें: AI औज़ार से अपनी काल्पनिक बीज और खाद की खरीद की सूची को साफ़ तालिका में बदलवाना।",
+              "options": [
+                "उपयुक्त: AI मसौदा बना सकता है और कोई व्यक्ति नतीजा जाँचता है",
+                "उपयुक्त: AI अकेले पूरा कर सकता है, जाँच की ज़रूरत नहीं",
+                "अनुपयुक्त: इसका फ़ैसला योग्य या ज़िम्मेदार व्यक्ति को करना चाहिए",
+                "अनुपयुक्त: इसमें निजी जानकारी चाहिए जो AI औज़ार में नहीं डालनी चाहिए"
+              ],
+              "correctOptionIndex": 0,
+              "explanation": "यह आपके दिए रिकॉर्ड को व्यवस्थित करने का कम जोखिम वाला काम है। कुल को रसीदों से जाँचना आपका काम रहता है।"
+            },
+            {
+              "id": "farm-scn-1-q2",
+              "question": "इस काम को वर्गीकृत करें: AI औज़ार से तय करवाना कि खेत में कितनी कीटनाशक दवा, कब छिड़की जाए।",
+              "options": [
+                "उपयुक्त: AI अकेले पूरा कर सकता है, जाँच की ज़रूरत नहीं",
+                "अनुपयुक्त: इसका फ़ैसला योग्य या ज़िम्मेदार व्यक्ति को करना चाहिए",
+                "उपयुक्त: AI मसौदा बना सकता है और कोई व्यक्ति नतीजा जाँचता है",
+                "अनुपयुक्त: इसमें निजी जानकारी चाहिए जो AI औज़ार में नहीं डालनी चाहिए"
+              ],
+              "correctOptionIndex": 1,
+              "explanation": "इस फ़ैसले का असर फ़सल, सुरक्षा और स्वास्थ्य पर पड़ता है। इसे योग्य कृषि विशेषज्ञ तय करता है; AI का मसौदा काफ़ी नहीं है।"
+            },
+            {
+              "id": "farm-scn-1-q3",
+              "question": "इस काम को वर्गीकृत करें: खेत के मज़दूर का नाम, फ़ोन नंबर और बैंक खाता नंबर AI औज़ार में डालकर भुगतान सूची बनवाना।",
+              "options": [
+                "अनुपयुक्त: इसका फ़ैसला योग्य या ज़िम्मेदार व्यक्ति को करना चाहिए",
+                "अनुपयुक्त: इसमें निजी जानकारी चाहिए जो AI औज़ार में नहीं डालनी चाहिए",
+                "उपयुक्त: AI अकेले पूरा कर सकता है, जाँच की ज़रूरत नहीं",
+                "उपयुक्त: AI मसौदा बना सकता है और कोई व्यक्ति नतीजा जाँचता है"
+              ],
+              "correctOptionIndex": 1,
+              "explanation": "ये निजी जानकारी हैं। जिन औज़ारों को इसके लिए मंज़ूरी नहीं है, उनसे ये दूर रहें; सूची संदर्भ कोड से भी बन सकती है।"
+            }
+          ],
+          "reflectionPrompt": "आपके काम का कौन-सा काम तभी उपयुक्त है जब कोई व्यक्ति उसे जाँचे, और कौन जाँचेगा?",
+          "returnToWorkAction": "अपना कोई ऐसा असली काम चुनें जो आप अक्सर करते हैं। किसी AI औज़ार को इस्तेमाल करने से पहले तीनों सवाल और अपना वर्गीकरण लिख लें।",
+          "summary": "AI इस्तेमाल से पहले तीन सवाल पूछें: क्या निजी जानकारी चाहिए, क्या किसी व्यक्ति पर असर डालने वाला फ़ैसला होगा, और क्या कोई नतीजा जाँच सकता है। कम जोखिम वाले और जाँचे जाने वाले काम उपयुक्त हैं; निजी जानकारी और बड़े फ़ैसले नहीं।",
+          "transcript": "पाठ: AI का उपयुक्त और अनुपयुक्त इस्तेमाल: खेती के काम (भाग 1 / 2).\n\nउद्देश्य: खेती के रोज़ के कामों को AI के उपयुक्त और अनुपयुक्त इस्तेमाल में बाँटें और हर एक का कारण बताएँ।\n\nकिसी काम में AI इस्तेमाल करने से पहले तीन सवाल पूछें। पहला, क्या काम में निजी जानकारी चाहिए, जैसे नाम, फ़ोन नंबर, बैंक, पहचान या स्वास्थ्य की जानकारी? दूसरा, क्या वह ऐसी बात तय करता है जो किसी फ़सल, पशु या खेत के मज़दूर को, या किसी के पैसे, स्वास्थ्य, सुरक्षा, अधिकार या सेवाओं को प्रभावित करे? तीसरा, क्या कोई व्यक्ति नतीजे को किसी स्रोत से जाँच सकता है? काम तब उपयुक्त है जब उसमें जोखिम कम हो, सिर्फ़ वही जानकारी लगे जो आप साझा कर सकते हैं, और कोई व्यक्ति नतीजा जाँचे। काम तब अनुपयुक्त है जब उसमें बिना मंज़ूरी वाले औज़ार में निजी जानकारी डालनी पड़े, या जब फ़ैसला किसी योग्य या ज़िम्मेदार व्यक्ति का होना चाहिए। कभी कोई काम जैसा माँगा गया वैसा अनुपयुक्त होता है, पर उसका छोटा हिस्सा उपयुक्त होता है, जैसे विशेषज्ञ के लिए सवाल बनाना। पर्ची के कामों को छाँटें, फिर बताएँ कि हर एक को कौन जाँचेगा या तय करेगा।\n\nचरण: पहला चरण। स्रोत पर्ची का हर काम-कार्ड पढ़ें. दूसरा चरण। हर काम के लिए तीनों सवाल पूछें. तीसरा चरण। हर काम को उपयुक्त या अनुपयुक्त में बाँटें. चौथा चरण। लिखें कि हर काम को कौन जाँचेगा या तय करेगा. पाँचवाँ चरण। हर वर्गीकरण के लिए एक कारण लिखें.\n\nइस पर सोचें: आपके काम का कौन-सा काम तभी उपयुक्त है जब कोई व्यक्ति उसे जाँचे, और कौन जाँचेगा?\n\nइसे सावधानी से काम में लाएँ: अपना कोई ऐसा असली काम चुनें जो आप अक्सर करते हैं। किसी AI औज़ार को इस्तेमाल करने से पहले तीनों सवाल और अपना वर्गीकरण लिख लें।",
+          "audio": {
+            "status": "not-recorded",
+            "label": "Audio not recorded yet",
+            "note": "यह केवल एक खाली जगह है। इस पाठ की कोई ऑडियो फ़ाइल नहीं है। नीचे पूरा लिखित पाठ पढ़ें, या अपने फ़ोन की बोलकर सुनाने वाली सुविधा इस्तेमाल करें।"
+          }
+        },
+        {
+          "id": "farm-scn-2",
+          "module": "suitable-unsuitable-use",
+          "title": "AI का उपयुक्त और अनुपयुक्त इस्तेमाल: खेती के काम (भाग 2 / 2)",
+          "estimatedMinutes": 15,
+          "objective": "खेती के रोज़ के कामों को AI के उपयुक्त और अनुपयुक्त इस्तेमाल में बाँटें और हर एक का कारण बताएँ।",
+          "lessonText": "किसी काम में AI इस्तेमाल करने से पहले तीन सवाल पूछें। पहला, क्या काम में निजी जानकारी चाहिए, जैसे नाम, फ़ोन नंबर, बैंक, पहचान या स्वास्थ्य की जानकारी? दूसरा, क्या वह ऐसी बात तय करता है जो किसी फ़सल, पशु या खेत के मज़दूर को, या किसी के पैसे, स्वास्थ्य, सुरक्षा, अधिकार या सेवाओं को प्रभावित करे? तीसरा, क्या कोई व्यक्ति नतीजे को किसी स्रोत से जाँच सकता है? काम तब उपयुक्त है जब उसमें जोखिम कम हो, सिर्फ़ वही जानकारी लगे जो आप साझा कर सकते हैं, और कोई व्यक्ति नतीजा जाँचे। काम तब अनुपयुक्त है जब उसमें बिना मंज़ूरी वाले औज़ार में निजी जानकारी डालनी पड़े, या जब फ़ैसला किसी योग्य या ज़िम्मेदार व्यक्ति का होना चाहिए। कभी कोई काम जैसा माँगा गया वैसा अनुपयुक्त होता है, पर उसका छोटा हिस्सा उपयुक्त होता है, जैसे विशेषज्ञ के लिए सवाल बनाना। पर्ची के कामों को छाँटें, फिर बताएँ कि हर एक को कौन जाँचेगा या तय करेगा।",
+          "steps": [
+            "स्रोत पर्ची का हर काम-कार्ड पढ़ें",
+            "हर काम के लिए तीनों सवाल पूछें",
+            "हर काम को उपयुक्त या अनुपयुक्त में बाँटें",
+            "लिखें कि हर काम को कौन जाँचेगा या तय करेगा",
+            "हर वर्गीकरण के लिए एक कारण लिखें"
+          ],
+          "exercise": {
+            "title": "Sort farm tasks into suitable and unsuitable AI use",
+            "sourcePacket": [
+              {
+                "sourceId": "S4",
+                "task": "Ask an AI tool to draft a short list of questions to take to the agriculture extension officer about a fictional soil report.",
+                "setting": "Farm"
+              },
+              {
+                "sourceId": "S5",
+                "task": "Let an AI tool declare that a fictional batch of seed is certified disease-free and print the label from its answer.",
+                "setting": "Farm"
+              },
+              {
+                "sourceId": "S6",
+                "task": "Ask an AI tool to explain in simple words what a fictional government scheme leaflet says, then compare the answer with the leaflet.",
+                "setting": "Farm"
+              }
+            ],
+            "suppliedAiDraft": "AI can do all of these tasks quickly, so give every task to the tool and use whatever it returns without checking.",
+            "optionalAiPrompt": "Do not paste real details. Ask the tool to explain in two lines why one fictional task might need a human decision.",
+            "learnerTask": "Classify each task as suitable or unsuitable for AI use. For each one, name who checks or who decides, and give one reason.",
+            "expectedEvidence": [
+              "S4 classified as suitable with a human check, with a reason and a named person",
+              "S5 classified as unsuitable, a person must decide, with a reason and a named person",
+              "S6 classified as suitable with a human check, with a reason and a named person"
+            ],
+            "assessorReference": "S4: suitable with a human check. Drafting questions is a good use of AI. The officer, not the tool, gives the advice, and you check the questions first. S5: unsuitable, a person must decide. Certification needs qualified testing and an accountable signature. An AI statement is not a test result. S6: suitable with a human check. Plain-language explanation is suitable when you compare it with the original leaflet before relying on it."
+          },
+          "quiz": [
+            {
+              "id": "farm-scn-2-q1",
+              "question": "इस काम को वर्गीकृत करें: काल्पनिक मिट्टी की रिपोर्ट के बारे में कृषि विस्तार अधिकारी से पूछने के लिए AI से सवालों की छोटी सूची बनवाना।",
+              "options": [
+                "अनुपयुक्त: इसमें निजी जानकारी चाहिए जो AI औज़ार में नहीं डालनी चाहिए",
+                "उपयुक्त: AI मसौदा बना सकता है और कोई व्यक्ति नतीजा जाँचता है",
+                "अनुपयुक्त: इसका फ़ैसला योग्य या ज़िम्मेदार व्यक्ति को करना चाहिए",
+                "उपयुक्त: AI अकेले पूरा कर सकता है, जाँच की ज़रूरत नहीं"
+              ],
+              "correctOptionIndex": 1,
+              "explanation": "सवाल बनवाना AI का अच्छा इस्तेमाल है। सलाह अधिकारी देता है, औज़ार नहीं, और आप सवाल पहले जाँच लेते हैं।"
+            },
+            {
+              "id": "farm-scn-2-q2",
+              "question": "इस काम को वर्गीकृत करें: AI से घोषित करवाना कि बीज का एक काल्पनिक बैच रोग-मुक्त प्रमाणित है, और उसके जवाब से लेबल छपवाना।",
+              "options": [
+                "उपयुक्त: AI मसौदा बना सकता है और कोई व्यक्ति नतीजा जाँचता है",
+                "उपयुक्त: AI अकेले पूरा कर सकता है, जाँच की ज़रूरत नहीं",
+                "अनुपयुक्त: इसका फ़ैसला योग्य या ज़िम्मेदार व्यक्ति को करना चाहिए",
+                "अनुपयुक्त: इसमें निजी जानकारी चाहिए जो AI औज़ार में नहीं डालनी चाहिए"
+              ],
+              "correctOptionIndex": 2,
+              "explanation": "प्रमाणन के लिए योग्य जाँच और ज़िम्मेदार हस्ताक्षर चाहिए। AI का कथन जाँच का नतीजा नहीं है।"
+            },
+            {
+              "id": "farm-scn-2-q3",
+              "question": "इस काम को वर्गीकृत करें: किसी काल्पनिक सरकारी योजना की पर्ची को AI से सरल शब्दों में समझवाना और फिर जवाब को पर्ची से मिलाना।",
+              "options": [
+                "उपयुक्त: AI अकेले पूरा कर सकता है, जाँच की ज़रूरत नहीं",
+                "अनुपयुक्त: इसका फ़ैसला योग्य या ज़िम्मेदार व्यक्ति को करना चाहिए",
+                "उपयुक्त: AI मसौदा बना सकता है और कोई व्यक्ति नतीजा जाँचता है",
+                "अनुपयुक्त: इसमें निजी जानकारी चाहिए जो AI औज़ार में नहीं डालनी चाहिए"
+              ],
+              "correctOptionIndex": 2,
+              "explanation": "सरल भाषा में समझाना तब उपयुक्त है जब आप भरोसा करने से पहले जवाब को मूल पर्ची से मिलाएँ।"
+            }
+          ],
+          "reflectionPrompt": "आपके काम का कौन-सा काम तभी उपयुक्त है जब कोई व्यक्ति उसे जाँचे, और कौन जाँचेगा?",
+          "returnToWorkAction": "अपना कोई ऐसा असली काम चुनें जो आप अक्सर करते हैं। किसी AI औज़ार को इस्तेमाल करने से पहले तीनों सवाल और अपना वर्गीकरण लिख लें।",
+          "summary": "AI इस्तेमाल से पहले तीन सवाल पूछें: क्या निजी जानकारी चाहिए, क्या किसी व्यक्ति पर असर डालने वाला फ़ैसला होगा, और क्या कोई नतीजा जाँच सकता है। कम जोखिम वाले और जाँचे जाने वाले काम उपयुक्त हैं; निजी जानकारी और बड़े फ़ैसले नहीं।",
+          "transcript": "पाठ: AI का उपयुक्त और अनुपयुक्त इस्तेमाल: खेती के काम (भाग 2 / 2).\n\nउद्देश्य: खेती के रोज़ के कामों को AI के उपयुक्त और अनुपयुक्त इस्तेमाल में बाँटें और हर एक का कारण बताएँ।\n\nकिसी काम में AI इस्तेमाल करने से पहले तीन सवाल पूछें। पहला, क्या काम में निजी जानकारी चाहिए, जैसे नाम, फ़ोन नंबर, बैंक, पहचान या स्वास्थ्य की जानकारी? दूसरा, क्या वह ऐसी बात तय करता है जो किसी फ़सल, पशु या खेत के मज़दूर को, या किसी के पैसे, स्वास्थ्य, सुरक्षा, अधिकार या सेवाओं को प्रभावित करे? तीसरा, क्या कोई व्यक्ति नतीजे को किसी स्रोत से जाँच सकता है? काम तब उपयुक्त है जब उसमें जोखिम कम हो, सिर्फ़ वही जानकारी लगे जो आप साझा कर सकते हैं, और कोई व्यक्ति नतीजा जाँचे। काम तब अनुपयुक्त है जब उसमें बिना मंज़ूरी वाले औज़ार में निजी जानकारी डालनी पड़े, या जब फ़ैसला किसी योग्य या ज़िम्मेदार व्यक्ति का होना चाहिए। कभी कोई काम जैसा माँगा गया वैसा अनुपयुक्त होता है, पर उसका छोटा हिस्सा उपयुक्त होता है, जैसे विशेषज्ञ के लिए सवाल बनाना। पर्ची के कामों को छाँटें, फिर बताएँ कि हर एक को कौन जाँचेगा या तय करेगा।\n\nचरण: पहला चरण। स्रोत पर्ची का हर काम-कार्ड पढ़ें. दूसरा चरण। हर काम के लिए तीनों सवाल पूछें. तीसरा चरण। हर काम को उपयुक्त या अनुपयुक्त में बाँटें. चौथा चरण। लिखें कि हर काम को कौन जाँचेगा या तय करेगा. पाँचवाँ चरण। हर वर्गीकरण के लिए एक कारण लिखें.\n\nइस पर सोचें: आपके काम का कौन-सा काम तभी उपयुक्त है जब कोई व्यक्ति उसे जाँचे, और कौन जाँचेगा?\n\nइसे सावधानी से काम में लाएँ: अपना कोई ऐसा असली काम चुनें जो आप अक्सर करते हैं। किसी AI औज़ार को इस्तेमाल करने से पहले तीनों सवाल और अपना वर्गीकरण लिख लें।",
+          "audio": {
+            "status": "not-recorded",
+            "label": "Audio not recorded yet",
+            "note": "यह केवल एक खाली जगह है। इस पाठ की कोई ऑडियो फ़ाइल नहीं है। नीचे पूरा लिखित पाठ पढ़ें, या अपने फ़ोन की बोलकर सुनाने वाली सुविधा इस्तेमाल करें।"
+          }
+        }
+      ],
+      "practicalAssessment": {
+        "id": "farm-practical-01",
+        "title": "A verified farm record and expert brief",
+        "scenario": "A facilitator asks you to prepare the fictional T01/T02/T03 record for an expert conversation. The extra T02 row is a confirmed copy. The supplied AI output contains unsupported area and yield statements.",
+        "submissionPrompts": [
+          {
+            "id": "task",
+            "label": "What are you trying to achieve and for whom?",
+            "help": "State the purpose of the record and expert conversation."
+          },
+          {
+            "id": "record",
+            "label": "Your corrected record and calculation",
+            "help": "Include source IDs, explain the duplicate treatment and show the INR total."
+          },
+          {
+            "id": "safe-input",
+            "label": "What information is safe to use?",
+            "help": "Identify the synthetic packet and information you would exclude from an unapproved tool."
+          },
+          {
+            "id": "ai-evidence",
+            "label": "The draft you reviewed and instructions you used",
+            "help": "You may review the supplied draft without opening an AI tool. Describe instructions for a safer draft."
+          },
+          {
+            "id": "checks",
+            "label": "Checks, errors and corrections",
+            "help": "Explain the total, area gap, invented yield statement and action recommendation."
+          },
+          {
+            "id": "final",
+            "label": "Final expert question brief",
+            "help": "Separate verified facts, missing information and questions."
+          },
+          {
+            "id": "return",
+            "label": "Your return-to-work action and boundary",
+            "help": "Describe a safe action such as improving records or using an approved expert channel."
+          }
+        ],
+        "rubric": [
+          {
+            "id": "task-quality",
+            "dimension": "Task quality",
+            "weight": 40,
+            "anchors": {
+              "0": "No usable record or brief",
+              "1": "Major record errors or an unclear brief",
+              "2": "Mostly usable output with a material omission",
+              "3": "Correct three-row record, INR 1,400 total and clear brief",
+              "4": "Correct output with concise source mapping, useful questions and a reusable structure"
+            },
+            "criticalGate": null
+          },
+          {
+            "id": "verification",
+            "dimension": "Verification",
+            "weight": 25,
+            "anchors": {
+              "0": "Accepts the flawed output without checks",
+              "1": "Checks only one minor detail",
+              "2": "Checks total and duplicate but incompletely explains unsupported claims",
+              "3": "Shows arithmetic and source-based rejection of invented area/yield claims",
+              "4": "Checks all material claims and clearly distinguishes confirmed facts from unknowns"
+            },
+            "criticalGate": "Must not retain the invented yield or immediate-action claim as verified guidance"
+          },
+          {
+            "id": "information-handling",
+            "dimension": "Information handling",
+            "weight": 20,
+            "anchors": {
+              "0": "Includes actual secrets or inappropriate private records",
+              "1": "Cannot identify what should be excluded",
+              "2": "Uses the synthetic packet but gives incomplete handling reasons",
+              "3": "Uses only synthetic evidence and identifies private information to withhold",
+              "4": "Adds an approved-channel plan with minimal necessary sharing"
+            },
+            "criticalGate": "No actual private records, third-party personal information or credentials submitted or proposed for unapproved use"
+          },
+          {
+            "id": "judgment",
+            "dimension": "Judgment",
+            "weight": 15,
+            "anchors": {
+              "0": "Acts on unsupported consequential advice",
+              "1": "Mentions caution without a usable next step",
+              "2": "Identifies a limit but an unclear expert question",
+              "3": "Asks relevant expert questions and limits the immediate action to permitted work",
+              "4": "Explains escalation, missing context and how confirmed advice will be recorded"
+            },
+            "criticalGate": "Consequential farm decisions are not justified by this expense packet; the brief seeks appropriate expert input"
+          }
+        ],
+        "samplePassingEvidence": "I counted T02 once because the source identifies its duplicate. The total is 450 + 150 + 800 = INR 1,400. No farm area or yield evidence is supplied, so I removed INR 700 per acre and 30% yield improvement. I used fictional data only. My brief asks what context and further records an expert needs. My immediate work action is to maintain a checked record and seek guidance through an approved channel.",
+        "sampleCriticalFailure": "The learner produces a polished brief but recommends repeating the purchases to obtain a 30% yield improvement without verification. The verification and judgment gates fail regardless of aggregate score.",
+        "assessorNote": "Do not require advanced agricultural terminology, typing speed or use of a particular AI brand. Assess the record, checks, handling and explanation."
+      },
+      "followUp": {
+        "afterDays": 14,
+        "question": "Did you use a checked record or expert question brief for a permitted task?",
+        "evidenceOptions": [
+          "A structured reflection with no private record contents",
+          "A blank improved template",
+          "Facilitator-confirmed use under an approved process"
+        ],
+        "successSignal": "The learner can explain one check performed and one limit or question identified",
+        "privacyNote": "Do not collect real farm documents by default."
+      },
+      "foundation": {
+        "moduleId": "responsible-ai-foundation",
+        "title": "ज़िम्मेदार AI की बुनियाद",
+        "topics": [
+          "सटीकता",
+          "निजता",
+          "सीमाएँ",
+          "मानवीय विवेक"
+        ],
+        "lessonIds": [
+          "rai-01",
+          "rai-02"
+        ],
+        "note": "साझा मॉड्यूल। इस संस्करण का हर पाठ्यक्रम इसे बिना बदलाव के शामिल करता है।"
+      },
+      "formatAlternatives": {
+        "transcript": "हर पाठ का पूरा लिखित पाठ उपलब्ध है।",
+        "summary": "हर पाठ का सरल भाषा में सार उपलब्ध है।",
+        "listen": "ऑडियो अभी रिकॉर्ड नहीं हुआ: सुनने का विकल्प केवल एक नामित खाली जगह है, कोई मीडिया फ़ाइल नहीं है।"
+      },
+      "translationNotice": "Hindi draft — machine-assisted, needs native review. हिंदी मसौदा: मशीन की मदद से तैयार, किसी मूल हिंदी भाषी की समीक्षा बाकी है। अभ्यास की स्रोत पर्ची, वैकल्पिक AI निर्देश और व्यावहारिक मूल्यांकन इस मसौदे में अंग्रेज़ी में हैं।"
+    }
+  ]
+}

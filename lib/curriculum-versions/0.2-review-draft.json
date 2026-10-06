@@ -1,0 +1,2473 @@
+{
+  "schemaVersion": "1.0",
+  "contentVersion": "0.2-review-draft",
+  "product": "Aplyd Academy",
+  "status": "Review draft: not approved sector training, accredited curriculum, or professional advice",
+  "language": "en",
+  "audience": "Adult learners",
+  "editionNotes": [
+    "Additional edition. Edition 0.1-review-draft is unchanged and learners enrolled on it stay on it.",
+    "Adds the Responsible AI foundation module, suitable-versus-unsuitable AI use scenarios, transcripts, plain-language summaries and an audio placeholder.",
+    "The Health pathway is not part of this edition: it needs clinical domain review (domain-review-needed) and no clinical content is authored here.",
+    "Audio is a placeholder. No recording exists."
+  ],
+  "designNotes": [
+    "All people, orders, records, documents, policies and AI outputs in this file are fictional teaching fixtures.",
+    "Supplied AI drafts allow the whole journey to work without an external AI account or API call.",
+    "An approved external AI tool may optionally produce another draft using the synthetic packet only. Learners must not enter real confidential material or credentials.",
+    "Quiz feedback supports learning. A quiz score alone must not issue a competency credential.",
+    "Practical assessment requires an assigned human reviewer. Rubric weights and critical gates are proposed, published training standards for this draft.",
+    "A facilitator may read lesson text and capture an oral response with learner confirmation when an approved accommodation exists. Assistance must be recorded and must not supply the judgment answer."
+  ],
+  "assessmentPolicy": {
+    "scoreScale": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "weightedScoreFormula": "Sum of criterion weight multiplied by criterion score divided by 4; maximum 100",
+    "minimumWeightedScore": 70,
+    "passingRule": "Weighted score is at least 70 AND every declared critical gate is met. A critical failure cannot be averaged away.",
+    "decisionAuthority": "Assigned independent human assessor; no self-assessment or autonomous AI credential decision",
+    "feedbackRule": "Record score, evidence reference, critical-gate decision and actionable feedback for each criterion.",
+    "retryRule": "Retries and deadlines must be published by the offering before enrollment. Do not infer a fixed retry allowance from this seed file.",
+    "appealRule": "A learner may request a reasoned review under the offering's published appeal policy. The appeal reviewer must be independent of the original decision."
+  },
+  "pathways": [
+    {
+      "id": "farmer-work-records",
+      "title": "Farm records and better questions with AI",
+      "ecosystem": "Agri Saha",
+      "role": "Farmer",
+      "level": "Foundation to applied",
+      "summary": "Organize an activity record, check an AI-generated summary, and prepare useful questions for an agricultural expert.",
+      "promise": "You can turn a simple farm record into a verified summary and explain what still needs expert input.",
+      "estimatedMinutes": 170,
+      "prerequisites": [
+        "Understand the example currency amounts with help if needed",
+        "Use a simple form or receive planned facilitator assistance"
+      ],
+      "outcomes": [
+        "Distinguish a duplicate transaction from a separate expense",
+        "Check totals against source records",
+        "Spot unsupported AI claims",
+        "Create a clear expert question brief",
+        "Keep private or commercially sensitive records out of unapproved tools"
+      ],
+      "credentialClaim": "Demonstrated farm-record organization, information checking and expert-question preparation using synthetic training data",
+      "credentialExclusions": [
+        "No agricultural professional qualification",
+        "No certification to prescribe farm inputs or make agronomic decisions"
+      ],
+      "sourceNotice": "Synthetic farm records supplied within each activity are the only factual source for this exercise.",
+      "lessons": [
+        {
+          "id": "rai-01",
+          "module": "responsible-ai-foundation",
+          "title": "Accuracy and limits: AI can sound sure and still be wrong",
+          "estimatedMinutes": 15,
+          "objective": "Recognise that AI output can be fluent but wrong, and check each important claim against a source before using it.",
+          "lessonText": "AI tools write fluent answers even when the answer is wrong. They can invent a number, a rule, a date or a source and still sound sure. A tool does not know your farm, your shop or your office. It works only from the words it is given. Treat every AI answer as a draft. Check each important statement against a source you trust, such as your own record, a written rule or a qualified person. If you cannot find support for a statement, mark it unverified and keep it out of anything you share. Check the arithmetic yourself. Ask what the tool could not have known. A short, honest answer that says what is unknown is more useful than a long answer that guesses.",
+          "steps": [
+            "Read the supplied AI draft",
+            "Underline each factual claim",
+            "Find the supporting line in the source packet for each claim",
+            "Mark each claim supported, unsupported or unknown",
+            "Rewrite the draft keeping only supported claims"
+          ],
+          "exercise": {
+            "title": "Check a confident AI note against its source",
+            "sourcePacket": [
+              {
+                "sourceId": "F1",
+                "fact": "Fictional price list: seed packet INR 120; fertiliser sack INR 900."
+              },
+              {
+                "sourceId": "F2",
+                "fact": "No information about rainfall, soil or expected yield is supplied in this exercise."
+              }
+            ],
+            "suppliedAiDraft": "Seed costs INR 120 and fertiliser costs INR 900, so the total is INR 1,020. Heavy rain is coming this month, so buy extra fertiliser now.",
+            "optionalAiPrompt": "Using only the supplied fictional price list, write a two-line cost note. Say what is not known. Do not predict weather or yield.",
+            "learnerTask": "Mark each statement in the draft as supported, unsupported or unknown, then write a corrected two-line note.",
+            "expectedEvidence": [
+              "Cost statements marked supported by source F1",
+              "Rain and purchase advice marked unsupported because F2 gives no rainfall information",
+              "Corrected note that states INR 1,020 and names what is not known"
+            ],
+            "assessorReference": "The two prices and the total INR 1,020 (120 + 900) are supported by F1. The heavy-rain claim and the advice to buy extra fertiliser are unsupported, because F2 states that no weather, soil or yield information is supplied. A good answer keeps the supported facts and says what is not known."
+          },
+          "quiz": [
+            {
+              "id": "rai-01-q1",
+              "question": "An AI answer sounds very sure. What does that tell you about whether it is correct?",
+              "options": [
+                "It is probably correct because it sounds so confident",
+                "Nothing by itself: fluent wording is not evidence, so check it",
+                "It is correct if it includes numbers",
+                "It is correct if it is long"
+              ],
+              "correctOptionIndex": 1,
+              "explanation": "Confident wording is not evidence. AI tools can state invented facts in the same tone as true ones, so important claims need a check against a source."
+            },
+            {
+              "id": "rai-01-q2",
+              "question": "The source packet says nothing about rain, but the AI draft predicts heavy rain. What should you do?",
+              "options": [
+                "Mark it unsupported and leave it out of what you share",
+                "Keep it because AI tools know the weather",
+                "Make the prediction stronger",
+                "Share it as an official forecast"
+              ],
+              "correctOptionIndex": 0,
+              "explanation": "A claim with no support in the source is unsupported. Leave it out or mark it clearly as unverified."
+            },
+            {
+              "id": "rai-01-q3",
+              "question": "Which is the best check for a total that an AI tool calculated?",
+              "options": [
+                "Trust it if it is shown in bold",
+                "Ask the tool whether it is sure",
+                "Add the numbers from the source yourself",
+                "Round it to the nearest ten"
+              ],
+              "correctOptionIndex": 2,
+              "explanation": "Adding the source numbers yourself is an independent check. Asking the same tool if it is sure is not."
+            }
+          ],
+          "reflectionPrompt": "Think of a time a confident answer turned out to be wrong. What check would have caught it?",
+          "returnToWorkAction": "Before you use an AI draft for a permitted task, mark each important statement as supported, unsupported or unknown, and remove anything you cannot support.",
+          "summary": "AI can sound sure and still be wrong. Treat every answer as a draft. Check each important claim against a source you trust, add up the numbers yourself, and leave out anything you cannot support.",
+          "transcript": "Lesson: Accuracy and limits: AI can sound sure and still be wrong.\n\nObjective: Recognise that AI output can be fluent but wrong, and check each important claim against a source before using it.\n\nAI tools write fluent answers even when the answer is wrong. They can invent a number, a rule, a date or a source and still sound sure. A tool does not know your farm, your shop or your office. It works only from the words it is given. Treat every AI answer as a draft. Check each important statement against a source you trust, such as your own record, a written rule or a qualified person. If you cannot find support for a statement, mark it unverified and keep it out of anything you share. Check the arithmetic yourself. Ask what the tool could not have known. A short, honest answer that says what is unknown is more useful than a long answer that guesses.\n\nSteps: Step 1. Read the supplied AI draft. Step 2. Underline each factual claim. Step 3. Find the supporting line in the source packet for each claim. Step 4. Mark each claim supported, unsupported or unknown. Step 5. Rewrite the draft keeping only supported claims.\n\nThink about this: Think of a time a confident answer turned out to be wrong. What check would have caught it?\n\nPut it to work carefully: Before you use an AI draft for a permitted task, mark each important statement as supported, unsupported or unknown, and remove anything you cannot support.",
+          "audio": {
+            "status": "not-recorded",
+            "label": "Audio not recorded yet",
+            "note": "This is a placeholder only. No audio file exists for this lesson. Read the full transcript below, or use your device's read-aloud feature."
+          }
+        },
+        {
+          "id": "rai-02",
+          "module": "responsible-ai-foundation",
+          "title": "Privacy and human judgment: what stays out and who decides",
+          "estimatedMinutes": 15,
+          "objective": "Keep private details out of unapproved AI tools and name the accountable person who decides anything that affects others.",
+          "lessonText": "Some information should not be typed into an AI tool unless your organisation has approved that tool for that use. This includes names, phone numbers, bank or identity details, exact locations, health details and anything someone gave you in confidence. In this course you use only fictional records, so you never need real ones. A second rule is about decisions. AI can draft, sort and suggest. An accountable person decides anything that affects someone's money, health, safety, rights or services. Keep a short note of who checked the work and what they changed. If you are unsure whether a task is suitable, stop and ask a supervisor or a qualified person before you continue. You can always do the task by hand.",
+          "steps": [
+            "Read the three fictional task cards",
+            "Mark any detail that is private",
+            "Decide which tasks AI may help draft",
+            "Decide which tasks need a person to decide",
+            "Write one sentence naming who checks the result"
+          ],
+          "exercise": {
+            "title": "Sort tasks by privacy and by who decides",
+            "sourcePacket": [
+              {
+                "sourceId": "P1",
+                "task": "Draft a polite reminder to pay a fictional small bill",
+                "contains": "No personal details"
+              },
+              {
+                "sourceId": "P2",
+                "task": "Decide whether a fictional neighbour qualifies for a support payment",
+                "contains": "Name, identity number and income of one person"
+              },
+              {
+                "sourceId": "P3",
+                "task": "Sort fictional meeting notes into groups",
+                "contains": "No personal details"
+              }
+            ],
+            "suppliedAiDraft": "All three tasks are fine to give to the AI tool. Paste the neighbour's name, identity number and income into it and let it decide who gets paid.",
+            "optionalAiPrompt": "Do not paste any real details. Ask the tool to explain in two lines why a fictional payment decision should stay with an accountable person.",
+            "learnerTask": "Identify the private details, explain why they stay out of the tool, and name who must make the payment decision.",
+            "expectedEvidence": [
+              "P2 identified as holding private details that stay out of an unapproved tool",
+              "P2 identified as a money decision that an accountable person must make",
+              "P1 and P3 identified as tasks AI may help with, with a person checking the result"
+            ],
+            "assessorReference": "P1 and P3 contain no private details and are low-stakes drafting or sorting tasks, so AI may help if a person checks the result. P2 holds personal and financial details and is a decision about a payment, so the details stay out of unapproved tools and an accountable person decides."
+          },
+          "quiz": [
+            {
+              "id": "rai-02-q1",
+              "question": "Which detail should stay out of an unapproved AI tool?",
+              "options": [
+                "A fictional price list from this course",
+                "A customer's phone number and bank details",
+                "A general question about how to format a table",
+                "A made-up example sentence"
+              ],
+              "correctOptionIndex": 1,
+              "explanation": "Phone numbers and bank details are private. They stay out of tools your organisation has not approved for that use."
+            },
+            {
+              "id": "rai-02-q2",
+              "question": "Who should decide whether a person receives a payment or a service?",
+              "options": [
+                "The AI tool, because it is faster",
+                "Whoever typed the request",
+                "An accountable person, who may use an AI draft as one input",
+                "Nobody, the tool applies the rules automatically"
+              ],
+              "correctOptionIndex": 2,
+              "explanation": "Decisions that affect someone's money, rights or services belong to an accountable person. An AI draft can be one input, never the decision-maker."
+            },
+            {
+              "id": "rai-02-q3",
+              "question": "You are not sure a task is suitable for AI. What is the best next step?",
+              "options": [
+                "Stop and ask a supervisor or a qualified person",
+                "Go ahead and fix problems later",
+                "Ask the AI tool to approve the task",
+                "Paste real records to test it"
+              ],
+              "correctOptionIndex": 0,
+              "explanation": "When suitability is unclear, stop and ask. The task can be done by hand while you wait."
+            }
+          ],
+          "reflectionPrompt": "Which detail in your own work would you never put into an unapproved tool, and who would you ask if unsure?",
+          "returnToWorkAction": "List three kinds of private detail in your work that stay out of AI tools, and write down the name of the person you will ask when a task is unclear.",
+          "summary": "Keep private details out of AI tools your organisation has not approved. AI can help draft and sort, but a person who is accountable decides anything that affects money, health, safety, rights or services. If unsure, stop and ask.",
+          "transcript": "Lesson: Privacy and human judgment: what stays out and who decides.\n\nObjective: Keep private details out of unapproved AI tools and name the accountable person who decides anything that affects others.\n\nSome information should not be typed into an AI tool unless your organisation has approved that tool for that use. This includes names, phone numbers, bank or identity details, exact locations, health details and anything someone gave you in confidence. In this course you use only fictional records, so you never need real ones. A second rule is about decisions. AI can draft, sort and suggest. An accountable person decides anything that affects someone's money, health, safety, rights or services. Keep a short note of who checked the work and what they changed. If you are unsure whether a task is suitable, stop and ask a supervisor or a qualified person before you continue. You can always do the task by hand.\n\nSteps: Step 1. Read the three fictional task cards. Step 2. Mark any detail that is private. Step 3. Decide which tasks AI may help draft. Step 4. Decide which tasks need a person to decide. Step 5. Write one sentence naming who checks the result.\n\nThink about this: Which detail in your own work would you never put into an unapproved tool, and who would you ask if unsure?\n\nPut it to work carefully: List three kinds of private detail in your work that stay out of AI tools, and write down the name of the person you will ask when a task is unclear.",
+          "audio": {
+            "status": "not-recorded",
+            "label": "Audio not recorded yet",
+            "note": "This is a placeholder only. No audio file exists for this lesson. Read the full transcript below, or use your device's read-aloud feature."
+          }
+        },
+        {
+          "id": "farm-01",
+          "module": "pathway-core",
+          "title": "Make a useful work record",
+          "estimatedMinutes": 25,
+          "objective": "Build a consistent record and verify a duplicate before calculating a total.",
+          "lessonText": "A useful record separates what happened from what you think it means. Start with a date, activity, transaction reference, amount and unit where needed. A repeated line may be a duplicate, but two similar expenses can also be real. Check the reference or original receipt before removing anything. In this exercise, the source packet explicitly says that T02 was copied twice and represents one transport payment. Keep a note of that correction. Add the verified amounts rather than trusting a total supplied by a tool. AI can help organize a table or explain a calculation, but it cannot know which entry is genuine without evidence. When you use your own records later, keep the master copy in your approved location and choose a tool you are permitted to use. You do not need to upload names, telephone numbers, bank information or exact location details to practise this skill.",
+          "steps": [
+            "Read the source packet",
+            "Create one row per confirmed transaction",
+            "Record why the extra T02 line was removed",
+            "Calculate the verified total",
+            "Identify one field you would add for future records"
+          ],
+          "exercise": {
+            "title": "Clean the fictional farm activity record",
+            "sourcePacket": [
+              {
+                "sourceId": "T01",
+                "date": "2026-10-01",
+                "activity": "Recordkeeping support",
+                "quantity": 3,
+                "unit": "hours",
+                "rate": 150,
+                "amount": 450,
+                "currency": "INR"
+              },
+              {
+                "sourceId": "T02",
+                "date": "2026-10-02",
+                "activity": "Transport",
+                "quantity": 1,
+                "unit": "trip",
+                "rate": 150,
+                "amount": 150,
+                "currency": "INR"
+              },
+              {
+                "sourceId": "T03",
+                "date": "2026-10-03",
+                "activity": "Storage materials",
+                "quantity": 1,
+                "unit": "lot",
+                "rate": 800,
+                "amount": 800,
+                "currency": "INR"
+              },
+              {
+                "sourceId": "T02",
+                "date": "2026-10-02",
+                "activity": "Transport",
+                "quantity": 1,
+                "unit": "trip",
+                "rate": 150,
+                "amount": 150,
+                "currency": "INR",
+                "sourceNote": "Confirmed copied line; same receipt and payment as T02 above",
+                "duplicateOf": "T02"
+              }
+            ],
+            "suppliedAiDraft": "The four entries total INR 1,550. Each row is a separate expense.",
+            "optionalAiPrompt": "Organize the supplied fictional transactions into a table. Use the source note to handle duplicates, show the calculation, and list uncertainty. Do not infer farm area, crop performance or missing transactions.",
+            "learnerTask": "Produce a corrected three-row table, show your total and explain the duplicate correction.",
+            "expectedEvidence": [
+              "Corrected rows with source references",
+              "450 + 150 + 800 = 1,400",
+              "Note that T02 was removed once because the source confirms a copied payment",
+              "One useful future record field such as receipt reference or unit"
+            ],
+            "assessorReference": "There are three confirmed transactions totaling INR 1,400. The raw four-line total is INR 1,550, but that counts the confirmed T02 copy twice. A learner must not generalize that every repeated amount is a duplicate."
+          },
+          "quiz": [
+            {
+              "id": "farm-01-q1",
+              "question": "What is the verified expense total?",
+              "options": [
+                "INR 1,400",
+                "INR 1,550",
+                "INR 1,250",
+                "It must be guessed from the activities"
+              ],
+              "correctOptionIndex": 0,
+              "explanation": "T02 is a confirmed copy of the same payment. The three verified amounts are 450, 150 and 800, which total 1,400."
+            },
+            {
+              "id": "farm-01-q2",
+              "question": "Two entries have the same amount but different receipt references. What should you do?",
+              "options": [
+                "Delete the second amount automatically",
+                "Keep both as confirmed without checking",
+                "Check the source records before deciding whether either is duplicated",
+                "Ask AI to choose the genuine one without evidence"
+              ],
+              "correctOptionIndex": 2,
+              "explanation": "Equal amounts are not proof of duplication. The original references and payment evidence decide whether the expenses are separate."
+            },
+            {
+              "id": "farm-01-q3",
+              "question": "Which practice input is suitable for this activity?",
+              "options": [
+                "Your bank login details",
+                "The supplied fictional record",
+                "A neighbor's private transaction history",
+                "Any record because AI makes it anonymous"
+              ],
+              "correctOptionIndex": 1,
+              "explanation": "The fictional record provides enough information for practice. Uploading private or secret information is unnecessary and inappropriate."
+            }
+          ],
+          "reflectionPrompt": "Which record field would make it easier for you to check a future total, and why?",
+          "returnToWorkAction": "Create a blank record template in an approved location. Use it for one permitted task and check entries against the original records before any sharing.",
+          "summary": "Keep a simple record with one row for each real payment. Before removing a repeated line, check the receipt or reference to see whether it is a true copy. Add up the checked amounts yourself.",
+          "transcript": "Lesson: Make a useful work record.\n\nObjective: Build a consistent record and verify a duplicate before calculating a total.\n\nA useful record separates what happened from what you think it means. Start with a date, activity, transaction reference, amount and unit where needed. A repeated line may be a duplicate, but two similar expenses can also be real. Check the reference or original receipt before removing anything. In this exercise, the source packet explicitly says that T02 was copied twice and represents one transport payment. Keep a note of that correction. Add the verified amounts rather than trusting a total supplied by a tool. AI can help organize a table or explain a calculation, but it cannot know which entry is genuine without evidence. When you use your own records later, keep the master copy in your approved location and choose a tool you are permitted to use. You do not need to upload names, telephone numbers, bank information or exact location details to practise this skill.\n\nSteps: Step 1. Read the source packet. Step 2. Create one row per confirmed transaction. Step 3. Record why the extra T02 line was removed. Step 4. Calculate the verified total. Step 5. Identify one field you would add for future records.\n\nThink about this: Which record field would make it easier for you to check a future total, and why?\n\nPut it to work carefully: Create a blank record template in an approved location. Use it for one permitted task and check entries against the original records before any sharing.",
+          "audio": {
+            "status": "not-recorded",
+            "label": "Audio not recorded yet",
+            "note": "This is a placeholder only. No audio file exists for this lesson. Read the full transcript below, or use your device's read-aloud feature."
+          }
+        },
+        {
+          "id": "farm-02",
+          "module": "pathway-core",
+          "title": "Check an AI summary before using it",
+          "estimatedMinutes": 20,
+          "objective": "Separate supported observations, missing context and unsupported recommendations.",
+          "lessonText": "A summary can sound confident while mixing correct statements with invented ones. Check important statements one at a time. Ask what evidence supports each claim. A total can be checked against transaction rows. A cost per acre needs area information. A claim about crop results needs relevant evidence, rather than a guess based on expenses. In this activity, the verified spending record tells you what was recorded; it does not tell you the farm area, complete budget, crop condition or likely yield. Mark these gaps explicitly. When a claim could affect a significant farm decision, prepare a question for an appropriate expert instead of treating an AI draft as a recommendation. A useful summary includes the known total, its limited scope, and the missing information. Verification is part of the work, even when it takes more time than generating the draft.",
+          "steps": [
+            "Check the total",
+            "Label each claim supported, unsupported or unknown",
+            "Explain what evidence a per-acre figure would need",
+            "Rewrite the summary with limits",
+            "Identify the claim that needs expert input"
+          ],
+          "exercise": {
+            "title": "Find the unsupported claims",
+            "sourcePacket": [
+              {
+                "sourceId": "farm-02-source-1",
+                "content": "Verified transactions: T01 INR 450; T02 INR 150; T03 INR 800."
+              },
+              {
+                "sourceId": "farm-02-source-2",
+                "content": "Recorded total: INR 1,400."
+              },
+              {
+                "sourceId": "farm-02-source-3",
+                "content": "Farm area, crop condition, total seasonal budget and crop outcomes are not supplied."
+              }
+            ],
+            "suppliedAiDraft": "The recorded expenses are INR 1,400. That is INR 700 per acre. These purchases will increase yield by 30%, so the farmer should immediately repeat them.",
+            "optionalAiPrompt": "Summarize only the supplied synthetic expense record. For every statement distinguish source-supported facts from missing context. Do not predict yield or recommend actions.",
+            "learnerTask": "Annotate the draft and create a two- or three-sentence corrected summary.",
+            "expectedEvidence": [
+              "Total supported by the three transaction rows",
+              "Per-acre claim rejected because area is missing",
+              "Yield and immediate-action claims rejected as unsupported",
+              "Corrected summary describes recorded expenses and missing context",
+              "Expert referral for consequential recommendations"
+            ],
+            "assessorReference": "The packet supports only the INR 1,400 recorded total. It does not establish cost per acre, a 30% yield effect or a decision to repeat the purchases. Accept a cautious summary using equivalent plain language."
+          },
+          "quiz": [
+            {
+              "id": "farm-02-q1",
+              "question": "Which claim is supported by the packet?",
+              "options": [
+                "Yield will rise by 30%",
+                "The farm has two acres",
+                "The recorded expenses total INR 1,400",
+                "Repeating the purchases is the right decision"
+              ],
+              "correctOptionIndex": 2,
+              "explanation": "The transaction amounts support the total. Area, yield and action advice are not in the source packet."
+            },
+            {
+              "id": "farm-02-q2",
+              "question": "Why is INR 700 per acre unverified?",
+              "options": [
+                "It is too small",
+                "The packet does not give the farm area",
+                "All AI calculations are wrong",
+                "Per-acre costs can never be calculated"
+              ],
+              "correctOptionIndex": 1,
+              "explanation": "A cost per acre requires a relevant area and a defined cost scope. The area is absent, so the figure is unsupported here."
+            },
+            {
+              "id": "farm-02-q3",
+              "question": "What is the appropriate response to the draft's yield recommendation?",
+              "options": [
+                "Act immediately because the wording is confident",
+                "Forward it as approved guidance",
+                "Ask AI to make the recommendation stronger",
+                "Mark it unsupported and seek appropriate expert input before a consequential action"
+              ],
+              "correctOptionIndex": 3,
+              "explanation": "The provided record does not support a yield prediction or action. Recognizing the limit and escalating is the responsible response."
+            }
+          ],
+          "reflectionPrompt": "What is one confident-sounding statement you would still need to check?",
+          "returnToWorkAction": "For your next permitted AI-assisted summary, label important statements as verified, unverified or requiring expert input before using the draft.",
+          "summary": "An AI summary can mix true statements with invented ones. Check each claim against your record, write down what is missing, and ask an expert before any big farm decision.",
+          "transcript": "Lesson: Check an AI summary before using it.\n\nObjective: Separate supported observations, missing context and unsupported recommendations.\n\nA summary can sound confident while mixing correct statements with invented ones. Check important statements one at a time. Ask what evidence supports each claim. A total can be checked against transaction rows. A cost per acre needs area information. A claim about crop results needs relevant evidence, rather than a guess based on expenses. In this activity, the verified spending record tells you what was recorded; it does not tell you the farm area, complete budget, crop condition or likely yield. Mark these gaps explicitly. When a claim could affect a significant farm decision, prepare a question for an appropriate expert instead of treating an AI draft as a recommendation. A useful summary includes the known total, its limited scope, and the missing information. Verification is part of the work, even when it takes more time than generating the draft.\n\nSteps: Step 1. Check the total. Step 2. Label each claim supported, unsupported or unknown. Step 3. Explain what evidence a per-acre figure would need. Step 4. Rewrite the summary with limits. Step 5. Identify the claim that needs expert input.\n\nThink about this: What is one confident-sounding statement you would still need to check?\n\nPut it to work carefully: For your next permitted AI-assisted summary, label important statements as verified, unverified or requiring expert input before using the draft.",
+          "audio": {
+            "status": "not-recorded",
+            "label": "Audio not recorded yet",
+            "note": "This is a placeholder only. No audio file exists for this lesson. Read the full transcript below, or use your device's read-aloud feature."
+          }
+        },
+        {
+          "id": "farm-03",
+          "module": "pathway-core",
+          "title": "Prepare a useful expert conversation",
+          "estimatedMinutes": 30,
+          "objective": "Turn a checked record into a concise question brief without claiming an unsupported decision.",
+          "lessonText": "AI is useful when it helps you organize questions, rather than deciding something it cannot support. A good expert brief states the purpose, summarizes verified information, identifies missing context, and asks specific questions. Keep facts separate from assumptions. Do not turn a missing detail into a made-up answer. In this example, you can explain that three recorded expenses total INR 1,400 and that a previous draft invented a yield claim. You can ask what additional records an expert needs and how to check any recommendation. The expert may need information beyond the training packet; share it only through an approved channel and only when relevant. Keep the brief short enough to use during a conversation. Afterward, record what was confirmed, what remains uncertain and who will take the next step. This pathway demonstrates recordkeeping and information judgment, not authority to prescribe farm practices.",
+          "steps": [
+            "State the conversation's purpose",
+            "Include the checked record total and sources",
+            "List three relevant missing details",
+            "Write three specific expert questions",
+            "Choose an approved way to use the brief"
+          ],
+          "exercise": {
+            "title": "Build the expert question brief",
+            "sourcePacket": [
+              {
+                "sourceId": "farm-03-source-1",
+                "content": "Use the verified three-row record from farm-01."
+              },
+              {
+                "sourceId": "farm-03-source-2",
+                "content": "The earlier AI draft's per-acre and yield claims were unsupported."
+              },
+              {
+                "sourceId": "farm-03-source-3",
+                "content": "No farm area, crop condition or complete seasonal expense record is provided."
+              }
+            ],
+            "suppliedAiDraft": "Expert brief: Our two-acre farm will gain 30% yield if we repeat the purchases. Please approve this plan.",
+            "optionalAiPrompt": "Create a short question brief from the supplied fictional packet. Separate verified facts, missing context and questions. Do not invent area, crop condition or outcomes, and do not request approval of an unsupported plan.",
+            "learnerTask": "Produce a 120–200 word brief or equivalent oral response with verified facts, gaps, questions and next action.",
+            "expectedEvidence": [
+              "Purpose: seek informed guidance about what information is needed",
+              "Checked INR 1,400 recorded total with transaction references",
+              "Missing area, crop context and record completeness",
+              "Questions about needed information and verification, rather than a demanded action",
+              "Next action stays within recordkeeping and approved expert consultation"
+            ],
+            "assessorReference": "A suitable brief says the record is limited, removes invented area/yield details, asks what further information is needed and how to verify advice, and uses an approved channel. Equivalent plain-language or approved oral evidence is acceptable."
+          },
+          "quiz": [
+            {
+              "id": "farm-03-q1",
+              "question": "Which question best fits the available information?",
+              "options": [
+                "Can you confirm the promised 30% increase?",
+                "What additional information do you need to interpret these recorded expenses?",
+                "Which input should everyone buy?",
+                "Can we omit the original records?"
+              ],
+              "correctOptionIndex": 1,
+              "explanation": "The question acknowledges the limited packet and asks an expert for the missing context needed for interpretation."
+            },
+            {
+              "id": "farm-03-q2",
+              "question": "What should the brief do with the invented two-acre detail?",
+              "options": [
+                "Keep it because it is convenient",
+                "Describe it as verified",
+                "Remove it and state that area is not supplied",
+                "Replace it with another guess"
+              ],
+              "correctOptionIndex": 2,
+              "explanation": "A missing field should remain a documented gap until appropriate evidence is available."
+            },
+            {
+              "id": "farm-03-q3",
+              "question": "What does this pathway's competency credential demonstrate?",
+              "options": [
+                "Authority to prescribe crop inputs",
+                "A professional agricultural qualification",
+                "A guaranteed yield improvement",
+                "Record organization, information checking and expert-question preparation"
+              ],
+              "correctOptionIndex": 3,
+              "explanation": "The credential must describe the assessed capability accurately. It does not create professional authority or guarantee an outcome."
+            }
+          ],
+          "reflectionPrompt": "How would this brief help an expert understand your question without pretending that every detail is known?",
+          "returnToWorkAction": "Use a blank fact–gap–question template for one permitted work conversation. Record the expert's confirmed guidance separately from your own assumptions.",
+          "summary": "Use AI to organise your questions, not to answer them. Write what you know, what is missing and what you want to ask, and keep facts apart from guesses.",
+          "transcript": "Lesson: Prepare a useful expert conversation.\n\nObjective: Turn a checked record into a concise question brief without claiming an unsupported decision.\n\nAI is useful when it helps you organize questions, rather than deciding something it cannot support. A good expert brief states the purpose, summarizes verified information, identifies missing context, and asks specific questions. Keep facts separate from assumptions. Do not turn a missing detail into a made-up answer. In this example, you can explain that three recorded expenses total INR 1,400 and that a previous draft invented a yield claim. You can ask what additional records an expert needs and how to check any recommendation. The expert may need information beyond the training packet; share it only through an approved channel and only when relevant. Keep the brief short enough to use during a conversation. Afterward, record what was confirmed, what remains uncertain and who will take the next step. This pathway demonstrates recordkeeping and information judgment, not authority to prescribe farm practices.\n\nSteps: Step 1. State the conversation's purpose. Step 2. Include the checked record total and sources. Step 3. List three relevant missing details. Step 4. Write three specific expert questions. Step 5. Choose an approved way to use the brief.\n\nThink about this: How would this brief help an expert understand your question without pretending that every detail is known?\n\nPut it to work carefully: Use a blank fact–gap–question template for one permitted work conversation. Record the expert's confirmed guidance separately from your own assumptions.",
+          "audio": {
+            "status": "not-recorded",
+            "label": "Audio not recorded yet",
+            "note": "This is a placeholder only. No audio file exists for this lesson. Read the full transcript below, or use your device's read-aloud feature."
+          }
+        },
+        {
+          "id": "farm-scn-1",
+          "module": "suitable-unsuitable-use",
+          "title": "Suitable or unsuitable AI use: farm tasks (part 1 of 2)",
+          "estimatedMinutes": 15,
+          "objective": "Sort everyday farm tasks into suitable and unsuitable AI use and give a reason for each.",
+          "lessonText": "Before you use AI for a task, ask three questions. First, does the task need private details such as names, phone numbers, bank, identity or health details? Second, does it decide something that affects a crop, an animal or a farm worker, or anyone's money, health, safety, rights or services? Third, can a person check the result against a source? A task is suitable when it is low-risk, uses only information you may share, and a person checks the result. A task is unsuitable when it needs private details in an unapproved tool, or when the decision must belong to a qualified or accountable person. Sometimes a task is unsuitable as asked but a smaller part of it is suitable, such as drafting questions for an expert. Sort the tasks in the packet, then say who checks or decides each one.",
+          "steps": [
+            "Read each task card in the source packet",
+            "Ask the three questions for each task",
+            "Classify each task as suitable or unsuitable",
+            "Name who checks or who decides each task",
+            "Write one reason for each classification"
+          ],
+          "exercise": {
+            "title": "Sort farm tasks into suitable and unsuitable AI use",
+            "sourcePacket": [
+              {
+                "sourceId": "S1",
+                "task": "Ask an AI tool to turn your fictional list of seed and fertiliser purchases into a tidy table.",
+                "setting": "Farm"
+              },
+              {
+                "sourceId": "S2",
+                "task": "Ask an AI tool to decide how much pesticide to spray on a field and when to spray it.",
+                "setting": "Farm"
+              },
+              {
+                "sourceId": "S3",
+                "task": "Paste a farm worker's name, phone number and bank account number into an AI tool to produce a payment list.",
+                "setting": "Farm"
+              }
+            ],
+            "suppliedAiDraft": "AI can do all of these tasks quickly, so give every task to the tool and use whatever it returns without checking.",
+            "optionalAiPrompt": "Do not paste real details. Ask the tool to explain in two lines why one fictional task might need a human decision.",
+            "learnerTask": "Classify each task as suitable or unsuitable for AI use. For each one, name who checks or who decides, and give one reason.",
+            "expectedEvidence": [
+              "S1 classified as suitable with a human check, with a reason and a named person",
+              "S2 classified as unsuitable, a person must decide, with a reason and a named person",
+              "S3 classified as unsuitable, private details, with a reason and a named person"
+            ],
+            "assessorReference": "S1: suitable with a human check. This organises records you supplied and carries low risk. You still check the total against the receipts. S2: unsuitable, a person must decide. The decision affects the crop, safety and health. A qualified agriculture expert decides; an AI draft is not enough. S3: unsuitable, private details. These are private details. They stay out of tools that are not approved for them, and a list can use reference codes instead."
+          },
+          "quiz": [
+            {
+              "id": "farm-scn-1-q1",
+              "question": "Classify this task: Ask an AI tool to turn your fictional list of seed and fertiliser purchases into a tidy table.",
+              "options": [
+                "Suitable: AI may help draft it and a person checks the result",
+                "Suitable: AI may finish it alone with no checking",
+                "Unsuitable: a qualified or accountable person must decide it",
+                "Unsuitable: it needs private details that must not go into an AI tool"
+              ],
+              "correctOptionIndex": 0,
+              "explanation": "This organises records you supplied and carries low risk. You still check the total against the receipts."
+            },
+            {
+              "id": "farm-scn-1-q2",
+              "question": "Classify this task: Ask an AI tool to decide how much pesticide to spray on a field and when to spray it.",
+              "options": [
+                "Suitable: AI may finish it alone with no checking",
+                "Unsuitable: a qualified or accountable person must decide it",
+                "Suitable: AI may help draft it and a person checks the result",
+                "Unsuitable: it needs private details that must not go into an AI tool"
+              ],
+              "correctOptionIndex": 1,
+              "explanation": "The decision affects the crop, safety and health. A qualified agriculture expert decides; an AI draft is not enough."
+            },
+            {
+              "id": "farm-scn-1-q3",
+              "question": "Classify this task: Paste a farm worker's name, phone number and bank account number into an AI tool to produce a payment list.",
+              "options": [
+                "Unsuitable: a qualified or accountable person must decide it",
+                "Unsuitable: it needs private details that must not go into an AI tool",
+                "Suitable: AI may finish it alone with no checking",
+                "Suitable: AI may help draft it and a person checks the result"
+              ],
+              "correctOptionIndex": 1,
+              "explanation": "These are private details. They stay out of tools that are not approved for them, and a list can use reference codes instead."
+            }
+          ],
+          "reflectionPrompt": "Which task in your own work is suitable only if a person checks it, and who would check it?",
+          "returnToWorkAction": "Choose one real task you do often. Write down the three questions and your classification before you use any AI tool for it.",
+          "summary": "Ask three questions before using AI: does it need private details, does it decide something that affects a person, and can someone check the result. Low-risk tasks with a human check are suitable; private details and consequential decisions are not. This part covers 3 farm tasks.",
+          "transcript": "Lesson: Suitable or unsuitable AI use: farm tasks (part 1 of 2).\n\nObjective: Sort everyday farm tasks into suitable and unsuitable AI use and give a reason for each.\n\nBefore you use AI for a task, ask three questions. First, does the task need private details such as names, phone numbers, bank, identity or health details? Second, does it decide something that affects a crop, an animal or a farm worker, or anyone's money, health, safety, rights or services? Third, can a person check the result against a source? A task is suitable when it is low-risk, uses only information you may share, and a person checks the result. A task is unsuitable when it needs private details in an unapproved tool, or when the decision must belong to a qualified or accountable person. Sometimes a task is unsuitable as asked but a smaller part of it is suitable, such as drafting questions for an expert. Sort the tasks in the packet, then say who checks or decides each one.\n\nSteps: Step 1. Read each task card in the source packet. Step 2. Ask the three questions for each task. Step 3. Classify each task as suitable or unsuitable. Step 4. Name who checks or who decides each task. Step 5. Write one reason for each classification.\n\nThink about this: Which task in your own work is suitable only if a person checks it, and who would check it?\n\nPut it to work carefully: Choose one real task you do often. Write down the three questions and your classification before you use any AI tool for it.",
+          "audio": {
+            "status": "not-recorded",
+            "label": "Audio not recorded yet",
+            "note": "This is a placeholder only. No audio file exists for this lesson. Read the full transcript below, or use your device's read-aloud feature."
+          }
+        },
+        {
+          "id": "farm-scn-2",
+          "module": "suitable-unsuitable-use",
+          "title": "Suitable or unsuitable AI use: farm tasks (part 2 of 2)",
+          "estimatedMinutes": 15,
+          "objective": "Sort everyday farm tasks into suitable and unsuitable AI use and give a reason for each.",
+          "lessonText": "Before you use AI for a task, ask three questions. First, does the task need private details such as names, phone numbers, bank, identity or health details? Second, does it decide something that affects a crop, an animal or a farm worker, or anyone's money, health, safety, rights or services? Third, can a person check the result against a source? A task is suitable when it is low-risk, uses only information you may share, and a person checks the result. A task is unsuitable when it needs private details in an unapproved tool, or when the decision must belong to a qualified or accountable person. Sometimes a task is unsuitable as asked but a smaller part of it is suitable, such as drafting questions for an expert. Sort the tasks in the packet, then say who checks or decides each one.",
+          "steps": [
+            "Read each task card in the source packet",
+            "Ask the three questions for each task",
+            "Classify each task as suitable or unsuitable",
+            "Name who checks or who decides each task",
+            "Write one reason for each classification"
+          ],
+          "exercise": {
+            "title": "Sort farm tasks into suitable and unsuitable AI use",
+            "sourcePacket": [
+              {
+                "sourceId": "S4",
+                "task": "Ask an AI tool to draft a short list of questions to take to the agriculture extension officer about a fictional soil report.",
+                "setting": "Farm"
+              },
+              {
+                "sourceId": "S5",
+                "task": "Let an AI tool declare that a fictional batch of seed is certified disease-free and print the label from its answer.",
+                "setting": "Farm"
+              },
+              {
+                "sourceId": "S6",
+                "task": "Ask an AI tool to explain in simple words what a fictional government scheme leaflet says, then compare the answer with the leaflet.",
+                "setting": "Farm"
+              }
+            ],
+            "suppliedAiDraft": "AI can do all of these tasks quickly, so give every task to the tool and use whatever it returns without checking.",
+            "optionalAiPrompt": "Do not paste real details. Ask the tool to explain in two lines why one fictional task might need a human decision.",
+            "learnerTask": "Classify each task as suitable or unsuitable for AI use. For each one, name who checks or who decides, and give one reason.",
+            "expectedEvidence": [
+              "S4 classified as suitable with a human check, with a reason and a named person",
+              "S5 classified as unsuitable, a person must decide, with a reason and a named person",
+              "S6 classified as suitable with a human check, with a reason and a named person"
+            ],
+            "assessorReference": "S4: suitable with a human check. Drafting questions is a good use of AI. The officer, not the tool, gives the advice, and you check the questions first. S5: unsuitable, a person must decide. Certification needs qualified testing and an accountable signature. An AI statement is not a test result. S6: suitable with a human check. Plain-language explanation is suitable when you compare it with the original leaflet before relying on it."
+          },
+          "quiz": [
+            {
+              "id": "farm-scn-2-q1",
+              "question": "Classify this task: Ask an AI tool to draft a short list of questions to take to the agriculture extension officer about a fictional soil report.",
+              "options": [
+                "Unsuitable: it needs private details that must not go into an AI tool",
+                "Suitable: AI may help draft it and a person checks the result",
+                "Unsuitable: a qualified or accountable person must decide it",
+                "Suitable: AI may finish it alone with no checking"
+              ],
+              "correctOptionIndex": 1,
+              "explanation": "Drafting questions is a good use of AI. The officer, not the tool, gives the advice, and you check the questions first."
+            },
+            {
+              "id": "farm-scn-2-q2",
+              "question": "Classify this task: Let an AI tool declare that a fictional batch of seed is certified disease-free and print the label from its answer.",
+              "options": [
+                "Suitable: AI may help draft it and a person checks the result",
+                "Suitable: AI may finish it alone with no checking",
+                "Unsuitable: a qualified or accountable person must decide it",
+                "Unsuitable: it needs private details that must not go into an AI tool"
+              ],
+              "correctOptionIndex": 2,
+              "explanation": "Certification needs qualified testing and an accountable signature. An AI statement is not a test result."
+            },
+            {
+              "id": "farm-scn-2-q3",
+              "question": "Classify this task: Ask an AI tool to explain in simple words what a fictional government scheme leaflet says, then compare the answer with the leaflet.",
+              "options": [
+                "Suitable: AI may finish it alone with no checking",
+                "Unsuitable: a qualified or accountable person must decide it",
+                "Suitable: AI may help draft it and a person checks the result",
+                "Unsuitable: it needs private details that must not go into an AI tool"
+              ],
+              "correctOptionIndex": 2,
+              "explanation": "Plain-language explanation is suitable when you compare it with the original leaflet before relying on it."
+            }
+          ],
+          "reflectionPrompt": "Which task in your own work is suitable only if a person checks it, and who would check it?",
+          "returnToWorkAction": "Choose one real task you do often. Write down the three questions and your classification before you use any AI tool for it.",
+          "summary": "Ask three questions before using AI: does it need private details, does it decide something that affects a person, and can someone check the result. Low-risk tasks with a human check are suitable; private details and consequential decisions are not. This part covers 3 farm tasks.",
+          "transcript": "Lesson: Suitable or unsuitable AI use: farm tasks (part 2 of 2).\n\nObjective: Sort everyday farm tasks into suitable and unsuitable AI use and give a reason for each.\n\nBefore you use AI for a task, ask three questions. First, does the task need private details such as names, phone numbers, bank, identity or health details? Second, does it decide something that affects a crop, an animal or a farm worker, or anyone's money, health, safety, rights or services? Third, can a person check the result against a source? A task is suitable when it is low-risk, uses only information you may share, and a person checks the result. A task is unsuitable when it needs private details in an unapproved tool, or when the decision must belong to a qualified or accountable person. Sometimes a task is unsuitable as asked but a smaller part of it is suitable, such as drafting questions for an expert. Sort the tasks in the packet, then say who checks or decides each one.\n\nSteps: Step 1. Read each task card in the source packet. Step 2. Ask the three questions for each task. Step 3. Classify each task as suitable or unsuitable. Step 4. Name who checks or who decides each task. Step 5. Write one reason for each classification.\n\nThink about this: Which task in your own work is suitable only if a person checks it, and who would check it?\n\nPut it to work carefully: Choose one real task you do often. Write down the three questions and your classification before you use any AI tool for it.",
+          "audio": {
+            "status": "not-recorded",
+            "label": "Audio not recorded yet",
+            "note": "This is a placeholder only. No audio file exists for this lesson. Read the full transcript below, or use your device's read-aloud feature."
+          }
+        }
+      ],
+      "practicalAssessment": {
+        "id": "farm-practical-01",
+        "title": "A verified farm record and expert brief",
+        "scenario": "A facilitator asks you to prepare the fictional T01/T02/T03 record for an expert conversation. The extra T02 row is a confirmed copy. The supplied AI output contains unsupported area and yield statements.",
+        "submissionPrompts": [
+          {
+            "id": "task",
+            "label": "What are you trying to achieve and for whom?",
+            "help": "State the purpose of the record and expert conversation."
+          },
+          {
+            "id": "record",
+            "label": "Your corrected record and calculation",
+            "help": "Include source IDs, explain the duplicate treatment and show the INR total."
+          },
+          {
+            "id": "safe-input",
+            "label": "What information is safe to use?",
+            "help": "Identify the synthetic packet and information you would exclude from an unapproved tool."
+          },
+          {
+            "id": "ai-evidence",
+            "label": "The draft you reviewed and instructions you used",
+            "help": "You may review the supplied draft without opening an AI tool. Describe instructions for a safer draft."
+          },
+          {
+            "id": "checks",
+            "label": "Checks, errors and corrections",
+            "help": "Explain the total, area gap, invented yield statement and action recommendation."
+          },
+          {
+            "id": "final",
+            "label": "Final expert question brief",
+            "help": "Separate verified facts, missing information and questions."
+          },
+          {
+            "id": "return",
+            "label": "Your return-to-work action and boundary",
+            "help": "Describe a safe action such as improving records or using an approved expert channel."
+          }
+        ],
+        "rubric": [
+          {
+            "id": "task-quality",
+            "dimension": "Task quality",
+            "weight": 40,
+            "anchors": {
+              "0": "No usable record or brief",
+              "1": "Major record errors or an unclear brief",
+              "2": "Mostly usable output with a material omission",
+              "3": "Correct three-row record, INR 1,400 total and clear brief",
+              "4": "Correct output with concise source mapping, useful questions and a reusable structure"
+            },
+            "criticalGate": null
+          },
+          {
+            "id": "verification",
+            "dimension": "Verification",
+            "weight": 25,
+            "anchors": {
+              "0": "Accepts the flawed output without checks",
+              "1": "Checks only one minor detail",
+              "2": "Checks total and duplicate but incompletely explains unsupported claims",
+              "3": "Shows arithmetic and source-based rejection of invented area/yield claims",
+              "4": "Checks all material claims and clearly distinguishes confirmed facts from unknowns"
+            },
+            "criticalGate": "Must not retain the invented yield or immediate-action claim as verified guidance"
+          },
+          {
+            "id": "information-handling",
+            "dimension": "Information handling",
+            "weight": 20,
+            "anchors": {
+              "0": "Includes actual secrets or inappropriate private records",
+              "1": "Cannot identify what should be excluded",
+              "2": "Uses the synthetic packet but gives incomplete handling reasons",
+              "3": "Uses only synthetic evidence and identifies private information to withhold",
+              "4": "Adds an approved-channel plan with minimal necessary sharing"
+            },
+            "criticalGate": "No actual private records, third-party personal information or credentials submitted or proposed for unapproved use"
+          },
+          {
+            "id": "judgment",
+            "dimension": "Judgment",
+            "weight": 15,
+            "anchors": {
+              "0": "Acts on unsupported consequential advice",
+              "1": "Mentions caution without a usable next step",
+              "2": "Identifies a limit but an unclear expert question",
+              "3": "Asks relevant expert questions and limits the immediate action to permitted work",
+              "4": "Explains escalation, missing context and how confirmed advice will be recorded"
+            },
+            "criticalGate": "Consequential farm decisions are not justified by this expense packet; the brief seeks appropriate expert input"
+          }
+        ],
+        "samplePassingEvidence": "I counted T02 once because the source identifies its duplicate. The total is 450 + 150 + 800 = INR 1,400. No farm area or yield evidence is supplied, so I removed INR 700 per acre and 30% yield improvement. I used fictional data only. My brief asks what context and further records an expert needs. My immediate work action is to maintain a checked record and seek guidance through an approved channel.",
+        "sampleCriticalFailure": "The learner produces a polished brief but recommends repeating the purchases to obtain a 30% yield improvement without verification. The verification and judgment gates fail regardless of aggregate score.",
+        "assessorNote": "Do not require advanced agricultural terminology, typing speed or use of a particular AI brand. Assess the record, checks, handling and explanation."
+      },
+      "followUp": {
+        "afterDays": 14,
+        "question": "Did you use a checked record or expert question brief for a permitted task?",
+        "evidenceOptions": [
+          "A structured reflection with no private record contents",
+          "A blank improved template",
+          "Facilitator-confirmed use under an approved process"
+        ],
+        "successSignal": "The learner can explain one check performed and one limit or question identified",
+        "privacyNote": "Do not collect real farm documents by default."
+      },
+      "foundation": {
+        "moduleId": "responsible-ai-foundation",
+        "title": "Responsible AI foundation",
+        "topics": [
+          "Accuracy",
+          "Privacy",
+          "Limits",
+          "Human judgment"
+        ],
+        "lessonIds": [
+          "rai-01",
+          "rai-02"
+        ],
+        "note": "Shared module. Every pathway in this edition includes it unchanged."
+      },
+      "formatAlternatives": {
+        "transcript": "Every lesson has a full text transcript.",
+        "summary": "Every lesson has a plain-language summary.",
+        "listen": "Audio not recorded yet: the listen option is a labelled placeholder with no media file."
+      }
+    },
+    {
+      "id": "msme-customer-operations",
+      "title": "Customer communication and daily operations with AI",
+      "ecosystem": "MSME",
+      "role": "MSME owner or team member",
+      "level": "Foundation to applied",
+      "summary": "Draft an accurate customer response, organize a daily work checklist, and measure whether AI assistance actually helped.",
+      "promise": "You can produce a useful customer draft and operations checklist while checking promises, information use and task quality.",
+      "estimatedMinutes": 170,
+      "prerequisites": [
+        "Read a short order policy with help if needed",
+        "Use a form or receive planned facilitator assistance"
+      ],
+      "outcomes": [
+        "Separate customer-relevant facts from internal details",
+        "Avoid invented stock, dispatch and pricing commitments",
+        "Create a source-based action checklist",
+        "Compare time and quality including verification work",
+        "Keep human approval for commitments outside the stated policy"
+      ],
+      "credentialClaim": "Demonstrated customer-draft preparation, operations checklist creation and responsible AI checking using synthetic business records",
+      "credentialExclusions": [
+        "No financial, tax or legal professional qualification",
+        "No assurance of business results or automated customer commitments"
+      ],
+      "sourceNotice": "The example order policy and records are fictional fixtures, not a recommended business policy.",
+      "lessons": [
+        {
+          "id": "rai-01",
+          "module": "responsible-ai-foundation",
+          "title": "Accuracy and limits: AI can sound sure and still be wrong",
+          "estimatedMinutes": 15,
+          "objective": "Recognise that AI output can be fluent but wrong, and check each important claim against a source before using it.",
+          "lessonText": "AI tools write fluent answers even when the answer is wrong. They can invent a number, a rule, a date or a source and still sound sure. A tool does not know your farm, your shop or your office. It works only from the words it is given. Treat every AI answer as a draft. Check each important statement against a source you trust, such as your own record, a written rule or a qualified person. If you cannot find support for a statement, mark it unverified and keep it out of anything you share. Check the arithmetic yourself. Ask what the tool could not have known. A short, honest answer that says what is unknown is more useful than a long answer that guesses.",
+          "steps": [
+            "Read the supplied AI draft",
+            "Underline each factual claim",
+            "Find the supporting line in the source packet for each claim",
+            "Mark each claim supported, unsupported or unknown",
+            "Rewrite the draft keeping only supported claims"
+          ],
+          "exercise": {
+            "title": "Check a confident AI note against its source",
+            "sourcePacket": [
+              {
+                "sourceId": "F1",
+                "fact": "Fictional price list: seed packet INR 120; fertiliser sack INR 900."
+              },
+              {
+                "sourceId": "F2",
+                "fact": "No information about rainfall, soil or expected yield is supplied in this exercise."
+              }
+            ],
+            "suppliedAiDraft": "Seed costs INR 120 and fertiliser costs INR 900, so the total is INR 1,020. Heavy rain is coming this month, so buy extra fertiliser now.",
+            "optionalAiPrompt": "Using only the supplied fictional price list, write a two-line cost note. Say what is not known. Do not predict weather or yield.",
+            "learnerTask": "Mark each statement in the draft as supported, unsupported or unknown, then write a corrected two-line note.",
+            "expectedEvidence": [
+              "Cost statements marked supported by source F1",
+              "Rain and purchase advice marked unsupported because F2 gives no rainfall information",
+              "Corrected note that states INR 1,020 and names what is not known"
+            ],
+            "assessorReference": "The two prices and the total INR 1,020 (120 + 900) are supported by F1. The heavy-rain claim and the advice to buy extra fertiliser are unsupported, because F2 states that no weather, soil or yield information is supplied. A good answer keeps the supported facts and says what is not known."
+          },
+          "quiz": [
+            {
+              "id": "rai-01-q1",
+              "question": "An AI answer sounds very sure. What does that tell you about whether it is correct?",
+              "options": [
+                "It is probably correct because it sounds so confident",
+                "Nothing by itself: fluent wording is not evidence, so check it",
+                "It is correct if it includes numbers",
+                "It is correct if it is long"
+              ],
+              "correctOptionIndex": 1,
+              "explanation": "Confident wording is not evidence. AI tools can state invented facts in the same tone as true ones, so important claims need a check against a source."
+            },
+            {
+              "id": "rai-01-q2",
+              "question": "The source packet says nothing about rain, but the AI draft predicts heavy rain. What should you do?",
+              "options": [
+                "Mark it unsupported and leave it out of what you share",
+                "Keep it because AI tools know the weather",
+                "Make the prediction stronger",
+                "Share it as an official forecast"
+              ],
+              "correctOptionIndex": 0,
+              "explanation": "A claim with no support in the source is unsupported. Leave it out or mark it clearly as unverified."
+            },
+            {
+              "id": "rai-01-q3",
+              "question": "Which is the best check for a total that an AI tool calculated?",
+              "options": [
+                "Trust it if it is shown in bold",
+                "Ask the tool whether it is sure",
+                "Add the numbers from the source yourself",
+                "Round it to the nearest ten"
+              ],
+              "correctOptionIndex": 2,
+              "explanation": "Adding the source numbers yourself is an independent check. Asking the same tool if it is sure is not."
+            }
+          ],
+          "reflectionPrompt": "Think of a time a confident answer turned out to be wrong. What check would have caught it?",
+          "returnToWorkAction": "Before you use an AI draft for a permitted task, mark each important statement as supported, unsupported or unknown, and remove anything you cannot support.",
+          "summary": "AI can sound sure and still be wrong. Treat every answer as a draft. Check each important claim against a source you trust, add up the numbers yourself, and leave out anything you cannot support.",
+          "transcript": "Lesson: Accuracy and limits: AI can sound sure and still be wrong.\n\nObjective: Recognise that AI output can be fluent but wrong, and check each important claim against a source before using it.\n\nAI tools write fluent answers even when the answer is wrong. They can invent a number, a rule, a date or a source and still sound sure. A tool does not know your farm, your shop or your office. It works only from the words it is given. Treat every AI answer as a draft. Check each important statement against a source you trust, such as your own record, a written rule or a qualified person. If you cannot find support for a statement, mark it unverified and keep it out of anything you share. Check the arithmetic yourself. Ask what the tool could not have known. A short, honest answer that says what is unknown is more useful than a long answer that guesses.\n\nSteps: Step 1. Read the supplied AI draft. Step 2. Underline each factual claim. Step 3. Find the supporting line in the source packet for each claim. Step 4. Mark each claim supported, unsupported or unknown. Step 5. Rewrite the draft keeping only supported claims.\n\nThink about this: Think of a time a confident answer turned out to be wrong. What check would have caught it?\n\nPut it to work carefully: Before you use an AI draft for a permitted task, mark each important statement as supported, unsupported or unknown, and remove anything you cannot support.",
+          "audio": {
+            "status": "not-recorded",
+            "label": "Audio not recorded yet",
+            "note": "This is a placeholder only. No audio file exists for this lesson. Read the full transcript below, or use your device's read-aloud feature."
+          }
+        },
+        {
+          "id": "rai-02",
+          "module": "responsible-ai-foundation",
+          "title": "Privacy and human judgment: what stays out and who decides",
+          "estimatedMinutes": 15,
+          "objective": "Keep private details out of unapproved AI tools and name the accountable person who decides anything that affects others.",
+          "lessonText": "Some information should not be typed into an AI tool unless your organisation has approved that tool for that use. This includes names, phone numbers, bank or identity details, exact locations, health details and anything someone gave you in confidence. In this course you use only fictional records, so you never need real ones. A second rule is about decisions. AI can draft, sort and suggest. An accountable person decides anything that affects someone's money, health, safety, rights or services. Keep a short note of who checked the work and what they changed. If you are unsure whether a task is suitable, stop and ask a supervisor or a qualified person before you continue. You can always do the task by hand.",
+          "steps": [
+            "Read the three fictional task cards",
+            "Mark any detail that is private",
+            "Decide which tasks AI may help draft",
+            "Decide which tasks need a person to decide",
+            "Write one sentence naming who checks the result"
+          ],
+          "exercise": {
+            "title": "Sort tasks by privacy and by who decides",
+            "sourcePacket": [
+              {
+                "sourceId": "P1",
+                "task": "Draft a polite reminder to pay a fictional small bill",
+                "contains": "No personal details"
+              },
+              {
+                "sourceId": "P2",
+                "task": "Decide whether a fictional neighbour qualifies for a support payment",
+                "contains": "Name, identity number and income of one person"
+              },
+              {
+                "sourceId": "P3",
+                "task": "Sort fictional meeting notes into groups",
+                "contains": "No personal details"
+              }
+            ],
+            "suppliedAiDraft": "All three tasks are fine to give to the AI tool. Paste the neighbour's name, identity number and income into it and let it decide who gets paid.",
+            "optionalAiPrompt": "Do not paste any real details. Ask the tool to explain in two lines why a fictional payment decision should stay with an accountable person.",
+            "learnerTask": "Identify the private details, explain why they stay out of the tool, and name who must make the payment decision.",
+            "expectedEvidence": [
+              "P2 identified as holding private details that stay out of an unapproved tool",
+              "P2 identified as a money decision that an accountable person must make",
+              "P1 and P3 identified as tasks AI may help with, with a person checking the result"
+            ],
+            "assessorReference": "P1 and P3 contain no private details and are low-stakes drafting or sorting tasks, so AI may help if a person checks the result. P2 holds personal and financial details and is a decision about a payment, so the details stay out of unapproved tools and an accountable person decides."
+          },
+          "quiz": [
+            {
+              "id": "rai-02-q1",
+              "question": "Which detail should stay out of an unapproved AI tool?",
+              "options": [
+                "A fictional price list from this course",
+                "A customer's phone number and bank details",
+                "A general question about how to format a table",
+                "A made-up example sentence"
+              ],
+              "correctOptionIndex": 1,
+              "explanation": "Phone numbers and bank details are private. They stay out of tools your organisation has not approved for that use."
+            },
+            {
+              "id": "rai-02-q2",
+              "question": "Who should decide whether a person receives a payment or a service?",
+              "options": [
+                "The AI tool, because it is faster",
+                "Whoever typed the request",
+                "An accountable person, who may use an AI draft as one input",
+                "Nobody, the tool applies the rules automatically"
+              ],
+              "correctOptionIndex": 2,
+              "explanation": "Decisions that affect someone's money, rights or services belong to an accountable person. An AI draft can be one input, never the decision-maker."
+            },
+            {
+              "id": "rai-02-q3",
+              "question": "You are not sure a task is suitable for AI. What is the best next step?",
+              "options": [
+                "Stop and ask a supervisor or a qualified person",
+                "Go ahead and fix problems later",
+                "Ask the AI tool to approve the task",
+                "Paste real records to test it"
+              ],
+              "correctOptionIndex": 0,
+              "explanation": "When suitability is unclear, stop and ask. The task can be done by hand while you wait."
+            }
+          ],
+          "reflectionPrompt": "Which detail in your own work would you never put into an unapproved tool, and who would you ask if unsure?",
+          "returnToWorkAction": "List three kinds of private detail in your work that stay out of AI tools, and write down the name of the person you will ask when a task is unclear.",
+          "summary": "Keep private details out of AI tools your organisation has not approved. AI can help draft and sort, but a person who is accountable decides anything that affects money, health, safety, rights or services. If unsure, stop and ask.",
+          "transcript": "Lesson: Privacy and human judgment: what stays out and who decides.\n\nObjective: Keep private details out of unapproved AI tools and name the accountable person who decides anything that affects others.\n\nSome information should not be typed into an AI tool unless your organisation has approved that tool for that use. This includes names, phone numbers, bank or identity details, exact locations, health details and anything someone gave you in confidence. In this course you use only fictional records, so you never need real ones. A second rule is about decisions. AI can draft, sort and suggest. An accountable person decides anything that affects someone's money, health, safety, rights or services. Keep a short note of who checked the work and what they changed. If you are unsure whether a task is suitable, stop and ask a supervisor or a qualified person before you continue. You can always do the task by hand.\n\nSteps: Step 1. Read the three fictional task cards. Step 2. Mark any detail that is private. Step 3. Decide which tasks AI may help draft. Step 4. Decide which tasks need a person to decide. Step 5. Write one sentence naming who checks the result.\n\nThink about this: Which detail in your own work would you never put into an unapproved tool, and who would you ask if unsure?\n\nPut it to work carefully: List three kinds of private detail in your work that stay out of AI tools, and write down the name of the person you will ask when a task is unclear.",
+          "audio": {
+            "status": "not-recorded",
+            "label": "Audio not recorded yet",
+            "note": "This is a placeholder only. No audio file exists for this lesson. Read the full transcript below, or use your device's read-aloud feature."
+          }
+        },
+        {
+          "id": "msme-01",
+          "module": "pathway-core",
+          "title": "Write a customer response you can stand behind",
+          "estimatedMinutes": 25,
+          "objective": "Draft an accurate response using permitted facts and withhold irrelevant internal details.",
+          "lessonText": "A helpful customer response is clear about what is confirmed and what still needs checking. AI can make a message sound polished, but it may invent a discount, a delivery promise or available stock. Start by listing the facts the customer needs. Keep internal costs, private contact information and unrelated customer details out of an unapproved AI prompt. In this fictional policy, an item costs INR 120, delivery is INR 60 and pickup has no delivery fee. Only four units are confirmed in stock, while the customer requests six. That means a six-unit dispatch cannot be promised yet. You can explain the confirmed stock and say the team will check options; do not assume an arrival date. Check every promise in the draft against the supplied policy and records. Treat the final response as a draft for human approval whenever it changes a commitment or exceeds your role.",
+          "steps": [
+            "Read the request, stock and policy",
+            "Identify customer-relevant facts",
+            "Remove irrelevant internal details from the prompt",
+            "Correct the supplied AI draft",
+            "Mark the check needed before sending"
+          ],
+          "exercise": {
+            "title": "Respond to a six-unit request",
+            "sourcePacket": [
+              {
+                "sourceId": "P1",
+                "type": "fictional policy",
+                "content": "Unit price INR 120. Delivery fee INR 60 per order. Pickup delivery fee INR 0. Dispatch quantity and date require stock-team confirmation. Exceptions require supervisor approval."
+              },
+              {
+                "sourceId": "O101",
+                "type": "fictional request",
+                "content": "Customer C requests six blue units and asks whether all can be delivered on Friday."
+              },
+              {
+                "sourceId": "S1",
+                "type": "fictional stock record",
+                "content": "Four blue units are confirmed available. Arrival date for additional units is unknown."
+              },
+              {
+                "sourceId": "I1",
+                "type": "internal fixture",
+                "content": "Internal unit cost INR 75; private contact marker [PRIVATE CONTACT]; unrelated account notes. These are not needed for the customer draft."
+              }
+            ],
+            "suppliedAiDraft": "We confirm six units for Friday delivery at INR 120 each, with free delivery and a special 10% discount. Our internal unit cost is INR 75.",
+            "optionalAiPrompt": "Draft a short response using fictional P1, O101 and S1 only. State confirmed stock, do not promise unconfirmed quantity or date, do not invent discounts, and do not include internal details. Mark the team check required.",
+            "learnerTask": "Write a corrected customer response and a separate internal note identifying the required stock check.",
+            "expectedEvidence": [
+              "Response does not confirm six-unit Friday delivery",
+              "No invented free delivery or discount",
+              "INR 120 unit price and applicable INR 60 delivery fee stated accurately if mentioned",
+              "Internal unit cost and private marker excluded",
+              "Stock team check required before commitment"
+            ],
+            "assessorReference": "A suitable response explains that four units are confirmed, the remaining quantity/date must be checked, and published price/delivery terms apply. It does not promise a split order unless approved. A requested six-unit order would total INR 780 including delivery, but calculating that is not confirmation that the order can be fulfilled."
+          },
+          "quiz": [
+            {
+              "id": "msme-01-q1",
+              "question": "What can the response currently confirm?",
+              "options": [
+                "Six units will arrive Friday",
+                "Four units are recorded as available, and the rest needs a team check",
+                "Every order has free delivery",
+                "A 10% discount is approved"
+              ],
+              "correctOptionIndex": 1,
+              "explanation": "The stock record confirms four units only. Quantity, date and any exception need the specified human check."
+            },
+            {
+              "id": "msme-01-q2",
+              "question": "If a six-unit order is later confirmed for delivery under P1, what is the stated total?",
+              "options": [
+                "INR 720",
+                "INR 780",
+                "INR 702",
+                "INR 840"
+              ],
+              "correctOptionIndex": 1,
+              "explanation": "Six units at INR 120 are INR 720, plus INR 60 delivery, totaling INR 780. This calculation does not confirm stock or delivery timing."
+            },
+            {
+              "id": "msme-01-q3",
+              "question": "Which source should be excluded from the customer-drafting prompt?",
+              "options": [
+                "The published unit price",
+                "The confirmed stock count",
+                "The internal cost and private contact marker",
+                "The customer's requested quantity without identity details"
+              ],
+              "correctOptionIndex": 2,
+              "explanation": "The internal details are unnecessary for the draft and should not be sent to an unapproved tool or disclosed to the customer."
+            }
+          ],
+          "reflectionPrompt": "Which invented promise in the original draft could create a problem for the team, and how did you correct it?",
+          "returnToWorkAction": "For one permitted customer draft, check quantity, price, fees and timing against approved records before an authorized person sends it.",
+          "summary": "Write customer replies only from facts you are allowed to share. Check every statement before sending, and leave out internal details the customer does not need.",
+          "transcript": "Lesson: Write a customer response you can stand behind.\n\nObjective: Draft an accurate response using permitted facts and withhold irrelevant internal details.\n\nA helpful customer response is clear about what is confirmed and what still needs checking. AI can make a message sound polished, but it may invent a discount, a delivery promise or available stock. Start by listing the facts the customer needs. Keep internal costs, private contact information and unrelated customer details out of an unapproved AI prompt. In this fictional policy, an item costs INR 120, delivery is INR 60 and pickup has no delivery fee. Only four units are confirmed in stock, while the customer requests six. That means a six-unit dispatch cannot be promised yet. You can explain the confirmed stock and say the team will check options; do not assume an arrival date. Check every promise in the draft against the supplied policy and records. Treat the final response as a draft for human approval whenever it changes a commitment or exceeds your role.\n\nSteps: Step 1. Read the request, stock and policy. Step 2. Identify customer-relevant facts. Step 3. Remove irrelevant internal details from the prompt. Step 4. Correct the supplied AI draft. Step 5. Mark the check needed before sending.\n\nThink about this: Which invented promise in the original draft could create a problem for the team, and how did you correct it?\n\nPut it to work carefully: For one permitted customer draft, check quantity, price, fees and timing against approved records before an authorized person sends it.",
+          "audio": {
+            "status": "not-recorded",
+            "label": "Audio not recorded yet",
+            "note": "This is a placeholder only. No audio file exists for this lesson. Read the full transcript below, or use your device's read-aloud feature."
+          }
+        },
+        {
+          "id": "msme-02",
+          "module": "pathway-core",
+          "title": "Turn records into a daily action checklist",
+          "estimatedMinutes": 25,
+          "objective": "Create actions with owners and checks without inventing completion or commitments.",
+          "lessonText": "A useful checklist helps someone act: it states the task, owner, source and completion check. A vague list such as 'handle orders' is hard to follow. AI can group tasks, but it must not convert an unresolved issue into a completed action. Read the current status before choosing the next step. A ready order may need pickup confirmation; a stock issue needs a stock-team check; an address issue needs a permitted customer contact. Priorities should reflect an agreed rule, not a made-up deadline. This fictional packet gives no emergency ranking, so explain your proposed order as a suggestion for the supervisor. Keep personal customer details in the approved system. A checklist can use opaque order references. Before marking an action complete, record the actual check or confirmation. This preserves accountability and helps the next team member understand what remains open.",
+          "steps": [
+            "Read each order status",
+            "Identify its next allowed action",
+            "Assign a role rather than inventing a person's availability",
+            "Define evidence of completion",
+            "Label suggested priorities as requiring review"
+          ],
+          "exercise": {
+            "title": "Build the day's three-order checklist",
+            "sourcePacket": [
+              {
+                "sourceId": "O101",
+                "status": "Stock check pending",
+                "nextCheck": "Requested six units; four confirmed; additional arrival unknown",
+                "ownerRole": "Stock team"
+              },
+              {
+                "sourceId": "O102",
+                "status": "Packed",
+                "nextCheck": "Three units packed; payment confirmed in the fictional record; pickup time not yet agreed",
+                "ownerRole": "Customer service"
+              },
+              {
+                "sourceId": "O103",
+                "status": "On hold",
+                "nextCheck": "Delivery address confirmation missing; no private address is included in the teaching packet",
+                "ownerRole": "Customer service"
+              },
+              {
+                "sourceId": "P2",
+                "status": "Policy",
+                "nextCheck": "No new surcharge or completed dispatch without approved evidence. Supervisor reviews priority suggestions.",
+                "ownerRole": "Supervisor"
+              }
+            ],
+            "suppliedAiDraft": "Dispatch all six O101 units now. Add INR 50 urgency fees to every order. Mark O103 resolved. O102 needs no action because it is packed.",
+            "optionalAiPrompt": "Create a checklist from fictional O101–O103 and P2. Include order reference, next action, owner role, dependency and evidence required to mark complete. Do not invent charges, stock, pickup timing or resolution.",
+            "learnerTask": "Create three checklist rows and explain why the supplied draft is unsafe to use unchanged.",
+            "expectedEvidence": [
+              "O101: stock-team confirmation before dispatch commitment",
+              "O102: agree pickup time through approved customer process",
+              "O103: obtain address confirmation through approved channel; keep on hold until confirmed",
+              "No invented fee",
+              "Completion evidence and responsible owner role for each row"
+            ],
+            "assessorReference": "Accept equivalent actionable checklists. Do not require one priority ranking because the packet has no authoritative priority rule. The learner must preserve unresolved statuses until actual confirmation."
+          },
+          "quiz": [
+            {
+              "id": "msme-02-q1",
+              "question": "Which item can be marked complete solely from the supplied packet?",
+              "options": [
+                "O101 full dispatch",
+                "O103 address confirmation",
+                "O102 packing",
+                "All three orders"
+              ],
+              "correctOptionIndex": 2,
+              "explanation": "O102 is recorded as packed. Its pickup arrangement remains open. The other listed actions require further confirmation."
+            },
+            {
+              "id": "msme-02-q2",
+              "question": "What makes a checklist item actionable?",
+              "options": [
+                "A confident sentence with no source",
+                "Task, owner role, dependency and completion check",
+                "A long paragraph repeating every private detail",
+                "Automatic completion when AI writes it"
+              ],
+              "correctOptionIndex": 1,
+              "explanation": "These fields tell the team what to do, who handles it, what must happen first and how completion will be established."
+            },
+            {
+              "id": "msme-02-q3",
+              "question": "How should the INR 50 urgency fee be handled?",
+              "options": [
+                "Apply it because AI suggested it",
+                "Apply it only to the oldest order without approval",
+                "Treat it as an unsupported addition and remove it",
+                "Hide it from the checklist"
+              ],
+              "correctOptionIndex": 2,
+              "explanation": "The packet authorizes no urgency fee. A generated addition is not a business policy or approval."
+            }
+          ],
+          "reflectionPrompt": "Which unresolved action is easiest to accidentally mark complete, and what evidence should prevent that?",
+          "returnToWorkAction": "Create a small approved checklist using order references and completion evidence, then have the relevant team member verify one completed item.",
+          "summary": "Turn your records into a short checklist with an owner for each job. Do not let AI say a job is done or promise something that nobody agreed to.",
+          "transcript": "Lesson: Turn records into a daily action checklist.\n\nObjective: Create actions with owners and checks without inventing completion or commitments.\n\nA useful checklist helps someone act: it states the task, owner, source and completion check. A vague list such as 'handle orders' is hard to follow. AI can group tasks, but it must not convert an unresolved issue into a completed action. Read the current status before choosing the next step. A ready order may need pickup confirmation; a stock issue needs a stock-team check; an address issue needs a permitted customer contact. Priorities should reflect an agreed rule, not a made-up deadline. This fictional packet gives no emergency ranking, so explain your proposed order as a suggestion for the supervisor. Keep personal customer details in the approved system. A checklist can use opaque order references. Before marking an action complete, record the actual check or confirmation. This preserves accountability and helps the next team member understand what remains open.\n\nSteps: Step 1. Read each order status. Step 2. Identify its next allowed action. Step 3. Assign a role rather than inventing a person's availability. Step 4. Define evidence of completion. Step 5. Label suggested priorities as requiring review.\n\nThink about this: Which unresolved action is easiest to accidentally mark complete, and what evidence should prevent that?\n\nPut it to work carefully: Create a small approved checklist using order references and completion evidence, then have the relevant team member verify one completed item.",
+          "audio": {
+            "status": "not-recorded",
+            "label": "Audio not recorded yet",
+            "note": "This is a placeholder only. No audio file exists for this lesson. Read the full transcript below, or use your device's read-aloud feature."
+          }
+        },
+        {
+          "id": "msme-03",
+          "module": "pathway-core",
+          "title": "Measure usefulness, including the checking time",
+          "estimatedMinutes": 25,
+          "objective": "Compare time and quality fairly and define a safe return-to-work trial.",
+          "lessonText": "Fast generation is only one part of a task. Include preparation, checking, correction and approval when comparing AI-assisted work with your usual approach. A faster draft with inaccurate promises may create more work later. In this exercise, manual preparation takes 12 minutes. The assisted route takes six minutes to prepare and generate, plus five minutes to check and correct. Its total is 11 minutes, a one-minute saving in this single fictional trial. The draft initially contains two unsupported commitments, and both must be corrected before approval. This small example does not establish a general productivity gain for your business. A useful trial uses comparable tasks and the same quality standard, records limitations, and stops if information handling or quality becomes unacceptable. Choose a low-consequence task, obtain permission, and keep final sending or operational commitments with the authorized person.",
+          "steps": [
+            "Add all assisted-task time components",
+            "Compare with manual time",
+            "Check final quality against the same standard",
+            "Describe the sample's limits",
+            "Plan one permitted, low-consequence work trial"
+          ],
+          "exercise": {
+            "title": "Evaluate a fictional productivity trial",
+            "sourcePacket": [
+              {
+                "sourceId": "M1",
+                "method": "Manual",
+                "minutes": 12,
+                "finalQuality": "Meets the scenario policy"
+              },
+              {
+                "sourceId": "A1",
+                "method": "AI-assisted preparation and generation",
+                "minutes": 6,
+                "draftQuality": "Two unsupported commitments"
+              },
+              {
+                "sourceId": "A2",
+                "method": "AI-assisted verification and correction",
+                "minutes": 5,
+                "finalQuality": "Both errors corrected; meets the same policy"
+              },
+              {
+                "sourceId": "N1",
+                "note": "One fictional comparable task only. No broader business productivity evidence is supplied."
+              }
+            ],
+            "suppliedAiDraft": "AI cut the task time in half from 12 minutes to 6 minutes and can be used to send all customer messages automatically.",
+            "optionalAiPrompt": "Calculate total assisted task time including checking. Compare the single fictional trial with manual preparation, discuss final quality and limits, and do not recommend automatic sending.",
+            "learnerTask": "Write a short evaluation and a safe one-task trial plan.",
+            "expectedEvidence": [
+              "Assisted total 6 + 5 = 11 minutes",
+              "Saving 12 - 11 = 1 minute",
+              "If a percentage is included, approximately 8.3%, with single-trial limitation",
+              "Same final quality check required",
+              "No automatic customer sending or unauthorized data use"
+            ],
+            "assessorReference": "The six-minute figure excludes essential review. Accept one-minute saving without a percentage. A small or absent saving can still be a valid finding; learners are not rewarded for claiming AI is always better."
+          },
+          "quiz": [
+            {
+              "id": "msme-03-q1",
+              "question": "What is the full assisted-task time?",
+              "options": [
+                "6 minutes",
+                "5 minutes",
+                "11 minutes",
+                "17 minutes"
+              ],
+              "correctOptionIndex": 2,
+              "explanation": "Preparation/generation takes six minutes and checking/correction takes five. Both belong in the assisted-task total."
+            },
+            {
+              "id": "msme-03-q2",
+              "question": "What does this single fictional trial establish?",
+              "options": [
+                "Every task will save half its time",
+                "The comparable task saved one minute after review, with limited evidence",
+                "Checking can now be skipped",
+                "AI should automatically send every message"
+              ],
+              "correctOptionIndex": 1,
+              "explanation": "The result is limited to one synthetic trial and includes the verification work. It does not justify broad claims or removal of human approval."
+            },
+            {
+              "id": "msme-03-q3",
+              "question": "If an assisted draft is faster but retains an unsupported promise, what should happen?",
+              "options": [
+                "Accept it because speed is the only measure",
+                "Hide the error from the comparison",
+                "Send it and correct it later",
+                "Correct or reject it before use and record the quality failure"
+              ],
+              "correctOptionIndex": 3,
+              "explanation": "Quality and authorized commitments matter alongside time. A speed gain does not override an unacceptable output."
+            }
+          ],
+          "reflectionPrompt": "What checking or approval work would your own time comparison need to include?",
+          "returnToWorkAction": "With approval, compare one low-consequence task using the same quality checks for both methods. Record preparation, checking, correction and approval time without collecting confidential artifacts.",
+          "summary": "Measure whether AI really helps by counting the checking time as well as the drafting time. Try it on one safe task first and compare the quality.",
+          "transcript": "Lesson: Measure usefulness, including the checking time.\n\nObjective: Compare time and quality fairly and define a safe return-to-work trial.\n\nFast generation is only one part of a task. Include preparation, checking, correction and approval when comparing AI-assisted work with your usual approach. A faster draft with inaccurate promises may create more work later. In this exercise, manual preparation takes 12 minutes. The assisted route takes six minutes to prepare and generate, plus five minutes to check and correct. Its total is 11 minutes, a one-minute saving in this single fictional trial. The draft initially contains two unsupported commitments, and both must be corrected before approval. This small example does not establish a general productivity gain for your business. A useful trial uses comparable tasks and the same quality standard, records limitations, and stops if information handling or quality becomes unacceptable. Choose a low-consequence task, obtain permission, and keep final sending or operational commitments with the authorized person.\n\nSteps: Step 1. Add all assisted-task time components. Step 2. Compare with manual time. Step 3. Check final quality against the same standard. Step 4. Describe the sample's limits. Step 5. Plan one permitted, low-consequence work trial.\n\nThink about this: What checking or approval work would your own time comparison need to include?\n\nPut it to work carefully: With approval, compare one low-consequence task using the same quality checks for both methods. Record preparation, checking, correction and approval time without collecting confidential artifacts.",
+          "audio": {
+            "status": "not-recorded",
+            "label": "Audio not recorded yet",
+            "note": "This is a placeholder only. No audio file exists for this lesson. Read the full transcript below, or use your device's read-aloud feature."
+          }
+        },
+        {
+          "id": "msme-scn-1",
+          "module": "suitable-unsuitable-use",
+          "title": "Suitable or unsuitable AI use: small-business tasks (part 1 of 2)",
+          "estimatedMinutes": 15,
+          "objective": "Sort everyday small-business tasks into suitable and unsuitable AI use and give a reason for each.",
+          "lessonText": "Before you use AI for a task, ask three questions. First, does the task need private details such as names, phone numbers, bank, identity or health details? Second, does it decide something that affects a customer or an employee, or anyone's money, health, safety, rights or services? Third, can a person check the result against a source? A task is suitable when it is low-risk, uses only information you may share, and a person checks the result. A task is unsuitable when it needs private details in an unapproved tool, or when the decision must belong to a qualified or accountable person. Sometimes a task is unsuitable as asked but a smaller part of it is suitable, such as drafting questions for an expert. Sort the tasks in the packet, then say who checks or decides each one.",
+          "steps": [
+            "Read each task card in the source packet",
+            "Ask the three questions for each task",
+            "Classify each task as suitable or unsuitable",
+            "Name who checks or who decides each task",
+            "Write one reason for each classification"
+          ],
+          "exercise": {
+            "title": "Sort small-business tasks into suitable and unsuitable AI use",
+            "sourcePacket": [
+              {
+                "sourceId": "S1",
+                "task": "Ask an AI tool to draft a friendly reply to a fictional customer who asks when an order will arrive, using the order note you supply.",
+                "setting": "Small business"
+              },
+              {
+                "sourceId": "S2",
+                "task": "Ask an AI tool to decide whether to refuse a fictional customer's refund and send the refusal by itself.",
+                "setting": "Small business"
+              },
+              {
+                "sourceId": "S3",
+                "task": "Paste a customer's full name, home address and payment card number into an AI tool to write a delivery note.",
+                "setting": "Small business"
+              }
+            ],
+            "suppliedAiDraft": "AI can do all of these tasks quickly, so give every task to the tool and use whatever it returns without checking.",
+            "optionalAiPrompt": "Do not paste real details. Ask the tool to explain in two lines why one fictional task might need a human decision.",
+            "learnerTask": "Classify each task as suitable or unsuitable for AI use. For each one, name who checks or who decides, and give one reason.",
+            "expectedEvidence": [
+              "S1 classified as suitable with a human check, with a reason and a named person",
+              "S2 classified as unsuitable, a person must decide, with a reason and a named person",
+              "S3 classified as unsuitable, private details, with a reason and a named person"
+            ],
+            "assessorReference": "S1: suitable with a human check. Drafting from facts you supply is low risk. You check the date and tone before sending. S2: unsuitable, a person must decide. A refund decision affects a customer's money and rights. The business owner or manager decides and sends it. S3: unsuitable, private details. Card and address details are private. A delivery note can use an order number instead."
+          },
+          "quiz": [
+            {
+              "id": "msme-scn-1-q1",
+              "question": "Classify this task: Ask an AI tool to draft a friendly reply to a fictional customer who asks when an order will arrive, using the order note you supply.",
+              "options": [
+                "Suitable: AI may help draft it and a person checks the result",
+                "Suitable: AI may finish it alone with no checking",
+                "Unsuitable: a qualified or accountable person must decide it",
+                "Unsuitable: it needs private details that must not go into an AI tool"
+              ],
+              "correctOptionIndex": 0,
+              "explanation": "Drafting from facts you supply is low risk. You check the date and tone before sending."
+            },
+            {
+              "id": "msme-scn-1-q2",
+              "question": "Classify this task: Ask an AI tool to decide whether to refuse a fictional customer's refund and send the refusal by itself.",
+              "options": [
+                "Suitable: AI may finish it alone with no checking",
+                "Unsuitable: a qualified or accountable person must decide it",
+                "Suitable: AI may help draft it and a person checks the result",
+                "Unsuitable: it needs private details that must not go into an AI tool"
+              ],
+              "correctOptionIndex": 1,
+              "explanation": "A refund decision affects a customer's money and rights. The business owner or manager decides and sends it."
+            },
+            {
+              "id": "msme-scn-1-q3",
+              "question": "Classify this task: Paste a customer's full name, home address and payment card number into an AI tool to write a delivery note.",
+              "options": [
+                "Unsuitable: a qualified or accountable person must decide it",
+                "Unsuitable: it needs private details that must not go into an AI tool",
+                "Suitable: AI may finish it alone with no checking",
+                "Suitable: AI may help draft it and a person checks the result"
+              ],
+              "correctOptionIndex": 1,
+              "explanation": "Card and address details are private. A delivery note can use an order number instead."
+            }
+          ],
+          "reflectionPrompt": "Which task in your own work is suitable only if a person checks it, and who would check it?",
+          "returnToWorkAction": "Choose one real task you do often. Write down the three questions and your classification before you use any AI tool for it.",
+          "summary": "Ask three questions before using AI: does it need private details, does it decide something that affects a person, and can someone check the result. Low-risk tasks with a human check are suitable; private details and consequential decisions are not. This part covers 3 small-business tasks.",
+          "transcript": "Lesson: Suitable or unsuitable AI use: small-business tasks (part 1 of 2).\n\nObjective: Sort everyday small-business tasks into suitable and unsuitable AI use and give a reason for each.\n\nBefore you use AI for a task, ask three questions. First, does the task need private details such as names, phone numbers, bank, identity or health details? Second, does it decide something that affects a customer or an employee, or anyone's money, health, safety, rights or services? Third, can a person check the result against a source? A task is suitable when it is low-risk, uses only information you may share, and a person checks the result. A task is unsuitable when it needs private details in an unapproved tool, or when the decision must belong to a qualified or accountable person. Sometimes a task is unsuitable as asked but a smaller part of it is suitable, such as drafting questions for an expert. Sort the tasks in the packet, then say who checks or decides each one.\n\nSteps: Step 1. Read each task card in the source packet. Step 2. Ask the three questions for each task. Step 3. Classify each task as suitable or unsuitable. Step 4. Name who checks or who decides each task. Step 5. Write one reason for each classification.\n\nThink about this: Which task in your own work is suitable only if a person checks it, and who would check it?\n\nPut it to work carefully: Choose one real task you do often. Write down the three questions and your classification before you use any AI tool for it.",
+          "audio": {
+            "status": "not-recorded",
+            "label": "Audio not recorded yet",
+            "note": "This is a placeholder only. No audio file exists for this lesson. Read the full transcript below, or use your device's read-aloud feature."
+          }
+        },
+        {
+          "id": "msme-scn-2",
+          "module": "suitable-unsuitable-use",
+          "title": "Suitable or unsuitable AI use: small-business tasks (part 2 of 2)",
+          "estimatedMinutes": 15,
+          "objective": "Sort everyday small-business tasks into suitable and unsuitable AI use and give a reason for each.",
+          "lessonText": "Before you use AI for a task, ask three questions. First, does the task need private details such as names, phone numbers, bank, identity or health details? Second, does it decide something that affects a customer or an employee, or anyone's money, health, safety, rights or services? Third, can a person check the result against a source? A task is suitable when it is low-risk, uses only information you may share, and a person checks the result. A task is unsuitable when it needs private details in an unapproved tool, or when the decision must belong to a qualified or accountable person. Sometimes a task is unsuitable as asked but a smaller part of it is suitable, such as drafting questions for an expert. Sort the tasks in the packet, then say who checks or decides each one.",
+          "steps": [
+            "Read each task card in the source packet",
+            "Ask the three questions for each task",
+            "Classify each task as suitable or unsuitable",
+            "Name who checks or who decides each task",
+            "Write one reason for each classification"
+          ],
+          "exercise": {
+            "title": "Sort small-business tasks into suitable and unsuitable AI use",
+            "sourcePacket": [
+              {
+                "sourceId": "S4",
+                "task": "Ask an AI tool to turn a fictional day's sales and stock notes into a checklist of jobs for tomorrow.",
+                "setting": "Small business"
+              },
+              {
+                "sourceId": "S5",
+                "task": "Ask an AI tool to decide which employee to dismiss, based on a fictional attendance sheet.",
+                "setting": "Small business"
+              },
+              {
+                "sourceId": "S6",
+                "task": "Ask an AI tool for three clearer wordings of a fictional shop notice, then choose one yourself.",
+                "setting": "Small business"
+              }
+            ],
+            "suppliedAiDraft": "AI can do all of these tasks quickly, so give every task to the tool and use whatever it returns without checking.",
+            "optionalAiPrompt": "Do not paste real details. Ask the tool to explain in two lines why one fictional task might need a human decision.",
+            "learnerTask": "Classify each task as suitable or unsuitable for AI use. For each one, name who checks or who decides, and give one reason.",
+            "expectedEvidence": [
+              "S4 classified as suitable with a human check, with a reason and a named person",
+              "S5 classified as unsuitable, a person must decide, with a reason and a named person",
+              "S6 classified as suitable with a human check, with a reason and a named person"
+            ],
+            "assessorReference": "S4: suitable with a human check. Turning notes into a checklist is suitable. A person checks that the jobs match the real stock and sales. S5: unsuitable, a person must decide. Dismissal affects a person's livelihood and rights. An accountable manager decides, following the proper process. S6: suitable with a human check. Suggesting wording is low risk because you choose and read the final text."
+          },
+          "quiz": [
+            {
+              "id": "msme-scn-2-q1",
+              "question": "Classify this task: Ask an AI tool to turn a fictional day's sales and stock notes into a checklist of jobs for tomorrow.",
+              "options": [
+                "Unsuitable: it needs private details that must not go into an AI tool",
+                "Suitable: AI may help draft it and a person checks the result",
+                "Unsuitable: a qualified or accountable person must decide it",
+                "Suitable: AI may finish it alone with no checking"
+              ],
+              "correctOptionIndex": 1,
+              "explanation": "Turning notes into a checklist is suitable. A person checks that the jobs match the real stock and sales."
+            },
+            {
+              "id": "msme-scn-2-q2",
+              "question": "Classify this task: Ask an AI tool to decide which employee to dismiss, based on a fictional attendance sheet.",
+              "options": [
+                "Suitable: AI may help draft it and a person checks the result",
+                "Suitable: AI may finish it alone with no checking",
+                "Unsuitable: a qualified or accountable person must decide it",
+                "Unsuitable: it needs private details that must not go into an AI tool"
+              ],
+              "correctOptionIndex": 2,
+              "explanation": "Dismissal affects a person's livelihood and rights. An accountable manager decides, following the proper process."
+            },
+            {
+              "id": "msme-scn-2-q3",
+              "question": "Classify this task: Ask an AI tool for three clearer wordings of a fictional shop notice, then choose one yourself.",
+              "options": [
+                "Suitable: AI may finish it alone with no checking",
+                "Unsuitable: a qualified or accountable person must decide it",
+                "Suitable: AI may help draft it and a person checks the result",
+                "Unsuitable: it needs private details that must not go into an AI tool"
+              ],
+              "correctOptionIndex": 2,
+              "explanation": "Suggesting wording is low risk because you choose and read the final text."
+            }
+          ],
+          "reflectionPrompt": "Which task in your own work is suitable only if a person checks it, and who would check it?",
+          "returnToWorkAction": "Choose one real task you do often. Write down the three questions and your classification before you use any AI tool for it.",
+          "summary": "Ask three questions before using AI: does it need private details, does it decide something that affects a person, and can someone check the result. Low-risk tasks with a human check are suitable; private details and consequential decisions are not. This part covers 3 small-business tasks.",
+          "transcript": "Lesson: Suitable or unsuitable AI use: small-business tasks (part 2 of 2).\n\nObjective: Sort everyday small-business tasks into suitable and unsuitable AI use and give a reason for each.\n\nBefore you use AI for a task, ask three questions. First, does the task need private details such as names, phone numbers, bank, identity or health details? Second, does it decide something that affects a customer or an employee, or anyone's money, health, safety, rights or services? Third, can a person check the result against a source? A task is suitable when it is low-risk, uses only information you may share, and a person checks the result. A task is unsuitable when it needs private details in an unapproved tool, or when the decision must belong to a qualified or accountable person. Sometimes a task is unsuitable as asked but a smaller part of it is suitable, such as drafting questions for an expert. Sort the tasks in the packet, then say who checks or decides each one.\n\nSteps: Step 1. Read each task card in the source packet. Step 2. Ask the three questions for each task. Step 3. Classify each task as suitable or unsuitable. Step 4. Name who checks or who decides each task. Step 5. Write one reason for each classification.\n\nThink about this: Which task in your own work is suitable only if a person checks it, and who would check it?\n\nPut it to work carefully: Choose one real task you do often. Write down the three questions and your classification before you use any AI tool for it.",
+          "audio": {
+            "status": "not-recorded",
+            "label": "Audio not recorded yet",
+            "note": "This is a placeholder only. No audio file exists for this lesson. Read the full transcript below, or use your device's read-aloud feature."
+          }
+        }
+      ],
+      "practicalAssessment": {
+        "id": "msme-practical-01",
+        "title": "An accurate customer draft and operations checklist",
+        "scenario": "Use fictional P1, S1 and O101–O103 to prepare a customer response and checklist. Evaluate the supplied productivity trial without making unsupported business claims.",
+        "submissionPrompts": [
+          {
+            "id": "task",
+            "label": "Task, audience and success criteria",
+            "help": "State what the customer and team need from your work."
+          },
+          {
+            "id": "safe-input",
+            "label": "Information included and information withheld",
+            "help": "Identify why internal cost and private markers do not belong in the drafting prompt."
+          },
+          {
+            "id": "ai-evidence",
+            "label": "Draft and safer instructions",
+            "help": "Use the supplied draft or an optional tool with synthetic inputs only."
+          },
+          {
+            "id": "checks",
+            "label": "Promises and calculations you checked",
+            "help": "Check stock, timing, price, delivery fee, discount and invented surcharge."
+          },
+          {
+            "id": "final",
+            "label": "Corrected customer response",
+            "help": "Keep unconfirmed stock and date explicit and avoid unauthorized commitments."
+          },
+          {
+            "id": "checklist",
+            "label": "Three-row action checklist",
+            "help": "Include owner role, dependency and evidence of completion."
+          },
+          {
+            "id": "return",
+            "label": "Productivity evaluation and return-to-work plan",
+            "help": "Include verification time, quality checks, limited evidence and authorized approval."
+          }
+        ],
+        "rubric": [
+          {
+            "id": "task-quality",
+            "dimension": "Task quality",
+            "weight": 40,
+            "anchors": {
+              "0": "No usable response or checklist",
+              "1": "Major source errors and unclear actions",
+              "2": "Usable draft or checklist but material omissions",
+              "3": "Clear accurate response and three actionable checklist rows",
+              "4": "Concise audience-appropriate work with complete owners, dependencies and checks"
+            },
+            "criticalGate": null
+          },
+          {
+            "id": "verification",
+            "dimension": "Verification",
+            "weight": 25,
+            "anchors": {
+              "0": "Accepts invented promises and calculations",
+              "1": "Checks only a minor fact",
+              "2": "Checks key commitments but omits an important inconsistency",
+              "3": "Corrects stock/date/discount/fee claims and includes full assisted time",
+              "4": "Maps all material checks to sources and reports uncertainty and trial limits clearly"
+            },
+            "criticalGate": "No unconfirmed six-unit Friday promise, invented discount/free delivery or INR 50 surcharge remains as an authorized commitment"
+          },
+          {
+            "id": "information-handling",
+            "dimension": "Information handling",
+            "weight": 20,
+            "anchors": {
+              "0": "Discloses inappropriate private information or actual secrets",
+              "1": "Cannot distinguish relevant from internal information",
+              "2": "Uses synthetic records but incompletely explains exclusions",
+              "3": "Uses permitted facts and excludes internal cost/private contact data",
+              "4": "Explains minimal input, approved channels and restricted customer-record handling"
+            },
+            "criticalGate": "No actual private customer records or credentials used; unnecessary internal/private fields are excluded from the customer draft and unapproved prompt"
+          },
+          {
+            "id": "judgment",
+            "dimension": "Judgment",
+            "weight": 15,
+            "anchors": {
+              "0": "Automatically commits or dispatches based on the draft",
+              "1": "General caution without an approval route",
+              "2": "Recognizes review but leaves a key operational action unclear",
+              "3": "Preserves pending status and names human approval/checks and a bounded work trial",
+              "4": "Explains stop conditions, source-based completion and limits of productivity conclusions"
+            },
+            "criticalGate": "Unresolved stock/address/pickup items are not falsely completed; customer sending and operational exceptions retain authorized human review"
+          }
+        ],
+        "samplePassingEvidence": "Four units are confirmed; six-unit Friday delivery needs the stock team's check. I removed the discount, free delivery and internal cost. O101 needs stock confirmation; O102 needs pickup arrangement; O103 needs approved address confirmation and remains on hold. I did not add a surcharge. The assisted trial takes 11 minutes including checks, saving one minute on one synthetic task. My work trial will use an approved low-consequence task and an authorized sender.",
+        "sampleCriticalFailure": "The learner calculates the right price and writes an elegant response but promises Friday delivery of six units, despite only four confirmed units. The verification gate fails.",
+        "assessorNote": "Accept different courteous wording and supervisor-reviewed priority suggestions. Do not require a positive productivity result or treat a calculated price as confirmed order acceptance."
+      },
+      "followUp": {
+        "afterDays": 14,
+        "question": "Did you use a checked draft or action checklist on a permitted task, and what changed?",
+        "evidenceOptions": [
+          "Structured reflection with task category and checks",
+          "Blank checklist template",
+          "Aggregate time comparison without customer details"
+        ],
+        "successSignal": "A learner describes a corrected commitment or clearer operational action and includes checking effort",
+        "privacyNote": "Do not require actual customer messages, prices negotiated with named customers or business account records."
+      },
+      "foundation": {
+        "moduleId": "responsible-ai-foundation",
+        "title": "Responsible AI foundation",
+        "topics": [
+          "Accuracy",
+          "Privacy",
+          "Limits",
+          "Human judgment"
+        ],
+        "lessonIds": [
+          "rai-01",
+          "rai-02"
+        ],
+        "note": "Shared module. Every pathway in this edition includes it unchanged."
+      },
+      "formatAlternatives": {
+        "transcript": "Every lesson has a full text transcript.",
+        "summary": "Every lesson has a plain-language summary.",
+        "listen": "Audio not recorded yet: the listen option is a labelled placeholder with no media file."
+      }
+    },
+    {
+      "id": "public-servant-source-briefs",
+      "title": "Clear administrative briefs with accountable AI use",
+      "ecosystem": "Government",
+      "role": "Public servant",
+      "level": "Foundation to applied",
+      "summary": "Create a source-traceable administrative draft, verify a simple summary, and retain authorized review before official use.",
+      "promise": "You can prepare a clear draft from permitted reference material and show which facts and judgments need review.",
+      "estimatedMinutes": 170,
+      "prerequisites": [
+        "Read short supplied reference material",
+        "Know that official approval is distinct from a draft",
+        "Use a form or receive planned facilitator assistance"
+      ],
+      "outcomes": [
+        "Classify source material before tool use",
+        "Map claims to supplied sources",
+        "Reject invented requirements, fees and references",
+        "Verify totals and rates with clear denominators",
+        "Keep accountable approval and publication within assigned authority"
+      ],
+      "credentialClaim": "Demonstrated administrative drafting, source verification and responsible information-handling using synthetic training material",
+      "credentialExclusions": [
+        "No authority to issue official decisions",
+        "No legal or statutory qualification",
+        "No assurance that an external AI tool is approved by an employer"
+      ],
+      "sourceNotice": "Every notice, department, programme, figure and policy below is fictional. No actual law, administrative direction or citizen service rule is stated.",
+      "lessons": [
+        {
+          "id": "rai-01",
+          "module": "responsible-ai-foundation",
+          "title": "Accuracy and limits: AI can sound sure and still be wrong",
+          "estimatedMinutes": 15,
+          "objective": "Recognise that AI output can be fluent but wrong, and check each important claim against a source before using it.",
+          "lessonText": "AI tools write fluent answers even when the answer is wrong. They can invent a number, a rule, a date or a source and still sound sure. A tool does not know your farm, your shop or your office. It works only from the words it is given. Treat every AI answer as a draft. Check each important statement against a source you trust, such as your own record, a written rule or a qualified person. If you cannot find support for a statement, mark it unverified and keep it out of anything you share. Check the arithmetic yourself. Ask what the tool could not have known. A short, honest answer that says what is unknown is more useful than a long answer that guesses.",
+          "steps": [
+            "Read the supplied AI draft",
+            "Underline each factual claim",
+            "Find the supporting line in the source packet for each claim",
+            "Mark each claim supported, unsupported or unknown",
+            "Rewrite the draft keeping only supported claims"
+          ],
+          "exercise": {
+            "title": "Check a confident AI note against its source",
+            "sourcePacket": [
+              {
+                "sourceId": "F1",
+                "fact": "Fictional price list: seed packet INR 120; fertiliser sack INR 900."
+              },
+              {
+                "sourceId": "F2",
+                "fact": "No information about rainfall, soil or expected yield is supplied in this exercise."
+              }
+            ],
+            "suppliedAiDraft": "Seed costs INR 120 and fertiliser costs INR 900, so the total is INR 1,020. Heavy rain is coming this month, so buy extra fertiliser now.",
+            "optionalAiPrompt": "Using only the supplied fictional price list, write a two-line cost note. Say what is not known. Do not predict weather or yield.",
+            "learnerTask": "Mark each statement in the draft as supported, unsupported or unknown, then write a corrected two-line note.",
+            "expectedEvidence": [
+              "Cost statements marked supported by source F1",
+              "Rain and purchase advice marked unsupported because F2 gives no rainfall information",
+              "Corrected note that states INR 1,020 and names what is not known"
+            ],
+            "assessorReference": "The two prices and the total INR 1,020 (120 + 900) are supported by F1. The heavy-rain claim and the advice to buy extra fertiliser are unsupported, because F2 states that no weather, soil or yield information is supplied. A good answer keeps the supported facts and says what is not known."
+          },
+          "quiz": [
+            {
+              "id": "rai-01-q1",
+              "question": "An AI answer sounds very sure. What does that tell you about whether it is correct?",
+              "options": [
+                "It is probably correct because it sounds so confident",
+                "Nothing by itself: fluent wording is not evidence, so check it",
+                "It is correct if it includes numbers",
+                "It is correct if it is long"
+              ],
+              "correctOptionIndex": 1,
+              "explanation": "Confident wording is not evidence. AI tools can state invented facts in the same tone as true ones, so important claims need a check against a source."
+            },
+            {
+              "id": "rai-01-q2",
+              "question": "The source packet says nothing about rain, but the AI draft predicts heavy rain. What should you do?",
+              "options": [
+                "Mark it unsupported and leave it out of what you share",
+                "Keep it because AI tools know the weather",
+                "Make the prediction stronger",
+                "Share it as an official forecast"
+              ],
+              "correctOptionIndex": 0,
+              "explanation": "A claim with no support in the source is unsupported. Leave it out or mark it clearly as unverified."
+            },
+            {
+              "id": "rai-01-q3",
+              "question": "Which is the best check for a total that an AI tool calculated?",
+              "options": [
+                "Trust it if it is shown in bold",
+                "Ask the tool whether it is sure",
+                "Add the numbers from the source yourself",
+                "Round it to the nearest ten"
+              ],
+              "correctOptionIndex": 2,
+              "explanation": "Adding the source numbers yourself is an independent check. Asking the same tool if it is sure is not."
+            }
+          ],
+          "reflectionPrompt": "Think of a time a confident answer turned out to be wrong. What check would have caught it?",
+          "returnToWorkAction": "Before you use an AI draft for a permitted task, mark each important statement as supported, unsupported or unknown, and remove anything you cannot support.",
+          "summary": "AI can sound sure and still be wrong. Treat every answer as a draft. Check each important claim against a source you trust, add up the numbers yourself, and leave out anything you cannot support.",
+          "transcript": "Lesson: Accuracy and limits: AI can sound sure and still be wrong.\n\nObjective: Recognise that AI output can be fluent but wrong, and check each important claim against a source before using it.\n\nAI tools write fluent answers even when the answer is wrong. They can invent a number, a rule, a date or a source and still sound sure. A tool does not know your farm, your shop or your office. It works only from the words it is given. Treat every AI answer as a draft. Check each important statement against a source you trust, such as your own record, a written rule or a qualified person. If you cannot find support for a statement, mark it unverified and keep it out of anything you share. Check the arithmetic yourself. Ask what the tool could not have known. A short, honest answer that says what is unknown is more useful than a long answer that guesses.\n\nSteps: Step 1. Read the supplied AI draft. Step 2. Underline each factual claim. Step 3. Find the supporting line in the source packet for each claim. Step 4. Mark each claim supported, unsupported or unknown. Step 5. Rewrite the draft keeping only supported claims.\n\nThink about this: Think of a time a confident answer turned out to be wrong. What check would have caught it?\n\nPut it to work carefully: Before you use an AI draft for a permitted task, mark each important statement as supported, unsupported or unknown, and remove anything you cannot support.",
+          "audio": {
+            "status": "not-recorded",
+            "label": "Audio not recorded yet",
+            "note": "This is a placeholder only. No audio file exists for this lesson. Read the full transcript below, or use your device's read-aloud feature."
+          }
+        },
+        {
+          "id": "rai-02",
+          "module": "responsible-ai-foundation",
+          "title": "Privacy and human judgment: what stays out and who decides",
+          "estimatedMinutes": 15,
+          "objective": "Keep private details out of unapproved AI tools and name the accountable person who decides anything that affects others.",
+          "lessonText": "Some information should not be typed into an AI tool unless your organisation has approved that tool for that use. This includes names, phone numbers, bank or identity details, exact locations, health details and anything someone gave you in confidence. In this course you use only fictional records, so you never need real ones. A second rule is about decisions. AI can draft, sort and suggest. An accountable person decides anything that affects someone's money, health, safety, rights or services. Keep a short note of who checked the work and what they changed. If you are unsure whether a task is suitable, stop and ask a supervisor or a qualified person before you continue. You can always do the task by hand.",
+          "steps": [
+            "Read the three fictional task cards",
+            "Mark any detail that is private",
+            "Decide which tasks AI may help draft",
+            "Decide which tasks need a person to decide",
+            "Write one sentence naming who checks the result"
+          ],
+          "exercise": {
+            "title": "Sort tasks by privacy and by who decides",
+            "sourcePacket": [
+              {
+                "sourceId": "P1",
+                "task": "Draft a polite reminder to pay a fictional small bill",
+                "contains": "No personal details"
+              },
+              {
+                "sourceId": "P2",
+                "task": "Decide whether a fictional neighbour qualifies for a support payment",
+                "contains": "Name, identity number and income of one person"
+              },
+              {
+                "sourceId": "P3",
+                "task": "Sort fictional meeting notes into groups",
+                "contains": "No personal details"
+              }
+            ],
+            "suppliedAiDraft": "All three tasks are fine to give to the AI tool. Paste the neighbour's name, identity number and income into it and let it decide who gets paid.",
+            "optionalAiPrompt": "Do not paste any real details. Ask the tool to explain in two lines why a fictional payment decision should stay with an accountable person.",
+            "learnerTask": "Identify the private details, explain why they stay out of the tool, and name who must make the payment decision.",
+            "expectedEvidence": [
+              "P2 identified as holding private details that stay out of an unapproved tool",
+              "P2 identified as a money decision that an accountable person must make",
+              "P1 and P3 identified as tasks AI may help with, with a person checking the result"
+            ],
+            "assessorReference": "P1 and P3 contain no private details and are low-stakes drafting or sorting tasks, so AI may help if a person checks the result. P2 holds personal and financial details and is a decision about a payment, so the details stay out of unapproved tools and an accountable person decides."
+          },
+          "quiz": [
+            {
+              "id": "rai-02-q1",
+              "question": "Which detail should stay out of an unapproved AI tool?",
+              "options": [
+                "A fictional price list from this course",
+                "A customer's phone number and bank details",
+                "A general question about how to format a table",
+                "A made-up example sentence"
+              ],
+              "correctOptionIndex": 1,
+              "explanation": "Phone numbers and bank details are private. They stay out of tools your organisation has not approved for that use."
+            },
+            {
+              "id": "rai-02-q2",
+              "question": "Who should decide whether a person receives a payment or a service?",
+              "options": [
+                "The AI tool, because it is faster",
+                "Whoever typed the request",
+                "An accountable person, who may use an AI draft as one input",
+                "Nobody, the tool applies the rules automatically"
+              ],
+              "correctOptionIndex": 2,
+              "explanation": "Decisions that affect someone's money, rights or services belong to an accountable person. An AI draft can be one input, never the decision-maker."
+            },
+            {
+              "id": "rai-02-q3",
+              "question": "You are not sure a task is suitable for AI. What is the best next step?",
+              "options": [
+                "Stop and ask a supervisor or a qualified person",
+                "Go ahead and fix problems later",
+                "Ask the AI tool to approve the task",
+                "Paste real records to test it"
+              ],
+              "correctOptionIndex": 0,
+              "explanation": "When suitability is unclear, stop and ask. The task can be done by hand while you wait."
+            }
+          ],
+          "reflectionPrompt": "Which detail in your own work would you never put into an unapproved tool, and who would you ask if unsure?",
+          "returnToWorkAction": "List three kinds of private detail in your work that stay out of AI tools, and write down the name of the person you will ask when a task is unclear.",
+          "summary": "Keep private details out of AI tools your organisation has not approved. AI can help draft and sort, but a person who is accountable decides anything that affects money, health, safety, rights or services. If unsure, stop and ask.",
+          "transcript": "Lesson: Privacy and human judgment: what stays out and who decides.\n\nObjective: Keep private details out of unapproved AI tools and name the accountable person who decides anything that affects others.\n\nSome information should not be typed into an AI tool unless your organisation has approved that tool for that use. This includes names, phone numbers, bank or identity details, exact locations, health details and anything someone gave you in confidence. In this course you use only fictional records, so you never need real ones. A second rule is about decisions. AI can draft, sort and suggest. An accountable person decides anything that affects someone's money, health, safety, rights or services. Keep a short note of who checked the work and what they changed. If you are unsure whether a task is suitable, stop and ask a supervisor or a qualified person before you continue. You can always do the task by hand.\n\nSteps: Step 1. Read the three fictional task cards. Step 2. Mark any detail that is private. Step 3. Decide which tasks AI may help draft. Step 4. Decide which tasks need a person to decide. Step 5. Write one sentence naming who checks the result.\n\nThink about this: Which detail in your own work would you never put into an unapproved tool, and who would you ask if unsure?\n\nPut it to work carefully: List three kinds of private detail in your work that stay out of AI tools, and write down the name of the person you will ask when a task is unclear.",
+          "audio": {
+            "status": "not-recorded",
+            "label": "Audio not recorded yet",
+            "note": "This is a placeholder only. No audio file exists for this lesson. Read the full transcript below, or use your device's read-aloud feature."
+          }
+        },
+        {
+          "id": "gov-01",
+          "module": "pathway-core",
+          "title": "Draft from permitted sources, not invented rules",
+          "estimatedMinutes": 25,
+          "objective": "Create a source-based brief and remove invented requirements and authority.",
+          "lessonText": "An administrative draft should make it easy to identify the source of each important fact. First confirm whether the material is permitted for the chosen tool; a source being available to you does not automatically make external upload acceptable. This exercise supplies fictional shareable references, so no real file is needed. Read the sources before reviewing the AI draft. A generated instruction such as 'attendance is mandatory' is not authority unless the source actually states it. A fee or penalty must not be invented to make a notice sound official. Keep the document visibly marked as a draft, name the intended reader, and identify the review needed before official use. If a detail is missing, ask for confirmation or omit it. Do not add a fabricated circular number or present the AI output as an approved decision.",
+          "steps": [
+            "Confirm the fictional packet is the approved practice input",
+            "Map each material fact to a source",
+            "Remove unsupported fee, penalty and mandatory-attendance claims",
+            "Create a clear draft brief",
+            "Name the approval step"
+          ],
+          "exercise": {
+            "title": "Correct the fictional staff-orientation brief",
+            "sourcePacket": [
+              {
+                "sourceId": "G1",
+                "content": "Fictional staff orientation is planned for 8 October 2026 from 10:00 to 11:00."
+              },
+              {
+                "sourceId": "G2",
+                "content": "Venue: Room B. Participants are asked to respond by 6 October 2026."
+              },
+              {
+                "sourceId": "G3",
+                "content": "Attendance is voluntary. This material is a draft for authorized administrative review. No fee, penalty or circular number is supplied."
+              },
+              {
+                "sourceId": "G4",
+                "content": "Teaching packet is fictional and approved for this practice only. It contains no actual personnel or citizen records."
+              }
+            ],
+            "suppliedAiDraft": "Under Circular GOV-X, every employee must attend Room B on 8 October from 10:00 to 11:00. A fee of INR 500 applies. Late responses will result in a penalty. This notice is approved for issue.",
+            "optionalAiPrompt": "Prepare a brief from fictional G1–G4 only. Include source references, distinguish draft status and voluntary attendance, and do not invent fees, penalties or circulars. Identify authorized review before issue.",
+            "learnerTask": "Write a short corrected draft and a fact-to-source list.",
+            "expectedEvidence": [
+              "Correct date, time, room and response date",
+              "Voluntary attendance retained",
+              "GOV-X, fee and penalty removed as unsupported",
+              "Draft status and authorized review explicit",
+              "Important facts mapped to G1–G3"
+            ],
+            "assessorReference": "The sources support a voluntary fictional event in Room B, 8 October 10:00–11:00, response by 6 October. They do not support a fee, penalty, circular or approved-issue status. Equivalent brief formats are acceptable."
+          },
+          "quiz": [
+            {
+              "id": "gov-01-q1",
+              "question": "Which statement matches G3?",
+              "options": [
+                "Attendance is compulsory",
+                "A fee of INR 500 applies",
+                "Attendance is voluntary and the material needs authorized review",
+                "Circular GOV-X authorizes publication"
+              ],
+              "correctOptionIndex": 2,
+              "explanation": "G3 explicitly states voluntary attendance and draft status. The generated fee, circular and authority are unsupported."
+            },
+            {
+              "id": "gov-01-q2",
+              "question": "How should GOV-X be treated?",
+              "options": [
+                "As valid because it looks official",
+                "As an unsupported reference to remove or verify before any use",
+                "As a required citation",
+                "As a confidential password"
+              ],
+              "correctOptionIndex": 1,
+              "explanation": "No such reference is supplied. Official-looking formatting does not establish authenticity."
+            },
+            {
+              "id": "gov-01-q3",
+              "question": "What is appropriate for this external-tool practice?",
+              "options": [
+                "Upload actual restricted personnel files",
+                "Use the supplied approved fictional packet only",
+                "Assume every work file is public",
+                "Include citizen identities to make the example realistic"
+              ],
+              "correctOptionIndex": 1,
+              "explanation": "The fictional packet is designed for practice. Real work material requires the organization's approved handling and tool rules."
+            }
+          ],
+          "reflectionPrompt": "How can the reader tell which facts came from the sources and which parts still need approval?",
+          "returnToWorkAction": "Use a claim–source–review template with permitted material in an approved environment. Keep draft status until the authorized approval step is completed.",
+          "summary": "Draft a brief only from sources you are permitted to use. Remove any rule, requirement or authority that is not in the source.",
+          "transcript": "Lesson: Draft from permitted sources, not invented rules.\n\nObjective: Create a source-based brief and remove invented requirements and authority.\n\nAn administrative draft should make it easy to identify the source of each important fact. First confirm whether the material is permitted for the chosen tool; a source being available to you does not automatically make external upload acceptable. This exercise supplies fictional shareable references, so no real file is needed. Read the sources before reviewing the AI draft. A generated instruction such as 'attendance is mandatory' is not authority unless the source actually states it. A fee or penalty must not be invented to make a notice sound official. Keep the document visibly marked as a draft, name the intended reader, and identify the review needed before official use. If a detail is missing, ask for confirmation or omit it. Do not add a fabricated circular number or present the AI output as an approved decision.\n\nSteps: Step 1. Confirm the fictional packet is the approved practice input. Step 2. Map each material fact to a source. Step 3. Remove unsupported fee, penalty and mandatory-attendance claims. Step 4. Create a clear draft brief. Step 5. Name the approval step.\n\nThink about this: How can the reader tell which facts came from the sources and which parts still need approval?\n\nPut it to work carefully: Use a claim–source–review template with permitted material in an approved environment. Keep draft status until the authorized approval step is completed.",
+          "audio": {
+            "status": "not-recorded",
+            "label": "Audio not recorded yet",
+            "note": "This is a placeholder only. No audio file exists for this lesson. Read the full transcript below, or use your device's read-aloud feature."
+          }
+        },
+        {
+          "id": "gov-02",
+          "module": "pathway-core",
+          "title": "Check numbers and the story they tell",
+          "estimatedMinutes": 25,
+          "objective": "Calculate a correct summary and avoid unsupported explanations of cause or performance.",
+          "lessonText": "A numerical brief needs a clear denominator and time period. In this fictional weekly packet, 80 items were received and 55 were recorded resolved. Dividing 55 by 80 gives 68.75%. That describes the packet's recorded figures; it does not automatically establish why outcomes changed or whether every item was handled satisfactorily. An AI draft may mix a wrong rate with a persuasive explanation. Check the calculation yourself, compare it with the source rows, and state the exact scope. Do not call a record 'improved' without a comparable earlier period and an agreed quality measure. A useful brief can explain the current counts and the limits of interpretation. If someone asks for a causal conclusion, identify the additional evidence needed rather than manufacturing one. Preserve accountability by asking the relevant data owner to confirm the figures before official circulation.",
+          "steps": [
+            "Total received and resolved counts",
+            "Calculate the rate with its denominator",
+            "Compare the draft's rate",
+            "Remove unsupported cause and quality claims",
+            "Write a scoped summary for review"
+          ],
+          "exercise": {
+            "title": "Verify the fictional weekly service summary",
+            "sourcePacket": [
+              {
+                "sourceId": "W1",
+                "category": "Category A",
+                "received": 40,
+                "recordedResolved": 25
+              },
+              {
+                "sourceId": "W2",
+                "category": "Category B",
+                "received": 25,
+                "recordedResolved": 20
+              },
+              {
+                "sourceId": "W3",
+                "category": "Category C",
+                "received": 15,
+                "recordedResolved": 10
+              },
+              {
+                "sourceId": "W4",
+                "scope": "One fictional reporting week; no earlier period, case-level quality evidence or cause analysis is supplied."
+              }
+            ],
+            "suppliedAiDraft": "The programme resolved 95% of the 80 items and its new policy caused a major improvement in service quality.",
+            "optionalAiPrompt": "Summarize fictional W1–W4. Show counts and denominator, calculate the rate, state scope, and avoid causal or quality claims unsupported by the packet.",
+            "learnerTask": "Create a verified three-sentence numerical brief with a visible calculation and one interpretation limit.",
+            "expectedEvidence": [
+              "Received: 40 + 25 + 15 = 80",
+              "Recorded resolved: 25 + 20 + 10 = 55",
+              "55 / 80 × 100 = 68.75%",
+              "95% claim corrected",
+              "No unsupported improvement, policy causation or case-quality claim"
+            ],
+            "assessorReference": "Accept 68.75% or appropriately labeled rounding such as 68.8%. The source uses 'recorded resolved'; avoid turning that into independently verified service quality. No previous-period or causal claim is justified."
+          },
+          "quiz": [
+            {
+              "id": "gov-02-q1",
+              "question": "What percentage of received items is recorded resolved?",
+              "options": [
+                "95%",
+                "55%",
+                "68.75%",
+                "80%"
+              ],
+              "correctOptionIndex": 2,
+              "explanation": "There are 55 recorded resolved items out of 80 received. 55 divided by 80, multiplied by 100, is 68.75%."
+            },
+            {
+              "id": "gov-02-q2",
+              "question": "What additional evidence is needed before calling this an improvement?",
+              "options": [
+                "A more confident AI sentence",
+                "A comparable baseline and agreed measures",
+                "A larger font",
+                "A made-up prior-period figure"
+              ],
+              "correctOptionIndex": 1,
+              "explanation": "Improvement requires an appropriate comparison and defined measures. The single-week packet provides neither."
+            },
+            {
+              "id": "gov-02-q3",
+              "question": "Which wording is best supported?",
+              "options": [
+                "The policy caused better quality",
+                "Every item was handled satisfactorily",
+                "The packet records 55 of 80 items resolved for one fictional week",
+                "The result applies to every department"
+              ],
+              "correctOptionIndex": 2,
+              "explanation": "This describes the supplied counts and scope without adding unverified quality, causal or generalization claims."
+            }
+          ],
+          "reflectionPrompt": "What would you ask the data owner before this summary was used in an official report?",
+          "returnToWorkAction": "On one permitted numerical summary, record the denominator, period, calculation and data-owner check before circulation.",
+          "summary": "Calculate the figures yourself and check them against the source. Do not accept an AI explanation of cause or performance unless the evidence supports it.",
+          "transcript": "Lesson: Check numbers and the story they tell.\n\nObjective: Calculate a correct summary and avoid unsupported explanations of cause or performance.\n\nA numerical brief needs a clear denominator and time period. In this fictional weekly packet, 80 items were received and 55 were recorded resolved. Dividing 55 by 80 gives 68.75%. That describes the packet's recorded figures; it does not automatically establish why outcomes changed or whether every item was handled satisfactorily. An AI draft may mix a wrong rate with a persuasive explanation. Check the calculation yourself, compare it with the source rows, and state the exact scope. Do not call a record 'improved' without a comparable earlier period and an agreed quality measure. A useful brief can explain the current counts and the limits of interpretation. If someone asks for a causal conclusion, identify the additional evidence needed rather than manufacturing one. Preserve accountability by asking the relevant data owner to confirm the figures before official circulation.\n\nSteps: Step 1. Total received and resolved counts. Step 2. Calculate the rate with its denominator. Step 3. Compare the draft's rate. Step 4. Remove unsupported cause and quality claims. Step 5. Write a scoped summary for review.\n\nThink about this: What would you ask the data owner before this summary was used in an official report?\n\nPut it to work carefully: On one permitted numerical summary, record the denominator, period, calculation and data-owner check before circulation.",
+          "audio": {
+            "status": "not-recorded",
+            "label": "Audio not recorded yet",
+            "note": "This is a placeholder only. No audio file exists for this lesson. Read the full transcript below, or use your device's read-aloud feature."
+          }
+        },
+        {
+          "id": "gov-03",
+          "module": "pathway-core",
+          "title": "Keep the draft-to-official boundary clear",
+          "estimatedMinutes": 25,
+          "objective": "Build a review handoff and safe work plan without assuming publication authority.",
+          "lessonText": "Preparing a draft and authorizing its official use are different responsibilities. A learning role such as public servant does not give permission to view every file or issue a notice. Keep the active work context and intended recipient clear. Your review handoff should identify the draft version, source packet, checks completed, uncertainties and the person or role that must approve it. AI can suggest text, but it cannot provide organizational authority. In this exercise, the reviewer role may confirm the source figures and wording; publication remains with the designated approver. Do not bypass that handoff because the document looks finished. If the approved AI tool is unavailable, use the supplied draft or prepare the brief manually. The skill is accurate and accountable work, not dependence on a tool. Return to your work with a small permitted task and an explicit stop condition if classification, access or approval is unclear.",
+          "steps": [
+            "Mark the document as a draft",
+            "List sources, version and checks",
+            "Identify unresolved questions",
+            "Route to the designated review and approval roles",
+            "Define one bounded return-to-work task"
+          ],
+          "exercise": {
+            "title": "Prepare the accountable review handoff",
+            "sourcePacket": [
+              {
+                "sourceId": "R1",
+                "content": "Fictional review process: learner prepares draft; data owner confirms supplied figures; designated administrative approver decides official issue. No role is granted through Academy enrollment."
+              },
+              {
+                "sourceId": "R2",
+                "content": "Use corrected G1–G3 event brief and W1–W4 numerical summary. Both remain draft teaching materials."
+              },
+              {
+                "sourceId": "R3",
+                "content": "Actual restricted work records, access credentials and citizen identities must not be included in this practice."
+              }
+            ],
+            "suppliedAiDraft": "The brief looks complete. Publish it immediately using your Academy learner role and skip data-owner review.",
+            "optionalAiPrompt": "Create a review checklist from fictional R1–R3. Preserve draft status, source checks, data-owner review and designated approval. Do not grant permissions or propose immediate publication.",
+            "learnerTask": "Write a review note naming the source packet, checks, questions, next reviewer, final approval step and work-trial stop condition.",
+            "expectedEvidence": [
+              "Draft status explicit",
+              "Corrected sources and calculations listed",
+              "Data-owner review and designated approval separated",
+              "No implied administrative privileges from Academy role",
+              "Stop when classification, permitted tool or authority is unclear"
+            ],
+            "assessorReference": "A passing handoff preserves the R1 process and does not issue anything. The learner can use equivalent role labels without naming a real official. A safe work trial uses permitted material and retains employer-approved review."
+          },
+          "quiz": [
+            {
+              "id": "gov-03-q1",
+              "question": "What permission does selecting the public-servant learner role grant?",
+              "options": [
+                "Access to all official records",
+                "Permission to publish a notice",
+                "No administrative or publication permission by itself",
+                "Permission to bypass review"
+              ],
+              "correctOptionIndex": 2,
+              "explanation": "A learning context supports relevance. Actual access and authority require explicit assignments in the relevant system and process."
+            },
+            {
+              "id": "gov-03-q2",
+              "question": "What should happen when the data classification or approved tool is unclear?",
+              "options": [
+                "Upload the file and ask later",
+                "Stop and seek the appropriate approval or handling guidance",
+                "Rename the file to make it public",
+                "Assume Academy enrollment authorizes it"
+              ],
+              "correctOptionIndex": 1,
+              "explanation": "Unclear handling rules are a reason to pause the tool use and seek the responsible owner, not to guess."
+            },
+            {
+              "id": "gov-03-q3",
+              "question": "If an external AI tool is unavailable during this activity, what is acceptable?",
+              "options": [
+                "Use another unapproved tool with restricted records",
+                "Skip all verification",
+                "Claim the task is passed without evidence",
+                "Review the supplied draft or prepare the work manually with the same checks"
+              ],
+              "correctOptionIndex": 3,
+              "explanation": "The assessed skill is responsible task performance. The provided draft supports practice without tool access, and the checking standard remains the same."
+            }
+          ],
+          "reflectionPrompt": "What part of your handoff ensures that a polished draft is not mistaken for an approved decision?",
+          "returnToWorkAction": "Use a draft-review checklist for one permitted administrative task. Record sources, checks, remaining questions and the authorized approval route without submitting confidential work to Academy.",
+          "summary": "An AI draft is not an official document. Hand it to the person with authority to review and approve it, and keep the draft and the official version clearly separate.",
+          "transcript": "Lesson: Keep the draft-to-official boundary clear.\n\nObjective: Build a review handoff and safe work plan without assuming publication authority.\n\nPreparing a draft and authorizing its official use are different responsibilities. A learning role such as public servant does not give permission to view every file or issue a notice. Keep the active work context and intended recipient clear. Your review handoff should identify the draft version, source packet, checks completed, uncertainties and the person or role that must approve it. AI can suggest text, but it cannot provide organizational authority. In this exercise, the reviewer role may confirm the source figures and wording; publication remains with the designated approver. Do not bypass that handoff because the document looks finished. If the approved AI tool is unavailable, use the supplied draft or prepare the brief manually. The skill is accurate and accountable work, not dependence on a tool. Return to your work with a small permitted task and an explicit stop condition if classification, access or approval is unclear.\n\nSteps: Step 1. Mark the document as a draft. Step 2. List sources, version and checks. Step 3. Identify unresolved questions. Step 4. Route to the designated review and approval roles. Step 5. Define one bounded return-to-work task.\n\nThink about this: What part of your handoff ensures that a polished draft is not mistaken for an approved decision?\n\nPut it to work carefully: Use a draft-review checklist for one permitted administrative task. Record sources, checks, remaining questions and the authorized approval route without submitting confidential work to Academy.",
+          "audio": {
+            "status": "not-recorded",
+            "label": "Audio not recorded yet",
+            "note": "This is a placeholder only. No audio file exists for this lesson. Read the full transcript below, or use your device's read-aloud feature."
+          }
+        },
+        {
+          "id": "gov-scn-1",
+          "module": "suitable-unsuitable-use",
+          "title": "Suitable or unsuitable AI use: public-service tasks (part 1 of 2)",
+          "estimatedMinutes": 15,
+          "objective": "Sort everyday public-service tasks into suitable and unsuitable AI use and give a reason for each.",
+          "lessonText": "Before you use AI for a task, ask three questions. First, does the task need private details such as names, phone numbers, bank, identity or health details? Second, does it decide something that affects a citizen or an applicant, or anyone's money, health, safety, rights or services? Third, can a person check the result against a source? A task is suitable when it is low-risk, uses only information you may share, and a person checks the result. A task is unsuitable when it needs private details in an unapproved tool, or when the decision must belong to a qualified or accountable person. Sometimes a task is unsuitable as asked but a smaller part of it is suitable, such as drafting questions for an expert. Sort the tasks in the packet, then say who checks or decides each one.",
+          "steps": [
+            "Read each task card in the source packet",
+            "Ask the three questions for each task",
+            "Classify each task as suitable or unsuitable",
+            "Name who checks or who decides each task",
+            "Write one reason for each classification"
+          ],
+          "exercise": {
+            "title": "Sort public-service tasks into suitable and unsuitable AI use",
+            "sourcePacket": [
+              {
+                "sourceId": "S1",
+                "task": "Ask an AI tool to turn a fictional, permitted meeting note into a one-page draft brief, then check every line against the note.",
+                "setting": "Public service"
+              },
+              {
+                "sourceId": "S2",
+                "task": "Ask an AI tool to decide whether a fictional applicant is eligible for a benefit and issue the decision letter.",
+                "setting": "Public service"
+              },
+              {
+                "sourceId": "S3",
+                "task": "Paste a citizen's name, identity number and health details from a case file into an AI tool to summarise the case.",
+                "setting": "Public service"
+              }
+            ],
+            "suppliedAiDraft": "AI can do all of these tasks quickly, so give every task to the tool and use whatever it returns without checking.",
+            "optionalAiPrompt": "Do not paste real details. Ask the tool to explain in two lines why one fictional task might need a human decision.",
+            "learnerTask": "Classify each task as suitable or unsuitable for AI use. For each one, name who checks or who decides, and give one reason.",
+            "expectedEvidence": [
+              "S1 classified as suitable with a human check, with a reason and a named person",
+              "S2 classified as unsuitable, a person must decide, with a reason and a named person",
+              "S3 classified as unsuitable, private details, with a reason and a named person"
+            ],
+            "assessorReference": "S1: suitable with a human check. Drafting from a permitted source is suitable. Checking each line against the note keeps invented content out. S2: unsuitable, a person must decide. An eligibility decision affects a person's rights. An authorised officer decides and signs the letter. S3: unsuitable, private details. Health and identity details are private and must stay out of tools that are not approved for case data."
+          },
+          "quiz": [
+            {
+              "id": "gov-scn-1-q1",
+              "question": "Classify this task: Ask an AI tool to turn a fictional, permitted meeting note into a one-page draft brief, then check every line against the note.",
+              "options": [
+                "Suitable: AI may help draft it and a person checks the result",
+                "Suitable: AI may finish it alone with no checking",
+                "Unsuitable: a qualified or accountable person must decide it",
+                "Unsuitable: it needs private details that must not go into an AI tool"
+              ],
+              "correctOptionIndex": 0,
+              "explanation": "Drafting from a permitted source is suitable. Checking each line against the note keeps invented content out."
+            },
+            {
+              "id": "gov-scn-1-q2",
+              "question": "Classify this task: Ask an AI tool to decide whether a fictional applicant is eligible for a benefit and issue the decision letter.",
+              "options": [
+                "Suitable: AI may finish it alone with no checking",
+                "Unsuitable: a qualified or accountable person must decide it",
+                "Suitable: AI may help draft it and a person checks the result",
+                "Unsuitable: it needs private details that must not go into an AI tool"
+              ],
+              "correctOptionIndex": 1,
+              "explanation": "An eligibility decision affects a person's rights. An authorised officer decides and signs the letter."
+            },
+            {
+              "id": "gov-scn-1-q3",
+              "question": "Classify this task: Paste a citizen's name, identity number and health details from a case file into an AI tool to summarise the case.",
+              "options": [
+                "Unsuitable: a qualified or accountable person must decide it",
+                "Unsuitable: it needs private details that must not go into an AI tool",
+                "Suitable: AI may finish it alone with no checking",
+                "Suitable: AI may help draft it and a person checks the result"
+              ],
+              "correctOptionIndex": 1,
+              "explanation": "Health and identity details are private and must stay out of tools that are not approved for case data."
+            }
+          ],
+          "reflectionPrompt": "Which task in your own work is suitable only if a person checks it, and who would check it?",
+          "returnToWorkAction": "Choose one real task you do often. Write down the three questions and your classification before you use any AI tool for it.",
+          "summary": "Ask three questions before using AI: does it need private details, does it decide something that affects a person, and can someone check the result. Low-risk tasks with a human check are suitable; private details and consequential decisions are not. This part covers 3 public-service tasks.",
+          "transcript": "Lesson: Suitable or unsuitable AI use: public-service tasks (part 1 of 2).\n\nObjective: Sort everyday public-service tasks into suitable and unsuitable AI use and give a reason for each.\n\nBefore you use AI for a task, ask three questions. First, does the task need private details such as names, phone numbers, bank, identity or health details? Second, does it decide something that affects a citizen or an applicant, or anyone's money, health, safety, rights or services? Third, can a person check the result against a source? A task is suitable when it is low-risk, uses only information you may share, and a person checks the result. A task is unsuitable when it needs private details in an unapproved tool, or when the decision must belong to a qualified or accountable person. Sometimes a task is unsuitable as asked but a smaller part of it is suitable, such as drafting questions for an expert. Sort the tasks in the packet, then say who checks or decides each one.\n\nSteps: Step 1. Read each task card in the source packet. Step 2. Ask the three questions for each task. Step 3. Classify each task as suitable or unsuitable. Step 4. Name who checks or who decides each task. Step 5. Write one reason for each classification.\n\nThink about this: Which task in your own work is suitable only if a person checks it, and who would check it?\n\nPut it to work carefully: Choose one real task you do often. Write down the three questions and your classification before you use any AI tool for it.",
+          "audio": {
+            "status": "not-recorded",
+            "label": "Audio not recorded yet",
+            "note": "This is a placeholder only. No audio file exists for this lesson. Read the full transcript below, or use your device's read-aloud feature."
+          }
+        },
+        {
+          "id": "gov-scn-2",
+          "module": "suitable-unsuitable-use",
+          "title": "Suitable or unsuitable AI use: public-service tasks (part 2 of 2)",
+          "estimatedMinutes": 15,
+          "objective": "Sort everyday public-service tasks into suitable and unsuitable AI use and give a reason for each.",
+          "lessonText": "Before you use AI for a task, ask three questions. First, does the task need private details such as names, phone numbers, bank, identity or health details? Second, does it decide something that affects a citizen or an applicant, or anyone's money, health, safety, rights or services? Third, can a person check the result against a source? A task is suitable when it is low-risk, uses only information you may share, and a person checks the result. A task is unsuitable when it needs private details in an unapproved tool, or when the decision must belong to a qualified or accountable person. Sometimes a task is unsuitable as asked but a smaller part of it is suitable, such as drafting questions for an expert. Sort the tasks in the packet, then say who checks or decides each one.",
+          "steps": [
+            "Read each task card in the source packet",
+            "Ask the three questions for each task",
+            "Classify each task as suitable or unsuitable",
+            "Name who checks or who decides each task",
+            "Write one reason for each classification"
+          ],
+          "exercise": {
+            "title": "Sort public-service tasks into suitable and unsuitable AI use",
+            "sourcePacket": [
+              {
+                "sourceId": "S4",
+                "task": "Ask an AI tool to check a fictional table of figures for typing errors and list anything odd for you to verify.",
+                "setting": "Public service"
+              },
+              {
+                "sourceId": "S5",
+                "task": "Let an AI tool write the final wording of a fictional official order and publish it under your name without reading it.",
+                "setting": "Public service"
+              },
+              {
+                "sourceId": "S6",
+                "task": "Ask an AI tool to draft plain-language headings for a fictional public notice that you will review and approve.",
+                "setting": "Public service"
+              }
+            ],
+            "suppliedAiDraft": "AI can do all of these tasks quickly, so give every task to the tool and use whatever it returns without checking.",
+            "optionalAiPrompt": "Do not paste real details. Ask the tool to explain in two lines why one fictional task might need a human decision.",
+            "learnerTask": "Classify each task as suitable or unsuitable for AI use. For each one, name who checks or who decides, and give one reason.",
+            "expectedEvidence": [
+              "S4 classified as suitable with a human check, with a reason and a named person",
+              "S5 classified as unsuitable, a person must decide, with a reason and a named person",
+              "S6 classified as suitable with a human check, with a reason and a named person"
+            ],
+            "assessorReference": "S4: suitable with a human check. Flagging oddities is suitable because you verify each flagged item against the source yourself. S5: unsuitable, a person must decide. Official orders carry legal authority. The authorised person must read, approve and own the final text. S6: suitable with a human check. Drafting headings is low risk when an accountable person reviews and approves the notice."
+          },
+          "quiz": [
+            {
+              "id": "gov-scn-2-q1",
+              "question": "Classify this task: Ask an AI tool to check a fictional table of figures for typing errors and list anything odd for you to verify.",
+              "options": [
+                "Unsuitable: it needs private details that must not go into an AI tool",
+                "Suitable: AI may help draft it and a person checks the result",
+                "Unsuitable: a qualified or accountable person must decide it",
+                "Suitable: AI may finish it alone with no checking"
+              ],
+              "correctOptionIndex": 1,
+              "explanation": "Flagging oddities is suitable because you verify each flagged item against the source yourself."
+            },
+            {
+              "id": "gov-scn-2-q2",
+              "question": "Classify this task: Let an AI tool write the final wording of a fictional official order and publish it under your name without reading it.",
+              "options": [
+                "Suitable: AI may help draft it and a person checks the result",
+                "Suitable: AI may finish it alone with no checking",
+                "Unsuitable: a qualified or accountable person must decide it",
+                "Unsuitable: it needs private details that must not go into an AI tool"
+              ],
+              "correctOptionIndex": 2,
+              "explanation": "Official orders carry legal authority. The authorised person must read, approve and own the final text."
+            },
+            {
+              "id": "gov-scn-2-q3",
+              "question": "Classify this task: Ask an AI tool to draft plain-language headings for a fictional public notice that you will review and approve.",
+              "options": [
+                "Suitable: AI may finish it alone with no checking",
+                "Unsuitable: a qualified or accountable person must decide it",
+                "Suitable: AI may help draft it and a person checks the result",
+                "Unsuitable: it needs private details that must not go into an AI tool"
+              ],
+              "correctOptionIndex": 2,
+              "explanation": "Drafting headings is low risk when an accountable person reviews and approves the notice."
+            }
+          ],
+          "reflectionPrompt": "Which task in your own work is suitable only if a person checks it, and who would check it?",
+          "returnToWorkAction": "Choose one real task you do often. Write down the three questions and your classification before you use any AI tool for it.",
+          "summary": "Ask three questions before using AI: does it need private details, does it decide something that affects a person, and can someone check the result. Low-risk tasks with a human check are suitable; private details and consequential decisions are not. This part covers 3 public-service tasks.",
+          "transcript": "Lesson: Suitable or unsuitable AI use: public-service tasks (part 2 of 2).\n\nObjective: Sort everyday public-service tasks into suitable and unsuitable AI use and give a reason for each.\n\nBefore you use AI for a task, ask three questions. First, does the task need private details such as names, phone numbers, bank, identity or health details? Second, does it decide something that affects a citizen or an applicant, or anyone's money, health, safety, rights or services? Third, can a person check the result against a source? A task is suitable when it is low-risk, uses only information you may share, and a person checks the result. A task is unsuitable when it needs private details in an unapproved tool, or when the decision must belong to a qualified or accountable person. Sometimes a task is unsuitable as asked but a smaller part of it is suitable, such as drafting questions for an expert. Sort the tasks in the packet, then say who checks or decides each one.\n\nSteps: Step 1. Read each task card in the source packet. Step 2. Ask the three questions for each task. Step 3. Classify each task as suitable or unsuitable. Step 4. Name who checks or who decides each task. Step 5. Write one reason for each classification.\n\nThink about this: Which task in your own work is suitable only if a person checks it, and who would check it?\n\nPut it to work carefully: Choose one real task you do often. Write down the three questions and your classification before you use any AI tool for it.",
+          "audio": {
+            "status": "not-recorded",
+            "label": "Audio not recorded yet",
+            "note": "This is a placeholder only. No audio file exists for this lesson. Read the full transcript below, or use your device's read-aloud feature."
+          }
+        }
+      ],
+      "practicalAssessment": {
+        "id": "gov-practical-01",
+        "title": "A verified administrative brief and review handoff",
+        "scenario": "Prepare a corrected fictional staff-orientation brief, a numerical summary of W1–W4, and a review handoff under R1–R3. Explain why generated wording is not official authority.",
+        "submissionPrompts": [
+          {
+            "id": "task",
+            "label": "Purpose, reader and draft status",
+            "help": "Identify the intended administrative use and why approval remains necessary."
+          },
+          {
+            "id": "safe-input",
+            "label": "Permitted input and handling boundary",
+            "help": "Use the fictional packet and identify what you would keep out of an unapproved tool."
+          },
+          {
+            "id": "ai-evidence",
+            "label": "Supplied draft and safer instructions",
+            "help": "Describe the source-bound instructions without providing any actual restricted file."
+          },
+          {
+            "id": "checks",
+            "label": "Fact-to-source map and numerical checks",
+            "help": "Check event facts, invented circular/fee/penalty, totals and rate."
+          },
+          {
+            "id": "final",
+            "label": "Corrected brief and scoped numerical summary",
+            "help": "Keep voluntary attendance, draft status and the exact count scope."
+          },
+          {
+            "id": "handoff",
+            "label": "Review and approval handoff",
+            "help": "Identify data-owner confirmation, unresolved questions and designated approval."
+          },
+          {
+            "id": "return",
+            "label": "Return-to-work task and stop conditions",
+            "help": "Choose a permitted task and explain when access, classification or authority needs clarification."
+          }
+        ],
+        "rubric": [
+          {
+            "id": "task-quality",
+            "dimension": "Task quality",
+            "weight": 40,
+            "anchors": {
+              "0": "No usable brief or handoff",
+              "1": "Major factual errors and unclear audience",
+              "2": "Mostly usable work with material omissions",
+              "3": "Clear corrected event brief, numerical summary and review note",
+              "4": "Concise audience-appropriate work with complete source mapping and actionable handoff"
+            },
+            "criticalGate": null
+          },
+          {
+            "id": "verification",
+            "dimension": "Verification",
+            "weight": 25,
+            "anchors": {
+              "0": "Accepts invented official references and rate",
+              "1": "Checks isolated facts only",
+              "2": "Checks main facts but leaves an important unsupported assertion",
+              "3": "Removes invented authority/fee/penalty and verifies 55 of 80 equals 68.75%",
+              "4": "Maps every important assertion to sources and explains scope, denominator and interpretation limits"
+            },
+            "criticalGate": "No fabricated circular, fee, penalty, mandatory-attendance claim or unsupported causal improvement remains presented as source-supported fact"
+          },
+          {
+            "id": "information-handling",
+            "dimension": "Information handling",
+            "weight": 20,
+            "anchors": {
+              "0": "Includes actual restricted records or credentials",
+              "1": "Treats all work material as permitted",
+              "2": "Uses synthetic material but lacks a clear tool boundary",
+              "3": "Uses only approved fictional packet and identifies restricted information to withhold",
+              "4": "Explains approved environment, minimum necessary sharing and a clear uncertainty stop"
+            },
+            "criticalGate": "No actual restricted administrative/citizen records or credentials are submitted or proposed for unapproved tool use"
+          },
+          {
+            "id": "judgment",
+            "dimension": "Judgment",
+            "weight": 15,
+            "anchors": {
+              "0": "Issues or authorizes the draft without required authority",
+              "1": "Mentions review but does not distinguish approval",
+              "2": "Identifies review with an incomplete handoff",
+              "3": "Preserves draft status, data-owner check and designated approval",
+              "4": "Adds specific unresolved questions, stop conditions and a bounded permitted work trial"
+            },
+            "criticalGate": "Academy role and AI output are not treated as official authority; required review and designated approval are retained"
+          }
+        ],
+        "samplePassingEvidence": "G1 and G2 support the event date, time, venue and response date. G3 says attendance is voluntary and the material is a draft. I removed GOV-X, INR 500 and the penalty. W1–W3 total 80 received and 55 recorded resolved, or 68.75%, for one fictional week; no causal improvement is established. My handoff requests data-owner checks and designated approval before issue. I used only the synthetic packet and will stop a work trial if classification, tool approval or authority is unclear.",
+        "sampleCriticalFailure": "The learner calculates the rate correctly but retains an invented circular and describes the draft as officially approved. The verification and judgment gates fail.",
+        "assessorNote": "Assess source accountability and authority boundaries rather than legal knowledge. Do not infer that any real organization's tool or publication policy matches the fictional process."
+      },
+      "followUp": {
+        "afterDays": 14,
+        "question": "Did you use a source-and-review checklist for a permitted administrative task?",
+        "evidenceOptions": [
+          "Structured reflection without document contents",
+          "Blank claim–source–review template",
+          "Authorized facilitator confirmation under the approved pilot process"
+        ],
+        "successSignal": "The learner describes a checked claim, a documented uncertainty and the correct approval handoff",
+        "privacyNote": "Do not collect actual administrative briefs, citizen records or employer-restricted information by default."
+      },
+      "foundation": {
+        "moduleId": "responsible-ai-foundation",
+        "title": "Responsible AI foundation",
+        "topics": [
+          "Accuracy",
+          "Privacy",
+          "Limits",
+          "Human judgment"
+        ],
+        "lessonIds": [
+          "rai-01",
+          "rai-02"
+        ],
+        "note": "Shared module. Every pathway in this edition includes it unchanged."
+      },
+      "formatAlternatives": {
+        "transcript": "Every lesson has a full text transcript.",
+        "summary": "Every lesson has a plain-language summary.",
+        "listen": "Audio not recorded yet: the listen option is a labelled placeholder with no media file."
+      }
+    }
+  ]
+}
