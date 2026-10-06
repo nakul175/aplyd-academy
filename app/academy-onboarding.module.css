@@ -1,0 +1,19 @@
+.flow{background:var(--card);border:1px solid var(--border);border-radius:1rem;padding:1.5rem;margin-bottom:1.5rem;min-width:0;overflow-wrap:anywhere}
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;flex-wrap:wrap}
+.step{font-size:.8125rem;font-weight:700;letter-spacing:.04em;color:var(--muted-foreground)}
+.dots{display:flex;gap:.4rem;margin:.6rem 0 1rem}.dots i{width:2rem;height:.3rem;border-radius:.2rem;background:var(--border)}.dots i[data-on=true]{background:var(--primary)}
+.created{display:grid;gap:.4rem;padding:1rem;border-radius:.75rem;background:var(--accent);margin:1rem 0}
+.created ul{margin:.25rem 0 0;padding-left:1.1rem;display:grid;gap:.25rem;font-size:.9375rem}
+.group{border:0;padding:0;margin:1rem 0 0;min-width:0}.group legend{font-weight:700;padding:0;margin-bottom:.5rem}
+.choice{display:flex;gap:.7rem;align-items:flex-start;padding:.7rem .85rem;border:1px solid var(--border);border-radius:.7rem;margin-bottom:.5rem;cursor:pointer;min-height:44px}
+.choice input{margin-top:.3rem;width:1.1rem;height:1.1rem;flex:none}.choice:has(input:checked){border-color:var(--primary);background:var(--accent)}
+.choice small{display:block;color:var(--muted-foreground)}
+.note{display:flex;gap:.6rem;align-items:flex-start;margin-top:1rem;font-size:.9375rem;color:var(--muted-foreground)}
+.actions{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:1.25rem;align-items:center}
+.problem{color:var(--destructive);margin-top:.75rem;font-weight:600}
+.text{width:100%;max-width:26rem;padding:.65rem;border:1px solid var(--input);border-radius:.55rem;background:var(--background);color:inherit}
+.minutes{display:flex;gap:.5rem;flex-wrap:wrap}.minutes .choice{margin:0}
+.join{max-width:46rem;margin:0 auto 1.5rem}
+.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;margin-top:1rem}
+.two>div{padding:1rem;border-radius:.75rem;background:var(--muted)}.two ul{margin:.4rem 0 0;padding-left:1.1rem;display:grid;gap:.3rem}
+@media(max-width:767px){.two{grid-template-columns:minmax(0,1fr)}.flow{padding:1rem}}

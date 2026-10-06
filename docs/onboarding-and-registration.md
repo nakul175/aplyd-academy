@@ -1,0 +1,8 @@
+# Onboarding and registration (BR-01, BR-02) as built
+
+- First-run setup (app/academy-onboarding.tsx, lib/academy-onboarding.ts): three skippable steps on the personal Overview only. It never appears during an invite link, a deep link or in a shared workspace, and never again after completion or skip. The marker is `profile.onboarding` ('completed' | 'skipped'), absent on old saved states. Established learners (enrollments, plan tasks or a chosen name) are not interrupted.
+- Saving uses the existing stores. The `onboarding` engine action only composes the existing `profile`, `learning-plan` and `learning-access-preferences` actions, all or nothing. It is re-openable from Preferences & privacy ("Review guided setup").
+- Languages offered: English, and Hindi labelled by what exists (request only unless a Hindi edition is present in the content). Language choice never changes content pins.
+- Direct route: the first platform sign-in lands in setup and creates the Academy profile ("Account created: your Academy profile"), with the display name starting from the platform name.
+- Partner route: /join explains workspace, role, cohort, optional owner note, and what staff can and cannot see. States: ready, already joined, unavailable (unknown token and wrong account use the same wording), closed (expired, withdrawn or used), issuer lost, removed, invalid link. Success offers "Open my workspace" (`/?workspace=<id>#teams`). Token hash, email match and last-owner guards are unchanged (server side).
+- External, not built (BASELINE open item): email, one-time-code and single sign-on registration, passwords and verification are provided by the platform sign-in.
