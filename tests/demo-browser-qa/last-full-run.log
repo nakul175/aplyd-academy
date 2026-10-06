@@ -1,0 +1,327 @@
+PASS [sweep] admin@1280 opens workspace
+PASS [sweep] admin@1280 #teams :: h=5
+PASS [sweep] admin@1280 #operations :: h=6
+PASS [sweep] admin@1280 #recovery :: h=5
+PASS [sweep] admin@1280 #requests :: h=5
+PASS [sweep] admin@1280 #audit :: h=1
+PASS [sweep] admin@1280 #escalations :: h=3
+PASS [sweep] admin@1280 #reports :: h=5
+PASS [sweep] admin@1280 #home :: h=4
+PASS [sweep] admin@1280 #plan :: h=6
+PASS [sweep] admin@1280 #programs :: h=2
+PASS [sweep] admin@1280 #library :: h=6
+PASS [sweep] admin@1280 #offline :: h=2
+PASS [sweep] admin@1280 #community :: h=6
+PASS [sweep] admin@1280 #network :: h=3
+PASS [sweep] admin@1280 #credentials :: h=2
+PASS [sweep] admin@1280 #connections :: h=1
+PASS [sweep] admin@1280 #support :: h=2
+PASS [sweep] admin@1280 #studio :: h=2
+PASS [sweep] admin@1280 #settings :: h=6
+PASS [sweep] facilitator-1@1280 opens workspace
+PASS [sweep] facilitator-1@1280 #teams :: h=2
+PASS [sweep] facilitator-1@1280 #operations :: h=5
+PASS [sweep] facilitator-1@1280 #recovery :: h=1 (denied/unavailable state)
+PASS [sweep] facilitator-1@1280 #requests :: h=3
+PASS [sweep] facilitator-1@1280 #audit :: h=1 (denied/unavailable state)
+PASS [sweep] facilitator-1@1280 #escalations :: h=3
+PASS [sweep] facilitator-1@1280 #reports :: h=5
+PASS [sweep] facilitator-1@1280 #home :: h=4
+PASS [sweep] facilitator-1@1280 #plan :: h=6
+PASS [sweep] facilitator-1@1280 #programs :: h=2
+PASS [sweep] facilitator-1@1280 #library :: h=6
+PASS [sweep] facilitator-1@1280 #offline :: h=2
+PASS [sweep] facilitator-1@1280 #community :: h=3
+PASS [sweep] facilitator-1@1280 #network :: h=2
+PASS [sweep] facilitator-1@1280 #credentials :: h=2
+PASS [sweep] facilitator-1@1280 #connections :: h=1
+PASS [sweep] facilitator-1@1280 #support :: h=2
+PASS [sweep] facilitator-1@1280 #studio :: h=2
+PASS [sweep] facilitator-1@1280 #settings :: h=5
+PASS [sweep] assessor-1@1280 opens workspace
+PASS [sweep] assessor-1@1280 #teams :: h=3
+PASS [sweep] assessor-1@1280 #operations :: h=1 (denied/unavailable state)
+PASS [sweep] assessor-1@1280 #recovery :: h=1 (denied/unavailable state)
+PASS [sweep] assessor-1@1280 #requests :: h=3
+PASS [sweep] assessor-1@1280 #audit :: h=1 (denied/unavailable state)
+PASS [sweep] assessor-1@1280 #escalations :: h=3
+PASS [sweep] assessor-1@1280 #reports :: h=5
+PASS [sweep] assessor-1@1280 #home :: h=4
+PASS [sweep] assessor-1@1280 #plan :: h=6
+PASS [sweep] assessor-1@1280 #programs :: h=2
+PASS [sweep] assessor-1@1280 #library :: h=6
+PASS [sweep] assessor-1@1280 #offline :: h=2
+PASS [sweep] assessor-1@1280 #community :: h=5
+PASS [sweep] assessor-1@1280 #network :: h=3
+PASS [sweep] assessor-1@1280 #credentials :: h=2
+PASS [sweep] assessor-1@1280 #connections :: h=1
+PASS [sweep] assessor-1@1280 #support :: h=2
+PASS [sweep] assessor-1@1280 #studio :: h=2
+PASS [sweep] assessor-1@1280 #settings :: h=5
+PASS [sweep] reviewer@1280 opens workspace
+PASS [sweep] reviewer@1280 #teams :: h=4
+PASS [sweep] reviewer@1280 #operations :: h=1 (denied/unavailable state)
+PASS [sweep] reviewer@1280 #recovery :: h=1 (denied/unavailable state)
+PASS [sweep] reviewer@1280 #requests :: h=3
+PASS [sweep] reviewer@1280 #audit :: h=1 (denied/unavailable state)
+PASS [sweep] reviewer@1280 #escalations :: h=3
+PASS [sweep] reviewer@1280 #reports :: h=1 (denied/unavailable state)
+PASS [sweep] reviewer@1280 #home :: h=4
+PASS [sweep] reviewer@1280 #plan :: h=6
+PASS [sweep] reviewer@1280 #programs :: h=2
+PASS [sweep] reviewer@1280 #library :: h=6
+PASS [sweep] reviewer@1280 #offline :: h=2
+PASS [sweep] reviewer@1280 #community :: h=6
+PASS [sweep] reviewer@1280 #network :: h=3
+PASS [sweep] reviewer@1280 #credentials :: h=2
+PASS [sweep] reviewer@1280 #connections :: h=1
+PASS [sweep] reviewer@1280 #support :: h=2
+PASS [sweep] reviewer@1280 #studio :: h=2
+PASS [sweep] reviewer@1280 #settings :: h=5
+PASS [sweep] moderator@1280 opens workspace
+PASS [sweep] moderator@1280 #teams :: h=4
+PASS [sweep] moderator@1280 #operations :: h=1 (denied/unavailable state)
+PASS [sweep] moderator@1280 #recovery :: h=1 (denied/unavailable state)
+PASS [sweep] moderator@1280 #requests :: h=3
+PASS [sweep] moderator@1280 #audit :: h=1 (denied/unavailable state)
+PASS [sweep] moderator@1280 #escalations :: h=4
+PASS [sweep] moderator@1280 #reports :: h=1 (denied/unavailable state)
+PASS [sweep] moderator@1280 #home :: h=4
+PASS [sweep] moderator@1280 #plan :: h=6
+PASS [sweep] moderator@1280 #programs :: h=2
+PASS [sweep] moderator@1280 #library :: h=6
+PASS [sweep] moderator@1280 #offline :: h=2
+PASS [sweep] moderator@1280 #community :: h=6
+PASS [sweep] moderator@1280 #network :: h=3
+PASS [sweep] moderator@1280 #credentials :: h=2
+PASS [sweep] moderator@1280 #connections :: h=1
+PASS [sweep] moderator@1280 #support :: h=2
+PASS [sweep] moderator@1280 #studio :: h=2
+PASS [sweep] moderator@1280 #settings :: h=6
+PASS [sweep] learner-new@1280 opens workspace
+PASS [sweep] learner-new@1280 #teams :: h=4
+PASS [sweep] learner-new@1280 #operations :: h=1 (denied/unavailable state)
+PASS [sweep] learner-new@1280 #recovery :: h=1 (denied/unavailable state)
+PASS [sweep] learner-new@1280 #requests :: h=3
+PASS [sweep] learner-new@1280 #audit :: h=1 (denied/unavailable state)
+PASS [sweep] learner-new@1280 #escalations :: h=3
+PASS [sweep] learner-new@1280 #reports :: h=1 (denied/unavailable state)
+PASS [sweep] learner-new@1280 #home :: h=4
+PASS [sweep] learner-new@1280 #plan :: h=6
+PASS [sweep] learner-new@1280 #programs :: h=2
+PASS [sweep] learner-new@1280 #library :: h=6
+PASS [sweep] learner-new@1280 #offline :: h=2
+PASS [sweep] learner-new@1280 #community :: h=3
+PASS [sweep] learner-new@1280 #network :: h=2
+PASS [sweep] learner-new@1280 #credentials :: h=2
+PASS [sweep] learner-new@1280 #connections :: h=1
+PASS [sweep] learner-new@1280 #support :: h=2
+PASS [sweep] learner-new@1280 #studio :: h=2
+PASS [sweep] learner-new@1280 #settings :: h=5
+PASS [sweep] learner-complete@1280 opens workspace
+PASS [sweep] learner-complete@1280 #teams :: h=4
+PASS [sweep] learner-complete@1280 #operations :: h=1 (denied/unavailable state)
+PASS [sweep] learner-complete@1280 #recovery :: h=1 (denied/unavailable state)
+PASS [sweep] learner-complete@1280 #requests :: h=3
+PASS [sweep] learner-complete@1280 #audit :: h=1 (denied/unavailable state)
+PASS [sweep] learner-complete@1280 #escalations :: h=3
+PASS [sweep] learner-complete@1280 #reports :: h=1 (denied/unavailable state)
+PASS [sweep] learner-complete@1280 #home :: h=4
+PASS [sweep] learner-complete@1280 #plan :: h=6
+PASS [sweep] learner-complete@1280 #programs :: h=2
+PASS [sweep] learner-complete@1280 #library :: h=6
+PASS [sweep] learner-complete@1280 #offline :: h=2
+PASS [sweep] learner-complete@1280 #community :: h=4
+PASS [sweep] learner-complete@1280 #network :: h=3
+PASS [sweep] learner-complete@1280 #credentials :: h=3
+PASS [sweep] learner-complete@1280 #connections :: h=1
+PASS [sweep] learner-complete@1280 #support :: h=2
+PASS [sweep] learner-complete@1280 #studio :: h=2
+PASS [sweep] learner-complete@1280 #settings :: h=5
+PASS [sweep] admin@390 opens workspace
+PASS [sweep] admin@390 #teams :: h=5
+PASS [sweep] admin@390 #operations :: h=6
+PASS [sweep] admin@390 #recovery :: h=5
+PASS [sweep] admin@390 #requests :: h=5
+PASS [sweep] admin@390 #audit :: h=1
+PASS [sweep] admin@390 #escalations :: h=3
+PASS [sweep] admin@390 #reports :: h=5
+PASS [sweep] admin@390 #home :: h=4
+PASS [sweep] admin@390 #plan :: h=6
+PASS [sweep] admin@390 #programs :: h=2
+PASS [sweep] admin@390 #library :: h=6
+PASS [sweep] admin@390 #offline :: h=2
+PASS [sweep] admin@390 #community :: h=6
+PASS [sweep] admin@390 #network :: h=3
+PASS [sweep] admin@390 #credentials :: h=2
+PASS [sweep] admin@390 #connections :: h=1
+PASS [sweep] admin@390 #support :: h=2
+PASS [sweep] admin@390 #studio :: h=2
+PASS [sweep] admin@390 #settings :: h=6
+PASS [sweep] facilitator-1@390 opens workspace
+PASS [sweep] facilitator-1@390 #teams :: h=2
+PASS [sweep] facilitator-1@390 #operations :: h=5
+PASS [sweep] facilitator-1@390 #recovery :: h=1 (denied/unavailable state)
+PASS [sweep] facilitator-1@390 #requests :: h=3
+PASS [sweep] facilitator-1@390 #audit :: h=1 (denied/unavailable state)
+PASS [sweep] facilitator-1@390 #escalations :: h=3
+PASS [sweep] facilitator-1@390 #reports :: h=5
+PASS [sweep] facilitator-1@390 #home :: h=4
+PASS [sweep] facilitator-1@390 #plan :: h=6
+PASS [sweep] facilitator-1@390 #programs :: h=2
+PASS [sweep] facilitator-1@390 #library :: h=6
+PASS [sweep] facilitator-1@390 #offline :: h=2
+PASS [sweep] facilitator-1@390 #community :: h=3
+PASS [sweep] facilitator-1@390 #network :: h=2
+PASS [sweep] facilitator-1@390 #credentials :: h=2
+PASS [sweep] facilitator-1@390 #connections :: h=1
+PASS [sweep] facilitator-1@390 #support :: h=2
+PASS [sweep] facilitator-1@390 #studio :: h=2
+PASS [sweep] facilitator-1@390 #settings :: h=5
+PASS [sweep] assessor-1@390 opens workspace
+PASS [sweep] assessor-1@390 #teams :: h=3
+PASS [sweep] assessor-1@390 #operations :: h=1 (denied/unavailable state)
+PASS [sweep] assessor-1@390 #recovery :: h=1 (denied/unavailable state)
+PASS [sweep] assessor-1@390 #requests :: h=3
+PASS [sweep] assessor-1@390 #audit :: h=1 (denied/unavailable state)
+PASS [sweep] assessor-1@390 #escalations :: h=3
+PASS [sweep] assessor-1@390 #reports :: h=5
+PASS [sweep] assessor-1@390 #home :: h=4
+PASS [sweep] assessor-1@390 #plan :: h=6
+PASS [sweep] assessor-1@390 #programs :: h=2
+PASS [sweep] assessor-1@390 #library :: h=6
+PASS [sweep] assessor-1@390 #offline :: h=2
+PASS [sweep] assessor-1@390 #community :: h=5
+PASS [sweep] assessor-1@390 #network :: h=3
+PASS [sweep] assessor-1@390 #credentials :: h=2
+PASS [sweep] assessor-1@390 #connections :: h=1
+PASS [sweep] assessor-1@390 #support :: h=2
+PASS [sweep] assessor-1@390 #studio :: h=2
+PASS [sweep] assessor-1@390 #settings :: h=5
+PASS [sweep] reviewer@390 opens workspace
+PASS [sweep] reviewer@390 #teams :: h=4
+PASS [sweep] reviewer@390 #operations :: h=1 (denied/unavailable state)
+PASS [sweep] reviewer@390 #recovery :: h=1 (denied/unavailable state)
+PASS [sweep] reviewer@390 #requests :: h=3
+PASS [sweep] reviewer@390 #audit :: h=1 (denied/unavailable state)
+PASS [sweep] reviewer@390 #escalations :: h=3
+PASS [sweep] reviewer@390 #reports :: h=1 (denied/unavailable state)
+PASS [sweep] reviewer@390 #home :: h=4
+PASS [sweep] reviewer@390 #plan :: h=6
+PASS [sweep] reviewer@390 #programs :: h=2
+PASS [sweep] reviewer@390 #library :: h=6
+PASS [sweep] reviewer@390 #offline :: h=2
+PASS [sweep] reviewer@390 #community :: h=6
+PASS [sweep] reviewer@390 #network :: h=3
+PASS [sweep] reviewer@390 #credentials :: h=2
+PASS [sweep] reviewer@390 #connections :: h=1
+PASS [sweep] reviewer@390 #support :: h=2
+PASS [sweep] reviewer@390 #studio :: h=2
+PASS [sweep] reviewer@390 #settings :: h=5
+PASS [sweep] moderator@390 opens workspace
+PASS [sweep] moderator@390 #teams :: h=4
+PASS [sweep] moderator@390 #operations :: h=1 (denied/unavailable state)
+PASS [sweep] moderator@390 #recovery :: h=1 (denied/unavailable state)
+PASS [sweep] moderator@390 #requests :: h=3
+PASS [sweep] moderator@390 #audit :: h=1 (denied/unavailable state)
+PASS [sweep] moderator@390 #escalations :: h=4
+PASS [sweep] moderator@390 #reports :: h=1 (denied/unavailable state)
+PASS [sweep] moderator@390 #home :: h=4
+PASS [sweep] moderator@390 #plan :: h=6
+PASS [sweep] moderator@390 #programs :: h=2
+PASS [sweep] moderator@390 #library :: h=6
+PASS [sweep] moderator@390 #offline :: h=2
+PASS [sweep] moderator@390 #community :: h=6
+PASS [sweep] moderator@390 #network :: h=3
+PASS [sweep] moderator@390 #credentials :: h=2
+PASS [sweep] moderator@390 #connections :: h=1
+PASS [sweep] moderator@390 #support :: h=2
+PASS [sweep] moderator@390 #studio :: h=2
+PASS [sweep] moderator@390 #settings :: h=6
+PASS [sweep] learner-new@390 opens workspace
+PASS [sweep] learner-new@390 #teams :: h=4
+PASS [sweep] learner-new@390 #operations :: h=1 (denied/unavailable state)
+PASS [sweep] learner-new@390 #recovery :: h=1 (denied/unavailable state)
+PASS [sweep] learner-new@390 #requests :: h=3
+PASS [sweep] learner-new@390 #audit :: h=1 (denied/unavailable state)
+PASS [sweep] learner-new@390 #escalations :: h=3
+PASS [sweep] learner-new@390 #reports :: h=1 (denied/unavailable state)
+PASS [sweep] learner-new@390 #home :: h=4
+PASS [sweep] learner-new@390 #plan :: h=6
+PASS [sweep] learner-new@390 #programs :: h=2
+PASS [sweep] learner-new@390 #library :: h=6
+PASS [sweep] learner-new@390 #offline :: h=2
+PASS [sweep] learner-new@390 #community :: h=3
+PASS [sweep] learner-new@390 #network :: h=2
+PASS [sweep] learner-new@390 #credentials :: h=2
+PASS [sweep] learner-new@390 #connections :: h=1
+PASS [sweep] learner-new@390 #support :: h=2
+PASS [sweep] learner-new@390 #studio :: h=2
+PASS [sweep] learner-new@390 #settings :: h=5
+PASS [sweep] learner-complete@390 opens workspace
+PASS [sweep] learner-complete@390 #teams :: h=4
+PASS [sweep] learner-complete@390 #operations :: h=1 (denied/unavailable state)
+PASS [sweep] learner-complete@390 #recovery :: h=1 (denied/unavailable state)
+PASS [sweep] learner-complete@390 #requests :: h=3
+PASS [sweep] learner-complete@390 #audit :: h=1 (denied/unavailable state)
+PASS [sweep] learner-complete@390 #escalations :: h=3
+PASS [sweep] learner-complete@390 #reports :: h=1 (denied/unavailable state)
+PASS [sweep] learner-complete@390 #home :: h=4
+PASS [sweep] learner-complete@390 #plan :: h=6
+PASS [sweep] learner-complete@390 #programs :: h=2
+PASS [sweep] learner-complete@390 #library :: h=6
+PASS [sweep] learner-complete@390 #offline :: h=2
+PASS [sweep] learner-complete@390 #community :: h=4
+PASS [sweep] learner-complete@390 #network :: h=3
+PASS [sweep] learner-complete@390 #credentials :: h=3
+PASS [sweep] learner-complete@390 #connections :: h=1
+PASS [sweep] learner-complete@390 #support :: h=2
+PASS [sweep] learner-complete@390 #studio :: h=2
+PASS [sweep] learner-complete@390 #settings :: h=5
+PASS [role-visibility] nav items per role (informational) :: {"admin":"Workspace operations,Account recovery,Data requests,Audit log,Escalations,Programme reports,Review studio","facilitator-1":"Workspace operations,Data requests,Programme reports,Review studio
+PASS [a11y] tab order reaches main controls #operations :: first=Skip to content (skip link); 21 main stops
+PASS [a11y] tab order reaches main controls #requests :: first=Skip to content (skip link); 2 main stops
+PASS [a11y] tab order reaches main controls #audit :: first=Skip to content (skip link); 21 main stops
+PASS [a11y] tab order reaches main controls #reports :: first=Skip to content (skip link); 27 main stops
+PASS [a11y] tab order reaches main controls #programs :: first=Skip to content (skip link); 21 main stops
+PASS [a11y] tab order reaches main controls #credentials :: first=Skip to content (skip link); 2 main stops
+PASS [a11y] axe admin #operations :: 1 violations, 0 serious/critical: region(moderate)
+PASS [a11y] axe admin #requests :: 1 violations, 0 serious/critical: region(moderate)
+PASS [a11y] axe admin #audit :: 1 violations, 0 serious/critical: region(moderate)
+PASS [a11y] axe admin #reports :: 2 violations, 0 serious/critical: landmark-unique(moderate),region(moderate)
+PASS [a11y] axe admin #programs :: 1 violations, 0 serious/critical: region(moderate)
+PASS [a11y] axe admin #escalations :: 1 violations, 0 serious/critical: region(moderate)
+PASS [a11y] axe learner-complete #credentials :: 1 violations, 0 serious/critical: region(moderate)
+PASS [a11y] axe learner-complete #plan :: 1 violations, 0 serious/critical: region(moderate)
+PASS [catalog] facets, search and recommendation basis
+PASS [catalog] Before you enrol disclosure opens with content
+PASS [data-requests] learner files an export request
+PASS [data-requests] admin cannot decide before 2-of-3 verification (approve disabled)
+PASS [data-requests] admin records ONE check -> not verified
+PASS [data-requests] admin records 2-of-3 -> verified, then decides with reason
+PASS [data-requests] learner sees decision and downloads own-only export :: export 2315 bytes, emails=
+PASS [data-requests] self-verification blocked: admin own request needs another owner :: server refused 403
+PASS [accommodations] learner files accommodation request via Demonstrate skill tab
+PASS [accommodations] ineligible assessor (other cohorts) sees no request
+PASS [accommodations] eligible assessor approves with reason
+PASS [accommodations] learner sees Approved + history
+PASS [escalations] moderator escalates the open report
+PASS [escalations] owner resolves the escalation
+PASS [escalations] moderator sees outcome, not reviewer identity
+PASS [recovery] learner (non-admin member) cannot reach the recovery form in the UI :: FINDING: server accepts recovery-request from any active member but the UI is admin-only, so a learner who lost their sign-in cannot file one
+PASS [recovery] second owner (fresh identity) files a recovery request in the UI
+PASS [recovery] different owner (admin-1) approves with 2-of-3 + reason; learning moves
+PASS [recovery] requester cannot decide own request (server) :: status approved
+PASS [recovery] assisted invitation created in UI; fresh account accepts via /join link :: joined
+PASS [credentials] share toggle shows copy link; public page shows DUMMY mark and no PII :: Link copied
+PASS [credentials] unknown token gives neutral not-found without leaking
+PASS [credentials] suspended/revoked/reinstated reflected on public page (via API; no UI control exists) :: {"suspend":"SUSPENDED: temporarily not valid while a review is outstandi","reinstate":"Active: current and unchanged, as a demonstration credential","revoke":"REVOKED: withdrawn and no longer valid."}
+PASS [reports] CSV export downloads with manifest and small-cell <3, no emails/names :: aplyd-academy-report-2026-10-06.csv 8 lines, manifest=false
+PASS [reports] facilitator-1 report is cohort-scoped (farm only)
+PASS [audit] detail rows exist for the new actions; no practice text or emails :: ok
+PASS [audit] CSV export has no emails or sentinel
+PASS [partner] panel says dummy partner not running when unconfigured
+PASS [partner] start dummy partner (loopback) and restart own worker with ACADEMY_DUMMY_PARTNER_URL
+PASS [partner] link DEMO-AAA001, grant progress+completion, send signed update, receipts at the dummy :: 1 receipt(s); fields: event_id,member_code,scopes,received_at,payload
+
+SUMMARY {"sweep":{"pass":280,"fail":0},"role-visibility":{"pass":1,"fail":0},"a11y":{"pass":14,"fail":0},"catalog":{"pass":2,"fail":0},"data-requests":{"pass":6,"fail":0},"accommodations":{"pass":4,"fail":0},"escalations":{"pass":3,"fail":0},"recovery":{"pass":5,"fail":0},"credentials":{"pass":3,"fail":0},"reports":{"pass":2,"fail":0},"audit":{"pass":2,"fail":0},"partner":{"pass":3,"fail":0}} pageErrors=0 consoleErrors=0

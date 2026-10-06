@@ -1,0 +1,195 @@
+{
+ "when": "2026-10-06T20:12:58.520Z",
+ "total": 31,
+ "failed": 0,
+ "pageErrors": [],
+ "consoleErrors": [],
+ "results": [
+  {
+   "area": "role-visibility",
+   "name": "nav items per role (informational)",
+   "ok": true,
+   "note": "{}"
+  },
+  {
+   "area": "catalog",
+   "name": "facets, search and recommendation basis",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "area": "catalog",
+   "name": "Before you enrol disclosure opens with content",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "area": "data-requests",
+   "name": "learner files an export request",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "area": "data-requests",
+   "name": "admin cannot decide before 2-of-3 verification (approve disabled)",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "area": "data-requests",
+   "name": "admin records ONE check -> not verified",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "area": "data-requests",
+   "name": "admin records 2-of-3 -> verified, then decides with reason",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "area": "data-requests",
+   "name": "learner sees decision and downloads own-only export",
+   "ok": true,
+   "note": "export 2315 bytes, emails="
+  },
+  {
+   "area": "data-requests",
+   "name": "self-verification blocked: admin own request needs another owner",
+   "ok": true,
+   "note": "server refused 403"
+  },
+  {
+   "area": "accommodations",
+   "name": "learner files accommodation request via Demonstrate skill tab",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "area": "accommodations",
+   "name": "ineligible assessor (other cohorts) sees no request",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "area": "accommodations",
+   "name": "eligible assessor approves with reason",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "area": "accommodations",
+   "name": "learner sees Approved + history",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "area": "escalations",
+   "name": "moderator escalates the open report",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "area": "escalations",
+   "name": "owner resolves the escalation",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "area": "escalations",
+   "name": "moderator sees outcome, not reviewer identity",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "area": "recovery",
+   "name": "learner (non-admin member) cannot reach the recovery form in the UI",
+   "ok": true,
+   "note": "FINDING: server accepts recovery-request from any active member but the UI is admin-only, so a learner who lost their sign-in cannot file one"
+  },
+  {
+   "area": "recovery",
+   "name": "second owner (fresh identity) files a recovery request in the UI",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "area": "recovery",
+   "name": "different owner (admin-1) approves with 2-of-3 + reason; learning moves",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "area": "recovery",
+   "name": "requester cannot decide own request (server)",
+   "ok": true,
+   "note": "status approved"
+  },
+  {
+   "area": "recovery",
+   "name": "assisted invitation created in UI; fresh account accepts via /join link",
+   "ok": true,
+   "note": "joined"
+  },
+  {
+   "area": "credentials",
+   "name": "share toggle shows copy link; public page shows DUMMY mark and no PII",
+   "ok": true,
+   "note": "Link copied"
+  },
+  {
+   "area": "credentials",
+   "name": "unknown token gives neutral not-found without leaking",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "area": "credentials",
+   "name": "suspended/revoked/reinstated reflected on public page (via API; no UI control exists)",
+   "ok": true,
+   "note": "{\"suspend\":\"SUSPENDED: temporarily not valid while a review is outstandi\",\"reinstate\":\"Active: current and unchanged, as a demonstration credential\",\"revoke\":\"REVOKED: withdrawn and no longer valid.\"}"
+  },
+  {
+   "area": "reports",
+   "name": "CSV export downloads with manifest and small-cell <3, no emails/names",
+   "ok": true,
+   "note": "aplyd-academy-report-2026-10-06.csv 8 lines, manifest=false"
+  },
+  {
+   "area": "reports",
+   "name": "facilitator-1 report is cohort-scoped (farm only)",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "area": "audit",
+   "name": "detail rows exist for the new actions; no practice text or emails",
+   "ok": true,
+   "note": "ok"
+  },
+  {
+   "area": "audit",
+   "name": "CSV export has no emails or sentinel",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "area": "partner",
+   "name": "panel says dummy partner not running when unconfigured",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "area": "partner",
+   "name": "start dummy partner (loopback) and restart own worker with ACADEMY_DUMMY_PARTNER_URL",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "area": "partner",
+   "name": "link DEMO-AAA001, grant progress+completion, send signed update, receipts at the dummy",
+   "ok": true,
+   "note": "1 receipt(s); fields: event_id,member_code,scopes,received_at,payload"
+  }
+ ]
+}
