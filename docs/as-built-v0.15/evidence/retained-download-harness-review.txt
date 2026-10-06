@@ -1,0 +1,7 @@
+30-case retained-download harness — source acceptance
+
+No actionable source finding. The five added scenarios capture the actual local Blob download, verify filename and same origin, parse saved JSON, and compare full expected enrollment/cohort metadata. They cover matching older own cohort despite a newer first-open preview, missing/repointed own cohort producing null, personal unavailable own source producing null, and preview-only unknown body preserving the explicitly selected cohort with no enrollment.
+
+All broad, personal (including the new display variant) and selected/unselected team handlers use the unchanged shared same-origin GET/HEAD guard and nonredirecting fetch helper. Redirects, Location headers and unexpected response origins are refused before JSON/fulfill. Direct baseline reads use GET with redirects disabled. New display variants replace detached GET response state only after actual actor verification; no persisted fixture or mutating API command is sent.
+
+Successful runtime acceptance must still prove all 30 cases, five downloads, exact actual state/team/contentVersions/revision invariance and frozen source/build/harness hashes. Reviewer performed source inspection only, no runtime/test/network/SQL/app edit. Exact reviewed hashes are in retained-download-harness-review.json; parent Worker 69950 was supplied context, not operated by reviewer.

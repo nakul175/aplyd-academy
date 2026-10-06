@@ -1,0 +1,62 @@
+{
+  "reviewedAt": "2026-10-05T21:52:34.522593+00:00",
+  "scope": "Read-only source audit of learner language/assistance, offline draft preparation, snapshots and retained exports. No app edits, compilation, tests, Worker/browser/network, SQL or provider work.",
+  "hashes": {
+    "app/academy-inclusive-learning.tsx": "c20d9f2802ef65521007dcff027cda836107c745cf7081e5d9b4074baac180da",
+    "lib/academy-inclusive-learning.ts": "483e64778ad762e93880a5ea41bec0b873fe48c62bdc1aa5fefc0b26c8f626ac",
+    "app/academy-offline.tsx": "11fcd7d24a5934fe1366b1d322d4f5681decc94fb1a8023eddc838d167e6bd2b",
+    "lib/academy-offline.ts": "0f5cc198c757803678b8e2d4adfe3a979c377b5fef94a4ff42692912ed19223c",
+    "lib/academy-offline-sealed.ts": "50e37576f6f1cf2efce106e6f1c5f894bffb4e777cb5becf1e6fe36dc9a48f3e",
+    "app/academy-snapshot.tsx": "ab4e317474eaf3be60eba2317c53f5e92a012f1740b4bc134b536cd74c25341a",
+    "lib/academy-snapshot.ts": "bc557badd8bf446cc25a95ba3e074dcf19c3968ad5911bcc20ad6f3aee667c00",
+    "app/academy-settings.tsx": "bb1152706c67db928161c8e6a5580a0d801f2b3ca18b93f3acd406c8fc6ca78d",
+    "app/academy-context.tsx": "15ae4ab655c7ad8a680f89aa63010afd733d31dca8884efcaa7658ebc8905fd1",
+    "app/academy-learning.tsx": "091f51fecbc44ebc4f791f92b09b864d76376cd934c3b9b282271d9a791b1cae",
+    "lib/academy-offering-navigation.ts": "b29d838f305bd7d373bacee31f3768da67b8fd02357fdb3f8bbf3d59a00a4bf6",
+    "app/academy.tsx": "6938b1d1b0e3dc842fa92847efd29ee070ec9fd794a1d5036905a91d9f03e7e0"
+  },
+  "findings": [
+    {
+      "id": "M6-RET-01",
+      "priority": "P2",
+      "title": "Retained-learning export pairs an own saved enrollment with an unrelated default cohort",
+      "trigger": "Own active older enrollment has an unavailable exact source. Its cohort is not content-open; another cohort for the same program remains open with a different exact pin. Open the saved pathway and select Export my retained learning.",
+      "source": [
+        {
+          "file": "app/academy-learning.tsx",
+          "line": 22,
+          "fact": "With own enrollment e present, selectPreviewCohort is invoked with undefined intent and its default first-open cohort becomes selectedCohort."
+        },
+        {
+          "file": "lib/academy-offering-navigation.ts",
+          "line": 44,
+          "fact": "Undefined intent chooses the first content-open/open cohort, independent of the enrollment cohortId and saved pin."
+        },
+        {
+          "file": "app/academy-learning.tsx",
+          "line": 25,
+          "fact": "The correctly unavailable own saved edition renders a download that serializes enrollment:e together with cohort:selectedCohort."
+        }
+      ],
+      "impact": "The download contains the preserved older enrollment and the different newer cohort/pin. A learner or support reviewer can misread the file as the saved enrollment belonging to the newer cohort. No persisted mutation, pin upgrade, authority change or cross-account data leak is established.",
+      "boundedFix": "For an own-enrollment export, include only the current accepted cohort matching e.cohortId and the exact full pinnedRef; use null if missing, mismatched or unverifiable. Alternatively omit cohort for own enrollment. Never attach the default/new-offering selection to own saved history. Leave course resolution, enrollment commands and source authority unchanged.",
+      "pureAcceptance": [
+        "Use actual selectPreviewCohort, pinnedRef/contentKey and current export projection (or a small pure export read model). Construct older own enrollment plus two same-program cohorts, older contentOpen=false and newer open, and only the newer source resolvable.",
+        "Assert the current default selection resolves to newer, yet retained export enrollment equals the older original byte-for-byte and exported cohort is null or exactly the own cohort with identical pin.",
+        "Cover reordered cohorts, cohort removal/repointing, malformed own pin, personal no-cohort enrollment, exact matching own cohort and un-enrolled explicit unavailable offering. Assert inputs unchanged. Disable fetch in the pure suite."
+      ],
+      "readOnlyBrowserAcceptance": [
+        "Reuse the already accepted M5 memory-only GET display case named unavailable own active older pin takes precedence over a present revised offering; do not create or update fixtures.",
+        "Click Export my retained learning, capture its local download, parse JSON and assert exact saved own enrollment plus only matching own cohort or null; assert no newer cohort/pin/title appears as attached cohort.",
+        "Retain corrected same-origin GET/HEAD routing guards and redirect refusal, compare actual API state/revision before and after, and report this separately from mutating command/CAS acceptance."
+      ],
+      "verificationStatus": "Independent source diagnosis only; no pure tests, download or browser run executed by reviewer."
+    }
+  ],
+  "otherConclusions": [
+    "Language requests are explicitly disclosed as requests, not translations; saved pin and progress are retained. Read-aloud uses browser-reported local voices with own lesson/pin/account/workspace cleanup.",
+    "Human response capture requires explicit consent/readback/own-reasoning declaration and rechecks fields, exact pin and policy before the separate existing submission.",
+    "Offline drafts remain personal-lab-only, bounded and unsent; sealing is explicit; unlock/save compare current accepted own context, generation and exact fields. Device-time expiry and cold offline limits are disclosed.",
+    "Private snapshot export binds subject and carried checksum; inspection does not import state or confer issuer authority. No further actionable source defect was established in this bounded audit."
+  ]
+}

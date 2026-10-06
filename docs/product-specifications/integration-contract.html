@@ -1,0 +1,134 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Aplyd Academy Partner Integration Contract</title><style>:root{color-scheme:light;--ink:#182b3a;--muted:#546575;--line:#d8e0e5;--accent:#14564f;--wash:#f4f7f9}*{box-sizing:border-box}body{margin:0;color:var(--ink);background:#fff;font:16px/1.65 system-ui,-apple-system,Segoe UI,sans-serif}a{color:var(--accent);text-underline-offset:3px}header{border-bottom:1px solid var(--line);background:var(--wash);padding:20px max(20px,calc((100% - 1180px)/2));display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}.brand{font-weight:750;font-size:20px}.sub{font-size:13px;color:var(--muted)}main{max-width:1180px;margin:0 auto;padding:32px 24px 64px}.prose{max-width:1050px}h1{font-size:34px;line-height:1.2;margin:0 0 20px}h2{font-size:24px;margin:36px 0 12px}h3{font-size:19px;margin:24px 0 8px}p{margin:12px 0}ul,ol{padding-left:24px}li{margin:5px 0}img{max-width:100%;height:auto}table{border-collapse:collapse;display:block;max-width:100%;overflow:auto;font-size:14px;margin:20px 0}th,td{text-align:left;border:1px solid var(--line);padding:10px 12px;vertical-align:top;min-width:85px}th{background:var(--wash)}td{max-width:420px}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:var(--wash);padding:16px;border-radius:5px;font-size:13px}code{font:13px/1.5 ui-monospace,monospace;overflow-wrap:anywhere}blockquote{border-left:3px solid var(--accent);padding-left:16px;color:var(--muted)}.notice{padding:16px 20px;background:#edf5f2;border-left:4px solid var(--accent);margin:20px 0}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}.card{border:1px solid var(--line);border-radius:7px;padding:20px;min-width:0}.card h2{margin:0 0 10px;font-size:20px}.card p{font-size:14px;color:var(--muted)}.card a{display:block;margin:7px 0}.meta{display:flex;gap:12px;flex-wrap:wrap;font-size:14px;color:var(--muted)}.controls{display:flex;gap:14px;flex-wrap:wrap;align-items:end;margin:20px 0}.controls label{font-weight:600;font-size:14px;display:block;min-width:145px}.controls input,.controls select{display:block;width:100%;margin-top:5px;font:inherit;padding:10px;border:1px solid #8c9da9;border-radius:4px;min-height:44px}.controls .search{flex:1;min-width:240px}button{font:inherit;min-height:44px;padding:10px 15px;background:var(--accent);color:#fff;border:0;border-radius:4px;cursor:pointer}button.alt{background:var(--wash);color:var(--ink);border:1px solid var(--line)}:focus-visible{outline:3px solid #ce6800;outline-offset:3px}details{border-bottom:1px solid var(--line);padding:12px 0}summary{cursor:pointer;font-weight:600;min-height:44px}.itemmeta{font-size:13px;color:var(--muted);padding:0 0 12px}.pill{display:inline-block;background:var(--wash);border:1px solid var(--line);border-radius:4px;padding:1px 6px;margin-right:5px;font-size:12px}.detailbody{padding:0 16px 12px;border-left:2px solid var(--line)}.detailbody dt{font-weight:650;margin-top:12px}.detailbody dd{margin-left:0;white-space:pre-wrap;overflow-wrap:anywhere}.toplinks{display:flex;gap:18px;flex-wrap:wrap}.empty{padding:24px;color:var(--muted)}footer{border-top:1px solid var(--line);padding:16px 24px;text-align:center;font-size:13px;color:var(--muted)}@media(max-width:800px){.grid{grid-template-columns:1fr 1fr}h1{font-size:28px}main{padding:24px 16px}}@media(max-width:520px){.grid{grid-template-columns:1fr}.controls label,.controls .search{width:100%;min-width:0}}@media print{header,footer,.controls,.toplinks{display:none}main{padding:0;max-width:none}table{display:table;font-size:10px;overflow:visible}th,td{min-width:0;padding:5px}h2,h3{break-after:avoid}a{color:#000}.card{break-inside:avoid}details{break-inside:avoid}pre{font-size:10px}}body{overflow-wrap:anywhere}.prose{overflow-wrap:anywhere}.table-scroll{max-width:100%;overflow-x:auto;margin:20px 0}.table-scroll table{display:table;margin:0;max-width:none;width:100%}@media print{.table-scroll{overflow:visible}}</style></head><body><header><div><div class="brand">Aplyd Academy</div><div class="sub">Product and engineering documentation · 5 October 2026 · v0.1</div></div><nav class="toplinks" aria-label="Documentation"><a href="index.html">Pack overview</a><a href="wireframes.html">Wireframes</a><a href="test-explorer.html">Tests</a><a href="dictionary-explorer.html">Dictionary</a></nav></header><main><article class="prose"><h1>Aplyd Academy Partner Integration Contract</h1>
+<p>This proposed contract defines how a partner ecosystem launches learning, enrolls participants and receives authorized achievements. Partner teams should review it with the <a href="openapi.json">OpenAPI draft</a>, <a href="LLD.html">LLD</a> and <a href="security-and-privacy.html">security design</a>. It does not establish a live connection or exchange real learner information.</p>
+<p>Version 0.1 dated 5 October 2026. Initial partner, endpoints, credentials, identity provider and final exchange fields are open decisions.</p>
+<h2>Integration journey</h2>
+<ol>
+<li>The partner displays a relevant learning opportunity.</li>
+<li>The learner opens an allowlisted Academy link containing an offering or invitation reference.</li>
+<li>Academy authenticates through the approved identity adapter or offers direct login.</li>
+<li>Issuer and subject resolve to a linked Academy account. Linking is not inferred from email.</li>
+<li>Academy checks active membership, offering access and the published enrollment policy.</li>
+<li>The learner sees the pathway and the reporting or sharing arrangements before enrollment.</li>
+<li>Learning, assessment and award run in the Academy.</li>
+<li>An authorized event or partner API makes permitted achievement information available.</li>
+<li>A return link restores the partner&#39;s permitted destination without carrying private learning evidence in the URL.</li>
+</ol>
+<h2>Ownership and sources of truth</h2>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Information</th>
+<th>Authoritative owner</th>
+<th>Partner handling</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Authentication subject</td>
+<td>Approved identity issuer</td>
+<td>Supply stable issuer and subject</td>
+</tr>
+<tr>
+<td>Academy tenant permissions</td>
+<td>Academy membership and role policy</td>
+<td>Request provisioning; cannot set arbitrary permissions</td>
+</tr>
+<tr>
+<td>Source participant reference</td>
+<td>Partner within agreed tenant</td>
+<td>Treat as scoped opaque reference</td>
+</tr>
+<tr>
+<td>Published pathway</td>
+<td>Academy content and offering record</td>
+<td>Link to a version-aware offering</td>
+</tr>
+<tr>
+<td>Enrollment and progress</td>
+<td>Academy learning module</td>
+<td>Receive permitted status</td>
+</tr>
+<tr>
+<td>Assessment result</td>
+<td>Academy authorized assessor and policy</td>
+<td>Receive agreed summary only</td>
+</tr>
+<tr>
+<td>Credential status</td>
+<td>Academy credential module and issuer</td>
+<td>Verify current status; do not infer from old events</td>
+</tr>
+<tr>
+<td>Sharing permission</td>
+<td>Current Academy permission record</td>
+<td>Honor purpose, expiry and withdrawal contract</td>
+</tr>
+</tbody></table></div>
+<h2>Proposed service operations</h2>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Operation</th>
+<th>Purpose</th>
+<th>Authorization</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Browser learning launch</td>
+<td>Open a specified offering</td>
+<td>Authenticated learner plus offering access</td>
+</tr>
+<tr>
+<td>POST /api/v1/partner/enrollments</td>
+<td>Invite or enroll an eligible linked participant</td>
+<td>Client scope and tenant; enrollment policy</td>
+</tr>
+<tr>
+<td>GET /api/v1/partner/achievements</td>
+<td>Read permitted achievement summaries</td>
+<td>Client scope, tenant, purpose and current sharing authorization</td>
+</tr>
+<tr>
+<td>POST /api/v1/partner/webhook-subscriptions</td>
+<td>Register an approved recipient endpoint</td>
+<td>Privileged partner client; endpoint validation</td>
+</tr>
+<tr>
+<td>Signed achievement webhook</td>
+<td>Deliver a permitted lifecycle event</td>
+<td>Registered endpoint; send-time permission check</td>
+</tr>
+</tbody></table></div>
+<p>The OpenAPI file defines the precise draft schemas. Endpoint authorization combines client scopes with tenant and subject permissions; possession of a valid client token alone is insufficient.</p>
+<h2>Request and response rules</h2>
+<p>Use versioned JSON endpoints, UUID object references, UTC RFC3339 timestamps and opaque cursor pagination. Retryable state changes require Idempotency-Key. The key is scoped to actor or client, tenant and route, with the request hash recorded. Repeating an identical request returns the original result; reusing the key for a changed body returns a conflict.</p>
+<p>Responses expose correlation_id for support. Error categories distinguish unauthenticated requests, permitted disclosure of forbidden access, absent or out-of-scope objects, conflicts, stale updates, invalid business transitions, throttling and transient unavailability. A partner must not interpret a timeout as proof that enrollment failed.</p>
+<p>Personal information, tokens and full assessment evidence must not appear in launch links, idempotency keys, support URLs or error messages.</p>
+<h2>Event envelope</h2>
+<p>The event envelope contains event_id, event_type, version, occurred_at, tenant_id, a scoped subject reference and minimal permitted payload. Proposed events include enrollment.created, learning.completed, assessment.decided, credential.issued, credential.suspended, credential.revoked, credential.expired and consent.changed. Each subscription must authorize its event types and fields.</p>
+<p>An assessment.decided event does not grant access to rubric comments or a submission. Credential events carry a stable credential reference and status; public verification is a separate learner-controlled function.</p>
+<h2>Delivery and authenticity</h2>
+<ol>
+<li>Domain state and outbox event commit in one transaction.</li>
+<li>Worker resolves the current subscription, client permissions and sharing grant.</li>
+<li>Worker creates a delivery record and signs timestamp plus the raw request body using a managed signing key.</li>
+<li>Consumer validates signature and timestamp before processing.</li>
+<li>Consumer records event_id and applies its effect idempotently.</li>
+<li>An acknowledged delivery stops retries. Failures follow bounded backoff and eventually enter a dead-letter state.</li>
+</ol>
+<p>Delivery is at least once. Event order cannot be assumed across separate subscriptions. Consumers should query the current permitted status or apply version-aware updates when an older event arrives later. Proposed replay window is five minutes; final clock tolerance and signature header names require contract acceptance.</p>
+<p>Retries and manual replay recheck current sharing authorization. Withdrawal after the event was created must stop optional disclosure that has not yet occurred.</p>
+<h2>Destination safety</h2>
+<p>Register endpoints through a controlled process. Require HTTPS, validate host and resolved address, prohibit private and internal destinations, and disallow unsafe redirects. Revalidate on delivery to account for address changes. Secrets and response bodies are redacted from operator logs.</p>
+<h2>Partner acceptance checklist</h2>
+<ul>
+<li>Identity collision, authenticated linking, logout and membership removal.</li>
+<li>Eligible and ineligible enrollment; duplicate request; changed-body key reuse.</li>
+<li>Correct return destination; rejected external redirect.</li>
+<li>Authorized achievement fields; rejected cross-tenant and unshared reads.</li>
+<li>Correct signature; changed body; stale timestamp; duplicate and out-of-order events.</li>
+<li>Partner outage; recovery; dead-letter handling; permission withdrawal before replay.</li>
+<li>Credential suspension, revocation, correction and expiry reflected correctly.</li>
+<li>Support correlation IDs, documented ownership and incident contacts.</li>
+</ul>
+<p>These checks map to the planned integration and security cases in <a href="test-suites.html">test suites</a>. Production connection requires actual execution evidence and joint signoff.</p>
+</article></main><footer>Proposed design baseline · Product test execution pending · Fictional prototype data</footer></body></html>

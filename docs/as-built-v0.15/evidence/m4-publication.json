@@ -1,0 +1,42 @@
+{
+  "release": "0.14.0",
+  "milestone": "M4",
+  "mainCommit": "13f7f0b6173a03b043c4f8dbd9ae0012fc50a35c",
+  "projectId": "appgprj_6ac33ba1f2b88191818a5045301c4683",
+  "nativeVersion": 15,
+  "versionId": "appgprj_6ac33ba1f2b88191818a5045301c4683~appgver_b98c49523be881919940b52bc79301dc",
+  "deploymentId": "appgdep_6ac418a4a7cc8191a4aef3091b1dfe17",
+  "deploymentStatus": "succeeded",
+  "publishedAtUtc": "2026-10-05T21:38:09.430848+00:00",
+  "url": "https://aplyd-academy.nakul1729233.chatgpt.site",
+  "audience": "owner-private",
+  "nativeAudiencePreserved": true,
+  "archive": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/Aplyd-Academy-App-v0.14.0.tar.gz",
+  "archiveSha256": "12e8ea563dceef373264f418b4ba609d77dd9673cec86f9d243fbd36c79b0ec5",
+  "verification": {
+    "nodeModelAndDomainEntries": 675,
+    "failed": 0,
+    "typecheck": "passed",
+    "workerBuild": "passed",
+    "weeklyBrowser": {
+      "scenarios": 18,
+      "assertions": 138,
+      "frozenWorker": 97593
+    },
+    "beforeStartBrowser": {
+      "scenarios": 16,
+      "frozenWorker": 91739,
+      "limit": "Unchanged named module hashes; not rerun on whole final bundle"
+    },
+    "partnerWorksheetBrowser": {
+      "scenarios": 11,
+      "printedA4Pages": 18,
+      "frozenWorker": 91739,
+      "limit": "Unchanged named module hashes; not rerun on whole final bundle"
+    },
+    "partnerStaticCustomGroups": 21,
+    "partnerDomainCustomGroups": 32,
+    "originalDocxChecks": 6
+  },
+  "evidence": "work/aplyd-academy/docs/as-built-v0.14/release-evidence.json"
+}

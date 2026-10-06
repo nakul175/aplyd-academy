@@ -1,0 +1,33 @@
+M5 picker diagnosis and staged test-only correction
+
+The failed full run is preserved unchanged: 19 of 20 attempted cases passed, with
+failure at the first 390px layout/keyboard case. Remaining five cases and the final
+baseline equality gate were not reached. Its unconditional limit text claiming an
+API before/after comparison was inaccurate on early failure. It is clarified here,
+not rewritten. The staged harness records baselineInvarianceChecked=false until
+all equality assertions pass, plus before/after accepted projection hashes.
+
+Four bounded diagnostic interactions were run against the same frozen Worker at
+390px and body16/body32. In both fast interactions, Home reached the already focused
+revised option. Enter arrived 0.6ms/0.4ms later and selected revised before Home's
+deferred focus move ran. Local Radix source at index.mjs:514 schedules Home focus
+with setTimeout; item Enter handling immediately selects the currently focused
+option. This is an automation timing issue, not evidence that initial popup focus
+was absent. The root app remains unchanged.
+
+In both focused-readiness interactions, the test waited for the selected revised
+option before Home and for the earlier option to actually receive focus before
+Enter. Exact earlier source/prerequisites/hash and restored picker focus passed.
+The staged outside harness adds those semantic readiness waits; it does not click
+an option, force focus onto it, add arbitrary sleeps, loosen source/hash checks or
+change application/third-party code. All 25 release scenarios still must run.
+
+No forbidden request or page error occurred. Request transport remained same-origin
+GET/HEAD with redirects disabled/rejected. Browser close completed on every path;
+source/build/frozen hashes were unchanged. This diagnostic does not establish the
+full suite's baseline stored-state invariance, which requires the final full rerun.
+
+Root may review picker-readiness-evidence.patch and adopt the staged outside
+browser-readonly.mjs before authorizing the complete rerun. Guard helper and all
+product files are unchanged. Screenshots/focus-key traces are under
+runtime/picker-diagnostic-evidence; summary is picker-diagnosis-summary.json.

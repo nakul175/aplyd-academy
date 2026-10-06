@@ -1,0 +1,63 @@
+{
+  "reviewedAt": "2026-10-05T21:41:07.337652+00:00",
+  "reviewScope": "Read-only source inspection of enhanced and adopted harness; no compilation, tests, Worker, browser, network, SQL or app edits.",
+  "originalFinding": "M5-QA-01",
+  "status": "Resolved in enhanced source",
+  "enhancedHarnessHashes": {
+    "browser-readonly.mjs": "9f74455e675835126dd98c4adf1a5119371e6a9423c03a495fff2b09b51194ea",
+    "read-only-routing.mjs": "535838f49852cc5e94aef1644b4a3c2ccc57e9af8bb1dead8a9829884f9ba476",
+    "read-only-routing.test.mjs": "1d9cf1fa1b4cf99012de1bdac39c0cf6ab444f3847a46180ac15cc3c5816171e"
+  },
+  "adoptedHarnessHashes": {
+    "browser-readonly.mjs": "9f74455e675835126dd98c4adf1a5119371e6a9423c03a495fff2b09b51194ea",
+    "read-only-routing.mjs": "535838f49852cc5e94aef1644b4a3c2ccc57e9af8bb1dead8a9829884f9ba476",
+    "read-only-routing.test.mjs": "1d9cf1fa1b4cf99012de1bdac39c0cf6ab444f3847a46180ac15cc3c5816171e"
+  },
+  "adoptedHarnessMatchesReviewed": true,
+  "productHashes": {
+    "app/academy.tsx": "6938b1d1b0e3dc842fa92847efd29ee070ec9fd794a1d5036905a91d9f03e7e0",
+    "app/academy-learning.tsx": "091f51fecbc44ebc4f791f92b09b864d76376cd934c3b9b282271d9a791b1cae",
+    "lib/academy-offering-navigation.ts": "b29d838f305bd7d373bacee31f3768da67b8fd02357fdb3f8bbf3d59a00a4bf6"
+  },
+  "adoptedProductMatchesReviewedCandidate": {
+    "app/academy.tsx": true,
+    "app/academy-learning.tsx": true,
+    "lib/academy-offering-navigation.ts": true
+  },
+  "findings": [],
+  "checkedPaths": [
+    {
+      "file": "tests/exact-offering-qa/browser-readonly.mjs",
+      "line": 79,
+      "path": "Broad fallback",
+      "checks": "withReadOnlyRoute -> fetchReadOnlyResponse -> fulfill only after accepted response."
+    },
+    {
+      "file": "tests/exact-offering-qa/browser-readonly.mjs",
+      "line": 80,
+      "path": "Personal display projection",
+      "checks": "Same guard and response refusal before JSON and synthetic GET-only fulfill."
+    },
+    {
+      "file": "tests/exact-offering-qa/browser-readonly.mjs",
+      "line": 81,
+      "path": "Selected and unselected team GET",
+      "checks": "Both branches use same guard and response refusal; no continue delegation."
+    },
+    {
+      "file": "tests/exact-offering-qa/read-only-routing.mjs",
+      "line": 13,
+      "path": "Actual helper",
+      "checks": "Rechecks same origin and GET/HEAD; fetch maxRedirects:0; rejects any 3xx, Location header, malformed or foreign response URL before returning."
+    },
+    {
+      "file": "tests/exact-offering-qa/browser-readonly.mjs",
+      "line": 19,
+      "path": "Direct before/after API state reads",
+      "checks": "Only fixed /api/ path GET to configured loopback base with redirect:manual and status 200 requirement."
+    }
+  ],
+  "stubReview": "80 groups import actual withReadOnlyRoute/fetchReadOnlyResponse implementation and test four representative handler patterns. Rejected requests assert zero transport; refused responses assert zero JSON/fulfill and no continue; accepted requests assert maxRedirects:0 and one fulfill. Browser handler functions are separately source-inspected, not directly executed by stub tests.",
+  "rootSuppliedExecutionEvidence": ".sites-runtime/m5-navigation-pure-and-guard.tap: 30 model plus 80 routing entries reportedly passed; independently reviewed source only.",
+  "runtimeLimitation": "Source review clears the reported harness redirect boundary for the planned same-origin GET/HEAD run. It does not establish integrated UI/history/focus, persisted-command authority/CAS, hosted transport, accessibility or actual browser acceptance."
+}

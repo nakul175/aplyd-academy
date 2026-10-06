@@ -1,0 +1,508 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Aplyd Academy data dictionary</title><style>:root{color-scheme:light;--ink:#182b3a;--muted:#546575;--line:#d8e0e5;--accent:#14564f;--wash:#f4f7f9}*{box-sizing:border-box}body{margin:0;color:var(--ink);background:#fff;font:16px/1.65 system-ui,-apple-system,Segoe UI,sans-serif}a{color:var(--accent);text-underline-offset:3px}header{border-bottom:1px solid var(--line);background:var(--wash);padding:20px max(20px,calc((100% - 1180px)/2));display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}.brand{font-weight:750;font-size:20px}.sub{font-size:13px;color:var(--muted)}main{max-width:1180px;margin:0 auto;padding:32px 24px 64px}.prose{max-width:1050px}h1{font-size:34px;line-height:1.2;margin:0 0 20px}h2{font-size:24px;margin:36px 0 12px}h3{font-size:19px;margin:24px 0 8px}p{margin:12px 0}ul,ol{padding-left:24px}li{margin:5px 0}img{max-width:100%;height:auto}table{border-collapse:collapse;display:block;max-width:100%;overflow:auto;font-size:14px;margin:20px 0}th,td{text-align:left;border:1px solid var(--line);padding:10px 12px;vertical-align:top;min-width:85px}th{background:var(--wash)}td{max-width:420px}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:var(--wash);padding:16px;border-radius:5px;font-size:13px}code{font:13px/1.5 ui-monospace,monospace;overflow-wrap:anywhere}blockquote{border-left:3px solid var(--accent);padding-left:16px;color:var(--muted)}.notice{padding:16px 20px;background:#edf5f2;border-left:4px solid var(--accent);margin:20px 0}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}.card{border:1px solid var(--line);border-radius:7px;padding:20px;min-width:0}.card h2{margin:0 0 10px;font-size:20px}.card p{font-size:14px;color:var(--muted)}.card a{display:block;margin:7px 0}.meta{display:flex;gap:12px;flex-wrap:wrap;font-size:14px;color:var(--muted)}.controls{display:flex;gap:14px;flex-wrap:wrap;align-items:end;margin:20px 0}.controls label{font-weight:600;font-size:14px;display:block;min-width:145px}.controls input,.controls select{display:block;width:100%;margin-top:5px;font:inherit;padding:10px;border:1px solid #8c9da9;border-radius:4px;min-height:44px}.controls .search{flex:1;min-width:240px}button{font:inherit;min-height:44px;padding:10px 15px;background:var(--accent);color:#fff;border:0;border-radius:4px;cursor:pointer}button.alt{background:var(--wash);color:var(--ink);border:1px solid var(--line)}:focus-visible{outline:3px solid #ce6800;outline-offset:3px}details{border-bottom:1px solid var(--line);padding:12px 0}summary{cursor:pointer;font-weight:600;min-height:44px}.itemmeta{font-size:13px;color:var(--muted);padding:0 0 12px}.pill{display:inline-block;background:var(--wash);border:1px solid var(--line);border-radius:4px;padding:1px 6px;margin-right:5px;font-size:12px}.detailbody{padding:0 16px 12px;border-left:2px solid var(--line)}.detailbody dt{font-weight:650;margin-top:12px}.detailbody dd{margin-left:0;white-space:pre-wrap;overflow-wrap:anywhere}.toplinks{display:flex;gap:18px;flex-wrap:wrap}.empty{padding:24px;color:var(--muted)}footer{border-top:1px solid var(--line);padding:16px 24px;text-align:center;font-size:13px;color:var(--muted)}@media(max-width:800px){.grid{grid-template-columns:1fr 1fr}h1{font-size:28px}main{padding:24px 16px}}@media(max-width:520px){.grid{grid-template-columns:1fr}.controls label,.controls .search{width:100%;min-width:0}}@media print{header,footer,.controls,.toplinks{display:none}main{padding:0;max-width:none}table{display:table;font-size:10px;overflow:visible}th,td{min-width:0;padding:5px}h2,h3{break-after:avoid}a{color:#000}.card{break-inside:avoid}details{break-inside:avoid}pre{font-size:10px}}body{overflow-wrap:anywhere}.prose{overflow-wrap:anywhere}.table-scroll{max-width:100%;overflow-x:auto;margin:20px 0}.table-scroll table{display:table;margin:0;max-width:none;width:100%}@media print{.table-scroll{overflow:visible}}</style></head><body><header><div><div class="brand">Aplyd Academy</div><div class="sub">Product and engineering documentation · 5 October 2026 · v0.1</div></div><nav class="toplinks" aria-label="Documentation"><a href="index.html">Pack overview</a><a href="wireframes.html">Wireframes</a><a href="test-explorer.html">Tests</a><a href="dictionary-explorer.html">Dictionary</a></nav></header><main><article class="prose"><h1>Aplyd Academy data dictionary</h1>
+<p>Version 0.1 · 5 October 2026 · Proposed R1 implementation model.</p>
+<p>The <a href="data-dictionary.csv">CSV dictionary</a> is the canonical per-column reference for <a href="schema.sql">schema.sql</a>. Every defined table column appears exactly once. It records SQL type, nullability, keys, checks, default, data classification, accountable owner, purpose, release and retention category. This readable companion explains entities, data handling and constraints requiring domain enforcement.</p>
+<h2>Conventions</h2>
+<p>UUID values are generated by the service. Timestamps use UTC <code>timestamptz</code>; local time is a display preference. SQL <code>numeric</code> is represented as a JSON number with agreed precision. JSON payloads require validation against typed domain schemas before storage. Array fields have size and value limits at the API/service boundary. Null means absent or not applicable, not an empty string. Account identity is global; tenant is the delivery security boundary; ecosystem is context. Unique optional keys permit multiple NULLs. Text email is not a global identity key. <code>issuer + subject</code> establishes identity linkage after token validation and explicit collision handling.</p>
+<p>A row&#39;s lifecycle and field values do not alone grant access. Composite FKs prevent cross-tenant association; scoped authorization prevents reads and mutations. Optional composite links are validated before persistence even when SQL MATCH SIMPLE permits null components. External references and raw personal data must not appear in log metadata or idempotency keys.</p>
+<h2>Data classifications</h2>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Classification</th>
+<th>Handling</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>public_catalog</td>
+<td>Public only for approved published content; draft ownership still restricts visibility</td>
+</tr>
+<tr>
+<td>internal_business</td>
+<td>Tenant/operator configuration; scoped administrator access</td>
+</tr>
+<tr>
+<td>restricted_personal</td>
+<td>Private identity, preferences, contributions, contacts and consent; least privilege</td>
+</tr>
+<tr>
+<td>restricted_learning</td>
+<td>Progress, private evidence, feedback, decisions and private credentials; learner and assigned staff</td>
+</tr>
+<tr>
+<td>restricted_security</td>
+<td>Identity links, permissions, integration configuration and redacted operational traces; operator restricted</td>
+</tr>
+</tbody></table></div>
+<p>An approved credential verification response is a separate minimal public projection. Full credential rows stay restricted. No table stores plaintext OAuth client secrets, passwords or webhook signing keys. Secret reference resolution is restricted to the runtime identity.</p>
+<h2>Retention categories</h2>
+<p>Durations and residency are unresolved business decisions. These categories are lifecycle triggers for a retention schedule, not approved legal periods. Before launch, each must have an owner-approved duration, deletion/anonymization method, hold behavior, backup treatment and evidence of purge. A withdrawn optional consent affects future sharing immediately and does not automatically erase an earned credential or mandatory audit evidence.</p>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Category</th>
+<th>Trigger and purpose</th>
+<th>Proposed disposition after approved period</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>identity</td>
+<td>Account closure or identity unlinking; access and account recovery</td>
+<td>Delete/anonymize inactive identifiers subject to holds and account dependencies</td>
+</tr>
+<tr>
+<td>profile</td>
+<td>Account closure or preference removal</td>
+<td>Delete private optional preferences</td>
+</tr>
+<tr>
+<td>tenant</td>
+<td>Contract/workspace closure</td>
+<td>Archive required configuration then delete obsolete configuration</td>
+</tr>
+<tr>
+<td>membership</td>
+<td>Membership termination</td>
+<td>Remove grants immediately; retain minimal access history for approved period</td>
+</tr>
+<tr>
+<td>content</td>
+<td>Version retirement</td>
+<td>Preserve versions referenced by assessment/credential evidence; retire serving copies</td>
+</tr>
+<tr>
+<td>delivery</td>
+<td>Offering/cohort closure</td>
+<td>Archive configuration needed to interpret learner records</td>
+</tr>
+<tr>
+<td>learning</td>
+<td>Enrollment completion or withdrawal</td>
+<td>Minimize detailed progress after approved evidence window</td>
+</tr>
+<tr>
+<td>assessment</td>
+<td>Final decision and appeal closure</td>
+<td>Delete evidence objects after approved review window; retain minimal decision provenance as required</td>
+</tr>
+<tr>
+<td>credential</td>
+<td>Award issuance/status change</td>
+<td>Retain restricted award history for agreed verification period; public sharing remains revocable</td>
+</tr>
+<tr>
+<td>community</td>
+<td>Contribution removal or community closure</td>
+<td>Hide immediately; purge content and reporting material after moderation window</td>
+</tr>
+<tr>
+<td>consent</td>
+<td>Expiry or revocation</td>
+<td>Retain minimal consent evidence for approved accountability period</td>
+</tr>
+<tr>
+<td>support</td>
+<td>Ticket closure</td>
+<td>Delete attachments/details after support/privacy handling period</td>
+</tr>
+<tr>
+<td>security</td>
+<td>Client/subscription retirement</td>
+<td>Disable immediately; purge configuration after operational evidence period</td>
+</tr>
+<tr>
+<td>delivery_log</td>
+<td>Successful delivery or terminal failure</td>
+<td>Remove payloads/response bodies after retry and deduplication windows</td>
+</tr>
+<tr>
+<td>audit</td>
+<td>Recorded privileged action</td>
+<td>Append-only during approved accountability period; governed archive/purge</td>
+</tr>
+</tbody></table></div>
+<h2>Entity inventory</h2>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Entity</th>
+<th>Scope</th>
+<th>Purpose</th>
+<th>Owner</th>
+<th>Retention</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>account</td>
+<td>Platform/shared</td>
+<td>Global person identity; no password storage</td>
+<td>Identity operations</td>
+<td>identity</td>
+</tr>
+<tr>
+<td>external_identity</td>
+<td>Platform/shared</td>
+<td>Issuer and subject identity linkage</td>
+<td>Identity operations</td>
+<td>identity</td>
+</tr>
+<tr>
+<td>learner_profile</td>
+<td>Platform/shared</td>
+<td>Private learner preferences and adult eligibility</td>
+<td>Learner services</td>
+<td>profile</td>
+</tr>
+<tr>
+<td>tenant</td>
+<td>Platform/shared</td>
+<td>Delivery workspace and security boundary</td>
+<td>Platform operations</td>
+<td>tenant</td>
+</tr>
+<tr>
+<td>ecosystem</td>
+<td>Tenant</td>
+<td>Contextual configuration independent of access grants</td>
+<td>Ecosystem operations</td>
+<td>tenant</td>
+</tr>
+<tr>
+<td>organization</td>
+<td>Tenant</td>
+<td>Tenant scoped sponsoring body</td>
+<td>Organization administration</td>
+<td>tenant</td>
+</tr>
+<tr>
+<td>membership</td>
+<td>Tenant</td>
+<td>Tenant membership; does not itself grant administrator permissions</td>
+<td>Tenant administration</td>
+<td>membership</td>
+</tr>
+<tr>
+<td>competency</td>
+<td>Platform/shared</td>
+<td>Shared accountable competency definition</td>
+<td>Content governance</td>
+<td>content</td>
+</tr>
+<tr>
+<td>program</td>
+<td>Platform/shared</td>
+<td>Shared program identity and draft ownership</td>
+<td>Content governance</td>
+<td>content</td>
+</tr>
+<tr>
+<td>program_version</td>
+<td>Platform/shared</td>
+<td>Versioned outcomes and immutable published completion policy</td>
+<td>Content governance</td>
+<td>content</td>
+</tr>
+<tr>
+<td>program_activity</td>
+<td>Platform/shared</td>
+<td>Ordered learning or practice item in a program version</td>
+<td>Content governance</td>
+<td>content</td>
+</tr>
+<tr>
+<td>program_competency</td>
+<td>Platform/shared</td>
+<td>Program to competency mapping extension</td>
+<td>Content governance</td>
+<td>content</td>
+</tr>
+<tr>
+<td>assessment</td>
+<td>Platform/shared</td>
+<td>Shared assessment identity</td>
+<td>Assessment governance</td>
+<td>content</td>
+</tr>
+<tr>
+<td>assessment_version</td>
+<td>Platform/shared</td>
+<td>Published assessment method and attempt policy</td>
+<td>Assessment governance</td>
+<td>content</td>
+</tr>
+<tr>
+<td>rubric_criterion</td>
+<td>Platform/shared</td>
+<td>Scored and critical assessment criteria</td>
+<td>Assessment governance</td>
+<td>content</td>
+</tr>
+<tr>
+<td>offering</td>
+<td>Tenant</td>
+<td>Tenant offered immutable program version</td>
+<td>Program administration</td>
+<td>delivery</td>
+</tr>
+<tr>
+<td>cohort</td>
+<td>Tenant</td>
+<td>Facilitated learner group</td>
+<td>Program administration</td>
+<td>delivery</td>
+</tr>
+<tr>
+<td>role_assignment</td>
+<td>Tenant</td>
+<td>Scoped role grant independent of learner role tags</td>
+<td>Tenant administration</td>
+<td>membership</td>
+</tr>
+<tr>
+<td>enrollment</td>
+<td>Tenant</td>
+<td>Pinned learner pathway and completion record</td>
+<td>Learner services</td>
+<td>learning</td>
+</tr>
+<tr>
+<td>activity_progress</td>
+<td>Tenant</td>
+<td>Resumable server checked activity state</td>
+<td>Learner services</td>
+<td>learning</td>
+</tr>
+<tr>
+<td>attempt</td>
+<td>Tenant</td>
+<td>Version pinned assessment attempt</td>
+<td>Assessment operations</td>
+<td>assessment</td>
+</tr>
+<tr>
+<td>submission</td>
+<td>Tenant</td>
+<td>Private frozen evidence object</td>
+<td>Assessment operations</td>
+<td>assessment</td>
+</tr>
+<tr>
+<td>assessment_decision</td>
+<td>Tenant</td>
+<td>Immutable evaluated result; appeal appends superseding record</td>
+<td>Assessment operations</td>
+<td>assessment</td>
+</tr>
+<tr>
+<td>criterion_score</td>
+<td>Tenant</td>
+<td>Immutable per-criterion evidence underlying a decision</td>
+<td>Assessment operations</td>
+<td>assessment</td>
+</tr>
+<tr>
+<td>appeal</td>
+<td>Tenant</td>
+<td>Learner challenge to a historical assessment decision</td>
+<td>Assessment operations</td>
+<td>assessment</td>
+</tr>
+<tr>
+<td>credential</td>
+<td>Tenant</td>
+<td>Idempotent capability award and current status projection</td>
+<td>Credential governance</td>
+<td>credential</td>
+</tr>
+<tr>
+<td>credential_event</td>
+<td>Tenant</td>
+<td>Append-only award changes and corrections</td>
+<td>Credential governance</td>
+<td>credential</td>
+</tr>
+<tr>
+<td>community</td>
+<td>Tenant</td>
+<td>Moderated tenant or cohort discussion space</td>
+<td>Community operations</td>
+<td>community</td>
+</tr>
+<tr>
+<td>community_membership</td>
+<td>Tenant</td>
+<td>Explicit participation permission</td>
+<td>Community operations</td>
+<td>community</td>
+</tr>
+<tr>
+<td>post</td>
+<td>Tenant</td>
+<td>Learner or staff community contribution</td>
+<td>Community operations</td>
+<td>community</td>
+</tr>
+<tr>
+<td>moderation_report</td>
+<td>Tenant</td>
+<td>Reported contribution requiring moderation</td>
+<td>Community operations</td>
+<td>community</td>
+</tr>
+<tr>
+<td>moderation_action</td>
+<td>Tenant</td>
+<td>Append-only review action</td>
+<td>Community operations</td>
+<td>community</td>
+</tr>
+<tr>
+<td>consent_grant</td>
+<td>Platform/shared</td>
+<td>Purpose limited learner sharing authorization</td>
+<td>Privacy operations</td>
+<td>consent</td>
+</tr>
+<tr>
+<td>support_ticket</td>
+<td>Tenant</td>
+<td>Learner assistance and privacy request workflow</td>
+<td>Learner support</td>
+<td>support</td>
+</tr>
+<tr>
+<td>partner_client</td>
+<td>Tenant</td>
+<td>Tenant bounded OAuth integration principal</td>
+<td>Integration operations</td>
+<td>security</td>
+</tr>
+<tr>
+<td>webhook_subscription</td>
+<td>Tenant</td>
+<td>Validated partner delivery destination</td>
+<td>Integration operations</td>
+<td>security</td>
+</tr>
+<tr>
+<td>outbox_event</td>
+<td>Tenant</td>
+<td>Transactional minimal domain event</td>
+<td>Platform operations</td>
+<td>delivery_log</td>
+</tr>
+<tr>
+<td>webhook_delivery</td>
+<td>Tenant</td>
+<td>At least once event delivery and consent gate</td>
+<td>Integration operations</td>
+<td>delivery_log</td>
+</tr>
+<tr>
+<td>idempotency_record</td>
+<td>Tenant</td>
+<td>Durable scoped mutation deduplication</td>
+<td>Platform operations</td>
+<td>delivery_log</td>
+</tr>
+<tr>
+<td>audit_event</td>
+<td>Platform/shared</td>
+<td>Append-only authorization and privileged change record</td>
+<td>Security operations</td>
+<td>audit</td>
+</tr>
+<tr>
+<td>agreement_acceptance</td>
+<td>Platform/shared</td>
+<td>Mandatory service and community participation agreements separate from optional sharing</td>
+<td>Privacy operations</td>
+<td>consent</td>
+</tr>
+</tbody></table></div>
+<h2>Cross-row and lifecycle constraints</h2>
+<ol>
+<li>Publishing requires a reviewer, valid content links, covered competency dimensions and an approved completion/attempt policy. Published versions and activities are immutable; update by creating a new version. SQL records publication facts; service verifies the full policy.</li>
+<li>Offering opens only against published versions; enrollment requires an active tenant membership, permitted offering and available cohort capacity. Program and assessment references must be consistent. Transactional cohort locking prevents oversubscription.</li>
+<li>Every attempt&#39;s assessment must belong to the enrolled program and published policy. One nonterminal attempt per enrollment and assessment is enforced by a partial unique index. Attempt counts and retry windows are transactionally checked.</li>
+<li>Decision criterion scores must cover each published criterion exactly once; score may not exceed criterion maximum. Pass requires normalized score &gt;= published pass_score AND every critical criterion passing. SQL cannot express the cross-row total; the decision service recomputes it.</li>
+<li>Assigned assessor permissions and learner independence are checked for every review. Appeals require an independent reviewer and append a superseding decision within the same attempt. A decision cannot form a supersession cycle.</li>
+<li>Credential eligibility_decision_id must belong to the credential enrollment, be currently effective and pass the relevant standard. Completion/participation have their own documented evidence. The FK alone does not establish that provenance.</li>
+<li>Credential correction may change approved display fields via an append-only event and current projection. It cannot silently change standard or earned evidence. A new qualification uses a new standard and separate award key.</li>
+<li>Consent resource_id is polymorphic. The privacy service validates owned resource, tenant, recipient, purpose and field allowlist. Delivery rechecks active partner consent, client, membership, destination and current credential status. Public verification sharing is a separate learner toggle: a private credential may be disclosed to an authorized partner, and disabling its public URL does not revoke an independent partner grant.</li>
+<li>Community/cohort membership, staff scopes, post visibility and moderation authority are cross-row authorization checks. Post replies remain within the same community by FK.</li>
+<li>Audit, score, decision and credential-event records are append-only by application role permissions. Published content receives mutation guards. No broad cascade delete is allowed; governed purge jobs honor retention holds and remove dependent rows in an approved order.</li>
+</ol>
+<h2>R2 extensions (logical model; not in R1 SQL)</h2>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Entity</th>
+<th>Minimum fields and relationships</th>
+<th>Critical constraints</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>diagnostic_result</td>
+<td>id, tenant_id, account_id, diagnostic_version_id, scores, completed_at</td>
+<td>Version pinned; advisory starting point, not an access grant</td>
+</tr>
+<tr>
+<td>recommendation</td>
+<td>id, tenant_id, account_id, offering_id, reason_code, inputs_version, dismissed_at, expires_at</td>
+<td>Explainable; learner correction; permissioned input data</td>
+</tr>
+<tr>
+<td>live_session</td>
+<td>id, tenant_id, cohort_id, title, starts_at, ends_at, join_reference</td>
+<td>Approved provider; no public meeting secrets; end after start</td>
+</tr>
+<tr>
+<td>attendance</td>
+<td>id, tenant_id, session_id, account_id, participation_evidence</td>
+<td>Unique session+account; scoped facilitator verification</td>
+</tr>
+<tr>
+<td>mentor_profile</td>
+<td>id, tenant_id, account_id, expertise, availability, approval_state</td>
+<td>Explicit publication choice; mentor approval</td>
+</tr>
+<tr>
+<td>mentoring_request</td>
+<td>id, tenant_id, learner_id, mentor_id, scope, state, scheduled_at</td>
+<td>Request/accept/decline/cancel; no unsolicited private contacts</td>
+</tr>
+<tr>
+<td>connection_request</td>
+<td>id, tenant_id, requester_id, recipient_id, state</td>
+<td>Both parties eligible; mutual acceptance; blocking honored</td>
+</tr>
+<tr>
+<td>notification_preference</td>
+<td>id, account_id, channel, purpose, enabled, quiet_hours</td>
+<td>Essential service notices distinguished from optional engagement</td>
+</tr>
+<tr>
+<td>entitlement</td>
+<td>id, tenant_id, account_id, offering_id, source, valid_from, valid_until, state</td>
+<td>Access checked independently from payment and assessment outcome</td>
+</tr>
+<tr>
+<td>transaction</td>
+<td>id, tenant_id, buyer_id, provider_reference, amount_minor, currency, state</td>
+<td>Integer minor units; verified provider callbacks; no payment credentials</td>
+</tr>
+<tr>
+<td>renewal_rule</td>
+<td>id, tenant_id, standard_version, expiry_period, renewal_evidence</td>
+<td>Published immutable renewal standard; fair transition policy</td>
+</tr>
+<tr>
+<td>offline_package</td>
+<td>id, tenant_id, program_version_id, manifest_hash, expires_at</td>
+<td>Signed/versioned content; no private submissions or offline authorization in R1</td>
+</tr>
+</tbody></table></div>
+<p>These are planned entities requiring full schema/API/test amendments before R2 implementation. They are not disguised as already implemented tables.</p>
+<h2>Validation status</h2>
+<p>Generation checks verify every schema column has exactly one CSV entry, all foreign-key targets exist, referenced columns are unique, and constraint identifier names are bounded. JSON and CSV are parsed locally. PostgreSQL is unavailable in this environment: no migration, query plan, RLS or transactional behavior has been executed. Apply this reference to disposable PostgreSQL before implementation approval and test publication guards, scoped roles, data purge ordering and races.</p>
+</article></main><footer>Proposed design baseline · Product test execution pending · Fictional prototype data</footer></body></html>

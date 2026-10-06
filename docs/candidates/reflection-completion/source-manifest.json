@@ -1,0 +1,38 @@
+{
+  "at": "2026-10-05T22:00:02.535003+00:00",
+  "actualRootPlanSha256": "c619f823371951643585bfe5c5b55cb071454791bc19b958caa635c5fbfd0f9b",
+  "candidateFiles": [
+    {
+      "file": "integration.patch",
+      "sha256": "5c608b8bd89536afdd5ce35a341727208d686727c418ec20c50d215fd04d34b3"
+    },
+    {
+      "file": "lib/academy-plan.ts",
+      "sha256": "fd9ae324ed4e1381519c43650095643d1a96fdb4778f08f476f92d6b50bc13af"
+    },
+    {
+      "file": "repository-tests/build-model.mjs",
+      "sha256": "045648605d6b9330be68759523b447dddda9a18761c8df91d9d2eec12328e0fe"
+    },
+    {
+      "file": "repository-tests/workflow.mjs",
+      "sha256": "cd094225ab5947c2fab8fd0eeb0682901b940a86bf4f6ab678bc1a40d03d2c14"
+    },
+    {
+      "file": "repository-tests/reflection-completion.test.mjs",
+      "sha256": "1cf49c98640fdc9f60fdca2637cfe23fc3d77cb6ada38d107844f36cc1cb166f"
+    },
+    {
+      "file": "repository-tests/reproduce-before.mjs",
+      "sha256": "d09f902fb1e6203c3c2cb941255b394bb828495cde9c0798e7bc93473f28093d"
+    }
+  ],
+  "beforeDesiredAssertionFailed": true,
+  "afterGroups": 11,
+  "afterPassed": 11,
+  "afterAssertions": 62,
+  "strictTypecheck": true,
+  "limits": [
+    "Pure model bundle only; root unchanged. No application runtime validation."
+  ]
+}

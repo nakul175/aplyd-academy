@@ -1,0 +1,74 @@
+{
+  "reviewedAt": "2026-10-05T22:02:32.983057+00:00",
+  "scope": "Independent read-only source inspection of 30-case retained-download harness. No tests, browser/Worker/network, compile/build, SQL or checkout edits.",
+  "sourceAccepted": true,
+  "remainingFindings": [],
+  "reviewedHarnessHashes": {
+    "browser-readonly.mjs": "12f3970191256c9b0fd3ca73502ec56fca4ef96a524d96a8e6acd53ebfc56223",
+    "read-only-routing.mjs": "535838f49852cc5e94aef1644b4a3c2ccc57e9af8bb1dead8a9829884f9ba476",
+    "read-only-routing.test.mjs": "1d9cf1fa1b4cf99012de1bdac39c0cf6ab444f3847a46180ac15cc3c5816171e"
+  },
+  "sharedGuardAndStubSourceUnchanged": {
+    "read-only-routing.mjs": true,
+    "read-only-routing.test.mjs": true
+  },
+  "plannedRuntimeWorker": "69950 supplied by root; reviewer did not inspect or operate the Worker.",
+  "downloadOracle": {
+    "file": "browser-readonly.mjs",
+    "lines": [
+      95,
+      100
+    ],
+    "checks": [
+      "Captures actual page download after Export my retained learning click.",
+      "Requires aplyd-retained-learning.json, Blob URL with loopback origin and no download failure.",
+      "Saves locally, reads/parses JSON and requires exact exported keys/date plus complete expected enrollment/cohort equality.",
+      "Requires unchanged route, only GET/HEAD observed and no forbidden request/response.",
+      "Records hashes of actual downloaded file and expected metadata only after assertions."
+    ]
+  },
+  "fivePlannedCases": [
+    {
+      "case": "Own older unavailable, exact cohort retained",
+      "oracle": "Full own enrollment and old matching cohort, while newer remains first-open."
+    },
+    {
+      "case": "Own matching cohort removed",
+      "oracle": "Full own enrollment, cohort null."
+    },
+    {
+      "case": "Own matching cohort repointed",
+      "oracle": "Full own enrollment, cohort null."
+    },
+    {
+      "case": "Personal own edition unavailable",
+      "oracle": "Full displayed own enrollment, cohort null."
+    },
+    {
+      "case": "Explicit preview-only unknown body",
+      "oracle": "Enrollment null, full exact selected preview cohort unchanged."
+    }
+  ],
+  "transportReview": {
+    "browserInterceptLines": [
+      83,
+      84,
+      85,
+      86
+    ],
+    "directReadLine": 20,
+    "checks": [
+      "Every broad, existing/new personal, selected/unselected team handler guards same-origin GET/HEAD before transport.",
+      "Shared actual fetchReadOnlyResponse repeats guard, uses maxRedirects:0 and refuses 3xx, Location headers, malformed/foreign response URLs before JSON/fulfill.",
+      "New personal display interception verifies actual response actor before replacing only state with a detached memory variant.",
+      "Direct baseline/after reads use fixed /api/ paths, GET and redirect:manual with required 200.",
+      "No route.continue, mutating HTTP call, fixture-creating API, external provider or SQL occurs in harness source."
+    ]
+  },
+  "invarianceReview": "Successful completion requires exact actual state/team/contentVersions/revision equality across both personal readers and workspace, source/build/frozen/harness hash agreement, all 30 cases and all 5 downloads. Failed runs explicitly do not claim completed invariance.",
+  "limits": [
+    "Source review accepts the plan; runtime/download results are pending parent execution.",
+    "In-memory domain commands construct display projections only and do not exercise persisted server command/CAS authority.",
+    "Legacy global and removed accepted-own-history helper variants remain pure test scope, not claimed as five browser download cases."
+  ]
+}

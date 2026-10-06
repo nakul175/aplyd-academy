@@ -1,0 +1,30 @@
+{
+  "at": "2026-10-05T21:34:35.721689+00:00",
+  "status": "static-reviewed; unexecuted",
+  "scope": "Mutable candidate harness, no browser/API/tests started",
+  "initialFinding": "Specific later Playwright display intercepts could bypass earlier catch-all method/origin check.",
+  "sourceCorrectionReviewed": "All three current intercepts use withReadOnlyRoute before fetch/continue; helper refuses non-GET/HEAD or differing URL origin; intercepted fetch maxRedirects=0.",
+  "helperTestSourceReviewed": "Covers fallback/personal/team handlers, local POST/DELETE, external GET/HEAD, safe GET/HEAD, unrelated query continue, different protocol/port. Not executed by this reviewer.",
+  "rootAcceptanceStillPending": true,
+  "files": [
+    {
+      "path": "outputs/aplyd-academy-eight-hour/exact-offering-candidate/tests/browser-readonly.mjs",
+      "sha256": "af9a30b59b22d4658401624c03c65daa06ab36ed6e05e8bccfabd6d986664117"
+    },
+    {
+      "path": "outputs/aplyd-academy-eight-hour/exact-offering-candidate/tests/read-only-routing.mjs",
+      "sha256": "5755c5adea2d269ef03d07e87f17117b900bad01b0cc06ced85185f9bcfc3874"
+    },
+    {
+      "path": "outputs/aplyd-academy-eight-hour/exact-offering-candidate/tests/read-only-routing.test.mjs",
+      "sha256": "5b3ad634c6612b065e3dd12dc8ddbc1c475e0777fbcf81858be44dda072e3e19"
+    }
+  ],
+  "outstandingRuntimeRecommendations": [
+    "Missing exact snapshot while selected cohort/ref remains unchanged",
+    "Own active old snapshot missing while newer offering remains available",
+    "Native card keyboard Enter/Space; reload/Back/Forward main focus vs manual picker focus",
+    "Actual team projection invariance as well as state/revision",
+    "Built entry equals frozen copied entry"
+  ]
+}

@@ -1,0 +1,7 @@
+Retained-export fix — independent source acceptance
+
+No remaining actionable scope/pin defect found in the proposed fix. Own export requires current activeWorkspace to match the accepted team, one exact enrollment cohortId match, actual full pinnedRef/contentKey equality and current private scope. Missing, repointed, malformed, foreign or duplicate metadata yields null instead of a preview fallback. Legacy global pins retain their actual resolver semantics; personal lab returns null. Removed membership may retain exact metadata from its accepted own-history projection without granting access.
+
+The export hunk changes only cohort metadata and preserves the saved enrollment verbatim. Matching own cohort output is detached; preview-only behavior remains unchanged. The 22 supplied pure test groups cover these variants. This reviewer inspected source only and performed no test, compile/build, Worker/browser/network, SQL or app edit.
+
+Root integration still needs affected read-only local download acceptance on the new build, with the enrollment and exact own cohort/null checked in downloaded JSON and saved state/revision unchanged. Prior 25 navigation checks predate this fix. Hash-bound review evidence is in retained-fix-review.json.

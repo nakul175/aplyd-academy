@@ -1,0 +1,52 @@
+{
+  "recordedAtUtc": "2026-10-05T21:43:20.447580+00:00",
+  "baselineMain": "13f7f0b6173a03b043c4f8dbd9ae0012fc50a35c",
+  "typecheck": {
+    "exitCode": 0,
+    "log": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/aplyd-academy/.sites-runtime/m5-navigation-typecheck.log"
+  },
+  "build": {
+    "exitCode": 0,
+    "log": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/aplyd-academy/.sites-runtime/m5-navigation-build.log"
+  },
+  "modelAndDomainEntries": {
+    "passed": 705,
+    "failed": 0
+  },
+  "offeringModelGroups": 30,
+  "networkFreeRequestGuardGroups": 80,
+  "combinedSupplementTranscript": {
+    "entries": 110,
+    "failed": 0,
+    "countLimit": "Includes the same30 offering model groups counted in705; not added"
+  },
+  "preview": {
+    "stage": "/private/tmp/academy-m5-final-jebt9bkq",
+    "dist": "/private/tmp/academy-m5-final-jebt9bkq/dist",
+    "config": "/private/tmp/academy-m5-final-jebt9bkq/dist/server/wrangler.json",
+    "hashes": {
+      "dist/server/index.js": "43eaf4bec71591646c1d4e169e38d7ab6043ed34bc54dada3252242fe03a594a",
+      "dist/server/wrangler.json": "40037e9c9498735a53ecbe4fcaecbf765e98afbbd00b35a63c311843592b8397"
+    }
+  },
+  "worker": 13134,
+  "sourceHashes": {
+    "app/academy.tsx": "6938b1d1b0e3dc842fa92847efd29ee070ec9fd794a1d5036905a91d9f03e7e0",
+    "app/academy-learning.tsx": "091f51fecbc44ebc4f791f92b09b864d76376cd934c3b9b282271d9a791b1cae",
+    "lib/academy-offering-navigation.ts": "b29d838f305bd7d373bacee31f3768da67b8fd02357fdb3f8bbf3d59a00a4bf6",
+    "tests/exact-offering-qa/browser-readonly.mjs": "5ea69c7603fcdb71f584f50bc41f6ae3e2881f0fc629c57cb78908cb1f1b9ef1",
+    "tests/exact-offering-qa/read-only-routing.mjs": "535838f49852cc5e94aef1644b4a3c2ccc57e9af8bb1dead8a9829884f9ba476",
+    "tests/exact-offering-qa/read-only-routing.test.mjs": "1d9cf1fa1b4cf99012de1bdac39c0cf6ab444f3847a46180ac15cc3c5816171e"
+  },
+  "browser": {
+    "passed": true,
+    "scenarios": 25,
+    "baselineInvarianceChecked": true,
+    "zeroForbiddenRequests": true,
+    "zeroPageErrors": true,
+    "evidence": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/aplyd-academy-eight-hour/m5-navigation-qa/runtime/browser-accepted/browser-evidence.json"
+  },
+  "expectedBrowserScenarios": 25,
+  "nativePublication": "PENDING for M5; M4 already succeeded",
+  "originalBrowserFailure": "outputs/aplyd-academy-eight-hour/m5-navigation-qa/runtime/browser-final/browser-evidence.json"
+}

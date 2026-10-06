@@ -1,0 +1,200 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Aplyd Academy Security and Privacy Design</title><style>:root{color-scheme:light;--ink:#182b3a;--muted:#546575;--line:#d8e0e5;--accent:#14564f;--wash:#f4f7f9}*{box-sizing:border-box}body{margin:0;color:var(--ink);background:#fff;font:16px/1.65 system-ui,-apple-system,Segoe UI,sans-serif}a{color:var(--accent);text-underline-offset:3px}header{border-bottom:1px solid var(--line);background:var(--wash);padding:20px max(20px,calc((100% - 1180px)/2));display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}.brand{font-weight:750;font-size:20px}.sub{font-size:13px;color:var(--muted)}main{max-width:1180px;margin:0 auto;padding:32px 24px 64px}.prose{max-width:1050px}h1{font-size:34px;line-height:1.2;margin:0 0 20px}h2{font-size:24px;margin:36px 0 12px}h3{font-size:19px;margin:24px 0 8px}p{margin:12px 0}ul,ol{padding-left:24px}li{margin:5px 0}img{max-width:100%;height:auto}table{border-collapse:collapse;display:block;max-width:100%;overflow:auto;font-size:14px;margin:20px 0}th,td{text-align:left;border:1px solid var(--line);padding:10px 12px;vertical-align:top;min-width:85px}th{background:var(--wash)}td{max-width:420px}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:var(--wash);padding:16px;border-radius:5px;font-size:13px}code{font:13px/1.5 ui-monospace,monospace;overflow-wrap:anywhere}blockquote{border-left:3px solid var(--accent);padding-left:16px;color:var(--muted)}.notice{padding:16px 20px;background:#edf5f2;border-left:4px solid var(--accent);margin:20px 0}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}.card{border:1px solid var(--line);border-radius:7px;padding:20px;min-width:0}.card h2{margin:0 0 10px;font-size:20px}.card p{font-size:14px;color:var(--muted)}.card a{display:block;margin:7px 0}.meta{display:flex;gap:12px;flex-wrap:wrap;font-size:14px;color:var(--muted)}.controls{display:flex;gap:14px;flex-wrap:wrap;align-items:end;margin:20px 0}.controls label{font-weight:600;font-size:14px;display:block;min-width:145px}.controls input,.controls select{display:block;width:100%;margin-top:5px;font:inherit;padding:10px;border:1px solid #8c9da9;border-radius:4px;min-height:44px}.controls .search{flex:1;min-width:240px}button{font:inherit;min-height:44px;padding:10px 15px;background:var(--accent);color:#fff;border:0;border-radius:4px;cursor:pointer}button.alt{background:var(--wash);color:var(--ink);border:1px solid var(--line)}:focus-visible{outline:3px solid #ce6800;outline-offset:3px}details{border-bottom:1px solid var(--line);padding:12px 0}summary{cursor:pointer;font-weight:600;min-height:44px}.itemmeta{font-size:13px;color:var(--muted);padding:0 0 12px}.pill{display:inline-block;background:var(--wash);border:1px solid var(--line);border-radius:4px;padding:1px 6px;margin-right:5px;font-size:12px}.detailbody{padding:0 16px 12px;border-left:2px solid var(--line)}.detailbody dt{font-weight:650;margin-top:12px}.detailbody dd{margin-left:0;white-space:pre-wrap;overflow-wrap:anywhere}.toplinks{display:flex;gap:18px;flex-wrap:wrap}.empty{padding:24px;color:var(--muted)}footer{border-top:1px solid var(--line);padding:16px 24px;text-align:center;font-size:13px;color:var(--muted)}@media(max-width:800px){.grid{grid-template-columns:1fr 1fr}h1{font-size:28px}main{padding:24px 16px}}@media(max-width:520px){.grid{grid-template-columns:1fr}.controls label,.controls .search{width:100%;min-width:0}}@media print{header,footer,.controls,.toplinks{display:none}main{padding:0;max-width:none}table{display:table;font-size:10px;overflow:visible}th,td{min-width:0;padding:5px}h2,h3{break-after:avoid}a{color:#000}.card{break-inside:avoid}details{break-inside:avoid}pre{font-size:10px}}body{overflow-wrap:anywhere}.prose{overflow-wrap:anywhere}.table-scroll{max-width:100%;overflow-x:auto;margin:20px 0}.table-scroll table{display:table;margin:0;max-width:none;width:100%}@media print{.table-scroll{overflow:visible}}</style></head><body><header><div><div class="brand">Aplyd Academy</div><div class="sub">Product and engineering documentation · 5 October 2026 · v0.1</div></div><nav class="toplinks" aria-label="Documentation"><a href="index.html">Pack overview</a><a href="wireframes.html">Wireframes</a><a href="test-explorer.html">Tests</a><a href="dictionary-explorer.html">Dictionary</a></nav></header><main><article class="prose"><h1>Aplyd Academy Security and Privacy Design</h1>
+<p>This document defines proposed information boundaries, threats, security requirements and privacy workflows for engineering and operational review. It is a product control specification, not a statement of legal compliance. Applicable jurisdiction, retention, residency and contractual requirements remain decisions for the relevant owners.</p>
+<p>Version 0.1 dated 5 October 2026. Related documents: <a href="HLD.html">HLD</a>, <a href="LLD.html">LLD</a>, <a href="data-dictionary.html">data dictionary</a>, <a href="test-strategy.html">tests</a>.</p>
+<h2>Protected information</h2>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Category</th>
+<th>Examples</th>
+<th>Authorized use</th>
+<th>Default exposure</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Public approved</td>
+<td>Published catalog descriptions and approved issuer details</td>
+<td>Discovery</td>
+<td>Public only after approval</td>
+</tr>
+<tr>
+<td>Learner private</td>
+<td>Contact information, preferences, identity links</td>
+<td>Account and learner services</td>
+<td>Learner and specifically authorized support</td>
+</tr>
+<tr>
+<td>Tenant confidential</td>
+<td>Enrollment, cohort membership, progress</td>
+<td>Program delivery</td>
+<td>Scoped learner, trainers and administrators</td>
+</tr>
+<tr>
+<td>Restricted evidence</td>
+<td>Submissions, criterion scores, appeals</td>
+<td>Assessment and review</td>
+<td>Learner and assigned authorized reviewers</td>
+</tr>
+<tr>
+<td>Security sensitive</td>
+<td>API credentials, signing secrets, session material</td>
+<td>Authentication and integration</td>
+<td>Dedicated secret store and service identities</td>
+</tr>
+<tr>
+<td>Public by learner choice</td>
+<td>Minimal achievement verification</td>
+<td>Credential sharing</td>
+<td>Disabled until enabled by learner</td>
+</tr>
+<tr>
+<td>Restricted audit</td>
+<td>Permission and administrative change history</td>
+<td>Accountability and investigation</td>
+<td>Named operational roles</td>
+</tr>
+</tbody></table></div>
+<p>Field classifications in the dictionary should refine these categories. Avoid collecting occupation, location or identity evidence unless the relevant workflow needs it. The pilot uses synthetic AI exercises and synthetic test records.</p>
+<h2>Authorization requirements</h2>
+<ol>
+<li>Authentication verifies identity; membership and policy verify access.</li>
+<li>Role tags in learner profiles never grant administrator, assessor or mentor privileges.</li>
+<li>Every tenant-scoped lookup verifies scope before exposing existence or details.</li>
+<li>Object storage retrieval checks current access before issuing a short-lived download URL.</li>
+<li>Exports, search results, aggregate reports and worker tasks follow the same boundaries as interactive reads.</li>
+<li>Assignment-scoped assessors cannot browse other submissions by changing an ID.</li>
+<li>Global personal history is available only to the learner or an explicitly authorized purpose; partner admins cannot query it.</li>
+<li>Privileged support actions require a documented reason and an audit record. Routine support cannot edit assessment decisions.</li>
+</ol>
+<h2>Threat register</h2>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Threat and trigger</th>
+<th>Required mitigation</th>
+<th>Verification evidence</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>TH-01</td>
+<td>Tenant ID or object ID changed in a request</td>
+<td>Trusted membership resolution and object-level authorization</td>
+<td>Cross-tenant read, write, list, export and asset cases</td>
+</tr>
+<tr>
+<td>TH-02</td>
+<td>Role switch or forged token claims gain permissions</td>
+<td>Server-controlled role assignments and token validation</td>
+<td>Tampered claims, revoked membership and stale-session tests</td>
+</tr>
+<tr>
+<td>TH-03</td>
+<td>Email match links the wrong partner identity</td>
+<td>Issuer and subject uniqueness; explicit authenticated account linking</td>
+<td>Same email across issuers and subject collision cases</td>
+</tr>
+<tr>
+<td>TH-04</td>
+<td>Duplicate or racing requests create multiple awards</td>
+<td>Transaction, uniqueness and scoped idempotency</td>
+<td>Lost-response and concurrent issuance cases</td>
+</tr>
+<tr>
+<td>TH-05</td>
+<td>Direct storage URL bypasses evidence access</td>
+<td>Private objects, current policy check and short-lived signed URLs</td>
+<td>Unauthorized asset and expired URL cases</td>
+</tr>
+<tr>
+<td>TH-06</td>
+<td>Malicious upload reaches assessors</td>
+<td>Size/type rules, quarantine, scan and safe serving</td>
+<td>Spoofed extension, active content and scan-failure cases</td>
+</tr>
+<tr>
+<td>TH-07</td>
+<td>Forum or content input executes scripts</td>
+<td>Validated structured content, safe rendering and sanitization</td>
+<td>Stored and reflected script-input cases</td>
+</tr>
+<tr>
+<td>TH-08</td>
+<td>Credential verification reveals private records</td>
+<td>Opaque token, learner-enabled publication and minimal fields</td>
+<td>Enumeration, disabled share and field-disclosure cases</td>
+</tr>
+<tr>
+<td>TH-09</td>
+<td>Outgoing webhook accesses internal services</td>
+<td>Destination allowlist, public network resolution, redirect restrictions</td>
+<td>Private IP, DNS change and redirect cases</td>
+</tr>
+<tr>
+<td>TH-10</td>
+<td>Replayed webhook causes an unauthorized change</td>
+<td>Signature, timestamp, event deduplication and scope</td>
+<td>Altered body, replay window and duplicate delivery cases</td>
+</tr>
+<tr>
+<td>TH-11</td>
+<td>Queued event sends information after sharing withdrawal</td>
+<td>Recheck current permission at send and replay</td>
+<td>Withdrawal between commit and delivery cases</td>
+</tr>
+<tr>
+<td>TH-12</td>
+<td>Logs, exports or analytics leak submissions or secrets</td>
+<td>Payload allowlists, redaction and restricted export</td>
+<td>Log capture and export-permission checks</td>
+</tr>
+<tr>
+<td>TH-13</td>
+<td>Assessor edits erase decision history</td>
+<td>Immutable decisions and superseding records</td>
+<td>Concurrent review and appeal reversal cases</td>
+</tr>
+<tr>
+<td>TH-14</td>
+<td>Availability abuse blocks learning or verification</td>
+<td>Endpoint quotas, upload limits and load shedding</td>
+<td>Rate-limit behavior and recovery tests</td>
+</tr>
+<tr>
+<td>TH-15</td>
+<td>AI tools receive confidential work content</td>
+<td>Synthetic exercises, approved-tool rules and explicit learner instruction</td>
+<td>Content review and responsible-AI assessment</td>
+</tr>
+<tr>
+<td>TH-16</td>
+<td>Deleted information reappears after restore</td>
+<td>Deletion manifest and restore reconciliation</td>
+<td>Restore with a completed deletion request</td>
+</tr>
+</tbody></table></div>
+<h2>Identity and session controls</h2>
+<p>Use approved identity adapters with strict issuer, audience, expiry, nonce/state and callback validation. Exact token and session durations are open configuration decisions. Do not let role removal depend solely on long-lived token expiry; check current membership for protected actions. Privileged operator authentication must meet the selected stronger authentication policy.</p>
+<p>Account recovery must avoid revealing whether an address exists. Account linking requires authenticated proof of both identities or a reviewed recovery process. Sessions, tokens and signing keys must be rotated and revoked through documented operations.</p>
+<h2>Sharing and reporting model</h2>
+<p>Distinguish operational reporting necessary for a disclosed sponsored program from optional sharing of achievements or profile details. The business owner must document the approved authorization basis for each; a generic consent checkbox is insufficient.</p>
+<p>Optional grants specify recipient, tenant, purpose, data categories, effective time, expiry when used, and withdrawal. The learner can review active grants. Withdrawal stops future optional delivery, including retries and replays, but cannot erase copies already lawfully delivered to a partner. The partner contract must define its downstream handling.</p>
+<p>Public credential sharing can be enabled and disabled independently of partner sharing. Neither setting publishes assessment evidence. Verification status can change on suspension, revocation, correction or expiry; caches must observe the current authoritative status.</p>
+<h2>Data rights and record lifecycle</h2>
+<p>The support workflow verifies the requester, identifies scope, records the request, assigns an owner and follows the approved retention policy. Export should be understandable and include permitted personal records without other learners&#39; information. Corrections to contact information differ from immutable assessment history; assessment correction uses a new linked record.</p>
+<p>Deletion identifies all databases, objects, projections, analytics datasets, queued deliveries and backup categories. Where a retention exception applies, minimize and restrict retained information and communicate the outcome. Backups require a time-bounded expiry and deletion reconciliation after restore. Exact deadlines and durations are open decisions and must not be represented as agreed commitments.</p>
+<h2>Audit and secrets</h2>
+<p>Record actor or service identity, tenant, action, object reference, outcome, reason where needed, timestamp and correlation ID. Do not store raw credentials, full submissions or unrestricted before-and-after personal values in audit events. Integrity protection and retention of the audit store must be decided separately from ordinary application logging.</p>
+<p>Store integration and signing secrets outside source code and documentation. Support key rotation with overlapping verification keys where necessary; never expose secret material in export or administrative screens. Partner test credentials are isolated from production.</p>
+<h2>Required release evidence</h2>
+<ul>
+<li>Object and tenant authorization checks across API, UI, assets and exports.</li>
+<li>Upload quarantine and safe delivery verification.</li>
+<li>Current-permission checks on external delivery and replay.</li>
+<li>Credential disclosure and lifecycle verification.</li>
+<li>Recovery and restore tests including deletion reconciliation.</li>
+<li>Documented open risks and owner-approved disposition of material findings.</li>
+<li>Tested incident escalation and learner-support ownership.</li>
+</ul>
+<p>The evidence must come from the implemented system. This specification and the threat register identify planned controls; they do not prove those controls are working.</p>
+</article></main><footer>Proposed design baseline · Product test execution pending · Fictional prototype data</footer></body></html>

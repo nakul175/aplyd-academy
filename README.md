@@ -1,4 +1,4 @@
-# Aplyd Academy working pilot · v0.14.0
+# Aplyd Academy working pilot · v0.15.0
 
 A durable learning application for farmers, MSME owners and public servants. Learners practise on fictional source packets, check supplied AI drafts, submit practical evidence, receive reasoned feedback and reflect on their work.
 
@@ -25,6 +25,7 @@ A durable learning application for farmers, MSME owners and public servants. Lea
 - Four editable job-practice templates for private owner content drafts; independent review and publication remain separate steps.
 - Clear next-step guidance and draft status, exact content-review/cohort attention, optional learner-selected details appended to an unsent help request, and a read-only inspection of local ecosystem choices.
 - Exact-edition prerequisites and supported passing-rule guidance before enrollment; an own weekly review separating intentions, saved course actions and self-reported practice; private aggregate recap downloads; fixed printable partner discussion worksheets.
+- Consistent private course-card/cohort previews using the exact selected edition, preserved through reload and browser history. Own saved enrollment retains priority; missing or repointed offerings require a deliberate new choice. Retained-learning exports attach only matching own cohort metadata or null.
 
 - Searchable reference library: five supplied collections and 20 unchanged Word/PDF/PowerPoint originals, source filenames, audience recommendations and review notes. Browsing and downloads do not alter learning or issue records.
 
@@ -50,10 +51,14 @@ Run TypeScript checking with `node node_modules/typescript/bin/tsc --noEmit`. Bu
 
 `tests/api-integration.mjs`, `tests/teams-api.mjs`, networking/archive scripts and `tests/teams-browser.mjs` target the **built local worker at port 8787**, using synthetic identity headers. Never point them at a hosted Academy. Other browser regression scripts use the local development sign-in simulator at port 5173; set `ACADEMY_QA_BUILT=1` for the built Worker fixture. Set `QA_LOCAL_DB_SQL=1` for direct archive/audit consistency checks. `tests/archive-failure.mjs` injects and removes a constraint fault only in its new isolated local fixture. Browser scripts reference this workspace's Playwright runtime and Chrome; adjust those paths elsewhere. Local fixtures are never seeded into the published database.
 
-See `docs/as-built-v0.14/`, `docs/implementation-review-v0.13/`, earlier `docs/as-built-v0.13/`, `docs/as-built-v0.12/`, `docs/as-built-v0.11/` and `docs/test-evidence.json` for implemented designs, data dictionaries, permissions, as-built journeys and validation evidence. Current model/domain validation passes 675 Node test entries. Browser scopes remain separate: weekly review 18 scenarios/138 assertions, before-enrollment 16 scenarios, partner worksheets 11 scenarios and 18 printed pages. These local read-only checks do not establish hosted or field-user acceptance.
+See `docs/as-built-v0.15/`, `docs/as-built-v0.14/`, `docs/implementation-review-v0.13/`, earlier `docs/as-built-v0.13/`, `docs/as-built-v0.12/`, `docs/as-built-v0.11/` and `docs/test-evidence.json` for implemented designs, data dictionaries, permissions, as-built journeys and validation evidence. Current model/domain validation passes 727 Node test entries. Exact offering navigation passes 30 read-only browser scenarios including five actual retained-learning JSON downloads; 80 network-free request-guard checks are separate. The v0.14 weekly review (18 scenarios/138 assertions), before-enrollment (16 scenarios) and partner worksheets (11 scenarios/18 printed pages) remain recorded in their original source/runtime scopes. These local checks do not establish hosted or field-user acceptance.
 
 ## Remaining production work
 
 Approve sector content and validate real learner journeys; arrange site access and exercise actual participant sign-in; establish staff recruitment, assessor calibration and turnaround; validate private curriculum adaptation and independent content-review operations; validate reviewed translations, low-bandwidth/offline and assisted/oral journeys; connect one real partner; define formal retention/erasure, recovery, accessibility and capacity controls. Recognized credentials require issuer authority and public verification/revocation policy.
 
 External event/mentor-provider bookings, host reassignment, commerce, uploads, clinical training and embedded AI remain unimplemented. No external partner receives the ecosystem simulation, and no AI service is called. Existing BRD/FSD/HLD/LLD describe the broader target; the seven-table SQLite implementation does not claim the full reference PostgreSQL schema or API contract. Full local template API/browser tests and mutating record browser tests remain held pending explicit fictional-test approval after automatic approval review rejected their launch. Pure/mocked and strictly read-only checks have separate evidence.
+
+## Continue development
+
+Start with [CLAUDE.md](CLAUDE.md) and [the handoff](docs/CLAUDE-HANDOFF.md). The original product target, historical agent materials and unadopted reflection correction are preserved in Git under docs/product-specifications, docs/development-archive and docs/candidates.

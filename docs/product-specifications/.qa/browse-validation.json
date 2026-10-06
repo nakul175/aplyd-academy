@@ -1,0 +1,1030 @@
+{
+  "checks": [
+    {
+      "name": "BASELINE.html links to index.html",
+      "passed": true
+    },
+    {
+      "name": "BASELINE.html links to wireframes.html",
+      "passed": true
+    },
+    {
+      "name": "BASELINE.html links to test-explorer.html",
+      "passed": true
+    },
+    {
+      "name": "BASELINE.html links to dictionary-explorer.html",
+      "passed": true
+    },
+    {
+      "name": "FSD.html links to index.html",
+      "passed": true
+    },
+    {
+      "name": "FSD.html links to wireframes.html",
+      "passed": true
+    },
+    {
+      "name": "FSD.html links to test-explorer.html",
+      "passed": true
+    },
+    {
+      "name": "FSD.html links to dictionary-explorer.html",
+      "passed": true
+    },
+    {
+      "name": "FSD.html links to BASELINE.html",
+      "passed": true
+    },
+    {
+      "name": "FSD.html links to HLD.html",
+      "passed": true
+    },
+    {
+      "name": "FSD.html links to LLD.html",
+      "passed": true
+    },
+    {
+      "name": "FSD.html links to UX.html",
+      "passed": true
+    },
+    {
+      "name": "FSD.html links to data-dictionary.html",
+      "passed": true
+    },
+    {
+      "name": "HLD.html links to index.html",
+      "passed": true
+    },
+    {
+      "name": "HLD.html links to wireframes.html",
+      "passed": true
+    },
+    {
+      "name": "HLD.html links to test-explorer.html",
+      "passed": true
+    },
+    {
+      "name": "HLD.html links to dictionary-explorer.html",
+      "passed": true
+    },
+    {
+      "name": "HLD.html links to BASELINE.html",
+      "passed": true
+    },
+    {
+      "name": "HLD.html links to FSD.html",
+      "passed": true
+    },
+    {
+      "name": "HLD.html links to LLD.html",
+      "passed": true
+    },
+    {
+      "name": "HLD.html links to test-strategy.html",
+      "passed": true
+    },
+    {
+      "name": "HLD.html links to architecture.svg",
+      "passed": true
+    },
+    {
+      "name": "HLD.html links to integration-contract.html",
+      "passed": true
+    },
+    {
+      "name": "HLD.html links to openapi.json",
+      "passed": true
+    },
+    {
+      "name": "HLD.html links to security-and-privacy.html",
+      "passed": true
+    },
+    {
+      "name": "HLD.html links to operations.html",
+      "passed": true
+    },
+    {
+      "name": "HLD.html links to decisions-and-roadmap.html",
+      "passed": true
+    },
+    {
+      "name": "LLD.html links to index.html",
+      "passed": true
+    },
+    {
+      "name": "LLD.html links to wireframes.html",
+      "passed": true
+    },
+    {
+      "name": "LLD.html links to test-explorer.html",
+      "passed": true
+    },
+    {
+      "name": "LLD.html links to dictionary-explorer.html",
+      "passed": true
+    },
+    {
+      "name": "LLD.html links to FSD.html",
+      "passed": true
+    },
+    {
+      "name": "LLD.html links to HLD.html",
+      "passed": true
+    },
+    {
+      "name": "LLD.html links to BASELINE.html",
+      "passed": true
+    },
+    {
+      "name": "LLD.html links to openapi.json",
+      "passed": true
+    },
+    {
+      "name": "LLD.html links to schema.sql",
+      "passed": true
+    },
+    {
+      "name": "LLD.html links to data-dictionary.csv",
+      "passed": true
+    },
+    {
+      "name": "LLD.html links to data-dictionary.html",
+      "passed": true
+    },
+    {
+      "name": "LLD.html links to openapi.json",
+      "passed": true
+    },
+    {
+      "name": "LLD.html links to test-strategy.html",
+      "passed": true
+    },
+    {
+      "name": "LLD.html links to test-cases.csv",
+      "passed": true
+    },
+    {
+      "name": "LLD.html links to test-suites.html",
+      "passed": true
+    },
+    {
+      "name": "LLD.html links to traceability.csv",
+      "passed": true
+    },
+    {
+      "name": "README.html links to index.html",
+      "passed": true
+    },
+    {
+      "name": "README.html links to wireframes.html",
+      "passed": true
+    },
+    {
+      "name": "README.html links to test-explorer.html",
+      "passed": true
+    },
+    {
+      "name": "README.html links to dictionary-explorer.html",
+      "passed": true
+    },
+    {
+      "name": "README.html links to index.html",
+      "passed": true
+    },
+    {
+      "name": "README.html links to wireframes.html",
+      "passed": true
+    },
+    {
+      "name": "README.html links to business-reference.html",
+      "passed": true
+    },
+    {
+      "name": "README.html links to requirements-register.csv",
+      "passed": true
+    },
+    {
+      "name": "README.html links to FSD.html",
+      "passed": true
+    },
+    {
+      "name": "README.html links to UX.html",
+      "passed": true
+    },
+    {
+      "name": "README.html links to wireframes.html",
+      "passed": true
+    },
+    {
+      "name": "README.html links to HLD.html",
+      "passed": true
+    },
+    {
+      "name": "README.html links to architecture.svg",
+      "passed": true
+    },
+    {
+      "name": "README.html links to LLD.html",
+      "passed": true
+    },
+    {
+      "name": "README.html links to data-dictionary.html",
+      "passed": true
+    },
+    {
+      "name": "README.html links to data-dictionary.csv",
+      "passed": true
+    },
+    {
+      "name": "README.html links to schema.sql",
+      "passed": true
+    },
+    {
+      "name": "README.html links to openapi.json",
+      "passed": true
+    },
+    {
+      "name": "README.html links to test-strategy.html",
+      "passed": true
+    },
+    {
+      "name": "README.html links to test-scenarios.csv",
+      "passed": true
+    },
+    {
+      "name": "README.html links to test-cases.csv",
+      "passed": true
+    },
+    {
+      "name": "README.html links to test-suites.html",
+      "passed": true
+    },
+    {
+      "name": "README.html links to traceability.csv",
+      "passed": true
+    },
+    {
+      "name": "README.html links to UAT.html",
+      "passed": true
+    },
+    {
+      "name": "README.html links to security-and-privacy.html",
+      "passed": true
+    },
+    {
+      "name": "README.html links to integration-contract.html",
+      "passed": true
+    },
+    {
+      "name": "README.html links to operations.html",
+      "passed": true
+    },
+    {
+      "name": "README.html links to program-blueprints.html",
+      "passed": true
+    },
+    {
+      "name": "README.html links to decisions-and-roadmap.html",
+      "passed": true
+    },
+    {
+      "name": "README.html links to documentation-validation.html",
+      "passed": true
+    },
+    {
+      "name": "README.html links to technical-references.html",
+      "passed": true
+    },
+    {
+      "name": "UAT.html links to index.html",
+      "passed": true
+    },
+    {
+      "name": "UAT.html links to wireframes.html",
+      "passed": true
+    },
+    {
+      "name": "UAT.html links to test-explorer.html",
+      "passed": true
+    },
+    {
+      "name": "UAT.html links to dictionary-explorer.html",
+      "passed": true
+    },
+    {
+      "name": "UAT.html links to test-strategy.html",
+      "passed": true
+    },
+    {
+      "name": "UAT.html links to test-cases.csv",
+      "passed": true
+    },
+    {
+      "name": "UAT.html links to FSD.html",
+      "passed": true
+    },
+    {
+      "name": "UAT.html links to UX.html",
+      "passed": true
+    },
+    {
+      "name": "UAT.html links to BASELINE.html",
+      "passed": true
+    },
+    {
+      "name": "UX.html links to index.html",
+      "passed": true
+    },
+    {
+      "name": "UX.html links to wireframes.html",
+      "passed": true
+    },
+    {
+      "name": "UX.html links to test-explorer.html",
+      "passed": true
+    },
+    {
+      "name": "UX.html links to dictionary-explorer.html",
+      "passed": true
+    },
+    {
+      "name": "UX.html links to wireframes.html",
+      "passed": true
+    },
+    {
+      "name": "UX.html links to FSD.html",
+      "passed": true
+    },
+    {
+      "name": "UX.html links to BASELINE.html",
+      "passed": true
+    },
+    {
+      "name": "business-reference.html links to index.html",
+      "passed": true
+    },
+    {
+      "name": "business-reference.html links to wireframes.html",
+      "passed": true
+    },
+    {
+      "name": "business-reference.html links to test-explorer.html",
+      "passed": true
+    },
+    {
+      "name": "business-reference.html links to dictionary-explorer.html",
+      "passed": true
+    },
+    {
+      "name": "business-reference.html links to requirements-register.csv",
+      "passed": true
+    },
+    {
+      "name": "business-reference.html links to traceability.csv",
+      "passed": true
+    },
+    {
+      "name": "business-reference.html links to decisions-and-roadmap.html",
+      "passed": true
+    },
+    {
+      "name": "business-reference.html links to program-blueprints.html",
+      "passed": true
+    },
+    {
+      "name": "data-dictionary.html links to index.html",
+      "passed": true
+    },
+    {
+      "name": "data-dictionary.html links to wireframes.html",
+      "passed": true
+    },
+    {
+      "name": "data-dictionary.html links to test-explorer.html",
+      "passed": true
+    },
+    {
+      "name": "data-dictionary.html links to dictionary-explorer.html",
+      "passed": true
+    },
+    {
+      "name": "data-dictionary.html links to data-dictionary.csv",
+      "passed": true
+    },
+    {
+      "name": "data-dictionary.html links to schema.sql",
+      "passed": true
+    },
+    {
+      "name": "decisions-and-roadmap.html links to index.html",
+      "passed": true
+    },
+    {
+      "name": "decisions-and-roadmap.html links to wireframes.html",
+      "passed": true
+    },
+    {
+      "name": "decisions-and-roadmap.html links to test-explorer.html",
+      "passed": true
+    },
+    {
+      "name": "decisions-and-roadmap.html links to dictionary-explorer.html",
+      "passed": true
+    },
+    {
+      "name": "dictionary-explorer.html links to index.html",
+      "passed": true
+    },
+    {
+      "name": "dictionary-explorer.html links to wireframes.html",
+      "passed": true
+    },
+    {
+      "name": "dictionary-explorer.html links to test-explorer.html",
+      "passed": true
+    },
+    {
+      "name": "dictionary-explorer.html links to dictionary-explorer.html",
+      "passed": true
+    },
+    {
+      "name": "dictionary-explorer.html links to data-dictionary.csv",
+      "passed": true
+    },
+    {
+      "name": "documentation-validation.html links to index.html",
+      "passed": true
+    },
+    {
+      "name": "documentation-validation.html links to wireframes.html",
+      "passed": true
+    },
+    {
+      "name": "documentation-validation.html links to test-explorer.html",
+      "passed": true
+    },
+    {
+      "name": "documentation-validation.html links to dictionary-explorer.html",
+      "passed": true
+    },
+    {
+      "name": "index.html links to index.html",
+      "passed": true
+    },
+    {
+      "name": "index.html links to wireframes.html",
+      "passed": true
+    },
+    {
+      "name": "index.html links to test-explorer.html",
+      "passed": true
+    },
+    {
+      "name": "index.html links to dictionary-explorer.html",
+      "passed": true
+    },
+    {
+      "name": "index.html links to wireframes.html",
+      "passed": true
+    },
+    {
+      "name": "index.html links to README.html",
+      "passed": true
+    },
+    {
+      "name": "index.html links to business-reference.html",
+      "passed": true
+    },
+    {
+      "name": "index.html links to requirements-register.csv",
+      "passed": true
+    },
+    {
+      "name": "index.html links to program-blueprints.html",
+      "passed": true
+    },
+    {
+      "name": "index.html links to decisions-and-roadmap.html",
+      "passed": true
+    },
+    {
+      "name": "index.html links to FSD.html",
+      "passed": true
+    },
+    {
+      "name": "index.html links to UX.html",
+      "passed": true
+    },
+    {
+      "name": "index.html links to wireframes.html",
+      "passed": true
+    },
+    {
+      "name": "index.html links to HLD.html",
+      "passed": true
+    },
+    {
+      "name": "index.html links to LLD.html",
+      "passed": true
+    },
+    {
+      "name": "index.html links to architecture.svg",
+      "passed": true
+    },
+    {
+      "name": "index.html links to openapi.json",
+      "passed": true
+    },
+    {
+      "name": "index.html links to schema.sql",
+      "passed": true
+    },
+    {
+      "name": "index.html links to data-dictionary.html",
+      "passed": true
+    },
+    {
+      "name": "index.html links to dictionary-explorer.html",
+      "passed": true
+    },
+    {
+      "name": "index.html links to data-dictionary.csv",
+      "passed": true
+    },
+    {
+      "name": "index.html links to test-strategy.html",
+      "passed": true
+    },
+    {
+      "name": "index.html links to test-explorer.html",
+      "passed": true
+    },
+    {
+      "name": "index.html links to test-scenarios.csv",
+      "passed": true
+    },
+    {
+      "name": "index.html links to test-cases.csv",
+      "passed": true
+    },
+    {
+      "name": "index.html links to test-suites.html",
+      "passed": true
+    },
+    {
+      "name": "index.html links to UAT.html",
+      "passed": true
+    },
+    {
+      "name": "index.html links to traceability.csv",
+      "passed": true
+    },
+    {
+      "name": "index.html links to security-and-privacy.html",
+      "passed": true
+    },
+    {
+      "name": "index.html links to integration-contract.html",
+      "passed": true
+    },
+    {
+      "name": "index.html links to operations.html",
+      "passed": true
+    },
+    {
+      "name": "index.html links to technical-references.html",
+      "passed": true
+    },
+    {
+      "name": "index.html links to documentation-validation.html",
+      "passed": true
+    },
+    {
+      "name": "integration-contract.html links to index.html",
+      "passed": true
+    },
+    {
+      "name": "integration-contract.html links to wireframes.html",
+      "passed": true
+    },
+    {
+      "name": "integration-contract.html links to test-explorer.html",
+      "passed": true
+    },
+    {
+      "name": "integration-contract.html links to dictionary-explorer.html",
+      "passed": true
+    },
+    {
+      "name": "integration-contract.html links to openapi.json",
+      "passed": true
+    },
+    {
+      "name": "integration-contract.html links to LLD.html",
+      "passed": true
+    },
+    {
+      "name": "integration-contract.html links to security-and-privacy.html",
+      "passed": true
+    },
+    {
+      "name": "integration-contract.html links to test-suites.html",
+      "passed": true
+    },
+    {
+      "name": "operations.html links to index.html",
+      "passed": true
+    },
+    {
+      "name": "operations.html links to wireframes.html",
+      "passed": true
+    },
+    {
+      "name": "operations.html links to test-explorer.html",
+      "passed": true
+    },
+    {
+      "name": "operations.html links to dictionary-explorer.html",
+      "passed": true
+    },
+    {
+      "name": "operations.html links to security-and-privacy.html",
+      "passed": true
+    },
+    {
+      "name": "operations.html links to test-suites.html",
+      "passed": true
+    },
+    {
+      "name": "operations.html links to decisions-and-roadmap.html",
+      "passed": true
+    },
+    {
+      "name": "program-blueprints.html links to index.html",
+      "passed": true
+    },
+    {
+      "name": "program-blueprints.html links to wireframes.html",
+      "passed": true
+    },
+    {
+      "name": "program-blueprints.html links to test-explorer.html",
+      "passed": true
+    },
+    {
+      "name": "program-blueprints.html links to dictionary-explorer.html",
+      "passed": true
+    },
+    {
+      "name": "security-and-privacy.html links to index.html",
+      "passed": true
+    },
+    {
+      "name": "security-and-privacy.html links to wireframes.html",
+      "passed": true
+    },
+    {
+      "name": "security-and-privacy.html links to test-explorer.html",
+      "passed": true
+    },
+    {
+      "name": "security-and-privacy.html links to dictionary-explorer.html",
+      "passed": true
+    },
+    {
+      "name": "security-and-privacy.html links to HLD.html",
+      "passed": true
+    },
+    {
+      "name": "security-and-privacy.html links to LLD.html",
+      "passed": true
+    },
+    {
+      "name": "security-and-privacy.html links to data-dictionary.html",
+      "passed": true
+    },
+    {
+      "name": "security-and-privacy.html links to test-strategy.html",
+      "passed": true
+    },
+    {
+      "name": "technical-references.html links to index.html",
+      "passed": true
+    },
+    {
+      "name": "technical-references.html links to wireframes.html",
+      "passed": true
+    },
+    {
+      "name": "technical-references.html links to test-explorer.html",
+      "passed": true
+    },
+    {
+      "name": "technical-references.html links to dictionary-explorer.html",
+      "passed": true
+    },
+    {
+      "name": "test-explorer.html links to index.html",
+      "passed": true
+    },
+    {
+      "name": "test-explorer.html links to wireframes.html",
+      "passed": true
+    },
+    {
+      "name": "test-explorer.html links to test-explorer.html",
+      "passed": true
+    },
+    {
+      "name": "test-explorer.html links to dictionary-explorer.html",
+      "passed": true
+    },
+    {
+      "name": "test-explorer.html links to test-cases.csv",
+      "passed": true
+    },
+    {
+      "name": "test-strategy.html links to index.html",
+      "passed": true
+    },
+    {
+      "name": "test-strategy.html links to wireframes.html",
+      "passed": true
+    },
+    {
+      "name": "test-strategy.html links to test-explorer.html",
+      "passed": true
+    },
+    {
+      "name": "test-strategy.html links to dictionary-explorer.html",
+      "passed": true
+    },
+    {
+      "name": "test-strategy.html links to BASELINE.html",
+      "passed": true
+    },
+    {
+      "name": "test-strategy.html links to FSD.html",
+      "passed": true
+    },
+    {
+      "name": "test-strategy.html links to HLD.html",
+      "passed": true
+    },
+    {
+      "name": "test-strategy.html links to LLD.html",
+      "passed": true
+    },
+    {
+      "name": "test-strategy.html links to test-cases.csv",
+      "passed": true
+    },
+    {
+      "name": "test-strategy.html links to test-scenarios.csv",
+      "passed": true
+    },
+    {
+      "name": "test-strategy.html links to traceability.csv",
+      "passed": true
+    },
+    {
+      "name": "test-strategy.html links to test-suites.html",
+      "passed": true
+    },
+    {
+      "name": "test-strategy.html links to UAT.html",
+      "passed": true
+    },
+    {
+      "name": "test-suites.html links to index.html",
+      "passed": true
+    },
+    {
+      "name": "test-suites.html links to wireframes.html",
+      "passed": true
+    },
+    {
+      "name": "test-suites.html links to test-explorer.html",
+      "passed": true
+    },
+    {
+      "name": "test-suites.html links to dictionary-explorer.html",
+      "passed": true
+    },
+    {
+      "name": "test-suites.html links to test-cases.csv",
+      "passed": true
+    },
+    {
+      "name": "Index shows final case count",
+      "passed": true
+    },
+    {
+      "name": "All cases shown",
+      "passed": true
+    },
+    {
+      "name": "Test ID search resolves one case",
+      "passed": true
+    },
+    {
+      "name": "Expanded case shows expected result",
+      "passed": true
+    },
+    {
+      "name": "R2 filter selects 18 cases",
+      "passed": true
+    },
+    {
+      "name": "No result state visible",
+      "passed": true
+    },
+    {
+      "name": "All fields shown",
+      "passed": true
+    },
+    {
+      "name": "Dictionary table filter correct",
+      "passed": true
+    },
+    {
+      "name": "Dictionary fields expandable",
+      "passed": true
+    },
+    {
+      "name": "BASELINE.html no outer overflow at 1280",
+      "passed": true
+    },
+    {
+      "name": "FSD.html no outer overflow at 1280",
+      "passed": true
+    },
+    {
+      "name": "HLD.html no outer overflow at 1280",
+      "passed": true
+    },
+    {
+      "name": "LLD.html no outer overflow at 1280",
+      "passed": true
+    },
+    {
+      "name": "README.html no outer overflow at 1280",
+      "passed": true
+    },
+    {
+      "name": "UAT.html no outer overflow at 1280",
+      "passed": true
+    },
+    {
+      "name": "UX.html no outer overflow at 1280",
+      "passed": true
+    },
+    {
+      "name": "business-reference.html no outer overflow at 1280",
+      "passed": true
+    },
+    {
+      "name": "data-dictionary.html no outer overflow at 1280",
+      "passed": true
+    },
+    {
+      "name": "decisions-and-roadmap.html no outer overflow at 1280",
+      "passed": true
+    },
+    {
+      "name": "dictionary-explorer.html no outer overflow at 1280",
+      "passed": true
+    },
+    {
+      "name": "documentation-validation.html no outer overflow at 1280",
+      "passed": true
+    },
+    {
+      "name": "index.html no outer overflow at 1280",
+      "passed": true
+    },
+    {
+      "name": "integration-contract.html no outer overflow at 1280",
+      "passed": true
+    },
+    {
+      "name": "operations.html no outer overflow at 1280",
+      "passed": true
+    },
+    {
+      "name": "program-blueprints.html no outer overflow at 1280",
+      "passed": true
+    },
+    {
+      "name": "security-and-privacy.html no outer overflow at 1280",
+      "passed": true
+    },
+    {
+      "name": "technical-references.html no outer overflow at 1280",
+      "passed": true
+    },
+    {
+      "name": "test-explorer.html no outer overflow at 1280",
+      "passed": true
+    },
+    {
+      "name": "test-strategy.html no outer overflow at 1280",
+      "passed": true
+    },
+    {
+      "name": "test-suites.html no outer overflow at 1280",
+      "passed": true
+    },
+    {
+      "name": "BASELINE.html no outer overflow at 360",
+      "passed": true
+    },
+    {
+      "name": "FSD.html no outer overflow at 360",
+      "passed": true
+    },
+    {
+      "name": "HLD.html no outer overflow at 360",
+      "passed": true
+    },
+    {
+      "name": "LLD.html no outer overflow at 360",
+      "passed": true
+    },
+    {
+      "name": "README.html no outer overflow at 360",
+      "passed": true
+    },
+    {
+      "name": "UAT.html no outer overflow at 360",
+      "passed": true
+    },
+    {
+      "name": "UX.html no outer overflow at 360",
+      "passed": true
+    },
+    {
+      "name": "business-reference.html no outer overflow at 360",
+      "passed": true
+    },
+    {
+      "name": "data-dictionary.html no outer overflow at 360",
+      "passed": true
+    },
+    {
+      "name": "decisions-and-roadmap.html no outer overflow at 360",
+      "passed": true
+    },
+    {
+      "name": "dictionary-explorer.html no outer overflow at 360",
+      "passed": true
+    },
+    {
+      "name": "documentation-validation.html no outer overflow at 360",
+      "passed": true
+    },
+    {
+      "name": "index.html no outer overflow at 360",
+      "passed": true
+    },
+    {
+      "name": "integration-contract.html no outer overflow at 360",
+      "passed": true
+    },
+    {
+      "name": "operations.html no outer overflow at 360",
+      "passed": true
+    },
+    {
+      "name": "program-blueprints.html no outer overflow at 360",
+      "passed": true
+    },
+    {
+      "name": "security-and-privacy.html no outer overflow at 360",
+      "passed": true
+    },
+    {
+      "name": "technical-references.html no outer overflow at 360",
+      "passed": true
+    },
+    {
+      "name": "test-explorer.html no outer overflow at 360",
+      "passed": true
+    },
+    {
+      "name": "test-strategy.html no outer overflow at 360",
+      "passed": true
+    },
+    {
+      "name": "test-suites.html no outer overflow at 360",
+      "passed": true
+    },
+    {
+      "name": "No documentation browser exceptions",
+      "passed": true
+    }
+  ],
+  "errors": [],
+  "scope": "Local documentation browser only"
+}

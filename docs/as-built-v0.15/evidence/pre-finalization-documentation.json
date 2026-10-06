@@ -1,0 +1,606 @@
+{
+  "milestone": "M5",
+  "proposedRelease": "0.15.0",
+  "status": "M5_PUBLICATION_HOLD_FINAL_RETAINED_EXPORT_RUNTIME_PENDING",
+  "recordedAtUtc": "2026-10-05T22:02:59.602589+00:00",
+  "portableDestination": "docs/as-built-v0.15/",
+  "baseline": {
+    "m4MergedMainCommit": "13f7f0b6173a03b043c4f8dbd9ae0012fc50a35c",
+    "m4NativePublication": "CONFIRMED",
+    "lastConfirmedPublishedRelease": "0.14.0",
+    "lastConfirmedPublishedMainCommit": "13f7f0b6173a03b043c4f8dbd9ae0012fc50a35c",
+    "nativeSiteVersion": 15,
+    "deploymentId": "appgdep_6ac418a4a7cc8191a4aef3091b1dfe17",
+    "publishedAtUtc": "2026-10-05T21:38:09.430848+00:00",
+    "privateAudiencePreserved": true,
+    "receiptPath": "evidence/m4-publication.json"
+  },
+  "candidate": {
+    "externalRoot": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/aplyd-academy-eight-hour/exact-offering-candidate",
+    "productSourceHashes": {
+      "lib/academy-offering-navigation.ts": "b29d838f305bd7d373bacee31f3768da67b8fd02357fdb3f8bbf3d59a00a4bf6",
+      "app/academy.tsx": "6938b1d1b0e3dc842fa92847efd29ee070ec9fd794a1d5036905a91d9f03e7e0",
+      "app/academy-learning.tsx": "091f51fecbc44ebc4f791f92b09b864d76376cd934c3b9b282271d9a791b1cae",
+      "integration.patch": "ece56ecf201ad78946a782ef230a4ad99790307a67a56a84d6fa67afd24b6685"
+    },
+    "pureGroups": 30,
+    "helperStrictCheck": true,
+    "tsxSyntaxCheck": true,
+    "fullApplicationTypecheck": "PASS_EXIT0",
+    "applicationBuild": "PASS_EXIT0",
+    "integratedBrowser": "PENDING_POST_FIX_30_CASE_RUN",
+    "adoptedSourceHashes": {
+      "app/academy.tsx": "6938b1d1b0e3dc842fa92847efd29ee070ec9fd794a1d5036905a91d9f03e7e0",
+      "app/academy-learning.tsx": "34b440924a4f101d218532b18771d8811c40ac8811837e3afb567826ee13a8fe",
+      "lib/academy-offering-navigation.ts": "b29d838f305bd7d373bacee31f3768da67b8fd02357fdb3f8bbf3d59a00a4bf6",
+      "tests/exact-offering-qa/browser-readonly.mjs": "5ea69c7603fcdb71f584f50bc41f6ae3e2881f0fc629c57cb78908cb1f1b9ef1",
+      "tests/exact-offering-qa/read-only-routing.mjs": "535838f49852cc5e94aef1644b4a3c2ccc57e9af8bb1dead8a9829884f9ba476",
+      "tests/exact-offering-qa/read-only-routing.test.mjs": "1d9cf1fa1b4cf99012de1bdac39c0cf6ab444f3847a46180ac15cc3c5816171e",
+      "lib/academy-retained-export.ts": "10babbe0c47db79d179886d1095dedb964f982082157d2bc2cfd8d3bd80afbb9",
+      "tests/retained-export-qa/build-model.mjs": "fb45e0cf700fc4eee5d8a91a58b257812350cab3aded22d1b6c6f7e34cd200a0",
+      "tests/retained-export-qa/retained-export.test.mjs": "7fab8ea9fa4c033d47468386ab06d054090b14db2e8d979e17d7b7a7ba941f15"
+    },
+    "mainCommit": null,
+    "runtimeEntrySha256": "4969663e55f1c2f69ffdc8110200990d93532f893903ce3853f0ab5edd1adea1",
+    "runtimeConfigSha256": "40037e9c9498735a53ecbe4fcaecbf765e98afbbd00b35a63c311843592b8397",
+    "nativePublicationReceipt": null,
+    "adoptionStatus": "Root applied reviewed navigation hunks and the source-reviewed retained-export helper; new actual-root full typecheck/model/build pass. Final runtime remains pending.",
+    "pureEvidencePath": "evidence/actual-root-pure.json",
+    "fullSuiteModelDomainEntries": 727,
+    "fullSuiteFailed": 0,
+    "acceptanceDisposition": "POST_FIX_PURE_TYPECHECK_BUILD_PASS_FINAL_BROWSER_PENDING",
+    "offering30IncludedInFull727": true,
+    "retainedExport22IncludedInFull727": true,
+    "fullSuitePath": "evidence/post-export-fix-model-727.tap"
+  },
+  "harness": {
+    "originalCorrectedStubGroups": 20,
+    "originalStubLimit": "No redirect simulation; not enhanced transport acceptance.",
+    "enhancedStatus": "80_UNIT_CASES_PASS_INDEPENDENT_SOURCE_RESOLVED_FINAL25_BROWSER_PASS",
+    "plannedEnhancedScenarios": 30,
+    "independentCoreAcceptanceIds": 16,
+    "countRule": "30 model groups and80 route-guard cases are separate units;110 is the recorded combined transcript, not additional tests. Historical20 and planned25/16 are not added.",
+    "openFinding": "M5-QA-01 resolved in independently reviewed redirect-safe transport; historical finding retained.",
+    "originalStubStatus": "HISTORICAL_PRIOR_GUARD_SCOPE",
+    "enhancedNetworkFreeGuardCases": 80,
+    "combinedModelGuardTranscriptEntries": 110,
+    "combinedTranscriptPath": "evidence/actual-root-model-and-guard.tap",
+    "finalReadinessHarnessSha256": "5ea69c7603fcdb71f584f50bc41f6ae3e2881f0fc629c57cb78908cb1f1b9ef1",
+    "readinessCorrection": "Only actual option-focus waits and conditional equality evidence; product/build/guard module unchanged.",
+    "executedFinalScenarios": 25,
+    "newActualDownloadScenarios": 5,
+    "newPreparedHarnessSha256": "12f3970191256c9b0fd3ca73502ec56fca4ef96a524d96a8e6acd53ebfc56223",
+    "postFixRuntimeStatus": "NOT_EXECUTED_OR_ACCEPTED_BY_DOCUMENTATION_REVIEWER"
+  },
+  "evidence": [
+    {
+      "path": "evidence/candidate-manifest.json",
+      "originalPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/aplyd-academy-eight-hour/exact-offering-candidate/source-manifest.json",
+      "sha256": "e7c88b1d9d43e4ce91410ea91e89e2045fcc8fc59b04b0b71919e6e1d4dc91eb",
+      "copiedExactly": true
+    },
+    {
+      "path": "evidence/candidate-pure.json",
+      "originalPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/aplyd-academy-eight-hour/exact-offering-candidate/runtime/pure-test-evidence.json",
+      "sha256": "9436c066cd210a1db8dbe867b1995a751a012166d6d424fec6086d70a6790f25",
+      "copiedExactly": true
+    },
+    {
+      "path": "evidence/candidate-source.json",
+      "originalPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/aplyd-academy-eight-hour/exact-offering-candidate/runtime/source-evidence.json",
+      "sha256": "c10202b9e517fd43ce6356614d255ae956b48e5e342c657d1f4429299a92bb0e",
+      "copiedExactly": true
+    },
+    {
+      "path": "evidence/original-routing-stubs.json",
+      "originalPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/aplyd-academy-eight-hour/exact-offering-candidate/runtime/routing-stub-evidence.json",
+      "sha256": "5c4e3ccd9284913e9ebd7426e2a3aac958705cfd8127438348f85431b3c10b47",
+      "copiedExactly": true
+    },
+    {
+      "path": "evidence/independent-security.json",
+      "originalPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/aplyd-academy-eight-hour/m5-navigation-security/review-evidence.json",
+      "sha256": "0634de215caf394c732a112fd8f14aba7fb2dd9906112330aaedea48199c2fa9",
+      "copiedExactly": true
+    },
+    {
+      "path": "evidence/security-findings.txt",
+      "originalPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/aplyd-academy-eight-hour/m5-navigation-security/findings.txt",
+      "sha256": "016af5165a40ed197036c890ba3426f44bf06725092508c2d436edf6a238d132",
+      "copiedExactly": true
+    },
+    {
+      "path": "evidence/independent-acceptance-plan.tsv",
+      "originalPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/aplyd-academy-eight-hour/m5-navigation-qa/acceptance-cases.tsv",
+      "sha256": "eab44736e76c742c2479241557f5fe5eb01973f7d827b660897aab5d0d573fa0",
+      "copiedExactly": true
+    },
+    {
+      "path": "evidence/harness-followup-source-review.json",
+      "originalPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/aplyd-academy-eight-hour/m5-navigation-qa/harness-followup-review.json",
+      "sha256": "ece9b11367ab1635b4c947cdd234aee6e259f43419887104887637cb116e88d9",
+      "copiedExactly": true
+    },
+    {
+      "path": "evidence/enhanced-harness-preparation.json",
+      "originalPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/aplyd-academy-eight-hour/m5-navigation-qa/portable-harness-ready.json",
+      "sha256": "0e4bd813ceb6ea78cb8aaf2b3906de2faab2c8f0ba45e12d7e0827074cef7c09",
+      "copiedExactly": true
+    },
+    {
+      "path": "evidence/m4-catalog-preview-mismatch.txt",
+      "originalPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/aplyd-academy-eight-hour/m4-before-start-qa/catalog-preview-mismatch.txt",
+      "sha256": "4b9898e88f93f0d8bcf118e27defc866dd12de7502b1a607adb5396093fdc5b0",
+      "copiedExactly": true
+    },
+    {
+      "path": "evidence/m4-publication.json",
+      "originalPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/aplyd-academy-eight-hour/m4-publication.json",
+      "sha256": "e75eeaad89ccaf9116a3c33b7c89914ad38b865e6ee1644de562f4482dc33e38",
+      "copiedExactly": true
+    },
+    {
+      "path": "evidence/actual-root-model-and-guard.tap",
+      "originalPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/aplyd-academy/.sites-runtime/m5-navigation-pure-and-guard.tap",
+      "sha256": "99c2b575989c7654e13623142ea47165d7390609af2a4d11f2d65c129e8b74a2",
+      "copiedExactly": true
+    },
+    {
+      "path": "evidence/actual-root-pure.json",
+      "originalPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/aplyd-academy/.sites-runtime/exact-offering-qa/pure-test-evidence.json",
+      "sha256": "511675ac4b6bf764d9cfb04493e49fcc14689f5259d77037b72e27f99a05611c",
+      "copiedExactly": true
+    },
+    {
+      "path": "evidence/actual-root-sources.json",
+      "originalPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/aplyd-academy/.sites-runtime/exact-offering-qa/source-evidence.json",
+      "sha256": "b1eeedc1a6dde051c9ecb786898cb5f1b6fe65943625cd5de47d5bb145687758",
+      "copiedExactly": true
+    },
+    {
+      "path": "evidence/root-validation.json",
+      "originalPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/aplyd-academy-eight-hour/m5-root-validation.json",
+      "sha256": "4abbd6e5c916387961f1e732da78d94b20b01cff5f58381123a77b7d945f0fef",
+      "copiedExactly": true
+    },
+    {
+      "path": "evidence/root-retained-705.tap",
+      "originalPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/aplyd-academy/.sites-runtime/m5-navigation-retained-rules.tap",
+      "sha256": "665e3f2cc12f0c324cc1a63edf34a3c0a709c15f36ad98cf2744626dd8d26278",
+      "copiedExactly": true
+    },
+    {
+      "path": "evidence/root-typecheck.log",
+      "originalPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/aplyd-academy/.sites-runtime/m5-navigation-typecheck.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "copiedExactly": true
+    },
+    {
+      "path": "evidence/root-build.log",
+      "originalPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/aplyd-academy/.sites-runtime/m5-navigation-build.log",
+      "sha256": "16f443a246ad6e4d51a46428d2242deaddce070ecf46e8f2a55a8a578d2f9a87",
+      "copiedExactly": true
+    },
+    {
+      "path": "evidence/enhanced-security-addendum.json",
+      "originalPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/aplyd-academy-eight-hour/m5-navigation-security/enhanced-harness-addendum.json",
+      "sha256": "15530c6503d627eed012668da9cddf8163eb51aeed1d71d483d3cd319f80e9d6",
+      "copiedExactly": true
+    },
+    {
+      "path": "evidence/enhanced-security-addendum.txt",
+      "originalPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/aplyd-academy-eight-hour/m5-navigation-security/enhanced-harness-addendum.txt",
+      "sha256": "671ab2127cbcb6c423f9dd522c6897313ae02689cbe83652caa685ea5f2f2340",
+      "copiedExactly": true
+    },
+    {
+      "path": "evidence/picker-diagnosis.json",
+      "originalPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/aplyd-academy-eight-hour/m5-navigation-qa/picker-diagnosis-summary.json",
+      "sha256": "4fd2f45d164735632a3de6ba9888c54a537ad5e1b4cb401f8c1caf4e79028ae0",
+      "copiedExactly": true
+    },
+    {
+      "path": "evidence/picker-diagnosis.txt",
+      "originalPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/aplyd-academy-eight-hour/m5-navigation-qa/PICKER-DIAGNOSIS.txt",
+      "sha256": "92cd15aca0abeefe76edfecd8eebf300f2e687babd175981542ccd7115a433bb",
+      "copiedExactly": true
+    },
+    {
+      "path": "evidence/original-browser-failure.json",
+      "originalPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/aplyd-academy-eight-hour/m5-navigation-qa/runtime/browser-final/browser-evidence.json",
+      "sha256": "b05b38f6565536e36f025e88d58d6f09d2479266501bde4fe3335de6852920b7",
+      "copiedExactly": true
+    },
+    {
+      "path": "evidence/sandbox-environment-failure.json",
+      "originalPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/aplyd-academy-eight-hour/m5-navigation-qa/runtime/browser-final-sandbox-blocked/environment-failure.json",
+      "sha256": "a0665632bb371230b8b80f5d1bce1f99efe6f5992680025a44a8683c9de20ef2",
+      "copiedExactly": true
+    },
+    {
+      "path": "evidence/accepted-browser.json",
+      "originalPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/aplyd-academy-eight-hour/m5-navigation-qa/runtime/browser-accepted/browser-evidence.json",
+      "sha256": "d9e1ff4fe63943853cbde015794f095973bf1f23632da343fda6f4f91b4ec401",
+      "copiedExactly": true
+    },
+    {
+      "path": "evidence/retained-journey-audit.json",
+      "originalPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/aplyd-academy-eight-hour/m6-retained-journey-audit/audit-evidence.json",
+      "sha256": "aa2fc18ad0cda2b4f1d1779897f1e75c4e7d5bf4144d6c98867dfa39ffd5357a",
+      "copiedExactly": true
+    },
+    {
+      "path": "evidence/retained-journey-findings.txt",
+      "originalPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/aplyd-academy-eight-hour/m6-retained-journey-audit/findings.txt",
+      "sha256": "81d210665e53a37f00b4bede79164cab2ea7fce4eddfa64bef8c5e5cf15344e0",
+      "copiedExactly": true
+    },
+    {
+      "path": "evidence/post-export-fix-model-727.tap",
+      "originalPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/aplyd-academy/.sites-runtime/m5-export-final-model.tap",
+      "sha256": "4e63b9878b0adb769ed180e7450b62e27082fe254431a400044ed267301f3a3f",
+      "copiedExactly": true
+    },
+    {
+      "path": "evidence/post-export-fix-typecheck.log",
+      "originalPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/aplyd-academy/.sites-runtime/m5-export-final-typecheck.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "copiedExactly": true
+    },
+    {
+      "path": "evidence/post-export-fix-build.log",
+      "originalPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/aplyd-academy/.sites-runtime/m5-export-final-build.log",
+      "sha256": "92874cffa64f9dc35956991a2787e0d45b4dd82340fc6a7c11b801bb9f5b3341",
+      "copiedExactly": true
+    },
+    {
+      "path": "evidence/retained-export-22.tap",
+      "originalPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/aplyd-academy/.sites-runtime/m5-retained-export-tests.tap",
+      "sha256": "2db3ced0a137cedb3656c657e88970d1cc599724f321e17b838baeb4172668ea",
+      "copiedExactly": true
+    },
+    {
+      "path": "evidence/retained-export-pure.json",
+      "originalPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/aplyd-academy/.sites-runtime/retained-export-qa/pure-test-evidence.json",
+      "sha256": "05ee96d723280a83b869fc7181c2909c14bcc3d2c0318ea1f38c9873211337ef",
+      "copiedExactly": true
+    },
+    {
+      "path": "evidence/retained-export-sources.json",
+      "originalPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/aplyd-academy/.sites-runtime/retained-export-qa/source-evidence.json",
+      "sha256": "2c749cdd8cf714094f2062888a9bdcefd8c152f39c03355af511138a94326bfb",
+      "copiedExactly": true
+    },
+    {
+      "path": "evidence/retained-export-source-review.json",
+      "originalPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/aplyd-academy-eight-hour/m6-retained-journey-audit/retained-fix-review.json",
+      "sha256": "74fb2c92ffabd994272834d3bd31962e16f81a57c23442c6a0e20a902e914f1c",
+      "copiedExactly": true
+    },
+    {
+      "path": "evidence/retained-export-source-review.txt",
+      "originalPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/aplyd-academy-eight-hour/m6-retained-journey-audit/retained-fix-review.txt",
+      "sha256": "0d965a9b33970173c5f29cbafb4da2333b7ed7459c20b22e59e85d92a0c504b4",
+      "copiedExactly": true
+    },
+    {
+      "path": "evidence/retained-export-harness-preparation.json",
+      "originalPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/aplyd-academy-eight-hour/m5-retained-export-qa/prepared-harness.json",
+      "sha256": "224a2e5c78b71d5213a7614b8c83a3b0cd255a61c36422b70e46ce383bfaf817",
+      "copiedExactly": true
+    },
+    {
+      "path": "evidence/retained-export-download-plan.tsv",
+      "originalPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/aplyd-academy-eight-hour/m5-retained-export-qa/download-cases.tsv",
+      "sha256": "2a9b98b75b3a62e7892a3afd714085aefd1a527cd2665e628a9ab3a4734b4499",
+      "copiedExactly": true
+    }
+  ],
+  "unchangedApiStorageMigrationFiles": [
+    {
+      "path": "app/api/academy/route.ts",
+      "sha256": "22c78adf5c62a809a1aef4505c7c047b797b7ac4f2afd42bbcb1cd3b9af338b7",
+      "sameAsM4MergedBaseline": true
+    },
+    {
+      "path": "app/api/academy/records/check/route.ts",
+      "sha256": "9f161b661c9d5fa3fe45c127b98914b8bc4e332477ba051c32370bac94244da0",
+      "sameAsM4MergedBaseline": true
+    },
+    {
+      "path": "app/api/academy/export/route.ts",
+      "sha256": "130685dd4564fa8078a968db7303d4640b986da99ad33e09be678d280dd9d995",
+      "sameAsM4MergedBaseline": true
+    },
+    {
+      "path": "app/api/teams/route.ts",
+      "sha256": "6901cdab339f6ce0b4d60e3b778a6bd68d7e9d8e9807f13e81df9bbc1b29025e",
+      "sameAsM4MergedBaseline": true
+    },
+    {
+      "path": "app/api/teams/history/route.ts",
+      "sha256": "0ecebf4fe00083514d81cefbbc7a0e76c277531b823eb49a71238481c0b54838",
+      "sameAsM4MergedBaseline": true
+    },
+    {
+      "path": "drizzle/0003_massive_franklin_storm.sql",
+      "sha256": "2a482c72a541e36382a907d655565bf55129d30361cb0862c29cf185c8aca780",
+      "sameAsM4MergedBaseline": true
+    },
+    {
+      "path": "drizzle/0001_complex_deathbird.sql",
+      "sha256": "bb499509398fe933ea8912ec8eb12bd5a65261d5885637fad15049e7cd242532",
+      "sameAsM4MergedBaseline": true
+    },
+    {
+      "path": "drizzle/0002_silky_tempest.sql",
+      "sha256": "ee7d1008a437871b5d0b6c0530f94558932f77c6fe036a6bd363683d4973bde8",
+      "sameAsM4MergedBaseline": true
+    },
+    {
+      "path": "drizzle/0004_red_trauma.sql",
+      "sha256": "1c55bac21db77a790cc0bbc3bde41b4c9c6ba8883e6428ada49e7c9ca42e3701",
+      "sameAsM4MergedBaseline": true
+    },
+    {
+      "path": "drizzle/0005_tearful_angel.sql",
+      "sha256": "503264c742696c9fa4eddc9017b6a5d8232092007551b85e9bf5675df27011f6",
+      "sameAsM4MergedBaseline": true
+    },
+    {
+      "path": "drizzle/0000_strange_dazzler.sql",
+      "sha256": "bfd2a4f5d663d38ec7e484dcb55c7fc3c5f115ff87c38fc182bca09f8cde761b",
+      "sameAsM4MergedBaseline": true
+    },
+    {
+      "path": "lib/academy-personal-storage.ts",
+      "sha256": "26355595e3630d19e9d576bcfa48a1e688dddad387012fe5b2643848f17df804",
+      "sameAsM4MergedBaseline": true
+    },
+    {
+      "path": "lib/academy-storage.ts",
+      "sha256": "3eef88f741c7177cf00ba01dac4a8ecbee3da97e146e8999509929c9829f9941",
+      "sameAsM4MergedBaseline": true
+    },
+    {
+      "path": "lib/academy-teams.ts",
+      "sha256": "ff3430cb05af22f8ce953f1f30cd9ff20bc536bbef0dfab6942014b10183b807",
+      "sameAsM4MergedBaseline": true
+    }
+  ],
+  "newApiSchemaServerAuthority": "NONE PROPOSED",
+  "historicalMismatch": "evidence/m4-catalog-preview-mismatch.txt",
+  "heldMutationApproval": "Automatic approval review rejected fixture launch; explicit user permission pending. Read-only plan is not write authorization.",
+  "reviewOnlyScope": "Outside-checkout docs and exact report copies only; no app/test/build/server/Git mutation or network performed.",
+  "documentationChecks": {
+    "passed": true,
+    "tsv": [
+      {
+        "file": "data-dictionary.tsv",
+        "rows": 17,
+        "columns": 6,
+        "actualTabs": true,
+        "uniqueKeys": true
+      },
+      {
+        "file": "test-matrix.tsv",
+        "rows": 56,
+        "columns": 8,
+        "actualTabs": true,
+        "uniqueKeys": true
+      }
+    ],
+    "existingMarkdownLinks": 31,
+    "existingHtmlLinksAnchorsImages": 11,
+    "galleryImages": 4,
+    "imagesVisuallyInspected": 4,
+    "staticHtmlSourceReviewOnly": true,
+    "evidenceCopies": 27,
+    "documents": [
+      {
+        "path": "README.md",
+        "sha256": "54d839602db4ca508daea6d77d41aec6afc47d5b28b28211e12ec7a6a6d750c5"
+      },
+      {
+        "path": "functional-design.md",
+        "sha256": "f986b4147532d5b43c9aca51f78d4e195adec3f8bacfacc2fb0c261da8655d0e"
+      },
+      {
+        "path": "architecture-and-contract.md",
+        "sha256": "f25b5669840ef231abf58637a68fc8bb561dae9043aaf6f0d0d0c32787d33489"
+      },
+      {
+        "path": "data-dictionary.tsv",
+        "sha256": "9ea6d4e90d2064e79dbda82e46369ed4d1b61e58b3f5cc42d4559489c82bacc1"
+      },
+      {
+        "path": "test-matrix.tsv",
+        "sha256": "cd39fdb1ec312ecfc2bb93ee735c85e53404cabed7f54185b3fb3d0567692432"
+      },
+      {
+        "path": "wireframes-and-journeys.html",
+        "sha256": "33d7208b9a59adf96bcd85584a4b3d7d8d1b34feb440d4608952e4d5919ca7d1"
+      },
+      {
+        "path": "retained-export-addendum.md",
+        "sha256": "ac6466f02d8427c6d3a4f6c10eef1493e5d66db251abd3c2aab832953da40514"
+      }
+    ],
+    "retainedExportAddendumStaged": true,
+    "testRows": 56
+  },
+  "historicalBrowser": {
+    "originalFailure": "evidence/original-browser-failure.json",
+    "attempted": 20,
+    "passed": 19,
+    "remainingFiveNotExecuted": true,
+    "baselineEqualityNotCompleted": true,
+    "unconditionalOldLimit": "Original falsely implied before/after equality after early failure; diagnosis clarifies without rewriting original.",
+    "diagnosis": "evidence/picker-diagnosis.json",
+    "diagnosticCases": 4,
+    "homeToEnterFastMilliseconds": [
+      0.6,
+      0.4
+    ],
+    "productUnchanged": true,
+    "sandboxEperm": "evidence/sandbox-environment-failure.json",
+    "sandboxExecutedCases": 0,
+    "sandboxAutomaticReviewRejected": false,
+    "countRule": "Historical19/20, diagnostic4, previous20 guard and final25 are not summed."
+  },
+  "screenshots": [
+    {
+      "path": "screenshots/exact-card-to-preview.png",
+      "originalPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/aplyd-academy-eight-hour/m5-navigation-qa/runtime/browser-accepted/exact-card-to-preview.png",
+      "sha256": "b96df5c02e1882c28f02fd8ee58a0c4a73685ace5281ad47e1c75ed82f4286e2",
+      "width": 1440,
+      "height": 1000,
+      "visualReview": "Inspected as original accepted-run image; no edit or re-render."
+    },
+    {
+      "path": "screenshots/exact-offering-390-normal.png",
+      "originalPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/aplyd-academy-eight-hour/m5-navigation-qa/runtime/browser-accepted/exact-offering-390-normal.png",
+      "sha256": "5ecbac9af579eba77b84a0d52637d920c6cd1c3cf8ee8671d685885c489d86ff",
+      "width": 390,
+      "height": 1000,
+      "visualReview": "Inspected as original accepted-run image; no edit or re-render."
+    },
+    {
+      "path": "screenshots/exact-offering-390-body32.png",
+      "originalPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/aplyd-academy-eight-hour/m5-navigation-qa/runtime/browser-accepted/exact-offering-390-body32.png",
+      "sha256": "9457dc28cfea2b61c4eb908b122fa5996645762ae59f0d8cfdf495dcaec79f53",
+      "width": 390,
+      "height": 1000,
+      "visualReview": "Inspected as original accepted-run image; no edit or re-render."
+    },
+    {
+      "path": "screenshots/selected-snapshot-unavailable.png",
+      "originalPath": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/aplyd-academy-eight-hour/m5-navigation-qa/runtime/browser-accepted/selected-snapshot-unavailable.png",
+      "sha256": "dd4c26e2bd2f6e43b9df2116ec8fef455f0f734f3f6bd0ceb5504e1a8c051a22",
+      "width": 1440,
+      "height": 1000,
+      "visualReview": "Inspected as original accepted-run image; no edit or re-render."
+    }
+  ],
+  "gallery": {
+    "path": "wireframes-and-journeys.html",
+    "staticNoJavascript": true,
+    "assetsVisuallyInspected": 4,
+    "htmlBrowserRenderedByDocumentationReviewer": false,
+    "fictionalVariantLabelled": true,
+    "evidenceDisposition": "PRE_FIX_NAVIGATION_VIEW_CAPTURES; retained download contents not inspected in those cases."
+  },
+  "unexecutedExtensions": [
+    "Catalog click/Enter/Space exact pin/title/prerequisites passed; Overview-card parity not run",
+    "Reorder/same-edition cohort-array runtime scenario not among accepted25",
+    "One current GET repoint direction passed; reverse direction remains pure/proposed runtime extension",
+    "Foreign workspace URL passed; separate foreign scope/lab variants not executed in browser",
+    "Own older active enrollment wins with notice over revised intent; own-same-offering/card variants not separately run",
+    "Removed/inactive own history runtime passed; withdrawn-only runtime extension not run",
+    "No-learner/closed/paused/full/removed control states passed; denied/wrong-envelope GET and workspace-switch extensions not run",
+    "Raw case named lessonURLs opens Feedback; unlocked lesson/assessment and Plan/guidance callback runtime extensions not run",
+    "Six390/768/1440 normal/32px-body cases plus native Enter/Space and Home/Enter pass; End/Escape/320px/actual zoom not run"
+  ],
+  "rootValidationSnapshotLimit": "Original root-validation browser pending text is superseded by later accepted-browser report; exact original copy retained.",
+  "rootProcessConfirmation": {
+    "source": "Root independently corroborated after final accepted report; no process probe by documentation reviewer.",
+    "reviewerCommandExitCode": 0,
+    "browsersClosed": true,
+    "worker": "13134",
+    "workerStopped": true
+  },
+  "publicationHold": {
+    "findingId": "M6-RET-01",
+    "priority": "P2",
+    "status": "FIX_ADOPTED_PURE_TYPECHECK_BUILD_PASS_FINAL30_DOWNLOAD_BROWSER_PENDING",
+    "sourceAudit": "evidence/retained-journey-audit.json",
+    "addendum": "retained-export-addendum.md",
+    "m5Committed": false,
+    "m5Published": false,
+    "proposedFix": "Own export cohort must match own cohortId and full validated pin or be null; enrollment bytes and preview-only behavior preserved.",
+    "newModelTypeBuildDownloadBrowserEvidence": "727 model entries including22 retained groups pass; strict typecheck/build pass; new frozen entry4969; final30 browser acceptance pending.",
+    "noAuthorityOrApiSchemaChangeProposed": true,
+    "helperPath": "lib/academy-retained-export.ts",
+    "helperSha256": "10babbe0c47db79d179886d1095dedb964f982082157d2bc2cfd8d3bd80afbb9"
+  },
+  "preFixAcceptanceDisposition": {
+    "preserved": true,
+    "modelDomainPassed": 705,
+    "guardCases": 80,
+    "includedOfferingGroups": 30,
+    "browserCases": 25,
+    "entrySha256": "43eaf4bec71591646c1d4e169e38d7ab6043ed34bc54dada3252242fe03a594a",
+    "LearningViewSha256": "091f51fecbc44ebc4f791f92b09b864d76376cd934c3b9b282271d9a791b1cae",
+    "qualification": "These are passing pre-fix scopes at recorded hashes. They do not inspect retained export metadata or accept changed source."
+  },
+  "historicalPreFixBrowser": {
+    "path": "evidence/accepted-browser.json",
+    "passed": true,
+    "cases": 25,
+    "atUtc": "2026-10-05T21:48:21.609Z",
+    "worker": "13134",
+    "entrySha256": "43eaf4bec71591646c1d4e169e38d7ab6043ed34bc54dada3252242fe03a594a",
+    "configSha256": "40037e9c9498735a53ecbe4fcaecbf765e98afbbd00b35a63c311843592b8397",
+    "namedSourceHashes": {
+      "app/academy-learning.tsx": "091f51fecbc44ebc4f791f92b09b864d76376cd934c3b9b282271d9a791b1cae",
+      "lib/academy-offering-navigation.ts": "b29d838f305bd7d373bacee31f3768da67b8fd02357fdb3f8bbf3d59a00a4bf6",
+      "lib/academy-before-start.mjs": "7267d476bfe6e6c33fd68f62cce1fd92b3826213b0debf1ea30b73e864f60265",
+      "lib/academy-before-start.d.mts": "4b1b629fb49ab1c652b95a930378f32dd886da56dac4047c1ef324540a2fb669",
+      "app/academy.tsx": "6938b1d1b0e3dc842fa92847efd29ee070ec9fd794a1d5036905a91d9f03e7e0",
+      "app/academy-acceptance.ts": "ce2bf2f00d49a64b72da02dbb54e1b2ea9af3a7306b43af87ed1c81555e325bf",
+      "lib/academy-engine.ts": "4747712f10c39cc08eaed66939bd99013d8064e4eb3097218590fbcc63bebff7",
+      "lib/academy-authoring.ts": "a4c8b781153b2b811ef4f9b0ff853520f757ac9dda7cb3e927be7b485809de5f",
+      "lib/academy-curriculum.ts": "02a7e32aa7f56e1bc06694987946f804d33fdd17ab781749142f72f42bda722c",
+      "lib/curriculum-versions/0.1-review-draft.json": "9fc83c8dd615456db8f49d140f56bff566e05c14d32ebb70a14cdcb73078b7e4"
+    },
+    "allNamedSourceHashesMatchCurrentRoot": false,
+    "builtMatchesFrozen": true,
+    "baselineInvarianceChecked": true,
+    "projectionHashes": {
+      "before": {
+        "personal": "f0de8ad26c5312d5e7fb6fcbf002a33553ca467472756f7dfcc11278002291ad",
+        "otherPersonal": "6e95c7e238299a3f7f40da4b7e2466d2d8a7be4e12cda5adbfcd229e6396c968",
+        "workspace": "56fc6ba2f0b269aaac07bb1dfedb2ee423f59e386c2ae5e0ae6a24bd1bb2b151"
+      },
+      "after": {
+        "personal": "f0de8ad26c5312d5e7fb6fcbf002a33553ca467472756f7dfcc11278002291ad",
+        "otherPersonal": "6e95c7e238299a3f7f40da4b7e2466d2d8a7be4e12cda5adbfcd229e6396c968",
+        "workspace": "56fc6ba2f0b269aaac07bb1dfedb2ee423f59e386c2ae5e0ae6a24bd1bb2b151"
+      }
+    },
+    "actualComparedFields": [
+      "state",
+      "revision",
+      "team",
+      "contentVersions"
+    ],
+    "forbiddenRequests": 0,
+    "pageErrors": 0,
+    "browserClose": "Reviewed finally awaits browser.close before writing final report.",
+    "limits": [
+      "Local same-origin GET/HEAD only; no account, enrolment, membership or other persisted mutation.",
+      "Rendering/navigation and metadata guards; not server command authority/CAS UAT.",
+      "No external/provider transport.",
+      "Actual baseline state/team/contentVersions/revision equality was completed and passed.",
+      "The32px enlarged body matrix tests text enlargement, not actual browser zoom.",
+      "Layout/keyboard checks do not establish formal accessibility or screen-reader conformance."
+    ],
+    "evidenceDisposition": "PRE_FIX_PASS25_RETAINED_DOWNLOAD_CONTENTS_NOT_EXERCISED",
+    "currentSourceQualification": "LearningView changed for retained export; pre-fix whole-bundle browser outcome is historical, not current source acceptance."
+  },
+  "postFixValidation": {
+    "modelDomainEntries": 727,
+    "failed": 0,
+    "focusedRetainedExportGroups": 22,
+    "focusedRetainedExportAssertions": 25,
+    "offeringModelGroupsIncluded": 30,
+    "fullApplicationTypecheck": "PASS_EXIT0_ROOT_CONFIRMED",
+    "workerBuild": "PASS_EXIT0_ROOT_CONFIRMED",
+    "runtimeEntrySha256": "4969663e55f1c2f69ffdc8110200990d93532f893903ce3853f0ab5edd1adea1",
+    "runtimeConfigSha256": "40037e9c9498735a53ecbe4fcaecbf765e98afbbd00b35a63c311843592b8397",
+    "frozenWorker": "69950",
+    "browserStatus": "PENDING_FINAL30",
+    "guard80Disposition": "Separate previously executed byte-identical guard units; not counted in727",
+    "actualRootSourceEvidenceQualification": "Raw pure evidence labels the helper staged; copied bytes remain unchanged. Evidence enumerates actual-root immutable curriculum/helper input hashes, independently compared here. This qualification does not convert pure evidence to runtime proof."
+  }
+}

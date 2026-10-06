@@ -1,0 +1,30 @@
+✔ own older cohort wins over independently selected newer first-open preview (0.728417ms)
+✔ matching metadata remains exportable when actual exact private snapshot is unavailable (0.096334ms)
+✔ removal returns null rather than preview fallback (0.040916ms)
+✔ same cohort id repointed to newer version returns null (0.041125ms)
+✔ same version but different program returns null (0.058625ms)
+✔ same program/version but different scope returns null (0.054583ms)
+✔ current accepted workspace must match team even with identical cohort id and pin (0.030583ms)
+✔ own foreign private scope cannot be exported through current team (0.045625ms)
+✔ personal lab enrollment without cohort returns null despite unrelated preview (0.039875ms)
+✔ personal lab never adds cohort metadata even if malformed input supplies shared fields (0.070083ms)
+✔ missing team returns null (0.046375ms)
+✔ missing cohort id returns null (0.034125ms)
+✔ malformed own full pin is not replaced by preview (0.031666ms)
+✔ inconsistent cohort legacy version and explicit pin fails closed (0.037125ms)
+✔ inconsistent own legacy version and explicit pin fails closed (0.024083ms)
+✔ duplicate current cohort ids are ambiguous and excluded (0.0405ms)
+✔ legacy global cohort pin matches using actual pinnedRef semantics (0.081167ms)
+✔ removed membership retains exact accepted own metadata without granting new access (0.041917ms)
+✔ retired or paused exact cohort metadata does not become newer or open (0.04175ms)
+✔ preview-only export preserves selected unavailable cohort behavior (0.042833ms)
+✔ preview-only with no selected cohort remains null (0.017334ms)
+✔ own result is detached and source inputs unchanged (0.072375ms)
+ℹ tests 22
+ℹ suites 0
+ℹ pass 22
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 44.577375

@@ -1,0 +1,32 @@
+{
+  "reviewedAt": "2026-10-05T21:56:29.432264+00:00",
+  "finding": "M6-RET-01",
+  "candidateStatus": "Source fix accepted; runtime download acceptance pending root integration.",
+  "scope": "Independent read-only review; no application edits, tests, compile/build, Worker, browser, network or SQL.",
+  "candidateHashes": {
+    "lib/academy-retained-export.ts": "10babbe0c47db79d179886d1095dedb964f982082157d2bc2cfd8d3bd80afbb9",
+    "app/academy-learning.tsx": "34b440924a4f101d218532b18771d8811c40ac8811837e3afb567826ee13a8fe",
+    "integration.patch": "cccd20aea52373ff9f79eb74960918e7cbc6169aca8106b5a1edd5206ef8f569",
+    "tests/build-model.mjs": "fb45e0cf700fc4eee5d8a91a58b257812350cab3aded22d1b6c6f7e34cd200a0",
+    "tests/retained-export.test.mjs": "7fab8ea9fa4c033d47468386ab06d054090b14db2e8d979e17d7b7a7ba941f15"
+  },
+  "rootHashes": {
+    "app/academy-learning.tsx": "091f51fecbc44ebc4f791f92b09b864d76376cd934c3b9b282271d9a791b1cae",
+    "lib/academy-offering-navigation.ts": "b29d838f305bd7d373bacee31f3768da67b8fd02357fdb3f8bbf3d59a00a4bf6",
+    "lib/academy-curriculum.ts": "02a7e32aa7f56e1bc06694987946f804d33fdd17ab781749142f72f42bda722c"
+  },
+  "rootMatchesCandidateBaseline": true,
+  "helperAndPatchMatchCandidateManifest": true,
+  "remainingFindings": [],
+  "acceptanceReasons": [
+    "Own enrollment path requires a valid shared current workspace and matching accepted team id before consulting its cohort projection.",
+    "Only one exact enrollment cohortId match is accepted; duplicate or missing matches return null, with no preview fallback.",
+    "Actual pinnedRef/contentKey comparison checks full scope/program/version plus consistency with legacy fields; foreign private scope, malformed or mismatched refs return null.",
+    "Legacy global pins remain supported by actual pinnedRef semantics. Personal lab returns null even if incidental shared fields are supplied.",
+    "Removed membership can retain exact own cohort metadata from its already accepted own-history projection; no active membership or access authority is conferred.",
+    "Own matching cohort is detached with structuredClone, preserving source projection. Export hunk retains enrollment:e unchanged and changes only the cohort field.",
+    "Un-enrolled preview export remains the existing selected cohort behavior; the selection/registry and unavailable-content gates remain authoritative and unchanged."
+  ],
+  "testSourceReview": "22 supplied pure groups use staged helper plus actual root pin/key/resolver; fetch disabled. Cases cover different cohort, absent/repointed/malformed/foreign/duplicate pin metadata, personal/global and removed membership, preview-only and detachment. Reviewer did not rerun them.",
+  "requiredRootAcceptance": "After adoption/new build, capture retained download from the existing GET-display unavailable-own-older-pin case and assert e byte-equivalent plus exact own matching cohort or null. Also cover own cohort removal/repoint/malformed pin and preview-only unchanged. Preserve actual state/revision invariants and corrected GET/HEAD/redirect boundary; prior 25 UI cases remain pre-fix evidence."
+}

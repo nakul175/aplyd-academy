@@ -1,0 +1,55 @@
+{
+  "at": "2026-10-05T21:58:20.294438+00:00",
+  "status": "all three files syntax-check passed; no runtime execution",
+  "plannedScenarios": 30,
+  "inheritedExactOfferingScenarios": 25,
+  "newActualDownloadScenarios": 5,
+  "newSourceHashFiles": [
+    "lib/academy-retained-export.ts",
+    "app/academy-download.ts"
+  ],
+  "newGate": "ACADEMY_RETAINED_EXPORT_WORKER_READY=1 after fresh source/model/build/frozen Worker",
+  "priorEvidencePreserved": "outputs/aplyd-academy-eight-hour/m5-navigation-qa/runtime/browser-accepted",
+  "rootSourceEdited": false,
+  "browserLaunched": false,
+  "apiCalls": 0,
+  "persistedFixturesCreated": 0,
+  "guardUnchanged": true,
+  "files": [
+    {
+      "file": "browser-readonly.mjs",
+      "sha256": "12f3970191256c9b0fd3ca73502ec56fca4ef96a524d96a8e6acd53ebfc56223"
+    },
+    {
+      "file": "read-only-routing.mjs",
+      "sha256": "535838f49852cc5e94aef1644b4a3c2ccc57e9af8bb1dead8a9829884f9ba476"
+    },
+    {
+      "file": "read-only-routing.test.mjs",
+      "sha256": "1d9cf1fa1b4cf99012de1bdac39c0cf6ab444f3847a46180ac15cc3c5816171e"
+    }
+  ],
+  "candidateInspected": {
+    "helper": "10babbe0c47db79d179886d1095dedb964f982082157d2bc2cfd8d3bd80afbb9",
+    "patch": "cccd20aea52373ff9f79eb74960918e7cbc6169aca8106b5a1edd5206ef8f569"
+  },
+  "limits": [
+    "Read-only transport and local Blob downloads only. All fixture modifications are in memory GET-display projections.",
+    "Personal/preview projections are source-reviewed for accepted shapes but need actual integrated UI acceptance; no runtime pass claimed.",
+    "Program/scope mismatch, duplicate cohort IDs, legacy pin and removed-membership history remain focused pure edges in candidate22 groups, not claimed as these5 new browser cases."
+  ],
+  "syntaxChecks": [
+    {
+      "file": "browser-readonly.mjs",
+      "exitCode": 0
+    },
+    {
+      "file": "read-only-routing.mjs",
+      "exitCode": 0
+    },
+    {
+      "file": "read-only-routing.test.mjs",
+      "exitCode": 0
+    }
+  ]
+}

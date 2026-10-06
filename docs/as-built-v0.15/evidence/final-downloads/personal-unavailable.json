@@ -1,0 +1,99 @@
+{
+  "exportedAt": "2026-10-05T22:03:31.815Z",
+  "enrollment": {
+    "id": "62d592f3-cef3-4d25-a765-b2ffa0823db0",
+    "programId": "msme-customer-operations",
+    "version": "display-unavailable-personal-edition",
+    "contentRef": {
+      "scope": "global",
+      "programId": "msme-customer-operations",
+      "versionId": "display-unavailable-personal-edition"
+    },
+    "startedAt": "2026-10-05T20:17:18.541Z",
+    "completed": [
+      "msme-01",
+      "msme-02",
+      "msme-03"
+    ],
+    "practice": {
+      "msme-01": {
+        "answer": "PRIVATE_RECORD_PRACTICE fictional exact source mapping and a human check.",
+        "completedAt": "2026-10-05T20:17:18.556Z"
+      },
+      "msme-02": {
+        "answer": "PRIVATE_RECORD_PRACTICE fictional exact source mapping and a human check.",
+        "completedAt": "2026-10-05T20:17:18.566Z"
+      },
+      "msme-03": {
+        "answer": "PRIVATE_RECORD_PRACTICE fictional exact source mapping and a human check.",
+        "completedAt": "2026-10-05T20:17:18.576Z"
+      }
+    },
+    "draft": {
+      "task": "PRIVATE_RECORD_EVIDENCE fictional exact source checks and a permitted human approval route.",
+      "safe-input": "PRIVATE_RECORD_EVIDENCE fictional exact source checks and a permitted human approval route.",
+      "ai-evidence": "PRIVATE_RECORD_EVIDENCE fictional exact source checks and a permitted human approval route.",
+      "checks": "PRIVATE_RECORD_EVIDENCE fictional exact source checks and a permitted human approval route.",
+      "final": "PRIVATE_RECORD_EVIDENCE fictional exact source checks and a permitted human approval route.",
+      "checklist": "PRIVATE_RECORD_EVIDENCE fictional exact source checks and a permitted human approval route.",
+      "return": "PRIVATE_RECORD_EVIDENCE fictional exact source checks and a permitted human approval route."
+    },
+    "attempts": [
+      {
+        "id": "6b4e1ba6-9de0-4bdd-a119-f67317e7e718",
+        "number": 1,
+        "fields": {
+          "task": "PRIVATE_RECORD_EVIDENCE fictional exact source checks and a permitted human approval route.",
+          "safe-input": "PRIVATE_RECORD_EVIDENCE fictional exact source checks and a permitted human approval route.",
+          "ai-evidence": "PRIVATE_RECORD_EVIDENCE fictional exact source checks and a permitted human approval route.",
+          "checks": "PRIVATE_RECORD_EVIDENCE fictional exact source checks and a permitted human approval route.",
+          "final": "PRIVATE_RECORD_EVIDENCE fictional exact source checks and a permitted human approval route.",
+          "checklist": "PRIVATE_RECORD_EVIDENCE fictional exact source checks and a permitted human approval route.",
+          "return": "PRIVATE_RECORD_EVIDENCE fictional exact source checks and a permitted human approval route."
+        },
+        "submittedAt": "2026-10-05T20:17:18.587Z",
+        "assisted": false,
+        "decision": {
+          "id": "3d00eef1-c102-445e-bdbc-178415dea8b0",
+          "score": 100,
+          "passed": true,
+          "scores": [
+            4,
+            4,
+            4,
+            4
+          ],
+          "gates": [
+            true,
+            true,
+            true
+          ],
+          "notes": [
+            "PRIVATE_RECORD_NOTES checked exact evidence and source references.",
+            "PRIVATE_RECORD_NOTES checked exact evidence and source references.",
+            "PRIVATE_RECORD_NOTES checked exact evidence and source references.",
+            "PRIVATE_RECORD_NOTES checked exact evidence and source references."
+          ],
+          "feedback": "PRIVATE_RECORD_FEEDBACK fictional actionable reasoning against source and safety checks.",
+          "actor": "assessor-a",
+          "decidedAt": "2026-10-05T20:17:18.597Z",
+          "mode": "manual sample-assessor review"
+        }
+      }
+    ],
+    "appeals": [],
+    "record": {
+      "id": "89c4819d-4855-4298-9497-c47dd65c3fa0",
+      "issuedAt": "2026-10-05T20:17:18.597Z",
+      "title": "Customer communication and daily operations with AI",
+      "claim": "Demonstrated customer-draft preparation, operations checklist creation and responsible AI checking using synthetic business records",
+      "issuer": "Aplyd Academy · private practice workspace",
+      "contentVersion": "0.1-review-draft",
+      "kind": "Nonaccredited practice completion",
+      "status": "active",
+      "share": false
+    },
+    "withdrawn": false
+  },
+  "cohort": null
+}

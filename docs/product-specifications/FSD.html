@@ -1,0 +1,470 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Aplyd Academy Functional Specification Document</title><style>:root{color-scheme:light;--ink:#182b3a;--muted:#546575;--line:#d8e0e5;--accent:#14564f;--wash:#f4f7f9}*{box-sizing:border-box}body{margin:0;color:var(--ink);background:#fff;font:16px/1.65 system-ui,-apple-system,Segoe UI,sans-serif}a{color:var(--accent);text-underline-offset:3px}header{border-bottom:1px solid var(--line);background:var(--wash);padding:20px max(20px,calc((100% - 1180px)/2));display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}.brand{font-weight:750;font-size:20px}.sub{font-size:13px;color:var(--muted)}main{max-width:1180px;margin:0 auto;padding:32px 24px 64px}.prose{max-width:1050px}h1{font-size:34px;line-height:1.2;margin:0 0 20px}h2{font-size:24px;margin:36px 0 12px}h3{font-size:19px;margin:24px 0 8px}p{margin:12px 0}ul,ol{padding-left:24px}li{margin:5px 0}img{max-width:100%;height:auto}table{border-collapse:collapse;display:block;max-width:100%;overflow:auto;font-size:14px;margin:20px 0}th,td{text-align:left;border:1px solid var(--line);padding:10px 12px;vertical-align:top;min-width:85px}th{background:var(--wash)}td{max-width:420px}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:var(--wash);padding:16px;border-radius:5px;font-size:13px}code{font:13px/1.5 ui-monospace,monospace;overflow-wrap:anywhere}blockquote{border-left:3px solid var(--accent);padding-left:16px;color:var(--muted)}.notice{padding:16px 20px;background:#edf5f2;border-left:4px solid var(--accent);margin:20px 0}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}.card{border:1px solid var(--line);border-radius:7px;padding:20px;min-width:0}.card h2{margin:0 0 10px;font-size:20px}.card p{font-size:14px;color:var(--muted)}.card a{display:block;margin:7px 0}.meta{display:flex;gap:12px;flex-wrap:wrap;font-size:14px;color:var(--muted)}.controls{display:flex;gap:14px;flex-wrap:wrap;align-items:end;margin:20px 0}.controls label{font-weight:600;font-size:14px;display:block;min-width:145px}.controls input,.controls select{display:block;width:100%;margin-top:5px;font:inherit;padding:10px;border:1px solid #8c9da9;border-radius:4px;min-height:44px}.controls .search{flex:1;min-width:240px}button{font:inherit;min-height:44px;padding:10px 15px;background:var(--accent);color:#fff;border:0;border-radius:4px;cursor:pointer}button.alt{background:var(--wash);color:var(--ink);border:1px solid var(--line)}:focus-visible{outline:3px solid #ce6800;outline-offset:3px}details{border-bottom:1px solid var(--line);padding:12px 0}summary{cursor:pointer;font-weight:600;min-height:44px}.itemmeta{font-size:13px;color:var(--muted);padding:0 0 12px}.pill{display:inline-block;background:var(--wash);border:1px solid var(--line);border-radius:4px;padding:1px 6px;margin-right:5px;font-size:12px}.detailbody{padding:0 16px 12px;border-left:2px solid var(--line)}.detailbody dt{font-weight:650;margin-top:12px}.detailbody dd{margin-left:0;white-space:pre-wrap;overflow-wrap:anywhere}.toplinks{display:flex;gap:18px;flex-wrap:wrap}.empty{padding:24px;color:var(--muted)}footer{border-top:1px solid var(--line);padding:16px 24px;text-align:center;font-size:13px;color:var(--muted)}@media(max-width:800px){.grid{grid-template-columns:1fr 1fr}h1{font-size:28px}main{padding:24px 16px}}@media(max-width:520px){.grid{grid-template-columns:1fr}.controls label,.controls .search{width:100%;min-width:0}}@media print{header,footer,.controls,.toplinks{display:none}main{padding:0;max-width:none}table{display:table;font-size:10px;overflow:visible}th,td{min-width:0;padding:5px}h2,h3{break-after:avoid}a{color:#000}.card{break-inside:avoid}details{break-inside:avoid}pre{font-size:10px}}body{overflow-wrap:anywhere}.prose{overflow-wrap:anywhere}.table-scroll{max-width:100%;overflow-x:auto;margin:20px 0}.table-scroll table{display:table;margin:0;max-width:none;width:100%}@media print{.table-scroll{overflow:visible}}</style></head><body><header><div><div class="brand">Aplyd Academy</div><div class="sub">Product and engineering documentation · 5 October 2026 · v0.1</div></div><nav class="toplinks" aria-label="Documentation"><a href="index.html">Pack overview</a><a href="wireframes.html">Wireframes</a><a href="test-explorer.html">Tests</a><a href="dictionary-explorer.html">Dictionary</a></nav></header><main><article class="prose"><h1>Aplyd Academy Functional Specification Document</h1>
+<p>Version 0.1. Dated 5 October 2026. Proposed design for review.</p>
+<p>This specification translates BR-01–BR-46 into observable product behavior. It is a design artifact; no system implementation, accreditation, or executed acceptance tests are implied. <a href="BASELINE.html">BASELINE.md</a> defines the canonical contracts. Read alongside <a href="HLD.html">HLD.md</a>, <a href="LLD.html">LLD.md</a>, <a href="UX.html">UX.md</a>, <a href="data-dictionary.html">data-dictionary.md</a>, and the test documents.</p>
+<h2>1. Release boundaries and conventions</h2>
+<p><strong>R1:</strong> Adult responsive-web pilot with direct and one partner identity route, multi-role profiles, versioned pathways, tenant offerings, cohorts, resumable learning, practical assessment, human review and appeals, credentials, moderated community, support, scoped reports, consent, and one partner integration. Approved external AI tools and synthetic exercises are used; no embedded AI assistant, paid commerce, offline submission, or open networking in R1.</p>
+<p><strong>R2:</strong> Diagnostics, explainable recommendations, live scheduling, selected offline resources, mentoring and networking, renewal, additional languages and partners, and commerce controls before any paid launch. <strong>R3:</strong> Richer personalization, portfolio, advanced integrations, optional AI assistant after separate design approval.</p>
+<p>“Must” refers to the release offering the associated capability. A later feature does not defer its privacy, accessibility, authorization, or integrity requirements.</p>
+<p>Identifier conventions: F-01–F-12 modules; WF-01–WF-14 screens; BR IDs refer to the BRD. Examples use fictional adults, synthetic information, a direct Academy tenant and an Agri Saha partner tenant. These examples establish neither the selected pilot ecosystem nor production language support.</p>
+<h2>2. Actor and permission contract</h2>
+<p>An account identifies a person globally. Role tags such as farmer or MSME owner personalize content; they grant no permission. A delivery tenant is the security boundary; ecosystem is contextual configuration. Membership and role assignment define permissions within a tenant and optionally organization/cohort. Every read and write is checked server-side; hiding a UI control is insufficient.</p>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Actor</th>
+<th>Permitted scope</th>
+<th>Prohibited by default</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Learner</td>
+<td>Own profile, enrollments, submissions, feedback, credentials, consent; communities where a member</td>
+<td>Another learner’s private records; administrative actions</td>
+</tr>
+<tr>
+<td>Trainer/facilitator</td>
+<td>Assigned cohorts, participation, learning support and approved resources</td>
+<td>Assessment decisions unless separately assigned assessor role; unrelated cohorts</td>
+</tr>
+<tr>
+<td>Assessor</td>
+<td>Assigned attempts and associated rubric/evidence</td>
+<td>Self-assessment; unassigned submissions; learner-wide history</td>
+</tr>
+<tr>
+<td>Content author</td>
+<td>Authorized draft programs and activities</td>
+<td>Publishing own draft without configured review approval</td>
+</tr>
+<tr>
+<td>Content reviewer</td>
+<td>Assigned content review and approval</td>
+<td>Learner records unrelated to a review function</td>
+</tr>
+<tr>
+<td>Moderator</td>
+<td>Assigned communities, reports and moderation actions</td>
+<td>Private assessments or cross-community access</td>
+</tr>
+<tr>
+<td>Organization administrator</td>
+<td>Assigned organization enrollment and authorized reports</td>
+<td>Other organizations, full assessment evidence by default</td>
+</tr>
+<tr>
+<td>Ecosystem/tenant administrator</td>
+<td>Tenant configuration, authorized memberships and reports</td>
+<td>Other tenants or arbitrary learner-private profile access</td>
+</tr>
+<tr>
+<td>Platform operator</td>
+<td>Explicit operational permissions and audited support access</td>
+<td>Routine unrestricted browsing of learner content</td>
+</tr>
+<tr>
+<td>Partner client</td>
+<td>Named API scopes, one tenant, authorized purpose and current sharing permission</td>
+<td>Personal aggregate history, other tenant affiliations, private evidence</td>
+</tr>
+<tr>
+<td>Public verifier</td>
+<td>Shared token response with minimal approved display information</td>
+<td>Scores, submissions, contact data, or other ecosystem memberships</td>
+</tr>
+</tbody></table></div>
+<p>People may have multiple assignments. The active administrative workspace is explicit. Removing an assignment takes effect on the next protected request. A learner context switch changes catalog and navigation, while personal records remain available through an authorized own-record view.</p>
+<h2>3. Common functional rules</h2>
+<p>Numeric field limits are proposed validation defaults for review. Assessment windows are offering-specific and captured in the enrollment policy snapshot; shared assessment standards carry competency rules rather than absolute cohort dates. Published program-specific assessment thresholds and allowances are authoritative.</p>
+<ul>
+<li>Required fields have visible labels and inline errors. Trim incidental whitespace; retain meaningful internal text. Validate on the client for convenience and on the server authoritatively.</li>
+<li>IDs are UUIDs. Timestamps use UTC RFC3339 in storage and the learner’s display timezone. Browser local time never decides expiry or assessment deadlines.</li>
+<li>API failures distinguish invalid input, unauthenticated access, forbidden actions, out-of-scope/not-found objects, conflicting state, stale edits, business-rule failure, throttling and temporary unavailability. Show correlation IDs for support without exposing sensitive details.</li>
+<li>Retryable mutations require an idempotency key. Repeating the same operation returns its prior result; changing the body under the same key returns conflict. Draft edits use version checks to avoid silently overwriting others’ work.</li>
+<li>Unsaved work receives navigation confirmation. Saved draft status and last saved time are visible. Autosave failure must not display “Saved.”</li>
+<li>User-generated material is rendered safely. Attachments use configured format/size limits, private storage and authorized access; unsafe files are withheld from reviewers pending policy handling.</li>
+<li>Configuration limits, such as submission size, appeal window and retries, are published before enrollment. Changes cannot silently worsen an active learner’s agreed policy snapshot.</li>
+<li>Tenant context is server resolved from authenticated membership, never trusted solely from a URL or form value.</li>
+</ul>
+<h2>4. F-01 Identity and context</h2>
+<p><strong>Coverage:</strong> BR-01, BR-02, BR-03, BR-04. <strong>Screens:</strong> WF-01, WF-02. <strong>Release:</strong> R1.</p>
+<p><strong>Preconditions:</strong> A supported direct offering or approved partner entry exists. Direct onboarding is for adults; age eligibility confirmation is required without collecting date of birth by default.</p>
+<p><strong>Main flow:</strong> (1) Learner chooses direct sign-in/registration or partner sign-in. (2) Approved identity service verifies the account. (3) Learner confirms adult eligibility and required service terms, separately from optional sharing choices. (4) Profile captures display name, language, goal and optional role tags. (5) Eligible memberships and ecosystem contexts are loaded. (6) Home opens with explicit active context.</p>
+<p><strong>Alternates:</strong> Existing account resumes onboarding; verified recovery returns to the same account. A new partner issuer/subject can be linked only through approved proof of existing account ownership. Same email across identities is not proof. Disabled membership does not regain access through a context switch. Unsupported language shows the supported options. Ineligible age stops enrollment and offers support information.</p>
+<p><strong>Fields/rules:</strong> Display name 1–100 characters; language must be supported; timezone must be valid; at least one stated goal or “Explore” option; optional role tags from an extensible controlled list with multiple selections. Optional biography is not needed in R1. Private contact details never become discoverable through profile completion. Legal-consent versions and acceptance time are recorded.</p>
+<p><strong>Acceptance:</strong> A learner can register, recover access, revise goals, and switch between permitted contexts while retaining their own records. Role-tag edits never add administrative or partner privileges. Identity collision and withdrawn membership produce safe, explainable outcomes.</p>
+<h2>5. F-02 Discovery and enrollment</h2>
+<p><strong>Coverage:</strong> BR-05, BR-06, BR-07, BR-11. <strong>Screens:</strong> WF-03, WF-04. <strong>Release:</strong> Catalog and enrollment R1; diagnostics/recommendations R2.</p>
+<p><strong>Preconditions:</strong> Offering is visible to the learner’s tenant and audience; associated published program version exists.</p>
+<p><strong>Main flow:</strong> (1) Search/filter by topic, role, language, level and format. (2) Open pathway details showing outcomes, prerequisite, effort, delivery, assessment and credential claim. (3) Verify eligibility and capacity. (4) Review published submission, retry, appeal and sharing policies. (5) Enroll or accept invitation. (6) Store immutable program version and policy snapshot; open the first activity.</p>
+<p><strong>Alternates:</strong> No matches offers removable filters and relevant support. Closed or full cohorts explain availability; an optional waitlist requires later approval and is not silently assumed. Missing prerequisite offers a defined foundation route. Existing active enrollment opens its progress instead of duplicating it. Invitation acceptance is bound to the intended account and valid offering; expired invitation needs reissue. Suspended or withdrawn enrollment cannot continue until an authorized transition.</p>
+<p><strong>Fields/rules:</strong> Search query up to 200 characters; filters use valid catalog values. Eligibility is determined from published policy, membership and verified prerequisites. Program edits create a new version; existing enrollments are not automatically migrated. There is no payment gate in R1.</p>
+<p><strong>Acceptance:</strong> Published detail matches the enrolled snapshot. Two concurrent enrollment requests produce one effective enrollment. Completed learning is not erased by filtering or context switching. R2 diagnostics are optional unless a pathway transparently requires them; recommendations state their basis and assigned learning is clearly labeled.</p>
+<h2>6. F-03 Learning and cohorts</h2>
+<p><strong>Coverage:</strong> BR-08, BR-09, BR-10, BR-12, BR-13, BR-14, BR-15, BR-16, BR-17. <strong>Screens:</strong> WF-02, WF-05. <strong>Release:</strong> Core R1; live scheduling and selected offline resources R2.</p>
+<p><strong>Preconditions:</strong> Active enrollment or explicitly permitted continuing access exists; required prerequisite activities are complete.</p>
+<p><strong>Main flow:</strong> (1) Open next activity from the pathway outline. (2) Read/listen/watch supported material. (3) Complete a practice task with instructions, sample inputs and expected evidence. (4) Save work. (5) Meet server-checked activity completion rule. (6) Receive feedback or move to next available activity. (7) View cohort resources and facilitator support.</p>
+<p><strong>Alternates:</strong> Interrupted connection preserves acknowledged progress; unsent local work remains marked unsent. Locked activity states the dependency. Missing/retired resource shows an alternative or support route without granting completion. Facilitator cancellation must not falsely mark attendance. Accessible alternate content should satisfy the same learning objective. Retries resume rather than duplicate progress records.</p>
+<p><strong>Rules:</strong> A click on “complete” or a client percentage cannot itself establish mandatory task completion. Video watch metrics can support participation but are insufficient evidence of competence. Progress is bound to enrollment and immutable activity version. Completed enrollment requires all mandatory activities and a final passing assessment when specified. Trainers see assigned cohorts only.</p>
+<p><strong>R2 contracts:</strong> Live sessions specify timezone, join instructions, attendance basis, cancellation and accessibility arrangements; recording access requires appropriate permissions. Offline packages carry version and access expiry, keep private data minimal, and clearly state stale content. R2 package downloads do not imply offline assessment submission; that requires a separate approved conflict and security design.</p>
+<p><strong>Acceptance:</strong> Progress resumes on a supported device after interruption. A completion attempt fails with a specific unmet requirement. Supported-language and accessible variants are available for every activity required by the pilot audience. Remedial feedback links to relevant practice.</p>
+<h2>7. F-04 Responsible AI practice</h2>
+<p><strong>Coverage:</strong> BR-18, BR-19, BR-20, BR-21, BR-22, BR-23. <strong>Screens:</strong> WF-05, WF-06. <strong>Release:</strong> Instruction and assessed practice R1; optional assistant R3.</p>
+<p><strong>Preconditions:</strong> Program defines suitable approved tools and synthetic or authorized task material.</p>
+<p><strong>Main flow:</strong> (1) Learner identifies the task and intended audience. (2) Classifies the information they propose to use. (3) Chooses an approved tool or declines AI where unsuitable. (4) Records instructions and generated draft as evidence. (5) Checks claims and missing context using appropriate sources. (6) Revises the work and describes limitations or escalation. (7) Submits the final artifact and judgment evidence.</p>
+<p><strong>Alternates:</strong> Learner identifies restricted information and substitutes synthetic input. Unsupported factual claim triggers verification rather than forced acceptance. AI unavailable allows a documented alternative activity where approved. A high-consequence sector scenario asks for expert referral rather than an unsupported decision. A learner may demonstrate that AI should not be used; suitability is assessed independently of enthusiasm for AI.</p>
+<p><strong>Evidence fields:</strong> Task, audience, inputs classification, prompt/instructions, draft, checks and source references, identified errors, revised output, final judgment. No API credentials or sensitive real-world records are requested. Source references support verification but are not automatically treated as authoritative.</p>
+<p><strong>Rules:</strong> Rubric dimensions include task quality, verification, information handling and judgment. Critical privacy or judgment failures cannot be averaged away. Published AI-assisted content has accountable human approval and versioning. The R3 assistant requires a separate data-use contract, content quality evaluation, permitted tools, limitation disclosure, escalation and cost controls; it cannot issue credentials or decide appeals autonomously.</p>
+<p><strong>Acceptance:</strong> The learner can complete and explain a suitable task, detect planted errors, refuse inappropriate inputs and identify when expert help is needed. Final output quality alone cannot pass an assessment requiring process evidence.</p>
+<h2>8. F-05 Assessment and appeal</h2>
+<p><strong>Coverage:</strong> BR-24, BR-25, BR-26, BR-27. <strong>Screens:</strong> WF-06, WF-07, WF-10. <strong>Release:</strong> R1.</p>
+<p><strong>Preconditions:</strong> Learner is eligible under enrollment snapshot; published assessment/rubric version exists; attempt allowance remains; submission window is open.</p>
+<p><strong>Learner flow:</strong> (1) Read evidence and scoring requirements. (2) Create draft attempt. (3) Save responses and allowed attachments. (4) Validate all required evidence and acknowledge submission declaration. (5) Submit once. (6) Receive submitted/under-review status. (7) Receive criterion-level feedback and decision. (8) Start permitted retry or appeal.</p>
+<p><strong>Assessor flow:</strong> (1) Open authorized assigned queue. (2) Declare/resolve conflict of interest. (3) Claim assigned work with concurrency checks. (4) View safe authorized evidence and published rubric. (5) Score all criteria and mark critical criteria met/unmet. (6) Add actionable feedback. (7) Save draft or finalize decision. (8) Finalization atomically records immutable decision and eligible completion/credential event processing.</p>
+<p><strong>Appeal flow:</strong> Learner identifies decision and rationale within the published window. An independent authorized reviewer evaluates it. “Upheld” retains the original decision; “overturned” creates a new superseding decision; history remains intact. Closing an appeal follows notification and recorded resolution. The reviewer cannot silently edit the original record.</p>
+<p><strong>Alternates:</strong> Missing field stays draft with inline error. Deadline crossing is evaluated at server receipt; drafts are not submissions. Duplicate submit returns original receipt. Retry exhaustion offers the published support/appeal route. Unsafe attachment blocks review of that file and follows remediation policy. Stale assessor edit requires reload/reconciliation. Unassigned or self-related attempt is rejected. AI scoring, if later introduced, remains advisory where professional judgment is required.</p>
+<p><strong>Fields/rules:</strong> Text evidence has configured published limits; allowed file types and max size are shown. Reference scoring is ≥70/100 overall and every critical criterion met, but each published assessment specifies its own thresholds. Rubric weights total 100. Decision includes assessor, criterion scores, critical flags, outcome, rationale and timestamp. Appeal rationale 20–4,000 characters; supporting evidence optional under configured limits. Appeal timing and retry counts remain policy decisions and must not be hard-coded from illustrative wireframes.</p>
+<p><strong>Acceptance:</strong> A high aggregate score with one failed critical criterion fails. A submitted attempt becomes read-only to the learner. A retry is a new attempt. Unauthorized, conflicting and repeated finalization cannot create contradictory outcomes. Appeal decisions preserve audit history and trigger consistent downstream credential handling.</p>
+<h2>9. F-06 Credentials</h2>
+<p><strong>Coverage:</strong> BR-28, BR-29, BR-30, BR-31. <strong>Screen:</strong> WF-08. <strong>Release:</strong> R1 issue/correct/status/verify; R2 renewal.</p>
+<p><strong>Preconditions:</strong> Defined participation, completion or competency requirements are met and named issuer is authorized.</p>
+<p><strong>Main flow:</strong> (1) Eligibility event or authorized issuance request is evaluated. (2) Issue one credential per enrollment, kind and standard version. (3) Learner views claim, issuer, assessment basis, date, validity and status. (4) Learner may enable public verification and select approved display label. (5) Public verifier receives only permitted fields through an unguessable token.</p>
+<p><strong>Alternates:</strong> Issuance delay shows pending status, not an award. Correction creates traceable correction history under issuer authority. Suspension and revocation include recorded reason, authorized actor, effective time and learner notification. Revoking sharing makes the public route unavailable. Expiry checks current server time even before a scheduled status-update job runs. Revoked credentials cannot be restored through a sharing switch; a separate authorized lifecycle process is necessary.</p>
+<p><strong>Rules:</strong> Completion certificates do not claim demonstrated competence without assessment. No accreditation claim is allowed without approved evidence. Default credential visibility is private. Public verification excludes scores, submissions, contact data and other tenant memberships. Verification tokens and URLs contain no plaintext personal identifiers. Eligibility superseded by an appeal is reevaluated without issuing duplicate awards.</p>
+<p><strong>R2 renewal:</strong> Renewal rule specifies relevant refresher, evidence, timing, price if any, grace treatment and resulting standard version. Expiry does not erase historical achievement, but validity must be unambiguous.</p>
+<p><strong>Acceptance:</strong> Replaying issue events yields one credential. Private verification is unavailable. Shared verification exposes only the approved minimal record and current status. Suspension, revocation, correction and expiry are visible consistently in learner and verifier views.</p>
+<h2>10. F-07 Community and networking</h2>
+<p><strong>Coverage:</strong> BR-32, BR-33, BR-34, BR-35, BR-36, BR-37. <strong>Screens:</strong> WF-09, WF-13. <strong>Release:</strong> Moderated cohort community R1; open networking, mentors/events R2.</p>
+<p><strong>Preconditions:</strong> Learner holds active membership in the community and has accepted participation rules.</p>
+<p><strong>Main flow:</strong> Open relevant community; read discussions; create a question or reply; facilitator/peer responds. Optional useful-response marking is an R2 enhancement and has no assessment or credential effect. Report inappropriate material with category and optional details. Moderator evaluates assigned report, records a reasoned action and communicates as appropriate.</p>
+<p><strong>Alternates:</strong> Removed membership stops posting and private reads. Reported content remains pending unless policy triggers immediate hiding; a report alone is not proof. Duplicate posts may be suppressed with confirmation. Removed material shows a safe explanation where appropriate without republishing harmful content. Peer advice is labeled as peer contribution and can be escalated for expert review.</p>
+<p><strong>Fields/rules:</strong> Title 5–160 characters; body 10–5,000 characters; report reason selected from controlled categories with optional detail up to 2,000 characters. Safe rendering, rate limits and attachment policies apply. Reuse outside the original group requires separate permission. Moderation actions and reasons are audited. Contact preferences and blocks prevent prohibited contact.</p>
+<p><strong>R2 contracts:</strong> Learner expressly opts into professional discoverability and selects public fields. Connection request recipient can accept, decline or block; it never reveals private contact details automatically. Mentor listing distinguishes verified scope, availability and fee if any. Requests track requested/accepted/declined/cancelled/completed and prohibit automatic assignment without availability. Events specify audience and participation rules.</p>
+<p><strong>Acceptance:</strong> Nonmembers cannot read a private cohort thread. Learners can report content and moderators can act within their scope. Networking remains opt-in and reversible. The learner can access useful cohort support without exposing a public profile.</p>
+<h2>11. F-08 Content and administration</h2>
+<p><strong>Coverage:</strong> BR-38, BR-39, BR-40, BR-46. <strong>Screen:</strong> WF-11. <strong>Release:</strong> R1.</p>
+<p><strong>Preconditions:</strong> Actor has explicit tenant, organization or content permissions.</p>
+<p><strong>Main flow:</strong> Create program draft; define outcomes, activities, evidence and rubric; add translations and review dates; request review; assigned reviewer records approval or required changes; authorized publisher creates immutable published version; administrator creates tenant offering/cohort and assigns eligible staff; monitor delivery and content health.</p>
+<p><strong>Alternates:</strong> Missing owner/outcomes/rubric prevents publication. Critical translation absent blocks publication for that supported audience. Changes after publication require a new version. Reviewer asks for changes with actionable notes. Unauthorized organization IDs fail even under an authorized tenant. Stale configuration edit returns a conflict. Revoking a role preserves historical actions but blocks new actions.</p>
+<p><strong>Fields/rules:</strong> Program title 3–160 characters; summary 20–2,000; owner, audience, language, objectives and review date required. Mandatory activities, assessment rules and credential basis are mutually consistent. Published weights/thresholds validate before approval. Offering contains program version, audience, dates, capacity and policy snapshot. Review and publication are distinct permissions; self-approval exception requires an explicit governance decision rather than assumption.</p>
+<p><strong>Acceptance:</strong> A draft cannot appear in learner catalog. Program updates do not rewrite current enrollments. Organizations cannot see each other’s unauthorized records. Publishing, permission edits, assessor actions and credential changes generate auditable events with actor, scope, time and change reference.</p>
+<h2>12. F-09 Ecosystem integration</h2>
+<p><strong>Coverage:</strong> BR-42, BR-43. <strong>Screen:</strong> WF-12. <strong>Release:</strong> One bounded integration R1; more patterns R2/R3.</p>
+<p><strong>Preconditions:</strong> Approved partner client, tenant, interface scopes, identity issuer, data purpose and sharing rules exist.</p>
+<p><strong>Main flow:</strong> (1) Partner deep-links to permitted offering using opaque identifiers. (2) Browser identity adapter authenticates issuer/subject. (3) Approved identity linkage and tenant membership are resolved. (4) Partner enrollment uses purpose-scoped client authorization. (5) Learner completes Academy learning. (6) Transaction writes domain achievement and outbox event. (7) Worker rechecks sharing permission and sends minimal authorized payload. (8) Partner verifies signature and deduplicates event ID.</p>
+<p><strong>Alternates:</strong> Unknown identity prompts approved onboarding/linking. Disabled membership denies access despite valid sign-in. Expired token returns authentication failure. Wrong tenant, scope or purpose returns protected failure. Duplicate enrollment returns original result. Consent withdrawal blocks queued delivery and replay. Delivery failure uses bounded retries; exhausted work reaches controlled dead-letter handling. Unsafe webhook destination is rejected before activation.</p>
+<p><strong>Rules:</strong> OAuth client authorization is not equivalent to learner consent; both relevant controls apply. Partner identity uses issuer/subject, never email matching alone. At-least-once event delivery means consumer deduplication is required. Signature covers timestamp and raw body; proposed replay window five minutes is configurable and must be reviewed. Status sharing does not include private evidence or unrelated history. Replaying an event reevaluates current sharing permission.</p>
+<p><strong>Acceptance:</strong> Partner entry, enrollment and permitted achievement return work end to end. Duplicate, out-of-order, cross-tenant, revoked-permission and unreachable-partner cases have predictable outcomes. Learner sees connected partner, data scope and revocation control. Operational details are restricted to integration administrators.</p>
+<h2>13. F-10 Privacy, support and reporting</h2>
+<p><strong>Coverage:</strong> BR-41, BR-44 and cross-cutting BR-39/43/46. <strong>Screens:</strong> WF-02, WF-11, WF-12. <strong>Release:</strong> R1.</p>
+<p><strong>Preconditions:</strong> Actor has applicable own-record or reporting permission.</p>
+<p><strong>Main flow:</strong> Learner reviews sharing grants by recipient/purpose; grants or withdraws an optional permission; requests record export or account-data action; receives acknowledgment and request status. Support ticket captures category and safe description. Authorized reporting user chooses in-scope program/organization/date range and views defined metrics.</p>
+<p><strong>Alternates:</strong> Withdrawal does not claim to erase data already legitimately delivered; UI describes applicable partner process. A deletion request cannot bypass documented retention or legal obligations; support explains record-specific disposition after review. Export requires reauthentication where appropriate and uses an expiring private download. Report with no data shows zero/empty appropriately; small-cohort reporting follows approved suppression policy. User cannot attach credentials/secrets to support logs.</p>
+<p><strong>Fields/rules:</strong> Grant has recipient, purpose, specific data scope, active state and validity if used. Required processing is described separately from optional sharing. Support subject 5–160 characters, detail 10–5,000; exclude unnecessary sensitive content. Reporting denominators, filters and “as of” time are visible. Full submissions and criterion scores are not included in ordinary sponsor reports.</p>
+<p><strong>Acceptance:</strong> Revoking optional sharing blocks the next send and replay. Account export contains only the requester’s authorized records. Organization report filters cannot widen permission. Support actions affecting protected data are recorded. No retention duration is implied until governance decides it.</p>
+<h2>14. F-11 Continuous learning</h2>
+<p><strong>Coverage:</strong> BR-07, BR-15, BR-31, BR-37 plus continuous-learning BRD objective. <strong>Screen:</strong> WF-14. <strong>Release:</strong> Basic next-pathway/updates R1; richer recommendations/refreshers R2; personalization R3.</p>
+<p><strong>Main flow:</strong> Learner sees a relevant published update or next pathway; understands topic, effort and why it is relevant; chooses to start, save or dismiss; completes a useful activity; receives updated learning record. Notification settings separate essential operational notices from optional learning prompts.</p>
+<p><strong>Rules:</strong> A recommendation cannot alter permissions or an active enrollment. Learner can correct role/goals. Dismissed optional suggestions are respected. Renewal reminders state existing validity rather than implying renewal through opening a link. R3 portfolio sharing is field-selective and private by default. Recommendation evaluation includes usefulness and application rather than maximizing time spent.</p>
+<p><strong>Acceptance:</strong> Learner can identify a next step and control optional reminders. Expiring credentials show honest status. An inaccessible pathway is not recommended as immediately available without explaining prerequisites or access conditions.</p>
+<h2>15. F-12 Commerce</h2>
+<p><strong>Coverage:</strong> BR-45. <strong>Screen:</strong> Future checkout derived from WF-04; no R1 payment flow. <strong>Release:</strong> R2 before any paid offering.</p>
+<p><strong>Preconditions:</strong> Approved commercial model, tax/invoice/refund obligations, payment provider and support process exist.</p>
+<p><strong>Main flow:</strong> Show total price, currency, inclusions, access period, sponsorship and refund terms; create purchase intent; redirect through approved payment flow; confirm provider result using trusted server evidence; grant entitlement once; issue receipt; show access state.</p>
+<p><strong>Alternates:</strong> Failed/cancelled/pending payment does not grant paid access. Duplicate notifications cannot duplicate entitlements. A sponsored seat does not charge the learner. Refund, chargeback or subscription expiry follows published entitlement policy and does not rewrite academic decisions. Existing credentials retain truthful historical status according to credential policy.</p>
+<p><strong>Rules:</strong> Money uses currency and integer minor units. Price and terms are frozen for the purchase. Paid access never changes passing criteria. Cancellation must show effective date and access consequences. Billing administrators do not gain access to assessment evidence. Full provider callback, refund and reconciliation contracts are required before commerce implementation.</p>
+<p><strong>Acceptance:</strong> Entitlements reconcile with trusted payments, refunds and expiry; published price equals charged amount; failures can be recovered without repeat charges. Commercial configuration must not affect assessment results.</p>
+<h2>16. State transition contract</h2>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Object</th>
+<th>Allowed transitions</th>
+<th>Guard/effect</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Enrollment</td>
+<td>invited → active; active → completed/withdrawn/suspended; suspended → active/withdrawn</td>
+<td>Accept invitation and eligibility; completion requires mandatory work and final pass if required; reinstate only authorized actor</td>
+</tr>
+<tr>
+<td>Activity progress</td>
+<td>not_started → in_progress → completed</td>
+<td>Published completion rule checked; retrying save cannot regress completed state</td>
+</tr>
+<tr>
+<td>Attempt</td>
+<td>draft → submitted → under_review → passed/failed; permitted states → voided</td>
+<td>Required evidence, timing and allowance; finalized decision immutable; void reason audited</td>
+</tr>
+<tr>
+<td>Appeal</td>
+<td>opened → under_review → upheld/overturned → closed</td>
+<td>Eligible window; independent reviewer; overturned creates superseding decision</td>
+</tr>
+<tr>
+<td>Credential</td>
+<td>issue → issued; issued → suspended/revoked/expired; suspended → issued/revoked/expired</td>
+<td>Authorized lifecycle action and reason; reinstatement only before expiry if allowed; revoked/expired history retained, renewal is separate</td>
+</tr>
+<tr>
+<td>Content</td>
+<td>draft → in_review → approved → published; in_review → draft; published → retired</td>
+<td>Review/approval guard; published version immutable; retirement controls new enrollment without silently removing required material</td>
+</tr>
+<tr>
+<td>Sharing grant</td>
+<td>inactive → active → withdrawn/expired</td>
+<td>Explicit purpose and scope; worker checks effective permission on send/replay</td>
+</tr>
+<tr>
+<td>Moderation report</td>
+<td>opened → reviewing → actioned/dismissed → closed</td>
+<td>Scoped moderator, recorded reason and appropriate notification</td>
+</tr>
+</tbody></table></div>
+<p>Content and moderation states are conceptual workflow states; detailed persistence appears in LLD. If an entity&#39;s state requires further governance choices, invalid transitions remain rejected until explicit policy exists.</p>
+<h2>17. BRD coverage register</h2>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>BR</th>
+<th>Functional delivery</th>
+<th>Release</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>BR-01</td>
+<td>F-01 direct and partner registration</td>
+<td>R1</td>
+</tr>
+<tr>
+<td>BR-02</td>
+<td>F-01 minimal editable profile</td>
+<td>R1</td>
+</tr>
+<tr>
+<td>BR-03</td>
+<td>F-01 multiple roles/memberships</td>
+<td>R1</td>
+</tr>
+<tr>
+<td>BR-04</td>
+<td>F-01 recovery and assisted onboarding</td>
+<td>R1</td>
+</tr>
+<tr>
+<td>BR-05</td>
+<td>F-02 diagnostics</td>
+<td>R2</td>
+</tr>
+<tr>
+<td>BR-06</td>
+<td>F-02 search/filter</td>
+<td>R1</td>
+</tr>
+<tr>
+<td>BR-07</td>
+<td>F-02/F-11 recommendations and assignments</td>
+<td>R2; assigned labeling R1</td>
+</tr>
+<tr>
+<td>BR-08</td>
+<td>F-03 content hierarchy</td>
+<td>R1</td>
+</tr>
+<tr>
+<td>BR-09</td>
+<td>F-03 self-paced/cohorts</td>
+<td>R1</td>
+</tr>
+<tr>
+<td>BR-10</td>
+<td>F-03 live scheduling/attendance</td>
+<td>R2</td>
+</tr>
+<tr>
+<td>BR-11</td>
+<td>F-02 published pathway requirements</td>
+<td>R1</td>
+</tr>
+<tr>
+<td>BR-12</td>
+<td>F-03 resumable progress</td>
+<td>R1</td>
+</tr>
+<tr>
+<td>BR-13</td>
+<td>F-03 practical exercises</td>
+<td>R1</td>
+</tr>
+<tr>
+<td>BR-14</td>
+<td>F-03 supported formats</td>
+<td>R1</td>
+</tr>
+<tr>
+<td>BR-15</td>
+<td>F-03/F-05/F-11 feedback and remediation</td>
+<td>R1</td>
+</tr>
+<tr>
+<td>BR-16</td>
+<td>F-01/F-03 accessible supported-language journeys</td>
+<td>R1</td>
+</tr>
+<tr>
+<td>BR-17</td>
+<td>F-03 selected offline resources</td>
+<td>R2</td>
+</tr>
+<tr>
+<td>BR-18</td>
+<td>F-04 responsible AI foundation</td>
+<td>R1</td>
+</tr>
+<tr>
+<td>BR-19</td>
+<td>F-04 sector tasks</td>
+<td>R1</td>
+</tr>
+<tr>
+<td>BR-20</td>
+<td>F-04 suitability scenarios</td>
+<td>R1</td>
+</tr>
+<tr>
+<td>BR-21</td>
+<td>F-04/F-05 judgment assessment</td>
+<td>R1</td>
+</tr>
+<tr>
+<td>BR-22</td>
+<td>F-08 human-reviewed AI-assisted content</td>
+<td>R1</td>
+</tr>
+<tr>
+<td>BR-23</td>
+<td>F-04 embedded assistant</td>
+<td>R3 optional</td>
+</tr>
+<tr>
+<td>BR-24</td>
+<td>F-05 assessment formats</td>
+<td>R1</td>
+</tr>
+<tr>
+<td>BR-25</td>
+<td>F-05 published rubrics</td>
+<td>R1</td>
+</tr>
+<tr>
+<td>BR-26</td>
+<td>F-05 authorized human review</td>
+<td>R1</td>
+</tr>
+<tr>
+<td>BR-27</td>
+<td>F-05 retries/accommodations/appeals</td>
+<td>R1</td>
+</tr>
+<tr>
+<td>BR-28</td>
+<td>F-06 credential claim distinctions</td>
+<td>R1</td>
+</tr>
+<tr>
+<td>BR-29</td>
+<td>F-06 verifiable credentials</td>
+<td>R1</td>
+</tr>
+<tr>
+<td>BR-30</td>
+<td>F-06 lifecycle controls</td>
+<td>R1</td>
+</tr>
+<tr>
+<td>BR-31</td>
+<td>F-06/F-11 renewal</td>
+<td>R2</td>
+</tr>
+<tr>
+<td>BR-32</td>
+<td>F-07 cohort/ecosystem discussion</td>
+<td>R1</td>
+</tr>
+<tr>
+<td>BR-33</td>
+<td>F-07 reporting/moderation</td>
+<td>R1</td>
+</tr>
+<tr>
+<td>BR-34</td>
+<td>F-03/F-07 peer/facilitator support</td>
+<td>R1</td>
+</tr>
+<tr>
+<td>BR-35</td>
+<td>F-07 opt-in networking</td>
+<td>R2</td>
+</tr>
+<tr>
+<td>BR-36</td>
+<td>F-07 mentors</td>
+<td>R2</td>
+</tr>
+<tr>
+<td>BR-37</td>
+<td>F-07/F-11 continuing events</td>
+<td>R2</td>
+</tr>
+<tr>
+<td>BR-38</td>
+<td>F-08 administration</td>
+<td>R1</td>
+</tr>
+<tr>
+<td>BR-39</td>
+<td>F-08/F-10 scoped access</td>
+<td>R1</td>
+</tr>
+<tr>
+<td>BR-40</td>
+<td>F-08 content lifecycle</td>
+<td>R1</td>
+</tr>
+<tr>
+<td>BR-41</td>
+<td>F-10 authorized reporting</td>
+<td>R1</td>
+</tr>
+<tr>
+<td>BR-42</td>
+<td>F-09 bounded integration</td>
+<td>R1; expand R2/R3</td>
+</tr>
+<tr>
+<td>BR-43</td>
+<td>F-06/F-09/F-10 sharing/verification</td>
+<td>R1</td>
+</tr>
+<tr>
+<td>BR-44</td>
+<td>F-10 export/data requests</td>
+<td>R1</td>
+</tr>
+<tr>
+<td>BR-45</td>
+<td>F-12 commercial controls</td>
+<td>R2 before paid launch</td>
+</tr>
+<tr>
+<td>BR-46</td>
+<td>F-08 and all protected mutations audit</td>
+<td>R1</td>
+</tr>
+</tbody></table></div>
+<h2>18. Open functional decisions and review checklist</h2>
+<p>Confirm pilot audience and languages; identity provider and linking/recovery policy; program outcomes; issuer and credential claim; assessment cutoffs, deadlines, retries and appeal windows; attachment limits; cohort access after completion; independent reviewer staffing; moderation standards; sharing scopes; export/retention handling; support arrangements; accommodation policy; partner capabilities; and program retirement treatment.</p>
+<p>Review approval requires business owner agreement on outcomes and releases, subject-matter approval of tasks/rubrics, UX review with representative users, security/privacy review of boundaries and sharing, assessor/moderator/support operating readiness, integration contract agreement, and test-case traceability. These are proposed readiness gates, not completed approvals.</p>
+</article></main><footer>Proposed design baseline · Product test execution pending · Fictional prototype data</footer></body></html>

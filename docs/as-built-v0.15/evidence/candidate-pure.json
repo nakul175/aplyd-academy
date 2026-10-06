@@ -1,0 +1,8 @@
+{
+  "passed": true,
+  "groups": 30,
+  "at": "2026-10-05T21:31:24.419Z",
+  "limits": [
+    "Actual root exact pin registry + isolated metadata/navigation candidate. Fetch disabled; no persistent state, SQL, enrollment, browser or Worker."
+  ]
+}

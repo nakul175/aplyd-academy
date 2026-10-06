@@ -1,0 +1,47 @@
+br_id,requirement,priority,release,acceptance
+BR-01,Direct and partner registration,Must,R1,Both routes create or link a valid account
+BR-02,Role goals language preferences,Must,R1,Minimal onboarding and editable preferences
+BR-03,Multiple roles and ecosystem memberships,Must,R1,Context switching preserves own history without granting privileges
+BR-04,Recovery and assisted onboarding,Must,R1,Approved recovery returns learner to valid account
+BR-05,Optional diagnostics,Should,R2,Results suggest suitable starting points
+BR-06,Searchable filterable discovery,Must,R1,Find offerings by supported role topic language level format
+BR-07,Explain recommendations and assigned learning,Should,R2,Basis and assignment status visible
+BR-08,Pathways programs courses modules activities,Must,R1,Operators assemble coherent learning journeys
+BR-09,Self paced and facilitated cohorts,Must,R1,Both modes supported in pilot
+BR-10,Live scheduling attendance resources,Should,R2,Session participation and resources available
+BR-11,Preenrollment outcomes effort prerequisites assessment,Must,R1,Learner can make informed enrollment decision
+BR-12,Save and resume progress,Must,R1,Acknowledged progress survives interruption
+BR-13,Practical exercises,Must,R1,Each competency pathway includes applied work
+BR-14,Appropriate text audio video resources,Must,R1,Audience suited formats and alternatives available
+BR-15,Feedback and remedial learning,Must,R1,Gaps have actionable improvement routes
+BR-16,Accessibility and selected languages,Must,R1,Supported audience can complete core journey
+BR-17,Selected offline and downloadable activities,Should,R2,Eligible resources usable with limited connection
+BR-18,Shared responsible AI foundation,Must,R1,Relevant pathways cover accuracy privacy limits judgment
+BR-19,Sector adapted AI exercises,Must,R1,Practice tasks match work context
+BR-20,Suitable and unsuitable AI use scenarios,Must,R1,Learner can distinguish appropriate use
+BR-21,Assess verification and information handling,Must,R1,Judgment assessed with task quality
+BR-22,Accountable review of AI assisted content,Must,R1,Published material has approved version and reviewer
+BR-23,Embedded AI learning assistant,Later,R3,Separate demand data quality cost review required
+BR-24,Multiple assessment methods,Must,R1,Method matches competency claim
+BR-25,Rubrics and passing criteria,Must,R1,Decisions explained against published criteria
+BR-26,Human review for professional judgment,Must,R1,Authorized reviewer makes required decisions
+BR-27,Retries accommodations appeals,Must,R1,Published routes and retained decision history
+BR-28,Participation completion competence distinctions,Must,R1,Credential label matches demonstrated evidence
+BR-29,Verifiable credentials,Must,R1,Unique credential and controlled verification route
+BR-30,Credential lifecycle controls,Must,R1,Correction suspension revocation expiry recorded where applicable
+BR-31,Renewal and refreshers,Should,R2,Time limited awards have defined renewal evidence
+BR-32,Program and ecosystem discussion spaces,Must,R1,Participation respects membership boundaries
+BR-33,Reporting moderation escalation,Must,R1,Operators can respond within defined scope
+BR-34,Peer and facilitator support,Must,R1,Cohorts have discussion and assistance route
+BR-35,Opt in profiles and networking,Should,R2,Learner controls discovery and public fields
+BR-36,Mentor discovery and requests,Should,R2,Scope availability participation rules explicit
+BR-37,Events and ongoing engagement,Should,R2,Relevant activities have operating owner
+BR-38,Organization and ecosystem administration,Must,R1,Admins manage only authorized programs and memberships
+BR-39,Organization and ecosystem separation,Must,R1,Cross boundary unauthorized visibility blocked
+BR-40,Content approval versioning review dates,Must,R1,Published content has owner and maintenance record
+BR-41,Learner program organization reporting,Must,R1,Defined metrics and permissioned data
+BR-42,Identity enrollment progress integrations,Must,R1,Pilot partner completes agreed journey
+BR-43,Permissioned verification and sharing,Must,R1,Partner gets only authorized information
+BR-44,Record export and account data requests,Must,R1,Requests follow documented verified process
+BR-45,Pricing entitlements sponsored access payment,Should,R2,Controls required before paid launch
+BR-46,Significant action audit,Must,R1,Content permissions assessment credential actions traceable

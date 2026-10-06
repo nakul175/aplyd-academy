@@ -1,0 +1,11 @@
+Retained learner journey audit — one actionable finding
+
+M6-RET-01 (P2): Export my retained learning can pair an own saved enrollment with an unrelated default open cohort.
+
+Trigger: an own active older enrollment has an unavailable exact source, while another same-program cohort remains open with a newer pin. academy-learning.tsx:22 calls selectPreviewCohort(team, programId, undefined) for own enrollment, so academy-offering-navigation.ts:44 chooses the first open cohort independently of e.cohortId/pin. The unavailable-content screen is correct, but academy-learning.tsx:25 exports {enrollment:e, cohort:selectedCohort}. That download therefore mixes the older retained enrollment and the newer cohort. No persisted mutation, authority gain or cross-account leak is established.
+
+Bounded fix: attach only an accepted cohort matching the own enrollment's cohortId AND exact full pinnedRef; use null when missing, mismatched or unverifiable. Omitting cohort for an own enrollment is also safe. Preserve own enrollment bytes and all existing course, command and pin authority.
+
+Feasible acceptance: reuse the M5 unavailable-own-older-pin memory-only accepted GET projection, capture the local download and inspect JSON. Assert own enrollment is unchanged and attached cohort is exactly its own matching cohort or null, never the newer default. Keep corrected GET/HEAD/redirect guards and compare saved API state/revision unchanged. Pure no-fetch acceptance can exercise the same projection with reordered, missing, repointed and malformed cohort/pin variants plus personal and un-enrolled cases. No fixture mutation is needed.
+
+No further actionable finding in this bounded source audit of language/assistance preferences, offline drafting/sealing/save preparation and snapshot inspection. This reviewer performed no app edit, compilation, test execution, Worker, browser, network, SQL or provider action. Source SHA256 and detailed acceptance plan are in audit-evidence.json.

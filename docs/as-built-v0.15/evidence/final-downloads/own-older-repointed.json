@@ -1,0 +1,24 @@
+{
+  "exportedAt": "2026-10-05T22:03:30.744Z",
+  "enrollment": {
+    "id": "70c51e70-8dd7-473f-af60-312959761828",
+    "programId": "path-00248699-6afd-45c8-8422-e4ccd2d8f060",
+    "version": "cp-25c9263b-92c4-4038-9459-db89008a2791",
+    "contentRef": {
+      "scope": "tw-31e24331-3dcd-48d5-b73d-9833067cd19d",
+      "programId": "path-00248699-6afd-45c8-8422-e4ccd2d8f060",
+      "versionId": "cp-25c9263b-92c4-4038-9459-db89008a2791"
+    },
+    "startedAt": "2026-10-05T22:02:55.259Z",
+    "completed": [],
+    "practice": {},
+    "draft": {},
+    "attempts": [],
+    "appeals": [],
+    "record": null,
+    "withdrawn": false,
+    "cohortId": "f2a3e4a7-85ed-4ff4-9e3a-c7045b607f14",
+    "claimPolicy": "Draft content · authenticated assigned review · nonaccredited"
+  },
+  "cohort": null
+}

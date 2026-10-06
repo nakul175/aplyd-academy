@@ -1,0 +1,85 @@
+{
+  "at": "2026-10-05T21:46:30.258419+00:00",
+  "finding": "Harness timing: Home reached selected option; immediate Enter ran before the deferred Home focus change.",
+  "initialPopupFocusWasReady": true,
+  "productDefectFound": false,
+  "productDefectLimit": "Bounded observed interaction and local Radix source only; full integration acceptance still pending.",
+  "diagnosticCases": 4,
+  "measurements": [
+    {
+      "mode": "original-fast",
+      "bodyPx": 16,
+      "homeRole": "option",
+      "homeOption": "Revised display cohort \u00b7 5 places",
+      "enterRole": "option",
+      "enterOption": "Revised display cohort \u00b7 5 places",
+      "homeToEnterMilliseconds": 0.6,
+      "selectedEarlier": false,
+      "finalPickerFocus": true
+    },
+    {
+      "mode": "focused-readiness",
+      "bodyPx": 16,
+      "homeRole": "option",
+      "homeOption": "Revised display cohort \u00b7 5 places",
+      "enterRole": "option",
+      "enterOption": "Earlier display cohort \u00b7 5 places",
+      "homeToEnterMilliseconds": 31.6,
+      "selectedEarlier": true,
+      "finalPickerFocus": true
+    },
+    {
+      "mode": "original-fast",
+      "bodyPx": 32,
+      "homeRole": "option",
+      "homeOption": "Revised display cohort \u00b7 5 places",
+      "enterRole": "option",
+      "enterOption": "Revised display cohort \u00b7 5 places",
+      "homeToEnterMilliseconds": 0.4,
+      "selectedEarlier": false,
+      "finalPickerFocus": true
+    },
+    {
+      "mode": "focused-readiness",
+      "bodyPx": 32,
+      "homeRole": "option",
+      "homeOption": "Revised display cohort \u00b7 5 places",
+      "enterRole": "option",
+      "enterOption": "Earlier display cohort \u00b7 5 places",
+      "homeToEnterMilliseconds": 32.9,
+      "selectedEarlier": true,
+      "finalPickerFocus": true
+    }
+  ],
+  "transport": {
+    "forbidden": 0,
+    "pageErrors": 0,
+    "allReadOnly": true
+  },
+  "baselineInvarianceChecked": false,
+  "originalFailurePreserved": "runtime/browser-final/browser-evidence.json",
+  "oldWordingIssue": "Failed original JSON unconditionally claimed before/after comparison although after-read equality was not reached. Original report remains unchanged; this note clarifies the limit.",
+  "sourceEvidence": {
+    "radix": {
+      "path": "work/aplyd-academy/node_modules/@radix-ui/react-select/dist/index.mjs",
+      "sha256": "5956a0d1d0c2793d908b751361cdc7a1f9786e07c9a0f2d1ead07747357a0df9",
+      "homeFocusDeferredLine": 514,
+      "enterImmediateSelectionLine": 899
+    }
+  },
+  "stagedOutsideOnly": {
+    "path": "outputs/aplyd-academy-eight-hour/m5-navigation-qa/tests/browser-readonly.mjs",
+    "sha256": "5ea69c7603fcdb71f584f50bc41f6ae3e2881f0fc629c57cb78908cb1f1b9ef1",
+    "cases": 25,
+    "changedProductSource": false,
+    "changedAdoptedTest": false,
+    "changes": [
+      "Wait for selected option focus before Home",
+      "Wait for earlier option focus after Home and before Enter",
+      "Keep exact earlier source/hash and restored picker-focus assertions",
+      "Record actual baseline equality completion flag and before/after projection hashes",
+      "Conditional truthful invariance limits on early failure"
+    ]
+  },
+  "browserClosed": true
+}

@@ -1,0 +1,297 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Aplyd Academy test suites and release gates</title><style>:root{color-scheme:light;--ink:#182b3a;--muted:#546575;--line:#d8e0e5;--accent:#14564f;--wash:#f4f7f9}*{box-sizing:border-box}body{margin:0;color:var(--ink);background:#fff;font:16px/1.65 system-ui,-apple-system,Segoe UI,sans-serif}a{color:var(--accent);text-underline-offset:3px}header{border-bottom:1px solid var(--line);background:var(--wash);padding:20px max(20px,calc((100% - 1180px)/2));display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}.brand{font-weight:750;font-size:20px}.sub{font-size:13px;color:var(--muted)}main{max-width:1180px;margin:0 auto;padding:32px 24px 64px}.prose{max-width:1050px}h1{font-size:34px;line-height:1.2;margin:0 0 20px}h2{font-size:24px;margin:36px 0 12px}h3{font-size:19px;margin:24px 0 8px}p{margin:12px 0}ul,ol{padding-left:24px}li{margin:5px 0}img{max-width:100%;height:auto}table{border-collapse:collapse;display:block;max-width:100%;overflow:auto;font-size:14px;margin:20px 0}th,td{text-align:left;border:1px solid var(--line);padding:10px 12px;vertical-align:top;min-width:85px}th{background:var(--wash)}td{max-width:420px}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:var(--wash);padding:16px;border-radius:5px;font-size:13px}code{font:13px/1.5 ui-monospace,monospace;overflow-wrap:anywhere}blockquote{border-left:3px solid var(--accent);padding-left:16px;color:var(--muted)}.notice{padding:16px 20px;background:#edf5f2;border-left:4px solid var(--accent);margin:20px 0}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}.card{border:1px solid var(--line);border-radius:7px;padding:20px;min-width:0}.card h2{margin:0 0 10px;font-size:20px}.card p{font-size:14px;color:var(--muted)}.card a{display:block;margin:7px 0}.meta{display:flex;gap:12px;flex-wrap:wrap;font-size:14px;color:var(--muted)}.controls{display:flex;gap:14px;flex-wrap:wrap;align-items:end;margin:20px 0}.controls label{font-weight:600;font-size:14px;display:block;min-width:145px}.controls input,.controls select{display:block;width:100%;margin-top:5px;font:inherit;padding:10px;border:1px solid #8c9da9;border-radius:4px;min-height:44px}.controls .search{flex:1;min-width:240px}button{font:inherit;min-height:44px;padding:10px 15px;background:var(--accent);color:#fff;border:0;border-radius:4px;cursor:pointer}button.alt{background:var(--wash);color:var(--ink);border:1px solid var(--line)}:focus-visible{outline:3px solid #ce6800;outline-offset:3px}details{border-bottom:1px solid var(--line);padding:12px 0}summary{cursor:pointer;font-weight:600;min-height:44px}.itemmeta{font-size:13px;color:var(--muted);padding:0 0 12px}.pill{display:inline-block;background:var(--wash);border:1px solid var(--line);border-radius:4px;padding:1px 6px;margin-right:5px;font-size:12px}.detailbody{padding:0 16px 12px;border-left:2px solid var(--line)}.detailbody dt{font-weight:650;margin-top:12px}.detailbody dd{margin-left:0;white-space:pre-wrap;overflow-wrap:anywhere}.toplinks{display:flex;gap:18px;flex-wrap:wrap}.empty{padding:24px;color:var(--muted)}footer{border-top:1px solid var(--line);padding:16px 24px;text-align:center;font-size:13px;color:var(--muted)}@media(max-width:800px){.grid{grid-template-columns:1fr 1fr}h1{font-size:28px}main{padding:24px 16px}}@media(max-width:520px){.grid{grid-template-columns:1fr}.controls label,.controls .search{width:100%;min-width:0}}@media print{header,footer,.controls,.toplinks{display:none}main{padding:0;max-width:none}table{display:table;font-size:10px;overflow:visible}th,td{min-width:0;padding:5px}h2,h3{break-after:avoid}a{color:#000}.card{break-inside:avoid}details{break-inside:avoid}pre{font-size:10px}}body{overflow-wrap:anywhere}.prose{overflow-wrap:anywhere}.table-scroll{max-width:100%;overflow-x:auto;margin:20px 0}.table-scroll table{display:table;margin:0;max-width:none;width:100%}@media print{.table-scroll{overflow:visible}}</style></head><body><header><div><div class="brand">Aplyd Academy</div><div class="sub">Product and engineering documentation · 5 October 2026 · v0.1</div></div><nav class="toplinks" aria-label="Documentation"><a href="index.html">Pack overview</a><a href="wireframes.html">Wireframes</a><a href="test-explorer.html">Tests</a><a href="dictionary-explorer.html">Dictionary</a></nav></header><main><article class="prose"><h1>Aplyd Academy test suites and release gates</h1>
+<p>Version 0.1 • 5 October 2026 • All listed product tests: <strong>Not run</strong></p>
+<p>Suite membership is explicit in <a href="test-cases.csv">test-cases.csv</a>; the lists below are its release-filtered projections. One case can belong to several suites and should reuse one execution result only when the same build, configuration, fixtures and environment satisfy each suite. A manual case in Smoke needs a person; automated green checks alone cannot complete the suite.</p>
+<h2>Suite definitions</h2>
+<h3>Smoke</h3>
+<ul>
+<li><strong>Owner:</strong> QA + release operator</li>
+<li><strong>Cadence:</strong> After every deployment and before full release/UAT</li>
+<li><strong>Environment / fixtures:</strong> Pilot staging; SYN-IDENTITY, SYN-CONTENT, SYN-ASSESS, SYN-LIFECYCLE, SYN-PARTNER</li>
+<li><strong>Gate / evidence:</strong> All in-scope cases pass. Includes human content/report spot checks; retain workflow/correlation evidence. Restore clean seeded fixture before each run.</li>
+<li><strong>Exact case IDs:</strong> TC-001, TC-004, TC-011, TC-018, TC-020, TC-026, TC-029, TC-048, TC-061, TC-067, TC-070, TC-075, TC-080, TC-089, TC-098, TC-116</li>
+<li><strong>Execution status:</strong> Not run</li>
+</ul>
+<h3>Unit</h3>
+<ul>
+<li><strong>Owner:</strong> Engineering</li>
+<li><strong>Cadence:</strong> Each change and merge</li>
+<li><strong>Environment / fixtures:</strong> Domain runner; controlled clock; SYN-ASSESS/LIFECYCLE; deterministic crypto fixture</li>
+<li><strong>Gate / evidence:</strong> All policy/transition cases pass. Record input, exact policy version and expected decision; no network required.</li>
+<li><strong>Exact case IDs:</strong> TC-022, TC-028, TC-030, TC-031, TC-044, TC-047, TC-050, TC-051, TC-054, TC-056, TC-062, TC-069, TC-076, TC-092, TC-108, TC-160, TC-161</li>
+<li><strong>Execution status:</strong> Not run</li>
+</ul>
+<h3>Component</h3>
+<ul>
+<li><strong>Owner:</strong> Engineering + QA</li>
+<li><strong>Cadence:</strong> Each UI change and merge</li>
+<li><strong>Environment / fixtures:</strong> UI harness; error and language fixtures</li>
+<li><strong>Gate / evidence:</strong> All relevant cases pass; capture meaningful accessibility names, validation and state; supplement with manual accessibility suite.</li>
+<li><strong>Exact case IDs:</strong> TC-002, TC-017, TC-084, TC-128, TC-157</li>
+<li><strong>Execution status:</strong> Not run</li>
+</ul>
+<h3>Integration</h3>
+<ul>
+<li><strong>Owner:</strong> QA + backend engineering</li>
+<li><strong>Cadence:</strong> Each domain/API change; mandatory before release</li>
+<li><strong>Environment / fixtures:</strong> Real isolated relational/object storage/worker; SYN-TENANCY and affected fixtures</li>
+<li><strong>Gate / evidence:</strong> All P0 pass; P1 complete and adjudicated; inspect persisted state, atomicity and authorized response—not only HTTP status.</li>
+<li><strong>Exact case IDs:</strong> TC-003, TC-013, TC-015, TC-020, TC-021, TC-023, TC-024, TC-025, TC-027, TC-036, TC-037, TC-043, TC-049, TC-053, TC-055, TC-063, TC-064, TC-068, TC-073, TC-074, TC-077, TC-085, TC-087, TC-090, TC-091, TC-093, TC-095, TC-106, TC-111, TC-119, TC-139, TC-158, TC-162, TC-166</li>
+<li><strong>Execution status:</strong> Not run</li>
+</ul>
+<h3>Contract</h3>
+<ul>
+<li><strong>Owner:</strong> Integration lead + named pilot partner</li>
+<li><strong>Cadence:</strong> Any identity/partner/event change; partner onboarding; before release</li>
+<li><strong>Environment / fixtures:</strong> Approved adapter and receiver simulators then partner sandbox; controlled HMAC and clock</li>
+<li><strong>Gate / evidence:</strong> All P0 pass with both sides’ sanitized request/response/event evidence. Real sandbox compatibility required before enabling partner.</li>
+<li><strong>Exact case IDs:</strong> TC-006, TC-007, TC-008, TC-098, TC-099, TC-100, TC-101, TC-102, TC-103, TC-104, TC-105, TC-107, TC-108, TC-109, TC-110, TC-111, TC-112, TC-113, TC-114, TC-115, TC-165</li>
+<li><strong>Execution status:</strong> Not run</li>
+</ul>
+<h3>Security</h3>
+<ul>
+<li><strong>Owner:</strong> Security lead + QA</li>
+<li><strong>Cadence:</strong> Relevant changes and every release candidate</li>
+<li><strong>Environment / fixtures:</strong> Isolated authorized staging; hostile synthetic inputs; origin/session/object-store controls</li>
+<li><strong>Gate / evidence:</strong> No unresolved S1/S2; preserve denial proof and absence of writes/disclosures; provider-specific review added after selection.</li>
+<li><strong>Exact case IDs:</strong> TC-004, TC-005, TC-007, TC-008, TC-009, TC-012, TC-016, TC-019, TC-027, TC-045, TC-052, TC-058, TC-060, TC-070, TC-071, TC-072, TC-081, TC-083, TC-086, TC-094, TC-099, TC-100, TC-102, TC-105, TC-109, TC-114, TC-117, TC-118, TC-121, TC-135, TC-136, TC-137, TC-159, TC-163, TC-165</li>
+<li><strong>Execution status:</strong> Not run</li>
+</ul>
+<h3>Tenancy</h3>
+<ul>
+<li><strong>Owner:</strong> Security lead + engineering</li>
+<li><strong>Cadence:</strong> Any permission, query, export, membership or integration change; every release</li>
+<li><strong>Environment / fixtures:</strong> At least two tenants, multiple organizations/cohorts, multi-membership learner and scoped admins</li>
+<li><strong>Gate / evidence:</strong> Every in-scope case passes. Assert denied response plus no restricted fields, attachments, artifacts or secondary effects.</li>
+<li><strong>Exact case IDs:</strong> TC-009, TC-010, TC-012, TC-013, TC-016, TC-019, TC-024, TC-032, TC-052, TC-058, TC-060, TC-064, TC-071, TC-077, TC-081, TC-085, TC-086, TC-094, TC-096, TC-102, TC-114, TC-117, TC-118, TC-135, TC-136, TC-159, TC-163, TC-166</li>
+<li><strong>Execution status:</strong> Not run</li>
+</ul>
+<h3>Privacy</h3>
+<ul>
+<li><strong>Owner:</strong> Privacy/business owner + QA</li>
+<li><strong>Cadence:</strong> Any sharing, profile, export, retention, logging or webhook change; every release</li>
+<li><strong>Environment / fixtures:</strong> Active/withdrawn consent; shared/private award; synthetic secrets; safe log access</li>
+<li><strong>Gate / evidence:</strong> No unauthorized disclosure; documented purpose/projection; send/replay/cache withdrawal behavior captured.</li>
+<li><strong>Exact case IDs:</strong> TC-070, TC-071, TC-072, TC-073, TC-077, TC-088, TC-103, TC-111, TC-112, TC-117, TC-119, TC-120, TC-121, TC-122, TC-163, TC-164</li>
+<li><strong>Execution status:</strong> Not run</li>
+</ul>
+<h3>E2E</h3>
+<ul>
+<li><strong>Owner:</strong> QA</li>
+<li><strong>Cadence:</strong> Changed journey and release candidate</li>
+<li><strong>Environment / fixtures:</strong> Browser staging + real API/worker; seeded complete role journeys</li>
+<li><strong>Gate / evidence:</strong> All P0 pass; failed/blocked P1 resolved or accepted. Collect user-visible state and persistent evidence; no mocked pass decisions.</li>
+<li><strong>Exact case IDs:</strong> TC-001, TC-011, TC-014, TC-018, TC-026, TC-033, TC-048, TC-061, TC-067, TC-075, TC-080</li>
+<li><strong>Execution status:</strong> Not run</li>
+</ul>
+<h3>Accessibility</h3>
+<ul>
+<li><strong>Owner:</strong> Accessibility lead + QA</li>
+<li><strong>Cadence:</strong> New/changed core screens; every selected-language release</li>
+<li><strong>Environment / fixtures:</strong> Agreed browsers/mobile devices; keyboard/screen reader; zoom and media alternatives</li>
+<li><strong>Gate / evidence:</strong> All mandatory core tasks accessible; no critical barrier; automation complemented by manual evidence.</li>
+<li><strong>Exact case IDs:</strong> TC-034, TC-057, TC-079, TC-124, TC-125, TC-126</li>
+<li><strong>Execution status:</strong> Not run</li>
+</ul>
+<h3>Performance</h3>
+<ul>
+<li><strong>Owner:</strong> Engineering + operations</li>
+<li><strong>Cadence:</strong> Before pilot; material workload/deployment change</li>
+<li><strong>Environment / fixtures:</strong> Representative staging; 100 concurrent, 10 rps steady, 30 rps five-minute burst; defined network</li>
+<li><strong>Gate / evidence:</strong> Measured against BASELINE hypotheses with documented mix/environment; unmet results require capacity or target review. Not an SLA claim.</li>
+<li><strong>Exact case IDs:</strong> TC-130, TC-131</li>
+<li><strong>Execution status:</strong> Not run</li>
+</ul>
+<h3>Resilience</h3>
+<ul>
+<li><strong>Owner:</strong> Operations + engineering</li>
+<li><strong>Cadence:</strong> Before pilot; persistence/worker/recovery changes; scheduled restore rehearsal</li>
+<li><strong>Environment / fixtures:</strong> Staging fault injection; backup isolation; controlled failure points and clocks</li>
+<li><strong>Gate / evidence:</strong> No partial/duplicate sensitive state; proposed RPO/RTO evaluated; recoverability and reconciliation demonstrated.</li>
+<li><strong>Exact case IDs:</strong> TC-029, TC-035, TC-065, TC-110, TC-112, TC-123, TC-132, TC-133, TC-134, TC-138, TC-164</li>
+<li><strong>Execution status:</strong> Not run</li>
+</ul>
+<h3>Usability</h3>
+<ul>
+<li><strong>Owner:</strong> UX researcher + business UAT owner</li>
+<li><strong>Cadence:</strong> Pilot discovery and representative release candidate</li>
+<li><strong>Environment / fixtures:</strong> Consented representative adults; synthetic tasks; realistic devices; record assisted steps</li>
+<li><strong>Gate / evidence:</strong> All required tasks observed and barriers reported. Sample limits stated; no extrapolation to untested learner populations.</li>
+<li><strong>Exact case IDs:</strong> TC-129</li>
+<li><strong>Execution status:</strong> Not run</li>
+</ul>
+<h3>UAT</h3>
+<ul>
+<li><strong>Owner:</strong> Business owner + ecosystem representatives</li>
+<li><strong>Cadence:</strong> Release candidate after mandatory technical suites</li>
+<li><strong>Environment / fixtures:</strong> Acceptance staging; farmers/MSME/government plus partner/trainer/assessor/admin roles</li>
+<li><strong>Gate / evidence:</strong> Execute UAT.md scripts. Critical task/judgment/control outcomes pass; no open S1/S2; named signoffs and limitations recorded.</li>
+<li><strong>Exact case IDs:</strong> TC-001, TC-010, TC-011, TC-017, TC-018, TC-026, TC-032, TC-033, TC-034, TC-038, TC-039, TC-040, TC-041, TC-042, TC-046, TC-048, TC-057, TC-059, TC-061, TC-066, TC-067, TC-075, TC-078, TC-080, TC-082, TC-088, TC-089, TC-096, TC-097, TC-098, TC-116, TC-120, TC-122, TC-124, TC-126, TC-127, TC-129</li>
+<li><strong>Execution status:</strong> Not run</li>
+</ul>
+<h3>Regression</h3>
+<ul>
+<li><strong>Owner:</strong> QA + engineering</li>
+<li><strong>Cadence:</strong> Change-based selection each merge; full R1 before release</li>
+<li><strong>Environment / fixtures:</strong> Deterministic clean staging + unit/component runners; all R1 fixtures</li>
+<li><strong>Gate / evidence:</strong> All 149 R1 case outcomes reported. Applicable P0 pass; no unexplained omission; R2/R3 absent features excluded explicitly.</li>
+<li><strong>Exact case IDs:</strong> TC-001, TC-002, TC-003, TC-004, TC-005, TC-006, TC-007, TC-008, TC-009, TC-010, TC-011, TC-012, TC-013, TC-014, TC-015, TC-016, TC-017, TC-018, TC-019, TC-020, TC-021, TC-022, TC-023, TC-024, TC-025, TC-026, TC-027, TC-028, TC-029, TC-030, TC-031, TC-032, TC-033, TC-034, TC-035, TC-036, TC-037, TC-038, TC-039, TC-040, TC-041, TC-042, TC-043, TC-044, TC-045, TC-046, TC-047, TC-048, TC-049, TC-050, TC-051, TC-052, TC-053, TC-054, TC-055, TC-056, TC-057, TC-058, TC-059, TC-060, TC-061, TC-062, TC-063, TC-064, TC-065, TC-066, TC-067, TC-068, TC-069, TC-070, TC-071, TC-072, TC-073, TC-074, TC-075, TC-076, TC-077, TC-078, TC-079, TC-080, TC-081, TC-082, TC-083, TC-084, TC-085, TC-086, TC-087, TC-088, TC-089, TC-090, TC-091, TC-092, TC-093, TC-094, TC-095, TC-096, TC-097, TC-098, TC-099, TC-100, TC-101, TC-102, TC-103, TC-104, TC-105, TC-106, TC-107, TC-108, TC-109, TC-110, TC-111, TC-112, TC-113, TC-114, TC-115, TC-116, TC-117, TC-118, TC-119, TC-120, TC-121, TC-122, TC-123, TC-124, TC-125, TC-126, TC-127, TC-128, TC-129, TC-130, TC-131, TC-132, TC-133, TC-134, TC-135, TC-136, TC-137, TC-138, TC-139, TC-157, TC-158, TC-159, TC-160, TC-161, TC-162, TC-163, TC-164, TC-165, TC-166</li>
+<li><strong>Execution status:</strong> Not run</li>
+</ul>
+<h3>R2</h3>
+<ul>
+<li><strong>Owner:</strong> Feature owner + QA</li>
+<li><strong>Cadence:</strong> Before enabling each R2 capability; full R2 expansion release</li>
+<li><strong>Environment / fixtures:</strong> Future specifications, supported languages, partner/payment sandbox, R2 fixture set</li>
+<li><strong>Gate / evidence:</strong> Only implemented in-scope feature cases execute. Commerce P0 blocks any paid launch; privacy and core R1 regression also required.</li>
+<li><strong>Exact case IDs:</strong> TC-140, TC-141, TC-142, TC-143, TC-144, TC-145, TC-146, TC-147, TC-148, TC-149, TC-150, TC-151, TC-152, TC-153, TC-154, TC-155, TC-167, TC-168</li>
+<li><strong>Execution status:</strong> Not run</li>
+</ul>
+<h3>R3</h3>
+<ul>
+<li><strong>Owner:</strong> Assistant product/security/quality owners</li>
+<li><strong>Cadence:</strong> Before any embedded assistant implementation/launch decision</li>
+<li><strong>Environment / fixtures:</strong> Explicit assistant design and separate evaluation artifact</li>
+<li><strong>Gate / evidence:</strong> TC-156 review gate plus new model/runtime evaluation suite required; a review pass never establishes runtime assistant quality.</li>
+<li><strong>Exact case IDs:</strong> TC-156</li>
+<li><strong>Execution status:</strong> Not run</li>
+</ul>
+<h2>Selecting regression after a change</h2>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Change</th>
+<th>Minimum additional suites</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Account, membership or session</td>
+<td>Unit/Integration for affected operations + Smoke + Security + Tenancy + Contract identity cases</td>
+</tr>
+<tr>
+<td>Learning version, activity or completion</td>
+<td>Unit/Component/Integration + Smoke + E2E + Accessibility + relevant UAT</td>
+</tr>
+<tr>
+<td>Rubric, submission, assessment or appeal</td>
+<td>Unit/Integration + E2E + Security/Tenancy + credential and responsible-judgment regression</td>
+</tr>
+<tr>
+<td>Credential or sharing</td>
+<td>Unit/Integration + Smoke + Privacy + Tenancy + Contract + credential race/resilience cases</td>
+</tr>
+<tr>
+<td>Partner endpoint or worker/outbox</td>
+<td>Contract + Integration + Security + Privacy + Tenancy + Resilience</td>
+</tr>
+<tr>
+<td>Content authoring, translation or UI</td>
+<td>Component + affected E2E + Accessibility + UAT + content approval/version checks</td>
+</tr>
+<tr>
+<td>Reports or exports</td>
+<td>Integration + Tenancy + Privacy + reporting correctness and audit cases</td>
+</tr>
+<tr>
+<td>Hosting, database, storage or identity provider</td>
+<td>Smoke + Integration + Security + Performance + Resilience + affected Contract</td>
+</tr>
+<tr>
+<td>R2 paid offering</td>
+<td>All commerce cases + R1 permission/assessment/credential regression + payment-provider contract and operations</td>
+</tr>
+</tbody></table></div>
+<p>Changed-suite selection is additive; it does not replace full R1 candidate execution before initial pilot launch. Once implementation reveals more failure paths, add cases rather than relying only on this initial register.</p>
+<h2>Execution order and gates</h2>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Gate</th>
+<th>Required evidence</th>
+<th>Decision owner</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>G0 Design readiness</td>
+<td>BR/F/WF/TC references; scope and unresolved decision register reviewed; acceptance policies configured</td>
+<td>Product + architecture + quality leads</td>
+</tr>
+<tr>
+<td>G1 Build readiness</td>
+<td>Relevant unit/component/API integration results; reviewed migrations and permission changes</td>
+<td>Engineering lead</td>
+</tr>
+<tr>
+<td>G2 Deployment smoke</td>
+<td>All R1 Smoke IDs on deployed candidate; dependency and worker health; safe fixture verification</td>
+<td>Release operator + QA</td>
+</tr>
+<tr>
+<td>G3 Trust and integrity</td>
+<td>R1 Security/Tenancy/Privacy/Contract cases; human assessor/appeal/credential checks; no unresolved S1/S2</td>
+<td>Security + assessment/credential + partner owners</td>
+</tr>
+<tr>
+<td>G4 Operational readiness</td>
+<td>Performance/resilience observations; backup/restore evidence; monitoring, support and moderation ownership</td>
+<td>Operations + business owner</td>
+</tr>
+<tr>
+<td>G5 Pilot acceptance</td>
+<td>Full R1 Regression results; accessibility and supported-language manual evidence; UAT signoffs</td>
+<td>Product + ecosystem + quality leads</td>
+</tr>
+<tr>
+<td>G6 R2 feature activation</td>
+<td>Applicable R2 cases and related R1 regression; updated operations; commerce gate before paid launch</td>
+<td>Feature/business owner</td>
+</tr>
+<tr>
+<td>G7 R3 assistant readiness</td>
+<td>TC-156 review and approved separate runtime/model evaluation strategy/results</td>
+<td>Assistant product + security + quality owners</td>
+</tr>
+</tbody></table></div>
+<p>All gates are proposed governance criteria pending stakeholder approval. A signed exception must identify case IDs, scope, impact, mitigation, accountable owner, expiry and retest. Unresolved core authorization, privacy, invalid-award or evidence-loss failures block the affected release. No gate has been executed or signed off in this documentation pack.</p>
+<h2>Run evidence template</h2>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Required value</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Run ID / release / build</td>
+<td>Unique run identifier, artifact digest or build version</td>
+</tr>
+<tr>
+<td>Environment/configuration</td>
+<td>Hosting/identity adapter, scope, language, policy and feature flags</td>
+</tr>
+<tr>
+<td>Data version</td>
+<td>Fixture version, seed/reset confirmation</td>
+</tr>
+<tr>
+<td>Cases</td>
+<td>Exact IDs and observed Pass/Fail/Blocked/Not run</td>
+</tr>
+<tr>
+<td>Timing</td>
+<td>UTC execution timestamps and controlled-clock settings if used</td>
+</tr>
+<tr>
+<td>Evidence</td>
+<td>Redacted captures, API/state comparisons, worker/event observations, measured benchmark data</td>
+</tr>
+<tr>
+<td>Defects</td>
+<td>Severity, affected users/scopes, linked fix and retest</td>
+</tr>
+<tr>
+<td>Approvals</td>
+<td>Named owners, outcome, exceptions and dates</td>
+</tr>
+</tbody></table></div>
+<p>Capture event_id, correlation_id and authorized state for integration investigations. Never store live tokens, HMAC keys, unnecessary PII or raw confidential submissions in shared test evidence.</p>
+</article></main><footer>Proposed design baseline · Product test execution pending · Fictional prototype data</footer></body></html>

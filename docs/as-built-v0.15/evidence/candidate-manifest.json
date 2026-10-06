@@ -1,0 +1,33 @@
+{
+  "at": "staged after final M4 readonly16/16 passed",
+  "root": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/work/aplyd-academy",
+  "rootFiles": {
+    "app/academy.tsx": "8128ec1b0d8abccadb41d46e25c812ffb0ee694453d2df9eedd44f465efdb52f",
+    "app/academy-learning.tsx": "5b891347026daefc3e2b90b41220fcc18697720e4331039a97bca7e208403430",
+    "app/academy-context.tsx": "15ae4ab655c7ad8a680f89aa63010afd733d31dca8884efcaa7658ebc8905fd1",
+    "lib/academy-curriculum.ts": "02a7e32aa7f56e1bc06694987946f804d33fdd17ab781749142f72f42bda722c",
+    "lib/academy-teams.ts": "ff3430cb05af22f8ce953f1f30cd9ff20bc536bbef0dfab6942014b10183b807"
+  },
+  "limits": [
+    "Outside-checkout navigation candidate only; root sources/build/Worker untouched."
+  ],
+  "candidateFiles": {
+    "lib/academy-offering-navigation.ts": "b29d838f305bd7d373bacee31f3768da67b8fd02357fdb3f8bbf3d59a00a4bf6",
+    "app/academy.tsx": "6938b1d1b0e3dc842fa92847efd29ee070ec9fd794a1d5036905a91d9f03e7e0",
+    "app/academy-learning.tsx": "091f51fecbc44ebc4f791f92b09b864d76376cd934c3b9b282271d9a791b1cae",
+    "integration.patch": "ece56ecf201ad78946a782ef230a4ad99790307a67a56a84d6fa67afd24b6685",
+    "tests/build-model.mjs": "cb168d5cc17685975e12e18276a5849e34ddd8c1c7079c1156b6b63a8fc64aa1",
+    "tests/offering.test.mjs": "938743ec697bd3102cbbe00c5d31a65ff3868157367d45064e05739335ea9902",
+    "tests/browser-readonly.mjs": "af9a30b59b22d4658401624c03c65daa06ab36ed6e05e8bccfabd6d986664117",
+    "tests/read-only-routing.mjs": "5755c5adea2d269ef03d07e87f17117b900bad01b0cc06ced85185f9bcfc3874",
+    "tests/read-only-routing.test.mjs": "5b3ad634c6612b065e3dd12dc8ddbc1c475e0777fbcf81858be44dda072e3e19"
+  },
+  "evidence": {
+    "strictHelper": true,
+    "uiSyntax": true,
+    "pureGroups": 30,
+    "browserCasesPrepared": 21,
+    "browserExecuted": false,
+    "routingStubGroups": 20
+  }
+}

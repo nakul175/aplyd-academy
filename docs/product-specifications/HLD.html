@@ -1,0 +1,206 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Aplyd Academy High Level Design</title><style>:root{color-scheme:light;--ink:#182b3a;--muted:#546575;--line:#d8e0e5;--accent:#14564f;--wash:#f4f7f9}*{box-sizing:border-box}body{margin:0;color:var(--ink);background:#fff;font:16px/1.65 system-ui,-apple-system,Segoe UI,sans-serif}a{color:var(--accent);text-underline-offset:3px}header{border-bottom:1px solid var(--line);background:var(--wash);padding:20px max(20px,calc((100% - 1180px)/2));display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}.brand{font-weight:750;font-size:20px}.sub{font-size:13px;color:var(--muted)}main{max-width:1180px;margin:0 auto;padding:32px 24px 64px}.prose{max-width:1050px}h1{font-size:34px;line-height:1.2;margin:0 0 20px}h2{font-size:24px;margin:36px 0 12px}h3{font-size:19px;margin:24px 0 8px}p{margin:12px 0}ul,ol{padding-left:24px}li{margin:5px 0}img{max-width:100%;height:auto}table{border-collapse:collapse;display:block;max-width:100%;overflow:auto;font-size:14px;margin:20px 0}th,td{text-align:left;border:1px solid var(--line);padding:10px 12px;vertical-align:top;min-width:85px}th{background:var(--wash)}td{max-width:420px}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:var(--wash);padding:16px;border-radius:5px;font-size:13px}code{font:13px/1.5 ui-monospace,monospace;overflow-wrap:anywhere}blockquote{border-left:3px solid var(--accent);padding-left:16px;color:var(--muted)}.notice{padding:16px 20px;background:#edf5f2;border-left:4px solid var(--accent);margin:20px 0}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}.card{border:1px solid var(--line);border-radius:7px;padding:20px;min-width:0}.card h2{margin:0 0 10px;font-size:20px}.card p{font-size:14px;color:var(--muted)}.card a{display:block;margin:7px 0}.meta{display:flex;gap:12px;flex-wrap:wrap;font-size:14px;color:var(--muted)}.controls{display:flex;gap:14px;flex-wrap:wrap;align-items:end;margin:20px 0}.controls label{font-weight:600;font-size:14px;display:block;min-width:145px}.controls input,.controls select{display:block;width:100%;margin-top:5px;font:inherit;padding:10px;border:1px solid #8c9da9;border-radius:4px;min-height:44px}.controls .search{flex:1;min-width:240px}button{font:inherit;min-height:44px;padding:10px 15px;background:var(--accent);color:#fff;border:0;border-radius:4px;cursor:pointer}button.alt{background:var(--wash);color:var(--ink);border:1px solid var(--line)}:focus-visible{outline:3px solid #ce6800;outline-offset:3px}details{border-bottom:1px solid var(--line);padding:12px 0}summary{cursor:pointer;font-weight:600;min-height:44px}.itemmeta{font-size:13px;color:var(--muted);padding:0 0 12px}.pill{display:inline-block;background:var(--wash);border:1px solid var(--line);border-radius:4px;padding:1px 6px;margin-right:5px;font-size:12px}.detailbody{padding:0 16px 12px;border-left:2px solid var(--line)}.detailbody dt{font-weight:650;margin-top:12px}.detailbody dd{margin-left:0;white-space:pre-wrap;overflow-wrap:anywhere}.toplinks{display:flex;gap:18px;flex-wrap:wrap}.empty{padding:24px;color:var(--muted)}footer{border-top:1px solid var(--line);padding:16px 24px;text-align:center;font-size:13px;color:var(--muted)}@media(max-width:800px){.grid{grid-template-columns:1fr 1fr}h1{font-size:28px}main{padding:24px 16px}}@media(max-width:520px){.grid{grid-template-columns:1fr}.controls label,.controls .search{width:100%;min-width:0}}@media print{header,footer,.controls,.toplinks{display:none}main{padding:0;max-width:none}table{display:table;font-size:10px;overflow:visible}th,td{min-width:0;padding:5px}h2,h3{break-after:avoid}a{color:#000}.card{break-inside:avoid}details{break-inside:avoid}pre{font-size:10px}}body{overflow-wrap:anywhere}.prose{overflow-wrap:anywhere}.table-scroll{max-width:100%;overflow-x:auto;margin:20px 0}.table-scroll table{display:table;margin:0;max-width:none;width:100%}@media print{.table-scroll{overflow:visible}}</style></head><body><header><div><div class="brand">Aplyd Academy</div><div class="sub">Product and engineering documentation · 5 October 2026 · v0.1</div></div><nav class="toplinks" aria-label="Documentation"><a href="index.html">Pack overview</a><a href="wireframes.html">Wireframes</a><a href="test-explorer.html">Tests</a><a href="dictionary-explorer.html">Dictionary</a></nav></header><main><article class="prose"><h1>Aplyd Academy High Level Design</h1>
+<p>This proposed architecture supports a shared capability platform with tailored partner experiences. It is intended for product, architecture, engineering, operations, and partner teams to review before implementation. A modular application, relational transaction store, private file store, and asynchronous worker provide the initial boundary; provider and framework selection remain open.</p>
+<p>Version 0.1 dated 5 October 2026. Authority: the BRD discussed in this conversation and <a href="BASELINE.html">shared baseline</a>. Detailed behavior is in <a href="FSD.html">FSD</a>, contracts in <a href="LLD.html">LLD</a>, and release evidence in <a href="test-strategy.html">test strategy</a>. Design proposals do not constitute approved service commitments.</p>
+<h2>Product and release boundary</h2>
+<p>R1 delivers the full learner journey in one pilot ecosystem: direct or partner entry, role and language selection, catalog, enrollment, resumable learning, practical assessment, feedback and appeal, verifiable private-by-default credentials, moderated cohort discussion, and authorized reporting. A common responsible AI foundation adapts exercises to farmers, MSME owners, bureaucrats, and other supported roles.</p>
+<p>R2 adds diagnostics, recommendations, live scheduling, selected offline content, professional networking, mentoring, refreshers, and commercial access. R3 may introduce an embedded AI assistant after separate quality, information-handling, operating-cost, and safety design. The system does not require a model provider to deliver R1 AI training.</p>
+<h2>System context</h2>
+<p>Learners use the responsive Academy web application or enter through a partner&#39;s learning link. Trainers, assessors, moderators, content reviewers, and administrators use role-appropriate screens in the same application shell. An identity provider authenticates users. The Academy authorizes each action; successful authentication does not itself establish a tenant role.</p>
+<p>Partner platforms connect through an identity adapter and permissioned enrollment or achievement APIs. Messaging providers carry notifications containing minimal information. Approved external AI tools may be used in synthetic learning exercises; real tenant records are not forwarded automatically.</p>
+<p><img src="architecture.svg" alt="Proposed system architecture"></p>
+<h2>Logical components</h2>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Responsibility</th>
+<th>Principal boundary</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Responsive web client</td>
+<td>Learner and operator journeys, accessible forms, local draft indicators</td>
+<td>Untrusted client; cannot authorize or mark authoritative completion</td>
+</tr>
+<tr>
+<td>API entry and application backend</td>
+<td>Session verification, request validation, policy checks, domain orchestration</td>
+<td>Server derives tenant and actor from trusted credentials and membership</td>
+</tr>
+<tr>
+<td>Identity and context module</td>
+<td>External identity links, profile, memberships, context selection</td>
+<td>Global account identity separated from tenant permissions</td>
+</tr>
+<tr>
+<td>Catalog and content module</td>
+<td>Reviewed content, immutable published versions, tenant offerings</td>
+<td>Draft access differs from published discovery</td>
+</tr>
+<tr>
+<td>Learning module</td>
+<td>Enrollment, cohorts, progress and completion evidence</td>
+<td>Each enrollment pins program and assessment policy versions</td>
+</tr>
+<tr>
+<td>Assessment module</td>
+<td>Attempts, rubric scores, decisions, reassessment and appeal</td>
+<td>Submitted evidence and historical decisions are immutable</td>
+</tr>
+<tr>
+<td>Credential module</td>
+<td>Award eligibility, issuance, verification and lifecycle</td>
+<td>Credentials issued only through authoritative assessment or completion rules</td>
+</tr>
+<tr>
+<td>Community module</td>
+<td>Membership, posts, reports and moderation</td>
+<td>Cohort and tenant visibility enforced on every read and write</td>
+</tr>
+<tr>
+<td>Reporting and privacy module</td>
+<td>Scoped reports, personal records, sharing and account requests</td>
+<td>No cross-tenant partner aggregation of personal records</td>
+</tr>
+<tr>
+<td>Integration module</td>
+<td>Partner identities, API clients, subscriptions and deliveries</td>
+<td>Client scope plus tenant plus permitted purpose</td>
+</tr>
+<tr>
+<td>Background worker</td>
+<td>Outbox delivery, notifications, exports and maintenance</td>
+<td>Rechecks current permission for sensitive external delivery</td>
+</tr>
+</tbody></table></div>
+<p>Modules are logical boundaries within one deployable backend initially. Cross-module writes run through domain services, not arbitrary table updates. Workers may deploy separately but use the same versioned domain contracts.</p>
+<h2>Proposed deployment model</h2>
+<p>Use an edge endpoint for HTTPS, static assets and appropriate public caching; an application deployment for API requests; a relational database for authoritative records; private object storage for evidence and content files; and an asynchronous worker. A queue is optional initially because the transactional outbox can support bounded polling. A cache is introduced only where measured performance warrants it, and cannot be the authoritative record of awards or permissions.</p>
+<p>Separate development, test, staging, and production identities, secrets, object stores, and databases. Test environments use synthetic data. Infrastructure configuration and migration history must be reproducible. No production integration credentials belong in documentation or fixtures.</p>
+<p>The modular monolith is a proposed pilot choice because enrollment, assessment, and credential consistency benefit from local transactions, and the pilot does not establish a need for independent services. Extract a module when its operational or scaling needs are demonstrably independent. Preserve the existing contract during extraction.</p>
+<h2>Identity and tenancy model</h2>
+<p>An account is a global identity. An external identity is keyed by issuer and subject. Email is contact information and cannot merge identities automatically. A learner profile may contain several role tags; changing from farmer to entrepreneur changes relevant learning, not permissions.</p>
+<p>A tenant is a delivery workspace. An ecosystem is a configuration, such as Agri Saha, which may be used by a tenant. Organizations represent tenant-scoped sponsoring bodies. Membership and role assignments specify tenant and, where necessary, organization or cohort boundaries.</p>
+<p>Global reviewed catalog versions can be offered in multiple tenants. Offerings, enrollments, cohorts, assessment evidence, decisions, credentials, communities and reports remain tenant-scoped. The direct Academy experience also uses an explicit tenant.</p>
+<p>Server policy checks consist of authenticated actor, active membership or allowed personal ownership, permitted action, permitted object scope, and resource state. Client-supplied tenant identifiers are selection inputs, never authority. Foreign-key constraints protect tenant-consistent relationships; application authorization protects access. PostgreSQL row-level policies may be added as defense in depth after the connection-context model is reviewed.</p>
+<p>Learners may see their own permitted achievement history across workspaces. Partner administrators cannot use this view to discover other partner records. Membership removal ends tenant-resource access; retained personal achievement visibility is limited to the approved portfolio policy and does not reopen private materials.</p>
+<h2>Authoritative learning and assessment flow</h2>
+<ol>
+<li>Enrollment resolves an available offering, checks eligibility and entitlement, and pins the published program version and assessment policy.</li>
+<li>The client reports activity evidence with a retry key. The server evaluates that activity&#39;s completion rule and saves progress.</li>
+<li>Assessment submission freezes the evidence reference and rubric version. Files must pass the upload safety process before assessors can retrieve them.</li>
+<li>An authorized assessor records criterion results. A proposed reference pass policy is at least 70 of 100 overall and every critical criterion met; the published program policy is authoritative.</li>
+<li>Completion is recomputed from mandatory activity evidence and required final assessment. Client percentages cannot override it.</li>
+<li>Credential eligibility is evaluated, and an award plus outbox event is written atomically. A uniqueness constraint prevents duplicate awards.</li>
+<li>An appeal records a separate review. If overturned, a superseding decision and any credential action preserve the original history.</li>
+</ol>
+<p>Responsible AI critical criteria include verification, information handling, and appropriate human judgment. High task-quality marks cannot compensate for a failed critical criterion.</p>
+<h2>Data architecture</h2>
+<p>The relational database holds identity links, scoped membership, learning state, versioned assessment definitions, decisions, credentials, consent, moderation, delivery state and audit metadata. Private object storage holds content assets and submitted files. Database records contain storage references rather than public storage URLs.</p>
+<p>Published content versions and submitted assessment evidence are immutable. Drafts support optimistic concurrency. Reporting reads domain records or a bounded projection with an explicit freshness timestamp. Operational reporting must not silently change enrollment or assessment state.</p>
+<p>Every authoritative timestamp is stored in UTC; user interfaces display the learner&#39;s selected timezone. Human labels are localized while canonical status codes remain stable. Text must support Unicode. Accessibility metadata, transcripts, language and review status belong to the content model.</p>
+<p>Retention categories are defined before launch by business and privacy owners. No permanent-retention duration is inferred merely because credentials need integrity. Deletion and correction processes must account for backups, legal or contractual holds, restricted assessment records, and published credential status.</p>
+<h2>Integration architecture</h2>
+<p>Use approved OIDC identity adapters for browser federation and scoped partner API credentials for server calls. Deep links carry a valid offering or invitation reference and an allowlisted return target; they must not expose sensitive identity context in query strings.</p>
+<p>State-changing partner requests use idempotency keys. An outbox entry is committed with the domain change. Delivery is at least once; consumers deduplicate the event ID. Webhooks are signed, timestamped, permission-checked at send time, and retried with bounded backoff. Dead-letter items require a recorded operational decision before replay. A replay cannot restore revoked sharing permission.</p>
+<p>Partner endpoints and field-level exchange rules are in <a href="integration-contract.html">integration contract</a> and <a href="openapi.json">OpenAPI</a>. Protocol details and partner identity configuration require joint acceptance testing before connection to production.</p>
+<h2>Security and trust boundaries</h2>
+<p>Protect the browser-to-backend, backend-to-database, file-store, identity-provider, partner-client and outgoing-webhook boundaries. Deny by default. Enforce server-side authorization on objects, lists, exports, assets and background jobs, not only visible screens. Redact logs and never include assessment documents or access tokens in monitoring payloads.</p>
+<p>Public credential verification is token-based, learner-enabled, rate-limited and minimal. A revoked or expired award must never appear active because of stale cache. Moderators can act only within their communities. Privileged support access requires a reason and an audit record.</p>
+<p>Detailed threats, information classifications and release gates are in <a href="security-and-privacy.html">security and privacy</a>.</p>
+<h2>Availability and proposed performance envelope</h2>
+<p>Pilot hypotheses are 1,000 monthly active learners, 100 concurrent sessions, 10 requests per second steady, and 30 per second for a five-minute burst. Proposed p95 interactive API reads are 800 ms excluding media and partner latency. First meaningful learner content should appear within 3 seconds on the agreed simulated network. The network profile must be selected before measurement; the number alone is not a reproducible test.</p>
+<p>Provisional availability is 99.5 percent monthly excluding agreed maintenance. Pilot recovery hypotheses are RPO 24 hours and RTO 8 hours. These targets require budget, restore testing and stakeholder agreement; they are not an SLA.</p>
+<p>Media failure should leave text alternatives available where provided. Notifications and partner delivery can lag without invalidating recorded learning. Database failure must not produce a successful authoritative submission response. Retry after a lost response must retrieve the original submission result.</p>
+<h2>Observability and operations</h2>
+<p>Correlate API request, domain action and partner delivery IDs. Monitor authentication errors, authorization denials, submission failures, assessor backlog, credential failures, outbox lag, delivery failures, unsafe-file detections and moderation backlog. Aggregate indicators should not expose raw learner content.</p>
+<p>Audit important changes to membership, content approval, policy versions, assessment decisions, credentials, permissions, replay and data export. Observability logs and security audit records have distinct purposes and access policies.</p>
+<p>Restore exercises must validate both records and associated file references. Deployments must handle migration compatibility, worker version compatibility, rollback and temporarily delayed partner events. See <a href="operations.html">operations runbook</a>.</p>
+<h2>Architectural decisions and implementation handoff</h2>
+<p>The <a href="decisions-and-roadmap.html">decision register</a> records proposed choices and open dependencies. Approve the tenant model, assessment policy, credential claims, first integration and privacy rules before final physical design. The LLD must continue to enforce this HLD&#39;s version pinning, scoped access, historical integrity and transaction rules.</p>
+<p>An engineering build starts from the agreed R1 backlog, dictionary, schema and API contracts. Release requires executed evidence from the planned unit, integration, smoke, regression, security, accessibility, resilience and UAT suites. Documentation checks cannot substitute for those product tests.</p>
+<h2>Functional module handoff map</h2>
+<p>This map connects FSD modules with the proposed architecture and dictionary. Exact operations and transaction rules are in the LLD and OpenAPI draft; future-release entities are logical extensions rather than R1 SQL tables.</p>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>FSD module</th>
+<th>Architectural owner</th>
+<th>Principal records</th>
+<th>Release</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>F-01 Identity and context</td>
+<td>Identity module and identity adapter</td>
+<td>account, external_identity, learner_profile, membership, role_assignment, agreement_acceptance</td>
+<td>R1</td>
+</tr>
+<tr>
+<td>F-02 Discovery and enrollment</td>
+<td>Catalog and learning modules</td>
+<td>program_version, offering, cohort, enrollment</td>
+<td>R1 catalog; R2 diagnostic and recommendation</td>
+</tr>
+<tr>
+<td>F-03 Learning and cohorts</td>
+<td>Learning module</td>
+<td>program_activity, activity_progress, enrollment, cohort</td>
+<td>R1; live_session and offline_package later</td>
+</tr>
+<tr>
+<td>F-04 Responsible AI practice</td>
+<td>Content and assessment modules</td>
+<td>competency, program_competency, rubric_criterion, submission</td>
+<td>R1 practice; optional assistant R3</td>
+</tr>
+<tr>
+<td>F-05 Assessments and appeal</td>
+<td>Assessment module</td>
+<td>assessment_version, attempt, submission, criterion_score, assessment_decision, appeal</td>
+<td>R1</td>
+</tr>
+<tr>
+<td>F-06 Credentials</td>
+<td>Credential module</td>
+<td>credential, credential_event</td>
+<td>R1 lifecycle; renewal_rule R2</td>
+</tr>
+<tr>
+<td>F-07 Community and networking</td>
+<td>Community module</td>
+<td>community, community_membership, post, moderation_report, moderation_action</td>
+<td>R1 cohort; mentor and connection entities R2</td>
+</tr>
+<tr>
+<td>F-08 Content and administration</td>
+<td>Content module and policy services</td>
+<td>program, program_version, program_activity, organization, role_assignment, audit_event</td>
+<td>R1</td>
+</tr>
+<tr>
+<td>F-09 Ecosystem integration</td>
+<td>Integration module and worker</td>
+<td>partner_client, webhook_subscription, outbox_event, webhook_delivery, idempotency_record</td>
+<td>R1 pilot partner</td>
+</tr>
+<tr>
+<td>F-10 Privacy support and reporting</td>
+<td>Privacy and reporting module</td>
+<td>consent_grant, support_ticket, audit_event and scoped reporting projections</td>
+<td>R1</td>
+</tr>
+<tr>
+<td>F-11 Continuous learning</td>
+<td>Content and recommendation services</td>
+<td>Future diagnostic_result, recommendation, notification_preference</td>
+<td>R2</td>
+</tr>
+<tr>
+<td>F-12 Commerce</td>
+<td>Entitlement and payment adapter</td>
+<td>Future entitlement, transaction</td>
+<td>R2 before paid launch</td>
+</tr>
+</tbody></table></div>
+</article></main><footer>Proposed design baseline · Product test execution pending · Fictional prototype data</footer></body></html>

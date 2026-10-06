@@ -1,0 +1,183 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Aplyd Academy quality strategy</title><style>:root{color-scheme:light;--ink:#182b3a;--muted:#546575;--line:#d8e0e5;--accent:#14564f;--wash:#f4f7f9}*{box-sizing:border-box}body{margin:0;color:var(--ink);background:#fff;font:16px/1.65 system-ui,-apple-system,Segoe UI,sans-serif}a{color:var(--accent);text-underline-offset:3px}header{border-bottom:1px solid var(--line);background:var(--wash);padding:20px max(20px,calc((100% - 1180px)/2));display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}.brand{font-weight:750;font-size:20px}.sub{font-size:13px;color:var(--muted)}main{max-width:1180px;margin:0 auto;padding:32px 24px 64px}.prose{max-width:1050px}h1{font-size:34px;line-height:1.2;margin:0 0 20px}h2{font-size:24px;margin:36px 0 12px}h3{font-size:19px;margin:24px 0 8px}p{margin:12px 0}ul,ol{padding-left:24px}li{margin:5px 0}img{max-width:100%;height:auto}table{border-collapse:collapse;display:block;max-width:100%;overflow:auto;font-size:14px;margin:20px 0}th,td{text-align:left;border:1px solid var(--line);padding:10px 12px;vertical-align:top;min-width:85px}th{background:var(--wash)}td{max-width:420px}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:var(--wash);padding:16px;border-radius:5px;font-size:13px}code{font:13px/1.5 ui-monospace,monospace;overflow-wrap:anywhere}blockquote{border-left:3px solid var(--accent);padding-left:16px;color:var(--muted)}.notice{padding:16px 20px;background:#edf5f2;border-left:4px solid var(--accent);margin:20px 0}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}.card{border:1px solid var(--line);border-radius:7px;padding:20px;min-width:0}.card h2{margin:0 0 10px;font-size:20px}.card p{font-size:14px;color:var(--muted)}.card a{display:block;margin:7px 0}.meta{display:flex;gap:12px;flex-wrap:wrap;font-size:14px;color:var(--muted)}.controls{display:flex;gap:14px;flex-wrap:wrap;align-items:end;margin:20px 0}.controls label{font-weight:600;font-size:14px;display:block;min-width:145px}.controls input,.controls select{display:block;width:100%;margin-top:5px;font:inherit;padding:10px;border:1px solid #8c9da9;border-radius:4px;min-height:44px}.controls .search{flex:1;min-width:240px}button{font:inherit;min-height:44px;padding:10px 15px;background:var(--accent);color:#fff;border:0;border-radius:4px;cursor:pointer}button.alt{background:var(--wash);color:var(--ink);border:1px solid var(--line)}:focus-visible{outline:3px solid #ce6800;outline-offset:3px}details{border-bottom:1px solid var(--line);padding:12px 0}summary{cursor:pointer;font-weight:600;min-height:44px}.itemmeta{font-size:13px;color:var(--muted);padding:0 0 12px}.pill{display:inline-block;background:var(--wash);border:1px solid var(--line);border-radius:4px;padding:1px 6px;margin-right:5px;font-size:12px}.detailbody{padding:0 16px 12px;border-left:2px solid var(--line)}.detailbody dt{font-weight:650;margin-top:12px}.detailbody dd{margin-left:0;white-space:pre-wrap;overflow-wrap:anywhere}.toplinks{display:flex;gap:18px;flex-wrap:wrap}.empty{padding:24px;color:var(--muted)}footer{border-top:1px solid var(--line);padding:16px 24px;text-align:center;font-size:13px;color:var(--muted)}@media(max-width:800px){.grid{grid-template-columns:1fr 1fr}h1{font-size:28px}main{padding:24px 16px}}@media(max-width:520px){.grid{grid-template-columns:1fr}.controls label,.controls .search{width:100%;min-width:0}}@media print{header,footer,.controls,.toplinks{display:none}main{padding:0;max-width:none}table{display:table;font-size:10px;overflow:visible}th,td{min-width:0;padding:5px}h2,h3{break-after:avoid}a{color:#000}.card{break-inside:avoid}details{break-inside:avoid}pre{font-size:10px}}body{overflow-wrap:anywhere}.prose{overflow-wrap:anywhere}.table-scroll{max-width:100%;overflow-x:auto;margin:20px 0}.table-scroll table{display:table;margin:0;max-width:none;width:100%}@media print{.table-scroll{overflow:visible}}</style></head><body><header><div><div class="brand">Aplyd Academy</div><div class="sub">Product and engineering documentation · 5 October 2026 · v0.1</div></div><nav class="toplinks" aria-label="Documentation"><a href="index.html">Pack overview</a><a href="wireframes.html">Wireframes</a><a href="test-explorer.html">Tests</a><a href="dictionary-explorer.html">Dictionary</a></nav></header><main><article class="prose"><h1>Aplyd Academy quality strategy</h1>
+<p>Version 0.1 • 5 October 2026 • Design-stage plan</p>
+<p><strong>Product execution status: Not run.</strong> There is no implemented Academy product in this pack. CSV cases specify future verification. Reviewing these documents, checking IDs, or exercising a wireframe does not establish runtime security, correctness, performance, or accessibility.</p>
+<p>Read this with <a href="BASELINE.html">BASELINE.md</a>, <a href="FSD.html">FSD.md</a>, <a href="HLD.html">HLD.md</a>, <a href="LLD.html">LLD.md</a>, <a href="test-cases.csv">test-cases.csv</a>, <a href="test-scenarios.csv">test-scenarios.csv</a>, <a href="traceability.csv">traceability.csv</a>, <a href="test-suites.html">test-suites.md</a>, and <a href="UAT.html">UAT.md</a>. The baseline takes precedence over a case if an unresolved product decision changes during implementation; update the requirement, specification and affected cases together.</p>
+<h2>Quality objectives</h2>
+<ol>
+<li>Learners can complete useful tasks and demonstrate responsible AI judgment.</li>
+<li>Progress, evidence, review decisions and credentials remain correct through retries, concurrency, interruption and administrative changes.</li>
+<li>Permissions hold at every object and tenant boundary. Learner role tags never grant operational permissions.</li>
+<li>Partners receive only authorized information for their own scope and purpose.</li>
+<li>Selected audiences can use the complete journey in their supported language and access conditions.</li>
+<li>Failures are visible, recoverable and explainable without exposing private data.</li>
+</ol>
+<h2>Coverage and release boundaries</h2>
+<p>The register contains 168 cases: 149 R1 cases, 18 R2 cases and one R3 readiness review. There are 21 scenario groups and 46 business-requirement mappings. R1 includes recovery, immutable learning versions, practical human-reviewed assessment, appeals, credential lifecycle, cohort discussion, administration, privacy and one partner journey.</p>
+<p>R2 cases apply only when the associated feature is designed and enabled: diagnostics, recommendations, live sessions, selected offline packages, networking, mentoring, events, renewal and commerce. They are not pilot blockers when these features are absent. Before any paid launch, the commerce cases become blockers. The R3 assistant case is an approval/readiness review, not executable assistant coverage; a separate runtime and model evaluation suite is required before that capability launches.</p>
+<p>BR references identify the business requirement being evidenced. F references identify canonical functional modules and WF references identify affected screens; a screen reference does not imply that a backend or security case can be proved by its wireframe. Nonfunctional cases link to the nearest affected BR modules and to BASELINE hypotheses; they do not create new service commitments.</p>
+<h2>Test layers and distinct responsibilities</h2>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Purpose and examples</th>
+<th>Execution location</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Unit</td>
+<td>Pure policy and transition rules: 69/70 threshold, critical criteria, retries, expiry, completion, HMAC raw body</td>
+<td>Deterministic domain unit runner with controlled clock</td>
+</tr>
+<tr>
+<td>Component</td>
+<td>Forms, filters, stale display states, language switching, peer/approved-content labeling</td>
+<td>UI component harness with mocked interfaces</td>
+</tr>
+<tr>
+<td>API integration</td>
+<td>Real authorization/persistence/transactions: version pinning, ETag, exports, concurrent issue, outbox</td>
+<td>Isolated backend and relational/object-store test dependencies</td>
+</tr>
+<tr>
+<td>Partner contract</td>
+<td>OIDC adapter, OAuth scopes, webhook schema/signature/window, duplicate events and permitted sharing</td>
+<td>Approved partner simulator and later partner sandbox</td>
+</tr>
+<tr>
+<td>E2E</td>
+<td>Learner/assessor/admin workflow across browser, API and worker</td>
+<td>Staging with isolated synthetic tenants</td>
+</tr>
+<tr>
+<td>UAT</td>
+<td>Relevance, understandable feedback, professional judgment, operations and partner usefulness</td>
+<td>Facilitated pilot acceptance environment</td>
+</tr>
+<tr>
+<td>Security/privacy</td>
+<td>Object/tenant boundary, account recovery, input safety, SSRF, session/browser protections and minimized output</td>
+<td>Isolated security environment; authorized scope</td>
+</tr>
+<tr>
+<td>Accessibility/usability</td>
+<td>Keyboard, assistive technology, translated meaning, mobile/reflow and first-time comprehension</td>
+<td>Representative user/device matrix, manual and automated tools</td>
+</tr>
+<tr>
+<td>Performance/resilience</td>
+<td>Defined pilot mix, interrupted writes, worker restart, recovery and observable failure</td>
+<td>Representative staging, controlled fault injection</td>
+</tr>
+</tbody></table></div>
+<p>The pack proposes 17 unit, 6 component, 39 API integration, 14 partner contract, 14 E2E, 26 UAT, 33 security, 5 accessibility, 2 performance, 11 resilience and 1 usability case. Several cases belong to multiple suites. Automated checks cannot replace human assessment-quality, moderation, localization or usability review.</p>
+<h2>Synthetic fixture catalogue</h2>
+<p>All fixtures are fabricated. Do not copy production learner profiles, real medical information, government records, commercial secrets, real credentials, or real payment data.</p>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Fixture</th>
+<th>Required setup</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SYN-IDENTITY</td>
+<td>Test identity issuers IDP-A and IDP-B; same subject 42 with differing issuers; shared display email; valid/expired/wrong-audience tokens; one-time recovery token</td>
+</tr>
+<tr>
+<td>SYN-TENANCY</td>
+<td>Tenant A (Agri example) and tenant B (MSME example); org A1/A2/B1; L-FARM, L-MSME, L-GOV, L-MULTI and L-PEER accounts; explicit enabled/disabled memberships</td>
+</tr>
+<tr>
+<td>SYN-ROLES</td>
+<td>Trainer TR-A scoped COH-1; AUTHOR-A, REVIEW-A, AS-A, AS-B, APR-A, MOD-A, ADMIN-A1, ADMIN-B, platform admin; helper with minimal onboarding permissions</td>
+</tr>
+<tr>
+<td>SYN-CONTENT</td>
+<td>Global approved program PV-1 and draft PV-D; PV-2 with changed activities/rubric; tenant offering O-A1; required A-1/A-2 and optional activity; captions, transcripts and safe resource</td>
+</tr>
+<tr>
+<td>SYN-ASSESS</td>
+<td>AV-1 reference threshold 70 with critical verification/information_handling/judgment criteria; AV-2 threshold 80; scores 69/70/75/95; valid and missing evidence bundles</td>
+</tr>
+<tr>
+<td>SYN-LIFECYCLE</td>
+<td>Invited/active/completed/withdrawn/suspended enrollments; draft/submitted/under_review/passed/failed/voided attempts; appeal/decision supersession; private/shared/suspended/revoked/expired credentials</td>
+</tr>
+<tr>
+<td>SYN-PARTNER</td>
+<td>Tenant-scoped OAuth clients and approved identity adapter; allowlisted local test simulator; controlled HMAC key in test secret store; synthetic receiver responses; no arbitrary external delivery</td>
+</tr>
+<tr>
+<td>SYN-PRIVACY</td>
+<td>Active/withdrawn sharing grants with explicit purpose; controlled replay; private scores/submissions; known reporting counts; export ownership fixtures</td>
+</tr>
+<tr>
+<td>SYN-NETWORK</td>
+<td>Device/browser and network profiles agreed before measurements; fault points for lost responses, DB rollback, unavailable media and worker death</td>
+</tr>
+<tr>
+<td>SYN-R2</td>
+<td>Future diagnostics, mentor capacity, visibility/blocking, approved payment-provider sandbox events, sponsorship/expiry/renewal rules; only after future specifications exist</td>
+</tr>
+</tbody></table></div>
+<p>Seed/reset routines should be deterministic and versioned. Use a controlled server clock for boundaries; use actual clock synchronization checks for partner compatibility. Cases must not mutate the same fixture in parallel unless the case explicitly tests concurrency. Negative cases have their own isolated fixture copies.</p>
+<h2>Provisional performance and recovery tests</h2>
+<p>The following are hypotheses from BASELINE, not SLAs or launch promises:</p>
+<ul>
+<li>1,000 monthly active learners, 100 concurrent sessions, 10 requests/second steady and 30 requests/second for a five-minute burst.</li>
+<li>Interactive read API p95 at or below 800 ms, excluding media and partner latency.</li>
+<li>First meaningful learner content at or below three seconds on a defined simulated network.</li>
+<li>99.5% monthly availability excluding agreed maintenance.</li>
+<li>Pilot recovery-point objective 24 hours and recovery-time objective eight hours.</li>
+</ul>
+<p>Agree request mix, test duration, device/network shape, cold/warm cache behavior, environment comparability, sample size, observation window and exclusions before executing. A five-minute load test cannot prove monthly availability. A restore rehearsal cannot prove all future recoveries; report observed integrity, timing and scope. Benchmark write success and correctness alongside latency so fast failures never count as success.</p>
+<h2>Execution workflow</h2>
+<ol>
+<li>Confirm release scope, approved requirements, configured policy and test environment.</li>
+<li>Run fixture seeding and dependency health checks.</li>
+<li>Execute relevant unit/component/API tests during implementation.</li>
+<li>Run smoke after deployment, then relevant change-based regression and mandatory cross-cutting suites.</li>
+<li>Execute partner sandbox contract, full release regression, accessibility, security and recovery/performance gates.</li>
+<li>Conduct role-based UAT on the release candidate.</li>
+<li>Publish observed results, defects, exceptions and signoff; never convert Not run to Pass from document review alone.</li>
+</ol>
+<p>Each execution record must contain case ID, observed status (Pass/Fail/Blocked/Not run), release/build, configuration and policy version, fixture version, environment, operator or runner, UTC start/end, observed output, expected-output comparison, redacted evidence, linked defects and retest result. Logs must redact PII, secret values and full submissions. Retain actual product test results separately from the design CSV or add execution-run references rather than overwriting its expected results.</p>
+<h2>Defect severity and disposition</h2>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Severity</th>
+<th>Examples</th>
+<th>Default decision</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>S1 Critical</td>
+<td>Cross-tenant disclosure, credential awarded without eligibility, private partner disclosure, irreversible evidence loss</td>
+<td>Stop release; fix and rerun affected/core suites</td>
+</tr>
+<tr>
+<td>S2 High</td>
+<td>Core learning blocked, false pass, failed revocation, unrecoverable progress, unsupported core-language journey</td>
+<td>Block relevant release until fixed</td>
+</tr>
+<tr>
+<td>S3 Medium</td>
+<td>Recoverable noncritical workflow issue, incorrect optional report presentation</td>
+<td>Assess affected audience and documented workaround</td>
+</tr>
+<tr>
+<td>S4 Low</td>
+<td>Minor presentation defect without access or meaning impact</td>
+<td>Prioritize normally</td>
+</tr>
+</tbody></table></div>
+<p>Priority (P0/P1) in the register expresses business risk and scheduling, not defect severity. P0 cases must all pass for the in-scope release; P1 cases must execute, with any failed case explicitly assessed. Blocked tests are unresolved evidence, never a pass. Exceptions require accountable business and technical owners, narrow scope, expiry, mitigation and retest date. Critical access/privacy/credential-integrity failures cannot be accepted as ordinary cosmetic exceptions.</p>
+<h2>Entry and exit evidence</h2>
+<p>Entry requires a deployable build, approved pilot roles/languages/partner/issuer, configured assessment/retry/appeal/retention policies, deterministic test data, safe sandbox endpoints, operational owners and accessible test tooling.</p>
+<p>Exit requires the mandatory suites in test-suites.md, approved UAT scripts, no unresolved S1/S2 in release scope, verified migrations and restore, passing privacy/tenant/credential checks, support/moderation ownership, and explicit known-gap review. If a prerequisite is undecided, mark the relevant case Blocked during execution and identify the decision owner.</p>
+<h2>Design validation versus product execution</h2>
+<p>Design validation can check CSV schemas, case references, all 46 BR links, consistent phase/screen/module IDs, realistic state rules, suite membership and missing decisions. It can also check the prototype for navigation and specification consistency. These are documentation checks.</p>
+<p>Planned product tests require an implemented application and supporting services. None have been executed here. External accreditation, official credential recognition, provider-specific security, true localization quality, actual network performance and production operation remain unverified.</p>
+</article></main><footer>Proposed design baseline · Product test execution pending · Fictional prototype data</footer></body></html>

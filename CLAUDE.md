@@ -1,0 +1,3 @@
+# Aplyd Academy engineering entry point
+
+Read docs/CLAUDE-HANDOFF.md first, then README.md and current as-built evidence. This repository is the implemented private pilot, not the full original target. Preserve exact curriculum pins, learner evidence and decisions, applied migrations, user/workspace isolation and original library bytes. Source mirrors under the parent project sources directory are read-only. docs/candidates and docs/development-archive are preserved research, not executable authority or active source. Never run local synthetic identity fixtures against the hosted URL. Read the explicit pending API/fictional-fixture/AI gates before those workflows. The user is handing development to Claude; do not restart the previous scheduler.

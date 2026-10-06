@@ -1,0 +1,57 @@
+{
+  "at": "2026-10-05T21:38:06.896392+00:00",
+  "status": "all three files syntax-check passed; root frozen preview authorization pending",
+  "copiedFrom": "/Users/athena/.codex/.chatgpt-projects/g-p-6ab89116b65c81919bb561fed2d716c0/outputs/aplyd-academy-eight-hour/exact-offering-candidate/tests",
+  "plannedCases": 25,
+  "caseBreakdown": {
+    "inherited": 21,
+    "missingExactSnapshot": 1,
+    "ownActiveSnapshotUnavailable": 1,
+    "nativeCardKeyboard": 2
+  },
+  "changes": [
+    "Portable output defaults to sibling runtime outside checkout; explicit model bundle path supported",
+    "All corrected same-origin GET/HEAD guards retained; intercepted fetch maxRedirects=0",
+    "Reload/history/card keyboard assert existing main-focus pattern; diagnostics preserved on failure",
+    "Missing selected snapshot with exact unchanged pin and alternate edition present",
+    "Own active old pin unavailable wins over available newer offering",
+    "Actual team and contentVersions baseline invariance; built entry equals frozen copied entry",
+    "Accurate enlarged-body32px terminology; no browser zoom claim",
+    "All fallthrough and specific routes fetch without redirects and refuse 3xx/Location/unexpected response origin before JSON or fulfill; no route.continue remains"
+  ],
+  "files": [
+    {
+      "name": "browser-readonly.mjs",
+      "sha256": "9f74455e675835126dd98c4adf1a5119371e6a9423c03a495fff2b09b51194ea"
+    },
+    {
+      "name": "read-only-routing.mjs",
+      "sha256": "535838f49852cc5e94aef1644b4a3c2ccc57e9af8bb1dead8a9829884f9ba476"
+    },
+    {
+      "name": "read-only-routing.test.mjs",
+      "sha256": "1d9cf1fa1b4cf99012de1bdac39c0cf6ab444f3847a46180ac15cc3c5816171e"
+    }
+  ],
+  "syntaxChecks": [
+    {
+      "file": "browser-readonly.mjs",
+      "exitCode": 0
+    },
+    {
+      "file": "read-only-routing.mjs",
+      "exitCode": 0
+    },
+    {
+      "file": "read-only-routing.test.mjs",
+      "exitCode": 0
+    }
+  ],
+  "browserCases": 25,
+  "fakeRouteCasesPrepared": 80,
+  "browserCasesExecuted": 0,
+  "fakeRouteCasesExecuted": 0,
+  "networkCalls": 0,
+  "workersStarted": 0,
+  "checkoutEdits": 0
+}

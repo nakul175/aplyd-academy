@@ -1,0 +1,317 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Aplyd Academy UX, Information Architecture and Wireframe Specification</title><style>:root{color-scheme:light;--ink:#182b3a;--muted:#546575;--line:#d8e0e5;--accent:#14564f;--wash:#f4f7f9}*{box-sizing:border-box}body{margin:0;color:var(--ink);background:#fff;font:16px/1.65 system-ui,-apple-system,Segoe UI,sans-serif}a{color:var(--accent);text-underline-offset:3px}header{border-bottom:1px solid var(--line);background:var(--wash);padding:20px max(20px,calc((100% - 1180px)/2));display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}.brand{font-weight:750;font-size:20px}.sub{font-size:13px;color:var(--muted)}main{max-width:1180px;margin:0 auto;padding:32px 24px 64px}.prose{max-width:1050px}h1{font-size:34px;line-height:1.2;margin:0 0 20px}h2{font-size:24px;margin:36px 0 12px}h3{font-size:19px;margin:24px 0 8px}p{margin:12px 0}ul,ol{padding-left:24px}li{margin:5px 0}img{max-width:100%;height:auto}table{border-collapse:collapse;display:block;max-width:100%;overflow:auto;font-size:14px;margin:20px 0}th,td{text-align:left;border:1px solid var(--line);padding:10px 12px;vertical-align:top;min-width:85px}th{background:var(--wash)}td{max-width:420px}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:var(--wash);padding:16px;border-radius:5px;font-size:13px}code{font:13px/1.5 ui-monospace,monospace;overflow-wrap:anywhere}blockquote{border-left:3px solid var(--accent);padding-left:16px;color:var(--muted)}.notice{padding:16px 20px;background:#edf5f2;border-left:4px solid var(--accent);margin:20px 0}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}.card{border:1px solid var(--line);border-radius:7px;padding:20px;min-width:0}.card h2{margin:0 0 10px;font-size:20px}.card p{font-size:14px;color:var(--muted)}.card a{display:block;margin:7px 0}.meta{display:flex;gap:12px;flex-wrap:wrap;font-size:14px;color:var(--muted)}.controls{display:flex;gap:14px;flex-wrap:wrap;align-items:end;margin:20px 0}.controls label{font-weight:600;font-size:14px;display:block;min-width:145px}.controls input,.controls select{display:block;width:100%;margin-top:5px;font:inherit;padding:10px;border:1px solid #8c9da9;border-radius:4px;min-height:44px}.controls .search{flex:1;min-width:240px}button{font:inherit;min-height:44px;padding:10px 15px;background:var(--accent);color:#fff;border:0;border-radius:4px;cursor:pointer}button.alt{background:var(--wash);color:var(--ink);border:1px solid var(--line)}:focus-visible{outline:3px solid #ce6800;outline-offset:3px}details{border-bottom:1px solid var(--line);padding:12px 0}summary{cursor:pointer;font-weight:600;min-height:44px}.itemmeta{font-size:13px;color:var(--muted);padding:0 0 12px}.pill{display:inline-block;background:var(--wash);border:1px solid var(--line);border-radius:4px;padding:1px 6px;margin-right:5px;font-size:12px}.detailbody{padding:0 16px 12px;border-left:2px solid var(--line)}.detailbody dt{font-weight:650;margin-top:12px}.detailbody dd{margin-left:0;white-space:pre-wrap;overflow-wrap:anywhere}.toplinks{display:flex;gap:18px;flex-wrap:wrap}.empty{padding:24px;color:var(--muted)}footer{border-top:1px solid var(--line);padding:16px 24px;text-align:center;font-size:13px;color:var(--muted)}@media(max-width:800px){.grid{grid-template-columns:1fr 1fr}h1{font-size:28px}main{padding:24px 16px}}@media(max-width:520px){.grid{grid-template-columns:1fr}.controls label,.controls .search{width:100%;min-width:0}}@media print{header,footer,.controls,.toplinks{display:none}main{padding:0;max-width:none}table{display:table;font-size:10px;overflow:visible}th,td{min-width:0;padding:5px}h2,h3{break-after:avoid}a{color:#000}.card{break-inside:avoid}details{break-inside:avoid}pre{font-size:10px}}body{overflow-wrap:anywhere}.prose{overflow-wrap:anywhere}.table-scroll{max-width:100%;overflow-x:auto;margin:20px 0}.table-scroll table{display:table;margin:0;max-width:none;width:100%}@media print{.table-scroll{overflow:visible}}</style></head><body><header><div><div class="brand">Aplyd Academy</div><div class="sub">Product and engineering documentation · 5 October 2026 · v0.1</div></div><nav class="toplinks" aria-label="Documentation"><a href="index.html">Pack overview</a><a href="wireframes.html">Wireframes</a><a href="test-explorer.html">Tests</a><a href="dictionary-explorer.html">Dictionary</a></nav></header><main><article class="prose"><h1>Aplyd Academy UX, Information Architecture and Wireframe Specification</h1>
+<p>Version 0.1. Dated 5 October 2026. Proposed design.</p>
+<p>Open <a href="wireframes.html">wireframes.html</a> in a browser for the standalone offline prototype. Use the numbered navigation to inspect each screen or follow the learner journey below. Read this alongside <a href="FSD.html">FSD.md</a> and <a href="BASELINE.html">BASELINE.md</a>.</p>
+<p>The prototype is a layout and flow demonstration with fictional records stored locally in the browser. It is not a live Academy, identity system, access-control implementation, credential issuer, networking service or integration service. It makes no external network requests. Do not enter actual personal, professional or sensitive information. Reset clears this prototype&#39;s local demonstration state; it does not touch any other application.</p>
+<h2>1. Experience goals</h2>
+<ul>
+<li>A learner understands what a pathway helps them do and how they will demonstrate it.</li>
+<li>Learners with limited digital confidence can identify the next step and obtain help.</li>
+<li>Responsible AI judgment appears inside tasks rather than only in a policy page.</li>
+<li>Learning, feedback and assessment status are unambiguous.</li>
+<li>The learner controls optional sharing and networking visibility.</li>
+<li>Staff workspaces show their assigned scope and explain consequential actions.</li>
+<li>Learners can use the supported journey on mobile and recover from interruption.</li>
+</ul>
+<h2>2. Information architecture</h2>
+<h3>Learner navigation</h3>
+<p><strong>Home:</strong> Continue learning, next steps, achievement summary, support and sharing entry.</p>
+<p><strong>Discover:</strong> Search/filter catalog → pathway details → enrollment.</p>
+<p><strong>My learning:</strong> Pathway outline → activity → saved progress → assessment → feedback/retry/appeal.</p>
+<p><strong>Achievements:</strong> Private learning record → credential details → optional verification sharing.</p>
+<p><strong>Community:</strong> Cohort discussion → contributions → reports; R2 mentor/network connections.</p>
+<p><strong>Settings and support:</strong> Profile, role tags, language, timezone, context, sharing, notification preferences and data requests.</p>
+<h3>Staff navigation</h3>
+<p>Only assigned roles see the corresponding workspace in the production design:</p>
+<ul>
+<li>Trainer: Cohorts, participation and learner support.</li>
+<li>Assessor: Assigned queue, rubric, evidence, decisions; independent appeal review if separately assigned.</li>
+<li>Author/reviewer: Content drafts, version comparison, review and approval.</li>
+<li>Moderator: Assigned community reports and action history.</li>
+<li>Organization administrator: Authorized enrollment and reports.</li>
+<li>Tenant/integration administrator: Tenant offerings, memberships, configuration and approved partner controls.</li>
+</ul>
+<p>The prototype intentionally exposes all screens as a review index. Production navigation must not expose staff workflows without assignment, and server authorization applies regardless of navigation visibility.</p>
+<h3>Context and record model</h3>
+<p>The header names active ecosystem and learner role context. Switching it changes discovery relevance and tenant workspace; it grants no role permissions. A learner may also see an aggregate of their own authorized records. Each record identifies its originating tenant/context. No partner may see that aggregate through its integration.</p>
+<p>The context selector offers fictional Agri Saha, MSME, Government, Health Saha and direct Academy examples with tailored pathway titles and practice framing. The prototype permits one active sample enrollment. Its originating context is snapshotted so changing the header does not relabel the learning or credential. Sharing switches are separate per simulated context. Multiple simultaneous enrollments, tenant authorization and identity linkage remain specifications.</p>
+<h2>3. Screen inventory and state design</h2>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Screen</th>
+<th>Primary purpose and components</th>
+<th>Expected production states</th>
+<th>Functional reference</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>WF-01 Onboarding</td>
+<td>Display name, language, goals, multi-role tags, adult confirmation; partner/direct identity entry</td>
+<td>New/partial profile, validation error, verification pending, unsupported language, identity collision, recovery, age ineligible</td>
+<td>F-01; BR-01–04</td>
+</tr>
+<tr>
+<td>WF-02 Home</td>
+<td>Continue card, status/progress, achievement count, responsible AI prompt, community/sharing links</td>
+<td>No enrollment, active, review pending, improvement needed, completed; loading, unavailable, support</td>
+<td>F-01/F-03/F-10/F-11</td>
+</tr>
+<tr>
+<td>WF-03 Catalog</td>
+<td>Search, level filter, offering cards, ecosystem relevance</td>
+<td>Loading, matches, no matches, unavailable; restricted offerings excluded</td>
+<td>F-02; BR-06–07</td>
+</tr>
+<tr>
+<td>WF-04 Pathway details</td>
+<td>Outcomes, effort, prerequisites, language, assessment, credential basis, published policies and enrollment</td>
+<td>Available, enrolled, invited, full, closed, missing prerequisite, withdrawn/suspended; commercial access later</td>
+<td>F-02/F-03; BR-08–11</td>
+</tr>
+<tr>
+<td>WF-05 Learning</td>
+<td>Outline, activity content, practice instructions, safe input reminder, response and completion</td>
+<td>Not started, in progress, acknowledged saved, unsent work, locked, completed, missing resource, connection failure</td>
+<td>F-03/F-04; BR-12–22</td>
+</tr>
+<tr>
+<td>WF-06 Assessment</td>
+<td>Evidence fields, rubric, critical criteria, draft/save/submit, declaration</td>
+<td>Ineligible, draft, saving/save failed, submitted/read-only, deadline closed, retry exhausted, attachment blocked</td>
+<td>F-04/F-05; BR-21/24–27</td>
+</tr>
+<tr>
+<td>WF-07 Feedback and appeal</td>
+<td>Decision, criterion feedback, remediation, retry, appeal rationale/status</td>
+<td>Awaiting review, passed, failed, appeal opened/under review/upheld/overturned/closed</td>
+<td>F-05; BR-15/27</td>
+</tr>
+<tr>
+<td>WF-08 Credential</td>
+<td>Claim, issuer, standard/version, basis, dates, status, visibility and minimal verification</td>
+<td>Pending, issued/private, shared, suspended, revoked, expired, corrected; unavailable verification</td>
+<td>F-06; BR-28–31/43</td>
+</tr>
+<tr>
+<td>WF-09 Community</td>
+<td>Cohort scope, facilitator prompt, peer replies, contribution form and report category</td>
+<td>Empty, active, locked membership, posting failure, reported, moderated, removed</td>
+<td>F-07; BR-32–34</td>
+</tr>
+<tr>
+<td>WF-10 Assessor queue</td>
+<td>Assigned scope, attempt evidence, published rubric, scores/critical flags, conflict declaration, finalization</td>
+<td>Empty queue, submitted, claimed/under review, conflict, stale edit, finalized, reassigned</td>
+<td>F-05; BR-25–27</td>
+</tr>
+<tr>
+<td>WF-11 Admin</td>
+<td>Organization scope, reporting summary, immutable program version, draft-review actions, integration entry</td>
+<td>No records, assigned scope, draft/in review/approved/published/retired, stale edit, denied operation</td>
+<td>F-08/F-10; BR-38–41/46</td>
+</tr>
+<tr>
+<td>WF-12 Integration and sharing</td>
+<td>Partner/purpose/data scope, grant switch, delivery status, export/support requests</td>
+<td>Disconnected, grant active/withdrawn/expired, send blocked/allowed/pending/failed, request pending/completed</td>
+<td>F-09/F-10; BR-42–44</td>
+</tr>
+<tr>
+<td>WF-13 Mentor directory</td>
+<td>R2 profile cards, expertise/scope, availability, request, discoverability control</td>
+<td>No matches, opted out, requested/accepted/declined/cancelled/completed, blocked contact</td>
+<td>F-07; BR-35–37</td>
+</tr>
+<tr>
+<td>WF-14 Continuous learning</td>
+<td>Relevant update, reason, effort, save/start, reminder preference, renewal information</td>
+<td>No suggestions, available, saved, dismissed, access restricted, renewal due/expired</td>
+<td>F-11; BR-07/15/31/37</td>
+</tr>
+</tbody></table></div>
+<p>Not every expected production state is implemented in the prototype. The matrix identifies the required subsequent design variants, which must be added to implementation acceptance coverage.</p>
+<h2>4. Walkthroughs</h2>
+<h3>Complete learner-to-credential journey</h3>
+<ol>
+<li>WF-01: Enter a fictional name, confirm adult eligibility and save.</li>
+<li>WF-03: Search the sample catalog; try a term with no results and remove it.</li>
+<li>WF-04: Read outcomes and assessment basis; enroll locally.</li>
+<li>WF-05: Describe the unsupported claim and checking process in at least 20 characters; confirm safe practice.</li>
+<li>WF-06: Enter at least 20 characters in each evidence field, save the draft, confirm the declaration, then submit.</li>
+<li>WF-07: Observe awaiting-review status.</li>
+<li>WF-10: Inspect evidence, provide an integer overall score, mark critical criteria and confirm no conflict. Finalize locally.</li>
+<li>WF-07: Review feedback. A score of at least 70 with all critical criteria met passes.</li>
+<li>WF-08: Issue the fictional credential, enable the public preview, then withdraw it.</li>
+<li>WF-12: Attempt delivery with sharing off, then enable it and simulate delivery.</li>
+<li>WF-14: Save a suggested practice and choose optional reminder preference.</li>
+</ol>
+<p>This is a cross-role design-review walkthrough. In the product, learners cannot act as their own assessors, and issuance is an authorized system/issuer process.</p>
+<h3>Critical failure, retry and appeal</h3>
+<p>Submit an attempt and set an overall score of 99 in WF-10 while leaving the critical-criteria checkbox unchecked. The outcome is “Needs improvement.” Use WF-07 to start a local retry, or enter a rationale of at least 20 characters to open an appeal. The prototype does not resolve appeals or retain an immutable attempt history; production rules require both.</p>
+<h3>Context and sharing boundaries</h3>
+<p>Issue a credential in Agri Saha, then choose MSME in the header. The original credential still identifies its originating context. WF-12 has a separate sharing preference for MSME, but even enabling it cannot send the Agri Saha achievement through that simulated connection. This illustrates the boundary; production access checks require authenticated tenant permissions and granular grants.</p>
+<h3>Community and staff review</h3>
+<p>WF-09 lets a reviewer post a fictional reply and acknowledge a report. WF-11 simulates requesting review of a new draft. These show copy and placement only; no person is contacted and no moderation, publishing or staffing workflow executes.</p>
+<h2>5. Interaction and copy requirements</h2>
+<h3>Status language</h3>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Situation</th>
+<th>Recommended wording</th>
+<th>Required next step</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Empty home</td>
+<td>“Choose a pathway that helps with your work.”</td>
+<td>Browse catalog</td>
+</tr>
+<tr>
+<td>Locked activity</td>
+<td>“Complete [activity] to start this task.”</td>
+<td>Open dependency</td>
+</tr>
+<tr>
+<td>Draft acknowledged</td>
+<td>“Draft saved at [time].”</td>
+<td>Continue or submit</td>
+</tr>
+<tr>
+<td>Save failed</td>
+<td>“Your latest changes have not been saved.”</td>
+<td>Retry; retain local input safely</td>
+</tr>
+<tr>
+<td>Submitted</td>
+<td>“Submitted for review. Your evidence is now read-only.”</td>
+<td>View review status</td>
+</tr>
+<tr>
+<td>Failed assessment</td>
+<td>“Needs improvement.”</td>
+<td>Criterion feedback and retry/appeal policy</td>
+</tr>
+<tr>
+<td>Critical criterion failure</td>
+<td>“This critical requirement was not met, so this attempt did not pass.”</td>
+<td>Explain evidence needed</td>
+</tr>
+<tr>
+<td>Passed assessment</td>
+<td>“You demonstrated the required capability.”</td>
+<td>Award status and next learning</td>
+</tr>
+<tr>
+<td>Credential pending</td>
+<td>“Your award is being prepared.”</td>
+<td>Retry status/support; no false award</td>
+</tr>
+<tr>
+<td>Private verification</td>
+<td>“This credential is private.”</td>
+<td>Optional sharing control</td>
+</tr>
+<tr>
+<td>Revoked credential</td>
+<td>“This credential is revoked and is not currently valid.”</td>
+<td>Issuer explanation/support</td>
+</tr>
+<tr>
+<td>No sharing grant</td>
+<td>“This partner cannot receive new achievement updates.”</td>
+<td>Review data scope/choice</td>
+</tr>
+<tr>
+<td>Network failure</td>
+<td>“We could not complete this action. Your acknowledged saved work remains available.”</td>
+<td>Retry and correlation ID</td>
+</tr>
+<tr>
+<td>Out-of-scope object</td>
+<td>“This item is unavailable in your current access.”</td>
+<td>Context/help; no existence leak</td>
+</tr>
+</tbody></table></div>
+<p>Never label an attendance record “competency certified.” Distinguish optional sharing from required account processing. Use task language understandable to the learner; interface contract terms belong only in staff/support explanations where useful.</p>
+<h3>Form behavior</h3>
+<ul>
+<li>Place labels above inputs; examples supplement labels and never replace them.</li>
+<li>Indicate required/optional fields in the final UI. Explain format/length constraints before failure.</li>
+<li>Preserve input after validation failure and place errors near fields; a linked error summary is required for multi-field forms.</li>
+<li>Focus the error summary or first invalid field on submission failure. Do not rely on a toast alone for consequential errors.</li>
+<li>Show saving, acknowledged saved and failed states distinctly.</li>
+<li>Disable duplicate finalization while pending, but server idempotency is still required.</li>
+<li>Confirmation before final submission names consequences and the currently applicable policy.</li>
+<li>Show exact context, role and organization scope at staff actions. Reconfirm revocation, destructive moderation or other consequential lifecycle actions with reason and consequences.</li>
+</ul>
+<h3>Loading and failure</h3>
+<p>Skeletons or progress indicators must not invent completion. Existing data can remain visible with an “Updating” label where safe. A retry must not create a duplicate enrollment, submission, credential or charge. Error handling must preserve learner input without persisting prohibited sensitive material.</p>
+<h2>6. Accessibility and inclusion requirements</h2>
+<ul>
+<li>Use semantic landmarks, heading order, explicit labels, native input controls and accessible error associations.</li>
+<li>Provide skip navigation, visible keyboard focus, logical tab order, and no keyboard traps.</li>
+<li>The navigation announces the current page. On route change focus moves to the main content heading/landmark without disrupting input.</li>
+<li>Core actions have at least 44px practical touch areas in this prototype; final accessibility review must measure the agreed standard.</li>
+<li>Status changes announce through a polite live region; urgent errors use a targeted alert rather than repeated broad announcements.</li>
+<li>Meaning does not depend on color. Text states accompany progress, decision, sharing and credential status.</li>
+<li>Layout reflows to a single column on small screens; data tables have contained horizontal scrolling where necessary.</li>
+<li>Support text enlargement, reduced motion and sufficient contrast. This prototype has no animated content.</li>
+<li>Provide captions/transcripts and appropriate audio/text alternatives for course media.</li>
+<li>Alternative assessment formats and accommodations must preserve the competency standard rather than penalize access needs.</li>
+<li>Do not make surveillance-based proctoring the default. Define proportionate verification for the credential claim.</li>
+<li>Choose language after learner research; localize validation, feedback, assessment and support as well as course content. RTL layouts need dedicated review if included.</li>
+<li>Low-bandwidth variants should avoid heavy auto-playing media, retain acknowledged progress and explain downloadable-content limits.</li>
+</ul>
+<p>Automated layout checks alone do not constitute accessibility conformance. Screen-reader, keyboard-only, magnification and representative learner testing remain required.</p>
+<h2>7. Responsive layout specification</h2>
+<p>Desktop: persistent left navigation; header context selector; two-column workspaces and three-column home summaries. Forms use a readable width. Assessment evidence and rubric are adjacent when space permits.</p>
+<p>Tablet/mobile: navigation becomes a horizontally scrollable review index in the prototype; cards and form columns stack. The production learner navigation should prioritize the current task and move infrequent destinations into an accessible menu. Primary actions remain visible without overlapping form content; saved state and review status remain close to the task.</p>
+<p>Tables are contained in overflow regions. Long learner content wraps safely. A sticky header or action bar requires additional keyboard and zoom testing before adoption.</p>
+<h2>8. Privacy by interface design</h2>
+<ul>
+<li>No public profile by default.</li>
+<li>Credential verification sharing is separate from partner achievement sharing.</li>
+<li>Show recipient, purpose, fields and effective preference together.</li>
+<li>Public verification preview contains approved name, issuer, achievement and status only.</li>
+<li>Cross-tenant records must never be inferred from context names or a profile aggregate.</li>
+<li>Avoid collecting exact birth dates where adult confirmation meets the approved requirement.</li>
+<li>Do not request real sensitive records in practice exercises or ordinary support tickets.</li>
+<li>A withdrawn grant states future effect and any separate partner-retention process honestly.</li>
+<li>Staff reporting avoids private evidence unless the actor has the specific assessment permission.</li>
+<li>Identity recovery and account linking need dedicated security-reviewed screens before implementation.</li>
+</ul>
+<h2>9. Prototype implementation and limitations</h2>
+<p>The single HTML file uses local CSS and JavaScript. Hash routes identify WF screens, local storage holds fictional demo state, and reset removes that state. Dynamic learner text is escaped before rendering. Forms use local validation; catalog search, enrollment, practice, submission, assessor scoring, retry, appeal acknowledgment, credential preview, sharing guard, community posts, introduction request, update saving and fictional JSON export are interactive.</p>
+<p>Important limitations:</p>
+<ul>
+<li>One sample enrollment; no real multi-tenant identity or authorization.</li>
+<li>One language, English, for demonstration; selected production languages are undecided.</li>
+<li>Local practice rule is illustrative, not a server completion policy.</li>
+<li>Assessor screen uses aggregate score and critical flags; production requires criterion-level scores and authorized independent assessors.</li>
+<li>Retry replaces local display state; production retains immutable attempt history.</li>
+<li>Appeal resolution, moderation, content approval, identity recovery and credential lifecycle changes are specified but not implemented.</li>
+<li>No server autosave, unsaved-navigation guard, concurrent editing, attachment scanning, secret storage, offline submissions or live media. Save the local draft before leaving an evidence screen.</li>
+<li>Local JSON download demonstrates a record export only; it is not a complete regulated-data export.</li>
+<li>There is no real sharing link, webhook, API, email, payment or scheduled notification.</li>
+<li>Mentor screen and recommendation rationale illustrate R2; no R3 assistant is present.</li>
+</ul>
+<h2>10. Prototype verification record</h2>
+<p><strong>Executed on 5 October 2026:</strong> Isolated local headless Chrome automation through bundled Playwright, using fictional records and an offline file URL. The first browser attempt lacked bundled Chromium and a sandboxed Chrome launch was unavailable; isolated headless Chrome outside the process sandbox then ran successfully. A test timing issue was corrected to await rendered screens before assertions.</p>
+<p>Successful checks:</p>
+<ul>
+<li>All 14 screens render without JavaScript page errors.</li>
+<li>1,440px, 390px and 360px viewports were checked; no document-level horizontal overflow at either mobile width across all 14 screens.</li>
+<li>Direct profile demonstration, catalog search/no-results, local enrollment and practice completion.</li>
+<li>Evidence submission, read-only submitted state, 99/100 critical failure, retry and passing review.</li>
+<li>Single local credential issue, verification enable/withdraw, no-grant delivery block, granted simulated delivery and cross-context achievement block.</li>
+<li>Context switch preserves the originating pathway/credential title.</li>
+<li>Local community reply and reporting acknowledgment.</li>
+<li>No HTTP/HTTPS requests from the prototype.</li>
+</ul>
+<p>Desktop home and mobile assessment screenshots were visually inspected. This verification concerns only the documentation prototype. Product test scenarios, integration tests, accessibility conformance, security controls, real backend behavior, production performance, and UAT are <strong>Not run</strong>.</p>
+<h2>11. UX review and implementation handoff</h2>
+<p>Review with representative adult learners from the selected ecosystem, including low digital-confidence and low-bandwidth users. Ask them to find a useful pathway, explain its credential claim, save work, interpret a critical failure, identify a safe AI input, withdraw sharing and seek help.</p>
+<p>Record task success, assistance required, misunderstandings, time and accessibility issues. Validate terminology, language selection, effort estimates and community usefulness before expanding the design. Staff review should test rubric interpretation, scope visibility, conflicts, finalization consequences and appeal handling.</p>
+<p>Before implementation, complete designs for account recovery/linking, attachment states, detailed criterion scoring, appeals resolution, content authoring/review, credential suspension/revocation/correction, moderation actions, report filters, support/data requests and partner failures. R2 additionally needs live sessions, diagnostic results, connection acceptance, mentor requests, renewal and checkout/refund flows.</p>
+</article></main><footer>Proposed design baseline · Product test execution pending · Fictional prototype data</footer></body></html>

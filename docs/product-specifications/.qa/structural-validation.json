@@ -1,0 +1,116 @@
+{
+  "artifact_scope": "Documentation and reference contracts only; not implemented product tests",
+  "counts": {
+    "requirements": 46,
+    "test_scenarios": 21,
+    "test_cases": 168,
+    "releases": {
+      "R1": 149,
+      "R2": 18,
+      "R3": 1
+    },
+    "schema_tables": 41,
+    "dictionary_fields": 432,
+    "api_paths": 87,
+    "api_operations": 100,
+    "api_schemas": 136,
+    "api_references": 1346
+  },
+  "checks": [
+    {
+      "name": "All 46 source requirements registered",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "All 46 BR requirements traced",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Test identifiers unique",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Case execution remains Not run",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Required case fields populated",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Case requirement module screen and scenario references resolve",
+      "passed": true,
+      "detail": "[]"
+    },
+    {
+      "name": "Traceability cases exist and reciprocate BR references",
+      "passed": true,
+      "detail": "[]"
+    },
+    {
+      "name": "Dictionary covers exactly all SQL columns",
+      "passed": true,
+      "detail": "{\"missing\": [], \"extra\": []}"
+    },
+    {
+      "name": "Dictionary fields unique",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Dictionary purpose owner classification retention populated",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "OpenAPI parses and target is 3.1.0",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "All local OpenAPI references resolve",
+      "passed": true,
+      "detail": "[]"
+    },
+    {
+      "name": "All OpenAPI operation IDs present and unique",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "API path parameters and responses specified",
+      "passed": true,
+      "detail": "[]"
+    },
+    {
+      "name": "Baseline partner endpoints present",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Public credential fields match minimal contract",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Partner achievement query uses opaque learner reference",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Markdown local file links resolve",
+      "passed": true,
+      "detail": "[]"
+    }
+  ],
+  "limits": [
+    "No PostgreSQL server execution",
+    "OpenAPI structural validation only, not a full conformance validator or live API execution",
+    "No product backend or security controls exercised"
+  ]
+}

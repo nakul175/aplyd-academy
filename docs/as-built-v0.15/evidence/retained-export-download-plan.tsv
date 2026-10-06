@@ -1,0 +1,6 @@
+id	case	display_fixture_only	local_download_oracle	status
+RX-01	Own older unavailable + matching old cohort	Actual pure-domain own-active projection; older body absent; newer first-open.	Exact own enrollment and matching old cohort; no newer metadata.	PLANNED
+RX-02	Own old cohort removed	Same own projection, matching cohort removed; alternate remains.	Exact own enrollment; cohort null.	PLANNED
+RX-03	Own old cohort repointed	Same cohort ID now pinned to newer version, own old enrollment unchanged.	Exact own enrollment; cohort null.	PLANNED
+RX-04	Personal unavailable own source	Approved actual personal state cloned in GET memory, own global version unavailable.	Exact displayed own enrollment; cohort null.	PLANNED
+RX-05	Preview-only unknown body	No enrollment; explicit unavailable private exact preview; newer alternate remains.	Enrollment null; exact selected preview cohort retained.	PLANNED

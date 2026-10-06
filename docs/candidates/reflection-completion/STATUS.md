@@ -1,0 +1,5 @@
+# Reflection completion candidate not adopted
+
+This patch is preserved for the next engineer; it is not the application source. Actual engine newest-first followups reproduced a later reflection moving an existing task into a later week. The staged plan branch selects the earliest finite qualifying exact-enrollment date instead. Candidate strict TypeScript and11 in-memory cases/62 assertions passed. The root plan has not changed and no current application build/browser/server acceptance is claimed for this patch.
+
+Before adopting: review and apply integration.patch, replace the portable compiler’s staged/before wording with actual-checkout single-model evidence, rebuild actual plan/engine/weekly bundles, run focused and full regressions, typecheck/build and the affected read-only Plan/weekly journey. Preserve original BEFORE failure evidence. Do not auto-apply the staged full plan file or replay reproduce-before as an ongoing passing regression. All later reflections must remain history and new plan tasks bind to their own creation date.

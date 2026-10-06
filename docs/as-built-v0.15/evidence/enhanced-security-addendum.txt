@@ -1,0 +1,7 @@
+Enhanced M5 harness — independent read-only addendum
+
+M5-QA-01 is resolved in the reviewed enhanced source. Every broad, personal, selected-team and unselected-team browser intercept guards same-origin GET/HEAD, then uses the shared fetchReadOnlyResponse helper. The helper rechecks the request, fetches with maxRedirects:0, and refuses every 3xx, any case-insensitive Location header, malformed response URL or foreign response origin before JSON or fulfill. No continue transport remains. Direct before/after API reads use fixed /api/ GET paths on loopback with redirects disabled.
+
+No additional actionable source finding. The 80 stub groups import the actual helper used by the browser suite and exercise four representative handler patterns; browser handlers were separately source-inspected. Root supplied the passing 30-model/80-routing test result. This reviewer did not compile or execute tests, start a Worker/browser, make requests, access SQL or modify app sources.
+
+The three adopted harness files are byte-identical to the reviewed enhanced kit. Adopted product navigation files are byte-identical to the prior independently reviewed candidate. SHA256 evidence is in enhanced-harness-addendum.json. Actual integrated navigation, history and focus acceptance remains pending the parent's stable local Worker run.

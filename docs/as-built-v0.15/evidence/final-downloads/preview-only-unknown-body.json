@@ -1,0 +1,24 @@
+{
+  "exportedAt": "2026-10-05T22:03:32.860Z",
+  "enrollment": null,
+  "cohort": {
+    "id": "f2a3e4a7-85ed-4ff4-9e3a-c7045b607f14",
+    "title": "Earlier display cohort",
+    "programId": "path-00248699-6afd-45c8-8422-e4ccd2d8f060",
+    "version": "display-unavailable-preview-body",
+    "contentRef": {
+      "scope": "tw-31e24331-3dcd-48d5-b73d-9833067cd19d",
+      "programId": "path-00248699-6afd-45c8-8422-e4ccd2d8f060",
+      "versionId": "display-unavailable-preview-body"
+    },
+    "capacity": 5,
+    "status": "open",
+    "createdAt": "2026-10-05T22:02:55.259Z",
+    "contentOpen": false,
+    "contentNotice": "Display fixture: explicitly selected preview has no available exact body.",
+    "occupied": 0,
+    "boardAccess": true,
+    "canModerate": false,
+    "canHost": true
+  }
+}

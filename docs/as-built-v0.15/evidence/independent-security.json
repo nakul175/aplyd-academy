@@ -1,0 +1,53 @@
+{
+  "reviewedAt": "2026-10-05T21:36:13.415298+00:00",
+  "scope": "Independent source review only; no application edits, compilation, tests, Worker, browser, network, SQL or state mutations performed.",
+  "candidateHashes": {
+    "lib/academy-offering-navigation.ts": "b29d838f305bd7d373bacee31f3768da67b8fd02357fdb3f8bbf3d59a00a4bf6",
+    "app/academy.tsx": "6938b1d1b0e3dc842fa92847efd29ee070ec9fd794a1d5036905a91d9f03e7e0",
+    "app/academy-learning.tsx": "091f51fecbc44ebc4f791f92b09b864d76376cd934c3b9b282271d9a791b1cae",
+    "integration.patch": "ece56ecf201ad78946a782ef230a4ad99790307a67a56a84d6fa67afd24b6685",
+    "tests/build-model.mjs": "cb168d5cc17685975e12e18276a5849e34ddd8c1c7079c1156b6b63a8fc64aa1",
+    "tests/offering.test.mjs": "938743ec697bd3102cbbe00c5d31a65ff3868157367d45064e05739335ea9902",
+    "tests/browser-readonly.mjs": "af9a30b59b22d4658401624c03c65daa06ab36ed6e05e8bccfabd6d986664117",
+    "tests/read-only-routing.mjs": "5755c5adea2d269ef03d07e87f17117b900bad01b0cc06ced85185f9bcfc3874",
+    "tests/read-only-routing.test.mjs": "5b3ad634c6612b065e3dd12dc8ddbc1c475e0777fbcf81858be44dda072e3e19"
+  },
+  "candidateManifestMatches": true,
+  "rootHashes": {
+    "app/academy.tsx": "8128ec1b0d8abccadb41d46e25c812ffb0ee694453d2df9eedd44f465efdb52f",
+    "app/academy-learning.tsx": "5b891347026daefc3e2b90b41220fcc18697720e4331039a97bca7e208403430",
+    "app/academy-context.tsx": "15ae4ab655c7ad8a680f89aa63010afd733d31dca8884efcaa7658ebc8905fd1",
+    "lib/academy-curriculum.ts": "02a7e32aa7f56e1bc06694987946f804d33fdd17ab781749142f72f42bda722c",
+    "lib/academy-teams.ts": "ff3430cb05af22f8ce953f1f30cd9ff20bc536bbef0dfab6942014b10183b807"
+  },
+  "rootManifestMatches": true,
+  "productFindings": [],
+  "harnessFindings": [
+    {
+      "id": "M5-QA-01",
+      "priority": "P2",
+      "file": "tests/browser-readonly.mjs",
+      "lines": [
+        71,
+        73
+      ],
+      "finding": "Guarded continue validates the first URL only. A same-origin GET/HEAD redirect can issue an external request without another page.route guard.",
+      "evidence": "Installed Playwright primary API documentation: playwright-core/types/types.d.ts line 4314: The handler will only be called for the first url if the response is a redirect.",
+      "fix": "Replace remaining continue transport with same-origin GET/HEAD guarded fetch maxRedirects:0, reject redirect responses before fulfill, and add fake-route redirect groups. Preserve wrappers for every specific intercept.",
+      "limits": "No redirect was executed or observed; this is an unsupported claimed harness guarantee, not evidence of a product redirect or external request."
+    }
+  ],
+  "sourceConclusions": [
+    "Catalog program body and OfferingIntent derive from the same accepted cohort; intent carries only bounded workspace, cohort and exact content reference metadata.",
+    "Explicit target compares accepted workspace, program, cohort and exact pinnedRef before resolving. Missing, repointed, mismatched and malformed explicit targets do not substitute another edition.",
+    "Own active enrollment retains precedence and exact saved pin, with a concise notice for conflicting intent; unavailable own content retains the existing support/export path.",
+    "Manual picker callback updates only navigation state/hash without scroll or main focus. LearningPage key excludes offering metadata so selector remains mounted; actual focus/history behavior still requires integrated browser acceptance.",
+    "No new API command, persistence, role, source registry or enrollment authority is introduced; enrollment remains a separate existing Start click with server authorization/capacity/CAS."
+  ],
+  "existingCandidateEvidence": {
+    "pureGroups": 30,
+    "routingStubGroups": 20,
+    "integratedBrowserExecuted": false,
+    "independentReviewerExecutedTests": false
+  }
+}

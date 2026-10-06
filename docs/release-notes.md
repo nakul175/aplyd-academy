@@ -113,3 +113,10 @@ A further49 local API assertions exercised attendance against the real server cl
 ## v0.10.1 · Final verification index
 
 Preserves the initial315-test snapshot beside the final323-test result and reconciles the evidence index. Adds the executed129-target library keyboard regression at desktop, tablet and phone sizes. Application code, schema, originals and runtime behavior match v0.10; this increment completes the verification pack.
+
+
+# Version 0.15 reconciliation and Claude handoff
+
+Private course cards and cohort previews preserve the same exact edition through deliberate choice, reload and browser history. Own enrolled editions retain priority. Unavailable own-learning downloads attach only matching own cohort metadata or null instead of a newer default. No API, schema, persisted learner data or server-authority changes.
+
+Actual current-source validation:727 model/domain entries,0 failures, application typecheck/build,30 read-only browser scenarios including5 actual downloads and unchanged saved projections. The80 request-guard cases are separate. Full protected fictional-fixture testing remains pending its explicit approval. See as-built-v0.15 and CLAUDE-HANDOFF.md. The reflection completion-date correction is preserved under candidates without being applied. Broader specifications, original specialist text artifacts and hash-bound full raw backup are retained.

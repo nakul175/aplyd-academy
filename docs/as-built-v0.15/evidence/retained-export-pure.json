@@ -1,0 +1,29 @@
+{
+  "at": "2026-10-05T21:57:05.309Z",
+  "groups": 22,
+  "assertions": 25,
+  "source": {
+    "at": "2026-10-05T21:56:37.510Z",
+    "sources": [
+      {
+        "file": "lib/curriculum-versions/0.1-review-draft.json",
+        "sha256": "9fc83c8dd615456db8f49d140f56bff566e05c14d32ebb70a14cdcb73078b7e4"
+      },
+      {
+        "file": "lib/academy-curriculum.ts",
+        "sha256": "02a7e32aa7f56e1bc06694987946f804d33fdd17ab781749142f72f42bda722c"
+      },
+      {
+        "file": "lib/academy-retained-export.ts",
+        "sha256": "10babbe0c47db79d179886d1095dedb964f982082157d2bc2cfd8d3bd80afbb9"
+      }
+    ],
+    "typedHelper": true,
+    "limits": [
+      "Actual root contentKey/pinnedRef and immutable registry; staged pure helper. In-memory tests only. No Worker, browser, API, SQL, checkout edits or app build."
+    ]
+  },
+  "limitations": [
+    "Pure staged helper plus actual root pin/key/registry only. Projected metadata fixtures are in memory. Runtime browser acceptance NOT RUN."
+  ]
+}

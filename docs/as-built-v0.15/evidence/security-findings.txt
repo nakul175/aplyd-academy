@@ -1,0 +1,9 @@
+Exact offering candidate — independent source review
+
+One actionable QA finding (P2): browser-readonly.mjs lines 71 and 73 guard the initial same-origin GET/HEAD request, then continue it. Playwright's installed primary documentation explicitly says page.route handles only the first URL in a redirect chain (playwright-core/types/types.d.ts:4314). An unexpected same-origin redirect can therefore escape the external-origin guard. The 20 fake-route groups do not simulate redirects. Specific route.fetch calls correctly use maxRedirects:0.
+
+Before browser execution, replace the remaining continue transport with guarded fetch maxRedirects:0, reject redirect responses before fulfill, and cover redirect responses in the isolated route tests. This is a harness guarantee gap; no redirect, external request or browser run occurred during this review.
+
+No actionable product source defect found. Exact offering validation binds current accepted workspace/cohort/program/pin; own active saved enrollment stays authoritative; malformed explicit offering targets do not fallback; Start remains a separate existing command. Manual choice preserves the selector's component key and avoids go's main-focus/scroll side effects, but actual reload/history/keyboard proof remains pending integrated browser acceptance.
+
+Evidence scope: candidate source only. Existing 30 pure candidate groups and 20 route-stub groups are supplied evidence, not tests independently executed here. No app edit, compilation, Worker, browser, network, SQL or persisted mutation performed. Current source hashes and manifest agreement are recorded in review-evidence.json.

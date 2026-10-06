@@ -1,0 +1,236 @@
+{
+  "artifact": "wireframes.html",
+  "checks": [
+    {
+      "name": "Onboarding saves fictional profile",
+      "passed": true
+    },
+    {
+      "name": "Enrollment opens practice",
+      "passed": true
+    },
+    {
+      "name": "Submission enters review state",
+      "passed": true
+    },
+    {
+      "name": "Critical criterion fails despite 95 total",
+      "passed": true
+    },
+    {
+      "name": "Retry with criteria met passes",
+      "passed": true
+    },
+    {
+      "name": "Credential verification starts private",
+      "passed": true
+    },
+    {
+      "name": "Public preview can be enabled",
+      "passed": true
+    },
+    {
+      "name": "Public preview can be withdrawn",
+      "passed": true
+    },
+    {
+      "name": "Delivery blocked without sharing",
+      "passed": true
+    },
+    {
+      "name": "Permitted local delivery simulation",
+      "passed": true
+    },
+    {
+      "name": "Withdrawal blocks local delivery",
+      "passed": true
+    },
+    {
+      "name": "Sharing does not leak to another context",
+      "passed": true
+    },
+    {
+      "name": "Local community reply is visible",
+      "passed": true
+    },
+    {
+      "name": "WF-01 no page overflow at 1280",
+      "passed": true
+    },
+    {
+      "name": "WF-02 no page overflow at 1280",
+      "passed": true
+    },
+    {
+      "name": "WF-03 no page overflow at 1280",
+      "passed": true
+    },
+    {
+      "name": "WF-04 no page overflow at 1280",
+      "passed": true
+    },
+    {
+      "name": "WF-05 no page overflow at 1280",
+      "passed": true
+    },
+    {
+      "name": "WF-06 no page overflow at 1280",
+      "passed": true
+    },
+    {
+      "name": "WF-07 no page overflow at 1280",
+      "passed": true
+    },
+    {
+      "name": "WF-08 no page overflow at 1280",
+      "passed": true
+    },
+    {
+      "name": "WF-09 no page overflow at 1280",
+      "passed": true
+    },
+    {
+      "name": "WF-10 no page overflow at 1280",
+      "passed": true
+    },
+    {
+      "name": "WF-11 no page overflow at 1280",
+      "passed": true
+    },
+    {
+      "name": "WF-12 no page overflow at 1280",
+      "passed": true
+    },
+    {
+      "name": "WF-13 no page overflow at 1280",
+      "passed": true
+    },
+    {
+      "name": "WF-14 no page overflow at 1280",
+      "passed": true
+    },
+    {
+      "name": "WF-01 no page overflow at 768",
+      "passed": true
+    },
+    {
+      "name": "WF-02 no page overflow at 768",
+      "passed": true
+    },
+    {
+      "name": "WF-03 no page overflow at 768",
+      "passed": true
+    },
+    {
+      "name": "WF-04 no page overflow at 768",
+      "passed": true
+    },
+    {
+      "name": "WF-05 no page overflow at 768",
+      "passed": true
+    },
+    {
+      "name": "WF-06 no page overflow at 768",
+      "passed": true
+    },
+    {
+      "name": "WF-07 no page overflow at 768",
+      "passed": true
+    },
+    {
+      "name": "WF-08 no page overflow at 768",
+      "passed": true
+    },
+    {
+      "name": "WF-09 no page overflow at 768",
+      "passed": true
+    },
+    {
+      "name": "WF-10 no page overflow at 768",
+      "passed": true
+    },
+    {
+      "name": "WF-11 no page overflow at 768",
+      "passed": true
+    },
+    {
+      "name": "WF-12 no page overflow at 768",
+      "passed": true
+    },
+    {
+      "name": "WF-13 no page overflow at 768",
+      "passed": true
+    },
+    {
+      "name": "WF-14 no page overflow at 768",
+      "passed": true
+    },
+    {
+      "name": "WF-01 no page overflow at 360",
+      "passed": true
+    },
+    {
+      "name": "WF-02 no page overflow at 360",
+      "passed": true
+    },
+    {
+      "name": "WF-03 no page overflow at 360",
+      "passed": true
+    },
+    {
+      "name": "WF-04 no page overflow at 360",
+      "passed": true
+    },
+    {
+      "name": "WF-05 no page overflow at 360",
+      "passed": true
+    },
+    {
+      "name": "WF-06 no page overflow at 360",
+      "passed": true
+    },
+    {
+      "name": "WF-07 no page overflow at 360",
+      "passed": true
+    },
+    {
+      "name": "WF-08 no page overflow at 360",
+      "passed": true
+    },
+    {
+      "name": "WF-09 no page overflow at 360",
+      "passed": true
+    },
+    {
+      "name": "WF-10 no page overflow at 360",
+      "passed": true
+    },
+    {
+      "name": "WF-11 no page overflow at 360",
+      "passed": true
+    },
+    {
+      "name": "WF-12 no page overflow at 360",
+      "passed": true
+    },
+    {
+      "name": "WF-13 no page overflow at 360",
+      "passed": true
+    },
+    {
+      "name": "WF-14 no page overflow at 360",
+      "passed": true
+    },
+    {
+      "name": "No browser runtime exceptions",
+      "passed": true
+    },
+    {
+      "name": "No external network requests",
+      "passed": true
+    }
+  ],
+  "errors": [],
+  "external_requests": [],
+  "scope": "Offline documentation prototype only, not product execution"
+}

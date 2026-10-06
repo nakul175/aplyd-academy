@@ -1,0 +1,75 @@
+{
+  "at": "2026-10-05T21:58:17.202Z",
+  "before": [
+    {
+      "file": "lib/curriculum-versions/0.1-review-draft.json",
+      "sha256": "9fc83c8dd615456db8f49d140f56bff566e05c14d32ebb70a14cdcb73078b7e4"
+    },
+    {
+      "file": "lib/academy-curriculum.ts",
+      "sha256": "02a7e32aa7f56e1bc06694987946f804d33fdd17ab781749142f72f42bda722c"
+    },
+    {
+      "file": "lib/academy-inclusive-learning.ts",
+      "sha256": "483e64778ad762e93880a5ea41bec0b873fe48c62bdc1aa5fefc0b26c8f626ac"
+    },
+    {
+      "file": "lib/academy-ecosystems.ts",
+      "sha256": "d12b3a3c6af5b35a38af5e99b0fc674ead9f0cb7ed58c0d31c4a4f5d2a6af19a"
+    },
+    {
+      "file": "lib/academy-ecosystem-guard.ts",
+      "sha256": "cd166d20798b7fc62a80b584a6d8084498dc5d6976924d206541a7c7a2d74fe8"
+    },
+    {
+      "file": "lib/academy-plan.ts",
+      "sha256": "c619f823371951643585bfe5c5b55cb071454791bc19b958caa635c5fbfd0f9b"
+    },
+    {
+      "file": "lib/academy-engine.ts",
+      "sha256": "4747712f10c39cc08eaed66939bd99013d8064e4eb3097218590fbcc63bebff7"
+    },
+    {
+      "file": "lib/academy-weekly-review.mjs",
+      "sha256": "79ff82d3e993e048328297d0084b2538978f27fe9580694e6f2a31a753da802e"
+    }
+  ],
+  "model": [
+    {
+      "file": "lib/curriculum-versions/0.1-review-draft.json",
+      "sha256": "9fc83c8dd615456db8f49d140f56bff566e05c14d32ebb70a14cdcb73078b7e4"
+    },
+    {
+      "file": "lib/academy-curriculum.ts",
+      "sha256": "02a7e32aa7f56e1bc06694987946f804d33fdd17ab781749142f72f42bda722c"
+    },
+    {
+      "file": "lib/academy-inclusive-learning.ts",
+      "sha256": "483e64778ad762e93880a5ea41bec0b873fe48c62bdc1aa5fefc0b26c8f626ac"
+    },
+    {
+      "file": "lib/academy-ecosystems.ts",
+      "sha256": "d12b3a3c6af5b35a38af5e99b0fc674ead9f0cb7ed58c0d31c4a4f5d2a6af19a"
+    },
+    {
+      "file": "lib/academy-ecosystem-guard.ts",
+      "sha256": "cd166d20798b7fc62a80b584a6d8084498dc5d6976924d206541a7c7a2d74fe8"
+    },
+    {
+      "file": "../../outputs/aplyd-academy-eight-hour/m6-reflection-completion/lib/academy-plan.ts",
+      "sha256": "fd9ae324ed4e1381519c43650095643d1a96fdb4778f08f476f92d6b50bc13af"
+    },
+    {
+      "file": "lib/academy-engine.ts",
+      "sha256": "4747712f10c39cc08eaed66939bd99013d8064e4eb3097218590fbcc63bebff7"
+    },
+    {
+      "file": "lib/academy-weekly-review.mjs",
+      "sha256": "79ff82d3e993e048328297d0084b2538978f27fe9580694e6f2a31a753da802e"
+    }
+  ],
+  "strictPlanTypecheck": true,
+  "limits": [
+    "Actual root engine/curriculum/weekly model; only academy-plan.ts overridden in staged AFTER model. BEFORE uses unchanged actual root modules. Pure bundle only, no app build or network, persisted fixtures, SQL, checkout edit, Worker or browser."
+  ]
+}

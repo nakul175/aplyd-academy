@@ -1,0 +1,57 @@
+{
+  "at": "2026-10-05T21:59:48.501Z",
+  "groups": 11,
+  "passed": 11,
+  "passedCases": [
+    "actual engine newest-first followups retain first qualifying completion after second save",
+    "actual weekly recap keeps old task in original week and never recounts it for later reflection",
+    "earliest qualifying date is independent of history ordering and derivation leaves inputs unchanged",
+    "same-enrollment reflection before task creation is excluded",
+    "actual separately enrolled/reviewed pathway reflection cannot move exact own task date",
+    "explicit new later plan item binds to the first action after its own creation",
+    "skipped item remains skipped despite legitimate later reflections and contributes no completion",
+    "retained completed history and existing blocked reasons survive suspension/authority/lifecycle changes",
+    "no match/malformed dates never fabricate completion; future-only history keeps existing recap diagnostic",
+    "exact creation instant qualifies; one millisecond earlier does not; ties retain all raw history",
+    "completed exact history does not require a newer pin and private reflection bodies stay out of recap exports"
+  ],
+  "assertions": 62,
+  "source": [
+    {
+      "file": "lib/curriculum-versions/0.1-review-draft.json",
+      "sha256": "9fc83c8dd615456db8f49d140f56bff566e05c14d32ebb70a14cdcb73078b7e4"
+    },
+    {
+      "file": "lib/academy-curriculum.ts",
+      "sha256": "02a7e32aa7f56e1bc06694987946f804d33fdd17ab781749142f72f42bda722c"
+    },
+    {
+      "file": "lib/academy-inclusive-learning.ts",
+      "sha256": "483e64778ad762e93880a5ea41bec0b873fe48c62bdc1aa5fefc0b26c8f626ac"
+    },
+    {
+      "file": "lib/academy-ecosystems.ts",
+      "sha256": "d12b3a3c6af5b35a38af5e99b0fc674ead9f0cb7ed58c0d31c4a4f5d2a6af19a"
+    },
+    {
+      "file": "lib/academy-ecosystem-guard.ts",
+      "sha256": "cd166d20798b7fc62a80b584a6d8084498dc5d6976924d206541a7c7a2d74fe8"
+    },
+    {
+      "file": "../../outputs/aplyd-academy-eight-hour/m6-reflection-completion/lib/academy-plan.ts",
+      "sha256": "fd9ae324ed4e1381519c43650095643d1a96fdb4778f08f476f92d6b50bc13af"
+    },
+    {
+      "file": "lib/academy-engine.ts",
+      "sha256": "4747712f10c39cc08eaed66939bd99013d8064e4eb3097218590fbcc63bebff7"
+    },
+    {
+      "file": "lib/academy-weekly-review.mjs",
+      "sha256": "79ff82d3e993e048328297d0084b2538978f27fe9580694e6f2a31a753da802e"
+    }
+  ],
+  "strictPlanTypecheck": true,
+  "limits": [
+    "Actual engine lifecycle and immutable curriculum sample review in memory; staged plan branch and actual weekly recap. Some explicitly marked lifecycle/read variants change own in-memory projection fields only. Fetch disabled; no API, browser, SQL, app build, persisted fixtures or checkout edits."
+  ]
+}

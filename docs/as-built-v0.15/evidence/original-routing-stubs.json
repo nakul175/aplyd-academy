@@ -1,0 +1,20 @@
+{
+  "passed": true,
+  "groups": 20,
+  "at": "2026-10-05T21:33:57.608683+00:00",
+  "files": {
+    "tests/browser-readonly.mjs": "af9a30b59b22d4658401624c03c65daa06ab36ed6e05e8bccfabd6d986664117",
+    "tests/read-only-routing.mjs": "5755c5adea2d269ef03d07e87f17117b900bad01b0cc06ced85185f9bcfc3874",
+    "tests/read-only-routing.test.mjs": "5b3ad634c6612b065e3dd12dc8ddbc1c475e0777fbcf81858be44dda072e3e19"
+  },
+  "productCandidateHashesUnchanged": {
+    "lib/academy-offering-navigation.ts": "b29d838f305bd7d373bacee31f3768da67b8fd02357fdb3f8bbf3d59a00a4bf6",
+    "app/academy.tsx": "6938b1d1b0e3dc842fa92847efd29ee070ec9fd794a1d5036905a91d9f03e7e0",
+    "app/academy-learning.tsx": "091f51fecbc44ebc4f791f92b09b864d76376cd934c3b9b282271d9a791b1cae",
+    "integration.patch": "ece56ecf201ad78946a782ef230a4ad99790307a67a56a84d6fa67afd24b6685"
+  },
+  "limits": [
+    "Network-free fake route objects only; no browser, API, Worker, root edit or persisted mutation.",
+    "21 browser scenarios remain prepared, not executed."
+  ]
+}

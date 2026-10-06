@@ -1,0 +1,10 @@
+{
+  "kind": "sandbox-local-network-denial",
+  "error": "connect EPERM 127.0.0.1:8787",
+  "browserLaunched": false,
+  "scenariosExecuted": 0,
+  "worker": "13134",
+  "suiteUnchanged": true,
+  "sameOriginReadOnlyAttempt": true,
+  "automaticReviewRejected": false
+}
