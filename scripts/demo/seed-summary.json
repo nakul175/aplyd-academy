@@ -1,0 +1,104 @@
+{
+  "baseUrl": "http://127.0.0.1:8791",
+  "teamId": "tw-69f779f4-eaa9-48ba-8879-475a8af82e9b",
+  "nonce": "03ea066d",
+  "cohorts": {
+    "farm": "e82bf50b-f43a-4433-8a2e-6e1998c36708",
+    "msme": "bd92e9e4-d1d8-4c53-b0fd-d395c3f18527",
+    "publicServant": "538ffd06-1719-4a31-bd93-ccc046459ec4"
+  },
+  "sessions": {
+    "attendance": "08e3d25f-00f1-4be4-b0f8-ed9fe9e0422b",
+    "upcoming": "b68b8716-89dd-4f3b-aa0d-a299f1d6e1e8"
+  },
+  "learners": [
+    {
+      "key": "learner-new",
+      "label": "Learner, enrolled, not started",
+      "cohort": "farm"
+    },
+    {
+      "key": "learner-progress",
+      "label": "Learner, mid-lesson with a saved draft",
+      "cohort": "farm"
+    },
+    {
+      "key": "learner-withdrawn",
+      "label": "Learner, withdrawn",
+      "cohort": "farm"
+    },
+    {
+      "key": "learner-lessons-done",
+      "label": "Learner, all lessons done, not submitted",
+      "cohort": "farm"
+    },
+    {
+      "key": "learner-submitted-farm",
+      "label": "Learner, submitted, awaiting review (assigned)",
+      "cohort": "farm"
+    },
+    {
+      "key": "learner-complete",
+      "label": "Learner, assessed pass with record",
+      "cohort": "msme"
+    },
+    {
+      "key": "learner-failed-gate",
+      "label": "Learner, assessed fail on a critical gate",
+      "cohort": "msme"
+    },
+    {
+      "key": "learner-appealed",
+      "label": "Learner, assessed fail, appeal open",
+      "cohort": "msme"
+    },
+    {
+      "key": "learner-appeal-resolved",
+      "label": "Learner, appeal resolved by a different reviewer",
+      "cohort": "msme"
+    },
+    {
+      "key": "learner-submitted-msme",
+      "label": "Learner, submitted, awaiting assignment",
+      "cohort": "msme"
+    },
+    {
+      "key": "learner-msme-progress",
+      "label": "Learner, one lesson done",
+      "cohort": "msme"
+    },
+    {
+      "key": "learner-ps-new",
+      "label": "Learner, enrolled, not started",
+      "cohort": "public-servant"
+    },
+    {
+      "key": "learner-ps-progress",
+      "label": "Learner, mid-lesson",
+      "cohort": "public-servant"
+    },
+    {
+      "key": "learner-ps-complete",
+      "label": "Learner, assessed pass",
+      "cohort": "public-servant"
+    },
+    {
+      "key": "learner-ps-two-lessons",
+      "label": "Learner, two lessons done",
+      "cohort": "public-servant"
+    }
+  ],
+  "counts": {
+    "learners": 15,
+    "staff": 6,
+    "cohorts": 3,
+    "posts": 5,
+    "sessions": 2,
+    "networkProfiles": 3,
+    "supportRequests": 1
+  },
+  "verification": {
+    "checks": 33,
+    "failures": []
+  }
+}

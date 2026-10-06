@@ -57,6 +57,8 @@ The commits in this release are authored and committed by Claude and signed. A f
 
 Running the `lesson` command again for an already completed lesson is accepted by the engine and overwrites `practice[lessonId].completedAt`, which moves that lesson's plan item to the later week. The Learn view offers "Next step" instead of "Complete lesson" for a completed lesson and stale tabs are refused by the revision check, so this is reachable only through a direct API call on the learner's own data. Probe: [evidence/lesson-sibling-probe.json](evidence/lesson-sibling-probe.json). Fixing it changes engine command semantics and needs a decision (refuse re-completion, or keep the first completion date while allowing a revised practice answer).
 
+Update: fixed in v0.15.2 (M7); the engine now refuses a repeat lesson completion. See `docs/CLAUDE-HANDOFF.md`.
+
 ## Publication
 
 Not published. The hosted Site remains v0.15.0, native version 16, owner-private. Publishing needs a fresh credential from the owner's Sites workflow, which this environment cannot obtain. The external release receipt records the main commit and publication state.
