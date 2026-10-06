@@ -475,8 +475,8 @@ if (partner.seeded) {
 // audit (owner only)
 {
   const ar = await get(A, `/api/teams/audit?teamId=${encodeURIComponent(TEAM)}&limit=50`);
-  // Finding: the audit viewer names only the original command types; the wave 4 commands (escalations, data requests, recovery, accommodations, credential lifecycle) are logged with type 'other'.
-  check4('audit: the owner can read the workspace audit (original types are named; the newer commands appear as "other", a known gap)', ar.status === 200 && ar.items.length === 50 && ar.items.some(i => i.type === 'assess') && ar.items.some(i => i.type === 'other') && ar.items.every(i => /^a-[0-9a-f]{12}$/.test(i.actor)));
+  // Acceptance fix merged: the newer commands (escalations, data requests, recovery, accommodations, credential lifecycle) now have their own audit types.
+  check4('audit: the owner can read the workspace audit (original and newer command types are named)', ar.status === 200 && ar.items.length === 50 && ar.items.some(i => i.type === 'assess') && ar.items.some(i => i.type !== 'other' && i.type !== 'assess') && ar.items.every(i => /^a-[0-9a-f]{12}$/.test(i.actor)));
   check4('audit: a learner and the moderator get the same 404 as an outsider', (await get(people['learner-new'], `/api/teams/audit?teamId=${encodeURIComponent(TEAM)}`)).status === 404 && (await get(people.moderator, `/api/teams/audit?teamId=${encodeURIComponent(TEAM)}`)).status === 404);
 }
 check4('pending reviews are still exactly the original 3 (every new review in wave 4 was decided)', adminV.team.pending.length === 3);

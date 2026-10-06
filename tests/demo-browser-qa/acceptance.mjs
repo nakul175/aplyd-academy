@@ -7,7 +7,7 @@ import {readFileSync,writeFileSync,mkdirSync,existsSync,statSync} from 'node:fs'
 import {spawn} from 'node:child_process';
 import {dirname,resolve} from 'node:path';
 import {fileURLToPath} from 'node:url';
-const {chromium}=await import(process.env.PLAYWRIGHT_MODULE??'playwright');
+const pwMod=await import(process.env.PLAYWRIGHT_MODULE??'playwright');const chromium=pwMod.chromium??pwMod.default?.chromium;
 
 const here=dirname(fileURLToPath(import.meta.url)),root=resolve(here,'../..');
 const WORKER=Number(process.env.DEMO_WORKER_PORT??8801),PROXY=Number(process.env.DEMO_PROXY_PORT??8802),PARTNER=Number(process.env.ACCEPT_PARTNER_PORT??8803);
@@ -140,7 +140,7 @@ if(process.env.SKIP_SWEEP!=='1'){
 const SENT='ZZPRACTICESENTINEL-do-not-log';
 let drId='';
 {
- const L=await viaProxy('learner-new',1280,860),A=await viaProxy('admin',1280,860);
+ const L=await viaProxy('learner-msme-progress',1280,860),A=await viaProxy('admin',1280,860);
  await open(L,PBASE,'requests');
  await check('data-requests','learner files an export request',async()=>{await L.getByRole('button',{name:'New request'}).click();await L.locator('#dr-detail').fill(`Please export my data. ${SENT}`);await L.getByRole('button',{name:'File request'}).click();await toast(L,/Request filed/);
   const card=L.locator('[data-data-request-id]').first();await card.waitFor();drId=await card.getAttribute('data-data-request-id');if(!/Received/.test(await card.innerText()))throw new Error('not Received');await shot(L,'learner-new-data-request-filed-1280')});
