@@ -123,6 +123,14 @@ select,button,a.btn{font-size:12px;padding:4px 8px;border-radius:4px;border:1px 
 <aside class="panel" id="p">${panel}</aside>`;
   }
 
+  // Everyone except the personal-lab learner lands inside the seeded DEMO workspace (the app reads ?workspace=).
+  function landing(data, key, next) {
+    if (key === "personal-learner" || !data || !data.teamId || !/^tw-[a-z0-9-]{20,80}$/i.test(data.teamId)) return next;
+    const i = next.indexOf("#"), path = i < 0 ? next : next.slice(0, i), hash = i < 0 ? "" : next.slice(i);
+    if (path !== "/") return next;
+    return "/?workspace=" + encodeURIComponent(data.teamId) + hash;
+  }
+
   function injection(data, script, active) {
     const html = JSON.stringify(bar(data, script, active)).replace(/</g, "\\u003c").replace(/[\u2028\u2029]/g, (c) => "\\u" + c.charCodeAt(0).toString(16));
     return `<style data-demo>html body{padding-top:40px !important}</style><script data-demo>(function(){var H=${html};
@@ -133,7 +141,7 @@ var p=s.getElementById('p'),g=s.getElementById('g');
 function open(v){p.classList.toggle('open',v);g.setAttribute('aria-expanded',String(v));try{localStorage.setItem('demo_guide_open',v?'1':'0')}catch(e){}}
 try{if(localStorage.getItem('demo_guide_open')==='1')open(true)}catch(e){}
 g.onclick=function(){open(!p.classList.contains('open'))};
-s.getElementById('r').onchange=function(e){sw(e.target.value).then(function(){location.reload()})};
+s.getElementById('r').onchange=function(e){location.href='/demo/switch?as='+encodeURIComponent(e.target.value)+'&next='+encodeURIComponent('/'+location.hash)};
 Array.prototype.forEach.call(s.querySelectorAll('.step button'),function(b){b.onclick=function(){location.href='/demo/switch?as='+encodeURIComponent(b.dataset.role)+'&next='+encodeURIComponent(b.dataset.link)}});}
 function ensure(){if(!document.getElementById('demo-banner-host'))mount()}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',ensure);else ensure();
@@ -243,8 +251,12 @@ new MutationObserver(ensure).observe(document.documentElement,{childList:true});
       if (!data || !data.identities.some((i) => i.key === key)) { res.writeHead(400, { "content-type": "text/plain" }); return res.end("Unknown identity"); }
       const safe = safeNext(url.searchParams.get("next") ?? "/");
       if (!safe) { res.writeHead(400, { "content-type": "text/plain" }); return res.end("Invalid next"); }
-      res.writeHead(302, { location: safe, "set-cookie": `${COOKIE}=${encodeURIComponent(key)}; Path=/; SameSite=Lax; HttpOnly`, "cache-control": "no-store" });
+      res.writeHead(302, { location: landing(data, key, safe), "set-cookie": `${COOKIE}=${encodeURIComponent(key)}; Path=/; SameSite=Lax; HttpOnly`, "cache-control": "no-store" });
       return res.end();
+    }
+    if (req.method === "GET" && url.pathname === "/" && !url.searchParams.has("workspace")) {
+      const data = loadIdentities(), a = data ? activeOf(req, data) : null;
+      if (data && a) { const to = landing(data, a.key, "/"); if (to !== "/") { res.writeHead(302, { location: to, "cache-control": "no-store" }); return res.end(); } }
     }
     if (url.pathname === "/demo/overview") return overview(req, res);
     if (url.pathname.startsWith("/demo/")) { res.writeHead(404, { "content-type": "text/plain" }); return res.end("Not found"); }

@@ -17,6 +17,13 @@ This section supersedes the rest of this document where they differ. Everything 
 - Small follow-ups for the next milestone that touches these files: pin the mixed past-plus-future reflection case in `tests/reflection-completion-qa` (behaviour documented in `as-built-v0.15.1/functional-design.md`); move the browser guard from `page.route` to `context.route` so popups are covered; normalise the `/api` path match in that harness.
 - Pending gates are unchanged: mutating fictional-fixture approval, the live AI credential choice, and the external product dependencies listed below.
 
+## Demo layer and dummy credentials (v0.16.0 candidate, 6 October 2026)
+
+- `scripts/demo/run-demo.sh` builds, creates a fresh local DEMO database (`.wrangler/demo-state`), starts the worker on loopback, seeds a fictional "DEMO — synthetic" workspace (3 cohorts, 15 learners at varied progress, 6 staff roles, posts, a report, sessions, one appeal resolved by a different reviewer) and starts a role-switching proxy on `http://127.0.0.1:8788/`. `/demo/overview` shows the whole workload on one page; the Demo guide panel has a 10-step script. Everything is loopback-only and is not part of the Worker build or the hosted Site.
+- BR-28/29/30 dummy credentials: `lib/academy-credential.ts`, `lib/academy-credential-public.ts`, `app/api/verify/[token]/route.ts`, `app/verify/[token]/page.tsx`, `app/academy-credential-panel.tsx`. The issuer is a labelled DUMMY with a fixed public demo key; it is not a certifying body. Public verification works only when the learner's share switch is on and returns a uniform 404 otherwise.
+- Verified locally: model/domain 762/762, guards 80/80, tsc 0, Worker build ok, demo scripts 24/24, seeded run 33/33 assertions, public verify checked on seeded data. Browser view of the role pages was checked by screenshot only; no automated browser suite exists for the demo yet. Not published.
+- Still not built: BR-04 recovery, BR-42 partner transport (dummy endpoint), BR-44 request workflow, BR-46 audit viewer, BR-06 facets, BR-36 mentors, BR-45 entitlements, real Hindi content, and everything that needs an outside party.
+
 ## Read first
 
 1. ../README.md lists implemented behavior and external dependencies.

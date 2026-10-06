@@ -6,7 +6,7 @@ const p=programs[1],T0='2026-10-05T12:00:00.000Z',day=n=>new Date(Date.parse(T0)
 const apply=(s,c,now=T0,staff)=>applyCommand(s,c,now,staff);
 const evidence=()=>Object.fromEntries(p.practicalAssessment.submissionPrompts.map(f=>[f.id,'Synthetic checked evidence. Sources are verified and private fields excluded.']));
 const enroll=()=>apply(freshWorkspace(),{type:'enroll',programId:p.id});
-const doLessons=(s,n=p.lessons.length)=>{const id=s.enrollments[0].id;for(const l of p.lessons.slice(0,n))s=apply(s,{type:'lesson',enrollmentId:id,lessonId:l.id,practice:'I used the fictional packet and checked the source references carefully.',answers:l.quiz.map(q=>q.correctOptionIndex)});return s};
+const doLessons=(s,n=p.lessons.length)=>{const id=s.enrollments[0].id;for(const l of p.lessons.slice(0,n)){if(s.enrollments[0].completed.includes(l.id))continue;s=apply(s,{type:'lesson',enrollmentId:id,lessonId:l.id,practice:'I used the fictional packet and checked the source references carefully.',answers:l.quiz.map(q=>q.correctOptionIndex)})}return s};
 const prepared=()=>{let s=doLessons(enroll());return apply(s,{type:'submit',enrollmentId:s.enrollments[0].id,fields:evidence(),confirmed:true})};
 const assess=(s,gates=[true,true,true])=>({type:'assess',enrollmentId:s.enrollments[0].id,attemptId:s.enrollments[0].attempts.at(-1).id,actor:'assessor-a',scores:[4,4,4,4],gates,notes:Array(4).fill('Checked submitted evidence against fictional sources.'),feedback:'Synthetic feedback that is long enough to be actionable and clear.'});
 const passed=()=>{let s=prepared();return apply(s,assess(s))};

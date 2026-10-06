@@ -1,9 +1,9 @@
 {
-  "title": "Aplyd Academy — guided demo",
+  "title": "Aplyd Academy \u2014 guided demo",
   "steps": [
     {
       "id": "discover",
-      "role": "learner-1",
+      "role": "learner-new",
       "title": "A new learner finds a pathway and reads what to expect",
       "say": "A learner who has just joined sees three plain-language pathways for farmers, small businesses and public servants. Before committing, they can read exactly what they need and what the pathway does not promise.",
       "do": "Open the sidebar item 'Learning pathways', choose 'Farm records and better questions with AI', then scroll to the section headed 'Before you start'. Note the credential claim and exclusions, then choose 'Start this pathway' and pick the open cohort.",
@@ -11,7 +11,7 @@
     },
     {
       "id": "lesson-practical",
-      "role": "learner-1",
+      "role": "learner-progress",
       "title": "The learner works a lesson and the practical",
       "say": "Lessons use fictional information only, and progress is saved as the learner goes. The practical is submitted as evidence that a person, not the AI, will review.",
       "do": "Open the pathway, go to the lesson tab and open the first lesson (farm-01). Save a lesson draft and complete it. Then open the 'assessment' tab and choose 'Submit evidence' on the practical.",
@@ -27,7 +27,7 @@
     },
     {
       "id": "appeal",
-      "role": "learner-2",
+      "role": "learner-appealed",
       "title": "A learner who did not pass reads the feedback and appeals",
       "say": "A learner sees the score, the reason and the evidence behind it. If they disagree, they can appeal within 14 days, and the original decision stays in the history.",
       "do": "Open the pathway, then the 'feedback' tab. Read the decision and choose the appeal action, enter a reason and choose 'Submit appeal'. The status changes to appeal pending.",
@@ -67,7 +67,7 @@
     },
     {
       "id": "sharing-export",
-      "role": "learner-1",
+      "role": "learner-complete",
       "title": "The learner decides what leaves their record",
       "say": "Nothing is shared unless the learner chooses it. They can include a practice record in a profile export, and they can export their whole workspace at any time.",
       "do": "Open 'My achievements', switch on 'Include this record in my learning profile export', then open 'Preferences & privacy' and choose 'Export chosen learning profile' or 'Export my workspace'.",

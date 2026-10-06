@@ -1,15 +1,15 @@
 {
   "baseUrl": "http://127.0.0.1:8791",
-  "teamId": "tw-8a6dcbc6-19f9-49c2-8f07-c6ee35672041",
-  "nonce": "59a4cd5a",
+  "teamId": "tw-69f779f4-eaa9-48ba-8879-475a8af82e9b",
+  "nonce": "03ea066d",
   "cohorts": {
-    "farm": "8b973279-c8f7-419d-b26a-d247693abfeb",
-    "msme": "a6435a5c-497b-4884-a032-a409807afbfb",
-    "publicServant": "a7fbe509-dab9-4678-8dbe-2b847fdf28f3"
+    "farm": "e82bf50b-f43a-4433-8a2e-6e1998c36708",
+    "msme": "bd92e9e4-d1d8-4c53-b0fd-d395c3f18527",
+    "publicServant": "538ffd06-1719-4a31-bd93-ccc046459ec4"
   },
   "sessions": {
-    "attendance": "88595c5b-9945-4b50-ac49-e5f765c950bb",
-    "upcoming": "d3060a67-3f9d-4700-93b5-1ea9b2f225e3"
+    "attendance": "08e3d25f-00f1-4be4-b0f8-ed9fe9e0422b",
+    "upcoming": "b68b8716-89dd-4f3b-aa0d-a299f1d6e1e8"
   },
   "learners": [
     {
