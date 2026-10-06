@@ -190,7 +190,7 @@ export function validatePayload(input: unknown): asserts input is DummyPayload {
   const sc = scopeList(input.scopes); if (!sc.length) fail('Partner payload has no scope.', 400);
   for (const [scope, key] of [['progress', 'progress'], ['completion', 'completion'], ['credential-status', 'credential']] as const) if (Object.hasOwn(input, key) !== sc.includes(scope)) fail('Partner payload fields do not match its scopes.', 400);
   if (input.progress !== undefined) { exact(input.progress, ['status', 'started_at'], 'Progress'); if (!PROGRESS.includes(input.progress.status as string)) fail('Progress status is invalid.', 400); canonicalTime(input.progress.started_at); }
-  if (input.completion !== undefined) { const c = input.completion; exact(c, ['completed', 'completed_at'], 'Completion'); if (typeof c.completed !== 'boolean' || (c.completed ? canonicalTime(c.completed_at) : c.completed_at !== null)) fail('Completion is invalid.', 400); }
+  if (input.completion !== undefined) { const c = input.completion; exact(c, ['completed', 'completed_at'], 'Completion'); if (typeof c.completed !== 'boolean') fail('Completion is invalid.', 400); if (c.completed) canonicalTime(c.completed_at); else if (c.completed_at !== null) fail('Completion is invalid.', 400); /* acceptance fix: a completed payload used to be rejected (truthy time string treated as failure) */ }
   if (input.credential !== undefined) { exact(input.credential, ['status'], 'Credential status'); if (!CRED.includes(input.credential.status as string)) fail('Credential status is invalid.', 400); }
 }
 /** Stable digest of what the partner would learn, ignoring event id and send time. Same content, same key. */

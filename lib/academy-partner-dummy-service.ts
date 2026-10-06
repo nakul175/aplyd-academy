@@ -69,7 +69,7 @@ export function factsFor(ws: any, link: PartnerLink): Facts {
 /* ---------- learner commands ---------- */
 export async function lookupMember(partnerUrl: string | undefined, code: string, fetchImpl: typeof fetch = fetch) {
   const base = assertLoopbackUrl(partnerUrl);
-  try { const r = await fetchImpl(new URL('/registry/member/' + encodeURIComponent(code), base), { redirect: 'error', signal: AbortSignal.timeout(4000) }); if (r.status === 404) return null; if (!r.ok) throw 0; return await r.json() as any; }
+  try { const r = await fetchImpl(new URL('/registry/member/' + encodeURIComponent(code), base), { redirect: 'manual', signal: AbortSignal.timeout(4000) }); if (r.status === 404) return null; if (!r.ok) throw 0; return await r.json() as any; } // acceptance fix: workerd rejects the error redirect mode (Invalid redirect value), which made every partner call fail with 503; 'manual' makes a 3xx a non-ok response
   catch { throw new PartnerDummyError('The dummy partner is not running or did not answer on loopback.', 503); }
 }
 export async function viewFor(db: DB, owner: string, now: string, partnerConfigured: boolean) {
@@ -129,7 +129,7 @@ export async function deliverProgress(db: DB, owner: string, linkId: string, now
   const body = JSON.stringify(payload); let outcome: 'delivered' | 'rejected' | 'unreachable' = 'unreachable';
   try {
     const headers = { 'content-type': 'application/json', ...await signRequest(secret, body, Date.now(), nonceOf()) };
-    const r = await doFetch(new URL('/callbacks/progress', base), { method: 'POST', headers, body, redirect: 'error', signal: AbortSignal.timeout(4000) });
+    const r = await doFetch(new URL('/callbacks/progress', base), { method: 'POST', headers, body, redirect: 'manual', signal: AbortSignal.timeout(4000) });
     outcome = r.ok ? 'delivered' : 'rejected';
   } catch { outcome = 'unreachable'; }
   const done = await mutateOwner(db, owner, 'partner-dummy-attempt', now, (_ws, st) => ({ partner: recordAttempt(st, payload.event_id, outcome, now), result: st.deliveries.length }));

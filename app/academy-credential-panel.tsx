@@ -15,7 +15,7 @@ export function CredentialPanel({e}:{e:any}){
   <p className="form-hint">{v.labelMeaning} Issuer: {DEMO_ISSUER}. {DEMO_NOTICE}</p>
   {v.integrity==='failed'&&<p role="alert">This credential failed its integrity check and should not be relied on.</p>}
   <details className="source-packet"><summary>Credential history ({v.history.length})</summary>{v.history.map(h=><p key={h.id}>{day(h.at)} · {h.action}{h.before?` (${h.before} to ${h.after})`:''} · {h.actorRole}{h.actorName?` ${h.actorName}`:''} · {h.reason}</p>)}</details>
-  {shared?<div className="actions"><input readOnly aria-label="Demo verification link" value={link} onFocus={ev=>ev.currentTarget.select()}/><Button variant="outline" onClick={async()=>{try{await navigator.clipboard.writeText(link);setCopied('Link copied')}catch{setCopied('Select the link and copy it')}}}>Copy verification link</Button>{copied&&<span role="status">{copied}</span>}</div>
+  {shared?<div className="actions"><input readOnly style={{flex:'1 1 260px',minWidth:0}} /* acceptance fix: the link field rendered about 200px wide and clipped the URL */ aria-label="Demo verification link" value={link} onFocus={ev=>ev.currentTarget.select()}/><Button variant="outline" onClick={async()=>{try{await navigator.clipboard.writeText(link);setCopied('Link copied')}catch{setCopied('Select the link and copy it')}}}>Copy verification link</Button>{copied&&<span role="status">{copied}</span>}</div>
    :<p className="form-hint">Verification link is off. Turn on sharing for this record to let anyone with the link see only its label, pathway, dates and status. It shows no name or email.</p>}
  </div>;
 }

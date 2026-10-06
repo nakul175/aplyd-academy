@@ -6,7 +6,8 @@ import {auditCsv,type AuditRow} from '@/lib/academy-audit-detail';
 import {download} from './academy-download';
 import {Head,Empty,Tag} from './academy-ui';
 
-const TYPES=['create','accept','invite','revoke-invite','member','cohort-create','cohort-status','assign','assess','resolve','submit','appeal','share','enroll','withdraw','reset','pause','moderate','content-save','content-submit','content-review','content-publish','content-retire','content-archive','content-recall','content-copy'];
+const TYPES=['create','accept','invite','revoke-invite','member','cohort-create','cohort-status','assign','assess','resolve','submit','appeal','share','enroll','withdraw','reset','pause','moderate','content-save','content-submit','content-review','content-publish','content-retire','content-archive','content-recall','content-copy','recovery-request','recovery-withdraw','recovery-decide','data-request-open','data-request-verify','data-request-decide','data-request-restriction','data-request-withdraw','escalate-report','escalation-resolve','accommodation-request','accommodation-decide','credential-issue','credential-lifecycle']; // acceptance fix: filter list lacked the new action types
+// acceptance fix: native selects with long actor names forced a 420px page at 390px; they now shrink to the column.
 const when=(s:string)=>new Intl.DateTimeFormat(undefined,{dateStyle:'medium',timeStyle:'short'}).format(new Date(s));
 const show=(v:any)=>Array.isArray(v)?(v.length?v.join(', '):'none'):v===null||v===undefined?'none':String(v);
 const csvFile=(rows:AuditRow[])=>{const blob=new Blob([auditCsv(rows)],{type:'text/csv;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='academy-audit.csv';a.click();URL.revokeObjectURL(url)};
@@ -25,8 +26,8 @@ export default function AcademyAudit({scope,teamId}:{scope:'workspace'|'personal
    <Button variant="outline" disabled={!rows.length} onClick={()=>download('academy-audit.json',rows)}>Export JSON</Button>
   </Head>
   <form className="two-grid mt" onSubmit={e=>{e.preventDefault();load()}} aria-label="Audit filters">
-   <label className="field"><span>Action type</span><select value={f.type} onChange={set('type')}><option value="">All actions</option>{TYPES.map(t=><option key={t} value={t}>{t}</option>)}</select></label>
-   {!personal&&<label className="field"><span>Actor</span><select value={f.actor} onChange={set('actor')}><option value="">Anyone</option>{Object.entries(actors).map(([ref,name])=><option key={ref} value={ref}>{name} ({ref})</option>)}</select></label>}
+   <label className="field"><span>Action type</span><select style={{maxWidth:'100%',minWidth:0}} value={f.type} onChange={set('type')}><option value="">All actions</option>{TYPES.map(t=><option key={t} value={t}>{t}</option>)}</select></label>
+   {!personal&&<label className="field"><span>Actor</span><select style={{maxWidth:'100%',minWidth:0}} value={f.actor} onChange={set('actor')}><option value="">Anyone</option>{Object.entries(actors).map(([ref,name])=><option key={ref} value={ref}>{name} ({ref})</option>)}</select></label>}
    <label className="field"><span>Target id</span><input value={f.target} onChange={set('target')} placeholder="enrollment, cohort, content or credential id" maxLength={80}/></label>
    <label className="field"><span>From</span><input type="date" value={f.from} onChange={set('from')}/></label>
    <label className="field"><span>To</span><input type="date" value={f.to} onChange={set('to')}/></label>
