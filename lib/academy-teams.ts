@@ -7,6 +7,7 @@ import {isLearningPlanCommand} from './academy-plan';
 import {applyCommand,freshWorkspace,RuleError,programs,CONTENT_VERSION,contexts,applyOwnPlan,planOptions} from './academy-engine';
 import {applyNetworkCommand,projectNetwork,reconcileNetworkAccess} from './academy-network';
 import {applyRecoveryCommand,RecoveryRuleError,takeAssistance,stampAssistedInvite,projectRecovery} from './academy-recovery';
+import {applyDataRequestCommand,applyDataRequestProjection} from './academy-data-requests';
 
 // All protected mutations share one workspace revision. Membership revocation,
 // assignment changes, finalization and seat allocation therefore contend on the
@@ -58,6 +59,7 @@ export function applyTeamCommand(original:Team,u:Identity,c:any,now=new Date().t
 
  if(isLearningPlanCommand(c)){const l=learner(t,u);l.state.learningPlan=applyOwnPlan(l.state,c,planOptions(now,{memberActive:m.active,canLearn:m.roles.includes('learner'),cohorts:t.cohorts},contentContext()));return finishAccess(t,now);}
  if(applyNetworkCommand(t,m,c,now,boardAccess))return finishAccess(t,now);
+ if(applyDataRequestCommand(t,m,c,now))return finishAccess(t,now);
  try{if(applySupportCommand(t,u.userId,c,now))return finishAccess(t,now)}catch(e){if(e instanceof SupportRuleError)throw new RuleError(e.message,e.status);throw e;}
  try{if(applyRecoveryCommand(t,m,c,now))return finishAccess(t,now)}catch(e){if(e instanceof RecoveryRuleError)throw new RuleError(e.message,e.status);throw e;}
  let assist:ReturnType<typeof takeAssistance>=null;try{assist=takeAssistance(c,m)}catch(e){if(e instanceof RecoveryRuleError)throw new RuleError(e.message,e.status);throw e;}if(assist)c=assist.rest;
@@ -91,6 +93,7 @@ export function projectTeam(t:Team,u:Identity){
  const assigned=qs.filter(q=>eligible(t,m,q)&&t.assignments.some(a=>a.kind===q.kind&&a.targetId===q.targetId&&a.staffId===u.userId)).map(q=>{const {e}=target(t,q.learnerId,q.enrollmentId),ap=q.kind==='appeal'?e.appeals.find((ap:any)=>ap.id===q.targetId):undefined,a=e.attempts.find((a:any)=>a.id===(ap?.attemptId??q.targetId));return {...q,learnerName:t.members.find(m=>m.userId===q.learnerId)?.name,e:{id:e.id,learnerId:q.learnerId,programId:e.programId,version:e.version,...(e.contentRef?{contentRef:copy(e.contentRef)}:{}),cohortId:e.cohortId},a:copy(a),...(ap?{ap:copy(ap)}:{})}});
  const summaries=t.learners.flatMap(l=>l.state.enrollments.filter((e:any)=>admin||(m.active&&m.roles.includes('facilitator')&&m.scopes.includes(e.cohortId))).map((e:any)=>({learnerId:l.userId,learnerName:t.members.find(m=>m.userId===l.userId)?.name,cohortId:e.cohortId,programId:e.programId,completedLessons:e.completed.length,practiceRecordStatus:e.record?.status??null,hasOpenAppeal:!e.withdrawn&&e.appeals.some((ap:any)=>ap.status==='open'),hasPendingAssessment:!e.withdrawn&&e.attempts.some((a:any)=>!a.decision),status:e.withdrawn?'Withdrawn':e.record?.status==='active'?'Practice completed':e.appeals.some((ap:any)=>ap.status==='open')?'Appeal pending':e.attempts.some((a:any)=>!a.decision)?'Review pending':'Learning'})));
  const result={state,team:{currentUserId:u.userId,id:t.id,name:t.name,purpose:t.purpose,context:t.context,roles:m.active?m.roles:[],active:m.active,support:projectSupport(t,u.userId),network:projectNetwork(t,m,boardAccess),cohorts:visibleCohorts.map(c=>({...c,...cohortContentAvailability(t,c),occupied:seats(t,c.id),boardAccess:boardAccess(t,m,c.id),canModerate:isMod(c.id),canHost:m.active&&(admin||(m.roles.includes('facilitator')&&m.scopes.includes(c.id)))})),moderationHistory:(t.moderation??[]).filter(x=>isMod(x.cohortId)),...(admin?{activity:t.activity??[],members:t.members.map(m=>({...m})),invites:t.invites.map(({tokenHash,...i})=>i),pending:qs.map(q=>({...q,learnerName:t.members.find(m=>m.userId===q.learnerId)?.name,assignedTo:t.assignments.find(a=>a.kind===q.kind&&a.targetId===q.targetId)?.staffId,eligibleStaff:t.members.filter(m=>eligible(t,m,q)).map(m=>({userId:m.userId,name:m.name}))}))}:{}),assigned,summaries}};
+ applyDataRequestProjection(t,u.userId,result.team);
  const neededRefs=[];for(const record of [...result.state.enrollments,...result.team.cohorts,...result.team.assigned.map((q:any)=>q.e)]){try{const ref=pinnedRef(record);if(ref.scope==='global'||ref.scope===t.id)neededRefs.push(ref)}catch(e){if(!(e instanceof ContentResolutionError))throw e;}}
  (result.team as any).recovery=projectRecovery(t,m,u.userId);
  const content=projectWorkspaceContent(t,u,neededRefs);return {...result,contentVersions:content.versions,team:{...result.team,...(admin?{content:{drafts:content.drafts,publications:content.publications}}:{})}};
