@@ -46,3 +46,11 @@ Rollback: revert the commit on `main`; the next timer run redeploys it. Data is 
 - This replaces the Cloudflare/Sites copy only when you decide it should. The hosted Site stays owner-private and untouched. Never point the local synthetic-identity test fixtures at the droplet (see README.md).
 - Access: only people given a sign-in with `aplyd-academy-add-user <email>` can reach the app, and Academy membership is a separate gate inside it.
 - Data on the droplet is a pilot database in one SQLite file; keep droplet backups on and do not load real learner records until the retention and erasure decisions in docs/CLAUDE-HANDOFF.md are made.
+
+## Sharing one droplet with other Saha apps
+
+Several apps can run on one droplet (recommended: 8 GB RAM for four apps). Each app has its own port, system service, database file and sign-in list. Run each app's `provision.sh` in turn with its own `SAHA_HOST` (for example `health.<ip-dashed>.sslip.io`, `agriculture.<ip-dashed>.sslip.io`).
+
+- Caddy: each app writes `/etc/caddy/conf.d/<app>.caddy`; `/etc/caddy/Caddyfile` only imports that folder.
+- Builds share one lock (`/var/lock/saha-build.lock`), so update timers never build two apps at once.
+- Failure domain: one droplet means one crash, disk or build problem affects every app on it, and one backup covers all of them.
