@@ -1,6 +1,6 @@
 # Hosting Aplyd Academy on DigitalOcean
 
-Status: deployment kit, not yet run on a droplet. Synthetic data only. Real identity provider, paid AI and real-recipient delivery stay disabled, as in docs/CLAUDE-HANDOFF.md.
+Status: in use on the shared DigitalOcean droplet `saha-apps` since 7 October 2026 (https://academy.aplyd.org; the sslip.io name redirects there since 8 October 2026). Synthetic data only. Real identity provider, paid AI and real-recipient delivery stay disabled, as in docs/CLAUDE-HANDOFF.md.
 
 ## What runs where
 
