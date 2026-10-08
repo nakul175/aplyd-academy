@@ -1,13 +1,8 @@
 import { env } from 'cloudflare:workers';
 import { getChatGPTUser } from '../../../chatgpt-auth';
 import { projectOrgOverview, isActiveOwner, ORG_LIMITS } from '@/lib/academy-org-admin';
+import { noStoreJson as response } from '@/lib/http';
 export const dynamic = 'force-dynamic';
-const headers = {
-  'Cache-Control': 'no-store',
-  'X-Content-Type-Options': 'nosniff',
-  'Referrer-Policy': 'no-referrer',
-};
-const response = (data: any, status = 200) => Response.json(data, { status, headers });
 const NOT_FOUND = { error: 'Not found.' };
 /** Read-only organisation overview (BR-38). GET only; there is no write path here.
  * Signed-out users get 401 as elsewhere. A signed-in user who owns no workspace always gets the same

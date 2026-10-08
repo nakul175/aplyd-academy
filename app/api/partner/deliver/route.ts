@@ -2,18 +2,12 @@ import { env } from 'cloudflare:workers';
 import { getChatGPTUser } from '../../../chatgpt-auth';
 import { PartnerDummyError } from '@/lib/academy-partner-dummy';
 import { deliverProgress, viewFor } from '@/lib/academy-partner-dummy-service';
+import { noStoreJson as respond, hasForeignOrigin } from '@/lib/http';
 export const dynamic = 'force-dynamic';
-const headers = {
-  'Cache-Control': 'no-store',
-  'X-Content-Type-Options': 'nosniff',
-  'Referrer-Policy': 'no-referrer',
-};
-const respond = (v: unknown, status = 200) => Response.json(v, { status, headers });
 /** Explicit "Send progress to partner (dummy)" button. No cron, no background retry. Loopback URL only. */
 export async function POST(request: Request) {
   try {
-    const origin = request.headers.get('origin');
-    if (origin && origin !== new URL(request.url).origin)
+    if (hasForeignOrigin(request))
       throw new PartnerDummyError('This action must come from your Academy.', 403);
     if ((request.headers.get('content-type') ?? '').split(';')[0].trim() !== 'application/json')
       throw new PartnerDummyError('Use a JSON request.', 415);

@@ -8,9 +8,8 @@ import {
   projectAuditRow,
   AuditQueryError,
 } from '@/lib/academy-audit-detail';
+import { noStoreJson as response } from '@/lib/http';
 export const dynamic = 'force-dynamic';
-const response = (x: any, status = 200) =>
-  Response.json(x, { status, headers: { 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff' } });
 // A learner reads only the audit of their own personal practice lab (owner = signed-in user).
 export async function GET(request: Request) {
   try {

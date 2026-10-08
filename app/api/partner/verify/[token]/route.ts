@@ -1,13 +1,8 @@
 import { env } from 'cloudflare:workers';
 import { PartnerDummyError } from '@/lib/academy-partner-dummy';
 import { handleVerify } from '@/lib/academy-partner-dummy-service';
+import { noStoreJson as respond } from '@/lib/http';
 export const dynamic = 'force-dynamic';
-const headers = {
-  'Cache-Control': 'no-store',
-  'X-Content-Type-Options': 'nosniff',
-  'Referrer-Policy': 'no-referrer',
-};
-const respond = (v: unknown, status = 200) => Response.json(v, { status, headers });
 /**
  * DUMMY partner permissioned verification. :token is the DEMO member code. The request must be HMAC-signed over
  * "verify:<code>". Only fields behind scopes the learner currently grants are returned; unknown and ungranted look identical.

@@ -4,16 +4,8 @@ import { RuleError } from '@/lib/academy-engine';
 import { createTeam, applyTeamCommand, projectTeam, member, invitation, Team } from '@/lib/academy-teams';
 import { checkMutationBudget, separateHistory } from '@/lib/academy-storage';
 import { pseudonymMap, summarizeTeamCommand, safeDetailJson } from '@/lib/academy-audit-detail';
+import { noStoreJson as response, hasForeignOrigin } from '@/lib/http';
 export const dynamic = 'force-dynamic';
-const response = (data: any, status = 200) =>
-  Response.json(data, {
-    status,
-    headers: {
-      'Cache-Control': 'no-store',
-      'X-Content-Type-Options': 'nosniff',
-      'Referrer-Policy': 'no-referrer',
-    },
-  });
 function fail(e: any) {
   if (String(e?.message ?? '').includes('academy_invite_tokens.token_hash'))
     return response({ error: 'This invitation token was already used. Generate a new link.' }, 409);
@@ -103,9 +95,7 @@ export async function GET(request: Request) {
 }
 export async function POST(request: Request) {
   try {
-    const origin = request.headers.get('origin');
-    if (origin && origin !== new URL(request.url).origin)
-      throw new RuleError('Use your Academy to perform this action.', 403);
+    if (hasForeignOrigin(request)) throw new RuleError('Use your Academy to perform this action.', 403);
     if ((request.headers.get('content-type') ?? '').split(';')[0] !== 'application/json')
       throw new RuleError('Use a JSON request.', 415);
     const raw = await request.text();

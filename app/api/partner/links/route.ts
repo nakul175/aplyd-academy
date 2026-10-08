@@ -2,13 +2,8 @@ import { env } from 'cloudflare:workers';
 import { getChatGPTUser } from '../../../chatgpt-auth';
 import { PartnerDummyError } from '@/lib/academy-partner-dummy';
 import { viewFor, applyLearnerCommand } from '@/lib/academy-partner-dummy-service';
+import { noStoreJson as respond, hasForeignOrigin } from '@/lib/http';
 export const dynamic = 'force-dynamic';
-const headers = {
-  'Cache-Control': 'no-store',
-  'X-Content-Type-Options': 'nosniff',
-  'Referrer-Policy': 'no-referrer',
-};
-const respond = (v: unknown, status = 200) => Response.json(v, { status, headers });
 const partnerUrl = () => {
   const v = (env as any).ACADEMY_DUMMY_PARTNER_URL;
   return typeof v === 'string' && v.trim() ? v.trim() : undefined;
@@ -34,8 +29,7 @@ export async function GET() {
 /** Learner-only commands: link | grant | withdraw | unlink. Consent never comes from the partner. */
 export async function POST(request: Request) {
   try {
-    const origin = request.headers.get('origin');
-    if (origin && origin !== new URL(request.url).origin)
+    if (hasForeignOrigin(request))
       throw new PartnerDummyError('This action must come from your Academy.', 403);
     if ((request.headers.get('content-type') ?? '').split(';')[0].trim() !== 'application/json')
       throw new PartnerDummyError('Use a JSON request.', 415);

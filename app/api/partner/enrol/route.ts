@@ -1,13 +1,8 @@
 import { env } from 'cloudflare:workers';
 import { PartnerDummyError } from '@/lib/academy-partner-dummy';
 import { handleInboundEnrol } from '@/lib/academy-partner-dummy-service';
+import { noStoreJson as respond } from '@/lib/http';
 export const dynamic = 'force-dynamic';
-const headers = {
-  'Cache-Control': 'no-store',
-  'X-Content-Type-Options': 'nosniff',
-  'Referrer-Policy': 'no-referrer',
-};
-const respond = (v: unknown, status = 200) => Response.json(v, { status, headers });
 /** DUMMY partner inbound request. HMAC-authenticated; records a PENDING claim only. Creates no account and no enrolment. */
 export async function POST(request: Request) {
   try {

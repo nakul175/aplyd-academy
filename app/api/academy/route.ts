@@ -3,12 +3,8 @@ import { env } from 'cloudflare:workers';
 import { getChatGPTUser } from '../../chatgpt-auth';
 import { freshWorkspace, applyCommand, RuleError, programs } from '@/lib/academy-engine';
 import { pseudonymMap, summarizePersonalCommand, safeDetailJson } from '@/lib/academy-audit-detail';
+import { hasForeignOrigin, noStoreJson as response } from '@/lib/http';
 export const dynamic = 'force-dynamic';
-const response = (data: any, status = 200) =>
-  Response.json(data, {
-    status,
-    headers: { 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff' },
-  });
 async function load() {
   const user = await getChatGPTUser();
   if (!user) throw new RuleError('Sign in to open your private learning space.', 401);
@@ -46,9 +42,7 @@ export async function GET() {
 }
 export async function POST(request: Request) {
   try {
-    const origin = request.headers.get('origin');
-    if (origin && origin !== new URL(request.url).origin)
-      throw new RuleError('This action must come from your Academy.', 403);
+    if (hasForeignOrigin(request)) throw new RuleError('This action must come from your Academy.', 403);
     if ((request.headers.get('content-type') ?? '').split(';')[0] !== 'application/json')
       throw new RuleError('Use a JSON request.', 415);
     const raw = await request.text();

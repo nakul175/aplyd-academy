@@ -10,16 +10,8 @@ import {
   isActorRef,
   AuditQueryError,
 } from '@/lib/academy-audit-detail';
+import { noStoreJson as response } from '@/lib/http';
 export const dynamic = 'force-dynamic';
-const response = (x: any, status = 200) =>
-  Response.json(x, {
-    status,
-    headers: {
-      'Cache-Control': 'no-store',
-      'X-Content-Type-Options': 'nosniff',
-      'Referrer-Policy': 'no-referrer',
-    },
-  });
 const denied = () => new RuleError('Workspace audit is not available for your account.', 404);
 // Workspace owners only. Non-members, inactive members, learners, moderators and unknown workspaces all receive the same 404.
 export async function GET(request: Request) {
