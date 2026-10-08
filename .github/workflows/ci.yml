@@ -21,13 +21,14 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: npm
-      - run: npm ci
+      - name: Enable the pinned pnpm (packageManager in package.json)
+        run: corepack enable
+      - run: pnpm install --frozen-lockfile
       - name: Lint (ratchet against .lint-baseline.json)
-        run: npm run lint:baseline
+        run: pnpm run lint:baseline
       - name: Typecheck
-        run: npm run typecheck
+        run: pnpm run typecheck
       - name: Build
-        run: npm run build
+        run: pnpm run build
       - name: Test
-        run: npm test
+        run: pnpm test
