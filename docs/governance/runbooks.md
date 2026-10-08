@@ -2,7 +2,7 @@
 
 Owner: Nakul Jain · Last reviewed: 2026-10-08 · Update when deploy/ scripts, paths or hosting change.
 
-Status: **written from deploy/README.md and deploy/*.sh. None of these procedures has been run on a real droplet** (the kit itself is "not yet run on a droplet"). Treat every step as proposed until exercised once. Run as root on the droplet. Substitute nothing secret into commands in tickets or chat.
+Status: **written from deploy/README.md and deploy/*.sh. None of these procedures has been exercised as a runbook on the droplet.** The kit itself has been running on the shared DigitalOcean droplet since 7 October 2026 at https://academy.aplyd.org behind a Caddy password wall, synthetic data only, and the `sslip.io` name redirects there since 8 October 2026; only its install (`provision.sh`) and the 3-minute update timer have run there. Treat every other step as proposed until exercised once. Run as root on the droplet. Substitute nothing secret into commands in tickets or chat.
 
 Facts used: app `aplyd-academy`, service on `127.0.0.1:3500`, source `/opt/aplyd-academy/src`, data `/var/lib/aplyd-academy/state` (local D1 SQLite), migration ledger `/var/lib/aplyd-academy/applied-migrations.txt`, status `/var/lib/aplyd-academy/deploy-status.json`, sign-in list `/etc/saha/aplyd-academy.users`, Caddy fragment `/etc/caddy/conf.d/aplyd-academy.caddy`.
 

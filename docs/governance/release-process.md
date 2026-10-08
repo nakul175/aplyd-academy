@@ -25,4 +25,4 @@ No tagged releases exist; versions are named in docs (as-built folders, release 
 ## Gaps
 
 - Automatic deploy on merge with no CI gate and no staging environment: a bad merge reaches the droplet within about 3 minutes. Proposed: protect `main` and add a CI check (not done; owner decision).
-- Deploy kit has not yet been run on a real droplet (deploy/README.md status line).
+- One environment only: the kit has been running on the shared DigitalOcean droplet since 7 October 2026 at https://academy.aplyd.org behind a Caddy password wall, synthetic data only; the `sslip.io` name redirects there since 8 October 2026. There is no staging droplet on which an update can be rehearsed before it reaches that host.

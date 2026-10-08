@@ -67,4 +67,4 @@ Do not edit these; use the canonical item above.
 
 ## Not done (gaps recorded in each document)
 
-No CI workflow added (`.github/workflows/` absent; recorded in secure-dev-evidence.md). No licence chosen. No restore test, SLO measurement, accessibility audit, DPIA review, or penetration test exists. Deploy kit not yet run on a droplet.
+CI status is recorded in secure-dev-evidence.md. No licence chosen. No restore test, SLO measurement, accessibility audit, DPIA review, or penetration test exists. The deploy kit has been running on the shared DigitalOcean droplet since 7 October 2026 at https://academy.aplyd.org behind a Caddy password wall, synthetic data only, and the `sslip.io` name redirects there since 8 October 2026. No second (staging) droplet exists.
