@@ -9,10 +9,13 @@ export type ContentRef = Readonly<{
   programId: string;
   versionId: string;
 }>;
-export type DeepReadonly<T> = T extends (...args: any[]) => any ? T
-  : T extends readonly (infer V)[] ? readonly DeepReadonly<V>[]
-  : T extends object ? { readonly [K in keyof T]: DeepReadonly<T[K]> }
-  : T;
+export type DeepReadonly<T> = T extends (...args: any[]) => any
+  ? T
+  : T extends readonly (infer V)[]
+    ? readonly DeepReadonly<V>[]
+    : T extends object
+      ? { readonly [K in keyof T]: DeepReadonly<T[K]> }
+      : T;
 export type Program = DeepReadonly<(typeof archivedSeed.pathways)[number]>;
 export type ContentSnapshot = Readonly<{
   ref: ContentRef;
@@ -28,16 +31,31 @@ export const LEGACY_SOURCE_SHA256 = '9fc83c8dd615456db8f49d140f56bff566e05c14d32
 export const EDITION_0_2_VERSION = '0.2-review-draft' as const;
 export const EDITION_0_2_HINDI_VERSION = '0.2-review-draft-hi' as const;
 export const EDITION_PINS = Object.freeze({
-  [LEGACY_CONTENT_VERSION]: Object.freeze({file: '0.1-review-draft.json', sha256: LEGACY_SOURCE_SHA256, byteLength: 65054}),
-  [EDITION_0_2_VERSION]: Object.freeze({file: '0.2-review-draft.json', sha256: '1a89fd6c7649dfefd50183344d885da3b0fd97b818399e62e0d615ba48b41080', byteLength: 192932}),
-  [EDITION_0_2_HINDI_VERSION]: Object.freeze({file: '0.2-review-draft-hi.json', sha256: 'f38a738756cd67dbb3cae3e38c37f7c9311ede2b4edbee6cb5299c16a6d9b83b', byteLength: 112615}),
+  [LEGACY_CONTENT_VERSION]: Object.freeze({
+    file: '0.1-review-draft.json',
+    sha256: LEGACY_SOURCE_SHA256,
+    byteLength: 65054,
+  }),
+  [EDITION_0_2_VERSION]: Object.freeze({
+    file: '0.2-review-draft.json',
+    sha256: '1a89fd6c7649dfefd50183344d885da3b0fd97b818399e62e0d615ba48b41080',
+    byteLength: 192932,
+  }),
+  [EDITION_0_2_HINDI_VERSION]: Object.freeze({
+    file: '0.2-review-draft-hi.json',
+    sha256: 'f38a738756cd67dbb3cae3e38c37f7c9311ede2b4edbee6cb5299c16a6d9b83b',
+    byteLength: 112615,
+  }),
 });
 export const HINDI_DRAFT_LABEL = 'Hindi draft — machine-assisted, needs native review' as const;
 /** Current discovery uses this explicit reference; historical reads must not. */
 export const CONTENT_VERSION = LEGACY_CONTENT_VERSION;
 
 export class ContentResolutionError extends Error {
-  constructor(message: string, public readonly status: number = 409) {
+  constructor(
+    message: string,
+    public readonly status: number = 409,
+  ) {
     super(message);
     this.name = 'ContentResolutionError';
   }
@@ -52,21 +70,28 @@ export function deepFreeze<T>(value: T): DeepReadonly<T> {
 }
 
 function validScope(value: unknown): value is ContentScope {
-  return value === 'global'
-    || (typeof value === 'string' && /^tw-[a-z0-9-]{20,80}$/i.test(value));
+  return value === 'global' || (typeof value === 'string' && /^tw-[a-z0-9-]{20,80}$/i.test(value));
 }
 export function contentRef(value: unknown): ContentRef {
   if (!value || typeof value !== 'object' || Array.isArray(value)) {
-    throw new ContentResolutionError('The saved content reference is invalid. Contact support before continuing.');
+    throw new ContentResolutionError(
+      'The saved content reference is invalid. Contact support before continuing.',
+    );
   }
   const ref = value as Record<string, unknown>;
-  if (Object.keys(ref).some(key => !['scope', 'programId', 'versionId'].includes(key))
-      || !validScope(ref.scope)
-      || typeof ref.programId !== 'string' || !/^[a-z0-9][a-z0-9-]{0,99}$/i.test(ref.programId)
-      || typeof ref.versionId !== 'string' || !/^[a-z0-9][a-z0-9._-]{0,99}$/i.test(ref.versionId)) {
-    throw new ContentResolutionError('The saved content reference is invalid. Contact support before continuing.');
+  if (
+    Object.keys(ref).some((key) => !['scope', 'programId', 'versionId'].includes(key)) ||
+    !validScope(ref.scope) ||
+    typeof ref.programId !== 'string' ||
+    !/^[a-z0-9][a-z0-9-]{0,99}$/i.test(ref.programId) ||
+    typeof ref.versionId !== 'string' ||
+    !/^[a-z0-9][a-z0-9._-]{0,99}$/i.test(ref.versionId)
+  ) {
+    throw new ContentResolutionError(
+      'The saved content reference is invalid. Contact support before continuing.',
+    );
   }
-  return Object.freeze({scope: ref.scope, programId: ref.programId, versionId: ref.versionId});
+  return Object.freeze({ scope: ref.scope, programId: ref.programId, versionId: ref.versionId });
 }
 
 /** JSON tuple keys avoid ambiguous delimiter concatenation and normalize no identity. */
@@ -83,14 +108,18 @@ export function pinnedRef(value: unknown): ContentRef {
   const record = value as Record<string, unknown>;
   if (Object.hasOwn(record, 'contentRef')) {
     const ref = contentRef(record.contentRef);
-    if ((record.programId !== undefined && record.programId !== ref.programId)
-        || (record.version !== undefined && record.version !== ref.versionId)) {
-      throw new ContentResolutionError('Saved learning and content references disagree. Contact support before continuing.');
+    if (
+      (record.programId !== undefined && record.programId !== ref.programId) ||
+      (record.version !== undefined && record.version !== ref.versionId)
+    ) {
+      throw new ContentResolutionError(
+        'Saved learning and content references disagree. Contact support before continuing.',
+      );
     }
     return ref;
   }
   // No default version: a malformed historical row must never select current content.
-  return contentRef({scope: 'global', programId: record.programId, versionId: record.version});
+  return contentRef({ scope: 'global', programId: record.programId, versionId: record.version });
 }
 
 export type CurriculumRegistry = Readonly<{
@@ -109,7 +138,7 @@ export function createCurriculumRegistry(entries: readonly ContentSnapshot[]): C
     const key = contentKey(ref);
     if (index.has(key)) throw new ContentResolutionError('An immutable content key is already registered.');
     // Detach caller-owned input before freezing so later caller edits cannot alter this registry.
-    index.set(key, deepFreeze(structuredClone({...entry, ref})));
+    index.set(key, deepFreeze(structuredClone({ ...entry, ref })));
   }
   function resolve(input: ContentRef, allowedScopes: readonly ContentScope[] = ['global']): ContentSnapshot {
     const ref = contentRef(input);
@@ -119,44 +148,67 @@ export function createCurriculumRegistry(entries: readonly ContentSnapshot[]): C
     }
     const found = index.get(contentKey(ref));
     if (!found) {
-      throw new ContentResolutionError('Your pinned curriculum version is unavailable. Contact support before continuing.');
+      throw new ContentResolutionError(
+        'Your pinned curriculum version is unavailable. Contact support before continuing.',
+      );
     }
     return found;
   }
-  return Object.freeze({resolve, has: (ref: ContentRef, allowedScopes?: readonly ContentScope[]) => {
-    try { resolve(ref, allowedScopes); return true; }
-    catch (error) { if (error instanceof ContentResolutionError) return false; throw error; }
-  }});
+  return Object.freeze({
+    resolve,
+    has: (ref: ContentRef, allowedScopes?: readonly ContentScope[]) => {
+      try {
+        resolve(ref, allowedScopes);
+        return true;
+      } catch (error) {
+        if (error instanceof ContentResolutionError) return false;
+        throw error;
+      }
+    },
+  });
 }
 
 /** Preserve the archived bytes separately; freezing applies to a detached in-memory copy. */
 export const curriculum = deepFreeze(structuredClone(archivedSeed));
 export const programs = curriculum.pathways;
-const seedSnapshots: readonly ContentSnapshot[] = programs.map(program => ({
-  ref: contentRef({scope: 'global', programId: program.id, versionId: LEGACY_CONTENT_VERSION}),
+const seedSnapshots: readonly ContentSnapshot[] = programs.map((program) => ({
+  ref: contentRef({ scope: 'global', programId: program.id, versionId: LEGACY_CONTENT_VERSION }),
   program,
   language: curriculum.language,
   audience: curriculum.audience,
   classification: curriculum.status,
 }));
 /** 0.2 content is registered for EXPLICIT references only. Nothing selects it by default. */
-const editionTwoSnapshots: readonly ContentSnapshot[] = [editionTwoEnglish, editionTwoHindi].flatMap(edition =>
-  edition.pathways.map(program => ({
-    ref: contentRef({scope: 'global', programId: program.id, versionId: edition.contentVersion}),
-    program: program as unknown as Program,
-    language: edition.language,
-    audience: edition.audience,
-    classification: edition.status,
-  })));
-export const additionalGlobalEditions: readonly ContentSnapshot[] = deepFreeze(structuredClone(editionTwoSnapshots as ContentSnapshot[]));
+const editionTwoSnapshots: readonly ContentSnapshot[] = [editionTwoEnglish, editionTwoHindi].flatMap(
+  (edition) =>
+    edition.pathways.map((program) => ({
+      ref: contentRef({ scope: 'global', programId: program.id, versionId: edition.contentVersion }),
+      program: program as unknown as Program,
+      language: edition.language,
+      audience: edition.audience,
+      classification: edition.status,
+    })),
+);
+export const additionalGlobalEditions: readonly ContentSnapshot[] = deepFreeze(
+  structuredClone(editionTwoSnapshots as ContentSnapshot[]),
+);
 export const curriculumRegistry = createCurriculumRegistry([...seedSnapshots, ...editionTwoSnapshots]);
 
 /** Lesson alternatives added in 0.2. Absent on 0.1 lessons, so callers must treat every field as optional. */
-export type LessonFormats = Readonly<{transcript?: string; summary?: string; audio?: Readonly<{status: string; label: string; note: string}>}>;
+export type LessonFormats = Readonly<{
+  transcript?: string;
+  summary?: string;
+  audio?: Readonly<{ status: string; label: string; note: string }>;
+}>;
 export function lessonFormats(lesson: unknown): LessonFormats {
   const l = (lesson && typeof lesson === 'object' ? lesson : {}) as Record<string, any>;
-  const audio = l.audio && typeof l.audio === 'object' && typeof l.audio.label === 'string' && typeof l.audio.note === 'string'
-    ? {status: String(l.audio.status), label: l.audio.label, note: l.audio.note} : undefined;
+  const audio =
+    l.audio &&
+    typeof l.audio === 'object' &&
+    typeof l.audio.label === 'string' &&
+    typeof l.audio.note === 'string'
+      ? { status: String(l.audio.status), label: l.audio.label, note: l.audio.note }
+      : undefined;
   return {
     transcript: typeof l.transcript === 'string' && l.transcript ? l.transcript : undefined,
     summary: typeof l.summary === 'string' && l.summary ? l.summary : undefined,
@@ -171,44 +223,80 @@ export type EditionLanguageNotice = Readonly<{
   availableRef: ContentRef | null;
 }>;
 /** Maps a language preference to what actually exists. Never substitutes content: callers keep the pinned reference they hold. */
-export function editionLanguageNotice(programId: string, preferredLanguage: string, pinnedLanguage: string): EditionLanguageNotice {
-  const want = String(preferredLanguage || 'en').toLowerCase().split('-')[0];
-  const have = String(pinnedLanguage || 'en').toLowerCase().split('-')[0];
+export function editionLanguageNotice(
+  programId: string,
+  preferredLanguage: string,
+  pinnedLanguage: string,
+): EditionLanguageNotice {
+  const want = String(preferredLanguage || 'en')
+    .toLowerCase()
+    .split('-')[0];
+  const have = String(pinnedLanguage || 'en')
+    .toLowerCase()
+    .split('-')[0];
   if (want === have) {
-    return have === 'en' ? {kind: 'none', message: '', availableRef: null}
-      : {kind: 'viewing-draft-translation', message: `${HINDI_DRAFT_LABEL}. Exercise packets and the practical assessment are still in English.`, availableRef: null};
+    return have === 'en'
+      ? { kind: 'none', message: '', availableRef: null }
+      : {
+          kind: 'viewing-draft-translation',
+          message: `${HINDI_DRAFT_LABEL}. Exercise packets and the practical assessment are still in English.`,
+          availableRef: null,
+        };
   }
-  const translated = editionTwoSnapshots.find(s => s.ref.programId === programId && s.language.toLowerCase().split('-')[0] === want);
+  const translated = editionTwoSnapshots.find(
+    (s) => s.ref.programId === programId && s.language.toLowerCase().split('-')[0] === want,
+  );
   if (translated) {
-    return {kind: 'translation-available-not-pinned', availableRef: translated.ref,
-      message: `${HINDI_DRAFT_LABEL}: a draft of this pathway exists in your language. Your saved edition has not changed and stays in ${have === 'en' ? 'English' : have}.`};
+    return {
+      kind: 'translation-available-not-pinned',
+      availableRef: translated.ref,
+      message: `${HINDI_DRAFT_LABEL}: a draft of this pathway exists in your language. Your saved edition has not changed and stays in ${have === 'en' ? 'English' : have}.`,
+    };
   }
-  return {kind: 'fallback-english', availableRef: null,
-    message: `No ${want} edition of this pathway exists yet, so it is shown in ${have === 'en' ? 'English' : have}. Your saved edition has not changed.`};
+  return {
+    kind: 'fallback-english',
+    availableRef: null,
+    message: `No ${want} edition of this pathway exists yet, so it is shown in ${have === 'en' ? 'English' : have}. Your saved edition has not changed.`,
+  };
 }
 
 export function currentRef(programId: string): ContentRef {
   // Only discovery/new offering paths should call this function.
-  return contentRef({scope: 'global', programId, versionId: CONTENT_VERSION});
+  return contentRef({ scope: 'global', programId, versionId: CONTENT_VERSION });
 }
 export function resolveCurrentProgram(programId: string): Program {
-  if (!programs.some(program => program.id === programId)) {
+  if (!programs.some((program) => program.id === programId)) {
     throw new ContentResolutionError('Pathway not found.', 404);
   }
   return curriculumRegistry.resolve(currentRef(programId)).program;
 }
-export type ContentContext = Readonly<{registry:CurriculumRegistry;allowedScopes:readonly ContentScope[]}>;
-export function resolvePinnedContent(record: unknown, allowedScopes?: readonly ContentScope[], registry:CurriculumRegistry=curriculumRegistry): ContentSnapshot {
+export type ContentContext = Readonly<{
+  registry: CurriculumRegistry;
+  allowedScopes: readonly ContentScope[];
+}>;
+export function resolvePinnedContent(
+  record: unknown,
+  allowedScopes?: readonly ContentScope[],
+  registry: CurriculumRegistry = curriculumRegistry,
+): ContentSnapshot {
   return registry.resolve(pinnedRef(record), allowedScopes);
 }
-export function resolvePinnedProgram(record: unknown, allowedScopes?: readonly ContentScope[], registry:CurriculumRegistry=curriculumRegistry): Program {
-  return resolvePinnedContent(record, allowedScopes,registry).program;
+export function resolvePinnedProgram(
+  record: unknown,
+  allowedScopes?: readonly ContentScope[],
+  registry: CurriculumRegistry = curriculumRegistry,
+): Program {
+  return resolvePinnedContent(record, allowedScopes, registry).program;
 }
-export function tryResolvePinnedContent(record: unknown, allowedScopes?: readonly ContentScope[], registry:CurriculumRegistry=curriculumRegistry):
-  {available: true; snapshot: ContentSnapshot} | {available: false; message: string} {
-  try { return {available: true, snapshot: resolvePinnedContent(record, allowedScopes,registry)}; }
-  catch (error) {
-    if (error instanceof ContentResolutionError) return {available: false, message: error.message};
+export function tryResolvePinnedContent(
+  record: unknown,
+  allowedScopes?: readonly ContentScope[],
+  registry: CurriculumRegistry = curriculumRegistry,
+): { available: true; snapshot: ContentSnapshot } | { available: false; message: string } {
+  try {
+    return { available: true, snapshot: resolvePinnedContent(record, allowedScopes, registry) };
+  } catch (error) {
+    if (error instanceof ContentResolutionError) return { available: false, message: error.message };
     throw error;
   }
 }

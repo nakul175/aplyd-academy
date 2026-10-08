@@ -1,25 +1,297 @@
-import {readOfflineQueue,OFFLINE_LIMITS,OfflineDraftError,type OfflineDraft} from './academy-offline';
+import { readOfflineQueue, OFFLINE_LIMITS, OfflineDraftError, type OfflineDraft } from './academy-offline';
 
 /** Optional temporary ciphertext. A passphrase is not a server access grant. */
-export const SEALED_DRAFT_LIMITS=Object.freeze({iterations:310_000,fileBytes:700_000,passphraseMin:12,passphraseMax:256,storagePrefix:'aplyd-sealed-drafts-v1:'});
-export type SealedDraftFile={schema:1;kind:'aplyd-sealed-drafts';algorithm:'PBKDF2-SHA256/AES-256-GCM';iterations:number;scopeHash:string;createdAt:string;expiresAt:string;salt:string;iv:string;ciphertext:string};
-export type DraftStorage=Pick<Storage,'getItem'|'setItem'|'removeItem'|'key'|'length'>;
-function fail(message:string):never{throw new OfflineDraftError(message,400);}
-const object=(v:unknown):v is Record<string,any>=>!!v&&typeof v==='object'&&!Array.isArray(v)&&[Object.prototype,null].includes(Object.getPrototypeOf(v));
-function clock(value:unknown):number{if(typeof value!=='string'||value.length!==24||!Number.isFinite(Date.parse(value))||new Date(value).toISOString()!==value)fail('The sealed draft time is invalid.');return Date.parse(value);}
-function provider():Crypto{if(!globalThis.crypto?.subtle)fail('Secure local draft encryption is unavailable in this browser. Use the read-only reference packet instead.');return globalThis.crypto;}
-function phrase(value:unknown):string{if(typeof value!=='string'||value.length<SEALED_DRAFT_LIMITS.passphraseMin||value.length>SEALED_DRAFT_LIMITS.passphraseMax)fail('Use a passphrase of 12–256 characters. It cannot be recovered for you.');return value;}
-function base64(value:Uint8Array):string{let text='';for(let i=0;i<value.length;i+=8192)text+=String.fromCharCode(...value.subarray(i,i+8192));return btoa(text);}
-function unbase64(value:unknown,maxBytes:number,exactBytes?:number):Uint8Array<ArrayBuffer>{if(typeof value!=='string'||value.length>4*Math.ceil(maxBytes/3)||value.length%4!==0||!/^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/.test(value))fail('The sealed draft encoding is invalid.');let text:string;try{text=atob(value);}catch{fail('The sealed draft encoding is invalid.');}if(text.length>maxBytes||(exactBytes!==undefined&&text.length!==exactBytes))fail('The sealed draft size is invalid.');const result=new Uint8Array(text.length);for(let i=0;i<text.length;i++)result[i]=text.charCodeAt(i);if(base64(result)!==value)fail('The sealed draft encoding is invalid.');return result;}
-export async function sealedScopeHash(ownerId:string):Promise<string>{if(typeof ownerId!=='string'||ownerId.length<1||ownerId.length>300||ownerId.trim()!==ownerId||/[\u0000-\u001f\u007f]/.test(ownerId))fail('Verify your personal account before handling sealed drafts.');const buffer=await provider().subtle.digest('SHA-256',new TextEncoder().encode(JSON.stringify([ownerId,'lab'])));return [...new Uint8Array(buffer)].map(n=>n.toString(16).padStart(2,'0')).join('');}
-function associated(file:Pick<SealedDraftFile,'schema'|'kind'|'algorithm'|'iterations'|'scopeHash'|'createdAt'|'expiresAt'>){return new TextEncoder().encode(JSON.stringify([file.schema,file.kind,file.algorithm,file.iterations,file.scopeHash,file.createdAt,file.expiresAt]));}
-async function key(passphrase:string,salt:Uint8Array<ArrayBuffer>,usage:KeyUsage):Promise<CryptoKey>{const c=provider(),material=await c.subtle.importKey('raw',new TextEncoder().encode(phrase(passphrase)),'PBKDF2',false,['deriveKey']);return c.subtle.deriveKey({name:'PBKDF2',hash:'SHA-256',salt,iterations:SEALED_DRAFT_LIMITS.iterations},material,{name:'AES-GCM',length:256},false,[usage]);}
-export function readSealedDraftFile(value:unknown,now:string,allowExpired=false):SealedDraftFile{const keys=['schema','kind','algorithm','iterations','scopeHash','createdAt','expiresAt','salt','iv','ciphertext'];if(!object(value)||keys.some(k=>!Object.hasOwn(value,k))||Object.keys(value).some(k=>!keys.includes(k))||value.schema!==1||value.kind!=='aplyd-sealed-drafts'||value.algorithm!=='PBKDF2-SHA256/AES-256-GCM'||value.iterations!==SEALED_DRAFT_LIMITS.iterations||typeof value.scopeHash!=='string'||!/^\w{64}$/.test(value.scopeHash)||!/^[a-f0-9]{64}$/.test(value.scopeHash))fail('This is not a supported sealed draft file.');if(new TextEncoder().encode(JSON.stringify(value)).length>SEALED_DRAFT_LIMITS.fileBytes)fail('The sealed draft file is too large.');const created=clock(value.createdAt),expires=clock(value.expiresAt),n=clock(now);if(created>n||expires<=created||expires-created>OFFLINE_LIMITS.draftLifetimeMs)fail('The sealed draft timing is inconsistent.');if(!allowExpired&&n>=expires)fail('This 24-hour temporary draft has expired. You can delete the sealed copy.');unbase64(value.salt,16,16);unbase64(value.iv,12,12);const cipher=unbase64(value.ciphertext,OFFLINE_LIMITS.queueBytes+16);if(cipher.length<17)fail('The sealed draft file is incomplete.');return Object.freeze({...value}) as SealedDraftFile;}
-export function parseSealedDraftFile(text:string,now:string,allowExpired=false):SealedDraftFile{if(typeof text!=='string'||new TextEncoder().encode(text).length>SEALED_DRAFT_LIMITS.fileBytes)fail('The sealed draft file is too large.');let value:unknown;try{value=JSON.parse(text);}catch{fail('The sealed draft file could not be read.');}return readSealedDraftFile(value,now,allowExpired);}
-export async function sealDraftQueue(value:readonly OfflineDraft[],ownerId:string,passphrase:string,now:string):Promise<SealedDraftFile>{const queue=readOfflineQueue([...value],ownerId,'lab',now);if(queue.length===0)fail('There are no local drafts to seal.');phrase(passphrase);const c=provider(),salt=c.getRandomValues(new Uint8Array(16)),iv=c.getRandomValues(new Uint8Array(12)),scopeHash=await sealedScopeHash(ownerId),expiresAt=queue.map(d=>d.expiresAt).sort()[0];const header={schema:1 as const,kind:'aplyd-sealed-drafts' as const,algorithm:'PBKDF2-SHA256/AES-256-GCM' as const,iterations:SEALED_DRAFT_LIMITS.iterations,scopeHash,createdAt:now,expiresAt};const payload=new TextEncoder().encode(JSON.stringify(queue));const ciphertext=await c.subtle.encrypt({name:'AES-GCM',iv,additionalData:associated(header),tagLength:128},await key(passphrase,salt,'encrypt'),payload);return readSealedDraftFile({...header,salt:base64(salt),iv:base64(iv),ciphertext:base64(new Uint8Array(ciphertext))},now);}
-export async function unlockDraftQueue(value:unknown,ownerId:string,passphrase:string,now:string):Promise<OfflineDraft[]>{const file=readSealedDraftFile(value,now);if(file.scopeHash!==await sealedScopeHash(ownerId))fail('This sealed file belongs to a different personal account.');phrase(passphrase);let payload:ArrayBuffer;try{payload=await provider().subtle.decrypt({name:'AES-GCM',iv:unbase64(file.iv,12,12),additionalData:associated(file),tagLength:128},await key(passphrase,unbase64(file.salt,16,16),'decrypt'),unbase64(file.ciphertext,OFFLINE_LIMITS.queueBytes+16));}catch{fail('The passphrase or sealed file could not be verified. Nothing was unlocked.');}let queue:unknown;try{queue=JSON.parse(new TextDecoder('utf-8',{fatal:true}).decode(payload));}catch{fail('The sealed draft contents could not be verified. Nothing was unlocked.');}const result=readOfflineQueue(queue,ownerId,'lab',now);if(result.length===0||result.map(d=>d.expiresAt).sort()[0]!==file.expiresAt)fail('The sealed draft expiry does not match its contents.');return result;}
-export function sealedStorageKey(scopeHash:string):string{if(!/^[a-f0-9]{64}$/.test(scopeHash))fail('The personal storage reference is invalid.');return SEALED_DRAFT_LIMITS.storagePrefix+scopeHash;}
-export function storeSealedDraft(storage:DraftStorage,file:SealedDraftFile,now:string):void{const checked=readSealedDraftFile(file,now);try{storage.setItem(sealedStorageKey(checked.scopeHash),JSON.stringify(checked));}catch{fail('The sealed draft could not be saved on this device. Download a sealed file or keep this session open.');}}
-export function loadSealedDraft(storage:DraftStorage,scopeHash:string,now:string):SealedDraftFile|null{let text:string|null;try{text=storage.getItem(sealedStorageKey(scopeHash));}catch{fail('Device draft storage is unavailable. You can import a sealed file instead.');}return text===null?null:parseSealedDraftFile(text,now,true);}
-export function deleteSealedDraft(storage:DraftStorage,scopeHash:string):void{try{storage.removeItem(sealedStorageKey(scopeHash));}catch{fail('This device did not remove the sealed draft. Use your browser storage controls.');}}
-export function deleteAllSealedDrafts(storage:DraftStorage):number{try{const keys:string[]=[];for(let i=0;i<storage.length;i++){const k=storage.key(i);if(k?.startsWith(SEALED_DRAFT_LIMITS.storagePrefix))keys.push(k);}for(const k of keys)storage.removeItem(k);return keys.length;}catch{fail('This device did not remove every sealed draft. Use your browser storage controls.');}}
+export const SEALED_DRAFT_LIMITS = Object.freeze({
+  iterations: 310_000,
+  fileBytes: 700_000,
+  passphraseMin: 12,
+  passphraseMax: 256,
+  storagePrefix: 'aplyd-sealed-drafts-v1:',
+});
+export type SealedDraftFile = {
+  schema: 1;
+  kind: 'aplyd-sealed-drafts';
+  algorithm: 'PBKDF2-SHA256/AES-256-GCM';
+  iterations: number;
+  scopeHash: string;
+  createdAt: string;
+  expiresAt: string;
+  salt: string;
+  iv: string;
+  ciphertext: string;
+};
+export type DraftStorage = Pick<Storage, 'getItem' | 'setItem' | 'removeItem' | 'key' | 'length'>;
+function fail(message: string): never {
+  throw new OfflineDraftError(message, 400);
+}
+const object = (v: unknown): v is Record<string, any> =>
+  !!v &&
+  typeof v === 'object' &&
+  !Array.isArray(v) &&
+  [Object.prototype, null].includes(Object.getPrototypeOf(v));
+function clock(value: unknown): number {
+  if (
+    typeof value !== 'string' ||
+    value.length !== 24 ||
+    !Number.isFinite(Date.parse(value)) ||
+    new Date(value).toISOString() !== value
+  )
+    fail('The sealed draft time is invalid.');
+  return Date.parse(value);
+}
+function provider(): Crypto {
+  if (!globalThis.crypto?.subtle)
+    fail(
+      'Secure local draft encryption is unavailable in this browser. Use the read-only reference packet instead.',
+    );
+  return globalThis.crypto;
+}
+function phrase(value: unknown): string {
+  if (
+    typeof value !== 'string' ||
+    value.length < SEALED_DRAFT_LIMITS.passphraseMin ||
+    value.length > SEALED_DRAFT_LIMITS.passphraseMax
+  )
+    fail('Use a passphrase of 12–256 characters. It cannot be recovered for you.');
+  return value;
+}
+function base64(value: Uint8Array): string {
+  let text = '';
+  for (let i = 0; i < value.length; i += 8192) text += String.fromCharCode(...value.subarray(i, i + 8192));
+  return btoa(text);
+}
+function unbase64(value: unknown, maxBytes: number, exactBytes?: number): Uint8Array<ArrayBuffer> {
+  if (
+    typeof value !== 'string' ||
+    value.length > 4 * Math.ceil(maxBytes / 3) ||
+    value.length % 4 !== 0 ||
+    !/^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/.test(value)
+  )
+    fail('The sealed draft encoding is invalid.');
+  let text: string;
+  try {
+    text = atob(value);
+  } catch {
+    fail('The sealed draft encoding is invalid.');
+  }
+  if (text.length > maxBytes || (exactBytes !== undefined && text.length !== exactBytes))
+    fail('The sealed draft size is invalid.');
+  const result = new Uint8Array(text.length);
+  for (let i = 0; i < text.length; i++) result[i] = text.charCodeAt(i);
+  if (base64(result) !== value) fail('The sealed draft encoding is invalid.');
+  return result;
+}
+export async function sealedScopeHash(ownerId: string): Promise<string> {
+  if (
+    typeof ownerId !== 'string' ||
+    ownerId.length < 1 ||
+    ownerId.length > 300 ||
+    ownerId.trim() !== ownerId ||
+    /[\u0000-\u001f\u007f]/.test(ownerId)
+  )
+    fail('Verify your personal account before handling sealed drafts.');
+  const buffer = await provider().subtle.digest(
+    'SHA-256',
+    new TextEncoder().encode(JSON.stringify([ownerId, 'lab'])),
+  );
+  return [...new Uint8Array(buffer)].map((n) => n.toString(16).padStart(2, '0')).join('');
+}
+function associated(
+  file: Pick<
+    SealedDraftFile,
+    'schema' | 'kind' | 'algorithm' | 'iterations' | 'scopeHash' | 'createdAt' | 'expiresAt'
+  >,
+) {
+  return new TextEncoder().encode(
+    JSON.stringify([
+      file.schema,
+      file.kind,
+      file.algorithm,
+      file.iterations,
+      file.scopeHash,
+      file.createdAt,
+      file.expiresAt,
+    ]),
+  );
+}
+async function key(passphrase: string, salt: Uint8Array<ArrayBuffer>, usage: KeyUsage): Promise<CryptoKey> {
+  const c = provider(),
+    material = await c.subtle.importKey(
+      'raw',
+      new TextEncoder().encode(phrase(passphrase)),
+      'PBKDF2',
+      false,
+      ['deriveKey'],
+    );
+  return c.subtle.deriveKey(
+    { name: 'PBKDF2', hash: 'SHA-256', salt, iterations: SEALED_DRAFT_LIMITS.iterations },
+    material,
+    { name: 'AES-GCM', length: 256 },
+    false,
+    [usage],
+  );
+}
+export function readSealedDraftFile(value: unknown, now: string, allowExpired = false): SealedDraftFile {
+  const keys = [
+    'schema',
+    'kind',
+    'algorithm',
+    'iterations',
+    'scopeHash',
+    'createdAt',
+    'expiresAt',
+    'salt',
+    'iv',
+    'ciphertext',
+  ];
+  if (
+    !object(value) ||
+    keys.some((k) => !Object.hasOwn(value, k)) ||
+    Object.keys(value).some((k) => !keys.includes(k)) ||
+    value.schema !== 1 ||
+    value.kind !== 'aplyd-sealed-drafts' ||
+    value.algorithm !== 'PBKDF2-SHA256/AES-256-GCM' ||
+    value.iterations !== SEALED_DRAFT_LIMITS.iterations ||
+    typeof value.scopeHash !== 'string' ||
+    !/^\w{64}$/.test(value.scopeHash) ||
+    !/^[a-f0-9]{64}$/.test(value.scopeHash)
+  )
+    fail('This is not a supported sealed draft file.');
+  if (new TextEncoder().encode(JSON.stringify(value)).length > SEALED_DRAFT_LIMITS.fileBytes)
+    fail('The sealed draft file is too large.');
+  const created = clock(value.createdAt),
+    expires = clock(value.expiresAt),
+    n = clock(now);
+  if (created > n || expires <= created || expires - created > OFFLINE_LIMITS.draftLifetimeMs)
+    fail('The sealed draft timing is inconsistent.');
+  if (!allowExpired && n >= expires)
+    fail('This 24-hour temporary draft has expired. You can delete the sealed copy.');
+  unbase64(value.salt, 16, 16);
+  unbase64(value.iv, 12, 12);
+  const cipher = unbase64(value.ciphertext, OFFLINE_LIMITS.queueBytes + 16);
+  if (cipher.length < 17) fail('The sealed draft file is incomplete.');
+  return Object.freeze({ ...value }) as SealedDraftFile;
+}
+export function parseSealedDraftFile(text: string, now: string, allowExpired = false): SealedDraftFile {
+  if (typeof text !== 'string' || new TextEncoder().encode(text).length > SEALED_DRAFT_LIMITS.fileBytes)
+    fail('The sealed draft file is too large.');
+  let value: unknown;
+  try {
+    value = JSON.parse(text);
+  } catch {
+    fail('The sealed draft file could not be read.');
+  }
+  return readSealedDraftFile(value, now, allowExpired);
+}
+export async function sealDraftQueue(
+  value: readonly OfflineDraft[],
+  ownerId: string,
+  passphrase: string,
+  now: string,
+): Promise<SealedDraftFile> {
+  const queue = readOfflineQueue([...value], ownerId, 'lab', now);
+  if (queue.length === 0) fail('There are no local drafts to seal.');
+  phrase(passphrase);
+  const c = provider(),
+    salt = c.getRandomValues(new Uint8Array(16)),
+    iv = c.getRandomValues(new Uint8Array(12)),
+    scopeHash = await sealedScopeHash(ownerId),
+    expiresAt = queue.map((d) => d.expiresAt).sort()[0];
+  const header = {
+    schema: 1 as const,
+    kind: 'aplyd-sealed-drafts' as const,
+    algorithm: 'PBKDF2-SHA256/AES-256-GCM' as const,
+    iterations: SEALED_DRAFT_LIMITS.iterations,
+    scopeHash,
+    createdAt: now,
+    expiresAt,
+  };
+  const payload = new TextEncoder().encode(JSON.stringify(queue));
+  const ciphertext = await c.subtle.encrypt(
+    { name: 'AES-GCM', iv, additionalData: associated(header), tagLength: 128 },
+    await key(passphrase, salt, 'encrypt'),
+    payload,
+  );
+  return readSealedDraftFile(
+    { ...header, salt: base64(salt), iv: base64(iv), ciphertext: base64(new Uint8Array(ciphertext)) },
+    now,
+  );
+}
+export async function unlockDraftQueue(
+  value: unknown,
+  ownerId: string,
+  passphrase: string,
+  now: string,
+): Promise<OfflineDraft[]> {
+  const file = readSealedDraftFile(value, now);
+  if (file.scopeHash !== (await sealedScopeHash(ownerId)))
+    fail('This sealed file belongs to a different personal account.');
+  phrase(passphrase);
+  let payload: ArrayBuffer;
+  try {
+    payload = await provider().subtle.decrypt(
+      { name: 'AES-GCM', iv: unbase64(file.iv, 12, 12), additionalData: associated(file), tagLength: 128 },
+      await key(passphrase, unbase64(file.salt, 16, 16), 'decrypt'),
+      unbase64(file.ciphertext, OFFLINE_LIMITS.queueBytes + 16),
+    );
+  } catch {
+    fail('The passphrase or sealed file could not be verified. Nothing was unlocked.');
+  }
+  let queue: unknown;
+  try {
+    queue = JSON.parse(new TextDecoder('utf-8', { fatal: true }).decode(payload));
+  } catch {
+    fail('The sealed draft contents could not be verified. Nothing was unlocked.');
+  }
+  const result = readOfflineQueue(queue, ownerId, 'lab', now);
+  if (result.length === 0 || result.map((d) => d.expiresAt).sort()[0] !== file.expiresAt)
+    fail('The sealed draft expiry does not match its contents.');
+  return result;
+}
+export function sealedStorageKey(scopeHash: string): string {
+  if (!/^[a-f0-9]{64}$/.test(scopeHash)) fail('The personal storage reference is invalid.');
+  return SEALED_DRAFT_LIMITS.storagePrefix + scopeHash;
+}
+export function storeSealedDraft(storage: DraftStorage, file: SealedDraftFile, now: string): void {
+  const checked = readSealedDraftFile(file, now);
+  try {
+    storage.setItem(sealedStorageKey(checked.scopeHash), JSON.stringify(checked));
+  } catch {
+    fail(
+      'The sealed draft could not be saved on this device. Download a sealed file or keep this session open.',
+    );
+  }
+}
+export function loadSealedDraft(
+  storage: DraftStorage,
+  scopeHash: string,
+  now: string,
+): SealedDraftFile | null {
+  let text: string | null;
+  try {
+    text = storage.getItem(sealedStorageKey(scopeHash));
+  } catch {
+    fail('Device draft storage is unavailable. You can import a sealed file instead.');
+  }
+  return text === null ? null : parseSealedDraftFile(text, now, true);
+}
+export function deleteSealedDraft(storage: DraftStorage, scopeHash: string): void {
+  try {
+    storage.removeItem(sealedStorageKey(scopeHash));
+  } catch {
+    fail('This device did not remove the sealed draft. Use your browser storage controls.');
+  }
+}
+export function deleteAllSealedDrafts(storage: DraftStorage): number {
+  try {
+    const keys: string[] = [];
+    for (let i = 0; i < storage.length; i++) {
+      const k = storage.key(i);
+      if (k?.startsWith(SEALED_DRAFT_LIMITS.storagePrefix)) keys.push(k);
+    }
+    for (const k of keys) storage.removeItem(k);
+    return keys.length;
+  } catch {
+    fail('This device did not remove every sealed draft. Use your browser storage controls.');
+  }
+}

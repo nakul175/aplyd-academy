@@ -65,10 +65,7 @@
       "sourceFilename": "APLYD_C5_Trainer_Handbook.docx",
       "sha256": "6a377e3668bc455079420034f0cb846579091c685582fe69fb4c792b8307e941",
       "bytes": 18848,
-      "sections": [
-        "6.7 · The consent conversation",
-        "8 · Before you deliver — the OPEN items"
-      ],
+      "sections": ["6.7 · The consent conversation", "8 · Before you deliver — the OPEN items"],
       "use": "Teaching reference only; does not establish partner or institutional authority."
     },
     {
@@ -77,9 +74,7 @@
       "sourceFilename": "APLYD_C2_Trainer_Handbook.docx",
       "sha256": "9130e3294b723576f2bac7825db81a7039730f08b2a7cabd8e65827f6b3aa193",
       "bytes": 31325,
-      "sections": [
-        "4.11 · The funder's portfolio — conditions, not operations"
-      ],
+      "sections": ["4.11 · The funder's portfolio — conditions, not operations"],
       "use": "Teaching reference only; does not establish partner or institutional authority."
     }
   ]

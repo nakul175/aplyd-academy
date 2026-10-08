@@ -1,9 +1,77 @@
 'use client';
-import {useState} from 'react';
-import {Button} from '@/components/ui/button';
-import {useAcademy} from './academy-context';
-import {date} from './academy-ui';
-export function ArchivedHistory(){const {team}=useAcademy(),[packets,setPackets]=useState<any[]>([]),[next,setNext]=useState<number|null>(null),[opened,setOpened]=useState(false),[loading,setLoading]=useState(false),[error,setError]=useState('');if(!team.active||!team.roles.some((r:string)=>['admin','moderator'].includes(r)))return null;
- async function read(before?:number){setLoading(true);try{const r=await fetch('/api/teams/history?teamId='+encodeURIComponent(team.id)+(before?'&before='+before:''),{cache:'no-store'}),d:any=await r.json();if(!r.ok)throw new Error(d.error);setPackets(x=>before?[...x,...d.packets]:d.packets);setNext(d.nextBefore);setOpened(true);setError('')}catch(e:any){setError(e.message)}finally{setLoading(false)}}
- return <section className="panel mt"><h2>Workspace accountability history</h2><p className="mt">Older administrative and moderation events are preserved separately as the working history grows. Owners see administrative events; moderators see events in their current cohort scope.</p><Button className="mt" variant="outline" disabled={loading} onClick={()=>read()}>Open archived history</Button>{error&&<p role="alert" className="mt">{error}</p>}{opened&&packets.length===0&&<p className="mt">No older events have needed archiving yet.</p>}{packets.map(p=><details className="source-packet" key={p.revision}><summary>Archived at revision {p.revision} · {date(p.archivedAt)}</summary>{[...p.activity,...p.moderation].length===0?<p>No events in your current permission scope.</p>:[...p.activity,...p.moderation].map((a:any)=><div className="reflection-item" key={a.id}><strong>{a.actorName} · {a.action??`Moderation: ${a.status}`}</strong><p>{date(a.createdAt)}</p>{a.reason&&<p className="pre-wrap">{a.reason}</p>}{a.detail&&<pre className="pre-wrap">{JSON.stringify(a.detail,null,2)}</pre>}</div>)}</details>)}{next&&<Button variant="outline" disabled={loading} className="mt" onClick={()=>read(next)}>Load earlier events</Button>}</section>;
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { useAcademy } from './academy-context';
+import { date } from './academy-ui';
+export function ArchivedHistory() {
+  const { team } = useAcademy(),
+    [packets, setPackets] = useState<any[]>([]),
+    [next, setNext] = useState<number | null>(null),
+    [opened, setOpened] = useState(false),
+    [loading, setLoading] = useState(false),
+    [error, setError] = useState('');
+  if (!team.active || !team.roles.some((r: string) => ['admin', 'moderator'].includes(r))) return null;
+  async function read(before?: number) {
+    setLoading(true);
+    try {
+      const r = await fetch(
+          '/api/teams/history?teamId=' + encodeURIComponent(team.id) + (before ? '&before=' + before : ''),
+          { cache: 'no-store' },
+        ),
+        d: any = await r.json();
+      if (!r.ok) throw new Error(d.error);
+      setPackets((x) => (before ? [...x, ...d.packets] : d.packets));
+      setNext(d.nextBefore);
+      setOpened(true);
+      setError('');
+    } catch (e: any) {
+      setError(e.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+  return (
+    <section className="panel mt">
+      <h2>Workspace accountability history</h2>
+      <p className="mt">
+        Older administrative and moderation events are preserved separately as the working history grows.
+        Owners see administrative events; moderators see events in their current cohort scope.
+      </p>
+      <Button className="mt" variant="outline" disabled={loading} onClick={() => read()}>
+        Open archived history
+      </Button>
+      {error && (
+        <p role="alert" className="mt">
+          {error}
+        </p>
+      )}
+      {opened && packets.length === 0 && <p className="mt">No older events have needed archiving yet.</p>}
+      {packets.map((p) => (
+        <details className="source-packet" key={p.revision}>
+          <summary>
+            Archived at revision {p.revision} · {date(p.archivedAt)}
+          </summary>
+          {[...p.activity, ...p.moderation].length === 0 ? (
+            <p>No events in your current permission scope.</p>
+          ) : (
+            [...p.activity, ...p.moderation].map((a: any) => (
+              <div className="reflection-item" key={a.id}>
+                <strong>
+                  {a.actorName} · {a.action ?? `Moderation: ${a.status}`}
+                </strong>
+                <p>{date(a.createdAt)}</p>
+                {a.reason && <p className="pre-wrap">{a.reason}</p>}
+                {a.detail && <pre className="pre-wrap">{JSON.stringify(a.detail, null, 2)}</pre>}
+              </div>
+            ))
+          )}
+        </details>
+      ))}
+      {next && (
+        <Button variant="outline" disabled={loading} className="mt" onClick={() => read(next)}>
+          Load earlier events
+        </Button>
+      )}
+    </section>
+  );
 }

@@ -1,11 +1,52 @@
-import {createRequire} from 'node:module';
-import {readFileSync,writeFileSync} from 'node:fs';
-import {createHash} from 'node:crypto';
-import {app,output} from './qa-paths.mjs';
-const require=createRequire(app+'/package.json'),esbuild=require('esbuild');
-const entry=output+'/actual-root-entry.ts';
-writeFileSync(entry,`export * from ${JSON.stringify(app+'/lib/academy-job-templates.ts')};export * from ${JSON.stringify(app+'/lib/academy-job-template-create.ts')};export * from ${JSON.stringify(app+'/lib/academy-authoring.ts')};export {applyTeamCommand,createTeam,projectTeam} from ${JSON.stringify(app+'/lib/academy-teams.ts')};export {programs,LEGACY_CONTENT_VERSION} from ${JSON.stringify(app+'/lib/academy-curriculum.ts')};export {collections} from ${JSON.stringify(app+'/lib/academy-library.ts')};`);
-await esbuild.build({entryPoints:[entry],bundle:true,platform:'node',format:'esm',outfile:output+'/actual-root-model.mjs'});
-const files=['lib/academy-job-templates.ts','lib/academy-job-template-create.ts','lib/academy-authoring.ts','lib/academy-teams.ts','lib/academy-curriculum.ts','lib/academy-library.ts','lib/curriculum-versions/0.1-review-draft.json','app/academy-authoring.tsx','app/academy-job-template-picker.tsx','app/academy-job-template-picker.module.css','app/api/teams/route.ts'];
-writeFileSync(output+'/actual-root-source-evidence.json',JSON.stringify({passed:true,at:new Date().toISOString(),files:files.map(file=>({file,sha256:createHash('sha256').update(readFileSync(app+'/'+file)).digest('hex')})),limits:['Read-only bundle of current adopted root pure modules; no team overlay, app build, Worker/API/browser or publication.']},null,2));
+import { createRequire } from 'node:module';
+import { readFileSync, writeFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+import { app, output } from './qa-paths.mjs';
+const require = createRequire(app + '/package.json'),
+  esbuild = require('esbuild');
+const entry = output + '/actual-root-entry.ts';
+writeFileSync(
+  entry,
+  `export * from ${JSON.stringify(app + '/lib/academy-job-templates.ts')};export * from ${JSON.stringify(app + '/lib/academy-job-template-create.ts')};export * from ${JSON.stringify(app + '/lib/academy-authoring.ts')};export {applyTeamCommand,createTeam,projectTeam} from ${JSON.stringify(app + '/lib/academy-teams.ts')};export {programs,LEGACY_CONTENT_VERSION} from ${JSON.stringify(app + '/lib/academy-curriculum.ts')};export {collections} from ${JSON.stringify(app + '/lib/academy-library.ts')};`,
+);
+await esbuild.build({
+  entryPoints: [entry],
+  bundle: true,
+  platform: 'node',
+  format: 'esm',
+  outfile: output + '/actual-root-model.mjs',
+});
+const files = [
+  'lib/academy-job-templates.ts',
+  'lib/academy-job-template-create.ts',
+  'lib/academy-authoring.ts',
+  'lib/academy-teams.ts',
+  'lib/academy-curriculum.ts',
+  'lib/academy-library.ts',
+  'lib/curriculum-versions/0.1-review-draft.json',
+  'app/academy-authoring.tsx',
+  'app/academy-job-template-picker.tsx',
+  'app/academy-job-template-picker.module.css',
+  'app/api/teams/route.ts',
+];
+writeFileSync(
+  output + '/actual-root-source-evidence.json',
+  JSON.stringify(
+    {
+      passed: true,
+      at: new Date().toISOString(),
+      files: files.map((file) => ({
+        file,
+        sha256: createHash('sha256')
+          .update(readFileSync(app + '/' + file))
+          .digest('hex'),
+      })),
+      limits: [
+        'Read-only bundle of current adopted root pure modules; no team overlay, app build, Worker/API/browser or publication.',
+      ],
+    },
+    null,
+    2,
+  ),
+);
 console.log('Bundled actual adopted root model and recorded11 source hashes.');
