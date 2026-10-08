@@ -1,10 +1,24 @@
 'use client';
 import dynamic from 'next/dynamic';
-import {AcademyViewLoading} from './academy-view-loading';
-export const LearningView=dynamic(()=>import('./academy-learning').then(m=>m.LearningView),{loading:AcademyViewLoading});
-export const CommunityView=dynamic(()=>import('./academy-community').then(m=>m.CommunityView),{loading:AcademyViewLoading});
-export const NetworkView=dynamic(()=>import('./academy-community').then(m=>m.NetworkView),{loading:AcademyViewLoading});
-export const ConnectionsView=dynamic(()=>import('./academy-settings').then(m=>m.ConnectionsView),{loading:AcademyViewLoading});
-export const AchievementsView=dynamic(()=>import('./academy-settings').then(m=>m.AchievementsView),{loading:AcademyViewLoading});
-export const SettingsView=dynamic(()=>import('./academy-settings').then(m=>m.SettingsView),{loading:AcademyViewLoading});
-export const StudioView=dynamic(()=>import('./academy-studio').then(m=>m.StudioView),{loading:AcademyViewLoading});
+import { AcademyViewLoading } from './academy-view-loading';
+export const LearningView = dynamic(() => import('./academy-learning').then((m) => m.LearningView), {
+  loading: AcademyViewLoading,
+});
+export const CommunityView = dynamic(() => import('./academy-community').then((m) => m.CommunityView), {
+  loading: AcademyViewLoading,
+});
+export const NetworkView = dynamic(() => import('./academy-community').then((m) => m.NetworkView), {
+  loading: AcademyViewLoading,
+});
+export const ConnectionsView = dynamic(() => import('./academy-settings').then((m) => m.ConnectionsView), {
+  loading: AcademyViewLoading,
+});
+export const AchievementsView = dynamic(() => import('./academy-settings').then((m) => m.AchievementsView), {
+  loading: AcademyViewLoading,
+});
+export const SettingsView = dynamic(() => import('./academy-settings').then((m) => m.SettingsView), {
+  loading: AcademyViewLoading,
+});
+export const StudioView = dynamic(() => import('./academy-studio').then((m) => m.StudioView), {
+  loading: AcademyViewLoading,
+});

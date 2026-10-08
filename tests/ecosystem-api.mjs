@@ -1,31 +1,257 @@
 import assert from 'node:assert/strict';
-import {mkdirSync,readFileSync,writeFileSync} from 'node:fs';
-import {resolve} from 'node:path';
-const app=resolve(process.env.ACADEMY_APP_PATH??'.'),base=process.env.ACADEMY_LOCAL_URL??'http://127.0.0.1:8787';assert.ok(['127.0.0.1','localhost','[::1]'].includes(new URL(base).hostname),'Only a local synthetic test server is allowed.');
-const curriculum=JSON.parse(readFileSync(resolve(app,'lib/curriculum.json'),'utf8')),nonce=crypto.randomUUID(),owner={id:'guard-owner-'+nonce,email:'guard-owner-'+nonce+'@academy.test'},other={id:'guard-other-'+nonce,email:'guard-other-'+nonce+'@academy.test'};let checks=0;
-const eq=(x,y)=>{assert.deepEqual(x,y);checks++;},ok=x=>{assert.ok(x);checks++;},headers=u=>({'Content-Type':'application/json','oai-authenticated-user-id':u.id,'oai-authenticated-user-email':u.email});
-async function get(u){const r=await fetch(base+'/api/academy',{headers:headers(u)});return {status:r.status,...await r.json()};}
-async function post(u,command,revision,actionId=crypto.randomUUID()){const r=await fetch(base+'/api/academy',{method:'POST',headers:headers(u),body:JSON.stringify({command,revision,actionId})});return {status:r.status,...await r.json()};}
-async function action(u,command){const x=await get(u);eq(x.status,200);return post(u,command,x.revision);}
-const mappings=[['agri','farmer-work-records'],['msme','msme-customer-operations'],['public','public-servant-source-briefs']],ids={},grants={},canary='PRIVATE-GUARD-DRAFT-CANARY: permitted fictional evidence belongs only to its owner.';
-let x=await get(owner);eq(x.status,200);eq(x.state.deliveries,[]);
-for(const [partner,pid] of mappings){x=await action(owner,{type:'enroll',programId:pid});eq(x.status,200);ids[partner]=x.state.enrollments.find(e=>e.programId===pid).id;x=await action(owner,{type:'connection',partner,enabled:true});eq(x.status,200);eq(x.state.ecosystemGrants??[],[]);eq(x.state.ecosystemReceipts??[],[]);}
-x=await action(owner,{type:'draft',enrollmentId:ids.msme,fields:{task:canary}});eq(x.status,200);eq(x.state.enrollments.find(e=>e.id===ids.msme).draft.task,canary);
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { resolve } from 'node:path';
+const app = resolve(process.env.ACADEMY_APP_PATH ?? '.'),
+  base = process.env.ACADEMY_LOCAL_URL ?? 'http://127.0.0.1:8787';
+assert.ok(
+  ['127.0.0.1', 'localhost', '[::1]'].includes(new URL(base).hostname),
+  'Only a local synthetic test server is allowed.',
+);
+const curriculum = JSON.parse(readFileSync(resolve(app, 'lib/curriculum.json'), 'utf8')),
+  nonce = crypto.randomUUID(),
+  owner = { id: 'guard-owner-' + nonce, email: 'guard-owner-' + nonce + '@academy.test' },
+  other = { id: 'guard-other-' + nonce, email: 'guard-other-' + nonce + '@academy.test' };
+let checks = 0;
+const eq = (x, y) => {
+    assert.deepEqual(x, y);
+    checks++;
+  },
+  ok = (x) => {
+    assert.ok(x);
+    checks++;
+  },
+  headers = (u) => ({
+    'Content-Type': 'application/json',
+    'oai-authenticated-user-id': u.id,
+    'oai-authenticated-user-email': u.email,
+  });
+async function get(u) {
+  const r = await fetch(base + '/api/academy', { headers: headers(u) });
+  return { status: r.status, ...(await r.json()) };
+}
+async function post(u, command, revision, actionId = crypto.randomUUID()) {
+  const r = await fetch(base + '/api/academy', {
+    method: 'POST',
+    headers: headers(u),
+    body: JSON.stringify({ command, revision, actionId }),
+  });
+  return { status: r.status, ...(await r.json()) };
+}
+async function action(u, command) {
+  const x = await get(u);
+  eq(x.status, 200);
+  return post(u, command, x.revision);
+}
+const mappings = [
+    ['agri', 'farmer-work-records'],
+    ['msme', 'msme-customer-operations'],
+    ['public', 'public-servant-source-briefs'],
+  ],
+  ids = {},
+  grants = {},
+  canary = 'PRIVATE-GUARD-DRAFT-CANARY: permitted fictional evidence belongs only to its owner.';
+let x = await get(owner);
+eq(x.status, 200);
+eq(x.state.deliveries, []);
+for (const [partner, pid] of mappings) {
+  x = await action(owner, { type: 'enroll', programId: pid });
+  eq(x.status, 200);
+  ids[partner] = x.state.enrollments.find((e) => e.programId === pid).id;
+  x = await action(owner, { type: 'connection', partner, enabled: true });
+  eq(x.status, 200);
+  eq(x.state.ecosystemGrants ?? [], []);
+  eq(x.state.ecosystemReceipts ?? [], []);
+}
+x = await action(owner, { type: 'draft', enrollmentId: ids.msme, fields: { task: canary } });
+eq(x.status, 200);
+eq(x.state.enrollments.find((e) => e.id === ids.msme).draft.task, canary);
 // Compatibility refusal is exact and atomic even when the old Boolean is true.
-const beforeLegacy=structuredClone(x);for(const [partner] of mappings){const denied=await post(owner,{type:'deliver',partner,enrollmentId:ids[partner]},x.revision);eq(denied.status,409);ok(denied.error.includes('explicit local test choice'));ok(denied.error.includes('fields')&&denied.error.includes('expiry'));}
-eq((await get(owner)).state,beforeLegacy.state);eq((await get(owner)).revision,beforeLegacy.revision);
-for(const key of ['payload','actor','scopes','grantId','url'])eq((await post(owner,{type:'deliver',partner:'msme',enrollmentId:ids.msme,[key]:'INJECTED-PRIVATE-CANARY'},x.revision)).status,400);
-eq((await post(owner,{type:'connection',partner:'health',enabled:true},x.revision)).status,409);eq((await post(owner,{type:'deliver',partner:'health',enrollmentId:ids.msme},x.revision)).status,409);
-eq((await post(owner,{type:'ecosystem-grant',partner:'health',enrollmentId:ids.msme,scopes:['learning.progress'],durationDays:7},x.revision)).status,409);
+const beforeLegacy = structuredClone(x);
+for (const [partner] of mappings) {
+  const denied = await post(owner, { type: 'deliver', partner, enrollmentId: ids[partner] }, x.revision);
+  eq(denied.status, 409);
+  ok(denied.error.includes('explicit local test choice'));
+  ok(denied.error.includes('fields') && denied.error.includes('expiry'));
+}
+eq((await get(owner)).state, beforeLegacy.state);
+eq((await get(owner)).revision, beforeLegacy.revision);
+for (const key of ['payload', 'actor', 'scopes', 'grantId', 'url'])
+  eq(
+    (
+      await post(
+        owner,
+        { type: 'deliver', partner: 'msme', enrollmentId: ids.msme, [key]: 'INJECTED-PRIVATE-CANARY' },
+        x.revision,
+      )
+    ).status,
+    400,
+  );
+eq((await post(owner, { type: 'connection', partner: 'health', enabled: true }, x.revision)).status, 409);
+eq(
+  (await post(owner, { type: 'deliver', partner: 'health', enrollmentId: ids.msme }, x.revision)).status,
+  409,
+);
+eq(
+  (
+    await post(
+      owner,
+      {
+        type: 'ecosystem-grant',
+        partner: 'health',
+        enrollmentId: ids.msme,
+        scopes: ['learning.progress'],
+        durationDays: 7,
+      },
+      x.revision,
+    )
+  ).status,
+  409,
+);
 // Legacy deliver refuses all mappings; the new grant proves actual mapping policy.
-for(const [from] of mappings)for(const [to] of mappings)if(from!==to)eq((await post(owner,{type:'ecosystem-grant',partner:to,enrollmentId:ids[from],scopes:['learning.progress'],durationDays:7},x.revision)).status,409);
-eq((await get(owner)).state,beforeLegacy.state);eq((await get(owner)).revision,beforeLegacy.revision);
-for(const [partner,pid] of mappings){x=await action(owner,{type:'ecosystem-grant',partner,enrollmentId:ids[partner],scopes:['learning.progress','practice.record'],durationDays:7});eq(x.status,200);const g=x.state.ecosystemGrants[0];grants[partner]=g.id;eq(g.contentRef,x.state.enrollments.find(e=>e.id===ids[partner]).contentRef);eq(Date.parse(g.expiresAt)-Date.parse(g.createdAt),7*86400000);x=await action(owner,{type:'ecosystem-test',grantId:g.id});eq(x.status,200);const r=x.state.ecosystemReceipts[0];eq(r.status,'simulated');eq(r.payload.mode,'local-test');eq(r.payload.pathway_id,pid);eq(r.payload.content_version,g.contentVersion);eq(r.payload.learning,{completed_lessons:0,total_lessons:curriculum.pathways.find(p=>p.id===pid).lessons.length,status:'in-progress'});eq(r.payload.practice_record,{status:'not-issued',claim_type:'nonaccredited-practice',review_mode:'not-reviewed'});ok(!JSON.stringify(r).includes(canary));for(const key of ['fields','scores','notes','email','name'])eq(Object.hasOwn(r.payload,key),false);}
-const saved=structuredClone(x.state.ecosystemReceipts),legacy=structuredClone(x.state.deliveries),rev=x.revision;eq(legacy,[]);
-let stranger=await get(other);eq(stranger.state.enrollments.length,0);eq(stranger.state.deliveries.length,0);stranger=await action(other,{type:'connection',partner:'msme',enabled:true});eq(stranger.status,200);const foreignBefore=structuredClone(stranger.state);
-eq((await post(other,{type:'deliver',partner:'msme',enrollmentId:ids.msme},stranger.revision)).status,409);eq((await post(other,{type:'ecosystem-grant',partner:'msme',enrollmentId:ids.msme,scopes:['learning.progress'],durationDays:7},stranger.revision)).status,404);eq((await post(other,{type:'ecosystem-test',grantId:grants.msme},stranger.revision)).status,404);eq((await post(other,{type:'ecosystem-withdraw',grantId:grants.msme},stranger.revision)).status,404);eq((await get(other)).state,foreignBefore);
+for (const [from] of mappings)
+  for (const [to] of mappings)
+    if (from !== to)
+      eq(
+        (
+          await post(
+            owner,
+            {
+              type: 'ecosystem-grant',
+              partner: to,
+              enrollmentId: ids[from],
+              scopes: ['learning.progress'],
+              durationDays: 7,
+            },
+            x.revision,
+          )
+        ).status,
+        409,
+      );
+eq((await get(owner)).state, beforeLegacy.state);
+eq((await get(owner)).revision, beforeLegacy.revision);
+for (const [partner, pid] of mappings) {
+  x = await action(owner, {
+    type: 'ecosystem-grant',
+    partner,
+    enrollmentId: ids[partner],
+    scopes: ['learning.progress', 'practice.record'],
+    durationDays: 7,
+  });
+  eq(x.status, 200);
+  const g = x.state.ecosystemGrants[0];
+  grants[partner] = g.id;
+  eq(g.contentRef, x.state.enrollments.find((e) => e.id === ids[partner]).contentRef);
+  eq(Date.parse(g.expiresAt) - Date.parse(g.createdAt), 7 * 86400000);
+  x = await action(owner, { type: 'ecosystem-test', grantId: g.id });
+  eq(x.status, 200);
+  const r = x.state.ecosystemReceipts[0];
+  eq(r.status, 'simulated');
+  eq(r.payload.mode, 'local-test');
+  eq(r.payload.pathway_id, pid);
+  eq(r.payload.content_version, g.contentVersion);
+  eq(r.payload.learning, {
+    completed_lessons: 0,
+    total_lessons: curriculum.pathways.find((p) => p.id === pid).lessons.length,
+    status: 'in-progress',
+  });
+  eq(r.payload.practice_record, {
+    status: 'not-issued',
+    claim_type: 'nonaccredited-practice',
+    review_mode: 'not-reviewed',
+  });
+  ok(!JSON.stringify(r).includes(canary));
+  for (const key of ['fields', 'scores', 'notes', 'email', 'name']) eq(Object.hasOwn(r.payload, key), false);
+}
+const saved = structuredClone(x.state.ecosystemReceipts),
+  legacy = structuredClone(x.state.deliveries),
+  rev = x.revision;
+eq(legacy, []);
+let stranger = await get(other);
+eq(stranger.state.enrollments.length, 0);
+eq(stranger.state.deliveries.length, 0);
+stranger = await action(other, { type: 'connection', partner: 'msme', enabled: true });
+eq(stranger.status, 200);
+const foreignBefore = structuredClone(stranger.state);
+eq(
+  (await post(other, { type: 'deliver', partner: 'msme', enrollmentId: ids.msme }, stranger.revision)).status,
+  409,
+);
+eq(
+  (
+    await post(
+      other,
+      {
+        type: 'ecosystem-grant',
+        partner: 'msme',
+        enrollmentId: ids.msme,
+        scopes: ['learning.progress'],
+        durationDays: 7,
+      },
+      stranger.revision,
+    )
+  ).status,
+  404,
+);
+eq((await post(other, { type: 'ecosystem-test', grantId: grants.msme }, stranger.revision)).status, 404);
+eq((await post(other, { type: 'ecosystem-withdraw', grantId: grants.msme }, stranger.revision)).status, 404);
+eq((await get(other)).state, foreignBefore);
 // Both contenders are valid before this real same-revision CAS race.
-const withdrawal={type:'ecosystem-withdraw',grantId:grants.msme},test={type:'ecosystem-test',grantId:grants.msme},withdrawId=crypto.randomUUID(),testId=crypto.randomUUID(),race=await Promise.all([post(owner,withdrawal,rev,withdrawId),post(owner,test,rev,testId)]);eq(race.map(r=>r.status).sort(),[200,409]);x=await get(owner);eq(x.revision,rev+1);eq(x.state.ecosystemReceipts.length,saved.length+(race[1].status===200?1:0));eq(x.state.deliveries,legacy);
-const winner=race[0].status===200?0:1,replay=await post(owner,winner===0?withdrawal:test,rev,winner===0?withdrawId:testId);eq(replay.status,200);eq(replay.replayed,true);eq(replay.revision,x.revision);eq(replay.state,x.state);
-if(winner===1){x=await action(owner,withdrawal);eq(x.status,200);}const beforeFinal=structuredClone(x.state.ecosystemReceipts);x=await action(owner,{type:'connection',partner:'msme',enabled:false});eq(x.status,200);eq(x.state.connections.msme,false);eq(x.state.ecosystemReceipts,beforeFinal);eq((await post(owner,test,x.revision)).status,403);eq((await post(owner,{type:'deliver',partner:'msme',enrollmentId:ids.msme},x.revision)).status,409);eq((await get(owner)).state.ecosystemReceipts,beforeFinal);for(const r of saved)eq(beforeFinal.find(row=>row.id===r.id),r);eq((await get(owner)).state.deliveries,legacy);
-const result={passed:true,checks,coverage:['legacy valid deliver409 explicit fields/expiry guidance without mutation','legacy extra-key400','three explicit approved partner mappings','all six scoped cross-mapping409','Health enable and choice409','private persisted draft canary excluded from receipts','own-only enrollment and choice404','separate retained old history','real same-revision explicit test/withdrawal race','exact action replay','withdrawn explicit test403'],limits:['Synthetic local identity headers only','No external request or connector invocation','Nonempty legacy Health/mismatch history remains an isolated pure migration fixture, not a database seed']};mkdirSync(resolve(app,'.sites-runtime'),{recursive:true});writeFileSync(resolve(app,'.sites-runtime/ecosystem-api.json'),JSON.stringify(result,null,2));console.log(JSON.stringify(result));
+const withdrawal = { type: 'ecosystem-withdraw', grantId: grants.msme },
+  test = { type: 'ecosystem-test', grantId: grants.msme },
+  withdrawId = crypto.randomUUID(),
+  testId = crypto.randomUUID(),
+  race = await Promise.all([post(owner, withdrawal, rev, withdrawId), post(owner, test, rev, testId)]);
+eq(race.map((r) => r.status).sort(), [200, 409]);
+x = await get(owner);
+eq(x.revision, rev + 1);
+eq(x.state.ecosystemReceipts.length, saved.length + (race[1].status === 200 ? 1 : 0));
+eq(x.state.deliveries, legacy);
+const winner = race[0].status === 200 ? 0 : 1,
+  replay = await post(owner, winner === 0 ? withdrawal : test, rev, winner === 0 ? withdrawId : testId);
+eq(replay.status, 200);
+eq(replay.replayed, true);
+eq(replay.revision, x.revision);
+eq(replay.state, x.state);
+if (winner === 1) {
+  x = await action(owner, withdrawal);
+  eq(x.status, 200);
+}
+const beforeFinal = structuredClone(x.state.ecosystemReceipts);
+x = await action(owner, { type: 'connection', partner: 'msme', enabled: false });
+eq(x.status, 200);
+eq(x.state.connections.msme, false);
+eq(x.state.ecosystemReceipts, beforeFinal);
+eq((await post(owner, test, x.revision)).status, 403);
+eq((await post(owner, { type: 'deliver', partner: 'msme', enrollmentId: ids.msme }, x.revision)).status, 409);
+eq((await get(owner)).state.ecosystemReceipts, beforeFinal);
+for (const r of saved)
+  eq(
+    beforeFinal.find((row) => row.id === r.id),
+    r,
+  );
+eq((await get(owner)).state.deliveries, legacy);
+const result = {
+  passed: true,
+  checks,
+  coverage: [
+    'legacy valid deliver409 explicit fields/expiry guidance without mutation',
+    'legacy extra-key400',
+    'three explicit approved partner mappings',
+    'all six scoped cross-mapping409',
+    'Health enable and choice409',
+    'private persisted draft canary excluded from receipts',
+    'own-only enrollment and choice404',
+    'separate retained old history',
+    'real same-revision explicit test/withdrawal race',
+    'exact action replay',
+    'withdrawn explicit test403',
+  ],
+  limits: [
+    'Synthetic local identity headers only',
+    'No external request or connector invocation',
+    'Nonempty legacy Health/mismatch history remains an isolated pure migration fixture, not a database seed',
+  ],
+};
+mkdirSync(resolve(app, '.sites-runtime'), { recursive: true });
+writeFileSync(resolve(app, '.sites-runtime/ecosystem-api.json'), JSON.stringify(result, null, 2));
+console.log(JSON.stringify(result));

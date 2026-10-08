@@ -1,38 +1,434 @@
 import assert from 'node:assert/strict';
-import {readFileSync,mkdirSync,writeFileSync} from 'node:fs';
-import {resolve} from 'node:path';
-import {createRequire} from 'node:module';
-import {pathToFileURL} from 'node:url';
-import {createHash} from 'node:crypto';
-import {chromium,browserOptions} from './scoped-workbench-qa/browser-runtime.mjs';
-const app=resolve(process.env.ACADEMY_APP_PATH??new URL('../',import.meta.url).pathname),require=createRequire(resolve(app,'package.json')),ts=require('typescript');
-process.env.ACADEMY_APP_PATH=app;
-const qa=await import(pathToFileURL(resolve(app,'tests/local-qa.mjs'))),{base,headers,identity}=qa;
-const output=resolve(process.env.ACADEMY_LIBRARY_QA_OUT??resolve(app,'.sites-runtime/library-qa'));mkdirSync(output,{recursive:true});
-const manifest=JSON.parse(readFileSync(resolve(app,'dist/client/.vite/manifest.json'),'utf8'));const libraryEntry=manifest['app/academy-library.tsx']??Object.values(manifest).find(e=>e.src==='app/academy-library.tsx');assert.ok(libraryEntry?.file,'Wait for root stable Library integration build. No fixtures are created if the emitted Library entry is absent.');
-const libraryAsset='/'+libraryEntry.file;
-const staticKeys=new Set();function add(key){if(staticKeys.has(key))return;staticKeys.add(key);for(const child of manifest[key]?.imports??[])add(child)}for(const [key,value]of Object.entries(manifest))if(value.isEntry||key==='app/academy.tsx')add(key);assert.ok(![...staticKeys].some(key=>manifest[key]?.file===libraryEntry.file),'Library module must stay out of the initial static closure.');
-const source=readFileSync(resolve(app,'lib/academy-library.ts'),'utf8'),compiled=ts.transpileModule(source,{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.ESNext}}).outputText;
-const {collections}=await import('data:text/javascript;base64,'+Buffer.from(compiled).toString('base64'));assert.equal(collections.length,5);const resources=collections.flatMap(c=>c.resources);assert.equal(resources.length,20);
-const browser=await chromium.launch(browserOptions);
-const contexts=[],readers=[],scenarios=[],layouts=[],downloads=[],browserDownloads=[],pageErrors=[],startedAt=new Date().toISOString();let posts=0,pdfOpened=false;
-async function ownRead(context){const response=await context.request.get(base+'/api/academy');assert.equal(response.status(),200);const data=await response.json();assert.equal(typeof data.currentUserId,'string');return {revision:data.revision,state:data.state};}
-const deferred=()=>{let resolve;const promise=new Promise(r=>resolve=r);return {promise,resolve}};
-async function frames(page){await page.evaluate(()=>new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r))))}
-async function create(){const user=identity('library-reference'),context=await browser.newContext({viewport:{width:1440,height:1000},extraHTTPHeaders:headers(user),acceptDownloads:true}),page=await context.newPage();contexts.push(context);readers.push({context,user,before:await ownRead(context)});page.on('pageerror',e=>pageErrors.push(e.message));context.on('request',r=>{if(r.method()==='POST')posts++});context.on('page',other=>{if(other!==page)other.on('pageerror',e=>pageErrors.push(e.message))});return page}
-async function test(name,fn){await fn();scenarios.push({name,passed:true})}
-async function visible(page){await page.getByRole('heading',{name:'Learning for the work ahead',exact:true}).waitFor();await page.locator('[data-save-state="loaded"]').waitFor();await frames(page)}
-async function library(page){await page.goto(base+'/#library');await visible(page)}
-const count=page=>page.locator('[data-library-resource-id]').count();
-try{
- await test('cold personal Overview does not load Library code or original files',async()=>{const page=await create(),network=[];page.on('request',r=>network.push(new URL(r.url()).pathname));await page.goto(base+'/#home');await page.locator('[data-save-state="loaded"]').waitFor();await page.waitForLoadState('networkidle');assert.ok(!network.includes(libraryAsset));assert.ok(!network.some(p=>p.startsWith('/library/')));writeFileSync(resolve(output,'cold-library-network.json'),JSON.stringify({libraryAsset,network,libraryUnopened:true},null,2));});
- await test('keyboard Library navigation focuses main, direct hash works and no files eagerly fetched',async()=>{const page=await create(),files=[];page.on('request',r=>{if(new URL(r.url()).pathname.startsWith('/library/'))files.push(r.url())});await page.goto(base+'/#home');await page.locator('[data-save-state="loaded"]').waitFor();const nav=page.getByRole('button',{name:'Reference library',exact:true});await nav.focus();await nav.press('Enter');await visible(page);assert.equal(await page.evaluate(()=>document.activeElement?.id),'main');assert.equal(new URL(page.url()).hash,'#library');assert.equal(await count(page),20);assert.equal(await page.locator('iframe,embed,object').count(),0);assert.deepEqual(files,[]);await page.reload();await visible(page);assert.equal(await count(page),20);});
- await test('collection/search/audience filters show exact catalog resources and clear restores all',async()=>{const page=await create();await library(page);for(const collection of collections){await page.getByLabel('Collection',{exact:true}).selectOption(collection.id);assert.equal(await count(page),collection.resources.length);assert.deepEqual(await page.locator('[data-library-collection]').evaluateAll(nodes=>nodes.map(n=>n.getAttribute('data-library-collection'))),[collection.id]);assert.equal(await page.getByRole('heading',{name:collection.title,exact:true}).count(),1);if(collection.reviewNote)await page.getByText(collection.reviewNote,{exact:true}).waitFor();}await page.getByRole('button',{name:'Clear library filters',exact:true}).click();const source=resources[0];await page.getByLabel('Search the library',{exact:true}).fill(source.sourceFilename.toUpperCase());assert.deepEqual(await page.locator('[data-library-resource-id]').evaluateAll(nodes=>nodes.map(n=>n.getAttribute('data-library-resource-id'))),resources.filter(r=>r.sourceFilename.toUpperCase().includes(source.sourceFilename.toUpperCase())).map(r=>r.id));await page.getByRole('button',{name:'Clear library filters',exact:true}).click();await page.getByLabel('Suggested audience',{exact:true}).selectOption('participant');assert.equal(await count(page),resources.filter(r=>r.audience==='participant'||r.audience==='all').length);await page.getByLabel('Suggested audience',{exact:true}).selectOption('trainer');assert.equal(await count(page),resources.filter(r=>r.audience==='trainer'||r.audience==='all').length);await page.getByRole('button',{name:'Clear library filters',exact:true}).click();assert.equal(await count(page),20);await page.getByLabel('Search the library',{exact:true}).fill('no-such-reference-8c67');await page.getByRole('heading',{name:'No matching reference files',exact:true}).waitFor();assert.equal(await count(page),0);await page.getByRole('button',{name:'Clear library filters',exact:true}).click();assert.equal(await count(page),20);});
- await test('every supplied URL returns exact bytes/hash and anchors retain original source filename',async()=>{const page=await create();await library(page);for(const r of resources){const card=page.locator('[data-library-resource-id="'+r.id+'"]');const sourceText=card.locator('p').filter({hasText:r.sourceFilename});await sourceText.waitFor();assert.equal((await sourceText.innerText()).replace(/^Source file\s*/,''),r.sourceFilename,'Displayed original source filename is exact');const open=card.getByRole('link',{name:'Open '+r.title+' in a new tab',exact:true}),download=card.getByRole('link',{name:'Download '+r.title,exact:true});assert.equal(await open.getAttribute('href'),r.href);assert.equal(await open.getAttribute('target'),'_blank');assert.ok((await open.getAttribute('rel')).includes('noopener'));assert.equal(await download.getAttribute('download'),r.sourceFilename);const response=await page.context().request.get(base+r.href);assert.equal(response.status(),200);const bytes=await response.body();assert.equal(bytes.length,r.bytes);assert.equal(createHash('sha256').update(bytes).digest('hex'),r.sha256);downloads.push({id:r.id,format:r.format,bytes:bytes.length,sha256:r.sha256,sourceFilename:r.sourceFilename,passed:true});}writeFileSync(resolve(output,'library-download-integrity.json'),JSON.stringify({passed:true,files:downloads},null,2));});
- await test('actual browser downloads for DOCX/PDF/PPTX keep original filenames and source hashes',async()=>{const page=await create();await library(page);for(const format of ['docx','pdf','pptx']){const r=resources.find(r=>r.format===format);assert.ok(r);const awaited=page.waitForEvent('download');await page.locator('[data-library-resource-id="'+r.id+'"]').getByRole('link',{name:'Download '+r.title,exact:true}).click();const download=await awaited;assert.equal(download.suggestedFilename(),r.sourceFilename);const file=await download.path();assert.ok(file);const bytes=readFileSync(file);assert.equal(bytes.length,r.bytes);assert.equal(createHash('sha256').update(bytes).digest('hex'),r.sha256);browserDownloads.push({id:r.id,format,sourceFilename:download.suggestedFilename(),bytes:bytes.length,sha256:r.sha256,passed:true});await download.delete();}
- const pdf=resources.find(r=>r.format==='pdf');const opened=page.waitForEvent('popup');await page.locator('[data-library-resource-id="'+pdf.id+'"]').getByRole('link',{name:'Open '+pdf.title+' in a new tab',exact:true}).click();const popup=await opened;await popup.waitForLoadState('domcontentloaded');assert.equal(new URL(popup.url()).origin,new URL(base).origin);assert.equal(new URL(popup.url()).pathname,pdf.href);pdfOpened=true;await popup.close();assert.equal(new URL(page.url()).hash,'#library');});
- await test('a delayed Library consumer respects subsequent manual Overview navigation',async()=>{const page=await create(),captured=deferred(),release=deferred(),delivered=deferred();await page.route('**'+libraryAsset,async route=>{const response=await route.fetch();assert.equal(response.status(),200);captured.resolve();await release.promise;await route.fulfill({response});delivered.resolve()});try{await page.goto(base+'/#home');await page.locator('[data-save-state="loaded"]').waitFor();await page.getByRole('button',{name:'Reference library',exact:true}).click();await captured.promise;await page.getByRole('status').filter({hasText:'Opening this view'}).waitFor();await page.getByRole('button',{name:'Overview',exact:true}).click();release.resolve();await delivered.promise;await frames(page);assert.equal(new URL(page.url()).hash,'#home');assert.equal(await page.locator('[data-library-view]').count(),0);assert.equal(await page.evaluate(()=>document.activeElement?.id),'main');}finally{release.resolve();await page.unroute('**'+libraryAsset)}});
- await test('reference cards and controls stay within mobile/tablet/desktop normal and true200% text',async()=>{const page=await create();await library(page);for(const width of [390,768,1440])for(const scale of [1,2]){await page.setViewportSize({width,height:1000});await page.evaluate(scale=>{document.documentElement.style.fontSize=scale===2?'32px':'16px';document.body.style.fontSize=scale===2?'32px':'16px'},scale);await frames(page);const measured=await page.locator('[data-library-view]').evaluate(region=>({viewport:innerWidth,width:document.documentElement.scrollWidth,rootFont:parseFloat(getComputedStyle(document.documentElement).fontSize),bodyFont:parseFloat(getComputedStyle(document.body).fontSize),controls:[...region.querySelectorAll('input,select,a,button')].filter(e=>e.getClientRects().length).map(e=>{const b=e.getBoundingClientRect();return {tag:e.tagName,left:b.left,right:b.right,height:b.height}})}));assert.ok(measured.width<=width+1);assert.ok(measured.controls.every(c=>c.left>=-1&&c.right<=width+1&&c.height>=40));if(scale===2){assert.equal(measured.rootFont,32);assert.equal(measured.bodyFont,32)}await page.screenshot({path:resolve(output,'library-'+width+'-text'+scale+'.png'),fullPage:true,animations:'disabled'});await page.evaluate(()=>window.scrollTo(0,0));await page.screenshot({path:resolve(output,'library-'+width+'-text'+scale+'-viewport.png'),fullPage:false,animations:'disabled'});layouts.push({width,textScale:scale,passed:true,measured});}writeFileSync(resolve(output,'library-layouts.json'),JSON.stringify({passed:true,layouts},null,2));});
- const stateChecks=[];for(const reader of readers){const after=await ownRead(reader.context);assert.deepEqual(after,reader.before,'Resource activity cannot alter full personal state or its revision');assert.deepEqual(after.state.enrollments,reader.before.state.enrollments,'Resource activity never enrolls or completes lessons');assert.deepEqual(after.state.followups,reader.before.state.followups,'Reference activity never creates work reflections');stateChecks.push({syntheticReader:reader.user.id,revision:after.revision,enrollmentCount:after.state.enrollments.length,recordCount:after.state.enrollments.filter(e=>e.record).length,stateUnchanged:true});}writeFileSync(resolve(output,'library-readonly-state.json'),JSON.stringify({passed:true,stateChecks,posts,pdfOpened,browserDownloads},null,2));assert.equal(posts,0,'Browse, search and download must never post progress, enrollments or credentials.');assert.equal(pdfOpened,true);assert.equal(browserDownloads.length,3);assert.deepEqual(pageErrors,[]);
- writeFileSync(resolve(output,'library-browser-result.json'),JSON.stringify({passed:true,startedAt,completedAt:new Date().toISOString(),scenarios,layouts:layouts.length,exactDownloadChecks:downloads.length,actualBrowserDownloads:browserDownloads,pdfOpened,readOnlyStateChecks:stateChecks.length,posts,pageErrors,limits:['Only parent-confirmed stable loopback build and synthetic local identity','Supplied reference files only; no completion, practice record or credential granted','No production authentication, private-hosting authorization, latency or document layout claim']},null,2));console.log(JSON.stringify({passed:true,scenarios:scenarios.length,layouts:layouts.length,files:downloads.length,actualDownloads:browserDownloads.length,pdfOpened,unchangedReaderStates:stateChecks.length,posts}));
-}catch(error){writeFileSync(resolve(output,'library-browser-result.json'),JSON.stringify({passed:false,startedAt,completedAt:new Date().toISOString(),scenarios,pageErrors,error:String(error)},null,2));throw error}finally{await Promise.allSettled(contexts.map(c=>c.close()));await browser.close()}
+import { readFileSync, mkdirSync, writeFileSync } from 'node:fs';
+import { resolve } from 'node:path';
+import { createRequire } from 'node:module';
+import { pathToFileURL } from 'node:url';
+import { createHash } from 'node:crypto';
+import { chromium, browserOptions } from './scoped-workbench-qa/browser-runtime.mjs';
+const app = resolve(process.env.ACADEMY_APP_PATH ?? new URL('../', import.meta.url).pathname),
+  require = createRequire(resolve(app, 'package.json')),
+  ts = require('typescript');
+process.env.ACADEMY_APP_PATH = app;
+const qa = await import(pathToFileURL(resolve(app, 'tests/local-qa.mjs'))),
+  { base, headers, identity } = qa;
+const output = resolve(process.env.ACADEMY_LIBRARY_QA_OUT ?? resolve(app, '.sites-runtime/library-qa'));
+mkdirSync(output, { recursive: true });
+const manifest = JSON.parse(readFileSync(resolve(app, 'dist/client/.vite/manifest.json'), 'utf8'));
+const libraryEntry =
+  manifest['app/academy-library.tsx'] ??
+  Object.values(manifest).find((e) => e.src === 'app/academy-library.tsx');
+assert.ok(
+  libraryEntry?.file,
+  'Wait for root stable Library integration build. No fixtures are created if the emitted Library entry is absent.',
+);
+const libraryAsset = '/' + libraryEntry.file;
+const staticKeys = new Set();
+function add(key) {
+  if (staticKeys.has(key)) return;
+  staticKeys.add(key);
+  for (const child of manifest[key]?.imports ?? []) add(child);
+}
+for (const [key, value] of Object.entries(manifest)) if (value.isEntry || key === 'app/academy.tsx') add(key);
+assert.ok(
+  ![...staticKeys].some((key) => manifest[key]?.file === libraryEntry.file),
+  'Library module must stay out of the initial static closure.',
+);
+const source = readFileSync(resolve(app, 'lib/academy-library.ts'), 'utf8'),
+  compiled = ts.transpileModule(source, {
+    compilerOptions: { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.ESNext },
+  }).outputText;
+const { collections } = await import(
+  'data:text/javascript;base64,' + Buffer.from(compiled).toString('base64')
+);
+assert.equal(collections.length, 5);
+const resources = collections.flatMap((c) => c.resources);
+assert.equal(resources.length, 20);
+const browser = await chromium.launch(browserOptions);
+const contexts = [],
+  readers = [],
+  scenarios = [],
+  layouts = [],
+  downloads = [],
+  browserDownloads = [],
+  pageErrors = [],
+  startedAt = new Date().toISOString();
+let posts = 0,
+  pdfOpened = false;
+async function ownRead(context) {
+  const response = await context.request.get(base + '/api/academy');
+  assert.equal(response.status(), 200);
+  const data = await response.json();
+  assert.equal(typeof data.currentUserId, 'string');
+  return { revision: data.revision, state: data.state };
+}
+const deferred = () => {
+  let resolve;
+  const promise = new Promise((r) => (resolve = r));
+  return { promise, resolve };
+};
+async function frames(page) {
+  await page.evaluate(() => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r))));
+}
+async function create() {
+  const user = identity('library-reference'),
+    context = await browser.newContext({
+      viewport: { width: 1440, height: 1000 },
+      extraHTTPHeaders: headers(user),
+      acceptDownloads: true,
+    }),
+    page = await context.newPage();
+  contexts.push(context);
+  readers.push({ context, user, before: await ownRead(context) });
+  page.on('pageerror', (e) => pageErrors.push(e.message));
+  context.on('request', (r) => {
+    if (r.method() === 'POST') posts++;
+  });
+  context.on('page', (other) => {
+    if (other !== page) other.on('pageerror', (e) => pageErrors.push(e.message));
+  });
+  return page;
+}
+async function test(name, fn) {
+  await fn();
+  scenarios.push({ name, passed: true });
+}
+async function visible(page) {
+  await page.getByRole('heading', { name: 'Learning for the work ahead', exact: true }).waitFor();
+  await page.locator('[data-save-state="loaded"]').waitFor();
+  await frames(page);
+}
+async function library(page) {
+  await page.goto(base + '/#library');
+  await visible(page);
+}
+const count = (page) => page.locator('[data-library-resource-id]').count();
+try {
+  await test('cold personal Overview does not load Library code or original files', async () => {
+    const page = await create(),
+      network = [];
+    page.on('request', (r) => network.push(new URL(r.url()).pathname));
+    await page.goto(base + '/#home');
+    await page.locator('[data-save-state="loaded"]').waitFor();
+    await page.waitForLoadState('networkidle');
+    assert.ok(!network.includes(libraryAsset));
+    assert.ok(!network.some((p) => p.startsWith('/library/')));
+    writeFileSync(
+      resolve(output, 'cold-library-network.json'),
+      JSON.stringify({ libraryAsset, network, libraryUnopened: true }, null, 2),
+    );
+  });
+  await test('keyboard Library navigation focuses main, direct hash works and no files eagerly fetched', async () => {
+    const page = await create(),
+      files = [];
+    page.on('request', (r) => {
+      if (new URL(r.url()).pathname.startsWith('/library/')) files.push(r.url());
+    });
+    await page.goto(base + '/#home');
+    await page.locator('[data-save-state="loaded"]').waitFor();
+    const nav = page.getByRole('button', { name: 'Reference library', exact: true });
+    await nav.focus();
+    await nav.press('Enter');
+    await visible(page);
+    assert.equal(await page.evaluate(() => document.activeElement?.id), 'main');
+    assert.equal(new URL(page.url()).hash, '#library');
+    assert.equal(await count(page), 20);
+    assert.equal(await page.locator('iframe,embed,object').count(), 0);
+    assert.deepEqual(files, []);
+    await page.reload();
+    await visible(page);
+    assert.equal(await count(page), 20);
+  });
+  await test('collection/search/audience filters show exact catalog resources and clear restores all', async () => {
+    const page = await create();
+    await library(page);
+    for (const collection of collections) {
+      await page.getByLabel('Collection', { exact: true }).selectOption(collection.id);
+      assert.equal(await count(page), collection.resources.length);
+      assert.deepEqual(
+        await page
+          .locator('[data-library-collection]')
+          .evaluateAll((nodes) => nodes.map((n) => n.getAttribute('data-library-collection'))),
+        [collection.id],
+      );
+      assert.equal(await page.getByRole('heading', { name: collection.title, exact: true }).count(), 1);
+      if (collection.reviewNote) await page.getByText(collection.reviewNote, { exact: true }).waitFor();
+    }
+    await page.getByRole('button', { name: 'Clear library filters', exact: true }).click();
+    const source = resources[0];
+    await page.getByLabel('Search the library', { exact: true }).fill(source.sourceFilename.toUpperCase());
+    assert.deepEqual(
+      await page
+        .locator('[data-library-resource-id]')
+        .evaluateAll((nodes) => nodes.map((n) => n.getAttribute('data-library-resource-id'))),
+      resources
+        .filter((r) => r.sourceFilename.toUpperCase().includes(source.sourceFilename.toUpperCase()))
+        .map((r) => r.id),
+    );
+    await page.getByRole('button', { name: 'Clear library filters', exact: true }).click();
+    await page.getByLabel('Suggested audience', { exact: true }).selectOption('participant');
+    assert.equal(
+      await count(page),
+      resources.filter((r) => r.audience === 'participant' || r.audience === 'all').length,
+    );
+    await page.getByLabel('Suggested audience', { exact: true }).selectOption('trainer');
+    assert.equal(
+      await count(page),
+      resources.filter((r) => r.audience === 'trainer' || r.audience === 'all').length,
+    );
+    await page.getByRole('button', { name: 'Clear library filters', exact: true }).click();
+    assert.equal(await count(page), 20);
+    await page.getByLabel('Search the library', { exact: true }).fill('no-such-reference-8c67');
+    await page.getByRole('heading', { name: 'No matching reference files', exact: true }).waitFor();
+    assert.equal(await count(page), 0);
+    await page.getByRole('button', { name: 'Clear library filters', exact: true }).click();
+    assert.equal(await count(page), 20);
+  });
+  await test('every supplied URL returns exact bytes/hash and anchors retain original source filename', async () => {
+    const page = await create();
+    await library(page);
+    for (const r of resources) {
+      const card = page.locator('[data-library-resource-id="' + r.id + '"]');
+      const sourceText = card.locator('p').filter({ hasText: r.sourceFilename });
+      await sourceText.waitFor();
+      assert.equal(
+        (await sourceText.innerText()).replace(/^Source file\s*/, ''),
+        r.sourceFilename,
+        'Displayed original source filename is exact',
+      );
+      const open = card.getByRole('link', { name: 'Open ' + r.title + ' in a new tab', exact: true }),
+        download = card.getByRole('link', { name: 'Download ' + r.title, exact: true });
+      assert.equal(await open.getAttribute('href'), r.href);
+      assert.equal(await open.getAttribute('target'), '_blank');
+      assert.ok((await open.getAttribute('rel')).includes('noopener'));
+      assert.equal(await download.getAttribute('download'), r.sourceFilename);
+      const response = await page.context().request.get(base + r.href);
+      assert.equal(response.status(), 200);
+      const bytes = await response.body();
+      assert.equal(bytes.length, r.bytes);
+      assert.equal(createHash('sha256').update(bytes).digest('hex'), r.sha256);
+      downloads.push({
+        id: r.id,
+        format: r.format,
+        bytes: bytes.length,
+        sha256: r.sha256,
+        sourceFilename: r.sourceFilename,
+        passed: true,
+      });
+    }
+    writeFileSync(
+      resolve(output, 'library-download-integrity.json'),
+      JSON.stringify({ passed: true, files: downloads }, null, 2),
+    );
+  });
+  await test('actual browser downloads for DOCX/PDF/PPTX keep original filenames and source hashes', async () => {
+    const page = await create();
+    await library(page);
+    for (const format of ['docx', 'pdf', 'pptx']) {
+      const r = resources.find((r) => r.format === format);
+      assert.ok(r);
+      const awaited = page.waitForEvent('download');
+      await page
+        .locator('[data-library-resource-id="' + r.id + '"]')
+        .getByRole('link', { name: 'Download ' + r.title, exact: true })
+        .click();
+      const download = await awaited;
+      assert.equal(download.suggestedFilename(), r.sourceFilename);
+      const file = await download.path();
+      assert.ok(file);
+      const bytes = readFileSync(file);
+      assert.equal(bytes.length, r.bytes);
+      assert.equal(createHash('sha256').update(bytes).digest('hex'), r.sha256);
+      browserDownloads.push({
+        id: r.id,
+        format,
+        sourceFilename: download.suggestedFilename(),
+        bytes: bytes.length,
+        sha256: r.sha256,
+        passed: true,
+      });
+      await download.delete();
+    }
+    const pdf = resources.find((r) => r.format === 'pdf');
+    const opened = page.waitForEvent('popup');
+    await page
+      .locator('[data-library-resource-id="' + pdf.id + '"]')
+      .getByRole('link', { name: 'Open ' + pdf.title + ' in a new tab', exact: true })
+      .click();
+    const popup = await opened;
+    await popup.waitForLoadState('domcontentloaded');
+    assert.equal(new URL(popup.url()).origin, new URL(base).origin);
+    assert.equal(new URL(popup.url()).pathname, pdf.href);
+    pdfOpened = true;
+    await popup.close();
+    assert.equal(new URL(page.url()).hash, '#library');
+  });
+  await test('a delayed Library consumer respects subsequent manual Overview navigation', async () => {
+    const page = await create(),
+      captured = deferred(),
+      release = deferred(),
+      delivered = deferred();
+    await page.route('**' + libraryAsset, async (route) => {
+      const response = await route.fetch();
+      assert.equal(response.status(), 200);
+      captured.resolve();
+      await release.promise;
+      await route.fulfill({ response });
+      delivered.resolve();
+    });
+    try {
+      await page.goto(base + '/#home');
+      await page.locator('[data-save-state="loaded"]').waitFor();
+      await page.getByRole('button', { name: 'Reference library', exact: true }).click();
+      await captured.promise;
+      await page.getByRole('status').filter({ hasText: 'Opening this view' }).waitFor();
+      await page.getByRole('button', { name: 'Overview', exact: true }).click();
+      release.resolve();
+      await delivered.promise;
+      await frames(page);
+      assert.equal(new URL(page.url()).hash, '#home');
+      assert.equal(await page.locator('[data-library-view]').count(), 0);
+      assert.equal(await page.evaluate(() => document.activeElement?.id), 'main');
+    } finally {
+      release.resolve();
+      await page.unroute('**' + libraryAsset);
+    }
+  });
+  await test('reference cards and controls stay within mobile/tablet/desktop normal and true200% text', async () => {
+    const page = await create();
+    await library(page);
+    for (const width of [390, 768, 1440])
+      for (const scale of [1, 2]) {
+        await page.setViewportSize({ width, height: 1000 });
+        await page.evaluate((scale) => {
+          document.documentElement.style.fontSize = scale === 2 ? '32px' : '16px';
+          document.body.style.fontSize = scale === 2 ? '32px' : '16px';
+        }, scale);
+        await frames(page);
+        const measured = await page.locator('[data-library-view]').evaluate((region) => ({
+          viewport: innerWidth,
+          width: document.documentElement.scrollWidth,
+          rootFont: parseFloat(getComputedStyle(document.documentElement).fontSize),
+          bodyFont: parseFloat(getComputedStyle(document.body).fontSize),
+          controls: [...region.querySelectorAll('input,select,a,button')]
+            .filter((e) => e.getClientRects().length)
+            .map((e) => {
+              const b = e.getBoundingClientRect();
+              return { tag: e.tagName, left: b.left, right: b.right, height: b.height };
+            }),
+        }));
+        assert.ok(measured.width <= width + 1);
+        assert.ok(measured.controls.every((c) => c.left >= -1 && c.right <= width + 1 && c.height >= 40));
+        if (scale === 2) {
+          assert.equal(measured.rootFont, 32);
+          assert.equal(measured.bodyFont, 32);
+        }
+        await page.screenshot({
+          path: resolve(output, 'library-' + width + '-text' + scale + '.png'),
+          fullPage: true,
+          animations: 'disabled',
+        });
+        await page.evaluate(() => window.scrollTo(0, 0));
+        await page.screenshot({
+          path: resolve(output, 'library-' + width + '-text' + scale + '-viewport.png'),
+          fullPage: false,
+          animations: 'disabled',
+        });
+        layouts.push({ width, textScale: scale, passed: true, measured });
+      }
+    writeFileSync(
+      resolve(output, 'library-layouts.json'),
+      JSON.stringify({ passed: true, layouts }, null, 2),
+    );
+  });
+  const stateChecks = [];
+  for (const reader of readers) {
+    const after = await ownRead(reader.context);
+    assert.deepEqual(
+      after,
+      reader.before,
+      'Resource activity cannot alter full personal state or its revision',
+    );
+    assert.deepEqual(
+      after.state.enrollments,
+      reader.before.state.enrollments,
+      'Resource activity never enrolls or completes lessons',
+    );
+    assert.deepEqual(
+      after.state.followups,
+      reader.before.state.followups,
+      'Reference activity never creates work reflections',
+    );
+    stateChecks.push({
+      syntheticReader: reader.user.id,
+      revision: after.revision,
+      enrollmentCount: after.state.enrollments.length,
+      recordCount: after.state.enrollments.filter((e) => e.record).length,
+      stateUnchanged: true,
+    });
+  }
+  writeFileSync(
+    resolve(output, 'library-readonly-state.json'),
+    JSON.stringify({ passed: true, stateChecks, posts, pdfOpened, browserDownloads }, null, 2),
+  );
+  assert.equal(posts, 0, 'Browse, search and download must never post progress, enrollments or credentials.');
+  assert.equal(pdfOpened, true);
+  assert.equal(browserDownloads.length, 3);
+  assert.deepEqual(pageErrors, []);
+  writeFileSync(
+    resolve(output, 'library-browser-result.json'),
+    JSON.stringify(
+      {
+        passed: true,
+        startedAt,
+        completedAt: new Date().toISOString(),
+        scenarios,
+        layouts: layouts.length,
+        exactDownloadChecks: downloads.length,
+        actualBrowserDownloads: browserDownloads,
+        pdfOpened,
+        readOnlyStateChecks: stateChecks.length,
+        posts,
+        pageErrors,
+        limits: [
+          'Only parent-confirmed stable loopback build and synthetic local identity',
+          'Supplied reference files only; no completion, practice record or credential granted',
+          'No production authentication, private-hosting authorization, latency or document layout claim',
+        ],
+      },
+      null,
+      2,
+    ),
+  );
+  console.log(
+    JSON.stringify({
+      passed: true,
+      scenarios: scenarios.length,
+      layouts: layouts.length,
+      files: downloads.length,
+      actualDownloads: browserDownloads.length,
+      pdfOpened,
+      unchangedReaderStates: stateChecks.length,
+      posts,
+    }),
+  );
+} catch (error) {
+  writeFileSync(
+    resolve(output, 'library-browser-result.json'),
+    JSON.stringify(
+      {
+        passed: false,
+        startedAt,
+        completedAt: new Date().toISOString(),
+        scenarios,
+        pageErrors,
+        error: String(error),
+      },
+      null,
+      2,
+    ),
+  );
+  throw error;
+} finally {
+  await Promise.allSettled(contexts.map((c) => c.close()));
+  await browser.close();
+}

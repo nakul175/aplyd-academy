@@ -1,48 +1,605 @@
-import {test} from 'node:test';
+import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import {readFileSync} from 'node:fs';
-import {resolve} from 'node:path';
-import {pathToFileURL,fileURLToPath} from 'node:url';
-const base=resolve(fileURLToPath(new URL('../',import.meta.url))),out=resolve(process.env.ACADEMY_OFFLINE_QA_OUT??resolve(base,'.sites-runtime/offline-qa'));
-const M=await import(pathToFileURL(resolve(out,'offline-core.mjs')).href);
-const NOW='2026-10-05T19:30:00.000Z',LATER='2026-10-05T19:31:00.000Z',OWNER='acct:one',P=M.programs[0],L=P.lessons[0].id;
-const enrollment=(extra={})=>({id:'e-own',programId:P.id,version:M.currentRef(P.id).versionId,contentRef:M.currentRef(P.id),withdrawn:false,completed:[],practice:{},draft:{},attempts:[],appeals:[],record:null,...extra});
-const ctx=(extra={})=>({verified:true,currentUserId:OWNER,workspaceId:'lab',revision:3,readAt:NOW,active:true,canLearn:true,pausedProgramIds:[],enrollments:[enrollment()],...extra});
-const draft=(target={kind:'lesson',lessonId:L},context=target.kind==='practical'?ctx({enrollments:[enrollment({completed:P.lessons.map(l=>l.id)})]}):ctx(),id='local-draft-1')=>M.createOfflineDraft(context,'e-own',target,NOW,true,id);
-const edit=(fields={practice:'My fictional correction uses three confirmed source rows.'},target,context)=>M.updateOfflineDraft(draft(target,context),fields,LATER);
-const throws=(fn,status)=>assert.throws(fn,e=>e instanceof M.OfflineDraftError&&(!status||e.status===status));
-test('packet source SHA independently matches the exact referenced archived bytes',()=>{const evidence=JSON.parse(readFileSync(resolve(out,'source-evidence.json'),'utf8')),archive=Object.entries(evidence.sourceHashes).find(([name])=>name.endsWith('/lib/curriculum-versions/0.1-review-draft.json'));assert.ok(archive);assert.equal(archive[1],M.LEGACY_SOURCE_SHA256);});
-test('all three actual archived pathways yield bounded immutable source-only packets',()=>{for(const p of M.programs){const c=ctx({enrollments:[enrollment({programId:p.id,version:M.currentRef(p.id).versionId,contentRef:M.currentRef(p.id)})]}),before=JSON.stringify(c),packet=M.buildOfflinePacket(c,'e-own',NOW);assert.equal(packet.contentRef.programId,p.id);assert.equal(packet.sourceSha256,M.LEGACY_SOURCE_SHA256);assert.equal(packet.lessons.length,3);assert.ok(Object.isFrozen(packet));assert.ok(Object.isFrozen(packet.lessons));assert.equal(JSON.stringify(c),before);assert.ok(Buffer.byteLength(JSON.stringify(packet))<=M.OFFLINE_LIMITS.packetBytes);}});
-test('offline packets exclude learner/protected bodies and answer/assessment authority',()=>{const e=enrollment({draft:{task:'OWN_PRIVATE_CANARY'},attempts:[{fields:{task:'EVIDENCE_CANARY'}}],record:{id:'RECORD_CANARY'},lessonDrafts:{[L]:{practice:'DRAFT_CANARY',answers:[0,1,2]}}}),c=ctx({enrollments:[e],support:'SUPPORT_CANARY',peers:'PEER_CANARY',goals:'GOAL_CANARY'}),text=JSON.stringify(M.buildOfflinePacket(c,'e-own',NOW));for(const v of ['OWN_PRIVATE_CANARY','EVIDENCE_CANARY','RECORD_CANARY','DRAFT_CANARY','SUPPORT_CANARY','PEER_CANARY','GOAL_CANARY',OWNER,'correctOptionIndex','assessorReference','rubric','credentialClaim'])assert.ok(!text.includes(v),v);});
-test('packet restore rejects tampered source/hash/version/scope and extra identity fields',()=>{const packet=M.buildOfflinePacket(ctx(),'e-own',NOW);for(const changed of [{sourceSha256:'0'.repeat(64)},{title:'Replacement latest text'},{contentRef:{...packet.contentRef,versionId:'unknown'}},{contentRef:{...packet.contentRef,scope:'tw-11111111-1111-1111-1111-111111111111'}},{ownerId:'other'}])throws(()=>M.readOfflinePacket({...structuredClone(packet),...changed}));assert.deepEqual(M.readOfflinePacket(JSON.parse(JSON.stringify(packet))),packet);});
-test('static printable packet contains no executable/network/form surfaces or user draft',()=>{const packet=M.buildOfflinePacket(ctx(),'e-own',NOW),html=M.offlinePacketHtml(packet);assert.ok(html.includes("default-src 'none'"));assert.ok(html.includes('cannot be revoked or remotely deleted'));assert.ok(!/<(?:script|iframe|form|input|textarea|img|link|object)\b/i.test(html));assert.ok(!html.includes('correctOptionIndex'));assert.ok(!html.includes(OWNER));assert.ok(html.includes('confirmed copied payment')||html.includes('Confirmed copied line'));});
-test('source download requires a fresh canonical own active personal read',()=>{for(const extra of [{verified:false},{active:false},{canLearn:false},{currentUserId:''},{workspaceId:'tw-private'},{revision:-1},{revision:1.5},{readAt:'2026-10-05T19:20:00.000Z'},{readAt:LATER},{enrollments:[]},{enrollments:[enrollment(),enrollment()]}])throws(()=>M.buildOfflinePacket(ctx(extra),'e-own',NOW));});
-test('withdrawn paused malformed and contradictory exact enrollments fail closed',()=>{for(const e of [enrollment({withdrawn:true}),enrollment({withdrawn:undefined}),enrollment({version:'different'}),enrollment({contentRef:{...M.currentRef(P.id),programId:'other'}})])throws(()=>M.buildOfflinePacket(ctx({enrollments:[e]}),'e-own',NOW));throws(()=>M.buildOfflinePacket(ctx({pausedProgramIds:[P.id]}),'e-own',NOW));});
-test('creating a draft requires explicit fictional-input acknowledgement and excludes evidence/history',()=>{throws(()=>M.createOfflineDraft(ctx(),'e-own',{kind:'lesson',lessonId:L},NOW,false,'d'),400);const d=draft();assert.deepEqual(d.fields,{});assert.deepEqual(d.baseline,{practice:''});assert.equal(d.workspaceId,'lab');assert.equal(d.ownerId,OWNER);assert.equal(Date.parse(d.expiresAt)-Date.parse(NOW),M.OFFLINE_LIMITS.draftLifetimeMs);assert.ok(!JSON.stringify(d).includes('attempts'));});
-test('only a currently unlocked unfinished lesson can admit an offline draft',()=>{assert.equal(M.offlineDraftAvailability(ctx(),'e-own',{kind:'lesson',lessonId:L},NOW).available,true);throws(()=>draft({kind:'lesson',lessonId:P.lessons[1].id}));throws(()=>draft({kind:'lesson',lessonId:L},ctx({enrollments:[enrollment({completed:[L]})]})));assert.equal(M.offlineDraftAvailability(ctx({enrollments:[enrollment({completed:[L]})]}),'e-own',{kind:'lesson',lessonId:P.lessons[1].id},NOW).available,true);});
-test('practical admission requires completed lessons and an available next attempt',()=>{const completed=P.lessons.map(l=>l.id);throws(()=>M.createOfflineDraft(ctx(),'e-own',{kind:'practical'},NOW,true,'practical'));for(const extra of [{record:{status:'active'}},{attempts:[{decision:null}]},{appeals:[{status:'open'}]},{attempts:[{decision:{}},{decision:{}},{decision:{}}]}])throws(()=>draft({kind:'practical'},ctx({enrollments:[enrollment({completed,...extra})]})));assert.equal(M.offlineDraftAvailability(ctx({enrollments:[enrollment({completed,record:{status:'suspended'},attempts:[{decision:{passed:false}}]})]}),'e-own',{kind:'practical'},NOW).available,true);});
-test('online completion after admission blocks queue preparation and rebase, retaining its reference',()=>{const d=edit(),c=ctx({revision:4,enrollments:[enrollment({completed:[L],practice:{[L]:{answer:'Completed fictional source check'}}})]});throws(()=>M.prepareOfflineSave(d,c,LATER,true));throws(()=>M.rebaseOfflineDraft(d,c,LATER,{practice:'new notes'},true));assert.equal(M.buildOfflinePacket(c,'e-own',LATER).contentRef.programId,P.id);});
-test('pending review or completed record after practical admission cannot be queued again',()=>{const c=ctx({enrollments:[enrollment({completed:P.lessons.map(l=>l.id)})]}),d=edit({task:'My future fictional task'}, {kind:'practical'},c);for(const extra of [{record:{status:'active'}},{attempts:[{decision:null}]},{appeals:[{status:'open'}]}])throws(()=>M.prepareOfflineSave(d,ctx({revision:4,enrollments:[enrollment({completed:P.lessons.map(l=>l.id),...extra})]}),LATER,true));});
-test('lesson/practical draft scope cannot accept finalization actor or arbitrary field payloads',()=>{for(const t of [{kind:'lesson',lessonId:'foreign'},{kind:'lesson',lessonId:L,actor:'staff'},{kind:'submit'},{kind:'practical',learnerId:'other'}])throws(()=>draft(t));const d=draft();for(const f of [{completed:true},{answers:[0,1,2]},{record:'x'},{actor:'staff'},{practice:42},{practice:'x'.repeat(10001)}])throws(()=>M.updateOfflineDraft(d,f,LATER));throws(()=>M.updateOfflineDraft(d,{},LATER),400);});
-test('draft changes preserve exact text/whitespace, detach inputs and increment local generation',()=>{const baseDraft=draft(),fields={practice:'  My fictional notes\nT02 checked.  '},before=JSON.stringify(baseDraft),d=M.updateOfflineDraft(baseDraft,fields,LATER);fields.practice='changed externally';assert.equal(d.fields.practice,'  My fictional notes\nT02 checked.  ');assert.equal(d.generation,2);assert.equal(JSON.stringify(baseDraft),before);assert.ok(Object.isFrozen(d.fields));});
-test('own draft restoration rejects another account/workspace rather than exposing text',()=>{const d=edit();throws(()=>M.readOfflineDraft(d,'acct:two','lab',LATER),403);throws(()=>M.readOfflineDraft(d,OWNER,'tw-private',LATER),403);throws(()=>M.readOfflineDraft({...d,ownerId:'acct:two'},OWNER,'lab',LATER),403);});
-test('local expiry and backward/malformed timing block restores without granting renewed access',()=>{const d=edit();throws(()=>M.readOfflineDraft(d,OWNER,'lab',d.expiresAt));throws(()=>M.readOfflineDraft(d,OWNER,'lab','2026-10-05T19:29:59.999Z'));throws(()=>M.readOfflineDraft({...d,expiresAt:'2026-10-07T19:30:00.000Z'},OWNER,'lab',LATER),400);throws(()=>M.readOfflineDraft({...d,createdAt:'2026-10-05'},OWNER,'lab',LATER),400);});
-test('serialized character escaping counts toward real byte budget',()=>{const baseline=Object.fromEntries(P.practicalAssessment.submissionPrompts.map(f=>[f.id,'\u0000'.repeat(10000)]));throws(()=>draft({kind:'practical'},ctx({enrollments:[enrollment({completed:P.lessons.map(l=>l.id),draft:baseline})]})),400);});
-test('reconnection rejects stale directory/unknown identity role loss withdrawn and changed pin',()=>{const d=edit();for(const extra of [{verified:false},{currentUserId:'acct:two'},{workspaceId:'tw-private'},{active:false},{canLearn:false},{revision:2},{readAt:'2026-10-05T19:20:00.000Z'},{enrollments:[enrollment({withdrawn:true})]},{pausedProgramIds:[P.id]},{enrollments:[enrollment({version:'new',contentRef:{...M.currentRef(P.id),versionId:'new'}})]}])throws(()=>M.inspectOfflineDraft(d,ctx(extra),LATER));});
-test('no mutation is prepared without an explicit review action',()=>{const d=edit();throws(()=>M.prepareOfflineSave(d,ctx(),LATER,false),400);assert.equal(M.inspectOfflineDraft(d,ctx(),LATER).status,'ready');});
-test('lesson draft command keeps actual fresh online quiz answers and never completes learning',()=>{const d=edit(),answers=[1,null,3],c=ctx({enrollments:[enrollment({lessonDrafts:{[L]:{practice:'',answers}}})]}),prepared=M.prepareOfflineSave(d,c,LATER,true);assert.deepEqual(prepared.command,{type:'lesson-draft',enrollmentId:'e-own',lessonId:L,practice:d.fields.practice,answers});assert.equal(prepared.ticket.expectedRevision,3);const s={...M.freshWorkspace(),enrollments:c.enrollments},saved=M.applyCommand(s,prepared.command,LATER);assert.deepEqual(saved.enrollments[0].completed,[]);assert.deepEqual(saved.enrollments[0].practice,{});assert.deepEqual(saved.enrollments[0].attempts,[]);assert.equal(saved.enrollments[0].record,null);});
-test('malformed saved online quiz answers block draft save instead of replacing answers',()=>{const d=edit();for(const answers of [[],[0,1],[0,1,4],[0,1,'2']])throws(()=>M.prepareOfflineSave(d,ctx({enrollments:[enrollment({lessonDrafts:{[L]:{practice:'',answers}}})]}),LATER,true),400);});
-test('online edited same field requires manual merge and leaves both snapshots untouched',()=>{const d=edit(),c=ctx({revision:4,enrollments:[enrollment({lessonDrafts:{[L]:{practice:'OTHER ONLINE WORK',answers:[null,null,null]}}})]}),before=JSON.stringify([d,c]);assert.deepEqual(M.inspectOfflineDraft(d,c,LATER),{status:'needs-review',conflictingFields:['practice']});throws(()=>M.prepareOfflineSave(d,c,LATER,true));assert.equal(JSON.stringify([d,c]),before);});
-test('review exposes only current own target fields and explicit rebase preserves original expiry',()=>{const d=edit(),c=ctx({revision:4,enrollments:[enrollment({lessonDrafts:{[L]:{practice:'OTHER ONLINE WORK',answers:[null,null,null]}},attempts:[{fields:{secret:'OTHER_EVIDENCE'}}]})]});const r=M.reviewOfflineDraft(d,c,LATER);assert.deepEqual(r.currentFields,{practice:'OTHER ONLINE WORK'});assert.ok(!JSON.stringify(r).includes('OTHER_EVIDENCE'));throws(()=>M.rebaseOfflineDraft(d,c,LATER,{practice:'My deliberately merged fictional note'},false),400);const merged=M.rebaseOfflineDraft(d,c,LATER,{practice:'My deliberately merged fictional note'},true);assert.equal(merged.baseRevision,4);assert.equal(merged.expiresAt,d.expiresAt);assert.equal(merged.generation,d.generation+1);assert.equal(merged.baseline.practice,'OTHER ONLINE WORK');assert.equal(M.inspectOfflineDraft(merged,c,LATER).status,'ready');assert.equal(M.prepareOfflineSave(merged,c,LATER,true).command.type,'lesson-draft');});
-test('merge cannot escape own scope or introduce finalization/unknown fields',()=>{const d=edit();for(const change of [{actor:'staff'},{answers:[1,2,3]},{}])throws(()=>M.rebaseOfflineDraft(d,ctx(),LATER,change,true));throws(()=>M.rebaseOfflineDraft(d,ctx({currentUserId:'acct:two'}),LATER,{practice:'x'},true),403);throws(()=>M.rebaseOfflineDraft(d,ctx({pausedProgramIds:[P.id]}),LATER,{practice:'x'},true));});
-test('practical offline changes merge only changed fields and preserve unrelated online work',()=>{const c=ctx({enrollments:[enrollment({completed:P.lessons.map(l=>l.id),draft:{task:'old task'}})]}),d=edit({task:'my offline revised task'}, {kind:'practical'},c),fresh=ctx({revision:4,enrollments:[enrollment({completed:P.lessons.map(l=>l.id),draft:{task:'old task',checks:'OTHER ONLINE CHECKS'}})]}),prepared=M.prepareOfflineSave(d,fresh,LATER,true);assert.deepEqual(prepared.command,{type:'draft',enrollmentId:'e-own',fields:{task:'my offline revised task'}});const s={...M.freshWorkspace(),enrollments:fresh.enrollments},saved=M.applyCommand(s,prepared.command,LATER);assert.equal(saved.enrollments[0].draft.checks,'OTHER ONLINE CHECKS');assert.deepEqual(saved.enrollments[0].attempts,[]);assert.equal(saved.enrollments[0].record,null);});
-test('already committed or unchanged text is not automatically replayed',()=>{const unchanged=draft();assert.equal(M.inspectOfflineDraft(unchanged,ctx(),LATER).status,'already-saved');const d=edit(),c=ctx({revision:4,enrollments:[enrollment({lessonDrafts:{[L]:{practice:d.fields.practice,answers:[null,null,null]}}})]});assert.equal(M.inspectOfflineDraft(d,c,LATER).status,'already-saved');throws(()=>M.prepareOfflineSave(d,c,LATER,true));});
-const successfulReceipt=(d,extra={})=>ctx({revision:4,readAt:LATER,enrollments:[enrollment({lessonDrafts:{[L]:{practice:d.fields.practice,answers:[null,null,null]}}})],...extra});
-test('only a verified exact write acknowledgement clears the prepared generation',()=>{const d=edit(),prepared=M.prepareOfflineSave(d,ctx(),LATER,true);assert.deepEqual(M.acknowledgeOfflineSave(d,prepared.ticket,successfulReceipt(d),LATER),{clear:true,reason:'saved'});});
-test('unknown/denied/stale/wrong-account/unsaved response does not erase local work',()=>{const d=edit(),ticket=M.prepareOfflineSave(d,ctx(),LATER,true).ticket;for(const receipt of [undefined,successfulReceipt(d,{verified:false}),successfulReceipt(d,{currentUserId:'acct:two'}),successfulReceipt(d,{workspaceId:'tw-private'}),successfulReceipt(d,{revision:3}),successfulReceipt(d,{enrollments:[enrollment()]}),successfulReceipt(d,{active:false})])assert.equal(M.acknowledgeOfflineSave(d,ticket,receipt,LATER).clear,false);});
-test('a confirmed save for an older local generation preserves new unsent edits',()=>{const d=edit(),ticket=M.prepareOfflineSave(d,ctx(),LATER,true).ticket,newer=M.updateOfflineDraft(d,{practice:'A newer unsent correction.'},LATER);assert.deepEqual(M.acknowledgeOfflineSave(newer,ticket,successfulReceipt(d),LATER),{clear:false,reason:'newer-local-edit'});});
-test('forged partial/extra ticket fields cannot clear other unsaved work',()=>{const d=edit({task:'new task',checks:'new checks'},{kind:'practical'}),ticket=M.prepareOfflineSave(d,ctx({enrollments:[enrollment({completed:P.lessons.map(l=>l.id)})]}),LATER,true).ticket,receipt=ctx({revision:4,readAt:LATER,enrollments:[enrollment({completed:P.lessons.map(l=>l.id),draft:{task:'new task',checks:'new checks'}})]});for(const fields of [{task:'new task'},{evil:undefined},{task:'new task',checks:'wrong'},{task:'new task',checks:'new checks',extra:'x'}])assert.equal(M.acknowledgeOfflineSave(d,{...ticket,fields},receipt,LATER).clear,false);assert.equal(M.acknowledgeOfflineSave(d,ticket,receipt,LATER).clear,true);});
-test('identity tuple key separates scope/enrollment/target without delimiter collisions',()=>{const a=draft(),b=draft({kind:'lesson',lessonId:P.lessons[1].id},ctx({enrollments:[enrollment({completed:[L]})]})),c=draft({kind:'practical'});assert.notEqual(M.offlineDraftKey(a),M.offlineDraftKey(b));assert.notEqual(M.offlineDraftKey(a),M.offlineDraftKey(c));assert.equal(JSON.parse(M.offlineDraftKey(a))[0],OWNER);});
-test('queue restore rejects mixed owners duplicate targets/references oversized count',()=>{const d=draft();for(const queue of [[d,{...d,entryId:'other-local'}],[d,{...d,ownerId:'other'}],Array.from({length:13},(_,i)=>({...d,entryId:'id'+i}))])throws(()=>M.readOfflineQueue(queue,OWNER,'lab',NOW));assert.equal(M.readOfflineQueue([d],OWNER,'lab',NOW).length,1);});
-test('combined own queue bytes remain bounded even when every individual target is legal',()=>{const entries=[];for(const [i,p] of M.programs.entries()){const fields=Object.fromEntries(p.practicalAssessment.submissionPrompts.map(f=>[f.id,'x'.repeat(10000)])),e=enrollment({id:'e-'+i,programId:p.id,version:M.currentRef(p.id).versionId,contentRef:M.currentRef(p.id),completed:p.lessons.map(l=>l.id),draft:fields}),c=ctx({enrollments:[e]});let d=M.createOfflineDraft(c,e.id,{kind:'practical'},NOW,true,'practical-'+i);d=M.updateOfflineDraft(d,Object.fromEntries(Object.keys(fields).map(id=>[id,'y'.repeat(10000)])),LATER);entries.push(d);for(const l of p.lessons){const e2={...e,completed:p.lessons.slice(0,p.lessons.findIndex(x=>x.id===l.id)).map(x=>x.id),lessonDrafts:{[l.id]:{practice:'x'.repeat(10000),answers:[null,null,null]}}};entries.push(M.updateOfflineDraft(M.createOfflineDraft(ctx({enrollments:[e2]}),e2.id,{kind:'lesson',lessonId:l.id},NOW,true,l.id),{practice:'y'.repeat(10000)},LATER));}}assert.equal(entries.length,12);assert.ok(entries.every(d=>Buffer.byteLength(JSON.stringify(d))<M.OFFLINE_LIMITS.draftBytes));assert.ok(Buffer.byteLength(JSON.stringify(entries))>M.OFFLINE_LIMITS.queueBytes);throws(()=>M.readOfflineQueue(entries,OWNER,'lab',LATER),400);});
-test('queue update preserves newer local drafts and does not replace a different unsent entry',()=>{const old=draft(),newer=edit(),queue=M.putOfflineDraft([old],newer,LATER);assert.equal(queue.length,1);assert.equal(queue[0].generation,2);throws(()=>M.putOfflineDraft(queue,old,LATER));throws(()=>M.putOfflineDraft(queue,{...newer,entryId:'different'},LATER));assert.equal(queue[0].fields.practice,newer.fields.practice);});
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
+import { pathToFileURL, fileURLToPath } from 'node:url';
+const base = resolve(fileURLToPath(new URL('../', import.meta.url))),
+  out = resolve(process.env.ACADEMY_OFFLINE_QA_OUT ?? resolve(base, '.sites-runtime/offline-qa'));
+const M = await import(pathToFileURL(resolve(out, 'offline-core.mjs')).href);
+const NOW = '2026-10-05T19:30:00.000Z',
+  LATER = '2026-10-05T19:31:00.000Z',
+  OWNER = 'acct:one',
+  P = M.programs[0],
+  L = P.lessons[0].id;
+const enrollment = (extra = {}) => ({
+  id: 'e-own',
+  programId: P.id,
+  version: M.currentRef(P.id).versionId,
+  contentRef: M.currentRef(P.id),
+  withdrawn: false,
+  completed: [],
+  practice: {},
+  draft: {},
+  attempts: [],
+  appeals: [],
+  record: null,
+  ...extra,
+});
+const ctx = (extra = {}) => ({
+  verified: true,
+  currentUserId: OWNER,
+  workspaceId: 'lab',
+  revision: 3,
+  readAt: NOW,
+  active: true,
+  canLearn: true,
+  pausedProgramIds: [],
+  enrollments: [enrollment()],
+  ...extra,
+});
+const draft = (
+  target = { kind: 'lesson', lessonId: L },
+  context = target.kind === 'practical'
+    ? ctx({ enrollments: [enrollment({ completed: P.lessons.map((l) => l.id) })] })
+    : ctx(),
+  id = 'local-draft-1',
+) => M.createOfflineDraft(context, 'e-own', target, NOW, true, id);
+const edit = (
+  fields = { practice: 'My fictional correction uses three confirmed source rows.' },
+  target,
+  context,
+) => M.updateOfflineDraft(draft(target, context), fields, LATER);
+const throws = (fn, status) =>
+  assert.throws(fn, (e) => e instanceof M.OfflineDraftError && (!status || e.status === status));
+test('packet source SHA independently matches the exact referenced archived bytes', () => {
+  const evidence = JSON.parse(readFileSync(resolve(out, 'source-evidence.json'), 'utf8')),
+    archive = Object.entries(evidence.sourceHashes).find(([name]) =>
+      name.endsWith('/lib/curriculum-versions/0.1-review-draft.json'),
+    );
+  assert.ok(archive);
+  assert.equal(archive[1], M.LEGACY_SOURCE_SHA256);
+});
+test('all three actual archived pathways yield bounded immutable source-only packets', () => {
+  for (const p of M.programs) {
+    const c = ctx({
+        enrollments: [
+          enrollment({
+            programId: p.id,
+            version: M.currentRef(p.id).versionId,
+            contentRef: M.currentRef(p.id),
+          }),
+        ],
+      }),
+      before = JSON.stringify(c),
+      packet = M.buildOfflinePacket(c, 'e-own', NOW);
+    assert.equal(packet.contentRef.programId, p.id);
+    assert.equal(packet.sourceSha256, M.LEGACY_SOURCE_SHA256);
+    assert.equal(packet.lessons.length, 3);
+    assert.ok(Object.isFrozen(packet));
+    assert.ok(Object.isFrozen(packet.lessons));
+    assert.equal(JSON.stringify(c), before);
+    assert.ok(Buffer.byteLength(JSON.stringify(packet)) <= M.OFFLINE_LIMITS.packetBytes);
+  }
+});
+test('offline packets exclude learner/protected bodies and answer/assessment authority', () => {
+  const e = enrollment({
+      draft: { task: 'OWN_PRIVATE_CANARY' },
+      attempts: [{ fields: { task: 'EVIDENCE_CANARY' } }],
+      record: { id: 'RECORD_CANARY' },
+      lessonDrafts: { [L]: { practice: 'DRAFT_CANARY', answers: [0, 1, 2] } },
+    }),
+    c = ctx({ enrollments: [e], support: 'SUPPORT_CANARY', peers: 'PEER_CANARY', goals: 'GOAL_CANARY' }),
+    text = JSON.stringify(M.buildOfflinePacket(c, 'e-own', NOW));
+  for (const v of [
+    'OWN_PRIVATE_CANARY',
+    'EVIDENCE_CANARY',
+    'RECORD_CANARY',
+    'DRAFT_CANARY',
+    'SUPPORT_CANARY',
+    'PEER_CANARY',
+    'GOAL_CANARY',
+    OWNER,
+    'correctOptionIndex',
+    'assessorReference',
+    'rubric',
+    'credentialClaim',
+  ])
+    assert.ok(!text.includes(v), v);
+});
+test('packet restore rejects tampered source/hash/version/scope and extra identity fields', () => {
+  const packet = M.buildOfflinePacket(ctx(), 'e-own', NOW);
+  for (const changed of [
+    { sourceSha256: '0'.repeat(64) },
+    { title: 'Replacement latest text' },
+    { contentRef: { ...packet.contentRef, versionId: 'unknown' } },
+    { contentRef: { ...packet.contentRef, scope: 'tw-11111111-1111-1111-1111-111111111111' } },
+    { ownerId: 'other' },
+  ])
+    throws(() => M.readOfflinePacket({ ...structuredClone(packet), ...changed }));
+  assert.deepEqual(M.readOfflinePacket(JSON.parse(JSON.stringify(packet))), packet);
+});
+test('static printable packet contains no executable/network/form surfaces or user draft', () => {
+  const packet = M.buildOfflinePacket(ctx(), 'e-own', NOW),
+    html = M.offlinePacketHtml(packet);
+  assert.ok(html.includes("default-src 'none'"));
+  assert.ok(html.includes('cannot be revoked or remotely deleted'));
+  assert.ok(!/<(?:script|iframe|form|input|textarea|img|link|object)\b/i.test(html));
+  assert.ok(!html.includes('correctOptionIndex'));
+  assert.ok(!html.includes(OWNER));
+  assert.ok(html.includes('confirmed copied payment') || html.includes('Confirmed copied line'));
+});
+test('source download requires a fresh canonical own active personal read', () => {
+  for (const extra of [
+    { verified: false },
+    { active: false },
+    { canLearn: false },
+    { currentUserId: '' },
+    { workspaceId: 'tw-private' },
+    { revision: -1 },
+    { revision: 1.5 },
+    { readAt: '2026-10-05T19:20:00.000Z' },
+    { readAt: LATER },
+    { enrollments: [] },
+    { enrollments: [enrollment(), enrollment()] },
+  ])
+    throws(() => M.buildOfflinePacket(ctx(extra), 'e-own', NOW));
+});
+test('withdrawn paused malformed and contradictory exact enrollments fail closed', () => {
+  for (const e of [
+    enrollment({ withdrawn: true }),
+    enrollment({ withdrawn: undefined }),
+    enrollment({ version: 'different' }),
+    enrollment({ contentRef: { ...M.currentRef(P.id), programId: 'other' } }),
+  ])
+    throws(() => M.buildOfflinePacket(ctx({ enrollments: [e] }), 'e-own', NOW));
+  throws(() => M.buildOfflinePacket(ctx({ pausedProgramIds: [P.id] }), 'e-own', NOW));
+});
+test('creating a draft requires explicit fictional-input acknowledgement and excludes evidence/history', () => {
+  throws(() => M.createOfflineDraft(ctx(), 'e-own', { kind: 'lesson', lessonId: L }, NOW, false, 'd'), 400);
+  const d = draft();
+  assert.deepEqual(d.fields, {});
+  assert.deepEqual(d.baseline, { practice: '' });
+  assert.equal(d.workspaceId, 'lab');
+  assert.equal(d.ownerId, OWNER);
+  assert.equal(Date.parse(d.expiresAt) - Date.parse(NOW), M.OFFLINE_LIMITS.draftLifetimeMs);
+  assert.ok(!JSON.stringify(d).includes('attempts'));
+});
+test('only a currently unlocked unfinished lesson can admit an offline draft', () => {
+  assert.equal(
+    M.offlineDraftAvailability(ctx(), 'e-own', { kind: 'lesson', lessonId: L }, NOW).available,
+    true,
+  );
+  throws(() => draft({ kind: 'lesson', lessonId: P.lessons[1].id }));
+  throws(() =>
+    draft({ kind: 'lesson', lessonId: L }, ctx({ enrollments: [enrollment({ completed: [L] })] })),
+  );
+  assert.equal(
+    M.offlineDraftAvailability(
+      ctx({ enrollments: [enrollment({ completed: [L] })] }),
+      'e-own',
+      { kind: 'lesson', lessonId: P.lessons[1].id },
+      NOW,
+    ).available,
+    true,
+  );
+});
+test('practical admission requires completed lessons and an available next attempt', () => {
+  const completed = P.lessons.map((l) => l.id);
+  throws(() => M.createOfflineDraft(ctx(), 'e-own', { kind: 'practical' }, NOW, true, 'practical'));
+  for (const extra of [
+    { record: { status: 'active' } },
+    { attempts: [{ decision: null }] },
+    { appeals: [{ status: 'open' }] },
+    { attempts: [{ decision: {} }, { decision: {} }, { decision: {} }] },
+  ])
+    throws(() => draft({ kind: 'practical' }, ctx({ enrollments: [enrollment({ completed, ...extra })] })));
+  assert.equal(
+    M.offlineDraftAvailability(
+      ctx({
+        enrollments: [
+          enrollment({
+            completed,
+            record: { status: 'suspended' },
+            attempts: [{ decision: { passed: false } }],
+          }),
+        ],
+      }),
+      'e-own',
+      { kind: 'practical' },
+      NOW,
+    ).available,
+    true,
+  );
+});
+test('online completion after admission blocks queue preparation and rebase, retaining its reference', () => {
+  const d = edit(),
+    c = ctx({
+      revision: 4,
+      enrollments: [
+        enrollment({ completed: [L], practice: { [L]: { answer: 'Completed fictional source check' } } }),
+      ],
+    });
+  throws(() => M.prepareOfflineSave(d, c, LATER, true));
+  throws(() => M.rebaseOfflineDraft(d, c, LATER, { practice: 'new notes' }, true));
+  assert.equal(M.buildOfflinePacket(c, 'e-own', LATER).contentRef.programId, P.id);
+});
+test('pending review or completed record after practical admission cannot be queued again', () => {
+  const c = ctx({ enrollments: [enrollment({ completed: P.lessons.map((l) => l.id) })] }),
+    d = edit({ task: 'My future fictional task' }, { kind: 'practical' }, c);
+  for (const extra of [
+    { record: { status: 'active' } },
+    { attempts: [{ decision: null }] },
+    { appeals: [{ status: 'open' }] },
+  ])
+    throws(() =>
+      M.prepareOfflineSave(
+        d,
+        ctx({ revision: 4, enrollments: [enrollment({ completed: P.lessons.map((l) => l.id), ...extra })] }),
+        LATER,
+        true,
+      ),
+    );
+});
+test('lesson/practical draft scope cannot accept finalization actor or arbitrary field payloads', () => {
+  for (const t of [
+    { kind: 'lesson', lessonId: 'foreign' },
+    { kind: 'lesson', lessonId: L, actor: 'staff' },
+    { kind: 'submit' },
+    { kind: 'practical', learnerId: 'other' },
+  ])
+    throws(() => draft(t));
+  const d = draft();
+  for (const f of [
+    { completed: true },
+    { answers: [0, 1, 2] },
+    { record: 'x' },
+    { actor: 'staff' },
+    { practice: 42 },
+    { practice: 'x'.repeat(10001) },
+  ])
+    throws(() => M.updateOfflineDraft(d, f, LATER));
+  throws(() => M.updateOfflineDraft(d, {}, LATER), 400);
+});
+test('draft changes preserve exact text/whitespace, detach inputs and increment local generation', () => {
+  const baseDraft = draft(),
+    fields = { practice: '  My fictional notes\nT02 checked.  ' },
+    before = JSON.stringify(baseDraft),
+    d = M.updateOfflineDraft(baseDraft, fields, LATER);
+  fields.practice = 'changed externally';
+  assert.equal(d.fields.practice, '  My fictional notes\nT02 checked.  ');
+  assert.equal(d.generation, 2);
+  assert.equal(JSON.stringify(baseDraft), before);
+  assert.ok(Object.isFrozen(d.fields));
+});
+test('own draft restoration rejects another account/workspace rather than exposing text', () => {
+  const d = edit();
+  throws(() => M.readOfflineDraft(d, 'acct:two', 'lab', LATER), 403);
+  throws(() => M.readOfflineDraft(d, OWNER, 'tw-private', LATER), 403);
+  throws(() => M.readOfflineDraft({ ...d, ownerId: 'acct:two' }, OWNER, 'lab', LATER), 403);
+});
+test('local expiry and backward/malformed timing block restores without granting renewed access', () => {
+  const d = edit();
+  throws(() => M.readOfflineDraft(d, OWNER, 'lab', d.expiresAt));
+  throws(() => M.readOfflineDraft(d, OWNER, 'lab', '2026-10-05T19:29:59.999Z'));
+  throws(() => M.readOfflineDraft({ ...d, expiresAt: '2026-10-07T19:30:00.000Z' }, OWNER, 'lab', LATER), 400);
+  throws(() => M.readOfflineDraft({ ...d, createdAt: '2026-10-05' }, OWNER, 'lab', LATER), 400);
+});
+test('serialized character escaping counts toward real byte budget', () => {
+  const baseline = Object.fromEntries(
+    P.practicalAssessment.submissionPrompts.map((f) => [f.id, '\u0000'.repeat(10000)]),
+  );
+  throws(
+    () =>
+      draft(
+        { kind: 'practical' },
+        ctx({ enrollments: [enrollment({ completed: P.lessons.map((l) => l.id), draft: baseline })] }),
+      ),
+    400,
+  );
+});
+test('reconnection rejects stale directory/unknown identity role loss withdrawn and changed pin', () => {
+  const d = edit();
+  for (const extra of [
+    { verified: false },
+    { currentUserId: 'acct:two' },
+    { workspaceId: 'tw-private' },
+    { active: false },
+    { canLearn: false },
+    { revision: 2 },
+    { readAt: '2026-10-05T19:20:00.000Z' },
+    { enrollments: [enrollment({ withdrawn: true })] },
+    { pausedProgramIds: [P.id] },
+    {
+      enrollments: [enrollment({ version: 'new', contentRef: { ...M.currentRef(P.id), versionId: 'new' } })],
+    },
+  ])
+    throws(() => M.inspectOfflineDraft(d, ctx(extra), LATER));
+});
+test('no mutation is prepared without an explicit review action', () => {
+  const d = edit();
+  throws(() => M.prepareOfflineSave(d, ctx(), LATER, false), 400);
+  assert.equal(M.inspectOfflineDraft(d, ctx(), LATER).status, 'ready');
+});
+test('lesson draft command keeps actual fresh online quiz answers and never completes learning', () => {
+  const d = edit(),
+    answers = [1, null, 3],
+    c = ctx({ enrollments: [enrollment({ lessonDrafts: { [L]: { practice: '', answers } } })] }),
+    prepared = M.prepareOfflineSave(d, c, LATER, true);
+  assert.deepEqual(prepared.command, {
+    type: 'lesson-draft',
+    enrollmentId: 'e-own',
+    lessonId: L,
+    practice: d.fields.practice,
+    answers,
+  });
+  assert.equal(prepared.ticket.expectedRevision, 3);
+  const s = { ...M.freshWorkspace(), enrollments: c.enrollments },
+    saved = M.applyCommand(s, prepared.command, LATER);
+  assert.deepEqual(saved.enrollments[0].completed, []);
+  assert.deepEqual(saved.enrollments[0].practice, {});
+  assert.deepEqual(saved.enrollments[0].attempts, []);
+  assert.equal(saved.enrollments[0].record, null);
+});
+test('malformed saved online quiz answers block draft save instead of replacing answers', () => {
+  const d = edit();
+  for (const answers of [[], [0, 1], [0, 1, 4], [0, 1, '2']])
+    throws(
+      () =>
+        M.prepareOfflineSave(
+          d,
+          ctx({ enrollments: [enrollment({ lessonDrafts: { [L]: { practice: '', answers } } })] }),
+          LATER,
+          true,
+        ),
+      400,
+    );
+});
+test('online edited same field requires manual merge and leaves both snapshots untouched', () => {
+  const d = edit(),
+    c = ctx({
+      revision: 4,
+      enrollments: [
+        enrollment({ lessonDrafts: { [L]: { practice: 'OTHER ONLINE WORK', answers: [null, null, null] } } }),
+      ],
+    }),
+    before = JSON.stringify([d, c]);
+  assert.deepEqual(M.inspectOfflineDraft(d, c, LATER), {
+    status: 'needs-review',
+    conflictingFields: ['practice'],
+  });
+  throws(() => M.prepareOfflineSave(d, c, LATER, true));
+  assert.equal(JSON.stringify([d, c]), before);
+});
+test('review exposes only current own target fields and explicit rebase preserves original expiry', () => {
+  const d = edit(),
+    c = ctx({
+      revision: 4,
+      enrollments: [
+        enrollment({
+          lessonDrafts: { [L]: { practice: 'OTHER ONLINE WORK', answers: [null, null, null] } },
+          attempts: [{ fields: { secret: 'OTHER_EVIDENCE' } }],
+        }),
+      ],
+    });
+  const r = M.reviewOfflineDraft(d, c, LATER);
+  assert.deepEqual(r.currentFields, { practice: 'OTHER ONLINE WORK' });
+  assert.ok(!JSON.stringify(r).includes('OTHER_EVIDENCE'));
+  throws(
+    () => M.rebaseOfflineDraft(d, c, LATER, { practice: 'My deliberately merged fictional note' }, false),
+    400,
+  );
+  const merged = M.rebaseOfflineDraft(
+    d,
+    c,
+    LATER,
+    { practice: 'My deliberately merged fictional note' },
+    true,
+  );
+  assert.equal(merged.baseRevision, 4);
+  assert.equal(merged.expiresAt, d.expiresAt);
+  assert.equal(merged.generation, d.generation + 1);
+  assert.equal(merged.baseline.practice, 'OTHER ONLINE WORK');
+  assert.equal(M.inspectOfflineDraft(merged, c, LATER).status, 'ready');
+  assert.equal(M.prepareOfflineSave(merged, c, LATER, true).command.type, 'lesson-draft');
+});
+test('merge cannot escape own scope or introduce finalization/unknown fields', () => {
+  const d = edit();
+  for (const change of [{ actor: 'staff' }, { answers: [1, 2, 3] }, {}])
+    throws(() => M.rebaseOfflineDraft(d, ctx(), LATER, change, true));
+  throws(
+    () => M.rebaseOfflineDraft(d, ctx({ currentUserId: 'acct:two' }), LATER, { practice: 'x' }, true),
+    403,
+  );
+  throws(() => M.rebaseOfflineDraft(d, ctx({ pausedProgramIds: [P.id] }), LATER, { practice: 'x' }, true));
+});
+test('practical offline changes merge only changed fields and preserve unrelated online work', () => {
+  const c = ctx({
+      enrollments: [enrollment({ completed: P.lessons.map((l) => l.id), draft: { task: 'old task' } })],
+    }),
+    d = edit({ task: 'my offline revised task' }, { kind: 'practical' }, c),
+    fresh = ctx({
+      revision: 4,
+      enrollments: [
+        enrollment({
+          completed: P.lessons.map((l) => l.id),
+          draft: { task: 'old task', checks: 'OTHER ONLINE CHECKS' },
+        }),
+      ],
+    }),
+    prepared = M.prepareOfflineSave(d, fresh, LATER, true);
+  assert.deepEqual(prepared.command, {
+    type: 'draft',
+    enrollmentId: 'e-own',
+    fields: { task: 'my offline revised task' },
+  });
+  const s = { ...M.freshWorkspace(), enrollments: fresh.enrollments },
+    saved = M.applyCommand(s, prepared.command, LATER);
+  assert.equal(saved.enrollments[0].draft.checks, 'OTHER ONLINE CHECKS');
+  assert.deepEqual(saved.enrollments[0].attempts, []);
+  assert.equal(saved.enrollments[0].record, null);
+});
+test('already committed or unchanged text is not automatically replayed', () => {
+  const unchanged = draft();
+  assert.equal(M.inspectOfflineDraft(unchanged, ctx(), LATER).status, 'already-saved');
+  const d = edit(),
+    c = ctx({
+      revision: 4,
+      enrollments: [
+        enrollment({ lessonDrafts: { [L]: { practice: d.fields.practice, answers: [null, null, null] } } }),
+      ],
+    });
+  assert.equal(M.inspectOfflineDraft(d, c, LATER).status, 'already-saved');
+  throws(() => M.prepareOfflineSave(d, c, LATER, true));
+});
+const successfulReceipt = (d, extra = {}) =>
+  ctx({
+    revision: 4,
+    readAt: LATER,
+    enrollments: [
+      enrollment({ lessonDrafts: { [L]: { practice: d.fields.practice, answers: [null, null, null] } } }),
+    ],
+    ...extra,
+  });
+test('only a verified exact write acknowledgement clears the prepared generation', () => {
+  const d = edit(),
+    prepared = M.prepareOfflineSave(d, ctx(), LATER, true);
+  assert.deepEqual(M.acknowledgeOfflineSave(d, prepared.ticket, successfulReceipt(d), LATER), {
+    clear: true,
+    reason: 'saved',
+  });
+});
+test('unknown/denied/stale/wrong-account/unsaved response does not erase local work', () => {
+  const d = edit(),
+    ticket = M.prepareOfflineSave(d, ctx(), LATER, true).ticket;
+  for (const receipt of [
+    undefined,
+    successfulReceipt(d, { verified: false }),
+    successfulReceipt(d, { currentUserId: 'acct:two' }),
+    successfulReceipt(d, { workspaceId: 'tw-private' }),
+    successfulReceipt(d, { revision: 3 }),
+    successfulReceipt(d, { enrollments: [enrollment()] }),
+    successfulReceipt(d, { active: false }),
+  ])
+    assert.equal(M.acknowledgeOfflineSave(d, ticket, receipt, LATER).clear, false);
+});
+test('a confirmed save for an older local generation preserves new unsent edits', () => {
+  const d = edit(),
+    ticket = M.prepareOfflineSave(d, ctx(), LATER, true).ticket,
+    newer = M.updateOfflineDraft(d, { practice: 'A newer unsent correction.' }, LATER);
+  assert.deepEqual(M.acknowledgeOfflineSave(newer, ticket, successfulReceipt(d), LATER), {
+    clear: false,
+    reason: 'newer-local-edit',
+  });
+});
+test('forged partial/extra ticket fields cannot clear other unsaved work', () => {
+  const d = edit({ task: 'new task', checks: 'new checks' }, { kind: 'practical' }),
+    ticket = M.prepareOfflineSave(
+      d,
+      ctx({ enrollments: [enrollment({ completed: P.lessons.map((l) => l.id) })] }),
+      LATER,
+      true,
+    ).ticket,
+    receipt = ctx({
+      revision: 4,
+      readAt: LATER,
+      enrollments: [
+        enrollment({
+          completed: P.lessons.map((l) => l.id),
+          draft: { task: 'new task', checks: 'new checks' },
+        }),
+      ],
+    });
+  for (const fields of [
+    { task: 'new task' },
+    { evil: undefined },
+    { task: 'new task', checks: 'wrong' },
+    { task: 'new task', checks: 'new checks', extra: 'x' },
+  ])
+    assert.equal(M.acknowledgeOfflineSave(d, { ...ticket, fields }, receipt, LATER).clear, false);
+  assert.equal(M.acknowledgeOfflineSave(d, ticket, receipt, LATER).clear, true);
+});
+test('identity tuple key separates scope/enrollment/target without delimiter collisions', () => {
+  const a = draft(),
+    b = draft(
+      { kind: 'lesson', lessonId: P.lessons[1].id },
+      ctx({ enrollments: [enrollment({ completed: [L] })] }),
+    ),
+    c = draft({ kind: 'practical' });
+  assert.notEqual(M.offlineDraftKey(a), M.offlineDraftKey(b));
+  assert.notEqual(M.offlineDraftKey(a), M.offlineDraftKey(c));
+  assert.equal(JSON.parse(M.offlineDraftKey(a))[0], OWNER);
+});
+test('queue restore rejects mixed owners duplicate targets/references oversized count', () => {
+  const d = draft();
+  for (const queue of [
+    [d, { ...d, entryId: 'other-local' }],
+    [d, { ...d, ownerId: 'other' }],
+    Array.from({ length: 13 }, (_, i) => ({ ...d, entryId: 'id' + i })),
+  ])
+    throws(() => M.readOfflineQueue(queue, OWNER, 'lab', NOW));
+  assert.equal(M.readOfflineQueue([d], OWNER, 'lab', NOW).length, 1);
+});
+test('combined own queue bytes remain bounded even when every individual target is legal', () => {
+  const entries = [];
+  for (const [i, p] of M.programs.entries()) {
+    const fields = Object.fromEntries(
+        p.practicalAssessment.submissionPrompts.map((f) => [f.id, 'x'.repeat(10000)]),
+      ),
+      e = enrollment({
+        id: 'e-' + i,
+        programId: p.id,
+        version: M.currentRef(p.id).versionId,
+        contentRef: M.currentRef(p.id),
+        completed: p.lessons.map((l) => l.id),
+        draft: fields,
+      }),
+      c = ctx({ enrollments: [e] });
+    let d = M.createOfflineDraft(c, e.id, { kind: 'practical' }, NOW, true, 'practical-' + i);
+    d = M.updateOfflineDraft(
+      d,
+      Object.fromEntries(Object.keys(fields).map((id) => [id, 'y'.repeat(10000)])),
+      LATER,
+    );
+    entries.push(d);
+    for (const l of p.lessons) {
+      const e2 = {
+        ...e,
+        completed: p.lessons
+          .slice(
+            0,
+            p.lessons.findIndex((x) => x.id === l.id),
+          )
+          .map((x) => x.id),
+        lessonDrafts: { [l.id]: { practice: 'x'.repeat(10000), answers: [null, null, null] } },
+      };
+      entries.push(
+        M.updateOfflineDraft(
+          M.createOfflineDraft(
+            ctx({ enrollments: [e2] }),
+            e2.id,
+            { kind: 'lesson', lessonId: l.id },
+            NOW,
+            true,
+            l.id,
+          ),
+          { practice: 'y'.repeat(10000) },
+          LATER,
+        ),
+      );
+    }
+  }
+  assert.equal(entries.length, 12);
+  assert.ok(entries.every((d) => Buffer.byteLength(JSON.stringify(d)) < M.OFFLINE_LIMITS.draftBytes));
+  assert.ok(Buffer.byteLength(JSON.stringify(entries)) > M.OFFLINE_LIMITS.queueBytes);
+  throws(() => M.readOfflineQueue(entries, OWNER, 'lab', LATER), 400);
+});
+test('queue update preserves newer local drafts and does not replace a different unsent entry', () => {
+  const old = draft(),
+    newer = edit(),
+    queue = M.putOfflineDraft([old], newer, LATER);
+  assert.equal(queue.length, 1);
+  assert.equal(queue[0].generation, 2);
+  throws(() => M.putOfflineDraft(queue, old, LATER));
+  throws(() => M.putOfflineDraft(queue, { ...newer, entryId: 'different' }, LATER));
+  assert.equal(queue[0].fields.practice, newer.fields.practice);
+});

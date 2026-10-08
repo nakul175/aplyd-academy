@@ -1,34 +1,317 @@
 import assert from 'node:assert/strict';
-import {writeFileSync} from 'node:fs';
-import {chromium} from '/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.mjs';
-import {fixture,base,headers,current,action,success,nonce} from './local-qa.mjs';
+import { writeFileSync } from 'node:fs';
+import { chromium } from '/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.mjs';
+import { fixture, base, headers, current, action, success, nonce } from './local-qa.mjs';
 
-const {owner,mod:reviewer,a:learner,id,p:seed}=await fixture(),errors=[],layout=[];
-success(await action(owner,id,{type:'member',userId:reviewer.id,roles:['admin'],scopes:[],active:true}));
-let x=success(await action(owner,id,{type:'content-copy',sourceRef:{scope:'global',programId:seed.id,versionId:'0.1-review-draft'}})),d=x.team.content.drafts.at(-1);const did=d.id;
-const browser=await chromium.launch({executablePath:'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',headless:true});
-const deferred=()=>{let resolve;const promise=new Promise(r=>resolve=r);return {promise,resolve}};
+const { owner, mod: reviewer, a: learner, id, p: seed } = await fixture(),
+  errors = [],
+  layout = [];
+success(
+  await action(owner, id, {
+    type: 'member',
+    userId: reviewer.id,
+    roles: ['admin'],
+    scopes: [],
+    active: true,
+  }),
+);
+let x = success(
+    await action(owner, id, {
+      type: 'content-copy',
+      sourceRef: { scope: 'global', programId: seed.id, versionId: '0.1-review-draft' },
+    }),
+  ),
+  d = x.team.content.drafts.at(-1);
+const did = d.id;
+const browser = await chromium.launch({
+  executablePath: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
+  headless: true,
+});
+const deferred = () => {
+  let resolve;
+  const promise = new Promise((r) => (resolve = r));
+  return { promise, resolve };
+};
 try {
- const context=await browser.newContext({viewport:{width:1440,height:1000},extraHTTPHeaders:headers(owner)}),page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));await page.goto(base+'/?workspace='+id+'#teams');await page.locator('[data-save-state="loaded"]').waitFor();await page.getByRole('tab',{name:'Content studio',exact:true}).click();await page.locator(`[data-content-draft-id="${did}"]`).getByRole('button',{name:'Open content draft',exact:true}).click();const editor=page.locator(`[data-content-editor-id="${did}"]`);
- const promise='Use only fictional checked facts, explain uncertainty and keep accountable human approval before consequential action.';await editor.getByLabel('Pathway title',{exact:true}).fill('Final private classification practice '+nonce.slice(0,8));await editor.getByLabel('Pathway promise',{exact:true}).fill(promise);
- const captured=deferred(),release=deferred();let once=false,submitted;
- const hold=async route=>{if(route.request().method()!=='POST'||once)return route.continue();const body=route.request().postDataJSON();if(body.command?.type!=='content-save'||body.command.draftId!==did)return route.continue();once=true;submitted=body.command.document;const response=await route.fetch();assert.equal(response.status(),200);captured.resolve();await release.promise;await route.fulfill({response})};
- await page.route('**/api/teams',hold);const saving=Promise.all([page.waitForResponse(r=>r.url().endsWith('/api/teams')&&r.request().method()==='POST'),editor.getByRole('button',{name:'Save content draft',exact:true}).click()]);saving.catch(()=>{});await captured.promise;
- let locked;
- try{await page.waitForFunction(did=>{const e=document.querySelector(`[data-content-editor-id="${did}"]`),inputs=e?.querySelectorAll('textarea,input,select');return inputs?.length&&[...inputs].every(n=>n.disabled)},did);locked=await editor.locator('textarea,input,select').evaluateAll(nodes=>nodes.map(n=>({id:n.id,disabled:n.disabled})));assert.ok(locked.length>4);assert.ok(locked.every(n=>n.disabled));const saveButton=editor.getByRole('button',{name:'Save content draft',exact:true});if(await saveButton.count())assert.equal(await saveButton.isDisabled(),true);assert.equal(await editor.getByLabel('Pathway promise',{exact:true}).inputValue(),promise);assert.equal(submitted.promise,promise);await page.screenshot({path:new URL('../.sites-runtime/authoring-held-save-locked.png',import.meta.url).pathname,fullPage:false,animations:'disabled'})}finally{release.resolve()}
- const [response]=await saving;assert.equal(response.status(),200);await page.locator('[data-save-state="loaded"]').waitFor();await page.unroute('**/api/teams',hold);assert.equal(await editor.getByLabel('Pathway promise',{exact:true}).isDisabled(),false);assert.equal(await editor.getByLabel('Pathway promise',{exact:true}).inputValue(),promise);assert.equal((await current(owner,id)).team.content.drafts.find(z=>z.id===did).document.promise,promise);
- await editor.getByRole('navigation',{name:'Content draft sections',exact:true}).getByRole('button',{name:'Review & publication',exact:true}).click();
- for(const [width,enlarged] of [[1440,false],[390,true]]){
-  await page.setViewportSize({width,height:1000});const font=await page.evaluate(enlarged=>{document.documentElement.style.fontSize='';document.body.style.fontSize='';const root=parseFloat(getComputedStyle(document.documentElement).fontSize),body=parseFloat(getComputedStyle(document.body).fontSize);if(enlarged){document.documentElement.style.fontSize=root*2+'px';document.body.style.fontSize=body*2+'px'}return {baselineBody:body,actualBody:parseFloat(getComputedStyle(document.body).fontSize)}},enlarged);assert.equal(font.actualBody,font.baselineBody*(enlarged?2:1));
-  const opener=editor.getByRole('button',{name:'Request content review',exact:true});await opener.click();const dialog=page.getByRole('dialog',{name:'Request independent content review',exact:true});await page.waitForFunction(()=>{const d=document.querySelector('[role=dialog]');return d&&Number(getComputedStyle(d).opacity)>=.99});
-  const geometry=await dialog.evaluate(d=>{const title=d.querySelector('[data-slot=dialog-title]'),close=d.querySelector('[data-slot=dialog-close]'),select=d.querySelector('#content-reviewer');if(!title||!close||!select)throw Error('Missing reviewed final controls');const c=close.getBoundingClientRect(),text=[],walk=document.createTreeWalker(title,NodeFilter.SHOW_TEXT);let node;while(node=walk.nextNode()){if(!node.textContent.trim())continue;const range=document.createRange();range.selectNodeContents(node);text.push(...[...range.getClientRects()].map(r=>({left:r.left,right:r.right,top:r.top,bottom:r.bottom})))}const intersections=text.filter(r=>Math.min(r.right,c.right)-Math.max(r.left,c.left)>.1&&Math.min(r.bottom,c.bottom)-Math.max(r.top,c.top)>.1),css=getComputedStyle(title),s=getComputedStyle(select);return {titleIntersections:intersections,titlePadding:parseFloat(css.paddingInlineEnd),titleLineRatio:parseFloat(css.lineHeight)/parseFloat(css.fontSize),selectWidth:select.getBoundingClientRect().width,selectFieldWidth:select.parentElement.getBoundingClientRect().width,selectMinHeight:parseFloat(s.minHeight),selectBorderWidth:parseFloat(s.borderTopWidth),overflow:document.documentElement.scrollWidth>innerWidth}});
-  assert.deepEqual(geometry.titleIntersections,[]);assert.equal(geometry.titlePadding,48);assert.ok(Math.abs(geometry.titleLineRatio-1.25)<.01);assert.ok(geometry.selectWidth>=geometry.selectFieldWidth*.95);assert.ok(geometry.selectMinHeight>=44);assert.ok(geometry.selectBorderWidth>=1);assert.equal(geometry.overflow,false);await page.screenshot({path:new URL(`../.sites-runtime/authoring-final-review-${width}-${enlarged?'text200':'normal'}.png`,import.meta.url).pathname,fullPage:false,animations:'disabled'});
-  await dialog.getByLabel('Independent owner reviewer',{exact:true}).selectOption(reviewer.id);await dialog.getByLabel('Next content review date',{exact:true}).fill(new Date(Date.now()+365*86400000).toISOString().slice(0,10));const send=dialog.getByRole('button',{name:'Send for content review',exact:true});assert.equal(await send.isEnabled(),true);await send.scrollIntoViewIfNeeded();assert.equal(await send.evaluate(el=>{const b=el.getBoundingClientRect(),hit=document.elementFromPoint((b.left+b.right)/2,(b.top+b.bottom)/2);return !!hit&&(hit===el||el.contains(hit))}),true);await page.keyboard.press('Escape');await dialog.waitFor({state:'hidden'});assert.equal(await opener.evaluate(el=>document.activeElement===el),true);layout.push({width,enlarged,...font,...geometry,bottomActionReachable:true,escapeRestoresFocus:true});
- }
- await page.setViewportSize({width:1440,height:1000});await page.evaluate(()=>{document.documentElement.style.fontSize='';document.body.style.fontSize=''});
- // Separate API fixture provides a publication for the final learner card label.
- const reviewDueAt=new Date(Date.now()+365*86400000).toISOString();x=success(await current(owner,id));d=x.team.content.drafts.find(z=>z.id===did);x=success(await action(owner,id,{type:'content-submit',draftId:did,revision:d.revision,reviewerId:reviewer.id,reviewDueAt}));d=x.team.content.drafts.find(z=>z.id===did);x=success(await action(reviewer,id,{type:'content-review',draftId:did,revision:d.revision,decision:'approve',checks:{sources:true,answers:true,rubric:true,safety:true,accessibility:true},note:'Independently checked fictional references, answer keys, rubric, safe boundaries and accessible instructions.'}));d=x.team.content.drafts.find(z=>z.id===did);x=success(await action(owner,id,{type:'content-publish',draftId:did,revision:d.revision}));d=x.team.content.drafts.find(z=>z.id===did);const ref=d.publishedRef;success(await action(owner,id,{type:'cohort-create',title:'Final private classification circle',programId:ref.programId,contentRef:ref,capacity:10}));
- const learnerContext=await browser.newContext({viewport:{width:1440,height:1000},extraHTTPHeaders:headers(learner)}),learnerPage=await learnerContext.newPage();learnerPage.on('pageerror',e=>errors.push(e.message));await learnerPage.goto(base+'/?workspace='+id+'#programs');await learnerPage.locator('[data-save-state="loaded"]').waitFor();const privateCard=learnerPage.locator('.pathway-card').filter({has:learnerPage.getByRole('heading',{name:d.document.title,exact:true})});await privateCard.getByText('Private workspace practice draft',{exact:true}).waitFor();await privateCard.scrollIntoViewIfNeeded();await learnerPage.screenshot({path:new URL('../.sites-runtime/authoring-final-private-catalog.png',import.meta.url).pathname,fullPage:false,animations:'disabled'});assert.deepEqual(errors,[]);
- const result={passed:true,executedAt:new Date().toISOString(),fixtureId:id,heldSaveInputsLocked:true,lockedInputs:locked,acknowledgedExactValueRetained:true,reviewerFieldFinalCSSVerified:true,privateCatalogClassificationVisible:true,layout,pageErrors:errors,limits:['Synthetic loopback fixtures only','Publication for catalog label is an API fixture; the full journey tests browser publication separately']};writeFileSync(new URL('../.sites-runtime/authoring-final-ui-result.json',import.meta.url),JSON.stringify(result,null,2));console.log(JSON.stringify(result));
-}catch(error){writeFileSync(new URL('../.sites-runtime/authoring-final-ui-result.json',import.meta.url),JSON.stringify({passed:false,fixtureId:id,error:String(error),layout,pageErrors:errors},null,2));throw error}
-finally{await browser.close()}
+  const context = await browser.newContext({
+      viewport: { width: 1440, height: 1000 },
+      extraHTTPHeaders: headers(owner),
+    }),
+    page = await context.newPage();
+  page.on('pageerror', (e) => errors.push(e.message));
+  await page.goto(base + '/?workspace=' + id + '#teams');
+  await page.locator('[data-save-state="loaded"]').waitFor();
+  await page.getByRole('tab', { name: 'Content studio', exact: true }).click();
+  await page
+    .locator(`[data-content-draft-id="${did}"]`)
+    .getByRole('button', { name: 'Open content draft', exact: true })
+    .click();
+  const editor = page.locator(`[data-content-editor-id="${did}"]`);
+  const promise =
+    'Use only fictional checked facts, explain uncertainty and keep accountable human approval before consequential action.';
+  await editor
+    .getByLabel('Pathway title', { exact: true })
+    .fill('Final private classification practice ' + nonce.slice(0, 8));
+  await editor.getByLabel('Pathway promise', { exact: true }).fill(promise);
+  const captured = deferred(),
+    release = deferred();
+  let once = false,
+    submitted;
+  const hold = async (route) => {
+    if (route.request().method() !== 'POST' || once) return route.continue();
+    const body = route.request().postDataJSON();
+    if (body.command?.type !== 'content-save' || body.command.draftId !== did) return route.continue();
+    once = true;
+    submitted = body.command.document;
+    const response = await route.fetch();
+    assert.equal(response.status(), 200);
+    captured.resolve();
+    await release.promise;
+    await route.fulfill({ response });
+  };
+  await page.route('**/api/teams', hold);
+  const saving = Promise.all([
+    page.waitForResponse((r) => r.url().endsWith('/api/teams') && r.request().method() === 'POST'),
+    editor.getByRole('button', { name: 'Save content draft', exact: true }).click(),
+  ]);
+  saving.catch(() => {});
+  await captured.promise;
+  let locked;
+  try {
+    await page.waitForFunction((did) => {
+      const e = document.querySelector(`[data-content-editor-id="${did}"]`),
+        inputs = e?.querySelectorAll('textarea,input,select');
+      return inputs?.length && [...inputs].every((n) => n.disabled);
+    }, did);
+    locked = await editor
+      .locator('textarea,input,select')
+      .evaluateAll((nodes) => nodes.map((n) => ({ id: n.id, disabled: n.disabled })));
+    assert.ok(locked.length > 4);
+    assert.ok(locked.every((n) => n.disabled));
+    const saveButton = editor.getByRole('button', { name: 'Save content draft', exact: true });
+    if (await saveButton.count()) assert.equal(await saveButton.isDisabled(), true);
+    assert.equal(await editor.getByLabel('Pathway promise', { exact: true }).inputValue(), promise);
+    assert.equal(submitted.promise, promise);
+    await page.screenshot({
+      path: new URL('../.sites-runtime/authoring-held-save-locked.png', import.meta.url).pathname,
+      fullPage: false,
+      animations: 'disabled',
+    });
+  } finally {
+    release.resolve();
+  }
+  const [response] = await saving;
+  assert.equal(response.status(), 200);
+  await page.locator('[data-save-state="loaded"]').waitFor();
+  await page.unroute('**/api/teams', hold);
+  assert.equal(await editor.getByLabel('Pathway promise', { exact: true }).isDisabled(), false);
+  assert.equal(await editor.getByLabel('Pathway promise', { exact: true }).inputValue(), promise);
+  assert.equal(
+    (await current(owner, id)).team.content.drafts.find((z) => z.id === did).document.promise,
+    promise,
+  );
+  await editor
+    .getByRole('navigation', { name: 'Content draft sections', exact: true })
+    .getByRole('button', { name: 'Review & publication', exact: true })
+    .click();
+  for (const [width, enlarged] of [
+    [1440, false],
+    [390, true],
+  ]) {
+    await page.setViewportSize({ width, height: 1000 });
+    const font = await page.evaluate((enlarged) => {
+      document.documentElement.style.fontSize = '';
+      document.body.style.fontSize = '';
+      const root = parseFloat(getComputedStyle(document.documentElement).fontSize),
+        body = parseFloat(getComputedStyle(document.body).fontSize);
+      if (enlarged) {
+        document.documentElement.style.fontSize = root * 2 + 'px';
+        document.body.style.fontSize = body * 2 + 'px';
+      }
+      return { baselineBody: body, actualBody: parseFloat(getComputedStyle(document.body).fontSize) };
+    }, enlarged);
+    assert.equal(font.actualBody, font.baselineBody * (enlarged ? 2 : 1));
+    const opener = editor.getByRole('button', { name: 'Request content review', exact: true });
+    await opener.click();
+    const dialog = page.getByRole('dialog', { name: 'Request independent content review', exact: true });
+    await page.waitForFunction(() => {
+      const d = document.querySelector('[role=dialog]');
+      return d && Number(getComputedStyle(d).opacity) >= 0.99;
+    });
+    const geometry = await dialog.evaluate((d) => {
+      const title = d.querySelector('[data-slot=dialog-title]'),
+        close = d.querySelector('[data-slot=dialog-close]'),
+        select = d.querySelector('#content-reviewer');
+      if (!title || !close || !select) throw Error('Missing reviewed final controls');
+      const c = close.getBoundingClientRect(),
+        text = [],
+        walk = document.createTreeWalker(title, NodeFilter.SHOW_TEXT);
+      let node;
+      while ((node = walk.nextNode())) {
+        if (!node.textContent.trim()) continue;
+        const range = document.createRange();
+        range.selectNodeContents(node);
+        text.push(
+          ...[...range.getClientRects()].map((r) => ({
+            left: r.left,
+            right: r.right,
+            top: r.top,
+            bottom: r.bottom,
+          })),
+        );
+      }
+      const intersections = text.filter(
+          (r) =>
+            Math.min(r.right, c.right) - Math.max(r.left, c.left) > 0.1 &&
+            Math.min(r.bottom, c.bottom) - Math.max(r.top, c.top) > 0.1,
+        ),
+        css = getComputedStyle(title),
+        s = getComputedStyle(select);
+      return {
+        titleIntersections: intersections,
+        titlePadding: parseFloat(css.paddingInlineEnd),
+        titleLineRatio: parseFloat(css.lineHeight) / parseFloat(css.fontSize),
+        selectWidth: select.getBoundingClientRect().width,
+        selectFieldWidth: select.parentElement.getBoundingClientRect().width,
+        selectMinHeight: parseFloat(s.minHeight),
+        selectBorderWidth: parseFloat(s.borderTopWidth),
+        overflow: document.documentElement.scrollWidth > innerWidth,
+      };
+    });
+    assert.deepEqual(geometry.titleIntersections, []);
+    assert.equal(geometry.titlePadding, 48);
+    assert.ok(Math.abs(geometry.titleLineRatio - 1.25) < 0.01);
+    assert.ok(geometry.selectWidth >= geometry.selectFieldWidth * 0.95);
+    assert.ok(geometry.selectMinHeight >= 44);
+    assert.ok(geometry.selectBorderWidth >= 1);
+    assert.equal(geometry.overflow, false);
+    await page.screenshot({
+      path: new URL(
+        `../.sites-runtime/authoring-final-review-${width}-${enlarged ? 'text200' : 'normal'}.png`,
+        import.meta.url,
+      ).pathname,
+      fullPage: false,
+      animations: 'disabled',
+    });
+    await dialog.getByLabel('Independent owner reviewer', { exact: true }).selectOption(reviewer.id);
+    await dialog
+      .getByLabel('Next content review date', { exact: true })
+      .fill(new Date(Date.now() + 365 * 86400000).toISOString().slice(0, 10));
+    const send = dialog.getByRole('button', { name: 'Send for content review', exact: true });
+    assert.equal(await send.isEnabled(), true);
+    await send.scrollIntoViewIfNeeded();
+    assert.equal(
+      await send.evaluate((el) => {
+        const b = el.getBoundingClientRect(),
+          hit = document.elementFromPoint((b.left + b.right) / 2, (b.top + b.bottom) / 2);
+        return !!hit && (hit === el || el.contains(hit));
+      }),
+      true,
+    );
+    await page.keyboard.press('Escape');
+    await dialog.waitFor({ state: 'hidden' });
+    assert.equal(await opener.evaluate((el) => document.activeElement === el), true);
+    layout.push({
+      width,
+      enlarged,
+      ...font,
+      ...geometry,
+      bottomActionReachable: true,
+      escapeRestoresFocus: true,
+    });
+  }
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await page.evaluate(() => {
+    document.documentElement.style.fontSize = '';
+    document.body.style.fontSize = '';
+  });
+  // Separate API fixture provides a publication for the final learner card label.
+  const reviewDueAt = new Date(Date.now() + 365 * 86400000).toISOString();
+  x = success(await current(owner, id));
+  d = x.team.content.drafts.find((z) => z.id === did);
+  x = success(
+    await action(owner, id, {
+      type: 'content-submit',
+      draftId: did,
+      revision: d.revision,
+      reviewerId: reviewer.id,
+      reviewDueAt,
+    }),
+  );
+  d = x.team.content.drafts.find((z) => z.id === did);
+  x = success(
+    await action(reviewer, id, {
+      type: 'content-review',
+      draftId: did,
+      revision: d.revision,
+      decision: 'approve',
+      checks: { sources: true, answers: true, rubric: true, safety: true, accessibility: true },
+      note: 'Independently checked fictional references, answer keys, rubric, safe boundaries and accessible instructions.',
+    }),
+  );
+  d = x.team.content.drafts.find((z) => z.id === did);
+  x = success(await action(owner, id, { type: 'content-publish', draftId: did, revision: d.revision }));
+  d = x.team.content.drafts.find((z) => z.id === did);
+  const ref = d.publishedRef;
+  success(
+    await action(owner, id, {
+      type: 'cohort-create',
+      title: 'Final private classification circle',
+      programId: ref.programId,
+      contentRef: ref,
+      capacity: 10,
+    }),
+  );
+  const learnerContext = await browser.newContext({
+      viewport: { width: 1440, height: 1000 },
+      extraHTTPHeaders: headers(learner),
+    }),
+    learnerPage = await learnerContext.newPage();
+  learnerPage.on('pageerror', (e) => errors.push(e.message));
+  await learnerPage.goto(base + '/?workspace=' + id + '#programs');
+  await learnerPage.locator('[data-save-state="loaded"]').waitFor();
+  const privateCard = learnerPage
+    .locator('.pathway-card')
+    .filter({ has: learnerPage.getByRole('heading', { name: d.document.title, exact: true }) });
+  await privateCard.getByText('Private workspace practice draft', { exact: true }).waitFor();
+  await privateCard.scrollIntoViewIfNeeded();
+  await learnerPage.screenshot({
+    path: new URL('../.sites-runtime/authoring-final-private-catalog.png', import.meta.url).pathname,
+    fullPage: false,
+    animations: 'disabled',
+  });
+  assert.deepEqual(errors, []);
+  const result = {
+    passed: true,
+    executedAt: new Date().toISOString(),
+    fixtureId: id,
+    heldSaveInputsLocked: true,
+    lockedInputs: locked,
+    acknowledgedExactValueRetained: true,
+    reviewerFieldFinalCSSVerified: true,
+    privateCatalogClassificationVisible: true,
+    layout,
+    pageErrors: errors,
+    limits: [
+      'Synthetic loopback fixtures only',
+      'Publication for catalog label is an API fixture; the full journey tests browser publication separately',
+    ],
+  };
+  writeFileSync(
+    new URL('../.sites-runtime/authoring-final-ui-result.json', import.meta.url),
+    JSON.stringify(result, null, 2),
+  );
+  console.log(JSON.stringify(result));
+} catch (error) {
+  writeFileSync(
+    new URL('../.sites-runtime/authoring-final-ui-result.json', import.meta.url),
+    JSON.stringify(
+      { passed: false, fixtureId: id, error: String(error), layout, pageErrors: errors },
+      null,
+      2,
+    ),
+  );
+  throw error;
+} finally {
+  await browser.close();
+}

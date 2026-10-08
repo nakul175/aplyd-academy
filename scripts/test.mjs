@@ -64,8 +64,14 @@ const BUILDERS = [
 
 // Suites that pass but are not run by `pnpm test`, with the reason. Remove an entry when the reason is gone.
 const EXCLUDED = new Map([
-  ['tests/partner-review-pack-qa/tests/pack-domain.test.mjs', 'rewrites the tracked tests/partner-review-pack-qa/domain-test-evidence.json on every run'],
-  ['tests/partner-review-pack-qa/tests/pack-static.test.mjs', 'rewrites the tracked tests/partner-review-pack-qa/static-test-evidence.json on every run'],
+  [
+    'tests/partner-review-pack-qa/tests/pack-domain.test.mjs',
+    'rewrites the tracked tests/partner-review-pack-qa/domain-test-evidence.json on every run',
+  ],
+  [
+    'tests/partner-review-pack-qa/tests/pack-static.test.mjs',
+    'rewrites the tracked tests/partner-review-pack-qa/static-test-evidence.json on every run',
+  ],
 ]);
 
 const GUARD = 'tests/exact-offering-qa/read-only-routing.test.mjs';
@@ -74,7 +80,11 @@ const REPORTER = ['--test-reporter=spec', '--test-reporter-destination=stdout'];
 
 function run(label, nodeArgs) {
   console.log(`\n→ ${label}`);
-  const result = spawnSync(process.execPath, nodeArgs, { cwd: root, stdio: 'inherit', timeout: 15 * 60 * 1000 });
+  const result = spawnSync(process.execPath, nodeArgs, {
+    cwd: root,
+    stdio: 'inherit',
+    timeout: 15 * 60 * 1000,
+  });
   if (result.error) throw result.error;
   return result.status ?? 1;
 }
@@ -83,7 +93,11 @@ function discover() {
   const found = [];
   for (const entry of readdirSync(join(root, 'tests'), { recursive: true, withFileTypes: true })) {
     if (!entry.isFile() || !entry.name.endsWith('.test.mjs')) continue;
-    found.push(relative(root, join(entry.parentPath ?? entry.path, entry.name)).split(sep).join('/'));
+    found.push(
+      relative(root, join(entry.parentPath ?? entry.path, entry.name))
+        .split(sep)
+        .join('/'),
+    );
   }
   return found.sort();
 }
@@ -109,15 +123,27 @@ if (!noBuild) {
 }
 
 const all = discover();
-const suites = all.filter((f) => f !== GUARD && !EXCLUDED.has(f) && (filters.length === 0 || filters.some((w) => f.includes(w))));
+const suites = all.filter(
+  (f) => f !== GUARD && !EXCLUDED.has(f) && (filters.length === 0 || filters.some((w) => f.includes(w))),
+);
 for (const [file, reason] of EXCLUDED) if (all.includes(file)) console.log(`excluded: ${file} (${reason})`);
 
 if (suites.length === 0) {
   console.error('no suite matched the filter');
   process.exit(1);
 }
-const suiteStatus = run(`node --test on ${suites.length} suite file(s)`, [...NODE_FLAGS, '--test', ...REPORTER, ...suites]);
-const guardStatus = run(`node --test ${GUARD} (read-only routing guard)`, [...NODE_FLAGS, '--test', ...REPORTER, GUARD]);
+const suiteStatus = run(`node --test on ${suites.length} suite file(s)`, [
+  ...NODE_FLAGS,
+  '--test',
+  ...REPORTER,
+  ...suites,
+]);
+const guardStatus = run(`node --test ${GUARD} (read-only routing guard)`, [
+  ...NODE_FLAGS,
+  '--test',
+  ...REPORTER,
+  GUARD,
+]);
 
 if (suiteStatus !== 0 || guardStatus !== 0) {
   console.error(`\nFAILED: suites exit ${suiteStatus}, guard exit ${guardStatus}`);

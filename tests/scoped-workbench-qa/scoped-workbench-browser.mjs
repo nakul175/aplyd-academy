@@ -1,86 +1,710 @@
 import './qa-paths.mjs';
 import assert from 'node:assert/strict';
-import {readFileSync,writeFileSync} from 'node:fs';
-import {chromium,browserOptions} from './browser-runtime.mjs';
-import {out,base,headers,own,ownAction,enrolled,identity,choice,pass,mappings,curriculum} from './personal-qa.mjs';
-import {post,current} from '../local-qa.mjs';
-const f=JSON.parse(readFileSync(new URL('scoped-workbench-fixture.json',out),'utf8')),shared=JSON.parse(readFileSync(new URL('shared-fixture.json',out),'utf8'));
-const browser=await chromium.launch(browserOptions),cases=[],layouts=[],errors=[],commands=[];
-const card=(p,partner)=>p.locator(`[data-ecosystem-adapter="${partner}"]`),history=p=>p.locator('section').filter({has:p.getByRole('heading',{name:'Saved choice history',exact:true})}),receipts=p=>p.locator('section').filter({has:p.getByRole('heading',{name:'Local contract receipts',exact:true})});
-async function scenario(name,fn){await fn();cases.push({name,passed:true});}
-async function settled(p){await p.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));}
-async function loaded(p){await p.getByRole('heading',{name:'Choose the summary. Check the contract.',exact:true}).waitFor();await p.locator('[data-save-state="loaded"]').waitFor();await settled(p);}
-async function create(u,url=base+'/#connections'){
- const context=await browser.newContext({viewport:{width:1440,height:1000},extraHTTPHeaders:headers(u)}),page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>{if(r.method()==='POST'&&new URL(r.url()).pathname==='/api/academy')commands.push(JSON.parse(r.postData()).command);});await page.goto(url);return {page,context};
+import { readFileSync, writeFileSync } from 'node:fs';
+import { chromium, browserOptions } from './browser-runtime.mjs';
+import {
+  out,
+  base,
+  headers,
+  own,
+  ownAction,
+  enrolled,
+  identity,
+  choice,
+  pass,
+  mappings,
+  curriculum,
+} from './personal-qa.mjs';
+import { post, current } from '../local-qa.mjs';
+const f = JSON.parse(readFileSync(new URL('scoped-workbench-fixture.json', out), 'utf8')),
+  shared = JSON.parse(readFileSync(new URL('shared-fixture.json', out), 'utf8'));
+const browser = await chromium.launch(browserOptions),
+  cases = [],
+  layouts = [],
+  errors = [],
+  commands = [];
+const card = (p, partner) => p.locator(`[data-ecosystem-adapter="${partner}"]`),
+  history = (p) =>
+    p
+      .locator('section')
+      .filter({ has: p.getByRole('heading', { name: 'Saved choice history', exact: true }) }),
+  receipts = (p) =>
+    p
+      .locator('section')
+      .filter({ has: p.getByRole('heading', { name: 'Local contract receipts', exact: true }) });
+async function scenario(name, fn) {
+  await fn();
+  cases.push({ name, passed: true });
 }
-async function pick(page,label,option){const trigger=page.getByRole('combobox',{name:label,exact:true});await trigger.click();await page.getByRole('option',{name:option,exact:true}).click();}
-async function save(page,partner){const button=card(page,partner).getByRole('button',{name:/^(Save local test choice|Replace saved choice)$/});const response=page.waitForResponse(r=>r.request().method()==='POST'&&new URL(r.url()).pathname==='/api/academy');await button.focus();await button.press('Enter');assert.equal((await response).status(),200);await loaded(page);}
-async function run(page,partner){const response=page.waitForResponse(r=>r.request().method()==='POST'&&new URL(r.url()).pathname==='/api/academy');await card(page,partner).getByRole('button',{name:'Run local contract test',exact:true}).click();assert.equal((await response).status(),200);await loaded(page);}
-const {page:p}=await create(f.owner),{page:other}=await create(f.other);
-try{
- await loaded(p);await loaded(other);
- await scenario('Health has no contract controls; partner choices list only matching personal learning',async()=>{
-  const h=card(p,'health');assert.equal(await h.getByRole('button').count(),0);assert.equal(await h.getByRole('combobox').count(),0);assert.equal(await h.getByRole('checkbox').count(),0);
-  for(const m of mappings){const title=curriculum.pathways.find(x=>x.id===m.programId).title,trigger=card(p,m.partner).getByRole('combobox',{name:`Learning for ${m.name} contract test`,exact:true});await trigger.click();assert.equal(await p.getByRole('option').count(),1);assert.equal(await p.getByRole('option',{name:title,exact:true}).count(),1);for(const otherMapping of mappings.filter(x=>x.partner!==m.partner))assert.equal(await p.getByRole('option',{name:curriculum.pathways.find(x=>x.id===otherMapping.programId).title,exact:true}).count(),0);await p.keyboard.press('Escape');assert.equal(await trigger.evaluate(e=>document.activeElement===e),true,'Escape returns keyboard focus to the learning selector');}
-  assert.ok((await card(p,'msme').innerText()).includes('earlier preview preference'));assert.equal(await receipts(other).getByText('No versioned local receipts yet.',{exact:true}).count(),1);assert.ok(!(await other.locator('main').innerText()).includes(f.activeReceipt.id));
- });
- await scenario('Stopping an earlier boolean preference does not revoke an explicit choice or erase history',async()=>{
-  const before=pass(await own(f.owner)),response=p.waitForResponse(r=>r.request().method()==='POST'&&new URL(r.url()).pathname==='/api/academy');await card(p,'msme').getByRole('button',{name:'Stop earlier preview preference',exact:true}).click();assert.equal((await response).status(),200);await loaded(p);const after=pass(await own(f.owner));assert.equal(after.state.connections.msme,false);assert.deepEqual(after.state.ecosystemGrants,before.state.ecosystemGrants);assert.deepEqual(after.state.ecosystemReceipts,before.state.ecosystemReceipts);assert.deepEqual(after.state.deliveries,before.state.deliveries);assert.equal(await card(p,'msme').getByRole('button',{name:'Stop earlier preview preference',exact:true}).count(),0);
- });
- await scenario('Selections, summary fields and durations are independent per partner',async()=>{
-  for(const m of mappings)await pick(p,`Learning for ${m.name} contract test`,curriculum.pathways.find(x=>x.id===m.programId).title);
-  await pick(p,'Choice duration for Agri Saha','Thirty days');await card(p,'agri').getByRole('checkbox',{name:'Agri Saha: Practice-record status',exact:true}).check();
-  await pick(p,'Choice duration for Public service','Seven days');await pick(p,'Choice duration for MSME','One day');
-  assert.ok((await card(p,'agri').getByRole('combobox',{name:'Choice duration for Agri Saha',exact:true}).innerText()).includes('Thirty days'));assert.equal(await card(p,'public').getByRole('checkbox',{name:'Public service: Practice-record status',exact:true}).isChecked(),false);assert.ok((await card(p,'msme').getByRole('combobox',{name:'Choice duration for MSME',exact:true}).innerText()).includes('One day'));
- });
- await scenario('Unsaved controls cannot run the earlier choice; an in-flight save locks those controls',async()=>{
-  const m=card(p,'msme');assert.equal(await m.getByRole('button',{name:'Run local contract test',exact:true}).isDisabled(),true);assert.ok((await m.innerText()).includes('Local choice not saved'));
-  let release;const gate=new Promise(resolve=>release=resolve);let committed;const reached=new Promise(resolve=>committed=resolve);
-  await p.route('**/api/academy',async route=>{if(route.request().method()!=='POST'||JSON.parse(route.request().postData()).command.type!=='ecosystem-grant')return route.continue();const response=await route.fetch();committed(response.status());await gate;await route.fulfill({response});});
-  const saving=save(p,'msme');assert.equal(await reached,200);assert.equal(await m.getByRole('combobox',{name:'Choice duration for MSME',exact:true}).isDisabled(),true);assert.equal(await m.getByRole('checkbox',{name:'MSME: Practice-record status',exact:true}).isDisabled(),true);assert.equal(await m.getByRole('button',{name:'Run local contract test',exact:true}).isDisabled(),true);release();await saving;await p.unroute('**/api/academy');assert.equal(await m.getByRole('button',{name:'Run local contract test',exact:true}).isDisabled(),false);
-  const latest=pass(await own(f.owner)).state.ecosystemGrants.find(g=>g.partner==='msme');assert.equal(latest.durationDays,1);assert.deepEqual(latest.scopes,['learning.progress']);
- });
- await scenario('A local receipt is minimal, downloaded locally and stays distinct from saved choice history',async()=>{
-  await run(p,'msme');const x=pass(await own(f.owner)),r=x.state.ecosystemReceipts[0];assert.ok(r.payload.learning);assert.ok(!Object.hasOwn(r.payload,'practice_record'));for(const value of Object.values(f.canaries))assert.ok(!JSON.stringify(r).includes(value));const detail=receipts(p).locator('details').first();await detail.locator('summary').click();assert.ok((await detail.innerText()).includes(r.payload.event_id));const pendingDownload=p.waitForEvent('download');await detail.getByRole('button',{name:'Download local receipt',exact:true}).click();const download=await pendingDownload;assert.ok(download.suggestedFilename().startsWith('aplyd-local-return-'));assert.deepEqual(JSON.parse(readFileSync(await download.path(),'utf8')),r,'The local download contains exactly the selected receipt');assert.ok((await receipts(p).innerText()).includes('historical snapshots'));
-  const oldActive=receipts(p).locator('details').filter({hasText:f.activeReceipt.grantId}).filter({hasText:f.activeReceipt.payload.event_id});await oldActive.locator('summary').click();assert.ok((await oldActive.innerText()).includes('"status": "active"'));assert.equal(x.state.enrollments.find(e=>e.id===f.ids.msme).record.status,'suspended');
- });
- await scenario('Choice replacement and withdrawal retain receipts and earlier choices; one partner never revokes another',async()=>{
-  await save(p,'agri');const agri=pass(await own(f.owner)).state.ecosystemGrants.find(g=>g.partner==='agri');await save(p,'public');await card(p,'msme').getByRole('checkbox',{name:'MSME: Practice-record status',exact:true}).check();await save(p,'msme');let x=pass(await own(f.owner));const current=x.state.ecosystemGrants.find(g=>g.partner==='msme'),predecessor=x.state.ecosystemGrants.filter(g=>g.partner==='msme')[1];assert.notEqual(predecessor.revokedAt,null);assert.equal(x.state.ecosystemGrants.find(g=>g.id===agri.id).revokedAt,null);const retained=structuredClone(x.state.ecosystemReceipts);
-  const response=p.waitForResponse(r=>r.request().method()==='POST'&&new URL(r.url()).pathname==='/api/academy');await card(p,'msme').getByRole('button',{name:'Withdraw local choice',exact:true}).click();assert.equal((await response).status(),200);await loaded(p);assert.equal(await card(p,'msme').getByRole('button',{name:'Run local contract test',exact:true}).isDisabled(),true);x=pass(await own(f.owner));assert.notEqual(x.state.ecosystemGrants.find(g=>g.id===current.id).revokedAt,null);assert.deepEqual(x.state.ecosystemReceipts,retained);assert.ok((await history(p).innerText()).includes('withdrawn'));
-  await save(p,'msme');await p.reload();await loaded(p);assert.equal(await card(p,'msme').getByRole('button',{name:'Run local contract test',exact:true}).isDisabled(),false);assert.equal(await card(p,'msme').getByRole('checkbox',{name:'MSME: Practice-record status',exact:true}).isChecked(),true);assert.ok((await card(p,'agri').getByRole('combobox',{name:'Choice duration for Agri Saha',exact:true}).innerText()).includes('Thirty days'));assert.deepEqual((await own(f.owner)).state.ecosystemReceipts,retained);
- });
- await scenario('A choice withdrawn in another tab cannot run from a stale UI; refresh preserves only the current history',async()=>{
-  const before=pass(await own(f.owner)),g=before.state.ecosystemGrants.find(g=>g.partner==='msme');await ownAction(f.owner,{type:'ecosystem-withdraw',grantId:g.id});assert.equal(await card(p,'msme').getByRole('button',{name:'Run local contract test',exact:true}).isDisabled(),false);const response=p.waitForResponse(r=>r.request().method()==='POST'&&new URL(r.url()).pathname==='/api/academy');await card(p,'msme').getByRole('button',{name:'Run local contract test',exact:true}).click();assert.equal((await response).status(),409);await card(p,'msme').getByText('Saved local choice: withdrawn',{exact:true}).waitFor();assert.equal(await card(p,'msme').getByRole('button',{name:'Run local contract test',exact:true}).isDisabled(),true);assert.deepEqual((await own(f.owner)).state.ecosystemReceipts,before.state.ecosystemReceipts);await save(p,'msme');
- });
- await scenario('Expiry display disables new UI tests while retaining saved history and historical receipts',async()=>{
-  const before=pass(await own(f.owner)),g=before.state.ecosystemGrants.find(g=>g.partner==='msme'),future=new Date(Date.parse(g.expiresAt)+1);await p.clock.install({time:future});await p.evaluate(()=>document.dispatchEvent(new Event('visibilitychange')));await card(p,'msme').getByText('Saved local choice: expired',{exact:true}).waitFor();assert.equal(await card(p,'msme').getByRole('button',{name:'Run local contract test',exact:true}).isDisabled(),true);assert.deepEqual((await own(f.owner)).state.ecosystemReceipts,before.state.ecosystemReceipts);await p.clock.setSystemTime(new Date());await p.evaluate(()=>document.dispatchEvent(new Event('visibilitychange')));await card(p,'msme').getByText('Saved local choice: active',{exact:true}).waitFor();
- });
- await scenario('Capacity views preserve all historical rows and clearly disable new choices or tests',async()=>{
-  const capacity=JSON.parse(readFileSync(new URL('capacity-fixture.json',out),'utf8'));
-  const {page:choices}=await create(capacity.choices);await loaded(choices);assert.equal(await history(choices).locator('details').count(),24);assert.equal(await card(choices,'msme').getByRole('button',{name:/^(Save local test choice|Replace saved choice)$/}).isDisabled(),true);assert.ok((await choices.locator('main').innerText()).includes('retained local-choice slots are used'));
-  const {page:fullReceipts}=await create(capacity.receipts);await loaded(fullReceipts);assert.equal(await receipts(fullReceipts).locator('details').count(),100);assert.equal(await card(fullReceipts,'msme').getByRole('button',{name:'Run local contract test',exact:true}).isDisabled(),true);assert.ok((await fullReceipts.locator('main').innerText()).includes('local contract receipt slots are used'));await receipts(fullReceipts).locator('details').first().locator('summary').click();assert.equal(await receipts(fullReceipts).locator('button').filter({hasText:'Download local receipt'}).count(),100,'Every retained receipt has its download control in the DOM');assert.equal(await receipts(fullReceipts).getByRole('button',{name:'Download local receipt',exact:true}).count(),1,'Only the expanded receipt exposes its download control');
- });
- await scenario('A shared workspace shows no personal contract controls or receipt history',async()=>{
-  const {page:s}=await create(shared.owner,base+'/?workspace='+shared.teamId+'#connections');await s.getByRole('heading',{name:'Ecosystem tests live in your personal lab',exact:true}).waitFor();assert.equal(await s.locator('[data-ecosystem-adapter]').count(),0);assert.equal(await s.getByRole('heading',{name:'Local contract receipts',exact:true}).count(),0);assert.ok(!(await s.locator('main').innerText()).includes(f.activeReceipt.id));
- });
- for(const width of [1440,768,390])for(const text200 of [false,true]){
-  await p.setViewportSize({width,height:1000});await p.evaluate(enlarged=>{document.documentElement.style.fontSize=enlarged?'32px':'';document.body.style.fontSize=enlarged?'32px':'';document.querySelectorAll('main details').forEach(d=>d.open=true);window.scrollTo(0,0);},text200);await settled(p);
-  const geometry=await p.evaluate(()=>({width:innerWidth,documentWidth:document.documentElement.scrollWidth,bodyFont:parseFloat(getComputedStyle(document.body).fontSize),checkboxTargets:[...document.querySelectorAll('[data-ecosystem-adapter] button[role=checkbox]')].map(e=>{const r=e.closest('label').getBoundingClientRect();return {label:e.getAttribute('aria-label'),left:r.left,right:r.right,height:r.height};}),controls:[...document.querySelectorAll('[data-ecosystem-adapter] button:not([role=checkbox])')].filter(e=>e.getBoundingClientRect().width>0).map(e=>{const r=e.getBoundingClientRect();return {label:e.textContent,left:r.left,right:r.right,height:r.height};})}));assert.ok(geometry.documentWidth<=width+1,'Cards and expanded receipt/history have no horizontal document overflow');if(text200)assert.equal(geometry.bodyFont,32);assert.ok(geometry.controls.every(c=>c.left>=-1&&c.right<=width+1&&c.height>=32),'Contract action/select buttons remain usable inside viewport');assert.ok(geometry.checkboxTargets.every(c=>c.left>=-1&&c.right<=width+1&&c.height>=44),'Clickable checkbox labels remain inside the viewport and at least44px tall');
-  const checkbox=card(p,'msme').getByRole('checkbox',{name:'MSME: Practice-record status',exact:true}),label=checkbox.locator('..'),beforeCheck=await checkbox.isChecked();let box=await label.boundingBox();assert.ok(box&&box.width>40&&box.height>=44,'Associated checkbox label provides a usable44px text-area target');await label.click({position:{x:40,y:box.height/2}});assert.equal(await checkbox.isChecked(),!beforeCheck,'Clicking label text toggles the checkbox');box=await label.boundingBox();await label.click({position:{x:40,y:box.height/2}});assert.equal(await checkbox.isChecked(),beforeCheck,'Restoring the label leaves the saved choice unchanged');
-  const trigger=card(p,'msme').getByRole('combobox',{name:'Choice duration for MSME',exact:true});await trigger.click();await p.getByRole('option',{name:'One day',exact:true}).waitFor();assert.ok((await p.evaluate(()=>document.documentElement.scrollWidth))<=width+1,'Duration menu stays within viewport');await p.keyboard.press('Escape');assert.equal(await trigger.evaluate(e=>document.activeElement===e),true);
-  await p.screenshot({path:new URL(`scoped-workbench-${width}-${text200?'text200':'normal'}.png`,out).pathname,fullPage:true,animations:'disabled'});await p.evaluate(()=>window.scrollTo(0,0));await p.screenshot({path:new URL(`scoped-workbench-${width}-${text200?'text200':'normal'}-viewport.png`,out).pathname,fullPage:false,animations:'disabled'});layouts.push({width,text200,passed:true,geometry});
- }
- await scenario('Only acknowledged lab deletion clears own lab scratch; failed CAS retains it and other workspace scratch survives',async()=>{
-  const resetOwner=identity('scoped-reset-browser'),resetIds=await enrolled(resetOwner);let saved=await ownAction(resetOwner,choice('msme',resetIds.msme));saved=await ownAction(resetOwner,{type:'ecosystem-test',grantId:saved.state.ecosystemGrants[0].id});const grantId=saved.state.ecosystemGrants[0].id,receiptId=saved.state.ecosystemReceipts[0].id;
-  const workspaceName='Synthetic reset scratch separation',t=pass(await post(resetOwner,undefined,{type:'create',name:workspaceName,purpose:'Fictional local scratch boundary test.',context:'msme'},0)),{page:r}=await create(resetOwner);await loaded(r);
-  await pick(r,'Choice duration for MSME','Thirty days');await card(r,'msme').getByRole('checkbox',{name:'MSME: Practice-record status',exact:true}).check();assert.equal(await card(r,'msme').getByRole('button',{name:'Run local contract test',exact:true}).isDisabled(),true);
-  await pick(r,'Choose Academy workspace',workspaceName);await r.locator('[data-save-state="loaded"]').waitFor();await r.getByRole('button',{name:'Workspaces & cohorts',exact:true}).click();await r.getByRole('tab',{name:'Invitations',exact:true}).click();await r.getByLabel('Sign-in account email',{exact:true}).fill('retained-unsent@academy.test');
-  await pick(r,'Choose Academy workspace','Personal practice lab');await r.locator('[data-save-state="loaded"]').waitFor();await r.getByRole('button',{name:'Ecosystem connections',exact:true}).click();await loaded(r);assert.ok((await card(r,'msme').getByRole('combobox',{name:'Choice duration for MSME',exact:true}).innerText()).includes('Thirty days'));
-  await r.getByRole('button',{name:'Preferences & privacy',exact:true}).click();await r.getByRole('heading',{name:'Make learning work for you.',exact:true}).waitFor();await ownAction(resetOwner,{type:'profile',name:'Same account fresh revision',context:'msme',reading:false,networking:false});
-  async function deleteFromUi(expected){await r.getByRole('button',{name:'Delete personal practice lab data',exact:true}).click();const dialog=r.getByRole('alertdialog',{name:'Delete your saved learning data?',exact:true});await dialog.getByLabel('Type DELETE to continue',{exact:true}).fill('DELETE');const response=r.waitForResponse(res=>res.request().method()==='POST'&&new URL(res.url()).pathname==='/api/academy');await dialog.getByRole('button',{name:'Delete learning data',exact:true}).click();assert.equal((await response).status(),expected);}
-  await deleteFromUi(409);await r.getByRole('button',{name:'Ecosystem connections',exact:true}).click();await r.getByRole('heading',{name:'Choose the summary. Check the contract.',exact:true}).waitFor();await card(r,'msme').getByText('Saved local choice: active',{exact:true}).waitFor();assert.ok((await card(r,'msme').getByRole('combobox',{name:'Choice duration for MSME',exact:true}).innerText()).includes('Thirty days'));assert.equal(await card(r,'msme').getByRole('checkbox',{name:'MSME: Practice-record status',exact:true}).isChecked(),true);const afterFailed=pass(await own(resetOwner));assert.equal(afterFailed.state.ecosystemGrants[0].id,grantId);assert.equal(afterFailed.state.ecosystemReceipts[0].id,receiptId);
-  await r.getByRole('button',{name:'Preferences & privacy',exact:true}).click();await deleteFromUi(200);await r.locator('[data-save-state="loaded"]').waitFor();await r.getByRole('button',{name:'Ecosystem connections',exact:true}).click();await loaded(r);const afterDeleted=pass(await own(resetOwner));assert.deepEqual(afterDeleted.state.enrollments,[]);assert.deepEqual(afterDeleted.state.ecosystemGrants??[],[]);assert.deepEqual(afterDeleted.state.ecosystemReceipts??[],[]);assert.ok((await card(r,'msme').getByRole('combobox',{name:'Choice duration for MSME',exact:true}).innerText()).includes('Seven days'));assert.equal(await card(r,'msme').getByRole('checkbox',{name:'MSME: Practice-record status',exact:true}).isChecked(),false);assert.equal(await card(r,'msme').getByRole('combobox',{name:'Learning for MSME contract test',exact:true}).innerText(),'Learning for MSME contract test');assert.ok(!(await r.locator('main').innerText()).includes(grantId));assert.ok(!(await r.locator('main').innerText()).includes(receiptId));
-  await pick(r,'Choose Academy workspace',workspaceName);await r.locator('[data-save-state="loaded"]').waitFor();await r.getByRole('button',{name:'Workspaces & cohorts',exact:true}).click();await r.getByRole('tab',{name:'Invitations',exact:true}).click();assert.equal(await r.getByLabel('Sign-in account email',{exact:true}).inputValue(),'retained-unsent@academy.test');assert.deepEqual((await current(resetOwner,t.team.id)).team.invites,[],'No unsent shared invitation was created or sent');
- });
- assert.deepEqual(errors,[]);assert.ok(commands.every(c=>['ecosystem-grant','ecosystem-test','ecosystem-withdraw','reset'].includes(c.type)||(c.type==='connection'&&c.enabled===false)),'Workbench only posts scoped local actions, own acknowledged reset or stops an earlier boolean preference');writeFileSync(new URL('scoped-workbench-browser-result.json',out),JSON.stringify({passed:true,cases,layouts,pageErrors:errors,commands,at:new Date().toISOString(),limits:['UI expiry uses only the local browser clock; API expiry boundaries are isolated pure tests.','Trusted-header loopback identities only, no hosted authentication or partner connection.']},null,2));console.log(`Scoped workbench browser passed ${cases.length} journeys and ${layouts.length} layouts.`);
-}catch(error){writeFileSync(new URL('scoped-workbench-browser-result.json',out),JSON.stringify({passed:false,cases,layouts,pageErrors:errors,commands,error:String(error),at:new Date().toISOString()},null,2));await p.screenshot({path:new URL('scoped-workbench-failure.png',out).pathname,fullPage:true,animations:'disabled'});throw error;}finally{await browser.close();}
+async function settled(p) {
+  await p.evaluate(
+    () => new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve))),
+  );
+}
+async function loaded(p) {
+  await p.getByRole('heading', { name: 'Choose the summary. Check the contract.', exact: true }).waitFor();
+  await p.locator('[data-save-state="loaded"]').waitFor();
+  await settled(p);
+}
+async function create(u, url = base + '/#connections') {
+  const context = await browser.newContext({
+      viewport: { width: 1440, height: 1000 },
+      extraHTTPHeaders: headers(u),
+    }),
+    page = await context.newPage();
+  page.on('pageerror', (e) => errors.push(e.message));
+  page.on('request', (r) => {
+    if (r.method() === 'POST' && new URL(r.url()).pathname === '/api/academy')
+      commands.push(JSON.parse(r.postData()).command);
+  });
+  await page.goto(url);
+  return { page, context };
+}
+async function pick(page, label, option) {
+  const trigger = page.getByRole('combobox', { name: label, exact: true });
+  await trigger.click();
+  await page.getByRole('option', { name: option, exact: true }).click();
+}
+async function save(page, partner) {
+  const button = card(page, partner).getByRole('button', {
+    name: /^(Save local test choice|Replace saved choice)$/,
+  });
+  const response = page.waitForResponse(
+    (r) => r.request().method() === 'POST' && new URL(r.url()).pathname === '/api/academy',
+  );
+  await button.focus();
+  await button.press('Enter');
+  assert.equal((await response).status(), 200);
+  await loaded(page);
+}
+async function run(page, partner) {
+  const response = page.waitForResponse(
+    (r) => r.request().method() === 'POST' && new URL(r.url()).pathname === '/api/academy',
+  );
+  await card(page, partner).getByRole('button', { name: 'Run local contract test', exact: true }).click();
+  assert.equal((await response).status(), 200);
+  await loaded(page);
+}
+const { page: p } = await create(f.owner),
+  { page: other } = await create(f.other);
+try {
+  await loaded(p);
+  await loaded(other);
+  await scenario(
+    'Health has no contract controls; partner choices list only matching personal learning',
+    async () => {
+      const h = card(p, 'health');
+      assert.equal(await h.getByRole('button').count(), 0);
+      assert.equal(await h.getByRole('combobox').count(), 0);
+      assert.equal(await h.getByRole('checkbox').count(), 0);
+      for (const m of mappings) {
+        const title = curriculum.pathways.find((x) => x.id === m.programId).title,
+          trigger = card(p, m.partner).getByRole('combobox', {
+            name: `Learning for ${m.name} contract test`,
+            exact: true,
+          });
+        await trigger.click();
+        assert.equal(await p.getByRole('option').count(), 1);
+        assert.equal(await p.getByRole('option', { name: title, exact: true }).count(), 1);
+        for (const otherMapping of mappings.filter((x) => x.partner !== m.partner))
+          assert.equal(
+            await p
+              .getByRole('option', {
+                name: curriculum.pathways.find((x) => x.id === otherMapping.programId).title,
+                exact: true,
+              })
+              .count(),
+            0,
+          );
+        await p.keyboard.press('Escape');
+        assert.equal(
+          await trigger.evaluate((e) => document.activeElement === e),
+          true,
+          'Escape returns keyboard focus to the learning selector',
+        );
+      }
+      assert.ok((await card(p, 'msme').innerText()).includes('earlier preview preference'));
+      assert.equal(
+        await receipts(other).getByText('No versioned local receipts yet.', { exact: true }).count(),
+        1,
+      );
+      assert.ok(!(await other.locator('main').innerText()).includes(f.activeReceipt.id));
+    },
+  );
+  await scenario(
+    'Stopping an earlier boolean preference does not revoke an explicit choice or erase history',
+    async () => {
+      const before = pass(await own(f.owner)),
+        response = p.waitForResponse(
+          (r) => r.request().method() === 'POST' && new URL(r.url()).pathname === '/api/academy',
+        );
+      await card(p, 'msme')
+        .getByRole('button', { name: 'Stop earlier preview preference', exact: true })
+        .click();
+      assert.equal((await response).status(), 200);
+      await loaded(p);
+      const after = pass(await own(f.owner));
+      assert.equal(after.state.connections.msme, false);
+      assert.deepEqual(after.state.ecosystemGrants, before.state.ecosystemGrants);
+      assert.deepEqual(after.state.ecosystemReceipts, before.state.ecosystemReceipts);
+      assert.deepEqual(after.state.deliveries, before.state.deliveries);
+      assert.equal(
+        await card(p, 'msme')
+          .getByRole('button', { name: 'Stop earlier preview preference', exact: true })
+          .count(),
+        0,
+      );
+    },
+  );
+  await scenario('Selections, summary fields and durations are independent per partner', async () => {
+    for (const m of mappings)
+      await pick(
+        p,
+        `Learning for ${m.name} contract test`,
+        curriculum.pathways.find((x) => x.id === m.programId).title,
+      );
+    await pick(p, 'Choice duration for Agri Saha', 'Thirty days');
+    await card(p, 'agri')
+      .getByRole('checkbox', { name: 'Agri Saha: Practice-record status', exact: true })
+      .check();
+    await pick(p, 'Choice duration for Public service', 'Seven days');
+    await pick(p, 'Choice duration for MSME', 'One day');
+    assert.ok(
+      (
+        await card(p, 'agri')
+          .getByRole('combobox', { name: 'Choice duration for Agri Saha', exact: true })
+          .innerText()
+      ).includes('Thirty days'),
+    );
+    assert.equal(
+      await card(p, 'public')
+        .getByRole('checkbox', { name: 'Public service: Practice-record status', exact: true })
+        .isChecked(),
+      false,
+    );
+    assert.ok(
+      (
+        await card(p, 'msme')
+          .getByRole('combobox', { name: 'Choice duration for MSME', exact: true })
+          .innerText()
+      ).includes('One day'),
+    );
+  });
+  await scenario(
+    'Unsaved controls cannot run the earlier choice; an in-flight save locks those controls',
+    async () => {
+      const m = card(p, 'msme');
+      assert.equal(
+        await m.getByRole('button', { name: 'Run local contract test', exact: true }).isDisabled(),
+        true,
+      );
+      assert.ok((await m.innerText()).includes('Local choice not saved'));
+      let release;
+      const gate = new Promise((resolve) => (release = resolve));
+      let committed;
+      const reached = new Promise((resolve) => (committed = resolve));
+      await p.route('**/api/academy', async (route) => {
+        if (
+          route.request().method() !== 'POST' ||
+          JSON.parse(route.request().postData()).command.type !== 'ecosystem-grant'
+        )
+          return route.continue();
+        const response = await route.fetch();
+        committed(response.status());
+        await gate;
+        await route.fulfill({ response });
+      });
+      const saving = save(p, 'msme');
+      assert.equal(await reached, 200);
+      assert.equal(
+        await m.getByRole('combobox', { name: 'Choice duration for MSME', exact: true }).isDisabled(),
+        true,
+      );
+      assert.equal(
+        await m.getByRole('checkbox', { name: 'MSME: Practice-record status', exact: true }).isDisabled(),
+        true,
+      );
+      assert.equal(
+        await m.getByRole('button', { name: 'Run local contract test', exact: true }).isDisabled(),
+        true,
+      );
+      release();
+      await saving;
+      await p.unroute('**/api/academy');
+      assert.equal(
+        await m.getByRole('button', { name: 'Run local contract test', exact: true }).isDisabled(),
+        false,
+      );
+      const latest = pass(await own(f.owner)).state.ecosystemGrants.find((g) => g.partner === 'msme');
+      assert.equal(latest.durationDays, 1);
+      assert.deepEqual(latest.scopes, ['learning.progress']);
+    },
+  );
+  await scenario(
+    'A local receipt is minimal, downloaded locally and stays distinct from saved choice history',
+    async () => {
+      await run(p, 'msme');
+      const x = pass(await own(f.owner)),
+        r = x.state.ecosystemReceipts[0];
+      assert.ok(r.payload.learning);
+      assert.ok(!Object.hasOwn(r.payload, 'practice_record'));
+      for (const value of Object.values(f.canaries)) assert.ok(!JSON.stringify(r).includes(value));
+      const detail = receipts(p).locator('details').first();
+      await detail.locator('summary').click();
+      assert.ok((await detail.innerText()).includes(r.payload.event_id));
+      const pendingDownload = p.waitForEvent('download');
+      await detail.getByRole('button', { name: 'Download local receipt', exact: true }).click();
+      const download = await pendingDownload;
+      assert.ok(download.suggestedFilename().startsWith('aplyd-local-return-'));
+      assert.deepEqual(
+        JSON.parse(readFileSync(await download.path(), 'utf8')),
+        r,
+        'The local download contains exactly the selected receipt',
+      );
+      assert.ok((await receipts(p).innerText()).includes('historical snapshots'));
+      const oldActive = receipts(p)
+        .locator('details')
+        .filter({ hasText: f.activeReceipt.grantId })
+        .filter({ hasText: f.activeReceipt.payload.event_id });
+      await oldActive.locator('summary').click();
+      assert.ok((await oldActive.innerText()).includes('"status": "active"'));
+      assert.equal(x.state.enrollments.find((e) => e.id === f.ids.msme).record.status, 'suspended');
+    },
+  );
+  await scenario(
+    'Choice replacement and withdrawal retain receipts and earlier choices; one partner never revokes another',
+    async () => {
+      await save(p, 'agri');
+      const agri = pass(await own(f.owner)).state.ecosystemGrants.find((g) => g.partner === 'agri');
+      await save(p, 'public');
+      await card(p, 'msme')
+        .getByRole('checkbox', { name: 'MSME: Practice-record status', exact: true })
+        .check();
+      await save(p, 'msme');
+      let x = pass(await own(f.owner));
+      const current = x.state.ecosystemGrants.find((g) => g.partner === 'msme'),
+        predecessor = x.state.ecosystemGrants.filter((g) => g.partner === 'msme')[1];
+      assert.notEqual(predecessor.revokedAt, null);
+      assert.equal(x.state.ecosystemGrants.find((g) => g.id === agri.id).revokedAt, null);
+      const retained = structuredClone(x.state.ecosystemReceipts);
+      const response = p.waitForResponse(
+        (r) => r.request().method() === 'POST' && new URL(r.url()).pathname === '/api/academy',
+      );
+      await card(p, 'msme').getByRole('button', { name: 'Withdraw local choice', exact: true }).click();
+      assert.equal((await response).status(), 200);
+      await loaded(p);
+      assert.equal(
+        await card(p, 'msme')
+          .getByRole('button', { name: 'Run local contract test', exact: true })
+          .isDisabled(),
+        true,
+      );
+      x = pass(await own(f.owner));
+      assert.notEqual(x.state.ecosystemGrants.find((g) => g.id === current.id).revokedAt, null);
+      assert.deepEqual(x.state.ecosystemReceipts, retained);
+      assert.ok((await history(p).innerText()).includes('withdrawn'));
+      await save(p, 'msme');
+      await p.reload();
+      await loaded(p);
+      assert.equal(
+        await card(p, 'msme')
+          .getByRole('button', { name: 'Run local contract test', exact: true })
+          .isDisabled(),
+        false,
+      );
+      assert.equal(
+        await card(p, 'msme')
+          .getByRole('checkbox', { name: 'MSME: Practice-record status', exact: true })
+          .isChecked(),
+        true,
+      );
+      assert.ok(
+        (
+          await card(p, 'agri')
+            .getByRole('combobox', { name: 'Choice duration for Agri Saha', exact: true })
+            .innerText()
+        ).includes('Thirty days'),
+      );
+      assert.deepEqual((await own(f.owner)).state.ecosystemReceipts, retained);
+    },
+  );
+  await scenario(
+    'A choice withdrawn in another tab cannot run from a stale UI; refresh preserves only the current history',
+    async () => {
+      const before = pass(await own(f.owner)),
+        g = before.state.ecosystemGrants.find((g) => g.partner === 'msme');
+      await ownAction(f.owner, { type: 'ecosystem-withdraw', grantId: g.id });
+      assert.equal(
+        await card(p, 'msme')
+          .getByRole('button', { name: 'Run local contract test', exact: true })
+          .isDisabled(),
+        false,
+      );
+      const response = p.waitForResponse(
+        (r) => r.request().method() === 'POST' && new URL(r.url()).pathname === '/api/academy',
+      );
+      await card(p, 'msme').getByRole('button', { name: 'Run local contract test', exact: true }).click();
+      assert.equal((await response).status(), 409);
+      await card(p, 'msme').getByText('Saved local choice: withdrawn', { exact: true }).waitFor();
+      assert.equal(
+        await card(p, 'msme')
+          .getByRole('button', { name: 'Run local contract test', exact: true })
+          .isDisabled(),
+        true,
+      );
+      assert.deepEqual((await own(f.owner)).state.ecosystemReceipts, before.state.ecosystemReceipts);
+      await save(p, 'msme');
+    },
+  );
+  await scenario(
+    'Expiry display disables new UI tests while retaining saved history and historical receipts',
+    async () => {
+      const before = pass(await own(f.owner)),
+        g = before.state.ecosystemGrants.find((g) => g.partner === 'msme'),
+        future = new Date(Date.parse(g.expiresAt) + 1);
+      await p.clock.install({ time: future });
+      await p.evaluate(() => document.dispatchEvent(new Event('visibilitychange')));
+      await card(p, 'msme').getByText('Saved local choice: expired', { exact: true }).waitFor();
+      assert.equal(
+        await card(p, 'msme')
+          .getByRole('button', { name: 'Run local contract test', exact: true })
+          .isDisabled(),
+        true,
+      );
+      assert.deepEqual((await own(f.owner)).state.ecosystemReceipts, before.state.ecosystemReceipts);
+      await p.clock.setSystemTime(new Date());
+      await p.evaluate(() => document.dispatchEvent(new Event('visibilitychange')));
+      await card(p, 'msme').getByText('Saved local choice: active', { exact: true }).waitFor();
+    },
+  );
+  await scenario(
+    'Capacity views preserve all historical rows and clearly disable new choices or tests',
+    async () => {
+      const capacity = JSON.parse(readFileSync(new URL('capacity-fixture.json', out), 'utf8'));
+      const { page: choices } = await create(capacity.choices);
+      await loaded(choices);
+      assert.equal(await history(choices).locator('details').count(), 24);
+      assert.equal(
+        await card(choices, 'msme')
+          .getByRole('button', { name: /^(Save local test choice|Replace saved choice)$/ })
+          .isDisabled(),
+        true,
+      );
+      assert.ok((await choices.locator('main').innerText()).includes('retained local-choice slots are used'));
+      const { page: fullReceipts } = await create(capacity.receipts);
+      await loaded(fullReceipts);
+      assert.equal(await receipts(fullReceipts).locator('details').count(), 100);
+      assert.equal(
+        await card(fullReceipts, 'msme')
+          .getByRole('button', { name: 'Run local contract test', exact: true })
+          .isDisabled(),
+        true,
+      );
+      assert.ok(
+        (await fullReceipts.locator('main').innerText()).includes('local contract receipt slots are used'),
+      );
+      await receipts(fullReceipts).locator('details').first().locator('summary').click();
+      assert.equal(
+        await receipts(fullReceipts).locator('button').filter({ hasText: 'Download local receipt' }).count(),
+        100,
+        'Every retained receipt has its download control in the DOM',
+      );
+      assert.equal(
+        await receipts(fullReceipts)
+          .getByRole('button', { name: 'Download local receipt', exact: true })
+          .count(),
+        1,
+        'Only the expanded receipt exposes its download control',
+      );
+    },
+  );
+  await scenario('A shared workspace shows no personal contract controls or receipt history', async () => {
+    const { page: s } = await create(shared.owner, base + '/?workspace=' + shared.teamId + '#connections');
+    await s
+      .getByRole('heading', { name: 'Ecosystem tests live in your personal lab', exact: true })
+      .waitFor();
+    assert.equal(await s.locator('[data-ecosystem-adapter]').count(), 0);
+    assert.equal(await s.getByRole('heading', { name: 'Local contract receipts', exact: true }).count(), 0);
+    assert.ok(!(await s.locator('main').innerText()).includes(f.activeReceipt.id));
+  });
+  for (const width of [1440, 768, 390])
+    for (const text200 of [false, true]) {
+      await p.setViewportSize({ width, height: 1000 });
+      await p.evaluate((enlarged) => {
+        document.documentElement.style.fontSize = enlarged ? '32px' : '';
+        document.body.style.fontSize = enlarged ? '32px' : '';
+        document.querySelectorAll('main details').forEach((d) => (d.open = true));
+        window.scrollTo(0, 0);
+      }, text200);
+      await settled(p);
+      const geometry = await p.evaluate(() => ({
+        width: innerWidth,
+        documentWidth: document.documentElement.scrollWidth,
+        bodyFont: parseFloat(getComputedStyle(document.body).fontSize),
+        checkboxTargets: [...document.querySelectorAll('[data-ecosystem-adapter] button[role=checkbox]')].map(
+          (e) => {
+            const r = e.closest('label').getBoundingClientRect();
+            return { label: e.getAttribute('aria-label'), left: r.left, right: r.right, height: r.height };
+          },
+        ),
+        controls: [...document.querySelectorAll('[data-ecosystem-adapter] button:not([role=checkbox])')]
+          .filter((e) => e.getBoundingClientRect().width > 0)
+          .map((e) => {
+            const r = e.getBoundingClientRect();
+            return { label: e.textContent, left: r.left, right: r.right, height: r.height };
+          }),
+      }));
+      assert.ok(
+        geometry.documentWidth <= width + 1,
+        'Cards and expanded receipt/history have no horizontal document overflow',
+      );
+      if (text200) assert.equal(geometry.bodyFont, 32);
+      assert.ok(
+        geometry.controls.every((c) => c.left >= -1 && c.right <= width + 1 && c.height >= 32),
+        'Contract action/select buttons remain usable inside viewport',
+      );
+      assert.ok(
+        geometry.checkboxTargets.every((c) => c.left >= -1 && c.right <= width + 1 && c.height >= 44),
+        'Clickable checkbox labels remain inside the viewport and at least44px tall',
+      );
+      const checkbox = card(p, 'msme').getByRole('checkbox', {
+          name: 'MSME: Practice-record status',
+          exact: true,
+        }),
+        label = checkbox.locator('..'),
+        beforeCheck = await checkbox.isChecked();
+      let box = await label.boundingBox();
+      assert.ok(
+        box && box.width > 40 && box.height >= 44,
+        'Associated checkbox label provides a usable44px text-area target',
+      );
+      await label.click({ position: { x: 40, y: box.height / 2 } });
+      assert.equal(await checkbox.isChecked(), !beforeCheck, 'Clicking label text toggles the checkbox');
+      box = await label.boundingBox();
+      await label.click({ position: { x: 40, y: box.height / 2 } });
+      assert.equal(
+        await checkbox.isChecked(),
+        beforeCheck,
+        'Restoring the label leaves the saved choice unchanged',
+      );
+      const trigger = card(p, 'msme').getByRole('combobox', {
+        name: 'Choice duration for MSME',
+        exact: true,
+      });
+      await trigger.click();
+      await p.getByRole('option', { name: 'One day', exact: true }).waitFor();
+      assert.ok(
+        (await p.evaluate(() => document.documentElement.scrollWidth)) <= width + 1,
+        'Duration menu stays within viewport',
+      );
+      await p.keyboard.press('Escape');
+      assert.equal(await trigger.evaluate((e) => document.activeElement === e), true);
+      await p.screenshot({
+        path: new URL(`scoped-workbench-${width}-${text200 ? 'text200' : 'normal'}.png`, out).pathname,
+        fullPage: true,
+        animations: 'disabled',
+      });
+      await p.evaluate(() => window.scrollTo(0, 0));
+      await p.screenshot({
+        path: new URL(`scoped-workbench-${width}-${text200 ? 'text200' : 'normal'}-viewport.png`, out)
+          .pathname,
+        fullPage: false,
+        animations: 'disabled',
+      });
+      layouts.push({ width, text200, passed: true, geometry });
+    }
+  await scenario(
+    'Only acknowledged lab deletion clears own lab scratch; failed CAS retains it and other workspace scratch survives',
+    async () => {
+      const resetOwner = identity('scoped-reset-browser'),
+        resetIds = await enrolled(resetOwner);
+      let saved = await ownAction(resetOwner, choice('msme', resetIds.msme));
+      saved = await ownAction(resetOwner, {
+        type: 'ecosystem-test',
+        grantId: saved.state.ecosystemGrants[0].id,
+      });
+      const grantId = saved.state.ecosystemGrants[0].id,
+        receiptId = saved.state.ecosystemReceipts[0].id;
+      const workspaceName = 'Synthetic reset scratch separation',
+        t = pass(
+          await post(
+            resetOwner,
+            undefined,
+            {
+              type: 'create',
+              name: workspaceName,
+              purpose: 'Fictional local scratch boundary test.',
+              context: 'msme',
+            },
+            0,
+          ),
+        ),
+        { page: r } = await create(resetOwner);
+      await loaded(r);
+      await pick(r, 'Choice duration for MSME', 'Thirty days');
+      await card(r, 'msme')
+        .getByRole('checkbox', { name: 'MSME: Practice-record status', exact: true })
+        .check();
+      assert.equal(
+        await card(r, 'msme')
+          .getByRole('button', { name: 'Run local contract test', exact: true })
+          .isDisabled(),
+        true,
+      );
+      await pick(r, 'Choose Academy workspace', workspaceName);
+      await r.locator('[data-save-state="loaded"]').waitFor();
+      await r.getByRole('button', { name: 'Workspaces & cohorts', exact: true }).click();
+      await r.getByRole('tab', { name: 'Invitations', exact: true }).click();
+      await r.getByLabel('Sign-in account email', { exact: true }).fill('retained-unsent@academy.test');
+      await pick(r, 'Choose Academy workspace', 'Personal practice lab');
+      await r.locator('[data-save-state="loaded"]').waitFor();
+      await r.getByRole('button', { name: 'Ecosystem connections', exact: true }).click();
+      await loaded(r);
+      assert.ok(
+        (
+          await card(r, 'msme')
+            .getByRole('combobox', { name: 'Choice duration for MSME', exact: true })
+            .innerText()
+        ).includes('Thirty days'),
+      );
+      await r.getByRole('button', { name: 'Preferences & privacy', exact: true }).click();
+      await r.getByRole('heading', { name: 'Make learning work for you.', exact: true }).waitFor();
+      await ownAction(resetOwner, {
+        type: 'profile',
+        name: 'Same account fresh revision',
+        context: 'msme',
+        reading: false,
+        networking: false,
+      });
+      async function deleteFromUi(expected) {
+        await r.getByRole('button', { name: 'Delete personal practice lab data', exact: true }).click();
+        const dialog = r.getByRole('alertdialog', { name: 'Delete your saved learning data?', exact: true });
+        await dialog.getByLabel('Type DELETE to continue', { exact: true }).fill('DELETE');
+        const response = r.waitForResponse(
+          (res) => res.request().method() === 'POST' && new URL(res.url()).pathname === '/api/academy',
+        );
+        await dialog.getByRole('button', { name: 'Delete learning data', exact: true }).click();
+        assert.equal((await response).status(), expected);
+      }
+      await deleteFromUi(409);
+      await r.getByRole('button', { name: 'Ecosystem connections', exact: true }).click();
+      await r
+        .getByRole('heading', { name: 'Choose the summary. Check the contract.', exact: true })
+        .waitFor();
+      await card(r, 'msme').getByText('Saved local choice: active', { exact: true }).waitFor();
+      assert.ok(
+        (
+          await card(r, 'msme')
+            .getByRole('combobox', { name: 'Choice duration for MSME', exact: true })
+            .innerText()
+        ).includes('Thirty days'),
+      );
+      assert.equal(
+        await card(r, 'msme')
+          .getByRole('checkbox', { name: 'MSME: Practice-record status', exact: true })
+          .isChecked(),
+        true,
+      );
+      const afterFailed = pass(await own(resetOwner));
+      assert.equal(afterFailed.state.ecosystemGrants[0].id, grantId);
+      assert.equal(afterFailed.state.ecosystemReceipts[0].id, receiptId);
+      await r.getByRole('button', { name: 'Preferences & privacy', exact: true }).click();
+      await deleteFromUi(200);
+      await r.locator('[data-save-state="loaded"]').waitFor();
+      await r.getByRole('button', { name: 'Ecosystem connections', exact: true }).click();
+      await loaded(r);
+      const afterDeleted = pass(await own(resetOwner));
+      assert.deepEqual(afterDeleted.state.enrollments, []);
+      assert.deepEqual(afterDeleted.state.ecosystemGrants ?? [], []);
+      assert.deepEqual(afterDeleted.state.ecosystemReceipts ?? [], []);
+      assert.ok(
+        (
+          await card(r, 'msme')
+            .getByRole('combobox', { name: 'Choice duration for MSME', exact: true })
+            .innerText()
+        ).includes('Seven days'),
+      );
+      assert.equal(
+        await card(r, 'msme')
+          .getByRole('checkbox', { name: 'MSME: Practice-record status', exact: true })
+          .isChecked(),
+        false,
+      );
+      assert.equal(
+        await card(r, 'msme')
+          .getByRole('combobox', { name: 'Learning for MSME contract test', exact: true })
+          .innerText(),
+        'Learning for MSME contract test',
+      );
+      assert.ok(!(await r.locator('main').innerText()).includes(grantId));
+      assert.ok(!(await r.locator('main').innerText()).includes(receiptId));
+      await pick(r, 'Choose Academy workspace', workspaceName);
+      await r.locator('[data-save-state="loaded"]').waitFor();
+      await r.getByRole('button', { name: 'Workspaces & cohorts', exact: true }).click();
+      await r.getByRole('tab', { name: 'Invitations', exact: true }).click();
+      assert.equal(
+        await r.getByLabel('Sign-in account email', { exact: true }).inputValue(),
+        'retained-unsent@academy.test',
+      );
+      assert.deepEqual(
+        (await current(resetOwner, t.team.id)).team.invites,
+        [],
+        'No unsent shared invitation was created or sent',
+      );
+    },
+  );
+  assert.deepEqual(errors, []);
+  assert.ok(
+    commands.every(
+      (c) =>
+        ['ecosystem-grant', 'ecosystem-test', 'ecosystem-withdraw', 'reset'].includes(c.type) ||
+        (c.type === 'connection' && c.enabled === false),
+    ),
+    'Workbench only posts scoped local actions, own acknowledged reset or stops an earlier boolean preference',
+  );
+  writeFileSync(
+    new URL('scoped-workbench-browser-result.json', out),
+    JSON.stringify(
+      {
+        passed: true,
+        cases,
+        layouts,
+        pageErrors: errors,
+        commands,
+        at: new Date().toISOString(),
+        limits: [
+          'UI expiry uses only the local browser clock; API expiry boundaries are isolated pure tests.',
+          'Trusted-header loopback identities only, no hosted authentication or partner connection.',
+        ],
+      },
+      null,
+      2,
+    ),
+  );
+  console.log(`Scoped workbench browser passed ${cases.length} journeys and ${layouts.length} layouts.`);
+} catch (error) {
+  writeFileSync(
+    new URL('scoped-workbench-browser-result.json', out),
+    JSON.stringify(
+      {
+        passed: false,
+        cases,
+        layouts,
+        pageErrors: errors,
+        commands,
+        error: String(error),
+        at: new Date().toISOString(),
+      },
+      null,
+      2,
+    ),
+  );
+  await p.screenshot({
+    path: new URL('scoped-workbench-failure.png', out).pathname,
+    fullPage: true,
+    animations: 'disabled',
+  });
+  throw error;
+} finally {
+  await browser.close();
+}

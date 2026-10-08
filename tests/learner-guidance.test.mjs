@@ -1,24 +1,200 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {learnerNextAction} from '../.sites-runtime/plan.mjs';
-import {freshWorkspace,applyCommand,programs,planOptions,resumeLearning} from '../.sites-runtime/engine.mjs';
-import {refineNextUsefulStep,ownDraftSaveNotice} from '../lib/academy-learner-guidance.mjs';
-const now='2026-10-06T10:00:00.000Z',p=programs[1];
-const enrolled=()=>applyCommand(freshWorkspace(),{type:'enroll',programId:p.id},now);
-const next=(state,extra={})=>learnerNextAction(state,planOptions(now,extra));
-const guided=(state,context={},extra={})=>refineNextUsefulStep(next(state,extra),{mode:'personal',contentAvailable:true,offlineSeed:true,...context});
-test('first personal session goes to actual catalog without enrolling or exposing work',()=>{const state=freshWorkspace(),before=JSON.stringify(state),x=guided(state);assert.equal(x.action.view,'programs');assert.equal(x.secondary,null);assert.match(x.help,/Start this pathway/);assert.equal(JSON.stringify(state),before);});
-test('first shared learner chooses a cohort while nonlearner gets explicit access help',()=>{const s=freshWorkspace(),x=guided(s,{mode:'shared',canLearn:true}),staff=guided(s,{mode:'shared',canLearn:false});assert.equal(x.action.view,'teams');assert.equal(staff.action.view,'programs');assert.equal(staff.secondary.view,'support');assert.match(staff.help,/cannot enroll/);});
-test('the next lesson uses the existing exact action and agrees with actual resumeLearning',()=>{const s=enrolled(),x=guided(s),e=s.enrollments[0],resume=resumeLearning(e,p);assert.equal(x.action.lessonId,p.lessons[resume.lessonIndex].id);assert.equal(x.action.programId,e.programId);assert.equal(x.secondary.view,'offline');assert.match(x.help,/separate step/);});
-test('unknown saved edition retains unavailable gate and never offers offline',()=>{const s=enrolled(),before=JSON.stringify(s),x=guided(s,{contentAvailable:false},{resolveProgram:()=>undefined});assert.equal(x.action.kind,'unavailable');assert.equal(x.action.view,'settings');assert.equal(x.action.tab,null);assert.equal(x.action.blocked,true);assert.equal(x.secondary.view,'support');assert.equal(JSON.stringify(s),before);});
-test('unknown saved edition preserves pending review and appeal priority without retargeting',()=>{const s=enrolled();s.enrollments[0].attempts.push({id:'pending',decision:null});let x=guided(s,{contentAvailable:false},{resolveProgram:()=>undefined});assert.equal(x.action.kind,'review');assert.equal(x.action.tab,'feedback');assert.equal(x.secondary.view,'support');assert.equal(x.action.programId,p.id);s.enrollments[0].appeals.push({id:'appeal',status:'open'});x=guided(s,{contentAvailable:false},{resolveProgram:()=>undefined});assert.equal(x.action.kind,'appeal');assert.equal(x.action.tab,'feedback');assert.equal(x.action.programId,p.id);assert.equal(x.secondary.view,'support');});
-test('paused content and inactive membership keep their existing gates and have no offline action',()=>{const s=enrolled();s.paused.push(p.id);let x=guided(s);assert.equal(x.action.kind,'paused');assert.equal(x.action.blocked,true);assert.equal(x.secondary.view,'support');x=guided(s,{}, {memberActive:false});assert.equal(x.action.kind,'history');assert.equal(x.action.view,'credentials');assert.equal(x.secondary,null);});
-test('pending review wording and destinations distinguish sample lab from assigned shared staff',()=>{const s=enrolled();s.enrollments[0].attempts.push({id:'attempt',decision:null});const personal=guided(s),shared=guided(s,{mode:'shared'});assert.equal(personal.action.tab,'feedback');assert.equal(shared.action.tab,'feedback');assert.equal(personal.secondary.view,'studio');assert.equal(shared.secondary,null);assert.match(personal.action.title,/sample/);assert.match(shared.action.title,/assigned assessor/);});
-test('appeals remain on feedback and do not offer another submission',()=>{const s=enrolled();s.enrollments[0].appeals.push({id:'appeal',status:'open'});const x=guided(s,{mode:'shared'});assert.equal(x.action.kind,'appeal');assert.equal(x.action.tab,'feedback');assert.equal(x.secondary,null);assert.match(x.action.reason,/separately assigned reviewer/);});
-test('practical, exhausted attempts and suspended decisions retain actual gates',()=>{const s=enrolled(),e=s.enrollments[0];e.completed=p.lessons.map(l=>l.id);let x=guided(s);assert.equal(x.action.kind,'practical');assert.equal(x.action.tab,'assessment');e.attempts=[1,2,3].map(id=>({id:String(id),decision:{passed:false}}));x=guided(s);assert.equal(x.action.kind,'support');assert.equal(x.action.tab,'feedback');assert.equal(x.action.blocked,true);assert.equal(x.secondary.view,'support');});
-test('private workspace editions, shared work and nonlearners never get offline navigation',()=>{const s=enrolled();assert.equal(guided(s,{offlineSeed:false}).secondary,null);assert.equal(guided(s,{mode:'shared'}).secondary,null);const denied=guided(s,{mode:'shared',canLearn:false},{canLearn:false});assert.equal(denied.action.kind,'history');assert.equal(denied.action.blocked,true);assert.equal(denied.secondary,null);});
-test('suspended decisions keep feedback ahead of another practical submission',()=>{const s=enrolled(),e=s.enrollments[0];e.completed=p.lessons.map(l=>l.id);e.record={status:'suspended'};const x=guided(s);assert.equal(x.action.kind,'revise');assert.equal(x.action.tab,'feedback');assert.equal(x.secondary,null);});
-test('a chosen private practice plan remains a plan destination and self-reported',()=>{const s=applyCommand(freshWorkspace(),{type:'plan-task',kind:'practice',title:'Fictional record practice',plannedMinutes:15},now),x=guided(s);assert.equal(x.action.kind,'practice');assert.equal(x.action.view,'plan');assert.equal(x.secondary,null);assert.match(x.help,/self-reported/);});
-test('saving is pending until accepted data arrives, even when old text matched',()=>{const input={local:{practice:'same'},saved:{practice:'same'},keys:['practice'],hasSavedDraft:true,saveLabel:'Save practice draft'};assert.equal(ownDraftSaveNotice({...input,pending:true}).kind,'pending');assert.equal(ownDraftSaveNotice({...input,accepted:false}).kind,'unknown');assert.equal(ownDraftSaveNotice(input).kind,'matching');});
-test('typing and changed quiz choices are unsaved; equal text is compared exactly',()=>{const input={local:{practice:'Fictional private response',answers:[0,null,null]},saved:{practice:'Fictional private response',answers:[1,null,null]},keys:['practice','answers'],hasSavedDraft:true,saveLabel:'Save practice draft'},before=JSON.stringify(input),x=ownDraftSaveNotice(input);assert.equal(x.kind,'changed');assert.doesNotMatch(x.message,/Fictional private response/);assert.equal(JSON.stringify(input),before);assert.equal(ownDraftSaveNotice({...input,saved:input.local}).kind,'matching');assert.equal(ownDraftSaveNotice({...input,local:{...input.local,practice:input.local.practice+' '},saved:input.local}).kind,'changed');});
-test('first blank screen never claims it has a stored online draft',()=>{const x=ownDraftSaveNotice({local:{response:''},saved:{response:''},keys:['response'],hasSavedDraft:false,saveLabel:'Save draft'});assert.equal(x.kind,'new');assert.match(x.message,/no saved online draft/);});
+import { learnerNextAction } from '../.sites-runtime/plan.mjs';
+import {
+  freshWorkspace,
+  applyCommand,
+  programs,
+  planOptions,
+  resumeLearning,
+} from '../.sites-runtime/engine.mjs';
+import { refineNextUsefulStep, ownDraftSaveNotice } from '../lib/academy-learner-guidance.mjs';
+const now = '2026-10-06T10:00:00.000Z',
+  p = programs[1];
+const enrolled = () => applyCommand(freshWorkspace(), { type: 'enroll', programId: p.id }, now);
+const next = (state, extra = {}) => learnerNextAction(state, planOptions(now, extra));
+const guided = (state, context = {}, extra = {}) =>
+  refineNextUsefulStep(next(state, extra), {
+    mode: 'personal',
+    contentAvailable: true,
+    offlineSeed: true,
+    ...context,
+  });
+test('first personal session goes to actual catalog without enrolling or exposing work', () => {
+  const state = freshWorkspace(),
+    before = JSON.stringify(state),
+    x = guided(state);
+  assert.equal(x.action.view, 'programs');
+  assert.equal(x.secondary, null);
+  assert.match(x.help, /Start this pathway/);
+  assert.equal(JSON.stringify(state), before);
+});
+test('first shared learner chooses a cohort while nonlearner gets explicit access help', () => {
+  const s = freshWorkspace(),
+    x = guided(s, { mode: 'shared', canLearn: true }),
+    staff = guided(s, { mode: 'shared', canLearn: false });
+  assert.equal(x.action.view, 'teams');
+  assert.equal(staff.action.view, 'programs');
+  assert.equal(staff.secondary.view, 'support');
+  assert.match(staff.help, /cannot enroll/);
+});
+test('the next lesson uses the existing exact action and agrees with actual resumeLearning', () => {
+  const s = enrolled(),
+    x = guided(s),
+    e = s.enrollments[0],
+    resume = resumeLearning(e, p);
+  assert.equal(x.action.lessonId, p.lessons[resume.lessonIndex].id);
+  assert.equal(x.action.programId, e.programId);
+  assert.equal(x.secondary.view, 'offline');
+  assert.match(x.help, /separate step/);
+});
+test('unknown saved edition retains unavailable gate and never offers offline', () => {
+  const s = enrolled(),
+    before = JSON.stringify(s),
+    x = guided(s, { contentAvailable: false }, { resolveProgram: () => undefined });
+  assert.equal(x.action.kind, 'unavailable');
+  assert.equal(x.action.view, 'settings');
+  assert.equal(x.action.tab, null);
+  assert.equal(x.action.blocked, true);
+  assert.equal(x.secondary.view, 'support');
+  assert.equal(JSON.stringify(s), before);
+});
+test('unknown saved edition preserves pending review and appeal priority without retargeting', () => {
+  const s = enrolled();
+  s.enrollments[0].attempts.push({ id: 'pending', decision: null });
+  let x = guided(s, { contentAvailable: false }, { resolveProgram: () => undefined });
+  assert.equal(x.action.kind, 'review');
+  assert.equal(x.action.tab, 'feedback');
+  assert.equal(x.secondary.view, 'support');
+  assert.equal(x.action.programId, p.id);
+  s.enrollments[0].appeals.push({ id: 'appeal', status: 'open' });
+  x = guided(s, { contentAvailable: false }, { resolveProgram: () => undefined });
+  assert.equal(x.action.kind, 'appeal');
+  assert.equal(x.action.tab, 'feedback');
+  assert.equal(x.action.programId, p.id);
+  assert.equal(x.secondary.view, 'support');
+});
+test('paused content and inactive membership keep their existing gates and have no offline action', () => {
+  const s = enrolled();
+  s.paused.push(p.id);
+  let x = guided(s);
+  assert.equal(x.action.kind, 'paused');
+  assert.equal(x.action.blocked, true);
+  assert.equal(x.secondary.view, 'support');
+  x = guided(s, {}, { memberActive: false });
+  assert.equal(x.action.kind, 'history');
+  assert.equal(x.action.view, 'credentials');
+  assert.equal(x.secondary, null);
+});
+test('pending review wording and destinations distinguish sample lab from assigned shared staff', () => {
+  const s = enrolled();
+  s.enrollments[0].attempts.push({ id: 'attempt', decision: null });
+  const personal = guided(s),
+    shared = guided(s, { mode: 'shared' });
+  assert.equal(personal.action.tab, 'feedback');
+  assert.equal(shared.action.tab, 'feedback');
+  assert.equal(personal.secondary.view, 'studio');
+  assert.equal(shared.secondary, null);
+  assert.match(personal.action.title, /sample/);
+  assert.match(shared.action.title, /assigned assessor/);
+});
+test('appeals remain on feedback and do not offer another submission', () => {
+  const s = enrolled();
+  s.enrollments[0].appeals.push({ id: 'appeal', status: 'open' });
+  const x = guided(s, { mode: 'shared' });
+  assert.equal(x.action.kind, 'appeal');
+  assert.equal(x.action.tab, 'feedback');
+  assert.equal(x.secondary, null);
+  assert.match(x.action.reason, /separately assigned reviewer/);
+});
+test('practical, exhausted attempts and suspended decisions retain actual gates', () => {
+  const s = enrolled(),
+    e = s.enrollments[0];
+  e.completed = p.lessons.map((l) => l.id);
+  let x = guided(s);
+  assert.equal(x.action.kind, 'practical');
+  assert.equal(x.action.tab, 'assessment');
+  e.attempts = [1, 2, 3].map((id) => ({ id: String(id), decision: { passed: false } }));
+  x = guided(s);
+  assert.equal(x.action.kind, 'support');
+  assert.equal(x.action.tab, 'feedback');
+  assert.equal(x.action.blocked, true);
+  assert.equal(x.secondary.view, 'support');
+});
+test('private workspace editions, shared work and nonlearners never get offline navigation', () => {
+  const s = enrolled();
+  assert.equal(guided(s, { offlineSeed: false }).secondary, null);
+  assert.equal(guided(s, { mode: 'shared' }).secondary, null);
+  const denied = guided(s, { mode: 'shared', canLearn: false }, { canLearn: false });
+  assert.equal(denied.action.kind, 'history');
+  assert.equal(denied.action.blocked, true);
+  assert.equal(denied.secondary, null);
+});
+test('suspended decisions keep feedback ahead of another practical submission', () => {
+  const s = enrolled(),
+    e = s.enrollments[0];
+  e.completed = p.lessons.map((l) => l.id);
+  e.record = { status: 'suspended' };
+  const x = guided(s);
+  assert.equal(x.action.kind, 'revise');
+  assert.equal(x.action.tab, 'feedback');
+  assert.equal(x.secondary, null);
+});
+test('a chosen private practice plan remains a plan destination and self-reported', () => {
+  const s = applyCommand(
+      freshWorkspace(),
+      { type: 'plan-task', kind: 'practice', title: 'Fictional record practice', plannedMinutes: 15 },
+      now,
+    ),
+    x = guided(s);
+  assert.equal(x.action.kind, 'practice');
+  assert.equal(x.action.view, 'plan');
+  assert.equal(x.secondary, null);
+  assert.match(x.help, /self-reported/);
+});
+test('saving is pending until accepted data arrives, even when old text matched', () => {
+  const input = {
+    local: { practice: 'same' },
+    saved: { practice: 'same' },
+    keys: ['practice'],
+    hasSavedDraft: true,
+    saveLabel: 'Save practice draft',
+  };
+  assert.equal(ownDraftSaveNotice({ ...input, pending: true }).kind, 'pending');
+  assert.equal(ownDraftSaveNotice({ ...input, accepted: false }).kind, 'unknown');
+  assert.equal(ownDraftSaveNotice(input).kind, 'matching');
+});
+test('typing and changed quiz choices are unsaved; equal text is compared exactly', () => {
+  const input = {
+      local: { practice: 'Fictional private response', answers: [0, null, null] },
+      saved: { practice: 'Fictional private response', answers: [1, null, null] },
+      keys: ['practice', 'answers'],
+      hasSavedDraft: true,
+      saveLabel: 'Save practice draft',
+    },
+    before = JSON.stringify(input),
+    x = ownDraftSaveNotice(input);
+  assert.equal(x.kind, 'changed');
+  assert.doesNotMatch(x.message, /Fictional private response/);
+  assert.equal(JSON.stringify(input), before);
+  assert.equal(ownDraftSaveNotice({ ...input, saved: input.local }).kind, 'matching');
+  assert.equal(
+    ownDraftSaveNotice({
+      ...input,
+      local: { ...input.local, practice: input.local.practice + ' ' },
+      saved: input.local,
+    }).kind,
+    'changed',
+  );
+});
+test('first blank screen never claims it has a stored online draft', () => {
+  const x = ownDraftSaveNotice({
+    local: { response: '' },
+    saved: { response: '' },
+    keys: ['response'],
+    hasSavedDraft: false,
+    saveLabel: 'Save draft',
+  });
+  assert.equal(x.kind, 'new');
+  assert.match(x.message, /no saved online draft/);
+});

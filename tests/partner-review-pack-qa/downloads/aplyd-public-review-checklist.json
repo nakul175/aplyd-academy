@@ -131,27 +131,15 @@
       {
         "id": "learning.progress",
         "object": "learning",
-        "keys": [
-          "completed_lessons",
-          "total_lessons",
-          "status"
-        ]
+        "keys": ["completed_lessons", "total_lessons", "status"]
       },
       {
         "id": "practice.record",
         "object": "practice_record",
-        "keys": [
-          "status",
-          "claim_type",
-          "review_mode"
-        ]
+        "keys": ["status", "claim_type", "review_mode"]
       }
     ],
-    "choiceDurationDays": [
-      1,
-      7,
-      30
-    ],
+    "choiceDurationDays": [1, 7, 30],
     "retainedChoiceLimit": 24,
     "retainedReceiptLimit": 100,
     "shapeRule": "The top-level envelope and selected summary objects reject unsupported fields. Optional summary objects are present exactly when selected. Local receipts are simulated, never partner acknowledgements.",
@@ -170,18 +158,14 @@
       "id": "recipient",
       "question": "Which service receives the summary, and how is the right account confirmed?",
       "evidenceNeeded": "Partner service specification and account-link/authentication design. Do not record account identifiers in this checklist.",
-      "references": [
-        "frontline-trainer-handbook:6.7"
-      ],
+      "references": ["frontline-trainer-handbook:6.7"],
       "status": "open"
     },
     {
       "id": "purpose",
       "question": "What exact purpose and fields are permitted, and what happens if a learner declines?",
       "evidenceNeeded": "Agreed purpose, minimum field list, retention period and an accessible explanation of declining. A local choice is not approval for a live return.",
-      "references": [
-        "frontline-trainer-handbook:6.7"
-      ],
+      "references": ["frontline-trainer-handbook:6.7"],
       "status": "open"
     },
     {
@@ -195,28 +179,21 @@
       "id": "withdrawal",
       "question": "Where does stopping take effect, and who handles a changed status or retained data?",
       "evidenceNeeded": "Stop boundary, in-flight requests, correction process, retention/deletion responsibilities and evidence of a stop test. Local withdrawal only stops future local tests.",
-      "references": [
-        "government-trainer-handbook:4.6",
-        "government-trainer-handbook:4.15"
-      ],
+      "references": ["government-trainer-handbook:4.6", "government-trainer-handbook:4.15"],
       "status": "open"
     },
     {
       "id": "authority",
       "question": "Which responsible roles can pause, resolve and resume an exchange?",
       "evidenceNeeded": "Operating owner role, backup role, pause authority, escalation route and recovery exercise. Academy membership is not institutional authority.",
-      "references": [
-        "government-trainer-handbook:4.8"
-      ],
+      "references": ["government-trainer-handbook:4.8"],
       "status": "open"
     },
     {
       "id": "frontline",
       "question": "Which override, failure and reporting protections are confirmed for the people doing the work?",
       "evidenceNeeded": "Institution-confirmed written override permission, responsibility for failures and protection for reporting concerns. These items are open in the supplied teaching material.",
-      "references": [
-        "frontline-trainer-handbook:8"
-      ],
+      "references": ["frontline-trainer-handbook:8"],
       "status": "open"
     },
     {
@@ -293,10 +270,7 @@
       "sourceFilename": "APLYD_C5_Trainer_Handbook.docx",
       "sha256": "6a377e3668bc455079420034f0cb846579091c685582fe69fb4c792b8307e941",
       "bytes": 18848,
-      "sections": [
-        "6.7 · The consent conversation",
-        "8 · Before you deliver — the OPEN items"
-      ],
+      "sections": ["6.7 · The consent conversation", "8 · Before you deliver — the OPEN items"],
       "use": "Teaching reference only; does not establish partner or institutional authority."
     },
     {
@@ -305,9 +279,7 @@
       "sourceFilename": "APLYD_C2_Trainer_Handbook.docx",
       "sha256": "9130e3294b723576f2bac7825db81a7039730f08b2a7cabd8e65827f6b3aa193",
       "bytes": 31325,
-      "sections": [
-        "4.11 · The funder's portfolio — conditions, not operations"
-      ],
+      "sections": ["4.11 · The funder's portfolio — conditions, not operations"],
       "use": "Teaching reference only; does not establish partner or institutional authority."
     }
   ],
