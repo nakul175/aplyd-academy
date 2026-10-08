@@ -1,0 +1,16 @@
+PLACEHOLDER - NO LICENCE HAS BEEN CHOSEN
+
+All rights reserved. Copyright (c) 2026 Nakul Jain.
+
+No licence is granted to use, copy, modify, merge, publish, distribute,
+sublicense or sell this software or its documentation. This file records the
+absence of a decision; it is not a licence. The owner (Nakul Jain) must choose
+a licence, or confirm that the repository stays proprietary, before any
+external sharing.
+
+Third-party and supplied material keeps its own terms:
+- Original library files under public/library/ (Word, PDF and PowerPoint
+  originals) are supplied materials. They are unchanged and are not relicensed
+  by this file. Their terms are TBD (owner: Nakul Jain).
+- vendor/shadcn-tailwind-4.13.0.LICENSE.md and the licences of npm dependencies
+  apply to those components. See docs/governance/third-party-inventory.md.

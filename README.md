@@ -59,6 +59,10 @@ Approve sector content and validate real learner journeys; arrange site access a
 
 External event/mentor-provider bookings, host reassignment, commerce, uploads, clinical training and embedded AI remain unimplemented. No external partner receives the ecosystem simulation, and no AI service is called. Existing BRD/FSD/HLD/LLD describe the broader target; the seven-table SQLite implementation does not claim the full reference PostgreSQL schema or API contract. Full local template API/browser tests and mutating record browser tests remain held pending explicit fictional-test approval after automatic approval review rejected their launch. Pure/mocked and strictly read-only checks have separate evidence.
 
+## Documentation and governance
+
+The 27 standard documents (security policy, runbooks, privacy, threat model, SBOM and more) are mapped in [docs/governance/README.md](docs/governance/README.md), which also names the canonical document per topic. See also [CONTRIBUTING.md](CONTRIBUTING.md), [SECURITY.md](SECURITY.md), [CHANGELOG.md](CHANGELOG.md) and [.env.example](.env.example). Hosting on a droplet: [deploy/README.md](deploy/README.md).
+
 ## Continue development
 
 Start with [CLAUDE.md](CLAUDE.md) and [the handoff](docs/CLAUDE-HANDOFF.md). The original product target, historical agent materials and the reflection-completion candidate (adopted in v0.15.1) are preserved in Git under docs/product-specifications, docs/development-archive and docs/candidates.

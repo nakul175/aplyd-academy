@@ -1,0 +1,10 @@
+# Code owners for Aplyd Academy. Owner: Nakul Jain (GitHub: nakul175).
+# Branch protection requiring code-owner review is NOT configured; this file only records ownership.
+*                         @nakul175
+/drizzle/                 @nakul175
+/deploy/                  @nakul175
+/public/library/          @nakul175
+/docs/                    @nakul175
+/docs/product-specifications/ @nakul175
+/docs/development-archive/    @nakul175
+/docs/candidates/             @nakul175
