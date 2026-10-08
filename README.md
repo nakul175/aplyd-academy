@@ -65,4 +65,4 @@ The 27 standard documents (security policy, runbooks, privacy, threat model, SBO
 
 ## Continue development
 
-Start with [CLAUDE.md](CLAUDE.md) and [the handoff](docs/CLAUDE-HANDOFF.md). The original product target, historical agent materials and the reflection-completion candidate (adopted in v0.15.1) are preserved in Git under docs/product-specifications, docs/development-archive and docs/candidates.
+Start with [AGENTS.md](AGENTS.md), the status block in [HANDOVER.md](HANDOVER.md) and [the handoff](docs/CLAUDE-HANDOFF.md). The original product target, historical agent materials and the reflection-completion candidate (adopted in v0.15.1) are preserved in Git under docs/product-specifications, docs/development-archive and docs/candidates.

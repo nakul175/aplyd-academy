@@ -26,6 +26,8 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - name: Lint (ratchet against .lint-baseline.json)
         run: pnpm run lint:baseline
+      - name: Documentation index is current
+        run: pnpm run docs:index:check
       - name: Format check (Prettier)
         run: pnpm run format:check
       - name: Typecheck
