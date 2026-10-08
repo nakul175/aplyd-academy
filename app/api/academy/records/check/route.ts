@@ -8,18 +8,12 @@ import {
   assertRecordRevision,
   type SavedRecordRow,
 } from '@/lib/academy-record-service';
+import { noStoreJson as response, hasForeignOrigin } from '@/lib/http';
 export const dynamic = 'force-dynamic';
-const headers = {
-  'Cache-Control': 'no-store',
-  'X-Content-Type-Options': 'nosniff',
-  'Referrer-Policy': 'no-referrer',
-};
-const response = (value: unknown, status = 200) => Response.json(value, { status, headers });
 /** A read-only POST keeps private references out of browser URLs and query logs. */
 export async function POST(request: Request) {
   try {
-    const origin = request.headers.get('origin');
-    if (origin && origin !== new URL(request.url).origin)
+    if (hasForeignOrigin(request))
       throw new RecordCheckError('Use your Academy to check a private record.', 403);
     if ((request.headers.get('content-type') ?? '').split(';')[0].trim() !== 'application/json')
       throw new RecordCheckError('Use a JSON record-check request.', 415);

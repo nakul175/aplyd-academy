@@ -2,9 +2,8 @@ import { env } from 'cloudflare:workers';
 import { getChatGPTUser } from '../../../chatgpt-auth';
 import { member, Team } from '@/lib/academy-teams';
 import { RuleError } from '@/lib/academy-engine';
+import { noStoreJson as response } from '@/lib/http';
 export const dynamic = 'force-dynamic';
-const response = (x: any, status = 200) =>
-  Response.json(x, { status, headers: { 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff' } });
 export async function GET(request: Request) {
   try {
     const u = await getChatGPTUser();

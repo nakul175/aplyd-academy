@@ -2,12 +2,8 @@ import { env } from 'cloudflare:workers';
 import { getChatGPTUser } from '../../../chatgpt-auth';
 import { freshWorkspace } from '@/lib/academy-engine';
 import { buildPersonalSnapshot } from '@/lib/academy-snapshot';
+import { NO_STORE_HEADERS as headers } from '@/lib/http';
 export const dynamic = 'force-dynamic';
-const headers = {
-  'Cache-Control': 'no-store',
-  'X-Content-Type-Options': 'nosniff',
-  'Referrer-Policy': 'no-referrer',
-};
 export async function GET() {
   try {
     const user = await getChatGPTUser();
