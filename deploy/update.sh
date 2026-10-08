@@ -37,8 +37,8 @@ trap 'record "$NEW" failed' ERR
 exec 8>/var/lock/saha-build.lock; flock -w 1500 8
 git -C "$SRC" reset --hard "$NEW"
 cd "$SRC"
-npm ci --no-audit --no-fund
-npm run build
+pnpm install --frozen-lockfile
+pnpm run build
 
 # Migrations: apply each drizzle/*.sql once, in name order, to the persisted local D1 database.
 systemctl stop "${APP}.service" || true

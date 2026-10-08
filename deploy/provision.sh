@@ -51,6 +51,8 @@ if ! command -v node >/dev/null || ! node -v | grep -q '^v22\.'; then
   apt-get update -y && apt-get install -y nodejs
 fi
 
+command -v pnpm >/dev/null || npm install -g pnpm@11.25.0
+
 # --- Caddy (official apt repo) ---
 if ! command -v caddy >/dev/null; then
   curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | gpg --dearmor --yes -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg
