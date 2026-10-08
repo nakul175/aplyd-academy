@@ -78,7 +78,9 @@ fi
 HERE="$(cd "$(dirname "$0")" 2>/dev/null && pwd || true)"
 SRC="/opt/${APP}/src/deploy"
 install -m 0755 "$SRC/update.sh" "/usr/local/bin/${APP}-update"
-install -m 0644 "$SRC/${APP}.service" "/etc/systemd/system/${APP}.service"
+# The unit names the public host: the Worker serves exactly one origin (see README.md, "Public origin").
+sed "s/SAHA_HOST/${SAHA_HOST}/g" "$SRC/${APP}.service" > "/etc/systemd/system/${APP}.service"
+chmod 0644 "/etc/systemd/system/${APP}.service"
 install -m 0644 "$SRC/${APP}-update.service" "/etc/systemd/system/${APP}-update.service"
 install -m 0644 "$SRC/${APP}-update.timer" "/etc/systemd/system/${APP}-update.timer"
 install -m 0755 "$SRC/add-user.sh" "/usr/local/bin/${APP}-add-user"

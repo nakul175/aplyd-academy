@@ -55,6 +55,14 @@ Several apps can run on one droplet (recommended: 8 GB RAM for four apps). Each 
 - Builds share one lock (`/var/lock/saha-build.lock`), so update timers never build two apps at once.
 - Failure domain: one droplet means one crash, disk or build problem affects every app on it, and one backup covers all of them.
 
+## Public origin (one host per app)
+
+Under `wrangler dev --local` the Worker sees its own listening address as the request URL: without further settings `request.url` inside the application is `http://127.0.0.1:3500/...`, whatever name the browser used. The application compares the `Origin` header of a write with the origin of `request.url` (for example in `app/api/academy/records/check/route.ts` and the partner routes), so behind the proxy every browser write was refused with 403. This was found on 8 October 2026 on the shared droplet. The unit therefore starts the Worker with `--local-upstream <SAHA_HOST> --upstream-protocol https`, which makes `request.url` carry the public https origin; `provision.sh` substitutes `SAHA_HOST` into the unit as it does for the Caddyfile.
+
+One process can claim exactly one origin. Any second name for the app, such as the `<app>.<ip-dashed>.sslip.io` name, must therefore redirect to `SAHA_HOST` in Caddy rather than be served: a request arriving under another name would fail the same check. The kit's Caddyfile serves `SAHA_HOST` only; a redirect for an old name is a separate site block that `provision.sh` does not write.
+
+State on the shared droplet (8 October 2026): the installed unit predates this change, so the two flags live in the drop-in `/etc/systemd/system/aplyd-academy.service.d/public-origin.conf`, which resets `ExecStart` and repeats it with the flags. The canonical host is `academy.aplyd.org`; `academy.64-227-190-72.sslip.io` answers 301 to it (the Caddy file from before that change is kept as `/root/aplyd-academy.caddy.bak-origin-fix`). When the unit is next installed from this kit (a re-run of `provision.sh`), delete the drop-in first: `provision.sh` reloads systemd and the installed unit then carries the flags itself. Left in place, the drop-in's `ExecStart` keeps overriding the unit's and the two lines drift apart. The same re-run rewrites `/etc/caddy/conf.d/aplyd-academy.caddy` from the kit, so the 301 for the old name has to be added again afterwards.
+
 ## Git access: token or deploy key
 
 `provision.sh` reaches the private repository in one of two ways:
