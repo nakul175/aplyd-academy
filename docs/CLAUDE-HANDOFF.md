@@ -2,6 +2,8 @@
 
 The user requested reconciliation, Git merge and documentation so development can continue in Claude without losing work. This handoff preserves the implemented pilot through v0.15, the original broader specifications, source-bound test evidence and unfinished candidates. Start from main; do not treat all archived agent outputs as merged product behavior. The lead will record the resulting exact main/source SHA, successful native deployment and portable Git bundle in outputs/aplyd-academy-eight-hour/handoff/final-receipt.json after commit. The committed acceptance pack cannot contain its own future SHA.
 
+> **8 October 2026:** the rule below, "agents never reformat minified lines", is withdrawn (owner decision: Prettier everywhere). The current state of the repository is the status block in [HANDOVER.md](../HANDOVER.md).
+
 ## Current state: v0.15.1 (Claude, 6 October 2026)
 
 This section supersedes the rest of this document where they differ. Everything below it is the original handoff, kept as written.

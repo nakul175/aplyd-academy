@@ -25,6 +25,8 @@ jobs:
       - run: npm ci
       - name: Lint (ratchet against .lint-baseline.json)
         run: npm run lint:baseline
+      - name: Documentation index is current
+        run: npm run docs:index:check
       - name: Typecheck
         run: npm run typecheck
       - name: Build

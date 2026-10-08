@@ -2,7 +2,7 @@
 
 Owner: Nakul Jain. Last reviewed: 2026-10-08. Update when the branching, test or deploy process changes.
 
-Read [CLAUDE.md](CLAUDE.md), [docs/CLAUDE-HANDOFF.md](docs/CLAUDE-HANDOFF.md) ("Current state" first) and [README.md](README.md) before changing anything. Full process: [docs/governance/release-process.md](docs/governance/release-process.md).
+Read [AGENTS.md](AGENTS.md), [HANDOVER.md](HANDOVER.md) (status block first), [docs/CLAUDE-HANDOFF.md](docs/CLAUDE-HANDOFF.md) ("Current state" first) and [README.md](README.md) before changing anything. Full process: [docs/governance/release-process.md](docs/governance/release-process.md).
 
 ## Rules that are not negotiable
 
