@@ -9,7 +9,8 @@ User=saha
 Group=saha
 WorkingDirectory=/opt/aplyd-academy/src
 Environment=SITES_RUNTIME_ROOT=/var/lib/aplyd-academy/runtime
-ExecStart=/usr/bin/node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js dev --config dist/server/wrangler.json --local --persist-to /var/lib/aplyd-academy/state --ip 127.0.0.1 --port 3500 --inspector-port 0
+# SAHA_HOST is substituted by provision.sh. --local-upstream/--upstream-protocol make request.url carry the public https origin; without them every write is refused with 403 behind the proxy (same-origin checks).
+ExecStart=/usr/bin/node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js dev --config dist/server/wrangler.json --local --persist-to /var/lib/aplyd-academy/state --ip 127.0.0.1 --port 3500 --inspector-port 0 --local-upstream SAHA_HOST --upstream-protocol https
 Restart=always
 RestartSec=3
 NoNewPrivileges=true
