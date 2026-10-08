@@ -47,3 +47,10 @@ next-env.d.ts
 /work/
 
 /tsconfig.tsbuildinfo
+
+# Test and evidence output that is never committed: screenshots, TAP transcripts, run logs.
+# Evidence belongs in a release asset with its hash recorded in the as-built documents.
+tests/**/screens/
+tests/demo-browser-qa/results.json
+*.tap
+*.log
