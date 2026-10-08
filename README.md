@@ -45,7 +45,7 @@ This is a bounded pilot architecture: up to ten created workspaces per account, 
 
 ## Development and verification
 
-Use the configured Node/npm runtime and retained Sites installer/build workflow. `npm run dev` opens the local sign-in simulator. Generate additive D1 schema changes with `npm run db:generate`; inspect every migration, preserve applied history, and apply only pending migrations to the local test database. Sites applies generated migrations during deployment.
+Use the configured Node/pnpm runtime and retained Sites installer/build workflow. `pnpm run dev` opens the local sign-in simulator. Generate additive D1 schema changes with `pnpm run db:generate`; inspect every migration, preserve applied history, and apply only pending migrations to the local test database. Sites applies generated migrations during deployment.
 
 Run TypeScript checking with `node node_modules/typescript/bin/tsc --noEmit`. Bundle `lib/academy-engine.ts`, `lib/academy-teams.ts` and `lib/academy-storage.ts` with the installed esbuild into `.sites-runtime/engine.mjs` and the corresponding teams/storage bundles (also curriculum, plan and ecosystem-guard for their test suites), then run the appropriate `.test.mjs` suites. Authoring adds `.sites-runtime/authoring.mjs` and `tests/authoring.test.mjs`; `node tests/build-authoring-security.mjs` builds the single integrated security bundle before `node --test tests/authoring-security.test.mjs tests/authoring-farm-duplicate.test.mjs`.
 

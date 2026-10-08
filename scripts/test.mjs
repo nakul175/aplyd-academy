@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Pure test runner: `npm test`.
+// Pure test runner: `pnpm test`.
 //
 // 1. Runs the builder scripts that bundle the application modules into .sites-runtime/ (git-ignored) with esbuild,
 //    in the order the as-built evidence records them. Nothing is installed, no browser or network is used, and no
@@ -62,7 +62,7 @@ const BUILDERS = [
   'tests/route-errors/build-route-model.mjs',
 ];
 
-// Suites that pass but are not run by `npm test`, with the reason. Remove an entry when the reason is gone.
+// Suites that pass but are not run by `pnpm test`, with the reason. Remove an entry when the reason is gone.
 const EXCLUDED = new Map([
   ['tests/partner-review-pack-qa/tests/pack-domain.test.mjs', 'rewrites the tracked tests/partner-review-pack-qa/domain-test-evidence.json on every run'],
   ['tests/partner-review-pack-qa/tests/pack-static.test.mjs', 'rewrites the tracked tests/partner-review-pack-qa/static-test-evidence.json on every run'],
