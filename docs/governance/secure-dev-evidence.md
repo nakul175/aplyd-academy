@@ -12,7 +12,7 @@ Only what exists is listed. Nothing here is a certification.
 | Automated tests | model/domain suite (738 entries at v0.15.1; 995 reported for the v0.17.0 candidate), 80 request-guard cases, read-only browser suites | Manual; not re-run for this documentation change |
 | Independent review of changes | A separate agent reviewer re-derived v0.15.1 claims; independent security source review of the exact-offering candidate (as-built-v0.15/evidence/security-findings.txt, independent-security.json) | Agent review only; no human review recorded |
 | Code review gate | None enforced; PRs are drafts the owner merges | Gap |
-| CI | **No `.github/workflows/` exists; no workflow was added** | Gap |
+| CI | `.github/workflows/ci.yml`, job `verify`: `npm ci`, lint ratchet against `.lint-baseline.json`, `tsc --noEmit`, Worker build, `npm test` (pure suites and guard) on every pull request and push to `main` | Present; not required by branch protection |
 | Vulnerability scan (`npm audit`, Dependabot, secret scanning) | none run for this bundle | Gap |
 | SAST / DAST / penetration test | none | Gap |
 | Signed commits | Agent commits signed per handoff ("workspace's commit signing") | Partly |
@@ -23,6 +23,6 @@ Only what exists is listed. Nothing here is a certification.
 ## Proposed next steps (owner decision)
 
 1. Enable GitHub secret scanning and Dependabot alerts (no workflow file needed).
-2. Add a CI workflow running install, typecheck, lint, build and the pure suites. Requires owner approval.
+2. Make the `verify` check required on `main` (branch protection) and lower the lint baseline as the `any` clean-up lands.
 3. Re-generate the SBOM on each release: `npx @cyclonedx/cyclonedx-npm --package-lock-only --output-format JSON --spec-version 1.5 --output-file docs/governance/sbom/aplyd-academy.cdx.json`.
 4. Protect `main` (require PR and review) because the droplet deploys it automatically.
