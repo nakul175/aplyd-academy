@@ -6,7 +6,7 @@ The detailed release narrative stays in [docs/release-notes.md](docs/release-not
 
 ## Unreleased (on main, not versioned)
 
-- 2026-10-07: DigitalOcean deployment kit (`deploy/`): pull-based update every 3 minutes, Caddy basic-auth gateway, several apps per droplet, explicit `main` clone, writable wrangler scratch directory, bounded health check (PRs #1 to #3). Kit only; not yet run on a droplet (deploy/README.md).
+- 2026-10-07: DigitalOcean deployment kit (`deploy/`): pull-based update every 3 minutes, Caddy basic-auth gateway, several apps per droplet, explicit `main` clone, writable wrangler scratch directory, bounded health check (PRs #1 to #3). The app has been running on the shared DigitalOcean droplet since 7 October 2026 at https://academy.aplyd.org behind a Caddy password wall, synthetic data only; the `sslip.io` name redirects there since 8 October 2026.
 - 2026-10-08: governance documentation bundle (docs/governance/, SECURITY.md, LICENSE placeholder, CONTRIBUTING.md, `.github/` CODEOWNERS and PR template, `.env.example`, SBOM). Documentation only; no application, migration or library change.
 
 ## Candidates (in the repository; the hosted Site was not updated)
