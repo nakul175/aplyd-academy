@@ -18,10 +18,21 @@ Read [CLAUDE.md](CLAUDE.md), [docs/CLAUDE-HANDOFF.md](docs/CLAUDE-HANDOFF.md) ("
 
 1. `git fetch origin && git switch -c <type>/<topic> origin/main`.
 2. `npm run install:ci` from the lockfile (Node >= 22.13).
-3. Make one reviewable change. Run what applies: `node node_modules/typescript/bin/tsc --noEmit`, `npm run lint`, `npm run build`, and the pure/read-only test suites listed in the latest `docs/as-built-*/release-evidence.json`.
+3. Make one reviewable change. Run the checks below before pushing; run the browser and API harnesses too when the change touches what they cover.
 4. Update release notes or the as-built docs if behaviour changed. Report real results only; say what was not run.
 5. Commit, push the branch, open a draft PR using the template in `.github/`.
 6. Commit as `Claude <noreply@anthropic.com>` for agent work (handoff), never the owner's identity by mistake.
+
+## Checks
+
+Four commands gate every pull request, locally and in the `verify` job of `.github/workflows/ci.yml` (Node 22, `npm ci`):
+
+- `npm run lint:baseline` runs ESLint and compares the error count with `.lint-baseline.json`. The count may fall, never rise; when you fix problems, lower the baseline with `node scripts/lint-baseline.mjs --update` in the same PR. `npm run lint` still shows every problem.
+- `npm run typecheck` is `tsc --noEmit`; it must report 0 errors.
+- `npm run build` is the Worker build.
+- `npm test` runs `scripts/test.mjs`: the esbuild bundling scripts, then every `tests/**/*.test.mjs` under `node:test` and the 80-case read-only routing guard. It needs no browser, network or local stack. The script lists what it excludes and why; the browser and API harnesses are run by hand (tests/demo-browser-qa/README.md).
+
+Formatting follows `.editorconfig` (2-space indent, LF, final newline). A PR that raises the lint baseline or turns any of the four red is not ready for review.
 
 ## Documentation changes
 
@@ -29,4 +40,4 @@ Follow docs/governance/README.md: one canonical document per topic, link rather 
 
 ## Gaps
 
-- No CI workflow exists (`.github/workflows/` absent); checks are run by hand. Recorded in docs/governance/secure-dev-evidence.md.
+- The `verify` job is the only automated gate; browser and API harnesses, dependency and secret scanning are still run by hand or not at all (docs/governance/secure-dev-evidence.md). `main` is not protected, so a red check does not block a merge by itself.

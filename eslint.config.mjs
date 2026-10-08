@@ -12,6 +12,12 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Git-ignored output of this repository: test bundles written by `npm test`, the Worker build and local
+    // framework/wrangler state. Linting them made the error count depend on what had been run before.
+    ".sites-runtime/**",
+    ".vinext/**",
+    ".wrangler/**",
+    "dist/**",
   ]),
   {
     files: ["components/ui/**/*.{ts,tsx}", "hooks/use-mobile.ts"],

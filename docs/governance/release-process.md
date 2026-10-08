@@ -4,7 +4,7 @@ Owner: Nakul Jain · Last reviewed: 2026-10-08 · Update when deploy/*.sh, the b
 
 ## Flow
 
-1. Work on a branch from current `origin/main`; open a **draft** PR (CONTRIBUTING.md). No CI runs (no `.github/workflows/`); evidence is produced by hand.
+1. Work on a branch from current `origin/main`; open a **draft** PR (CONTRIBUTING.md). The `verify` job (`.github/workflows/ci.yml`) runs lint ratchet, typecheck, build and the pure suites on the PR; browser and API evidence is still produced by hand.
 2. Evidence before merge: typecheck, build, the pure/read-only suites named in the newest `docs/as-built-*/release-evidence.json`. Mutating fictional-fixture suites stay held until the owner approves (handoff).
 3. The owner merges. Agents never merge `main`.
 4. Droplet: `aplyd-academy-update.timer` runs `/usr/local/bin/aplyd-academy-update` every 3 minutes. If `origin/main` moved it runs `npm ci`, `npm run build`, stops the service, applies pending `drizzle/*.sql` once each, restarts, waits 5 s and checks `http://127.0.0.1:3500/`. Result is written to `/var/lib/aplyd-academy/deploy-status.json` (`ok` or `failed`, commit, time).
