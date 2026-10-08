@@ -1,30 +1,162 @@
-import {readFileSync,writeFileSync,mkdirSync,existsSync} from 'node:fs';
-import {resolve,dirname} from 'node:path';
-import {fileURLToPath,pathToFileURL} from 'node:url';
-import {createRequire} from 'node:module';
-import {createHash} from 'node:crypto';
-const here=dirname(fileURLToPath(import.meta.url)),base=resolve(here,'..');
-const app=resolve(process.env.ACADEMY_APP_PATH??(existsSync(resolve(base,'package.json'))?base:resolve(base,'../../../work/aplyd-academy')));
-const sourceRoot=resolve(process.env.ACADEMY_OFFLINE_SOURCE_ROOT??base);
-const candidate=resolve(process.env.ACADEMY_OFFLINE_MODULE??resolve(sourceRoot,'lib/academy-offline.ts'));
-const sealed=resolve(sourceRoot,'lib/academy-offline-sealed.ts'),ui=resolve(sourceRoot,'app/academy-offline.tsx');
-const output=resolve(process.env.ACADEMY_OFFLINE_QA_OUT??resolve(base,base===app?'.sites-runtime/offline-qa':'evidence'));mkdirSync(output,{recursive:true});
-const require=createRequire(resolve(app,'package.json')),ts=require('typescript'),esbuild=require('esbuild');
-const dependencyFiles=['lib/academy-curriculum.ts','lib/curriculum-versions/0.1-review-draft.json','lib/academy-engine.ts','lib/academy-plan.ts','lib/academy-ecosystems.ts','lib/academy-ecosystem-guard.ts','app/academy-context.tsx','components/ui/button.tsx','components/ui/alert-dialog.tsx','lib/utils.ts'];
-const hash=f=>createHash('sha256').update(readFileSync(f)).digest('hex');
-const before=Object.fromEntries([candidate,sealed,ui,resolve(sourceRoot,'app/academy-offline.module.css'),...dependencyFiles.map(f=>resolve(app,f))].map(f=>[f,hash(f)]));
-const cssDeclaration=resolve(output,'css-module.d.ts');writeFileSync(cssDeclaration,"declare module '*.module.css' {const styles:Record<string,string>;export default styles;}\n");
-const options={strict:true,target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.ESNext,moduleResolution:ts.ModuleResolutionKind.Bundler,resolveJsonModule:true,allowSyntheticDefaultImports:true,esModuleInterop:true,skipLibCheck:true,noEmit:true,jsx:ts.JsxEmit.ReactJSX,baseUrl:app,paths:{'@/*':['./*']},types:[],lib:['lib.es2022.d.ts','lib.dom.d.ts','lib.dom.iterable.d.ts']};
-const host=ts.createCompilerHost(options),originalResolve=host.resolveModuleNames;
-host.resolveModuleNames=(names,containing)=>names.map(name=>{
- const replacement=name==='./academy-curriculum'&&containing===candidate?resolve(app,'lib/academy-curriculum.ts'):name==='./academy-context'&&containing===ui?resolve(app,'app/academy-context.tsx'):name==='@/lib/academy-offline'?candidate:name==='@/lib/academy-offline-sealed'?sealed:null;
- if(replacement)return {resolvedFileName:replacement,extension:replacement.endsWith('.tsx')?ts.Extension.Tsx:ts.Extension.Ts};
- return ts.resolveModuleName(name,containing,options,host).resolvedModule??(!name.startsWith('.')?ts.resolveModuleName(name,resolve(app,'candidate-overlay.tsx'),options,host).resolvedModule:undefined);
+import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
+import { resolve, dirname } from 'node:path';
+import { fileURLToPath, pathToFileURL } from 'node:url';
+import { createRequire } from 'node:module';
+import { createHash } from 'node:crypto';
+const here = dirname(fileURLToPath(import.meta.url)),
+  base = resolve(here, '..');
+const app = resolve(
+  process.env.ACADEMY_APP_PATH ??
+    (existsSync(resolve(base, 'package.json')) ? base : resolve(base, '../../../work/aplyd-academy')),
+);
+const sourceRoot = resolve(process.env.ACADEMY_OFFLINE_SOURCE_ROOT ?? base);
+const candidate = resolve(
+  process.env.ACADEMY_OFFLINE_MODULE ?? resolve(sourceRoot, 'lib/academy-offline.ts'),
+);
+const sealed = resolve(sourceRoot, 'lib/academy-offline-sealed.ts'),
+  ui = resolve(sourceRoot, 'app/academy-offline.tsx');
+const output = resolve(
+  process.env.ACADEMY_OFFLINE_QA_OUT ??
+    resolve(base, base === app ? '.sites-runtime/offline-qa' : 'evidence'),
+);
+mkdirSync(output, { recursive: true });
+const require = createRequire(resolve(app, 'package.json')),
+  ts = require('typescript'),
+  esbuild = require('esbuild');
+const dependencyFiles = [
+  'lib/academy-curriculum.ts',
+  'lib/curriculum-versions/0.1-review-draft.json',
+  'lib/academy-engine.ts',
+  'lib/academy-plan.ts',
+  'lib/academy-ecosystems.ts',
+  'lib/academy-ecosystem-guard.ts',
+  'app/academy-context.tsx',
+  'components/ui/button.tsx',
+  'components/ui/alert-dialog.tsx',
+  'lib/utils.ts',
+];
+const hash = (f) => createHash('sha256').update(readFileSync(f)).digest('hex');
+const before = Object.fromEntries(
+  [
+    candidate,
+    sealed,
+    ui,
+    resolve(sourceRoot, 'app/academy-offline.module.css'),
+    ...dependencyFiles.map((f) => resolve(app, f)),
+  ].map((f) => [f, hash(f)]),
+);
+const cssDeclaration = resolve(output, 'css-module.d.ts');
+writeFileSync(
+  cssDeclaration,
+  "declare module '*.module.css' {const styles:Record<string,string>;export default styles;}\n",
+);
+const options = {
+  strict: true,
+  target: ts.ScriptTarget.ES2022,
+  module: ts.ModuleKind.ESNext,
+  moduleResolution: ts.ModuleResolutionKind.Bundler,
+  resolveJsonModule: true,
+  allowSyntheticDefaultImports: true,
+  esModuleInterop: true,
+  skipLibCheck: true,
+  noEmit: true,
+  jsx: ts.JsxEmit.ReactJSX,
+  baseUrl: app,
+  paths: { '@/*': ['./*'] },
+  types: [],
+  lib: ['lib.es2022.d.ts', 'lib.dom.d.ts', 'lib.dom.iterable.d.ts'],
+};
+const host = ts.createCompilerHost(options),
+  originalResolve = host.resolveModuleNames;
+host.resolveModuleNames = (names, containing) =>
+  names.map((name) => {
+    const replacement =
+      name === './academy-curriculum' && containing === candidate
+        ? resolve(app, 'lib/academy-curriculum.ts')
+        : name === './academy-context' && containing === ui
+          ? resolve(app, 'app/academy-context.tsx')
+          : name === '@/lib/academy-offline'
+            ? candidate
+            : name === '@/lib/academy-offline-sealed'
+              ? sealed
+              : null;
+    if (replacement)
+      return {
+        resolvedFileName: replacement,
+        extension: replacement.endsWith('.tsx') ? ts.Extension.Tsx : ts.Extension.Ts,
+      };
+    return (
+      ts.resolveModuleName(name, containing, options, host).resolvedModule ??
+      (!name.startsWith('.')
+        ? ts.resolveModuleName(name, resolve(app, 'candidate-overlay.tsx'), options, host).resolvedModule
+        : undefined)
+    );
+  });
+const program = ts.createProgram([candidate, sealed, ui, cssDeclaration], options, host),
+  diagnostics = ts.getPreEmitDiagnostics(program);
+writeFileSync(
+  resolve(output, 'typecheck.json'),
+  JSON.stringify(
+    {
+      typescript: ts.version,
+      errors: diagnostics.map((d) => ({
+        file: d.file?.fileName,
+        code: d.code,
+        message: ts.flattenDiagnosticMessageText(d.messageText, ' '),
+      })),
+    },
+    null,
+    2,
+  ),
+);
+if (diagnostics.length)
+  throw new Error(
+    'Offline candidate typecheck failed: ' +
+      diagnostics.map((d) => ts.flattenDiagnosticMessageText(d.messageText, ' ')).join('; '),
+  );
+await esbuild.build({
+  stdin: {
+    contents: `export * from ${JSON.stringify(candidate)};export * from ${JSON.stringify(sealed)};export {programs,currentRef,LEGACY_SOURCE_SHA256} from ${JSON.stringify(resolve(app, 'lib/academy-curriculum.ts'))};export {applyCommand,freshWorkspace} from ${JSON.stringify(resolve(app, 'lib/academy-engine.ts'))};`,
+    sourcefile: 'offline-pure-test-entry.ts',
+    resolveDir: app,
+  },
+  bundle: true,
+  format: 'esm',
+  platform: 'node',
+  target: 'es2022',
+  outfile: resolve(output, 'offline-core.mjs'),
+  plugins: [
+    {
+      name: 'actual-curriculum-reference',
+      setup(build) {
+        build.onResolve({ filter: /^\.\/academy-curriculum$/ }, (args) =>
+          args.importer === candidate ? { path: resolve(app, 'lib/academy-curriculum.ts') } : undefined,
+        );
+      },
+    },
+  ],
 });
-const program=ts.createProgram([candidate,sealed,ui,cssDeclaration],options,host),diagnostics=ts.getPreEmitDiagnostics(program);
-writeFileSync(resolve(output,'typecheck.json'),JSON.stringify({typescript:ts.version,errors:diagnostics.map(d=>({file:d.file?.fileName,code:d.code,message:ts.flattenDiagnosticMessageText(d.messageText,' ')}))},null,2));
-if(diagnostics.length)throw new Error('Offline candidate typecheck failed: '+diagnostics.map(d=>ts.flattenDiagnosticMessageText(d.messageText,' ')).join('; '));
-await esbuild.build({stdin:{contents:`export * from ${JSON.stringify(candidate)};export * from ${JSON.stringify(sealed)};export {programs,currentRef,LEGACY_SOURCE_SHA256} from ${JSON.stringify(resolve(app,'lib/academy-curriculum.ts'))};export {applyCommand,freshWorkspace} from ${JSON.stringify(resolve(app,'lib/academy-engine.ts'))};`,sourcefile:'offline-pure-test-entry.ts',resolveDir:app},bundle:true,format:'esm',platform:'node',target:'es2022',outfile:resolve(output,'offline-core.mjs'),plugins:[{name:'actual-curriculum-reference',setup(build){build.onResolve({filter:/^\.\/academy-curriculum$/},args=>args.importer===candidate?{path:resolve(app,'lib/academy-curriculum.ts')}:undefined);}}]});
-const after=Object.fromEntries(Object.keys(before).map(f=>[f,hash(f)]));if(JSON.stringify(before)!==JSON.stringify(after))throw new Error('Referenced sources changed during compilation; rerun against stable sources.');
-writeFileSync(resolve(output,'source-evidence.json'),JSON.stringify({at:new Date().toISOString(),app,sourceRoot,candidate,sourceStable:true,sourceHashes:after,outsideCheckout:!output.startsWith(app+'/'),integratedSources:sourceRoot===app,limitations:['Pure selected model/crypto/UI plus actual unchanged global seed/engine reference; no API/browser/hosted/device-storage execution.']},null,2)+'\n');
-console.log(JSON.stringify({output,typeErrors:0,sourceStable:true}));
+const after = Object.fromEntries(Object.keys(before).map((f) => [f, hash(f)]));
+if (JSON.stringify(before) !== JSON.stringify(after))
+  throw new Error('Referenced sources changed during compilation; rerun against stable sources.');
+writeFileSync(
+  resolve(output, 'source-evidence.json'),
+  JSON.stringify(
+    {
+      at: new Date().toISOString(),
+      app,
+      sourceRoot,
+      candidate,
+      sourceStable: true,
+      sourceHashes: after,
+      outsideCheckout: !output.startsWith(app + '/'),
+      integratedSources: sourceRoot === app,
+      limitations: [
+        'Pure selected model/crypto/UI plus actual unchanged global seed/engine reference; no API/browser/hosted/device-storage execution.',
+      ],
+    },
+    null,
+    2,
+  ) + '\n',
+);
+console.log(JSON.stringify({ output, typeErrors: 0, sourceStable: true }));

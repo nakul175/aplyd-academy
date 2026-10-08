@@ -1,40 +1,507 @@
 import assert from 'node:assert/strict';
-import {writeFileSync,readFileSync} from 'node:fs';
-import {createHash} from 'node:crypto';
-import {pathToFileURL} from 'node:url';
-import {app,output,localHelpers} from './qa-paths.mjs';
-const q=await localHelpers(),m=await import(pathToFileURL(output+'/actual-root-model.mjs'));
-const {identity,headers,base}=q;let calls=0,assertions=0;const scenarios=[],startedAt=new Date().toISOString();
-const eq=(a,b)=>{assert.deepEqual(a,b);assertions++},ok=x=>{assert.ok(x);assertions++};
-async function parsed(r){const x=await r.json();return {status:r.status,...x}}
-async function get(u,path='/api/teams'){calls++;return parsed(await fetch(base+path,{headers:headers(u)}))}
-async function post(u,id,command,revision,actionId=crypto.randomUUID()){calls++;return parsed(await fetch(base+'/api/teams',{method:'POST',headers:headers(u),body:JSON.stringify({teamId:id,command,revision,actionId})}))}
-const success=x=>{eq(x.status,200);return x},denied=(x,status)=>{eq(x.status,status);return x},current=(u,id)=>get(u,'/api/teams?id='+encodeURIComponent(id));
-async function action(u,id,c){const x=success(await current(u,id));return post(u,id,c,x.revision)}
-async function scenario(name,fn){const before=assertions;try{await fn();scenarios.push({name,passed:true,assertions:assertions-before})}catch(e){scenarios.push({name,passed:false,assertions:assertions-before,error:String(e)});throw e}}
-const owner=identity('template-owner'),reviewer=identity('template-reviewer'),learner=identity('template-learner'),staff=identity('template-facilitator'),outsider=identity('template-outsider');
-const command=id=>({type:'content-job-template',templateId:id}),drafts=x=>x.team.content?.drafts??[],draft=(x,id)=>{const d=drafts(x).find(d=>d.id===id);ok(d);return d},last=x=>drafts(x).at(-1);
-const checks={sources:true,answers:true,rubric:true,safety:true,accessibility:true},reviewNote='Independent fictional source facts, answer keys, rubric, human authority and accessibility checked. '+crypto.randomUUID(),due=new Date(Date.now()+365*86400000).toISOString();
-const archiveBytes=readFileSync(app+'/lib/curriculum-versions/0.1-review-draft.json'),archiveHash=createHash('sha256').update(archiveBytes).digest('hex');
-let id,did,firstRef,firstProgram,cohort,enrollment,firstAction,firstSourceRevision;
-async function create(u,name){return success(await post(u,undefined,{type:'create',name,purpose:'Fictional local template authority and atomic creation fixture only.',context:'msme'},0))}
-async function join(u,roles,scopes=[]){const token=crypto.randomUUID().replaceAll('-','')+crypto.randomUUID().replaceAll('-','');success(await action(owner,id,{type:'invite',email:u.email,roles,scopes,token}));const x=success(await get(u,'/api/teams?invite='+token));return success(await post(u,id,{type:'accept',token},x.revision))}
-const signature=x=>({revision:x.revision,content:x.team.content,cohorts:x.team.cohorts,activity:x.team.activity,state:x.state});
-async function unchangedOnDeny(c,status,u=owner){const before=success(await current(owner,id));denied(await post(u,id,c,before.revision),status);eq(signature(success(await current(owner,id))),signature(before))}
-try{
- await scenario('01 real current owner fixture and authenticated own authority',async()=>{id=(await create(owner,'Synthetic job-template QA')).team.id;await join(reviewer,['admin']);await join(learner,['learner']);await join(staff,['facilitator']);denied(await current(outsider,id),404);for(const u of [learner,staff])await unchangedOnDeny(command('msme-customer-commitments'),403,u);await unchangedOnDeny(command('msme-customer-commitments'),404,outsider);calls++;eq((await fetch(base+'/api/teams')).status,401)});
- await scenario('02 exact command rejects forged authority, existing documents and unknown partner mapping atomically',async()=>{for(const key of ['draftId','document','sourceRef','actor','learnerId','approval','publishedRef'])await unchangedOnDeny({...command('msme-customer-commitments'),[key]:'untrusted'},400);for(const key of ['health','unknown','__proto__'])await unchangedOnDeny(command(key),404)});
- await scenario('03 one acknowledged creation carries exact source facts and server-created activity target',async()=>{const before=success(await current(owner,id));firstSourceRevision=before.revision;firstAction=crypto.randomUUID();const x=success(await post(owner,id,command('msme-customer-commitments'),before.revision,firstAction)),d=last(x);did=d.id;eq(x.revision,before.revision+1);eq(d.state,'draft');eq(d.revision,2);eq(d.documentRevision,2);eq(d.baseRef,m.jobTemplateSourceRef('msme-customer-commitments'));eq(d.document.role,'MSME owner or team member');eq(d.document.ecosystem,'MSME');eq(d.document.lessons.length,3);eq(d.document.lessons.flatMap(l=>l.quiz).length,9);eq(d.document.practicalAssessment.submissionPrompts.length,7);eq(d.document.practicalAssessment.rubric.length,4);eq(d.approval,undefined);eq(d.publishedRef,undefined);eq(x.team.content.publications.length,0);eq(m.readJobTemplateOrigin(d),d.templateOrigin);for(const l of d.document.lessons)eq(l.exercise.sourcePacket,m.jobTemplate('msme-customer-commitments').recordSources);const activities=x.team.activity.filter(a=>a.action==='content-job-template');eq(activities.length,1);eq(activities[0].detail,{draftId:did,templateId:'msme-customer-commitments'});eq(x.team.cohorts.length,0);eq(x.state.enrollments.length,0)});
- await scenario('04 action replay never creates another draft, changed action conflicts and stale CAS leaves canonical state',async()=>{const before=success(await current(owner,id));const replay=success(await post(owner,id,command('msme-customer-commitments'),firstSourceRevision,firstAction));eq(replay.replayed,true);eq(signature(replay),signature(before));denied(await post(owner,id,command('public-source-brief'),firstSourceRevision,firstAction),409);denied(await post(owner,id,command('public-source-brief'),firstSourceRevision),409);eq(signature(success(await current(owner,id))),signature(before))});
- await scenario('05 learner, directory and personal snapshot never expose unpublished teacher content',async()=>{const owned=success(await current(owner,id)),d=draft(owned,did);for(const u of [learner,staff]){const x=success(await current(u,id));eq(x.team.content,undefined);ok(!JSON.stringify(x).includes(d.document.title));ok(!JSON.stringify(x).includes(d.id));eq(x.contentVersions.length,0)}for(const u of [owner,learner]){const directory=success(await get(u));ok(!JSON.stringify(directory).includes(d.id));const snapshot=success(await get(u,'/api/academy/export?workspace='+encodeURIComponent(id)));eq(snapshot.subjectId,u.id);ok(!snapshot.snapshotJson.includes(d.id));ok(!snapshot.snapshotJson.includes(d.document.title));eq(JSON.parse(snapshot.snapshotJson).enrollments.length,0)}});
- await scenario('06 creation alone cannot publish or self-approve, then existing independent review pins exact bytes',async()=>{let x=success(await current(owner,id)),d=draft(x,did);denied(await action(owner,id,{type:'content-publish',draftId:did,revision:d.revision}),409);denied(await action(owner,id,{type:'content-submit',draftId:did,revision:d.revision,reviewerId:owner.id,reviewDueAt:due}),403);x=success(await action(owner,id,{type:'content-submit',draftId:did,revision:d.revision,reviewerId:reviewer.id,reviewDueAt:due}));d=draft(x,did);x=success(await action(reviewer,id,{type:'content-review',draftId:did,revision:d.revision,decision:'approve',checks,note:reviewNote}));d=draft(x,did);x=success(await action(owner,id,{type:'content-publish',draftId:did,revision:d.revision}));d=draft(x,did);firstRef=d.publishedRef;eq(firstRef.scope,id);const snapshot=x.contentVersions.find(s=>s.ref.versionId===firstRef.versionId);ok(snapshot);firstProgram=structuredClone(snapshot.program);eq(firstProgram,d.document);eq(x.team.content.publications.length,1);eq(d.state,'published');eq(x.team.content.publications[0].documentHash,await m.documentHash(firstProgram))});
- await scenario('07 exact private offering and own learner quiz use the new draft keys without changing global keys',async()=>{let x=success(await action(owner,id,{type:'cohort-create',title:'Private template version one',programId:firstRef.programId,contentRef:firstRef,capacity:3}));cohort=x.team.cohorts.at(-1).id;eq(x.team.cohorts.at(-1).contentRef,firstRef);x=success(await action(learner,id,{type:'enroll',programId:firstRef.programId,cohortId:cohort}));enrollment=x.state.enrollments.at(-1).id;eq(x.state.enrollments.at(-1).contentRef,firstRef);eq(x.contentVersions[0].program,firstProgram);ok(!JSON.stringify(x).includes(reviewNote));const lesson=firstProgram.lessons[0];x=success(await action(learner,id,{type:'lesson',enrollmentId:enrollment,lessonId:lesson.id,practice:'I used the fictional packet, checked the conditional total and retained the named human checks before any customer commitment.',answers:lesson.quiz.map(q=>q.correctOptionIndex)}));ok(x.state.enrollments.find(e=>e.id===enrollment).completed.includes(lesson.id));eq(createHash('sha256').update(readFileSync(app+'/lib/curriculum-versions/0.1-review-draft.json')).digest('hex'),archiveHash)});
- await scenario('08 all role starting points stay new identities and old exact learner pin/body/record remain unchanged',async()=>{const before=success(await current(learner,id)),oldE=structuredClone(before.state.enrollments.find(e=>e.id===enrollment)),oldV=structuredClone(before.contentVersions.find(s=>s.ref.versionId===firstRef.versionId));for(const templateId of ['farmer-expert-brief','public-source-brief','frontline-spot-override-flag']){const x=success(await action(owner,id,command(templateId))),d=last(x),def=m.jobTemplate(templateId);eq(d.baseRef,m.jobTemplateSourceRef(templateId));eq(d.document.title,def.title);ok(d.programId!==firstRef.programId);eq(d.state,'draft');eq(d.approval,undefined)}const after=success(await current(learner,id));eq(after.state.enrollments.find(e=>e.id===enrollment),oldE);eq(after.contentVersions.find(s=>s.ref.versionId===firstRef.versionId),oldV);eq(after.team.content,undefined)});
- await scenario('09 real same-revision race persists only one new complete draft and one activity',async()=>{const before=success(await current(owner,id)),oldIds=drafts(before).map(d=>d.id);const races=await Promise.all([post(owner,id,command('msme-customer-commitments'),before.revision),post(owner,id,command('public-source-brief'),before.revision)]);eq(races.map(x=>x.status).sort(),[200,409]);const after=success(await current(owner,id)),fresh=drafts(after).filter(d=>!oldIds.includes(d.id));eq(after.revision,before.revision+1);eq(fresh.length,1);eq(fresh[0].state,'draft');eq(fresh[0].revision,2);eq(after.team.activity.filter(a=>a.action==='content-job-template').length,before.team.activity.filter(a=>a.action==='content-job-template').length+1);await unchangedOnDeny(command('farmer-expert-brief'),409)});
- await scenario('10 other owner archive retains body/origin and frees only active capacity',async()=>{let x=success(await current(owner,id)),d=last(x),before=structuredClone(d);x=success(await action(reviewer,id,{type:'content-archive',draftId:d.id,revision:d.revision,reason:'Archive the fictional abandoned template and retain its exact history.'}));d=draft(x,d.id);eq(d.state,'archived');eq(d.document,before.document);eq(d.templateOrigin,before.templateOrigin);eq(drafts(x).length,5);x=success(await action(owner,id,command('msme-customer-commitments')));eq(drafts(x).length,6);eq(last(x).state,'draft')});
- await scenario('11 current-role loss clears template projection; original replay cannot restore it',async()=>{success(await action(reviewer,id,{type:'member',userId:owner.id,roles:['learner'],scopes:[],active:true}));const x=success(await current(owner,id));eq(x.team.content,undefined);denied(await action(owner,id,command('msme-customer-commitments')),403);const replay=success(await post(owner,id,command('msme-customer-commitments'),firstSourceRevision,firstAction));eq(replay.replayed,true);eq(replay.team.content,undefined);success(await action(reviewer,id,{type:'member',userId:owner.id,roles:['learner'],scopes:[],active:false}));denied(await post(owner,id,command('msme-customer-commitments'),firstSourceRevision,firstAction),403);const history=success(await current(owner,id));eq(history.team.active,false);eq(history.team.content,undefined);success(await action(reviewer,id,{type:'member',userId:owner.id,roles:['admin','learner'],scopes:[],active:true}))});
- await scenario('12 retained24 capacity rejects atomically without resetting history',async()=>{const u=identity('template-retained-capacity'),t=(await create(u,'Synthetic retained template capacity')).team.id;const sourceRef=m.jobTemplateSourceRef('msme-customer-commitments');for(let i=0;i<24;i++){let x=success(await action(u,t,{type:'content-copy',sourceRef})),d=last(x);success(await action(u,t,{type:'content-archive',draftId:d.id,revision:d.revision,reason:'Retain fictional source history for exact capacity checks.'}))}const before=success(await current(u,t));eq(drafts(before).length,24);eq(drafts(before).filter(d=>!['published','archived'].includes(d.state)).length,0);denied(await action(u,t,command('msme-customer-commitments')),409);eq(signature(success(await current(u,t))),signature(before))});
- eq(createHash('sha256').update(readFileSync(app+'/lib/curriculum-versions/0.1-review-draft.json')).digest('hex'),archiveHash);
- writeFileSync(output+'/template-api-fixture.json',JSON.stringify({id,owner,reviewer,learner,staff,did,firstRef,firstProgram,cohort,enrollment},null,2));
- writeFileSync(output+'/template-api-result.json',JSON.stringify({passed:true,startedAt,completedAt:new Date().toISOString(),assertions,calls,scenarios,fixtureId:id,archiveHash,limits:['Actual loopback synthetic API only; no SQL injection, production/provider/partner/hosted call','Byte-boundary closure is also proven by actual-root pure suite; no production capacity/recovery claim','Fixture details contain synthetic identities only; keep in runtime, not source']},null,2));console.log(JSON.stringify({passed:true,assertions,calls,scenarios:scenarios.length}));
-}catch(error){writeFileSync(output+'/template-api-result.json',JSON.stringify({passed:false,startedAt,completedAt:new Date().toISOString(),assertions,calls,scenarios,error:String(error)},null,2));throw error}
+import { writeFileSync, readFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+import { pathToFileURL } from 'node:url';
+import { app, output, localHelpers } from './qa-paths.mjs';
+const q = await localHelpers(),
+  m = await import(pathToFileURL(output + '/actual-root-model.mjs'));
+const { identity, headers, base } = q;
+let calls = 0,
+  assertions = 0;
+const scenarios = [],
+  startedAt = new Date().toISOString();
+const eq = (a, b) => {
+    assert.deepEqual(a, b);
+    assertions++;
+  },
+  ok = (x) => {
+    assert.ok(x);
+    assertions++;
+  };
+async function parsed(r) {
+  const x = await r.json();
+  return { status: r.status, ...x };
+}
+async function get(u, path = '/api/teams') {
+  calls++;
+  return parsed(await fetch(base + path, { headers: headers(u) }));
+}
+async function post(u, id, command, revision, actionId = crypto.randomUUID()) {
+  calls++;
+  return parsed(
+    await fetch(base + '/api/teams', {
+      method: 'POST',
+      headers: headers(u),
+      body: JSON.stringify({ teamId: id, command, revision, actionId }),
+    }),
+  );
+}
+const success = (x) => {
+    eq(x.status, 200);
+    return x;
+  },
+  denied = (x, status) => {
+    eq(x.status, status);
+    return x;
+  },
+  current = (u, id) => get(u, '/api/teams?id=' + encodeURIComponent(id));
+async function action(u, id, c) {
+  const x = success(await current(u, id));
+  return post(u, id, c, x.revision);
+}
+async function scenario(name, fn) {
+  const before = assertions;
+  try {
+    await fn();
+    scenarios.push({ name, passed: true, assertions: assertions - before });
+  } catch (e) {
+    scenarios.push({ name, passed: false, assertions: assertions - before, error: String(e) });
+    throw e;
+  }
+}
+const owner = identity('template-owner'),
+  reviewer = identity('template-reviewer'),
+  learner = identity('template-learner'),
+  staff = identity('template-facilitator'),
+  outsider = identity('template-outsider');
+const command = (id) => ({ type: 'content-job-template', templateId: id }),
+  drafts = (x) => x.team.content?.drafts ?? [],
+  draft = (x, id) => {
+    const d = drafts(x).find((d) => d.id === id);
+    ok(d);
+    return d;
+  },
+  last = (x) => drafts(x).at(-1);
+const checks = { sources: true, answers: true, rubric: true, safety: true, accessibility: true },
+  reviewNote =
+    'Independent fictional source facts, answer keys, rubric, human authority and accessibility checked. ' +
+    crypto.randomUUID(),
+  due = new Date(Date.now() + 365 * 86400000).toISOString();
+const archiveBytes = readFileSync(app + '/lib/curriculum-versions/0.1-review-draft.json'),
+  archiveHash = createHash('sha256').update(archiveBytes).digest('hex');
+let id, did, firstRef, firstProgram, cohort, enrollment, firstAction, firstSourceRevision;
+async function create(u, name) {
+  return success(
+    await post(
+      u,
+      undefined,
+      {
+        type: 'create',
+        name,
+        purpose: 'Fictional local template authority and atomic creation fixture only.',
+        context: 'msme',
+      },
+      0,
+    ),
+  );
+}
+async function join(u, roles, scopes = []) {
+  const token = crypto.randomUUID().replaceAll('-', '') + crypto.randomUUID().replaceAll('-', '');
+  success(await action(owner, id, { type: 'invite', email: u.email, roles, scopes, token }));
+  const x = success(await get(u, '/api/teams?invite=' + token));
+  return success(await post(u, id, { type: 'accept', token }, x.revision));
+}
+const signature = (x) => ({
+  revision: x.revision,
+  content: x.team.content,
+  cohorts: x.team.cohorts,
+  activity: x.team.activity,
+  state: x.state,
+});
+async function unchangedOnDeny(c, status, u = owner) {
+  const before = success(await current(owner, id));
+  denied(await post(u, id, c, before.revision), status);
+  eq(signature(success(await current(owner, id))), signature(before));
+}
+try {
+  await scenario('01 real current owner fixture and authenticated own authority', async () => {
+    id = (await create(owner, 'Synthetic job-template QA')).team.id;
+    await join(reviewer, ['admin']);
+    await join(learner, ['learner']);
+    await join(staff, ['facilitator']);
+    denied(await current(outsider, id), 404);
+    for (const u of [learner, staff]) await unchangedOnDeny(command('msme-customer-commitments'), 403, u);
+    await unchangedOnDeny(command('msme-customer-commitments'), 404, outsider);
+    calls++;
+    eq((await fetch(base + '/api/teams')).status, 401);
+  });
+  await scenario(
+    '02 exact command rejects forged authority, existing documents and unknown partner mapping atomically',
+    async () => {
+      for (const key of [
+        'draftId',
+        'document',
+        'sourceRef',
+        'actor',
+        'learnerId',
+        'approval',
+        'publishedRef',
+      ])
+        await unchangedOnDeny({ ...command('msme-customer-commitments'), [key]: 'untrusted' }, 400);
+      for (const key of ['health', 'unknown', '__proto__']) await unchangedOnDeny(command(key), 404);
+    },
+  );
+  await scenario(
+    '03 one acknowledged creation carries exact source facts and server-created activity target',
+    async () => {
+      const before = success(await current(owner, id));
+      firstSourceRevision = before.revision;
+      firstAction = crypto.randomUUID();
+      const x = success(
+          await post(owner, id, command('msme-customer-commitments'), before.revision, firstAction),
+        ),
+        d = last(x);
+      did = d.id;
+      eq(x.revision, before.revision + 1);
+      eq(d.state, 'draft');
+      eq(d.revision, 2);
+      eq(d.documentRevision, 2);
+      eq(d.baseRef, m.jobTemplateSourceRef('msme-customer-commitments'));
+      eq(d.document.role, 'MSME owner or team member');
+      eq(d.document.ecosystem, 'MSME');
+      eq(d.document.lessons.length, 3);
+      eq(d.document.lessons.flatMap((l) => l.quiz).length, 9);
+      eq(d.document.practicalAssessment.submissionPrompts.length, 7);
+      eq(d.document.practicalAssessment.rubric.length, 4);
+      eq(d.approval, undefined);
+      eq(d.publishedRef, undefined);
+      eq(x.team.content.publications.length, 0);
+      eq(m.readJobTemplateOrigin(d), d.templateOrigin);
+      for (const l of d.document.lessons)
+        eq(l.exercise.sourcePacket, m.jobTemplate('msme-customer-commitments').recordSources);
+      const activities = x.team.activity.filter((a) => a.action === 'content-job-template');
+      eq(activities.length, 1);
+      eq(activities[0].detail, { draftId: did, templateId: 'msme-customer-commitments' });
+      eq(x.team.cohorts.length, 0);
+      eq(x.state.enrollments.length, 0);
+    },
+  );
+  await scenario(
+    '04 action replay never creates another draft, changed action conflicts and stale CAS leaves canonical state',
+    async () => {
+      const before = success(await current(owner, id));
+      const replay = success(
+        await post(owner, id, command('msme-customer-commitments'), firstSourceRevision, firstAction),
+      );
+      eq(replay.replayed, true);
+      eq(signature(replay), signature(before));
+      denied(await post(owner, id, command('public-source-brief'), firstSourceRevision, firstAction), 409);
+      denied(await post(owner, id, command('public-source-brief'), firstSourceRevision), 409);
+      eq(signature(success(await current(owner, id))), signature(before));
+    },
+  );
+  await scenario(
+    '05 learner, directory and personal snapshot never expose unpublished teacher content',
+    async () => {
+      const owned = success(await current(owner, id)),
+        d = draft(owned, did);
+      for (const u of [learner, staff]) {
+        const x = success(await current(u, id));
+        eq(x.team.content, undefined);
+        ok(!JSON.stringify(x).includes(d.document.title));
+        ok(!JSON.stringify(x).includes(d.id));
+        eq(x.contentVersions.length, 0);
+      }
+      for (const u of [owner, learner]) {
+        const directory = success(await get(u));
+        ok(!JSON.stringify(directory).includes(d.id));
+        const snapshot = success(await get(u, '/api/academy/export?workspace=' + encodeURIComponent(id)));
+        eq(snapshot.subjectId, u.id);
+        ok(!snapshot.snapshotJson.includes(d.id));
+        ok(!snapshot.snapshotJson.includes(d.document.title));
+        eq(JSON.parse(snapshot.snapshotJson).enrollments.length, 0);
+      }
+    },
+  );
+  await scenario(
+    '06 creation alone cannot publish or self-approve, then existing independent review pins exact bytes',
+    async () => {
+      let x = success(await current(owner, id)),
+        d = draft(x, did);
+      denied(await action(owner, id, { type: 'content-publish', draftId: did, revision: d.revision }), 409);
+      denied(
+        await action(owner, id, {
+          type: 'content-submit',
+          draftId: did,
+          revision: d.revision,
+          reviewerId: owner.id,
+          reviewDueAt: due,
+        }),
+        403,
+      );
+      x = success(
+        await action(owner, id, {
+          type: 'content-submit',
+          draftId: did,
+          revision: d.revision,
+          reviewerId: reviewer.id,
+          reviewDueAt: due,
+        }),
+      );
+      d = draft(x, did);
+      x = success(
+        await action(reviewer, id, {
+          type: 'content-review',
+          draftId: did,
+          revision: d.revision,
+          decision: 'approve',
+          checks,
+          note: reviewNote,
+        }),
+      );
+      d = draft(x, did);
+      x = success(await action(owner, id, { type: 'content-publish', draftId: did, revision: d.revision }));
+      d = draft(x, did);
+      firstRef = d.publishedRef;
+      eq(firstRef.scope, id);
+      const snapshot = x.contentVersions.find((s) => s.ref.versionId === firstRef.versionId);
+      ok(snapshot);
+      firstProgram = structuredClone(snapshot.program);
+      eq(firstProgram, d.document);
+      eq(x.team.content.publications.length, 1);
+      eq(d.state, 'published');
+      eq(x.team.content.publications[0].documentHash, await m.documentHash(firstProgram));
+    },
+  );
+  await scenario(
+    '07 exact private offering and own learner quiz use the new draft keys without changing global keys',
+    async () => {
+      let x = success(
+        await action(owner, id, {
+          type: 'cohort-create',
+          title: 'Private template version one',
+          programId: firstRef.programId,
+          contentRef: firstRef,
+          capacity: 3,
+        }),
+      );
+      cohort = x.team.cohorts.at(-1).id;
+      eq(x.team.cohorts.at(-1).contentRef, firstRef);
+      x = success(
+        await action(learner, id, { type: 'enroll', programId: firstRef.programId, cohortId: cohort }),
+      );
+      enrollment = x.state.enrollments.at(-1).id;
+      eq(x.state.enrollments.at(-1).contentRef, firstRef);
+      eq(x.contentVersions[0].program, firstProgram);
+      ok(!JSON.stringify(x).includes(reviewNote));
+      const lesson = firstProgram.lessons[0];
+      x = success(
+        await action(learner, id, {
+          type: 'lesson',
+          enrollmentId: enrollment,
+          lessonId: lesson.id,
+          practice:
+            'I used the fictional packet, checked the conditional total and retained the named human checks before any customer commitment.',
+          answers: lesson.quiz.map((q) => q.correctOptionIndex),
+        }),
+      );
+      ok(x.state.enrollments.find((e) => e.id === enrollment).completed.includes(lesson.id));
+      eq(
+        createHash('sha256')
+          .update(readFileSync(app + '/lib/curriculum-versions/0.1-review-draft.json'))
+          .digest('hex'),
+        archiveHash,
+      );
+    },
+  );
+  await scenario(
+    '08 all role starting points stay new identities and old exact learner pin/body/record remain unchanged',
+    async () => {
+      const before = success(await current(learner, id)),
+        oldE = structuredClone(before.state.enrollments.find((e) => e.id === enrollment)),
+        oldV = structuredClone(before.contentVersions.find((s) => s.ref.versionId === firstRef.versionId));
+      for (const templateId of [
+        'farmer-expert-brief',
+        'public-source-brief',
+        'frontline-spot-override-flag',
+      ]) {
+        const x = success(await action(owner, id, command(templateId))),
+          d = last(x),
+          def = m.jobTemplate(templateId);
+        eq(d.baseRef, m.jobTemplateSourceRef(templateId));
+        eq(d.document.title, def.title);
+        ok(d.programId !== firstRef.programId);
+        eq(d.state, 'draft');
+        eq(d.approval, undefined);
+      }
+      const after = success(await current(learner, id));
+      eq(
+        after.state.enrollments.find((e) => e.id === enrollment),
+        oldE,
+      );
+      eq(
+        after.contentVersions.find((s) => s.ref.versionId === firstRef.versionId),
+        oldV,
+      );
+      eq(after.team.content, undefined);
+    },
+  );
+  await scenario(
+    '09 real same-revision race persists only one new complete draft and one activity',
+    async () => {
+      const before = success(await current(owner, id)),
+        oldIds = drafts(before).map((d) => d.id);
+      const races = await Promise.all([
+        post(owner, id, command('msme-customer-commitments'), before.revision),
+        post(owner, id, command('public-source-brief'), before.revision),
+      ]);
+      eq(races.map((x) => x.status).sort(), [200, 409]);
+      const after = success(await current(owner, id)),
+        fresh = drafts(after).filter((d) => !oldIds.includes(d.id));
+      eq(after.revision, before.revision + 1);
+      eq(fresh.length, 1);
+      eq(fresh[0].state, 'draft');
+      eq(fresh[0].revision, 2);
+      eq(
+        after.team.activity.filter((a) => a.action === 'content-job-template').length,
+        before.team.activity.filter((a) => a.action === 'content-job-template').length + 1,
+      );
+      await unchangedOnDeny(command('farmer-expert-brief'), 409);
+    },
+  );
+  await scenario('10 other owner archive retains body/origin and frees only active capacity', async () => {
+    let x = success(await current(owner, id)),
+      d = last(x),
+      before = structuredClone(d);
+    x = success(
+      await action(reviewer, id, {
+        type: 'content-archive',
+        draftId: d.id,
+        revision: d.revision,
+        reason: 'Archive the fictional abandoned template and retain its exact history.',
+      }),
+    );
+    d = draft(x, d.id);
+    eq(d.state, 'archived');
+    eq(d.document, before.document);
+    eq(d.templateOrigin, before.templateOrigin);
+    eq(drafts(x).length, 5);
+    x = success(await action(owner, id, command('msme-customer-commitments')));
+    eq(drafts(x).length, 6);
+    eq(last(x).state, 'draft');
+  });
+  await scenario(
+    '11 current-role loss clears template projection; original replay cannot restore it',
+    async () => {
+      success(
+        await action(reviewer, id, {
+          type: 'member',
+          userId: owner.id,
+          roles: ['learner'],
+          scopes: [],
+          active: true,
+        }),
+      );
+      const x = success(await current(owner, id));
+      eq(x.team.content, undefined);
+      denied(await action(owner, id, command('msme-customer-commitments')), 403);
+      const replay = success(
+        await post(owner, id, command('msme-customer-commitments'), firstSourceRevision, firstAction),
+      );
+      eq(replay.replayed, true);
+      eq(replay.team.content, undefined);
+      success(
+        await action(reviewer, id, {
+          type: 'member',
+          userId: owner.id,
+          roles: ['learner'],
+          scopes: [],
+          active: false,
+        }),
+      );
+      denied(
+        await post(owner, id, command('msme-customer-commitments'), firstSourceRevision, firstAction),
+        403,
+      );
+      const history = success(await current(owner, id));
+      eq(history.team.active, false);
+      eq(history.team.content, undefined);
+      success(
+        await action(reviewer, id, {
+          type: 'member',
+          userId: owner.id,
+          roles: ['admin', 'learner'],
+          scopes: [],
+          active: true,
+        }),
+      );
+    },
+  );
+  await scenario('12 retained24 capacity rejects atomically without resetting history', async () => {
+    const u = identity('template-retained-capacity'),
+      t = (await create(u, 'Synthetic retained template capacity')).team.id;
+    const sourceRef = m.jobTemplateSourceRef('msme-customer-commitments');
+    for (let i = 0; i < 24; i++) {
+      let x = success(await action(u, t, { type: 'content-copy', sourceRef })),
+        d = last(x);
+      success(
+        await action(u, t, {
+          type: 'content-archive',
+          draftId: d.id,
+          revision: d.revision,
+          reason: 'Retain fictional source history for exact capacity checks.',
+        }),
+      );
+    }
+    const before = success(await current(u, t));
+    eq(drafts(before).length, 24);
+    eq(drafts(before).filter((d) => !['published', 'archived'].includes(d.state)).length, 0);
+    denied(await action(u, t, command('msme-customer-commitments')), 409);
+    eq(signature(success(await current(u, t))), signature(before));
+  });
+  eq(
+    createHash('sha256')
+      .update(readFileSync(app + '/lib/curriculum-versions/0.1-review-draft.json'))
+      .digest('hex'),
+    archiveHash,
+  );
+  writeFileSync(
+    output + '/template-api-fixture.json',
+    JSON.stringify(
+      { id, owner, reviewer, learner, staff, did, firstRef, firstProgram, cohort, enrollment },
+      null,
+      2,
+    ),
+  );
+  writeFileSync(
+    output + '/template-api-result.json',
+    JSON.stringify(
+      {
+        passed: true,
+        startedAt,
+        completedAt: new Date().toISOString(),
+        assertions,
+        calls,
+        scenarios,
+        fixtureId: id,
+        archiveHash,
+        limits: [
+          'Actual loopback synthetic API only; no SQL injection, production/provider/partner/hosted call',
+          'Byte-boundary closure is also proven by actual-root pure suite; no production capacity/recovery claim',
+          'Fixture details contain synthetic identities only; keep in runtime, not source',
+        ],
+      },
+      null,
+      2,
+    ),
+  );
+  console.log(JSON.stringify({ passed: true, assertions, calls, scenarios: scenarios.length }));
+} catch (error) {
+  writeFileSync(
+    output + '/template-api-result.json',
+    JSON.stringify(
+      {
+        passed: false,
+        startedAt,
+        completedAt: new Date().toISOString(),
+        assertions,
+        calls,
+        scenarios,
+        error: String(error),
+      },
+      null,
+      2,
+    ),
+  );
+  throw error;
+}

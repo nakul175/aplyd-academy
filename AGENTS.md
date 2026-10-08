@@ -43,13 +43,13 @@ Browser and API harnesses (`tests/demo-browser-qa`, `tests/*-browser.mjs`) are r
 
 ## Map
 
-| Path | Contents |
-|---|---|
-| `app/` | React UI (one `academy-*.tsx` per area), `app/api/` route handlers |
-| `lib/` | Engine (`academy-engine.ts`), teams, authoring, credentials, storage; pinned curriculum JSON |
-| `db/`, `drizzle/` | Schema and additive migrations |
-| `public/library/` | Original library bytes; do not touch |
-| `tests/` | Node tests and builders, browser/API harnesses, `route-errors/`, QA folders |
-| `scripts/` | Test runner, lint baseline, demo, install and environment scripts |
-| `deploy/` | Droplet kit (provision, update, Caddy, add-user) |
-| `docs/` | `governance/`, `as-built-*/` (non-cumulative), `product-specifications/`, `candidates/`, `development-archive/` |
+| Path              | Contents                                                                                                        |
+| ----------------- | --------------------------------------------------------------------------------------------------------------- |
+| `app/`            | React UI (one `academy-*.tsx` per area), `app/api/` route handlers                                              |
+| `lib/`            | Engine (`academy-engine.ts`), teams, authoring, credentials, storage; pinned curriculum JSON                    |
+| `db/`, `drizzle/` | Schema and additive migrations                                                                                  |
+| `public/library/` | Original library bytes; do not touch                                                                            |
+| `tests/`          | Node tests and builders, browser/API harnesses, `route-errors/`, QA folders                                     |
+| `scripts/`        | Test runner, lint baseline, demo, install and environment scripts                                               |
+| `deploy/`         | Droplet kit (provision, update, Caddy, add-user)                                                                |
+| `docs/`           | `governance/`, `as-built-*/` (non-cumulative), `product-specifications/`, `candidates/`, `development-archive/` |

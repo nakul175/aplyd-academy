@@ -1,53 +1,695 @@
 import assert from 'node:assert/strict';
-import {readFileSync,writeFileSync} from 'node:fs';
-import {createHash} from 'node:crypto';
-import {test} from 'node:test';
-import {output} from './qa-paths.mjs';
-import {pathToFileURL} from 'node:url';
-const {JOB_TEMPLATES,JOB_TEMPLATE_VERSION,jobTemplate,jobTemplateSourceRef,readJobTemplateOrigin,tailorJobTemplateDocument,applyJobPracticeTemplate,applyWorkspaceContentCommand:content,validateDocument,documentHash,canonicalJson,projectWorkspaceContent,programs,collections,AUTHORING_LIMITS,utf8JsonBytes,authoringClosureReserve,applyTeamCommand,createTeam,projectTeam}=await import(pathToFileURL(output+'/actual-root-model.mjs'));
-const now='2030-01-01T12:00:00.000Z',later='2030-01-01T13:00:00.000Z',due='2030-07-01T12:00:00.000Z';
-const a={userId:'synthetic-author'},r={userId:'synthetic-reviewer'},l={userId:'synthetic-learner'},outsider={userId:'synthetic-outsider'},checks={sources:true,answers:true,rubric:true,safety:true,accessibility:true},cases=[];
-const host=()=>({id:'tw-11111111-1111-4111-8111-111111111111',members:[{userId:a.userId,name:'Fictional author',active:true,roles:['admin']},{userId:r.userId,name:'Fictional independent reviewer',active:true,roles:['admin']},{userId:l.userId,name:'Fictional learner',active:true,roles:['learner']}]});
-const create=(t,id='msme-customer-commitments',u=a,time=now)=>applyJobPracticeTemplate(t,u,{type:'content-job-template',templateId:id},time);
-const last=t=>t.content.drafts.at(-1);
-const deny=async(p,status)=>assert.rejects(p,e=>e.status===status);
-const run=(name,fn)=>test(name,async()=>{await fn();cases.push(name);});
-async function reviewed(t,did=last(t).id){let d=t.content.drafts.find(d=>d.id===did);t=await content(t,a,{type:'content-submit',draftId:d.id,revision:d.revision,reviewerId:r.userId,reviewDueAt:due},now);d=t.content.drafts.find(d=>d.id===did);t=await content(t,r,{type:'content-review',draftId:d.id,revision:d.revision,decision:'approve',checks,note:'Independent synthetic review checked all source facts, answer keys, rubric anchors, safe limits and accessible instructions.'},now);d=t.content.drafts.find(d=>d.id===did);return content(t,a,{type:'content-publish',draftId:d.id,revision:d.revision},now);}
-for(const def of JOB_TEMPLATES){
- run(def.id+' creates complete editable private draft with exact seed and no publication',async()=>{const original=host(),before=structuredClone(original),t=await create(original,def.id),d=last(t);assert.deepEqual(original,before);assert.equal(d.state,'draft');assert.equal(d.revision,2);assert.equal(d.documentRevision,2);assert.equal(d.document.title,def.title);assert.deepEqual(d.baseRef,jobTemplateSourceRef(def.id));assert.equal(d.document.lessons.length,3);assert.equal(d.document.lessons.flatMap(l=>l.quiz).length,9);assert.equal(d.document.practicalAssessment.submissionPrompts.length,7);assert.equal(d.document.practicalAssessment.rubric.length,4);assert.equal(t.content.publications.length,0);assert.equal(d.approval,undefined);assert.equal(d.publishedRef,undefined);assert.deepEqual(validateDocument(d.document,d.document),[]);assert.ok(new TextEncoder().encode(JSON.stringify(d.document)).length<=AUTHORING_LIMITS.documentBytes);});
- run(def.id+' preserves locked seed fields and IDs while tailoring factual sources',async()=>{const copied=await content(host(),a,{type:'content-copy',sourceRef:jobTemplateSourceRef(def.id)},now),base=last(copied).document,d=tailorJobTemplateDocument(base,def.id);assert.deepEqual(validateDocument(d,base),[]);for(const k of ['id','role','ecosystem','level','credentialClaim','credentialExclusions','sourceNotice','followUp'])assert.deepEqual(d[k],base[k]);for(const [i,l]of d.lessons.entries()){assert.equal(l.id,base.lessons[i].id);assert.deepEqual(l.quiz.map(q=>q.id),base.lessons[i].quiz.map(q=>q.id));assert.deepEqual(l.exercise.sourcePacket,def.recordSources);assert.ok(l.lessonText.includes(def.calculation));assert.ok(l.exercise.assessorReference.includes(def.checkedFacts));}assert.equal(d.practicalAssessment.id,base.practicalAssessment.id);assert.deepEqual(d.practicalAssessment.submissionPrompts.map(p=>p.id),base.practicalAssessment.submissionPrompts.map(p=>p.id));assert.deepEqual(d.practicalAssessment.rubric.map(r=>[r.id,r.weight,r.criticalGate===null]),base.practicalAssessment.rubric.map(r=>[r.id,r.weight,r.criticalGate===null]));});
- run(def.id+' still needs independent current owner review before immutable publication',async()=>{let t=await create(host(),def.id),d=last(t);await deny(content(t,a,{type:'content-publish',draftId:d.id,revision:d.revision},now),409);await deny(content(t,a,{type:'content-submit',draftId:d.id,revision:d.revision,reviewerId:a.userId,reviewDueAt:due},now),403);t=await reviewed(t);d=last(t);const p=t.content.publications[0];assert.equal(d.state,'published');assert.equal(p.snapshot.ref.scope,t.id);assert.equal(p.snapshot.language,'en');assert.equal(p.documentHash,await documentHash(p.snapshot.program));assert.equal(p.reviewerId,r.userId);assert.deepEqual(p.snapshot.program,d.document);assert.equal(p.snapshot.policy.maxAttempts,3);assert.equal(p.snapshot.policy.appealDays,14);});
-}
-run('Only a current owner may create a template draft',async()=>{await deny(create(host(),undefined,l),403);await deny(create(host(),undefined,outsider),404);const t=host();t.members[0].active=false;await deny(create(t),404);});
-run('Exact create command rejects existing draft/document/reference/actor fields',async()=>{for(const key of ['draftId','document','sourceRef','actor','learnerId','approved','publishedRef'])await deny(applyJobPracticeTemplate(host(),a,{type:'content-job-template',templateId:'msme-customer-commitments',[key]:'untrusted'},now),400);for(const input of [null,[],{}, {type:'content-save',templateId:'msme-customer-commitments'}])await deny(applyJobPracticeTemplate(host(),a,input,now),400);});
-run('Unavailable or prototype-like template never chooses a fallback',async()=>{for(const id of ['health','other','toString','__proto__'])await deny(create(host(),id),404);});
-run('Metadata has template version and referenced teaching sources without approval claim',async()=>{const t=await create(host()),d=last(t);assert.deepEqual(Object.keys(d.templateOrigin).sort(),['kind','templateId','templateVersion','sourceRef','governanceReferences','createdAt','adaptationStatus'].sort());assert.equal(d.templateOrigin.templateVersion,JOB_TEMPLATE_VERSION);assert.equal(d.templateOrigin.adaptationStatus,'independent-review-required');assert.equal(d.templateOrigin.createdAt,now);assert.ok(d.templateOrigin.governanceReferences.every(r=>r.limit.includes('no institutional or domain authority')));});
-run('Every reference resolves to one supplied immutable library resource',async()=>{const ids=collections.flatMap(c=>c.resources.map(r=>r.id));for(const t of JOB_TEMPLATES)for(const ref of t.references)assert.equal(ids.filter(x=>x===ref.resourceId).length,1);assert.equal(ids.length,20);});
-run('Exact fictional arithmetic and limits agree with source packets and keys',async()=>{const f=jobTemplate('farmer-expert-brief'),m=jobTemplate('msme-customer-commitments'),p=jobTemplate('public-source-brief'),s=jobTemplate('frontline-spot-override-flag');assert.equal(300+200,500);assert.equal(f.factQuestion.options[f.factQuestion.correctOptionIndex],'INR 500');assert.ok(f.recordSources.find(x=>x.sourceId==='FARM-R2-COPY').content.includes('same')||f.recordSources.find(x=>x.sourceId==='FARM-R2-COPY').content.includes('not a separate'));assert.equal(3*100+40,340);assert.equal(m.factQuestion.options[m.factQuestion.correctOptionIndex],'INR 340');assert.equal(12-(5+4),3);assert.ok(m.trialQuestion.options[m.trialQuestion.correctOptionIndex].startsWith('Three minutes'));assert.equal(35/50*100,70);assert.equal(p.factQuestion.options[p.factQuestion.correctOptionIndex],'70%');assert.ok(s.claimQuestion.options[s.claimQuestion.correctOptionIndex].includes('simulated'));assert.ok(s.missingContext.includes('OPEN'));});
-run('Four-active and24-retained capacity limits remain actual-authoring gates',async()=>{let t=host();for(let i=0;i<4;i++)t=await create(t,JOB_TEMPLATES[i].id);await deny(create(t),409);assert.equal(t.content.drafts.length,4);const filled=structuredClone(t);filled.content.drafts=Array.from({length:24},(_,i)=>({...structuredClone(t.content.drafts[0]),id:'archived-'+i,state:'archived'}));await deny(create(filled),409);assert.equal(filled.content.drafts.length,24);});
-run('Template creation preserves all previous draft/publication bodies and origins',async()=>{let t=await create(host(),'farmer-expert-brief');t=await reviewed(t);const before=structuredClone(t.content);t=await create(t,'public-source-brief',a,later);assert.deepEqual(t.content.drafts[0],before.drafts[0]);assert.deepEqual(t.content.publications,before.publications);assert.notEqual(last(t).programId,t.content.publications[0].snapshot.program.id);});
-run('Owner can edit normally; template origin remains historical starting-point metadata',async()=>{let t=await create(host()),d=last(t),origin=structuredClone(d.templateOrigin),doc=structuredClone(d.document);doc.title='Owner edited fictional practice title';t=await content(t,a,{type:'content-save',draftId:d.id,revision:d.revision,document:doc},later);d=last(t);assert.equal(d.document.title,doc.title);assert.deepEqual(d.templateOrigin,origin);assert.equal(d.approval,undefined);});
-run('Learner and outsider projections never gain unpublished templates or review notes',async()=>{const t=await create(host()),d=last(t),x=projectWorkspaceContent(t,l,[]);assert.equal(x.versions.length,0);assert.ok(!JSON.stringify(x).includes(d.document.title));assert.ok(!Object.hasOwn(x,'drafts'));assert.throws(()=>projectWorkspaceContent(t,outsider,[]),e=>e.status===404);});
-run('Template metadata and document outputs detach from exported definitions',async()=>{const t=jobTemplate('msme-customer-commitments');t.recordSources[0].content='Changed';assert.notEqual(jobTemplate(t.id).recordSources[0].content,'Changed');const host0=host(),created=await create(host0),d=last(created);d.document.lessons[0].exercise.sourcePacket[0].content='Local edit';assert.notEqual(JOB_TEMPLATES[1].recordSources[0].content,'Local edit');});
-run('Structural maintenance fault cannot return a partial created host',async()=>{const t=await content(host(),a,{type:'content-copy',sourceRef:jobTemplateSourceRef('msme-customer-commitments')},now),d=last(t),bad=structuredClone(d.document);bad.lessons[0].quiz.pop();assert.throws(()=>tailorJobTemplateDocument(bad,'msme-customer-commitments'),e=>e.status===409);assert.equal(d.document.lessons[0].quiz.length,3);});
-run('Optional provenance renders only exact trusted origin and never an approval or foreign seed',async()=>{const t=await create(host()),d=last(t),o=readJobTemplateOrigin(d);assert.deepEqual(o,d.templateOrigin);o.governanceReferences[0].limit='Changed';assert.notEqual(d.templateOrigin.governanceReferences[0].limit,'Changed');for(const change of [x=>x.templateOrigin.sourceRef.versionId='other',x=>x.baseRef.programId='public-servant-source-briefs',x=>x.templateOrigin.createdAt=later,x=>x.templateOrigin.approved=true,x=>x.templateOrigin.governanceReferences[0].limit='Approved by library',x=>x.templateOrigin.governanceReferences=[null],x=>x.templateOrigin.templateId='health',x=>x.templateOrigin.templateVersion='future',x=>x.templateOrigin=null]){const bad=structuredClone(d);change(bad);assert.equal(readJobTemplateOrigin(bad),null);}assert.equal(readJobTemplateOrigin(null),null);});
-run('Every phase quiz includes a source-supported boundary and a designated human route',async()=>{for(const def of JOB_TEMPLATES){const t=await create(host(),def.id),d=last(t);for(const lesson of d.document.lessons){const packet=lesson.exercise.sourcePacket;assert.equal(packet.filter(s=>s.sourceId==='TRAINING-BOUNDARY').length,1);const boundary=packet.find(s=>s.sourceId==='TRAINING-BOUNDARY').content;for(const text of ['named reviewer','channel and backup','written override permission','reporting protection'])assert.ok(boundary.includes(text));assert.ok(packet.some(s=>s.sourceId.endsWith('-ROUTE')));assert.ok(!lesson.lessonText.includes('is a fictional, teacher-owned practice draft'));}}});
-run('Final origin bytes and closure reserve enforce exact authoring capacity without a partial draft',async()=>{
- let base=host();for(let i=0;i<6;i++){base=await create(base);const d=last(base);base=await content(base,a,{type:'content-archive',draftId:d.id,revision:d.revision,reason:'Retain the fictional draft history for a capacity fixture.'},now);}
- const sized=await create(base),effective=t=>utf8JsonBytes(t.content)+authoringClosureReserve(t),growth=effective(sized)-effective(base),target=AUTHORING_LIMITS.contentBytes-growth;
- const padded=structuredClone(base);let remaining=target-effective(padded);
- for(const d of padded.content.drafts){while(remaining>0&&d.history.length<100){const noteEntry={id:crypto.randomUUID(),actor:a.userId,actorName:'Fictional author',action:'changes requested',at:now,note:''};const previous=effective(padded);d.history.push(noteEntry);remaining-=effective(padded)-previous;if(remaining<0){d.history.pop();break;}const n=Math.min(1000,remaining);noteEntry.note='x'.repeat(n);remaining-=n;}}
- assert.equal(remaining,0);assert.equal(effective(padded),target);const before=structuredClone(padded);const exact=await create(padded);assert.equal(effective(exact),AUTHORING_LIMITS.contentBytes);assert.deepEqual(padded,before);
- const over=structuredClone(padded),entry=over.content.drafts.flatMap(d=>d.history).find(h=>typeof h.note==='string'&&h.note.length<1000);assert.ok(entry);entry.note+='x';await deny(create(over),413);assert.deepEqual(over.content.drafts.map(d=>d.id),padded.content.drafts.map(d=>d.id));assert.equal(over.content.drafts.length,6);
- // The old two-step check would accept this near-boundary new draft before adding its origin.
- const copied=await content(over,a,{type:'content-copy',sourceRef:jobTemplateSourceRef('msme-customer-commitments')},now),d=last(copied),doc=tailorJobTemplateDocument(d.document,'msme-customer-commitments');const withoutOrigin=await content(copied,a,{type:'content-save',draftId:d.id,revision:d.revision,document:doc},now);assert.ok(effective(withoutOrigin)<=AUTHORING_LIMITS.contentBytes);
+import { readFileSync, writeFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+import { test } from 'node:test';
+import { output } from './qa-paths.mjs';
+import { pathToFileURL } from 'node:url';
+const {
+  JOB_TEMPLATES,
+  JOB_TEMPLATE_VERSION,
+  jobTemplate,
+  jobTemplateSourceRef,
+  readJobTemplateOrigin,
+  tailorJobTemplateDocument,
+  applyJobPracticeTemplate,
+  applyWorkspaceContentCommand: content,
+  validateDocument,
+  documentHash,
+  canonicalJson,
+  projectWorkspaceContent,
+  programs,
+  collections,
+  AUTHORING_LIMITS,
+  utf8JsonBytes,
+  authoringClosureReserve,
+  applyTeamCommand,
+  createTeam,
+  projectTeam,
+} = await import(pathToFileURL(output + '/actual-root-model.mjs'));
+const now = '2030-01-01T12:00:00.000Z',
+  later = '2030-01-01T13:00:00.000Z',
+  due = '2030-07-01T12:00:00.000Z';
+const a = { userId: 'synthetic-author' },
+  r = { userId: 'synthetic-reviewer' },
+  l = { userId: 'synthetic-learner' },
+  outsider = { userId: 'synthetic-outsider' },
+  checks = { sources: true, answers: true, rubric: true, safety: true, accessibility: true },
+  cases = [];
+const host = () => ({
+  id: 'tw-11111111-1111-4111-8111-111111111111',
+  members: [
+    { userId: a.userId, name: 'Fictional author', active: true, roles: ['admin'] },
+    { userId: r.userId, name: 'Fictional independent reviewer', active: true, roles: ['admin'] },
+    { userId: l.userId, name: 'Fictional learner', active: true, roles: ['learner'] },
+  ],
 });
-const authorIdentity={...a,email:'synthetic-author@example.test',fullName:'Fictional author'},reviewerIdentity={...r,email:'synthetic-reviewer@example.test',fullName:'Fictional reviewer'},learnerIdentity={...l,email:'synthetic-learner@example.test',fullName:'Fictional learner'};
-function fullTeam(){const t=createTeam(authorIdentity,{name:'Fictional template team',purpose:'Pure template integration fixture only.',context:'msme'},host().id,now);t.members.push({userId:r.userId,email:reviewerIdentity.email,name:reviewerIdentity.fullName,roles:['admin'],scopes:[],active:true,joinedAt:now},{userId:l.userId,email:learnerIdentity.email,name:learnerIdentity.fullName,roles:['learner'],scopes:[],active:true,joinedAt:now});return t;}
-run('Adopted root team handler emits one aggregate activity with the server-created draft identity',async()=>{const original=fullTeam(),before=structuredClone(original);const t=await applyTeamCommand(original,authorIdentity,{type:'content-job-template',templateId:'farmer-expert-brief'},now),d=last(t);assert.deepEqual(original,before);assert.equal(t.content.drafts.length,1);assert.equal(t.activity.length,1);assert.equal(t.activity[0].action,'content-job-template');assert.deepEqual(t.activity[0].detail,{draftId:d.id,templateId:'farmer-expert-brief'});assert.equal(d.history.length,2);assert.equal(t.cohorts.length,0);assert.equal(t.learners.length,0);});
-run('Adopted root team handler preserves current membership/role denials and exact error statuses',async()=>{for(const u of [learnerIdentity,{...outsider,email:'synthetic-outsider@example.test'}])await deny(Promise.resolve().then(()=>applyTeamCommand(fullTeam(),u,{type:'content-job-template',templateId:'msme-customer-commitments'},now)),u.userId===l.userId?403:404);const removed=fullTeam();removed.members[0].active=false;await deny(Promise.resolve().then(()=>applyTeamCommand(removed,authorIdentity,{type:'content-job-template',templateId:'msme-customer-commitments'},now)),403);await deny(applyTeamCommand(fullTeam(),authorIdentity,{type:'content-job-template',templateId:'health'},now),404);await deny(applyTeamCommand(fullTeam(),authorIdentity,{type:'content-job-template',templateId:'msme-customer-commitments',document:{}},now),400);});
-run('Adopted root team projection gives only current owners unpublished template bodies',async()=>{let t=await applyTeamCommand(fullTeam(),authorIdentity,{type:'content-job-template',templateId:'public-source-brief'},now);const d=last(t);assert.equal(projectTeam(t,authorIdentity).team.content.drafts[0].id,d.id);const learner=projectTeam(t,learnerIdentity);assert.ok(!Object.hasOwn(learner.team,'content'));assert.ok(!JSON.stringify(learner).includes(d.document.title));t.members[0].active=false;const removed=projectTeam(t,authorIdentity);assert.equal(removed.team.active,false);assert.ok(!Object.hasOwn(removed.team,'content'));assert.ok(!JSON.stringify(removed).includes(d.document.title));});
-run('Adopted root team review/publication/cohort commands retain exact private pins and do not change an earlier cohort',async()=>{let t=await applyTeamCommand(fullTeam(),authorIdentity,{type:'content-job-template',templateId:'msme-customer-commitments'},now);let d=last(t);t=await applyTeamCommand(t,authorIdentity,{type:'content-submit',draftId:d.id,revision:d.revision,reviewerId:r.userId,reviewDueAt:due},now);d=last(t);t=await applyTeamCommand(t,reviewerIdentity,{type:'content-review',draftId:d.id,revision:d.revision,decision:'approve',checks,note:'Independent fictional source, answer, rubric, safety and accessibility review.'},now);d=last(t);t=await applyTeamCommand(t,authorIdentity,{type:'content-publish',draftId:d.id,revision:d.revision},now);const ref=t.content.publications[0].snapshot.ref;t=await applyTeamCommand(t,authorIdentity,{type:'cohort-create',title:'Fictional exact-pin cohort',programId:ref.programId,contentRef:ref,capacity:3},now);const before=structuredClone(t.cohorts[0]),publication=structuredClone(t.content.publications[0]);t=await applyTeamCommand(t,authorIdentity,{type:'content-job-template',templateId:'frontline-spot-override-flag'},later);assert.deepEqual(t.cohorts[0],before);assert.deepEqual(t.content.publications[0],publication);assert.deepEqual(t.cohorts[0].contentRef,ref);assert.notEqual(last(t).programId,ref.programId);});
-run('Other current owner may archive a new template without replacing its canonical document or starting-point history',async()=>{let t=await applyTeamCommand(fullTeam(),authorIdentity,{type:'content-job-template',templateId:'farmer-expert-brief'},now);const before=structuredClone(last(t));t=await applyTeamCommand(t,reviewerIdentity,{type:'content-archive',draftId:before.id,revision:before.revision,reason:'Abandoned fictional training adaptation retained as history.'},later);const d=last(t);assert.equal(d.state,'archived');assert.deepEqual(d.document,before.document);assert.deepEqual(d.templateOrigin,before.templateOrigin);assert.equal(d.history.length,before.history.length+1);});
-run('Original global archive bytes remain exact supplied version',async()=>{const app=process.env.ACADEMY_APP_PATH??'work/aplyd-academy';const bytes=readFileSync(app+'/lib/curriculum-versions/0.1-review-draft.json');assert.equal(createHash('sha256').update(bytes).digest('hex'),'9fc83c8dd615456db8f49d140f56bff566e05c14d32ebb70a14cdcb73078b7e4');assert.equal(programs.length,3);});
-process.on('beforeExit',()=>writeFileSync(output+'/actual-root-model-test-evidence.json',JSON.stringify({passed:process.exitCode!==1,groups:cases.length,cases,at:new Date().toISOString(),limits:['Actual adopted root pure commands. No API/database CAS/browser execution, source-library mutation or provider call.']},null,2)));
+const create = (t, id = 'msme-customer-commitments', u = a, time = now) =>
+  applyJobPracticeTemplate(t, u, { type: 'content-job-template', templateId: id }, time);
+const last = (t) => t.content.drafts.at(-1);
+const deny = async (p, status) => assert.rejects(p, (e) => e.status === status);
+const run = (name, fn) =>
+  test(name, async () => {
+    await fn();
+    cases.push(name);
+  });
+async function reviewed(t, did = last(t).id) {
+  let d = t.content.drafts.find((d) => d.id === did);
+  t = await content(
+    t,
+    a,
+    { type: 'content-submit', draftId: d.id, revision: d.revision, reviewerId: r.userId, reviewDueAt: due },
+    now,
+  );
+  d = t.content.drafts.find((d) => d.id === did);
+  t = await content(
+    t,
+    r,
+    {
+      type: 'content-review',
+      draftId: d.id,
+      revision: d.revision,
+      decision: 'approve',
+      checks,
+      note: 'Independent synthetic review checked all source facts, answer keys, rubric anchors, safe limits and accessible instructions.',
+    },
+    now,
+  );
+  d = t.content.drafts.find((d) => d.id === did);
+  return content(t, a, { type: 'content-publish', draftId: d.id, revision: d.revision }, now);
+}
+for (const def of JOB_TEMPLATES) {
+  run(def.id + ' creates complete editable private draft with exact seed and no publication', async () => {
+    const original = host(),
+      before = structuredClone(original),
+      t = await create(original, def.id),
+      d = last(t);
+    assert.deepEqual(original, before);
+    assert.equal(d.state, 'draft');
+    assert.equal(d.revision, 2);
+    assert.equal(d.documentRevision, 2);
+    assert.equal(d.document.title, def.title);
+    assert.deepEqual(d.baseRef, jobTemplateSourceRef(def.id));
+    assert.equal(d.document.lessons.length, 3);
+    assert.equal(d.document.lessons.flatMap((l) => l.quiz).length, 9);
+    assert.equal(d.document.practicalAssessment.submissionPrompts.length, 7);
+    assert.equal(d.document.practicalAssessment.rubric.length, 4);
+    assert.equal(t.content.publications.length, 0);
+    assert.equal(d.approval, undefined);
+    assert.equal(d.publishedRef, undefined);
+    assert.deepEqual(validateDocument(d.document, d.document), []);
+    assert.ok(new TextEncoder().encode(JSON.stringify(d.document)).length <= AUTHORING_LIMITS.documentBytes);
+  });
+  run(def.id + ' preserves locked seed fields and IDs while tailoring factual sources', async () => {
+    const copied = await content(
+        host(),
+        a,
+        { type: 'content-copy', sourceRef: jobTemplateSourceRef(def.id) },
+        now,
+      ),
+      base = last(copied).document,
+      d = tailorJobTemplateDocument(base, def.id);
+    assert.deepEqual(validateDocument(d, base), []);
+    for (const k of [
+      'id',
+      'role',
+      'ecosystem',
+      'level',
+      'credentialClaim',
+      'credentialExclusions',
+      'sourceNotice',
+      'followUp',
+    ])
+      assert.deepEqual(d[k], base[k]);
+    for (const [i, l] of d.lessons.entries()) {
+      assert.equal(l.id, base.lessons[i].id);
+      assert.deepEqual(
+        l.quiz.map((q) => q.id),
+        base.lessons[i].quiz.map((q) => q.id),
+      );
+      assert.deepEqual(l.exercise.sourcePacket, def.recordSources);
+      assert.ok(l.lessonText.includes(def.calculation));
+      assert.ok(l.exercise.assessorReference.includes(def.checkedFacts));
+    }
+    assert.equal(d.practicalAssessment.id, base.practicalAssessment.id);
+    assert.deepEqual(
+      d.practicalAssessment.submissionPrompts.map((p) => p.id),
+      base.practicalAssessment.submissionPrompts.map((p) => p.id),
+    );
+    assert.deepEqual(
+      d.practicalAssessment.rubric.map((r) => [r.id, r.weight, r.criticalGate === null]),
+      base.practicalAssessment.rubric.map((r) => [r.id, r.weight, r.criticalGate === null]),
+    );
+  });
+  run(def.id + ' still needs independent current owner review before immutable publication', async () => {
+    let t = await create(host(), def.id),
+      d = last(t);
+    await deny(content(t, a, { type: 'content-publish', draftId: d.id, revision: d.revision }, now), 409);
+    await deny(
+      content(
+        t,
+        a,
+        {
+          type: 'content-submit',
+          draftId: d.id,
+          revision: d.revision,
+          reviewerId: a.userId,
+          reviewDueAt: due,
+        },
+        now,
+      ),
+      403,
+    );
+    t = await reviewed(t);
+    d = last(t);
+    const p = t.content.publications[0];
+    assert.equal(d.state, 'published');
+    assert.equal(p.snapshot.ref.scope, t.id);
+    assert.equal(p.snapshot.language, 'en');
+    assert.equal(p.documentHash, await documentHash(p.snapshot.program));
+    assert.equal(p.reviewerId, r.userId);
+    assert.deepEqual(p.snapshot.program, d.document);
+    assert.equal(p.snapshot.policy.maxAttempts, 3);
+    assert.equal(p.snapshot.policy.appealDays, 14);
+  });
+}
+run('Only a current owner may create a template draft', async () => {
+  await deny(create(host(), undefined, l), 403);
+  await deny(create(host(), undefined, outsider), 404);
+  const t = host();
+  t.members[0].active = false;
+  await deny(create(t), 404);
+});
+run('Exact create command rejects existing draft/document/reference/actor fields', async () => {
+  for (const key of ['draftId', 'document', 'sourceRef', 'actor', 'learnerId', 'approved', 'publishedRef'])
+    await deny(
+      applyJobPracticeTemplate(
+        host(),
+        a,
+        { type: 'content-job-template', templateId: 'msme-customer-commitments', [key]: 'untrusted' },
+        now,
+      ),
+      400,
+    );
+  for (const input of [null, [], {}, { type: 'content-save', templateId: 'msme-customer-commitments' }])
+    await deny(applyJobPracticeTemplate(host(), a, input, now), 400);
+});
+run('Unavailable or prototype-like template never chooses a fallback', async () => {
+  for (const id of ['health', 'other', 'toString', '__proto__']) await deny(create(host(), id), 404);
+});
+run('Metadata has template version and referenced teaching sources without approval claim', async () => {
+  const t = await create(host()),
+    d = last(t);
+  assert.deepEqual(
+    Object.keys(d.templateOrigin).sort(),
+    [
+      'kind',
+      'templateId',
+      'templateVersion',
+      'sourceRef',
+      'governanceReferences',
+      'createdAt',
+      'adaptationStatus',
+    ].sort(),
+  );
+  assert.equal(d.templateOrigin.templateVersion, JOB_TEMPLATE_VERSION);
+  assert.equal(d.templateOrigin.adaptationStatus, 'independent-review-required');
+  assert.equal(d.templateOrigin.createdAt, now);
+  assert.ok(
+    d.templateOrigin.governanceReferences.every((r) =>
+      r.limit.includes('no institutional or domain authority'),
+    ),
+  );
+});
+run('Every reference resolves to one supplied immutable library resource', async () => {
+  const ids = collections.flatMap((c) => c.resources.map((r) => r.id));
+  for (const t of JOB_TEMPLATES)
+    for (const ref of t.references) assert.equal(ids.filter((x) => x === ref.resourceId).length, 1);
+  assert.equal(ids.length, 20);
+});
+run('Exact fictional arithmetic and limits agree with source packets and keys', async () => {
+  const f = jobTemplate('farmer-expert-brief'),
+    m = jobTemplate('msme-customer-commitments'),
+    p = jobTemplate('public-source-brief'),
+    s = jobTemplate('frontline-spot-override-flag');
+  assert.equal(300 + 200, 500);
+  assert.equal(f.factQuestion.options[f.factQuestion.correctOptionIndex], 'INR 500');
+  assert.ok(
+    f.recordSources.find((x) => x.sourceId === 'FARM-R2-COPY').content.includes('same') ||
+      f.recordSources.find((x) => x.sourceId === 'FARM-R2-COPY').content.includes('not a separate'),
+  );
+  assert.equal(3 * 100 + 40, 340);
+  assert.equal(m.factQuestion.options[m.factQuestion.correctOptionIndex], 'INR 340');
+  assert.equal(12 - (5 + 4), 3);
+  assert.ok(m.trialQuestion.options[m.trialQuestion.correctOptionIndex].startsWith('Three minutes'));
+  assert.equal((35 / 50) * 100, 70);
+  assert.equal(p.factQuestion.options[p.factQuestion.correctOptionIndex], '70%');
+  assert.ok(s.claimQuestion.options[s.claimQuestion.correctOptionIndex].includes('simulated'));
+  assert.ok(s.missingContext.includes('OPEN'));
+});
+run('Four-active and24-retained capacity limits remain actual-authoring gates', async () => {
+  let t = host();
+  for (let i = 0; i < 4; i++) t = await create(t, JOB_TEMPLATES[i].id);
+  await deny(create(t), 409);
+  assert.equal(t.content.drafts.length, 4);
+  const filled = structuredClone(t);
+  filled.content.drafts = Array.from({ length: 24 }, (_, i) => ({
+    ...structuredClone(t.content.drafts[0]),
+    id: 'archived-' + i,
+    state: 'archived',
+  }));
+  await deny(create(filled), 409);
+  assert.equal(filled.content.drafts.length, 24);
+});
+run('Template creation preserves all previous draft/publication bodies and origins', async () => {
+  let t = await create(host(), 'farmer-expert-brief');
+  t = await reviewed(t);
+  const before = structuredClone(t.content);
+  t = await create(t, 'public-source-brief', a, later);
+  assert.deepEqual(t.content.drafts[0], before.drafts[0]);
+  assert.deepEqual(t.content.publications, before.publications);
+  assert.notEqual(last(t).programId, t.content.publications[0].snapshot.program.id);
+});
+run('Owner can edit normally; template origin remains historical starting-point metadata', async () => {
+  let t = await create(host()),
+    d = last(t),
+    origin = structuredClone(d.templateOrigin),
+    doc = structuredClone(d.document);
+  doc.title = 'Owner edited fictional practice title';
+  t = await content(
+    t,
+    a,
+    { type: 'content-save', draftId: d.id, revision: d.revision, document: doc },
+    later,
+  );
+  d = last(t);
+  assert.equal(d.document.title, doc.title);
+  assert.deepEqual(d.templateOrigin, origin);
+  assert.equal(d.approval, undefined);
+});
+run('Learner and outsider projections never gain unpublished templates or review notes', async () => {
+  const t = await create(host()),
+    d = last(t),
+    x = projectWorkspaceContent(t, l, []);
+  assert.equal(x.versions.length, 0);
+  assert.ok(!JSON.stringify(x).includes(d.document.title));
+  assert.ok(!Object.hasOwn(x, 'drafts'));
+  assert.throws(
+    () => projectWorkspaceContent(t, outsider, []),
+    (e) => e.status === 404,
+  );
+});
+run('Template metadata and document outputs detach from exported definitions', async () => {
+  const t = jobTemplate('msme-customer-commitments');
+  t.recordSources[0].content = 'Changed';
+  assert.notEqual(jobTemplate(t.id).recordSources[0].content, 'Changed');
+  const host0 = host(),
+    created = await create(host0),
+    d = last(created);
+  d.document.lessons[0].exercise.sourcePacket[0].content = 'Local edit';
+  assert.notEqual(JOB_TEMPLATES[1].recordSources[0].content, 'Local edit');
+});
+run('Structural maintenance fault cannot return a partial created host', async () => {
+  const t = await content(
+      host(),
+      a,
+      { type: 'content-copy', sourceRef: jobTemplateSourceRef('msme-customer-commitments') },
+      now,
+    ),
+    d = last(t),
+    bad = structuredClone(d.document);
+  bad.lessons[0].quiz.pop();
+  assert.throws(
+    () => tailorJobTemplateDocument(bad, 'msme-customer-commitments'),
+    (e) => e.status === 409,
+  );
+  assert.equal(d.document.lessons[0].quiz.length, 3);
+});
+run(
+  'Optional provenance renders only exact trusted origin and never an approval or foreign seed',
+  async () => {
+    const t = await create(host()),
+      d = last(t),
+      o = readJobTemplateOrigin(d);
+    assert.deepEqual(o, d.templateOrigin);
+    o.governanceReferences[0].limit = 'Changed';
+    assert.notEqual(d.templateOrigin.governanceReferences[0].limit, 'Changed');
+    for (const change of [
+      (x) => (x.templateOrigin.sourceRef.versionId = 'other'),
+      (x) => (x.baseRef.programId = 'public-servant-source-briefs'),
+      (x) => (x.templateOrigin.createdAt = later),
+      (x) => (x.templateOrigin.approved = true),
+      (x) => (x.templateOrigin.governanceReferences[0].limit = 'Approved by library'),
+      (x) => (x.templateOrigin.governanceReferences = [null]),
+      (x) => (x.templateOrigin.templateId = 'health'),
+      (x) => (x.templateOrigin.templateVersion = 'future'),
+      (x) => (x.templateOrigin = null),
+    ]) {
+      const bad = structuredClone(d);
+      change(bad);
+      assert.equal(readJobTemplateOrigin(bad), null);
+    }
+    assert.equal(readJobTemplateOrigin(null), null);
+  },
+);
+run('Every phase quiz includes a source-supported boundary and a designated human route', async () => {
+  for (const def of JOB_TEMPLATES) {
+    const t = await create(host(), def.id),
+      d = last(t);
+    for (const lesson of d.document.lessons) {
+      const packet = lesson.exercise.sourcePacket;
+      assert.equal(packet.filter((s) => s.sourceId === 'TRAINING-BOUNDARY').length, 1);
+      const boundary = packet.find((s) => s.sourceId === 'TRAINING-BOUNDARY').content;
+      for (const text of [
+        'named reviewer',
+        'channel and backup',
+        'written override permission',
+        'reporting protection',
+      ])
+        assert.ok(boundary.includes(text));
+      assert.ok(packet.some((s) => s.sourceId.endsWith('-ROUTE')));
+      assert.ok(!lesson.lessonText.includes('is a fictional, teacher-owned practice draft'));
+    }
+  }
+});
+run(
+  'Final origin bytes and closure reserve enforce exact authoring capacity without a partial draft',
+  async () => {
+    let base = host();
+    for (let i = 0; i < 6; i++) {
+      base = await create(base);
+      const d = last(base);
+      base = await content(
+        base,
+        a,
+        {
+          type: 'content-archive',
+          draftId: d.id,
+          revision: d.revision,
+          reason: 'Retain the fictional draft history for a capacity fixture.',
+        },
+        now,
+      );
+    }
+    const sized = await create(base),
+      effective = (t) => utf8JsonBytes(t.content) + authoringClosureReserve(t),
+      growth = effective(sized) - effective(base),
+      target = AUTHORING_LIMITS.contentBytes - growth;
+    const padded = structuredClone(base);
+    let remaining = target - effective(padded);
+    for (const d of padded.content.drafts) {
+      while (remaining > 0 && d.history.length < 100) {
+        const noteEntry = {
+          id: crypto.randomUUID(),
+          actor: a.userId,
+          actorName: 'Fictional author',
+          action: 'changes requested',
+          at: now,
+          note: '',
+        };
+        const previous = effective(padded);
+        d.history.push(noteEntry);
+        remaining -= effective(padded) - previous;
+        if (remaining < 0) {
+          d.history.pop();
+          break;
+        }
+        const n = Math.min(1000, remaining);
+        noteEntry.note = 'x'.repeat(n);
+        remaining -= n;
+      }
+    }
+    assert.equal(remaining, 0);
+    assert.equal(effective(padded), target);
+    const before = structuredClone(padded);
+    const exact = await create(padded);
+    assert.equal(effective(exact), AUTHORING_LIMITS.contentBytes);
+    assert.deepEqual(padded, before);
+    const over = structuredClone(padded),
+      entry = over.content.drafts
+        .flatMap((d) => d.history)
+        .find((h) => typeof h.note === 'string' && h.note.length < 1000);
+    assert.ok(entry);
+    entry.note += 'x';
+    await deny(create(over), 413);
+    assert.deepEqual(
+      over.content.drafts.map((d) => d.id),
+      padded.content.drafts.map((d) => d.id),
+    );
+    assert.equal(over.content.drafts.length, 6);
+    // The old two-step check would accept this near-boundary new draft before adding its origin.
+    const copied = await content(
+        over,
+        a,
+        { type: 'content-copy', sourceRef: jobTemplateSourceRef('msme-customer-commitments') },
+        now,
+      ),
+      d = last(copied),
+      doc = tailorJobTemplateDocument(d.document, 'msme-customer-commitments');
+    const withoutOrigin = await content(
+      copied,
+      a,
+      { type: 'content-save', draftId: d.id, revision: d.revision, document: doc },
+      now,
+    );
+    assert.ok(effective(withoutOrigin) <= AUTHORING_LIMITS.contentBytes);
+  },
+);
+const authorIdentity = { ...a, email: 'synthetic-author@example.test', fullName: 'Fictional author' },
+  reviewerIdentity = { ...r, email: 'synthetic-reviewer@example.test', fullName: 'Fictional reviewer' },
+  learnerIdentity = { ...l, email: 'synthetic-learner@example.test', fullName: 'Fictional learner' };
+function fullTeam() {
+  const t = createTeam(
+    authorIdentity,
+    { name: 'Fictional template team', purpose: 'Pure template integration fixture only.', context: 'msme' },
+    host().id,
+    now,
+  );
+  t.members.push(
+    {
+      userId: r.userId,
+      email: reviewerIdentity.email,
+      name: reviewerIdentity.fullName,
+      roles: ['admin'],
+      scopes: [],
+      active: true,
+      joinedAt: now,
+    },
+    {
+      userId: l.userId,
+      email: learnerIdentity.email,
+      name: learnerIdentity.fullName,
+      roles: ['learner'],
+      scopes: [],
+      active: true,
+      joinedAt: now,
+    },
+  );
+  return t;
+}
+run(
+  'Adopted root team handler emits one aggregate activity with the server-created draft identity',
+  async () => {
+    const original = fullTeam(),
+      before = structuredClone(original);
+    const t = await applyTeamCommand(
+        original,
+        authorIdentity,
+        { type: 'content-job-template', templateId: 'farmer-expert-brief' },
+        now,
+      ),
+      d = last(t);
+    assert.deepEqual(original, before);
+    assert.equal(t.content.drafts.length, 1);
+    assert.equal(t.activity.length, 1);
+    assert.equal(t.activity[0].action, 'content-job-template');
+    assert.deepEqual(t.activity[0].detail, { draftId: d.id, templateId: 'farmer-expert-brief' });
+    assert.equal(d.history.length, 2);
+    assert.equal(t.cohorts.length, 0);
+    assert.equal(t.learners.length, 0);
+  },
+);
+run(
+  'Adopted root team handler preserves current membership/role denials and exact error statuses',
+  async () => {
+    for (const u of [learnerIdentity, { ...outsider, email: 'synthetic-outsider@example.test' }])
+      await deny(
+        Promise.resolve().then(() =>
+          applyTeamCommand(
+            fullTeam(),
+            u,
+            { type: 'content-job-template', templateId: 'msme-customer-commitments' },
+            now,
+          ),
+        ),
+        u.userId === l.userId ? 403 : 404,
+      );
+    const removed = fullTeam();
+    removed.members[0].active = false;
+    await deny(
+      Promise.resolve().then(() =>
+        applyTeamCommand(
+          removed,
+          authorIdentity,
+          { type: 'content-job-template', templateId: 'msme-customer-commitments' },
+          now,
+        ),
+      ),
+      403,
+    );
+    await deny(
+      applyTeamCommand(
+        fullTeam(),
+        authorIdentity,
+        { type: 'content-job-template', templateId: 'health' },
+        now,
+      ),
+      404,
+    );
+    await deny(
+      applyTeamCommand(
+        fullTeam(),
+        authorIdentity,
+        { type: 'content-job-template', templateId: 'msme-customer-commitments', document: {} },
+        now,
+      ),
+      400,
+    );
+  },
+);
+run('Adopted root team projection gives only current owners unpublished template bodies', async () => {
+  let t = await applyTeamCommand(
+    fullTeam(),
+    authorIdentity,
+    { type: 'content-job-template', templateId: 'public-source-brief' },
+    now,
+  );
+  const d = last(t);
+  assert.equal(projectTeam(t, authorIdentity).team.content.drafts[0].id, d.id);
+  const learner = projectTeam(t, learnerIdentity);
+  assert.ok(!Object.hasOwn(learner.team, 'content'));
+  assert.ok(!JSON.stringify(learner).includes(d.document.title));
+  t.members[0].active = false;
+  const removed = projectTeam(t, authorIdentity);
+  assert.equal(removed.team.active, false);
+  assert.ok(!Object.hasOwn(removed.team, 'content'));
+  assert.ok(!JSON.stringify(removed).includes(d.document.title));
+});
+run(
+  'Adopted root team review/publication/cohort commands retain exact private pins and do not change an earlier cohort',
+  async () => {
+    let t = await applyTeamCommand(
+      fullTeam(),
+      authorIdentity,
+      { type: 'content-job-template', templateId: 'msme-customer-commitments' },
+      now,
+    );
+    let d = last(t);
+    t = await applyTeamCommand(
+      t,
+      authorIdentity,
+      { type: 'content-submit', draftId: d.id, revision: d.revision, reviewerId: r.userId, reviewDueAt: due },
+      now,
+    );
+    d = last(t);
+    t = await applyTeamCommand(
+      t,
+      reviewerIdentity,
+      {
+        type: 'content-review',
+        draftId: d.id,
+        revision: d.revision,
+        decision: 'approve',
+        checks,
+        note: 'Independent fictional source, answer, rubric, safety and accessibility review.',
+      },
+      now,
+    );
+    d = last(t);
+    t = await applyTeamCommand(
+      t,
+      authorIdentity,
+      { type: 'content-publish', draftId: d.id, revision: d.revision },
+      now,
+    );
+    const ref = t.content.publications[0].snapshot.ref;
+    t = await applyTeamCommand(
+      t,
+      authorIdentity,
+      {
+        type: 'cohort-create',
+        title: 'Fictional exact-pin cohort',
+        programId: ref.programId,
+        contentRef: ref,
+        capacity: 3,
+      },
+      now,
+    );
+    const before = structuredClone(t.cohorts[0]),
+      publication = structuredClone(t.content.publications[0]);
+    t = await applyTeamCommand(
+      t,
+      authorIdentity,
+      { type: 'content-job-template', templateId: 'frontline-spot-override-flag' },
+      later,
+    );
+    assert.deepEqual(t.cohorts[0], before);
+    assert.deepEqual(t.content.publications[0], publication);
+    assert.deepEqual(t.cohorts[0].contentRef, ref);
+    assert.notEqual(last(t).programId, ref.programId);
+  },
+);
+run(
+  'Other current owner may archive a new template without replacing its canonical document or starting-point history',
+  async () => {
+    let t = await applyTeamCommand(
+      fullTeam(),
+      authorIdentity,
+      { type: 'content-job-template', templateId: 'farmer-expert-brief' },
+      now,
+    );
+    const before = structuredClone(last(t));
+    t = await applyTeamCommand(
+      t,
+      reviewerIdentity,
+      {
+        type: 'content-archive',
+        draftId: before.id,
+        revision: before.revision,
+        reason: 'Abandoned fictional training adaptation retained as history.',
+      },
+      later,
+    );
+    const d = last(t);
+    assert.equal(d.state, 'archived');
+    assert.deepEqual(d.document, before.document);
+    assert.deepEqual(d.templateOrigin, before.templateOrigin);
+    assert.equal(d.history.length, before.history.length + 1);
+  },
+);
+run('Original global archive bytes remain exact supplied version', async () => {
+  const app = process.env.ACADEMY_APP_PATH ?? 'work/aplyd-academy';
+  const bytes = readFileSync(app + '/lib/curriculum-versions/0.1-review-draft.json');
+  assert.equal(
+    createHash('sha256').update(bytes).digest('hex'),
+    '9fc83c8dd615456db8f49d140f56bff566e05c14d32ebb70a14cdcb73078b7e4',
+  );
+  assert.equal(programs.length, 3);
+});
+process.on('beforeExit', () =>
+  writeFileSync(
+    output + '/actual-root-model-test-evidence.json',
+    JSON.stringify(
+      {
+        passed: process.exitCode !== 1,
+        groups: cases.length,
+        cases,
+        at: new Date().toISOString(),
+        limits: [
+          'Actual adopted root pure commands. No API/database CAS/browser execution, source-library mutation or provider call.',
+        ],
+      },
+      null,
+      2,
+    ),
+  ),
+);

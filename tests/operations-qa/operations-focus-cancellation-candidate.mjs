@@ -1,17 +1,126 @@
-import {out,runtimeModuleHref} from './qa-paths.mjs';
+import { out, runtimeModuleHref } from './qa-paths.mjs';
 import assert from 'node:assert/strict';
-import {readFileSync,writeFileSync} from 'node:fs';
-import {chromium,browserOptions} from './browser-runtime.mjs';
-import {base,headers} from '../local-qa.mjs';
-const f=JSON.parse(readFileSync(new URL('operations-fixture.json',out),'utf8')),browser=await chromium.launch(browserOptions),cases=[];
-try{for(const kind of ['manual-focus','navigation','deadline','hidden']){
- const context=await browser.newContext({viewport:{width:1440,height:1000},extraHTTPHeaders:headers(f.owner)}),page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));await page.goto(base+'/?workspace='+f.id+'#operations');await page.locator('[data-save-state="loaded"]').waitFor();await page.locator('[data-operations-workspace]').waitFor();const style=await page.addStyleTag({content:'[data-content-publication-id]{display:none!important}'});
- if(kind==='hidden')await page.evaluate(()=>Object.defineProperty(document,'visibilityState',{configurable:true,get:()=>window.__qaVisible??'hidden'}));
- const target=page.locator(`[data-operations-content-id="${f.content.publication.publicationId}"]`).getByRole('button',{name:'Open content studio',exact:true});await target.focus();await target.press('Enter');await page.getByLabel('Seed pathway',{exact:true}).waitFor();
- if(kind==='manual-focus'){await page.getByLabel('Seed pathway',{exact:true}).focus();await page.waitForTimeout(100);await style.evaluate(e=>e.remove());await page.waitForTimeout(1100);assert.equal(await page.getByLabel('Seed pathway',{exact:true}).evaluate(e=>document.activeElement===e),true,'Delayed target never steals deliberate current control focus');}
- if(kind==='navigation'){await page.evaluate(()=>{location.hash='#operations';});await page.locator('[data-operations-workspace]').waitFor();await style.evaluate(e=>e.remove());await page.waitForTimeout(1100);assert.equal(await page.locator('[data-content-publication-id]').count(),0);assert.equal(await page.locator('[data-operations-workspace]').getAttribute('data-operations-workspace'),f.id);assert.equal(new URL(page.url()).hash,'#operations');}
- if(kind==='deadline'){await page.waitForTimeout(1100);await style.evaluate(e=>e.remove());await page.waitForTimeout(150);assert.equal(await page.evaluate(()=>document.activeElement?.closest('[data-content-publication-id]')?.getAttribute('data-content-publication-id')??null),null,'Missing target does not receive focus after bounded deadline');}
- if(kind==='hidden'){await page.waitForTimeout(100);await style.evaluate(e=>e.remove());await page.evaluate(()=>{window.__qaVisible='visible';});await page.waitForTimeout(1100);assert.equal(await page.evaluate(()=>document.activeElement?.closest('[data-content-publication-id]')?.getAttribute('data-content-publication-id')??null),null,'A focus request issued to a hidden document stays canceled after visibility returns');}
- assert.deepEqual(errors,[]);cases.push({kind,passed:true,errors});await context.close();
- }writeFileSync(new URL('operations-focus-cancellation-result.json',out),JSON.stringify({passed:true,at:new Date().toISOString(),workspace:f.id,cases,note:'A temporary local style hides a target only to exercise real browser waiting/cancellation; no app source or server records change.'},null,2));console.log('Four actual browser focus cancellation cases passed.');
-}catch(e){writeFileSync(new URL('operations-focus-cancellation-result.json',out),JSON.stringify({passed:false,at:new Date().toISOString(),workspace:f.id,cases,error:String(e)},null,2));throw e;}finally{await browser.close();}
+import { readFileSync, writeFileSync } from 'node:fs';
+import { chromium, browserOptions } from './browser-runtime.mjs';
+import { base, headers } from '../local-qa.mjs';
+const f = JSON.parse(readFileSync(new URL('operations-fixture.json', out), 'utf8')),
+  browser = await chromium.launch(browserOptions),
+  cases = [];
+try {
+  for (const kind of ['manual-focus', 'navigation', 'deadline', 'hidden']) {
+    const context = await browser.newContext({
+        viewport: { width: 1440, height: 1000 },
+        extraHTTPHeaders: headers(f.owner),
+      }),
+      page = await context.newPage(),
+      errors = [];
+    page.on('pageerror', (e) => errors.push(e.message));
+    await page.goto(base + '/?workspace=' + f.id + '#operations');
+    await page.locator('[data-save-state="loaded"]').waitFor();
+    await page.locator('[data-operations-workspace]').waitFor();
+    const style = await page.addStyleTag({
+      content: '[data-content-publication-id]{display:none!important}',
+    });
+    if (kind === 'hidden')
+      await page.evaluate(() =>
+        Object.defineProperty(document, 'visibilityState', {
+          configurable: true,
+          get: () => window.__qaVisible ?? 'hidden',
+        }),
+      );
+    const target = page
+      .locator(`[data-operations-content-id="${f.content.publication.publicationId}"]`)
+      .getByRole('button', { name: 'Open content studio', exact: true });
+    await target.focus();
+    await target.press('Enter');
+    await page.getByLabel('Seed pathway', { exact: true }).waitFor();
+    if (kind === 'manual-focus') {
+      await page.getByLabel('Seed pathway', { exact: true }).focus();
+      await page.waitForTimeout(100);
+      await style.evaluate((e) => e.remove());
+      await page.waitForTimeout(1100);
+      assert.equal(
+        await page.getByLabel('Seed pathway', { exact: true }).evaluate((e) => document.activeElement === e),
+        true,
+        'Delayed target never steals deliberate current control focus',
+      );
+    }
+    if (kind === 'navigation') {
+      await page.evaluate(() => {
+        location.hash = '#operations';
+      });
+      await page.locator('[data-operations-workspace]').waitFor();
+      await style.evaluate((e) => e.remove());
+      await page.waitForTimeout(1100);
+      assert.equal(await page.locator('[data-content-publication-id]').count(), 0);
+      assert.equal(
+        await page.locator('[data-operations-workspace]').getAttribute('data-operations-workspace'),
+        f.id,
+      );
+      assert.equal(new URL(page.url()).hash, '#operations');
+    }
+    if (kind === 'deadline') {
+      await page.waitForTimeout(1100);
+      await style.evaluate((e) => e.remove());
+      await page.waitForTimeout(150);
+      assert.equal(
+        await page.evaluate(
+          () =>
+            document.activeElement
+              ?.closest('[data-content-publication-id]')
+              ?.getAttribute('data-content-publication-id') ?? null,
+        ),
+        null,
+        'Missing target does not receive focus after bounded deadline',
+      );
+    }
+    if (kind === 'hidden') {
+      await page.waitForTimeout(100);
+      await style.evaluate((e) => e.remove());
+      await page.evaluate(() => {
+        window.__qaVisible = 'visible';
+      });
+      await page.waitForTimeout(1100);
+      assert.equal(
+        await page.evaluate(
+          () =>
+            document.activeElement
+              ?.closest('[data-content-publication-id]')
+              ?.getAttribute('data-content-publication-id') ?? null,
+        ),
+        null,
+        'A focus request issued to a hidden document stays canceled after visibility returns',
+      );
+    }
+    assert.deepEqual(errors, []);
+    cases.push({ kind, passed: true, errors });
+    await context.close();
+  }
+  writeFileSync(
+    new URL('operations-focus-cancellation-result.json', out),
+    JSON.stringify(
+      {
+        passed: true,
+        at: new Date().toISOString(),
+        workspace: f.id,
+        cases,
+        note: 'A temporary local style hides a target only to exercise real browser waiting/cancellation; no app source or server records change.',
+      },
+      null,
+      2,
+    ),
+  );
+  console.log('Four actual browser focus cancellation cases passed.');
+} catch (e) {
+  writeFileSync(
+    new URL('operations-focus-cancellation-result.json', out),
+    JSON.stringify(
+      { passed: false, at: new Date().toISOString(), workspace: f.id, cases, error: String(e) },
+      null,
+      2,
+    ),
+  );
+  throw e;
+} finally {
+  await browser.close();
+}

@@ -19,3 +19,7 @@ outputs/
 *.min.*
 *.map
 drizzle/meta/
+
+# Pinned curriculum content: byte-for-byte hashes are verified by the test builders.
+lib/curriculum.json
+lib/curriculum-versions/

@@ -1,51 +1,270 @@
 import assert from 'node:assert/strict';
-import {resolve} from 'node:path';
-import {pathToFileURL} from 'node:url';
-import {mkdirSync,writeFileSync,readFileSync} from 'node:fs';
-import {createHash} from 'node:crypto';
-const app=resolve(process.env.ACADEMY_APP_PATH??new URL('../',import.meta.url).pathname),qa=await import(pathToFileURL(resolve(app,'tests/local-qa.mjs'))),{fixture,current,action,post,success,base}=qa;
-const out=resolve(process.env.ACADEMY_PR08_QA_OUT??resolve(app,'.sites-runtime/pr08-attendance-clock'));mkdirSync(out,{recursive:true});
-const startedAt=new Date().toISOString(),observations=[];let checks=0;
-const eq=(x,y,label)=>{assert.deepEqual(x,y,label);checks++},ok=(x,label)=>{assert.ok(x,label);checks++};
-const session=(x,id)=>x.team.network.sessions.find(s=>s.id===id);
+import { resolve } from 'node:path';
+import { pathToFileURL } from 'node:url';
+import { mkdirSync, writeFileSync, readFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+const app = resolve(process.env.ACADEMY_APP_PATH ?? new URL('../', import.meta.url).pathname),
+  qa = await import(pathToFileURL(resolve(app, 'tests/local-qa.mjs'))),
+  { fixture, current, action, post, success, base } = qa;
+const out = resolve(process.env.ACADEMY_PR08_QA_OUT ?? resolve(app, '.sites-runtime/pr08-attendance-clock'));
+mkdirSync(out, { recursive: true });
+const startedAt = new Date().toISOString(),
+  observations = [];
+let checks = 0;
+const eq = (x, y, label) => {
+    assert.deepEqual(x, y, label);
+    checks++;
+  },
+  ok = (x, label) => {
+    assert.ok(x, label);
+    checks++;
+  };
+const session = (x, id) => x.team.network.sessions.find((s) => s.id === id);
 // This JSON projection matches the existing preferences export fields. No browser
 // download or new export API is asserted; the source contract is checked below.
-const ownExport=x=>({workspace:x.team.name,profile:x.state.profile,enrollments:x.state.enrollments,followups:x.state.followups,interests:x.state.interests,learningPlan:x.state.learningPlan,supportRequests:x.team.support?.mine??[],sessionHistory:x.team.network?.history??[],directoryChoice:x.team.network?.myProfile??null});
-try{
- const {owner,a,b,id,cid}=await fixture(),beforeA=success(await current(a,id)),beforeB=success(await current(b,id));
- const startMs=Date.now()+30000,startsAt=new Date(startMs).toISOString(),endsAt=new Date(startMs+120000).toISOString();
- const instructions='PR08-PRIVATE-JOIN: fictional local server clock test, no real meeting.';
- const created=success(await action(owner,id,{type:'session-create',cohortId:cid,title:'PR08 fictional server-clock session',description:'Synthetic server-clock window validation only; no human attendance is observed.',instructions,startsAt,endsAt,capacity:2}));
- const sid=created.team.network.sessions.at(-1).id;eq(session(created,sid).startsAt,startsAt,'Accepted exact near-future UTC seconds/milliseconds');
- success(await action(a,id,{type:'session-rsvp',sessionId:sid,going:true}));success(await action(b,id,{type:'session-rsvp',sessionId:sid,going:true}));
- const host=success(await current(owner,id)),row=session(host,sid).registrations.find(r=>r.name===a.name);ok(row,'Current host sees actual confirmed A registration');eq(session(host,sid).occupied,2);
- const basis='PR08-A-MARK-CANARY: fictional attendance label for server-clock regression; no human attendance observed.';
- const correction='PR08-A-CORRECTION-CANARY: synthetic reasoned correction preserving history; no human attendance observed.';
- const command={type:'session-attendance',sessionId:sid,registrationId:row.id,status:'attended',reason:basis};
- ok(Date.now()<startMs-1000,'Before-start request safely precedes the intended real clock boundary');
- const early=await post(owner,id,command,host.revision);eq(early.status,422,'Actual server refuses before session start');
- const afterEarly=success(await current(owner,id));eq(afterEarly.revision,host.revision,'Early refusal does not mutate');eq(session(afterEarly,sid).attendanceHistory,[]);
- const delay=startMs+1000-Date.now();ok(delay>0&&delay<=60000,'One bounded real-clock wait only');
- observations.push({phase:'before start',requestedStart:startsAt,requestAt:new Date().toISOString(),status:early.status,revisionUnchanged:true,realWaitMilliseconds:delay});
- console.log(JSON.stringify({phase:'waiting for actual session start',milliseconds:delay,startsAt}));
- await new Promise(resolve=>setTimeout(resolve,delay));
- const wrongActor=await action(a,id,command);eq(wrongActor.status,403,'Learner cannot mark own attendance even after the start');
- const marked=success(await action(owner,id,command)),markedSession=session(marked,sid);eq(markedSession.attendanceHistory.length,1);eq(markedSession.attendanceHistory[0].status,'attended');eq(markedSession.attendanceHistory[0].reason,basis);ok(Date.parse(markedSession.attendanceHistory[0].createdAt)>=startMs,'Saved server timestamp is at/after actual session start');
- const corrected=success(await action(owner,id,{...command,status:'absent',reason:correction})),correctedSession=session(corrected,sid);
- eq(correctedSession.attendanceHistory.length,2,'Correction appends rather than overwrites');eq(correctedSession.attendanceHistory.map(a=>a.status),['attended','absent']);eq(correctedSession.attendanceHistory.map(a=>a.reason),[basis,correction]);
- const currentA=success(await current(a,id)),currentB=success(await current(b,id)),own=session(currentA,sid),peer=session(currentB,sid);
- eq(own.myAttendance.status,'absent');eq(own.myAttendance.reason,correction);ok(!('registrations'in own));ok(!('attendanceHistory'in own));eq(peer.myAttendance,null);ok(!JSON.stringify(currentB.team.network).includes(basis));ok(!JSON.stringify(currentB.team.network).includes(correction));
- const history=currentA.team.network.history.find(h=>h.id===sid);eq(history.attendance.length,2);eq(history.attendance.map(a=>a.reason),[basis,correction]);for(const forbidden of ['hostId','userId','instructions','registrations'])ok(!(forbidden in history));
- const ui=readFileSync(resolve(app,'app/academy-teams-ui.tsx'),'utf8');ok(ui.includes('sessionHistory:team.network?.history??[]'),'Actual current preferences export selects only the caller network history');
- const exportCurrent=ownExport(currentA);eq(exportCurrent.sessionHistory,[history]);ok(!JSON.stringify(exportCurrent.sessionHistory).includes(instructions));eq(exportCurrent.enrollments,beforeA.state.enrollments,'Attendance never completes lessons/assessments or issues records');eq(currentB.state.enrollments,beforeB.state.enrollments);
- success(await action(owner,id,{type:'member',userId:a.id,roles:['learner'],scopes:[],active:false}));
- const former=success(await current(a,id)),ownerAfterRemoval=success(await current(owner,id));eq(former.team.active,false);eq(former.team.network.sessions,[]);eq(former.team.network.directory,[]);eq(former.team.network.history.length,1);eq(former.team.network.history[0].attendance,history.attendance,'Former member keeps own marks and both correction reasons');
- const formerExport=ownExport(former);eq(formerExport.sessionHistory,[history]);eq(formerExport.enrollments,beforeA.state.enrollments);ok(!JSON.stringify(formerExport.sessionHistory).includes(instructions));for(const subject of [owner.id,a.id,b.id])ok(!JSON.stringify(formerExport.sessionHistory).includes(subject),'Exported own session history excludes platform subjects');
- ok(!session(ownerAfterRemoval,sid).registrations.some(r=>r.id===row.id),'Current host roster drops removed participant');
- const historicalDenied=await post(owner,id,{...command,status:'attended',reason:'Fictional unsupported former-participant correction attempt.'},ownerAfterRemoval.revision);eq(historicalDenied.status,404,'Declared pilot policy refuses new marking after participant eligibility loss');
- const final=success(await current(owner,id));eq(final.revision,ownerAfterRemoval.revision);eq(session(final,sid).attendanceHistory.map(a=>a.status),['attended','absent']);
- observations.push({phase:'actual after-start marks',firstServerRecordedAt:markedSession.attendanceHistory[0].createdAt,correctionServerRecordedAt:correctedSession.attendanceHistory[1].createdAt,statusHistory:['attended','absent'],wrongActorStatus:wrongActor.status,serverStartBoundaryVerified:true,peerAttendanceHidden:true,learningUnchanged:true});
- observations.push({phase:'former history and projection-backed export',ownHistoryRetained:true,correctionReasonsRetained:true,joiningInstructionsAndPeerRosterAbsent:true,platformSubjectsAbsent:true,newFormerParticipantMarkStatus:historicalDenied.status,actualBrowserDownloadTested:false});
- const sources=['tests/local-qa.mjs','app/api/teams/route.ts','lib/academy-network.ts','app/academy-teams-ui.tsx'].map(file=>({file,sha256:createHash('sha256').update(readFileSync(resolve(app,file))).digest('hex')}));
- const result={passed:true,startedAt,completedAt:new Date().toISOString(),worker:process.env.ACADEMY_PR08_WORKER??'parent-confirmed local Worker',base,fixtureId:id,sessionId:sid,checks,observations,sourceHashes:sources,limits:['Actual local server clock boundary and supported API only; no SQL or injected clock','All accounts/session/reasons fictional; no human attendance observed or verified','Seven-day post-end expiry remains existing pure-rule coverage, not a seven-day live wait','Export assertions are own API projection plus exact current UI export field contract; no browser download performed','No unsafe POST retry, production identity, notification, load or restore claim']};writeFileSync(resolve(out,'network-attendance-clock-result.json'),JSON.stringify(result,null,2)+'\n');console.log(JSON.stringify({passed:true,checks,sessionId:sid,firstServerRecordedAt:markedSession.attendanceHistory[0].createdAt}));
-}catch(error){writeFileSync(resolve(out,'network-attendance-clock-result.json'),JSON.stringify({passed:false,startedAt,completedAt:new Date().toISOString(),checks,observations,error:String(error)},null,2)+'\n');throw error}
+const ownExport = (x) => ({
+  workspace: x.team.name,
+  profile: x.state.profile,
+  enrollments: x.state.enrollments,
+  followups: x.state.followups,
+  interests: x.state.interests,
+  learningPlan: x.state.learningPlan,
+  supportRequests: x.team.support?.mine ?? [],
+  sessionHistory: x.team.network?.history ?? [],
+  directoryChoice: x.team.network?.myProfile ?? null,
+});
+try {
+  const { owner, a, b, id, cid } = await fixture(),
+    beforeA = success(await current(a, id)),
+    beforeB = success(await current(b, id));
+  const startMs = Date.now() + 30000,
+    startsAt = new Date(startMs).toISOString(),
+    endsAt = new Date(startMs + 120000).toISOString();
+  const instructions = 'PR08-PRIVATE-JOIN: fictional local server clock test, no real meeting.';
+  const created = success(
+    await action(owner, id, {
+      type: 'session-create',
+      cohortId: cid,
+      title: 'PR08 fictional server-clock session',
+      description: 'Synthetic server-clock window validation only; no human attendance is observed.',
+      instructions,
+      startsAt,
+      endsAt,
+      capacity: 2,
+    }),
+  );
+  const sid = created.team.network.sessions.at(-1).id;
+  eq(session(created, sid).startsAt, startsAt, 'Accepted exact near-future UTC seconds/milliseconds');
+  success(await action(a, id, { type: 'session-rsvp', sessionId: sid, going: true }));
+  success(await action(b, id, { type: 'session-rsvp', sessionId: sid, going: true }));
+  const host = success(await current(owner, id)),
+    row = session(host, sid).registrations.find((r) => r.name === a.name);
+  ok(row, 'Current host sees actual confirmed A registration');
+  eq(session(host, sid).occupied, 2);
+  const basis =
+    'PR08-A-MARK-CANARY: fictional attendance label for server-clock regression; no human attendance observed.';
+  const correction =
+    'PR08-A-CORRECTION-CANARY: synthetic reasoned correction preserving history; no human attendance observed.';
+  const command = {
+    type: 'session-attendance',
+    sessionId: sid,
+    registrationId: row.id,
+    status: 'attended',
+    reason: basis,
+  };
+  ok(Date.now() < startMs - 1000, 'Before-start request safely precedes the intended real clock boundary');
+  const early = await post(owner, id, command, host.revision);
+  eq(early.status, 422, 'Actual server refuses before session start');
+  const afterEarly = success(await current(owner, id));
+  eq(afterEarly.revision, host.revision, 'Early refusal does not mutate');
+  eq(session(afterEarly, sid).attendanceHistory, []);
+  const delay = startMs + 1000 - Date.now();
+  ok(delay > 0 && delay <= 60000, 'One bounded real-clock wait only');
+  observations.push({
+    phase: 'before start',
+    requestedStart: startsAt,
+    requestAt: new Date().toISOString(),
+    status: early.status,
+    revisionUnchanged: true,
+    realWaitMilliseconds: delay,
+  });
+  console.log(JSON.stringify({ phase: 'waiting for actual session start', milliseconds: delay, startsAt }));
+  await new Promise((resolve) => setTimeout(resolve, delay));
+  const wrongActor = await action(a, id, command);
+  eq(wrongActor.status, 403, 'Learner cannot mark own attendance even after the start');
+  const marked = success(await action(owner, id, command)),
+    markedSession = session(marked, sid);
+  eq(markedSession.attendanceHistory.length, 1);
+  eq(markedSession.attendanceHistory[0].status, 'attended');
+  eq(markedSession.attendanceHistory[0].reason, basis);
+  ok(
+    Date.parse(markedSession.attendanceHistory[0].createdAt) >= startMs,
+    'Saved server timestamp is at/after actual session start',
+  );
+  const corrected = success(await action(owner, id, { ...command, status: 'absent', reason: correction })),
+    correctedSession = session(corrected, sid);
+  eq(correctedSession.attendanceHistory.length, 2, 'Correction appends rather than overwrites');
+  eq(
+    correctedSession.attendanceHistory.map((a) => a.status),
+    ['attended', 'absent'],
+  );
+  eq(
+    correctedSession.attendanceHistory.map((a) => a.reason),
+    [basis, correction],
+  );
+  const currentA = success(await current(a, id)),
+    currentB = success(await current(b, id)),
+    own = session(currentA, sid),
+    peer = session(currentB, sid);
+  eq(own.myAttendance.status, 'absent');
+  eq(own.myAttendance.reason, correction);
+  ok(!('registrations' in own));
+  ok(!('attendanceHistory' in own));
+  eq(peer.myAttendance, null);
+  ok(!JSON.stringify(currentB.team.network).includes(basis));
+  ok(!JSON.stringify(currentB.team.network).includes(correction));
+  const history = currentA.team.network.history.find((h) => h.id === sid);
+  eq(history.attendance.length, 2);
+  eq(
+    history.attendance.map((a) => a.reason),
+    [basis, correction],
+  );
+  for (const forbidden of ['hostId', 'userId', 'instructions', 'registrations']) ok(!(forbidden in history));
+  const ui = readFileSync(resolve(app, 'app/academy-teams-ui.tsx'), 'utf8');
+  ok(
+    ui.includes('sessionHistory:team.network?.history??[]'),
+    'Actual current preferences export selects only the caller network history',
+  );
+  const exportCurrent = ownExport(currentA);
+  eq(exportCurrent.sessionHistory, [history]);
+  ok(!JSON.stringify(exportCurrent.sessionHistory).includes(instructions));
+  eq(
+    exportCurrent.enrollments,
+    beforeA.state.enrollments,
+    'Attendance never completes lessons/assessments or issues records',
+  );
+  eq(currentB.state.enrollments, beforeB.state.enrollments);
+  success(
+    await action(owner, id, { type: 'member', userId: a.id, roles: ['learner'], scopes: [], active: false }),
+  );
+  const former = success(await current(a, id)),
+    ownerAfterRemoval = success(await current(owner, id));
+  eq(former.team.active, false);
+  eq(former.team.network.sessions, []);
+  eq(former.team.network.directory, []);
+  eq(former.team.network.history.length, 1);
+  eq(
+    former.team.network.history[0].attendance,
+    history.attendance,
+    'Former member keeps own marks and both correction reasons',
+  );
+  const formerExport = ownExport(former);
+  eq(formerExport.sessionHistory, [history]);
+  eq(formerExport.enrollments, beforeA.state.enrollments);
+  ok(!JSON.stringify(formerExport.sessionHistory).includes(instructions));
+  for (const subject of [owner.id, a.id, b.id])
+    ok(
+      !JSON.stringify(formerExport.sessionHistory).includes(subject),
+      'Exported own session history excludes platform subjects',
+    );
+  ok(
+    !session(ownerAfterRemoval, sid).registrations.some((r) => r.id === row.id),
+    'Current host roster drops removed participant',
+  );
+  const historicalDenied = await post(
+    owner,
+    id,
+    {
+      ...command,
+      status: 'attended',
+      reason: 'Fictional unsupported former-participant correction attempt.',
+    },
+    ownerAfterRemoval.revision,
+  );
+  eq(
+    historicalDenied.status,
+    404,
+    'Declared pilot policy refuses new marking after participant eligibility loss',
+  );
+  const final = success(await current(owner, id));
+  eq(final.revision, ownerAfterRemoval.revision);
+  eq(
+    session(final, sid).attendanceHistory.map((a) => a.status),
+    ['attended', 'absent'],
+  );
+  observations.push({
+    phase: 'actual after-start marks',
+    firstServerRecordedAt: markedSession.attendanceHistory[0].createdAt,
+    correctionServerRecordedAt: correctedSession.attendanceHistory[1].createdAt,
+    statusHistory: ['attended', 'absent'],
+    wrongActorStatus: wrongActor.status,
+    serverStartBoundaryVerified: true,
+    peerAttendanceHidden: true,
+    learningUnchanged: true,
+  });
+  observations.push({
+    phase: 'former history and projection-backed export',
+    ownHistoryRetained: true,
+    correctionReasonsRetained: true,
+    joiningInstructionsAndPeerRosterAbsent: true,
+    platformSubjectsAbsent: true,
+    newFormerParticipantMarkStatus: historicalDenied.status,
+    actualBrowserDownloadTested: false,
+  });
+  const sources = [
+    'tests/local-qa.mjs',
+    'app/api/teams/route.ts',
+    'lib/academy-network.ts',
+    'app/academy-teams-ui.tsx',
+  ].map((file) => ({
+    file,
+    sha256: createHash('sha256')
+      .update(readFileSync(resolve(app, file)))
+      .digest('hex'),
+  }));
+  const result = {
+    passed: true,
+    startedAt,
+    completedAt: new Date().toISOString(),
+    worker: process.env.ACADEMY_PR08_WORKER ?? 'parent-confirmed local Worker',
+    base,
+    fixtureId: id,
+    sessionId: sid,
+    checks,
+    observations,
+    sourceHashes: sources,
+    limits: [
+      'Actual local server clock boundary and supported API only; no SQL or injected clock',
+      'All accounts/session/reasons fictional; no human attendance observed or verified',
+      'Seven-day post-end expiry remains existing pure-rule coverage, not a seven-day live wait',
+      'Export assertions are own API projection plus exact current UI export field contract; no browser download performed',
+      'No unsafe POST retry, production identity, notification, load or restore claim',
+    ],
+  };
+  writeFileSync(resolve(out, 'network-attendance-clock-result.json'), JSON.stringify(result, null, 2) + '\n');
+  console.log(
+    JSON.stringify({
+      passed: true,
+      checks,
+      sessionId: sid,
+      firstServerRecordedAt: markedSession.attendanceHistory[0].createdAt,
+    }),
+  );
+} catch (error) {
+  writeFileSync(
+    resolve(out, 'network-attendance-clock-result.json'),
+    JSON.stringify(
+      {
+        passed: false,
+        startedAt,
+        completedAt: new Date().toISOString(),
+        checks,
+        observations,
+        error: String(error),
+      },
+      null,
+      2,
+    ) + '\n',
+  );
+  throw error;
+}

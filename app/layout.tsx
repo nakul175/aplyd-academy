@@ -1,15 +1,15 @@
-import type { Metadata } from "next";
-import "./globals.css";
+import type { Metadata } from 'next';
+import './globals.css';
 
 export const metadata: Metadata = {
-  title: "Aplyd Academy",
-  description: "Practical skills and responsible AI for your everyday work.",
+  title: 'Aplyd Academy',
+  description: 'Practical skills and responsible AI for your everyday work.',
   other: {
-    "codex-preview": "development",
+    'codex-preview': 'development',
   },
   icons: {
-    icon: "/favicon.svg",
-    shortcut: "/favicon.svg",
+    icon: '/favicon.svg',
+    shortcut: '/favicon.svg',
   },
 };
 

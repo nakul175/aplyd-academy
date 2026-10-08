@@ -1,6 +1,11 @@
-import {createRequire} from 'node:module';import {readFileSync,writeFileSync} from 'node:fs';import {createHash} from 'node:crypto';import {relative,resolve} from 'node:path';import assert from 'node:assert/strict';import {app,output} from './qa-paths.mjs';
-const esbuild=createRequire(app+'/package.json')('esbuild');
-const host=`
+import { createRequire } from 'node:module';
+import { readFileSync, writeFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+import { relative, resolve } from 'node:path';
+import assert from 'node:assert/strict';
+import { app, output } from './qa-paths.mjs';
+const esbuild = createRequire(app + '/package.json')('esbuild');
+const host = `
 export const metrics={authCalls:0,sql:[],reads:0,allCalls:0,batches:0,runs:0};
 let identity,config;
 export function resetHost(options={}){identity=Object.hasOwn(options,'identity')?options.identity:{userId:'qa-route-errors',email:'route-errors@academy.test',fullName:'Synthetic in-memory reader'};config=options;Object.assign(metrics,{authCalls:0,sql:[],reads:0,allCalls:0,batches:0,runs:0});env.DB=Object.hasOwn(options,'database')?options.database:database;}
@@ -8,10 +13,70 @@ const database={prepare(sql){metrics.sql.push({sql,args:[]});const index=metrics
 export const env={DB:database};export async function getChatGPTUser(){metrics.authCalls++;return identity;}
 resetHost();
 `;
-writeFileSync(output+'/actual-root-entry.ts',`export {GET as personalGET,POST as personalPOST} from ${JSON.stringify(app+'/app/api/academy/route.ts')};export {GET as sharedGET,POST as sharedPOST} from ${JSON.stringify(app+'/app/api/teams/route.ts')};export {POST as recordPOST} from ${JSON.stringify(app+'/app/api/academy/records/check/route.ts')};export {metrics,resetHost} from 'route-error-host';`);
-const result=await esbuild.build({entryPoints:[output+'/actual-root-entry.ts'],bundle:true,platform:'node',format:'esm',metafile:true,tsconfig:app+'/tsconfig.json',outfile:output+'/route-errors.mjs',plugins:[{name:'explicit-memory-host',setup(build){build.onResolve({filter:/^(cloudflare:workers|route-error-host)$|chatgpt-auth$/},()=>({path:'route-error-host',namespace:'route-error-host'}));build.onLoad({filter:/.*/,namespace:'route-error-host'},()=>({contents:host,loader:'ts'}));}}]});
-const files=Object.keys(result.metafile.inputs).map(path=>relative(app,resolve(path))).filter(file=>!file.startsWith('..')&&!file.includes(':')&&!file.startsWith('.sites-runtime/')).sort();
-assert.ok(!files.some(file=>file.includes('academy-request-body')),'Deferred body helper must not be imported by accepted baseline routes.');
-assert.ok(files.includes('app/api/academy/route.ts')&&files.includes('app/api/teams/route.ts')&&files.includes('app/api/academy/records/check/route.ts'));
-writeFileSync(output+'/source-evidence.json',JSON.stringify({at:new Date().toISOString(),passed:true,files:files.map(file=>({file,sha256:createHash('sha256').update(readFileSync(app+'/'+file)).digest('hex')})),bundleSha256:createHash('sha256').update(readFileSync(output+'/route-errors.mjs')).digest('hex'),readerProvenance:'Accepted native Request.text plus existing post-read limits; deferred streaming module absent from bundle imports.',limitations:['Actual root handler/domain code compiled read-only. Only Cloudflare host and authentication are explicit in-memory stubs. Sources list comes from actual esbuild inputs, excludes unused helper. No network, actual SQL, mutations, Worker or application build.']},null,2));
+writeFileSync(
+  output + '/actual-root-entry.ts',
+  `export {GET as personalGET,POST as personalPOST} from ${JSON.stringify(app + '/app/api/academy/route.ts')};export {GET as sharedGET,POST as sharedPOST} from ${JSON.stringify(app + '/app/api/teams/route.ts')};export {POST as recordPOST} from ${JSON.stringify(app + '/app/api/academy/records/check/route.ts')};export {metrics,resetHost} from 'route-error-host';`,
+);
+const result = await esbuild.build({
+  entryPoints: [output + '/actual-root-entry.ts'],
+  bundle: true,
+  platform: 'node',
+  format: 'esm',
+  metafile: true,
+  tsconfig: app + '/tsconfig.json',
+  outfile: output + '/route-errors.mjs',
+  plugins: [
+    {
+      name: 'explicit-memory-host',
+      setup(build) {
+        build.onResolve({ filter: /^(cloudflare:workers|route-error-host)$|chatgpt-auth$/ }, () => ({
+          path: 'route-error-host',
+          namespace: 'route-error-host',
+        }));
+        build.onLoad({ filter: /.*/, namespace: 'route-error-host' }, () => ({
+          contents: host,
+          loader: 'ts',
+        }));
+      },
+    },
+  ],
+});
+const files = Object.keys(result.metafile.inputs)
+  .map((path) => relative(app, resolve(path)))
+  .filter((file) => !file.startsWith('..') && !file.includes(':') && !file.startsWith('.sites-runtime/'))
+  .sort();
+assert.ok(
+  !files.some((file) => file.includes('academy-request-body')),
+  'Deferred body helper must not be imported by accepted baseline routes.',
+);
+assert.ok(
+  files.includes('app/api/academy/route.ts') &&
+    files.includes('app/api/teams/route.ts') &&
+    files.includes('app/api/academy/records/check/route.ts'),
+);
+writeFileSync(
+  output + '/source-evidence.json',
+  JSON.stringify(
+    {
+      at: new Date().toISOString(),
+      passed: true,
+      files: files.map((file) => ({
+        file,
+        sha256: createHash('sha256')
+          .update(readFileSync(app + '/' + file))
+          .digest('hex'),
+      })),
+      bundleSha256: createHash('sha256')
+        .update(readFileSync(output + '/route-errors.mjs'))
+        .digest('hex'),
+      readerProvenance:
+        'Accepted native Request.text plus existing post-read limits; deferred streaming module absent from bundle imports.',
+      limitations: [
+        'Actual root handler/domain code compiled read-only. Only Cloudflare host and authentication are explicit in-memory stubs. Sources list comes from actual esbuild inputs, excludes unused helper. No network, actual SQL, mutations, Worker or application build.',
+      ],
+    },
+    null,
+    2,
+  ),
+);
 console.log(`Actual route-error model bundled; ${files.length} actual used source files hashed.`);
