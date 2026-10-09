@@ -11,6 +11,7 @@ A durable learning application for farmers, MSME owners and public servants: pin
 1. [HANDOVER.md](HANDOVER.md): status block, then pointers.
 2. [docs/CLAUDE-HANDOFF.md](docs/CLAUDE-HANDOFF.md): its "Current state" section is the latest engineering record; the rest is the original handoff, kept as written. One rule there is withdrawn: **"never reformat minified lines"** no longer applies. Prettier is the standard (owner decision, 8 October 2026).
 3. [README.md](README.md) and the newest as-built folder, `docs/as-built-v0.15.1/`.
+4. [docs/current/ENGINEERING-GUIDE.md](docs/current/ENGINEERING-GUIDE.md): map, naming, how to write code, how to find things, step-by-step tasks, do and don't.
 
 ## Rules that must not be broken
 
