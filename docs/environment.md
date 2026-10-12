@@ -1,6 +1,6 @@
 # Environment reference
 
-All settings are environment variables in `/etc/academy/academy.env` on the server (see `deploy/academy.env.example`). Values are never committed.
+All settings are environment variables in `/etc/academy/academy.env` on the server (see `deploy/node/academy.env.example`). Values are never committed.
 
 | Variable | Required | Meaning |
 | --- | --- | --- |
@@ -21,5 +21,5 @@ All settings are environment variables in `/etc/academy/academy.env` on the serv
 | `ACADEMY_PAYMENTS_SECRET` | when a payment provider exists (R4) | 32+ characters; shared secret on `POST /api/loop/payments`. |
 | `ACADEMY_SPEECH_PROVIDER` | R4 voice input | `off` (default), `openai-compatible`, `fake` (tests only). |
 | `ACADEMY_SPEECH_BASE_URL`, `ACADEMY_SPEECH_API_KEY`, `ACADEMY_SPEECH_MODEL` | with `openai-compatible` | Speech-to-text endpoint, key and model (never defaulted). |
-| `ACADEMY_RELEASE` | set by `deploy/run.sh` | Release id shown by `/api/health`. |
+| `ACADEMY_RELEASE` | set by `deploy/node/run.sh` | Release id shown by `/api/health`. |
 | `ACADEMY_TRUST_IDENTITY_HEADERS` | never in production | `1` only in v0.17 local tests. |

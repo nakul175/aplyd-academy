@@ -47,7 +47,7 @@ This is a bounded pilot architecture: up to ten created workspaces per account, 
 
 ## Development and verification
 
-Use the configured Node/npm runtime and retained Sites installer/build workflow. `npm run dev` opens the local sign-in simulator. Generate additive D1 schema changes with `npm run db:generate`; inspect every migration, preserve applied history, and apply only pending migrations to the local test database. Sites applies generated migrations during deployment.
+Use the configured Node/pnpm runtime and retained Sites installer/build workflow. `pnpm run dev` opens the local sign-in simulator. Generate additive D1 schema changes with `pnpm run db:generate`; inspect every migration, preserve applied history, and apply only pending migrations to the local test database. Sites applies generated migrations during deployment.
 
 Run TypeScript checking with `node node_modules/typescript/bin/tsc --noEmit`. Bundle `lib/academy-engine.ts`, `lib/academy-teams.ts` and `lib/academy-storage.ts` with the installed esbuild into `.sites-runtime/engine.mjs` and the corresponding teams/storage bundles (also curriculum, plan and ecosystem-guard for their test suites), then run the appropriate `.test.mjs` suites. Authoring adds `.sites-runtime/authoring.mjs` and `tests/authoring.test.mjs`; `node tests/build-authoring-security.mjs` builds the single integrated security bundle before `node --test tests/authoring-security.test.mjs tests/authoring-farm-duplicate.test.mjs`.
 
@@ -61,6 +61,10 @@ Approve sector content and validate real learner journeys; arrange site access a
 
 External event/mentor-provider bookings, host reassignment, commerce, uploads, clinical training and embedded AI remain unimplemented. No external partner receives the ecosystem simulation, and no AI service is called. Existing BRD/FSD/HLD/LLD describe the broader target; the seven-table SQLite implementation does not claim the full reference PostgreSQL schema or API contract. Full local template API/browser tests and mutating record browser tests remain held pending explicit fictional-test approval after automatic approval review rejected their launch. Pure/mocked and strictly read-only checks have separate evidence.
 
+## Documentation and governance
+
+The 27 standard documents (security policy, runbooks, privacy, threat model, SBOM and more) are mapped in [docs/governance/README.md](docs/governance/README.md), which also names the canonical document per topic. See also [CONTRIBUTING.md](CONTRIBUTING.md), [SECURITY.md](SECURITY.md), [CHANGELOG.md](CHANGELOG.md) and [.env.example](.env.example). Hosting on a droplet: [deploy/README.md](deploy/README.md).
+
 ## Continue development
 
-Start with [CLAUDE.md](CLAUDE.md) and [the handoff](docs/CLAUDE-HANDOFF.md). The original product target, historical agent materials and the reflection-completion candidate (adopted in v0.15.1) are preserved in Git under docs/product-specifications, docs/development-archive and docs/candidates.
+Start with [AGENTS.md](AGENTS.md), the status block in [HANDOVER.md](HANDOVER.md) and [the handoff](docs/CLAUDE-HANDOFF.md). How the repository is organised and how to change it safely: [the engineering guide](docs/current/ENGINEERING-GUIDE.md). The original product target, historical agent materials and the reflection-completion candidate (adopted in v0.15.1) are preserved in Git under docs/product-specifications, docs/development-archive and docs/candidates.

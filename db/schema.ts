@@ -1,21 +1,151 @@
-import {sql} from 'drizzle-orm';
-import {sqliteTable,text,integer,primaryKey,index,uniqueIndex,check} from 'drizzle-orm/sqlite-core';
-export const workspaces=sqliteTable('academy_workspaces',{owner:text('owner').primaryKey(),data:text('data').notNull(),revision:integer('revision').notNull().default(0),updatedAt:text('updated_at').notNull()});
-export const audit=sqliteTable('academy_audit',{owner:text('owner').notNull(),revision:integer('revision').notNull(),eventId:text('event_id').notNull(),action:text('action').notNull(),requestHash:text('request_hash'),createdAt:text('created_at').notNull(),detail:text('detail')},t=>[primaryKey({columns:[t.owner,t.revision]}),uniqueIndex('idx_academy_audit_owner_event_unique').on(t.owner,t.eventId)]);
-export const teams=sqliteTable('academy_teams',{id:text('id').primaryKey(),createdBy:text('created_by').notNull(),data:text('data').notNull(),revision:integer('revision').notNull(),updatedAt:text('updated_at').notNull(),directoryProjected:integer('directory_projected').notNull().default(0)},t=>[index('idx_academy_teams_creator').on(t.createdBy),index('idx_academy_teams_directory_legacy').on(t.id).where(sql`${t.directoryProjected} = 0`)]);
-export const teamDirectory=sqliteTable('academy_team_directory',{userId:text('user_id').notNull(),teamId:text('team_id').notNull()},t=>[primaryKey({columns:[t.userId,t.teamId]}),index('idx_academy_team_directory_team').on(t.teamId,t.userId),check('ck_academy_team_directory_user',sql`length(trim(${t.userId})) > 0`)]);
-export const teamAudit=sqliteTable('academy_team_audit',{teamId:text('team_id').notNull(),revision:integer('revision').notNull(),actor:text('actor').notNull(),eventId:text('event_id').notNull(),action:text('action').notNull(),requestHash:text('request_hash').notNull(),createdAt:text('created_at').notNull(),detail:text('detail')},t=>[primaryKey({columns:[t.teamId,t.revision]}),uniqueIndex('idx_academy_team_action').on(t.teamId,t.actor,t.eventId)]);
-export const inviteTokens=sqliteTable('academy_invite_tokens',{tokenHash:text('token_hash').primaryKey(),teamId:text('team_id').notNull(),inviteId:text('invite_id').notNull()});
-export const teamHistory=sqliteTable('academy_team_history',{teamId:text('team_id').notNull(),revision:integer('revision').notNull(),data:text('data').notNull(),createdAt:text('created_at').notNull()},t=>[primaryKey({columns:[t.teamId,t.revision]})]);
+import { sql } from 'drizzle-orm';
+import { sqliteTable, text, integer, primaryKey, index, uniqueIndex, check } from 'drizzle-orm/sqlite-core';
+export const workspaces = sqliteTable('academy_workspaces', {
+  owner: text('owner').primaryKey(),
+  data: text('data').notNull(),
+  revision: integer('revision').notNull().default(0),
+  updatedAt: text('updated_at').notNull(),
+});
+export const audit = sqliteTable(
+  'academy_audit',
+  {
+    owner: text('owner').notNull(),
+    revision: integer('revision').notNull(),
+    eventId: text('event_id').notNull(),
+    action: text('action').notNull(),
+    requestHash: text('request_hash'),
+    createdAt: text('created_at').notNull(),
+    detail: text('detail'),
+  },
+  (t) => [
+    primaryKey({ columns: [t.owner, t.revision] }),
+    uniqueIndex('idx_academy_audit_owner_event_unique').on(t.owner, t.eventId),
+  ],
+);
+export const teams = sqliteTable(
+  'academy_teams',
+  {
+    id: text('id').primaryKey(),
+    createdBy: text('created_by').notNull(),
+    data: text('data').notNull(),
+    revision: integer('revision').notNull(),
+    updatedAt: text('updated_at').notNull(),
+    directoryProjected: integer('directory_projected').notNull().default(0),
+  },
+  (t) => [
+    index('idx_academy_teams_creator').on(t.createdBy),
+    index('idx_academy_teams_directory_legacy')
+      .on(t.id)
+      .where(sql`${t.directoryProjected} = 0`),
+  ],
+);
+export const teamDirectory = sqliteTable(
+  'academy_team_directory',
+  { userId: text('user_id').notNull(), teamId: text('team_id').notNull() },
+  (t) => [
+    primaryKey({ columns: [t.userId, t.teamId] }),
+    index('idx_academy_team_directory_team').on(t.teamId, t.userId),
+    check('ck_academy_team_directory_user', sql`length(trim(${t.userId})) > 0`),
+  ],
+);
+export const teamAudit = sqliteTable(
+  'academy_team_audit',
+  {
+    teamId: text('team_id').notNull(),
+    revision: integer('revision').notNull(),
+    actor: text('actor').notNull(),
+    eventId: text('event_id').notNull(),
+    action: text('action').notNull(),
+    requestHash: text('request_hash').notNull(),
+    createdAt: text('created_at').notNull(),
+    detail: text('detail'),
+  },
+  (t) => [
+    primaryKey({ columns: [t.teamId, t.revision] }),
+    uniqueIndex('idx_academy_team_action').on(t.teamId, t.actor, t.eventId),
+  ],
+);
+export const inviteTokens = sqliteTable('academy_invite_tokens', {
+  tokenHash: text('token_hash').primaryKey(),
+  teamId: text('team_id').notNull(),
+  inviteId: text('invite_id').notNull(),
+});
+export const teamHistory = sqliteTable(
+  'academy_team_history',
+  {
+    teamId: text('team_id').notNull(),
+    revision: integer('revision').notNull(),
+    data: text('data').notNull(),
+    createdAt: text('created_at').notNull(),
+  },
+  (t) => [primaryKey({ columns: [t.teamId, t.revision] })],
+);
+
 // ACA-US-1.2 AC2: refused cross-workspace requests are recorded with a pseudonymous actor reference only.
-export const accessRefusals=sqliteTable('academy_access_refusals',{id:integer('id').primaryKey({autoIncrement:true}),actorRef:text('actor_ref').notNull(),route:text('route').notNull(),method:text('method').notNull(),status:integer('status').notNull(),createdAt:text('created_at').notNull()},t=>[index('idx_academy_access_refusals_created').on(t.createdAt)]);
+export const accessRefusals = sqliteTable(
+  'academy_access_refusals',
+  {
+    id: integer('id').primaryKey({ autoIncrement: true }),
+    actorRef: text('actor_ref').notNull(),
+    route: text('route').notNull(),
+    method: text('method').notNull(),
+    status: integer('status').notNull(),
+    createdAt: text('created_at').notNull(),
+  },
+  (t) => [index('idx_academy_access_refusals_created').on(t.createdAt)],
+);
 // ACA-US-1.4: email one-time-code sign-in (owner decision 12 Oct 2026: email OTP; code valid 10 min; 5 wrong codes lock the
 // email for 15 min; at most 3 codes per email in 15 min; sessions last 30 days and end after 7 days without use).
 // Emails and codes are stored only as keyed hashes; session tokens only as SHA-256 hashes.
-export const users=sqliteTable('academy_users',{id:text('id').primaryKey(),emailHash:text('email_hash').notNull(),email:text('email').notNull(),createdAt:text('created_at').notNull()},t=>[uniqueIndex('idx_academy_users_email_hash').on(t.emailHash)]);
-export const loginCodes=sqliteTable('academy_login_codes',{id:integer('id').primaryKey({autoIncrement:true}),emailHash:text('email_hash').notNull(),codeHash:text('code_hash').notNull(),createdAt:text('created_at').notNull(),expiresAt:text('expires_at').notNull(),usedAt:text('used_at')},t=>[index('idx_academy_login_codes_email').on(t.emailHash,t.createdAt)]);
-export const loginLocks=sqliteTable('academy_login_locks',{emailHash:text('email_hash').primaryKey(),failures:integer('failures').notNull().default(0),windowStartedAt:text('window_started_at').notNull(),lockedUntil:text('locked_until')});
-export const sessions=sqliteTable('academy_sessions',{tokenHash:text('token_hash').primaryKey(),userId:text('user_id').notNull(),createdAt:text('created_at').notNull(),lastSeenAt:text('last_seen_at').notNull(),expiresAt:text('expires_at').notNull(),revokedAt:text('revoked_at')},t=>[index('idx_academy_sessions_user').on(t.userId)]);
-export const mailOutbox=sqliteTable('academy_mail_outbox',{id:integer('id').primaryKey({autoIncrement:true}),toAddress:text('to_address').notNull(),subject:text('subject').notNull(),body:text('body').notNull(),createdAt:text('created_at').notNull()});
+export const users = sqliteTable(
+  'academy_users',
+  {
+    id: text('id').primaryKey(),
+    emailHash: text('email_hash').notNull(),
+    email: text('email').notNull(),
+    createdAt: text('created_at').notNull(),
+  },
+  (t) => [uniqueIndex('idx_academy_users_email_hash').on(t.emailHash)],
+);
+export const loginCodes = sqliteTable(
+  'academy_login_codes',
+  {
+    id: integer('id').primaryKey({ autoIncrement: true }),
+    emailHash: text('email_hash').notNull(),
+    codeHash: text('code_hash').notNull(),
+    createdAt: text('created_at').notNull(),
+    expiresAt: text('expires_at').notNull(),
+    usedAt: text('used_at'),
+  },
+  (t) => [index('idx_academy_login_codes_email').on(t.emailHash, t.createdAt)],
+);
+export const loginLocks = sqliteTable('academy_login_locks', {
+  emailHash: text('email_hash').primaryKey(),
+  failures: integer('failures').notNull().default(0),
+  windowStartedAt: text('window_started_at').notNull(),
+  lockedUntil: text('locked_until'),
+});
+export const sessions = sqliteTable(
+  'academy_sessions',
+  {
+    tokenHash: text('token_hash').primaryKey(),
+    userId: text('user_id').notNull(),
+    createdAt: text('created_at').notNull(),
+    lastSeenAt: text('last_seen_at').notNull(),
+    expiresAt: text('expires_at').notNull(),
+    revokedAt: text('revoked_at'),
+  },
+  (t) => [index('idx_academy_sessions_user').on(t.userId)],
+);
+export const mailOutbox = sqliteTable('academy_mail_outbox', {
+  id: integer('id').primaryKey({ autoIncrement: true }),
+  toAddress: text('to_address').notNull(),
+  subject: text('subject').notNull(),
+  body: text('body').notNull(),
+  createdAt: text('created_at').notNull(),
+});
 // ACA-US-6.4: count of completed erasures (date only, no reference to the person), for the data-protection log.
-export const erasures=sqliteTable('academy_erasures',{id:integer('id').primaryKey({autoIncrement:true}),erasedAt:text('erased_at').notNull()});
+export const erasures = sqliteTable('academy_erasures', {
+  id: integer('id').primaryKey({ autoIncrement: true }),
+  erasedAt: text('erased_at').notNull(),
+});

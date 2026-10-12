@@ -1,10 +1,13 @@
-# ACA-US-1.5: every push runs the tests and builds a release; main deploys to production only after
-# the "production" environment approval (set required reviewers in GitHub > Settings > Environments).
-name: Academy CI and deploy
+# ACA-US-1.5: Node runtime checks that `verify` (ci.yml) does not run: audit, browser journey with WCAG checks,
+# API suites against the built server, release and rollback. Lint, format, typecheck and the unit suites
+# (including tests/loop) run once, in ci.yml. The deploy job targets the Node host (deploy/node/), never the
+# shared droplet, and only after the "production" environment approval. See docs/operations/cutover-plan.md.
+name: Academy node runtime
 on:
   push:
     branches: [main]
   pull_request:
+    paths-ignore: ['**.md', 'docs/**']
 permissions:
   contents: read
 concurrency:
@@ -18,19 +21,16 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: npm
-      - run: npm ci
-      - run: node node_modules/typescript/bin/tsc --noEmit
-      - run: node --no-warnings --test tests/node-runtime/email-otp.test.mjs tests/node-runtime/resend-mail.test.mjs tests/audit-detail-qa/migration.test.mjs
-      - name: Practice loop rules and generated documents (ACA-E2 onwards, ACA-US-12.4)
-        run: node --no-warnings --test tests/loop/*.test.mjs
+      - name: Enable the pinned pnpm (packageManager in package.json)
+        run: corepack enable
+      - run: pnpm install --frozen-lockfile
       - name: Production dependencies have no high or critical advisories (ACA-US-12.2)
-        run: npm audit --omit=dev --audit-level=high
-      - run: npm run build
+        run: pnpm audit --prod --audit-level high
+      - run: pnpm run build
       - name: Practice-loop journey in a browser with WCAG 2.2 AA checks (ACA-US-12.3)
         run: |
-          npm install --no-save playwright@1.56.0 && npx playwright install --with-deps chromium
-          export ACADEMY_PLAYWRIGHT_MODULE="$PWD/node_modules/playwright/index.mjs" ACADEMY_CHROME_PATH="$(node -e "console.log(require('playwright').chromium.executablePath())")"
+          mkdir -p "$RUNNER_TEMP/pw" && cd "$RUNNER_TEMP/pw" && npm init -y >/dev/null && npm install --no-save playwright@1.56.0 && npx playwright install --with-deps chromium && cd "$GITHUB_WORKSPACE"
+          export ACADEMY_PLAYWRIGHT_MODULE="$RUNNER_TEMP/pw/node_modules/playwright/index.mjs" ACADEMY_CHROME_PATH="$(cd "$RUNNER_TEMP/pw" && node -e "console.log(require('playwright').chromium.executablePath())")"
           QA_TRUST_HEADERS=0 QA_SKIP_BUILD=1 QA_RUN_DIR=qa-loop ACADEMY_MAIL_TRANSPORT=outbox ACADEMY_AUTH_SECRET=ci-only-synthetic-secret-0123456789abcdef ACADEMY_AI_PROVIDER=fake ACADEMY_AI_MODEL=synthetic-model ACADEMY_FILES_PATH="$(mktemp -d)" A11Y_OUT="$PWD/qa-loop/axe-results.json" scripts/node-local-qa.sh tests/loop/browser-r1-journey.mjs && ! grep -q ',[1-9][0-9]*,' qa-loop/results.csv
       - name: API suites against the built server (synthetic users, throwaway database)
         run: QA_SKIP_BUILD=1 QA_RUN_DIR=qa-run scripts/node-local-qa.sh tests/node-runtime/refusal-audit.mjs tests/api-integration.mjs tests/teams-api.mjs tests/ecosystem-api.mjs && ! grep -q ',[1-9][0-9]*,' qa-run/results.csv

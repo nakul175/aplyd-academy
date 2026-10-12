@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Package the built standalone server with its migrations into one tarball (ACA-US-1.5).
-# Usage: npm run build && scripts/package-release.sh <out.tar.gz>
+# Usage: pnpm run build && scripts/package-release.sh <out.tar.gz>
 set -euo pipefail
 cd "$(dirname "$0")/.."
 OUT="$1"; STAGE="$(mktemp -d)"

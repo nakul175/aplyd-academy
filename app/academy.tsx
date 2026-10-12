@@ -1,111 +1,1270 @@
-"use client";
-import {useState,useEffect,useCallback,useRef,useMemo,createContext,useContext,Fragment} from 'react';
-import {BookOpen,LayoutDashboard,Sprout,Building2,Landmark,Users,Award,Plug,ShieldCheck,Clock,Settings2,GraduationCap,CheckCircle2,MessageSquare,HeartHandshake,ClipboardCheck,Loader2,RefreshCw,Volume2,LockKeyhole,FileCheck2,CalendarDays,LifeBuoy,Download} from 'lucide-react';
-import {SidebarProvider,Sidebar,SidebarHeader,SidebarContent,SidebarFooter,SidebarMenu,SidebarMenuItem,SidebarMenuButton,SidebarInset,SidebarTrigger} from '@/components/ui/sidebar';
-import {Button} from '@/components/ui/button';
-import {Progress} from '@/components/ui/progress';
-import {Select,SelectTrigger,SelectValue,SelectContent,SelectItem} from '@/components/ui/select';
-import {Toaster,toast} from 'sonner';
-import {freshWorkspace,contexts} from '@/lib/academy-engine';
-import curriculum,{tryResolvePinnedContent,createCurriculumRegistry,curriculumRegistry,currentRef,type ContentContext} from '@/lib/academy-curriculum';
-import {LearningView,CommunityView,ConnectionsView,AchievementsView,StudioView,SettingsView,NetworkView} from './academy-views';
+'use client';
+import {
+  useState,
+  useEffect,
+  useCallback,
+  useRef,
+  useMemo,
+  createContext,
+  useContext,
+  Fragment,
+} from 'react';
+import {
+  BookOpen,
+  LayoutDashboard,
+  Sprout,
+  Building2,
+  Landmark,
+  Users,
+  Award,
+  Plug,
+  ShieldCheck,
+  Clock,
+  Settings2,
+  GraduationCap,
+  CheckCircle2,
+  MessageSquare,
+  HeartHandshake,
+  ClipboardCheck,
+  Loader2,
+  RefreshCw,
+  Volume2,
+  LockKeyhole,
+  FileCheck2,
+  CalendarDays,
+  LifeBuoy,
+  Download,
+} from 'lucide-react';
+import {
+  SidebarProvider,
+  Sidebar,
+  SidebarHeader,
+  SidebarContent,
+  SidebarFooter,
+  SidebarMenu,
+  SidebarMenuItem,
+  SidebarMenuButton,
+  SidebarInset,
+  SidebarTrigger,
+} from '@/components/ui/sidebar';
+import { Button } from '@/components/ui/button';
+import { Progress } from '@/components/ui/progress';
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select';
+import { Toaster, toast } from 'sonner';
+import { freshWorkspace, contexts } from '@/lib/academy-engine';
+import curriculum, {
+  tryResolvePinnedContent,
+  createCurriculumRegistry,
+  curriculumRegistry,
+  currentRef,
+  type ContentContext,
+} from '@/lib/academy-curriculum';
+import {
+  LearningView,
+  CommunityView,
+  ConnectionsView,
+  AchievementsView,
+  StudioView,
+  SettingsView,
+  NetworkView,
+} from './academy-views';
 import dynamic from 'next/dynamic';
-import {AcademyViewLoading} from './academy-view-loading';
-import {ContextSelect,roleOptions} from './academy-context-select';
-import {SupportView} from './academy-support';
-import {PlanView,NextActionCard} from './academy-plan';
-import {Tag} from './academy-ui';
-import {canShowWorkspaceOperations} from '@/lib/academy-operations-access';
-import {derivePrivateCatalogEntries,learningNavigationHash,parseLearningTarget} from '@/lib/academy-offering-navigation';
-import {AcademyContext,useAcademy,captureOperationNavigation,cancelOperationNavigation} from './academy-context';
-import {readAcademyResponse,AcademyResponseError} from './academy-response';
-import {acceptAcademyPayload,acceptAcademyDirectory} from './academy-acceptance';
-import {OFFLINE_LIMITS,type OfflineReadContext} from '@/lib/academy-offline';
-import {createPrivateRecordChecker,type RecordClientContext} from './academy-record-client';
-import {OnboardingFlow,JoinInvitation,WithoutInvitation} from './academy-onboarding';
-import {shouldShowOnboarding} from '@/lib/academy-onboarding';
-const TeamsView=dynamic(()=>import('./academy-teams-ui').then(m=>m.TeamsView),{loading:AcademyViewLoading});
-const TeamStudio=dynamic(()=>import('./academy-teams-ui').then(m=>m.TeamStudio),{loading:AcademyViewLoading});
-const TeamPreferences=dynamic(()=>import('./academy-teams-ui').then(m=>m.TeamPreferences),{loading:AcademyViewLoading});
-const OrgAdminView=dynamic(()=>import('./academy-org-admin').then(m=>m.default),{loading:AcademyViewLoading});
-const OperationsView=dynamic(()=>import('./academy-operations-page').then(m=>m.OperationsView),{loading:AcademyViewLoading});
-const OfflineView=dynamic(()=>import('./academy-offline').then(m=>m.OfflineView),{loading:AcademyViewLoading});
-const LibraryView=dynamic(()=>import('./academy-library').then(m=>m.LibraryView),{loading:AcademyViewLoading});
-const RecoveryView=dynamic(()=>import('./academy-recovery').then(m=>m.default),{loading:AcademyViewLoading});
-const DataRequestsView=dynamic(()=>import('./academy-data-requests').then(m=>m.default),{loading:AcademyViewLoading});
-const AuditView=dynamic(()=>import('./academy-audit').then(m=>m.default),{loading:AcademyViewLoading});
-const EscalationsView=dynamic(()=>import('./academy-escalations').then(m=>m.default),{loading:AcademyViewLoading});
-const ReportsView=dynamic(()=>import('./academy-reports').then(m=>m.default),{loading:AcademyViewLoading});
-const PartnerDummyView=dynamic(()=>import('./academy-partner-dummy').then(m=>m.default),{loading:AcademyViewLoading});
-import {Catalog} from './academy-discovery';
-import {canShowExtraView} from '@/lib/academy-extra-views-access';
-const views:any={offline:'Offline practice',library:'Reference library',operations:'Workspace operations',org:'Organization admin',home:'Overview',plan:'My learning plan',support:'Support & help',programs:'Learning pathways',learn:'Your pathway',community:'Community',network:'Connections & opportunities',credentials:'My achievements',connections:'Ecosystem connections',studio:'Review studio',settings:'Preferences & privacy',teams:'Workspaces & cohorts',recovery:'Account recovery',requests:'Data requests',audit:'Audit log',escalations:'Escalations',reports:'Programme reports','partner-dummy':'Partner link (DUMMY)'};
-export default function Academy({initialInvitation,initialWorkspace}: {initialInvitation?:string;initialWorkspace?:string}={}){
- const [state,setState]=useState<any>(freshWorkspace()),[revision,setRevision]=useState(0),[loading,setLoading]=useState(true),[busy,setBusy]=useState(false),[error,setError]=useState(''),[view,setView]=useState(initialInvitation?'teams':'home'),[programId,setProgramId]=useState(''),[learningTarget,setLearningTarget]=useState<any>(null),[role,setRole]=useState('msme');
- const [onboardingHold,setOnboardingHold]=useState(false),[platformName,setPlatformName]=useState<string|null>(null),[joinHold,setJoinHold]=useState(!!initialInvitation),[joinToken]=useState(initialInvitation||''),deepLinked=useRef<boolean|null>(null);
- const [activeWorkspace,setActiveWorkspace]=useState(initialWorkspace||'lab'),[team,setTeam]=useState<any>(null),[workspaces,setWorkspaces]=useState<any[]>([]),[invitationToken,setInvitationToken]=useState(initialInvitation||'');
- const [contentVersions,setContentVersions]=useState<any[]>([]),[cohortOffer,setCohortOffer]=useState<any>(null),[operationTarget,setOperationTarget]=useState<any>(null),[authorityEpoch,setAuthorityEpoch]=useState(0);const accountId=useRef<string|null>(null),personalOfflineRead=useRef<OfflineReadContext|null>(null);const loadSequence=useRef(0),writeInFlight=useRef(false),currentRouteHash=useRef<string|null>(null);const [scratch,setScratch]=useState<Record<string,unknown>>({});
- const authorityVersion=useRef(0),recordHostMounted=useRef(false),recordLive=useRef<RecordClientContext|null>(null),recordCallbacks=useRef<{mask:(status:number)=>void;refresh:(message:string)=>void}|null>(null),recordChecker=useRef<ReturnType<typeof createPrivateRecordChecker>|null>(null);
- useEffect(()=>{recordHostMounted.current=true;return()=>{recordHostMounted.current=false;};},[]);
- function bumpAuthority(){setAuthorityEpoch(++authorityVersion.current);}
- function readRecordContext():RecordClientContext{if(!recordLive.current)throw new Error('Refresh your learning space before checking a record.');return {...recordLive.current,accountId:accountId.current,authorityEpoch:authorityVersion.current,readGeneration:loadSequence.current,saving:writeInFlight.current,mounted:recordHostMounted.current};}
- function getPrivateRecordScope(){const c=readRecordContext();return JSON.stringify([c.accountId,c.workspace,c.authorityEpoch,c.sourceRevision,c.readGeneration,c.mounted,c.loading,c.saving]);}
- function cancelPendingOperation(){cancelOperationNavigation();setOperationTarget(null);}
- useEffect(()=>{
-  const cancel=()=>cancelPendingOperation();
-  const focused=(event:FocusEvent)=>{if(event.target!==document.getElementById('main')&&event.target!==document.body)cancel();};
-  document.addEventListener('pointerdown',cancel,true);document.addEventListener('keydown',cancel,true);document.addEventListener('input',cancel,true);document.addEventListener('focusin',focused,true);
-  return()=>{document.removeEventListener('pointerdown',cancel,true);document.removeEventListener('keydown',cancel,true);document.removeEventListener('input',cancel,true);document.removeEventListener('focusin',focused,true);};
- },[]);
- function maskReadAccess(status:number){personalOfflineRead.current=null;cancelPendingOperation();
-  setContentVersions([]);setState(freshWorkspace());setRevision(0);setRole('msme');setOperationTarget(null);setCohortOffer(null);bumpAuthority();
-  setTeam(activeWorkspace==='lab'?null:{id:activeWorkspace,name:'Workspace access unavailable',purpose:'Refresh your signed-in access to open saved work.',context:'msme',roles:[],active:false,cohorts:[],assigned:[],summaries:[],network:{directory:[],sessions:[],history:[],myProfile:null},support:{mine:[],queue:[],assigned:[]},moderationHistory:[]});
-  setWorkspaces([]);
- }
- function acceptAccount(id:unknown){
-  if(typeof id!=='string'||!id)return;
-  if(accountId.current!==null&&accountId.current!==id){personalOfflineRead.current=null;cancelPendingOperation();setScratch({});setOperationTarget(null);setCohortOffer(null);bumpAuthority();}
-  accountId.current=id;
- }
- function rememberPersonalRead(accepted:any){const raw=accepted.serverState;personalOfflineRead.current=Array.isArray(raw.paused)?{verified:true,currentUserId:accepted.actor,workspaceId:'lab',revision:accepted.revision,readAt:new Date().toISOString(),active:true,canLearn:true,pausedProgramIds:raw.paused,enrollments:raw.enrollments}:null;}
- async function directory(sequence=loadSequence.current,expectedAccount?:string){
-  const res=await fetch('/api/teams',{cache:'no-store'});let data:any;try{data=await readAcademyResponse(res,'read')}catch(e){if(sequence!==loadSequence.current)return;if(e instanceof AcademyResponseError&&e.unverified)maskReadAccess(e.status);throw e;}
-  if(sequence!==loadSequence.current)return data;
-  if(!res.ok){if([401,403,404].includes(res.status))maskReadAccess(res.status);throw new Error(data.error);}
-  try{const accepted=acceptAcademyDirectory(data,expectedAccount,res.status);acceptAccount(accepted.user.id);setWorkspaces(accepted.workspaces);return accepted;}catch(e){if(e instanceof AcademyResponseError&&e.unverified)maskReadAccess(e.status);throw e;}
- }
- const load=useCallback(async(force=false)=>{if(writeInFlight.current&&!force)return false;const sequence=++loadSequence.current;personalOfflineRead.current=null;try{
-  const endpoint=activeWorkspace==='lab'?'/api/academy':'/api/teams?id='+encodeURIComponent(activeWorkspace);const res=await fetch(endpoint,{cache:'no-store'}),data:any=await readAcademyResponse(res,'read');
-  if(sequence!==loadSequence.current)return false;
-  if(!res.ok){if([401,403,404].includes(res.status))maskReadAccess(res.status);throw new Error(data.error);}
-  const accepted=acceptAcademyPayload(data,activeWorkspace==='lab'?{mode:'read',workspace:'lab'}:{mode:'read',workspace:'team',teamId:activeWorkspace},res.status),actor=accepted.actor;acceptAccount(actor);if(activeWorkspace==='lab'&&typeof data?.user?.displayName==='string')setPlatformName(data.user.displayName);setState(accepted.viewState);setRevision(accepted.revision);setTeam(accepted.team);setContentVersions(accepted.contentVersions);setRole(accepted.viewState.profile.context);
-  await directory(sequence,actor);if(sequence!==loadSequence.current)return false;if(activeWorkspace==='lab')rememberPersonalRead(accepted);setError('');return true;
- }catch(e:any){if(sequence!==loadSequence.current)return false;if(e instanceof AcademyResponseError&&e.unverified)maskReadAccess(e.status);setError(e.message||'Could not open your learning space.');return false}finally{if(sequence===loadSequence.current)setLoading(false)}},[activeWorkspace]);
- useEffect(()=>{if(loading)return;if(deepLinked.current===null)deepLinked.current=!!location.hash.slice(1);if(shouldShowOnboarding({state,workspace:activeWorkspace,view,viaInvitation:!!initialInvitation,deepLinked:deepLinked.current}))setOnboardingHold(true)},[loading,state,activeWorkspace,view]);
- useEffect(()=>{load();const read=()=>{if(currentRouteHash.current===location.hash)return;cancelPendingOperation();currentRouteHash.current=location.hash;const [v,p,tab,lessonId]=location.hash.slice(1).split('/');if(views[v]){setView(v);setProgramId(p||'');setLearningTarget(v==='learn'?parseLearningTarget(location.hash):null);document.getElementById('main')?.focus({preventScroll:true})}};read();window.addEventListener('hashchange',read);return()=>window.removeEventListener('hashchange',read)},[load]);
- function go(v:string,p='',target:any=null){cancelPendingOperation();setView(v);setProgramId(p);const nextHash=learningNavigationHash(v,p,target);setLearningTarget(v==='learn'&&Object.hasOwn(target??{},'offering')?parseLearningTarget('#'+nextHash):target);location.hash=nextHash;currentRouteHash.current=location.hash;window.scrollTo({top:0,behavior:'instant'});document.getElementById('main')?.focus({preventScroll:true})}
- function selectPreviewOffering(offering:any){if(view!=='learn')return;cancelPendingOperation();const target={offering},nextHash=learningNavigationHash('learn',programId,target);setLearningTarget(parseLearningTarget('#'+nextHash));location.hash=nextHash;currentRouteHash.current=location.hash;}
- function retryRead(){document.getElementById('main')?.focus({preventScroll:true});void load();}
- function selectWorkspace(id:string){if(busy)return;++loadSequence.current;personalOfflineRead.current=null;setCohortOffer(null);setOperationTarget(null);setContentVersions([]);setTeam(null);setLoading(true);setError('');setActiveWorkspace(id);history.replaceState(null,'','/'+(id==='lab'?'':'?workspace='+encodeURIComponent(id)));go(id==='lab'?'home':'teams');}
- async function teamCmd(command:any,message='Saved',target?:{teamId:string;revision:number}){if(busy||loading||writeInFlight.current)return false;const expectedAccount=accountId.current,expectedTeam=target?.teamId??activeWorkspace,actionId=crypto.randomUUID();if(!expectedAccount){setError('Refresh saved progress to verify your account before saving.');return false;}personalOfflineRead.current=null;writeInFlight.current=true;++loadSequence.current;setBusy(true);try{const res=await fetch('/api/teams',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({teamId:command.type==='create'?undefined:expectedTeam,revision:command.type==='create'?0:target?.revision??revision,actionId,command})}),data:any=await readAcademyResponse(res,'write');if(!res.ok){if(res.status===401){maskReadAccess(401);throw new Error(data.error)}if([403,404,409].includes(res.status)){if(activeWorkspace!=='lab'){setContentVersions([]);setTeam((prior:any)=>prior?{id:prior.id,name:prior.name,purpose:prior.purpose,context:prior.context,roles:[],active:false,cohorts:[],assigned:[],summaries:[],network:{directory:[],sessions:[],myProfile:prior.network?.myProfile??null,history:prior.network?.history??[]},support:{mine:prior.support?.mine??[],queue:[],assigned:[]},moderationHistory:[]}:null);setState((prior:any)=>({...prior,posts:[],reports:[]}))}await load(true)}throw new Error(data.error)}const accepted=acceptAcademyPayload(data,{mode:'write',workspace:'team',accountId:expectedAccount,teamId:expectedTeam,commandType:command.type,actionId,sourceRevision:command.type==='create'?0:target?.revision??revision},res.status);++loadSequence.current;acceptAccount(accepted.actor);setState(accepted.viewState);setRevision(accepted.revision);setTeam(accepted.team);setContentVersions(accepted.contentVersions);setRole(accepted.viewState.profile.context);if(['create','accept'].includes(command.type)&&data.team.id!==activeWorkspace){setActiveWorkspace(data.team.id);history.replaceState(null,'','/?workspace='+encodeURIComponent(data.team.id)+'#teams');}if(command.type==='accept'){setInvitationToken('');history.replaceState(null,'','/?workspace='+encodeURIComponent(data.team.id)+'#teams');setView('teams')}let refreshError='';await directory(loadSequence.current,data.team?.currentUserId).catch(e=>{refreshError=e.message});setError(refreshError);toast.success(refreshError?message+' · Refresh access before continuing':message);return true}catch(e:any){if(e instanceof AcademyResponseError&&e.unverified)maskReadAccess(e.status);setError(e.message);toast.error(e.message);return false}finally{writeInFlight.current=false;setBusy(false)}}
- async function cmd(command:any,message='Saved'){if(activeWorkspace!=='lab')return teamCmd(command,message);if(busy||loading||writeInFlight.current)return false;const expectedAccount=accountId.current;if(!expectedAccount){setError('Refresh saved progress to verify your account before saving.');return false;}personalOfflineRead.current=null;writeInFlight.current=true;++loadSequence.current;setBusy(true);try{const res=await fetch('/api/academy',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({revision,actionId:crypto.randomUUID(),command})}),data:any=await readAcademyResponse(res,'write');if(!res.ok){if(res.status===401){maskReadAccess(401);throw new Error(data.error)}if([403,404,409].includes(res.status)){if(activeWorkspace!=='lab'){setContentVersions([]);setTeam((prior:any)=>prior?{id:prior.id,name:prior.name,purpose:prior.purpose,context:prior.context,roles:[],active:false,cohorts:[],assigned:[],summaries:[],network:{directory:[],sessions:[],myProfile:prior.network?.myProfile??null,history:prior.network?.history??[]},support:{mine:prior.support?.mine??[],queue:[],assigned:[]},moderationHistory:[]}:null);setState((prior:any)=>({...prior,posts:[],reports:[]}))}await load(true)}throw new Error(data.error)}const accepted=acceptAcademyPayload(data,{mode:'write',workspace:'lab',accountId:expectedAccount,sourceRevision:revision},res.status);++loadSequence.current;acceptAccount(accepted.actor);setState(accepted.viewState);setRevision(accepted.revision);rememberPersonalRead(accepted);let cleanupWarning='';if(command.type==='reset'){try{const storage=await import('@/lib/academy-offline-sealed');storage.deleteSealedDraft(window.localStorage,await storage.sealedScopeHash(expectedAccount));}catch{cleanupWarning='Your saved personal lab was deleted. Its encrypted device draft could not be removed; use Offline practice or your browser storage controls to delete that copy.';}personalOfflineRead.current=null;setRole(data.state.profile.context);const resetAccount=accountId.current;setScratch(prior=>Object.fromEntries(Object.entries(prior).filter(([key])=>{try{const tuple=JSON.parse(key);return !(Array.isArray(tuple)&&tuple[0]===resetAccount&&tuple[1]==='lab')}catch{return true}})));cancelPendingOperation();bumpAuthority();}setError(cleanupWarning);toast.success(message);return true}catch(e:any){if(e instanceof AcademyResponseError&&e.unverified)maskReadAccess(e.status);setError(e.message);toast.error(e.message);return false}finally{writeInFlight.current=false;setBusy(false)}}
- useEffect(()=>{const context=(document as any).modelContext;if(!context?.registerTool)return;const lifecycle=new AbortController();const tools=[{name:'academy_read_progress',description:'Read saved enrollment and lesson progress in the current private learning space.',inputSchema:{type:'object',properties:{},additionalProperties:false},annotations:{readOnlyHint:true},execute:()=>({enrollments:state.enrollments.map((e:any)=>({id:e.id,pathway:e.programId,completedLessons:e.completed.length,status:e.record?.status??(e.withdrawn?'withdrawn':'learning')}))})},{name:'academy_open_pathway',description:'Open an existing pathway. This navigates only; it does not enroll or submit evidence.',inputSchema:{type:'object',properties:{pathwayId:{type:'string',enum:curriculum.pathways.map(p=>p.id)}},required:['pathwayId'],additionalProperties:false},annotations:{readOnlyHint:true},execute:async(input:any)=>{if(!input||!curriculum.pathways.some(p=>p.id===input.pathwayId)||Object.keys(input).some(k=>k!=='pathwayId'))throw new Error('Choose an existing pathway.');go('learn',input.pathwayId);await new Promise(r=>setTimeout(r,0));return {opened:input.pathwayId}}}];for(const tool of tools)Promise.resolve(context.registerTool(tool,{signal:lifecycle.signal})).catch(()=>{});return()=>lifecycle.abort()},[state]);
- const contentContext=useMemo<ContentContext>(()=>({registry:createCurriculumRegistry([...curriculum.pathways.map(p=>curriculumRegistry.resolve(currentRef(p.id))),...contentVersions.filter(s=>s.ref.scope===activeWorkspace)]),allowedScopes:activeWorkspace==='lab'?['global']:['global',activeWorkspace as any]}),[activeWorkspace,contentVersions]);
- recordLive.current={accountId:accountId.current,workspace:activeWorkspace,authorityEpoch:authorityVersion.current,sourceRevision:revision,readGeneration:loadSequence.current,mounted:recordHostMounted.current,loading,saving:busy,state,team,content:contentContext};
- recordCallbacks.current={mask:status=>{maskReadAccess(status);setError([401,403,404].includes(status)?'Your private record check could not establish current access. Refresh saved progress before checking again.':'The private record-check response could not be verified. Refresh saved progress before checking again.');},refresh:message=>setError(message)};
- if(!recordChecker.current)recordChecker.current=createPrivateRecordChecker({getContext:readRecordContext,onUnverifiedAccess:status=>recordCallbacks.current?.mask(status),onRefreshRequired:message=>recordCallbacks.current?.refresh(message)});
- const resolvePinned=useCallback((record:unknown)=>tryResolvePinnedContent(record,contentContext.allowedScopes,contentContext.registry),[contentContext]);
- const privateCatalogEntries=useMemo(()=>derivePrivateCatalogEntries(team,state.enrollments,resolvePinned),[team,state.enrollments,resolvePinned]);
- const privatePrograms=privateCatalogEntries.map(entry=>entry.program);
- const catalogOfferingTargets=useMemo(()=>Object.fromEntries(privateCatalogEntries.filter(entry=>entry.offering).map(entry=>[entry.program.id,entry.offering])),[privateCatalogEntries]);
- const catalogPrograms=[...curriculum.pathways,...privatePrograms];
- const selectedRole=roleOptions.find(p=>p.id===role)!,selected=curriculum.pathways.find(p=>p.id===contexts[role])!,enrolled=state.enrollments.filter((e:any)=>!e.withdrawn),current=enrolled.find((e:any)=>e.programId===selected.id),currentContent=current?resolvePinned(current):null,displaySelected=currentContent?.available?currentContent.snapshot.program:current?null:selected,complete=enrolled.filter((e:any)=>e.record?.status==='active').length;
- return <AcademyContext.Provider value={{checkPrivateRecord:recordChecker.current,getPrivateRecordScope,getPersonalOfflineRead:()=>{const read=personalOfflineRead.current,elapsed=read?Date.now()-Date.parse(read.readAt):Infinity;return activeWorkspace==='lab'&&read?.currentUserId===accountId.current&&elapsed>=0&&elapsed<=OFFLINE_LIMITS.readFreshMs?structuredClone(read):null;},accountKey:accountId.current,scratch,setScratch,operationTarget,setOperationTarget,openOperation:(destination:any)=>{go(destination.view);setOperationTarget({...destination,workspaceId:activeWorkspace,navigation:captureOperationNavigation(JSON.stringify([activeWorkspace,authorityEpoch,destination.view]))})},cohortOffer,setCohortOffer,offerPublication:(ref:any)=>{setCohortOffer({workspaceId:activeWorkspace,ref});go('teams')},contentVersions,contentContext,resolvePinned,catalogPrograms,catalogOfferingTargets,state,revision,platformName,saving:busy,busy:busy||(team&&!team.active),loading,error,cmd,teamCmd,go,load,programId,learningTarget,selectPreviewOffering,setRole,role,team,workspaces,activeWorkspace,selectWorkspace,invitationToken,setInvitationToken}}><SidebarProvider className="academy-shell"><a href="#main" className="skip-link">Skip to content</a><Sidebar className="academy-sidebar"><SidebarHeader className="brand"><div className="brand-mark">a</div><div><strong>aplyd<span>.</span></strong><small>ACADEMY</small></div></SidebarHeader><SidebarContent><div className="workspace-selector"><Select value={activeWorkspace} onValueChange={selectWorkspace} disabled={busy}><SelectTrigger aria-label="Choose Academy workspace"><SelectValue/></SelectTrigger><SelectContent><SelectItem value="lab">Personal practice lab</SelectItem>{workspaces.map(w=><SelectItem key={w.id} value={w.id}>{w.name}{w.active?'':' · history only'}</SelectItem>)}</SelectContent></Select></div><p className="nav-label">YOUR WORKSPACE</p><SidebarMenu>{[["teams","Workspaces & cohorts",Users],...(workspaces.some((w:any)=>w.active&&w.roles.includes('admin'))?[["org","Organization admin",Building2]]:[]),...(canShowWorkspaceOperations(team)?[["operations","Workspace operations",ClipboardCheck]]:[]),...(canShowExtraView('recovery',team)?[["recovery","Account recovery",LockKeyhole]]:[]),...(canShowExtraView('requests',team)?[["requests","Data requests",FileCheck2]]:[]),...(canShowExtraView('audit',team)?[["audit","Audit log",ClipboardCheck]]:[]),...(team?.escalations&&(team.escalations.canEscalate||team.escalations.canDecide||(team.escalations.notices?.length??0)>0)?[["escalations","Escalations",ClipboardCheck]]:[]),...(team?.reports?[["reports","Programme reports",ClipboardCheck]]:[]),...(!team?[["partner-dummy","Partner link (DUMMY)",Users]]:[]),["home","Overview",LayoutDashboard],["plan","My learning plan",CalendarDays],["programs","Learning pathways",BookOpen],["library","Reference library",BookOpen],["offline","Offline practice",Download],["community","Community",MessageSquare],["network","People & opportunities",Users],["credentials","My achievements",Award],["connections","Ecosystem connections",Plug],["support","Support & help",LifeBuoy]].map(([id,label,Icon]:any)=><SidebarMenuItem key={id}><SidebarMenuButton className="nav-item" isActive={view===id||(view==='learn'&&id==='programs')} onClick={()=>go(id)}><Icon/><span>{label}</span></SidebarMenuButton></SidebarMenuItem>)}</SidebarMenu><div className="side-note"><ShieldCheck size={22}/><strong>Better work. Careful AI.</strong><p>Practise with fictional information. Check before you act.</p></div></SidebarContent><SidebarFooter><SidebarMenuButton className="nav-item" isActive={view==='studio'} onClick={()=>go('studio')}><ClipboardCheck/><span>Review studio</span></SidebarMenuButton><SidebarMenuButton className="nav-item" isActive={view==='settings'} onClick={()=>go('settings')}><Settings2/><span>Preferences & privacy</span></SidebarMenuButton><div className="profile"><span className="avatar">{state.profile.name[0]}</span><div><strong>{state.profile.name}</strong><small>{team?team.name:'Personal practice lab'}</small></div></div></SidebarFooter></Sidebar><SidebarInset><header className="topbar"><div><SidebarTrigger/><span>Aplyd Academy <span className="separator">/</span> {views[view]}</span></div><span className="save-indicator" data-save-state={busy?'saving':loading?'loading':error?'attention':'loaded'}>{busy?<><Loader2 className="spin" size={16}/>Saving</>:loading?<><Loader2 className="spin" size={16}/>Opening</>:error?<button onClick={retryRead}><RefreshCw size={16}/>Retry connection</button>:<><LockKeyhole size={14}/>Saved learning loaded</>}</span></header><main className={`workspace ${state.profile.reading?'reading-mode':''}`} id="main" data-operation-scope={JSON.stringify([activeWorkspace,authorityEpoch,view])} tabIndex={-1}>
- {error&&<div role="alert" className="notice error-notice"><strong>Your work needs attention.</strong><p>{error}</p><Button variant="outline" onClick={retryRead} disabled={busy}>Refresh saved progress</Button></div>}
- <div className="pilot-notice"><span className="preview-pill">Working pilot</span><p>{team?(team.active?'Shared cohorts · Evidence private to its learner and assigned staff · Draft content, nonaccredited practice records.':'Workspace access removed · Your own learning history is available to read and export.'):'Personal practice lab · Private discussions · Sample staff reviews and ecosystem tests are labelled.'}</p></div>
- <Fragment key={authorityEpoch}>{loading?<div className="empty-state"><Loader2 className="spin"/><h2>Opening your learning space</h2><p>Your saved work will appear here.</p></div>:view==='home'?<>{onboardingHold&&activeWorkspace==='lab'&&<OnboardingFlow mode="first-run" onClose={()=>setOnboardingHold(false)}/>}<div className="page-heading"><div><p className="eyebrow">LEARN IT. PRACTISE IT. PUT IT TO WORK.</p><h1>{state.profile.name==='Learner'?'What will you put to work today?':`Good to see you, ${state.profile.name}.`}</h1><p>Build the skills that make a difference in your everyday work.</p></div><ContextSelect value={role} onChange={setRole} label="Browse featured learning for" hint={team?'Changes the featured suggestion only. Your own saved learning and plan choose the next step.':'Changes the featured suggestion only. Save your main work context in Preferences & privacy.'}/></div><div className="overview-grid"><section><div className="featured"><div className="feature-top"><span className="feature-tag"><selectedRole.icon size={16}/>{selectedRole.tag}</span><span>{current?`${current.completed.length} of ${displaySelected?.lessons.length??'?'} lessons complete`:'3 practical lessons'}</span></div><h2>{displaySelected?.title??'Saved learning content unavailable'}</h2><p>{displaySelected?.summary??'Your saved work is retained. Open the pathway to export it and ask for support.'}</p><div className="feature-path"><span className="path-step"><BookOpen/>Learn</span><i/><span className="path-step"><ShieldCheck/>Practise</span><i/><span className="path-step"><Award/>Demonstrate</span></div>{current&&<Progress className="feature-progress" value={current.completed.length/(displaySelected?.lessons.length||1)*100}/>}<div className="feature-bottom"><Button className="white-button" onClick={()=>go('learn',selected.id)}><BookOpen size={18}/>{current?'Continue learning':'Explore this pathway'}</Button><span><Clock size={16}/>About {displaySelected?.estimatedMinutes??selected.estimatedMinutes} minutes</span></div></div><div className="section-title"><h2>Learning for your world</h2><button className="text-button" onClick={()=>go('programs')}>View all pathways</button></div><div className="pathway-grid">{catalogPrograms.map((p,i)=><PathwayCard key={p.id} p={p} index={i}/>)}</div><div className="work-strip"><div className="course-icon"><GraduationCap/></div><div><h3>Progress you can demonstrate</h3><p>{enrolled.length?`${enrolled.length} active pathway${enrolled.length===1?'':'s'} · ${complete} practice completion${complete===1?'':'s'}`:'Learn, check your understanding, then show how you would use the skill.'}</p></div></div></section><aside className="right-rail"><NextActionCard/><section className="panel safety"><ShieldCheck/><h3>You stay in charge</h3><p>AI can help with drafts and patterns. You decide what is accurate, safe, and appropriate.</p></section><section className="panel"><HeartHandshake size={23}/><h3>Learn with others</h3><p className="mt">Explore learning circles and peer practice.</p><Button variant="outline" className="mt" onClick={()=>go('community')}>Open community</Button></section></aside></div></>:view==='org'?<OrgAdminView/>:view==='operations'?<OperationsView key={activeWorkspace}/>:view==='escalations'?<EscalationsView key={activeWorkspace}/>:view==='reports'?<ReportsView key={activeWorkspace}/>:view==='partner-dummy'?<PartnerDummyView/>:(view==='recovery'||view==='requests'||view==='audit')?(canShowExtraView(view,team)?(view==='recovery'?<RecoveryView key={activeWorkspace}/>:view==='requests'?<DataRequestsView key={activeWorkspace}/>:<AuditView key={activeWorkspace} scope="workspace" teamId={activeWorkspace}/>):<div className="empty-state"><LockKeyhole/><h2>This view is not available to your role</h2><p>Ask a workspace owner if you need access.</p><Button variant="outline" onClick={()=>go('home')}>Back to Overview</Button></div>):view==='support'?<SupportView/>:view==='plan'?<PlanView key={activeWorkspace}/>:view==='offline'?<OfflineView key={activeWorkspace}/>:view==='library'?<LibraryView/>:view==='programs'?<Catalog/>:view==='learn'?<LearningView key={programId}/>:view==='community'?<CommunityView key={programId}/>:view==='network'?<NetworkView/>:view==='credentials'?<AchievementsView/>:view==='connections'?(team?<div className="empty-state"><Plug/><h2>Ecosystem tests live in your personal lab</h2><p>This shared workspace does not send learning data to external partners.</p><Button onClick={()=>selectWorkspace('lab')}>Open personal practice lab</Button></div>:<ConnectionsView/>):view==='studio'?(team?<TeamStudio/>:<StudioView/>):view==='teams'?<>{joinHold&&joinToken&&<JoinInvitation token={joinToken} onDone={()=>setJoinHold(false)}/>}<WithoutInvitation><TeamsView/></WithoutInvitation></>:team?<TeamPreferences/>:<SettingsView/>}</Fragment>
- </main><footer className="workspace-footer"><span>Aplyd Academy</span><span>Learn with purpose. Keep your judgment.</span><button onClick={()=>go('settings')}>Privacy & support</button></footer></SidebarInset></SidebarProvider><Toaster richColors position="bottom-right"/></AcademyContext.Provider>
+import { AcademyViewLoading } from './academy-view-loading';
+import { ContextSelect, roleOptions } from './academy-context-select';
+import { SupportView } from './academy-support';
+import { PlanView, NextActionCard } from './academy-plan';
+import { Tag } from './academy-ui';
+import { canShowWorkspaceOperations } from '@/lib/academy-operations-access';
+import {
+  derivePrivateCatalogEntries,
+  learningNavigationHash,
+  parseLearningTarget,
+} from '@/lib/academy-offering-navigation';
+import {
+  AcademyContext,
+  useAcademy,
+  captureOperationNavigation,
+  cancelOperationNavigation,
+} from './academy-context';
+import { readAcademyResponse, AcademyResponseError } from './academy-response';
+import { acceptAcademyPayload, acceptAcademyDirectory } from './academy-acceptance';
+import { OFFLINE_LIMITS, type OfflineReadContext } from '@/lib/academy-offline';
+import { createPrivateRecordChecker, type RecordClientContext } from './academy-record-client';
+import { OnboardingFlow, JoinInvitation, WithoutInvitation } from './academy-onboarding';
+import { shouldShowOnboarding } from '@/lib/academy-onboarding';
+const TeamsView = dynamic(() => import('./academy-teams-ui').then((m) => m.TeamsView), {
+  loading: AcademyViewLoading,
+});
+const TeamStudio = dynamic(() => import('./academy-teams-ui').then((m) => m.TeamStudio), {
+  loading: AcademyViewLoading,
+});
+const TeamPreferences = dynamic(() => import('./academy-teams-ui').then((m) => m.TeamPreferences), {
+  loading: AcademyViewLoading,
+});
+const OrgAdminView = dynamic(() => import('./academy-org-admin').then((m) => m.default), {
+  loading: AcademyViewLoading,
+});
+const OperationsView = dynamic(() => import('./academy-operations-page').then((m) => m.OperationsView), {
+  loading: AcademyViewLoading,
+});
+const OfflineView = dynamic(() => import('./academy-offline').then((m) => m.OfflineView), {
+  loading: AcademyViewLoading,
+});
+const LibraryView = dynamic(() => import('./academy-library').then((m) => m.LibraryView), {
+  loading: AcademyViewLoading,
+});
+const RecoveryView = dynamic(() => import('./academy-recovery').then((m) => m.default), {
+  loading: AcademyViewLoading,
+});
+const DataRequestsView = dynamic(() => import('./academy-data-requests').then((m) => m.default), {
+  loading: AcademyViewLoading,
+});
+const AuditView = dynamic(() => import('./academy-audit').then((m) => m.default), {
+  loading: AcademyViewLoading,
+});
+const EscalationsView = dynamic(() => import('./academy-escalations').then((m) => m.default), {
+  loading: AcademyViewLoading,
+});
+const ReportsView = dynamic(() => import('./academy-reports').then((m) => m.default), {
+  loading: AcademyViewLoading,
+});
+const PartnerDummyView = dynamic(() => import('./academy-partner-dummy').then((m) => m.default), {
+  loading: AcademyViewLoading,
+});
+import { Catalog } from './academy-discovery';
+import { canShowExtraView } from '@/lib/academy-extra-views-access';
+const views: any = {
+  offline: 'Offline practice',
+  library: 'Reference library',
+  operations: 'Workspace operations',
+  org: 'Organization admin',
+  home: 'Overview',
+  plan: 'My learning plan',
+  support: 'Support & help',
+  programs: 'Learning pathways',
+  learn: 'Your pathway',
+  community: 'Community',
+  network: 'Connections & opportunities',
+  credentials: 'My achievements',
+  connections: 'Ecosystem connections',
+  studio: 'Review studio',
+  settings: 'Preferences & privacy',
+  teams: 'Workspaces & cohorts',
+  recovery: 'Account recovery',
+  requests: 'Data requests',
+  audit: 'Audit log',
+  escalations: 'Escalations',
+  reports: 'Programme reports',
+  'partner-dummy': 'Partner link (DUMMY)',
+};
+export default function Academy({
+  initialInvitation,
+  initialWorkspace,
+}: { initialInvitation?: string; initialWorkspace?: string } = {}) {
+  const [state, setState] = useState<any>(freshWorkspace()),
+    [revision, setRevision] = useState(0),
+    [loading, setLoading] = useState(true),
+    [busy, setBusy] = useState(false),
+    [error, setError] = useState(''),
+    [view, setView] = useState(initialInvitation ? 'teams' : 'home'),
+    [programId, setProgramId] = useState(''),
+    [learningTarget, setLearningTarget] = useState<any>(null),
+    [role, setRole] = useState('msme');
+  const [onboardingHold, setOnboardingHold] = useState(false),
+    [platformName, setPlatformName] = useState<string | null>(null),
+    [joinHold, setJoinHold] = useState(!!initialInvitation),
+    [joinToken] = useState(initialInvitation || ''),
+    deepLinked = useRef<boolean | null>(null);
+  const [activeWorkspace, setActiveWorkspace] = useState(initialWorkspace || 'lab'),
+    [team, setTeam] = useState<any>(null),
+    [workspaces, setWorkspaces] = useState<any[]>([]),
+    [invitationToken, setInvitationToken] = useState(initialInvitation || '');
+  const [contentVersions, setContentVersions] = useState<any[]>([]),
+    [cohortOffer, setCohortOffer] = useState<any>(null),
+    [operationTarget, setOperationTarget] = useState<any>(null),
+    [authorityEpoch, setAuthorityEpoch] = useState(0);
+  const accountId = useRef<string | null>(null),
+    personalOfflineRead = useRef<OfflineReadContext | null>(null);
+  const loadSequence = useRef(0),
+    writeInFlight = useRef(false),
+    currentRouteHash = useRef<string | null>(null);
+  const [scratch, setScratch] = useState<Record<string, unknown>>({});
+  const authorityVersion = useRef(0),
+    recordHostMounted = useRef(false),
+    recordLive = useRef<RecordClientContext | null>(null),
+    recordCallbacks = useRef<{ mask: (status: number) => void; refresh: (message: string) => void } | null>(
+      null,
+    ),
+    recordChecker = useRef<ReturnType<typeof createPrivateRecordChecker> | null>(null);
+  useEffect(() => {
+    recordHostMounted.current = true;
+    return () => {
+      recordHostMounted.current = false;
+    };
+  }, []);
+  function bumpAuthority() {
+    setAuthorityEpoch(++authorityVersion.current);
+  }
+  function readRecordContext(): RecordClientContext {
+    if (!recordLive.current) throw new Error('Refresh your learning space before checking a record.');
+    return {
+      ...recordLive.current,
+      accountId: accountId.current,
+      authorityEpoch: authorityVersion.current,
+      readGeneration: loadSequence.current,
+      saving: writeInFlight.current,
+      mounted: recordHostMounted.current,
+    };
+  }
+  function getPrivateRecordScope() {
+    const c = readRecordContext();
+    return JSON.stringify([
+      c.accountId,
+      c.workspace,
+      c.authorityEpoch,
+      c.sourceRevision,
+      c.readGeneration,
+      c.mounted,
+      c.loading,
+      c.saving,
+    ]);
+  }
+  function cancelPendingOperation() {
+    cancelOperationNavigation();
+    setOperationTarget(null);
+  }
+  useEffect(() => {
+    const cancel = () => cancelPendingOperation();
+    const focused = (event: FocusEvent) => {
+      if (event.target !== document.getElementById('main') && event.target !== document.body) cancel();
+    };
+    document.addEventListener('pointerdown', cancel, true);
+    document.addEventListener('keydown', cancel, true);
+    document.addEventListener('input', cancel, true);
+    document.addEventListener('focusin', focused, true);
+    return () => {
+      document.removeEventListener('pointerdown', cancel, true);
+      document.removeEventListener('keydown', cancel, true);
+      document.removeEventListener('input', cancel, true);
+      document.removeEventListener('focusin', focused, true);
+    };
+  }, []);
+  function maskReadAccess(status: number) {
+    personalOfflineRead.current = null;
+    cancelPendingOperation();
+    setContentVersions([]);
+    setState(freshWorkspace());
+    setRevision(0);
+    setRole('msme');
+    setOperationTarget(null);
+    setCohortOffer(null);
+    bumpAuthority();
+    setTeam(
+      activeWorkspace === 'lab'
+        ? null
+        : {
+            id: activeWorkspace,
+            name: 'Workspace access unavailable',
+            purpose: 'Refresh your signed-in access to open saved work.',
+            context: 'msme',
+            roles: [],
+            active: false,
+            cohorts: [],
+            assigned: [],
+            summaries: [],
+            network: { directory: [], sessions: [], history: [], myProfile: null },
+            support: { mine: [], queue: [], assigned: [] },
+            moderationHistory: [],
+          },
+    );
+    setWorkspaces([]);
+  }
+  function acceptAccount(id: unknown) {
+    if (typeof id !== 'string' || !id) return;
+    if (accountId.current !== null && accountId.current !== id) {
+      personalOfflineRead.current = null;
+      cancelPendingOperation();
+      setScratch({});
+      setOperationTarget(null);
+      setCohortOffer(null);
+      bumpAuthority();
+    }
+    accountId.current = id;
+  }
+  function rememberPersonalRead(accepted: any) {
+    const raw = accepted.serverState;
+    personalOfflineRead.current = Array.isArray(raw.paused)
+      ? {
+          verified: true,
+          currentUserId: accepted.actor,
+          workspaceId: 'lab',
+          revision: accepted.revision,
+          readAt: new Date().toISOString(),
+          active: true,
+          canLearn: true,
+          pausedProgramIds: raw.paused,
+          enrollments: raw.enrollments,
+        }
+      : null;
+  }
+  async function directory(sequence = loadSequence.current, expectedAccount?: string) {
+    const res = await fetch('/api/teams', { cache: 'no-store' });
+    let data: any;
+    try {
+      data = await readAcademyResponse(res, 'read');
+    } catch (e) {
+      if (sequence !== loadSequence.current) return;
+      if (e instanceof AcademyResponseError && e.unverified) maskReadAccess(e.status);
+      throw e;
+    }
+    if (sequence !== loadSequence.current) return data;
+    if (!res.ok) {
+      if ([401, 403, 404].includes(res.status)) maskReadAccess(res.status);
+      throw new Error(data.error);
+    }
+    try {
+      const accepted = acceptAcademyDirectory(data, expectedAccount, res.status);
+      acceptAccount(accepted.user.id);
+      setWorkspaces(accepted.workspaces);
+      return accepted;
+    } catch (e) {
+      if (e instanceof AcademyResponseError && e.unverified) maskReadAccess(e.status);
+      throw e;
+    }
+  }
+  const load = useCallback(
+    async (force = false) => {
+      if (writeInFlight.current && !force) return false;
+      const sequence = ++loadSequence.current;
+      personalOfflineRead.current = null;
+      try {
+        const endpoint =
+          activeWorkspace === 'lab' ? '/api/academy' : '/api/teams?id=' + encodeURIComponent(activeWorkspace);
+        const res = await fetch(endpoint, { cache: 'no-store' }),
+          data: any = await readAcademyResponse(res, 'read');
+        if (sequence !== loadSequence.current) return false;
+        if (!res.ok) {
+          if ([401, 403, 404].includes(res.status)) maskReadAccess(res.status);
+          throw new Error(data.error);
+        }
+        const accepted = acceptAcademyPayload(
+            data,
+            activeWorkspace === 'lab'
+              ? { mode: 'read', workspace: 'lab' }
+              : { mode: 'read', workspace: 'team', teamId: activeWorkspace },
+            res.status,
+          ),
+          actor = accepted.actor;
+        acceptAccount(actor);
+        if (activeWorkspace === 'lab' && typeof data?.user?.displayName === 'string')
+          setPlatformName(data.user.displayName);
+        setState(accepted.viewState);
+        setRevision(accepted.revision);
+        setTeam(accepted.team);
+        setContentVersions(accepted.contentVersions);
+        setRole(accepted.viewState.profile.context);
+        await directory(sequence, actor);
+        if (sequence !== loadSequence.current) return false;
+        if (activeWorkspace === 'lab') rememberPersonalRead(accepted);
+        setError('');
+        return true;
+      } catch (e: any) {
+        if (sequence !== loadSequence.current) return false;
+        if (e instanceof AcademyResponseError && e.unverified) maskReadAccess(e.status);
+        setError(e.message || 'Could not open your learning space.');
+        return false;
+      } finally {
+        if (sequence === loadSequence.current) setLoading(false);
+      }
+    },
+    [activeWorkspace],
+  );
+  useEffect(() => {
+    if (loading) return;
+    if (deepLinked.current === null) deepLinked.current = !!location.hash.slice(1);
+    if (
+      shouldShowOnboarding({
+        state,
+        workspace: activeWorkspace,
+        view,
+        viaInvitation: !!initialInvitation,
+        deepLinked: deepLinked.current,
+      })
+    )
+      setOnboardingHold(true);
+  }, [loading, state, activeWorkspace, view]);
+  useEffect(() => {
+    load();
+    const read = () => {
+      if (currentRouteHash.current === location.hash) return;
+      cancelPendingOperation();
+      currentRouteHash.current = location.hash;
+      const [v, p, tab, lessonId] = location.hash.slice(1).split('/');
+      if (views[v]) {
+        setView(v);
+        setProgramId(p || '');
+        setLearningTarget(v === 'learn' ? parseLearningTarget(location.hash) : null);
+        document.getElementById('main')?.focus({ preventScroll: true });
+      }
+    };
+    read();
+    window.addEventListener('hashchange', read);
+    return () => window.removeEventListener('hashchange', read);
+  }, [load]);
+  function go(v: string, p = '', target: any = null) {
+    cancelPendingOperation();
+    setView(v);
+    setProgramId(p);
+    const nextHash = learningNavigationHash(v, p, target);
+    setLearningTarget(
+      v === 'learn' && Object.hasOwn(target ?? {}, 'offering') ? parseLearningTarget('#' + nextHash) : target,
+    );
+    location.hash = nextHash;
+    currentRouteHash.current = location.hash;
+    window.scrollTo({ top: 0, behavior: 'instant' });
+    document.getElementById('main')?.focus({ preventScroll: true });
+  }
+  function selectPreviewOffering(offering: any) {
+    if (view !== 'learn') return;
+    cancelPendingOperation();
+    const target = { offering },
+      nextHash = learningNavigationHash('learn', programId, target);
+    setLearningTarget(parseLearningTarget('#' + nextHash));
+    location.hash = nextHash;
+    currentRouteHash.current = location.hash;
+  }
+  function retryRead() {
+    document.getElementById('main')?.focus({ preventScroll: true });
+    void load();
+  }
+  function selectWorkspace(id: string) {
+    if (busy) return;
+    ++loadSequence.current;
+    personalOfflineRead.current = null;
+    setCohortOffer(null);
+    setOperationTarget(null);
+    setContentVersions([]);
+    setTeam(null);
+    setLoading(true);
+    setError('');
+    setActiveWorkspace(id);
+    history.replaceState(null, '', '/' + (id === 'lab' ? '' : '?workspace=' + encodeURIComponent(id)));
+    go(id === 'lab' ? 'home' : 'teams');
+  }
+  async function teamCmd(command: any, message = 'Saved', target?: { teamId: string; revision: number }) {
+    if (busy || loading || writeInFlight.current) return false;
+    const expectedAccount = accountId.current,
+      expectedTeam = target?.teamId ?? activeWorkspace,
+      actionId = crypto.randomUUID();
+    if (!expectedAccount) {
+      setError('Refresh saved progress to verify your account before saving.');
+      return false;
+    }
+    personalOfflineRead.current = null;
+    writeInFlight.current = true;
+    ++loadSequence.current;
+    setBusy(true);
+    try {
+      const res = await fetch('/api/teams', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            teamId: command.type === 'create' ? undefined : expectedTeam,
+            revision: command.type === 'create' ? 0 : (target?.revision ?? revision),
+            actionId,
+            command,
+          }),
+        }),
+        data: any = await readAcademyResponse(res, 'write');
+      if (!res.ok) {
+        if (res.status === 401) {
+          maskReadAccess(401);
+          throw new Error(data.error);
+        }
+        if ([403, 404, 409].includes(res.status)) {
+          if (activeWorkspace !== 'lab') {
+            setContentVersions([]);
+            setTeam((prior: any) =>
+              prior
+                ? {
+                    id: prior.id,
+                    name: prior.name,
+                    purpose: prior.purpose,
+                    context: prior.context,
+                    roles: [],
+                    active: false,
+                    cohorts: [],
+                    assigned: [],
+                    summaries: [],
+                    network: {
+                      directory: [],
+                      sessions: [],
+                      myProfile: prior.network?.myProfile ?? null,
+                      history: prior.network?.history ?? [],
+                    },
+                    support: { mine: prior.support?.mine ?? [], queue: [], assigned: [] },
+                    moderationHistory: [],
+                  }
+                : null,
+            );
+            setState((prior: any) => ({ ...prior, posts: [], reports: [] }));
+          }
+          await load(true);
+        }
+        throw new Error(data.error);
+      }
+      const accepted = acceptAcademyPayload(
+        data,
+        {
+          mode: 'write',
+          workspace: 'team',
+          accountId: expectedAccount,
+          teamId: expectedTeam,
+          commandType: command.type,
+          actionId,
+          sourceRevision: command.type === 'create' ? 0 : (target?.revision ?? revision),
+        },
+        res.status,
+      );
+      ++loadSequence.current;
+      acceptAccount(accepted.actor);
+      setState(accepted.viewState);
+      setRevision(accepted.revision);
+      setTeam(accepted.team);
+      setContentVersions(accepted.contentVersions);
+      setRole(accepted.viewState.profile.context);
+      if (['create', 'accept'].includes(command.type) && data.team.id !== activeWorkspace) {
+        setActiveWorkspace(data.team.id);
+        history.replaceState(null, '', '/?workspace=' + encodeURIComponent(data.team.id) + '#teams');
+      }
+      if (command.type === 'accept') {
+        setInvitationToken('');
+        history.replaceState(null, '', '/?workspace=' + encodeURIComponent(data.team.id) + '#teams');
+        setView('teams');
+      }
+      let refreshError = '';
+      await directory(loadSequence.current, data.team?.currentUserId).catch((e) => {
+        refreshError = e.message;
+      });
+      setError(refreshError);
+      toast.success(refreshError ? message + ' · Refresh access before continuing' : message);
+      return true;
+    } catch (e: any) {
+      if (e instanceof AcademyResponseError && e.unverified) maskReadAccess(e.status);
+      setError(e.message);
+      toast.error(e.message);
+      return false;
+    } finally {
+      writeInFlight.current = false;
+      setBusy(false);
+    }
+  }
+  async function cmd(command: any, message = 'Saved') {
+    if (activeWorkspace !== 'lab') return teamCmd(command, message);
+    if (busy || loading || writeInFlight.current) return false;
+    const expectedAccount = accountId.current;
+    if (!expectedAccount) {
+      setError('Refresh saved progress to verify your account before saving.');
+      return false;
+    }
+    personalOfflineRead.current = null;
+    writeInFlight.current = true;
+    ++loadSequence.current;
+    setBusy(true);
+    try {
+      const res = await fetch('/api/academy', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ revision, actionId: crypto.randomUUID(), command }),
+        }),
+        data: any = await readAcademyResponse(res, 'write');
+      if (!res.ok) {
+        if (res.status === 401) {
+          maskReadAccess(401);
+          throw new Error(data.error);
+        }
+        if ([403, 404, 409].includes(res.status)) {
+          if (activeWorkspace !== 'lab') {
+            setContentVersions([]);
+            setTeam((prior: any) =>
+              prior
+                ? {
+                    id: prior.id,
+                    name: prior.name,
+                    purpose: prior.purpose,
+                    context: prior.context,
+                    roles: [],
+                    active: false,
+                    cohorts: [],
+                    assigned: [],
+                    summaries: [],
+                    network: {
+                      directory: [],
+                      sessions: [],
+                      myProfile: prior.network?.myProfile ?? null,
+                      history: prior.network?.history ?? [],
+                    },
+                    support: { mine: prior.support?.mine ?? [], queue: [], assigned: [] },
+                    moderationHistory: [],
+                  }
+                : null,
+            );
+            setState((prior: any) => ({ ...prior, posts: [], reports: [] }));
+          }
+          await load(true);
+        }
+        throw new Error(data.error);
+      }
+      const accepted = acceptAcademyPayload(
+        data,
+        { mode: 'write', workspace: 'lab', accountId: expectedAccount, sourceRevision: revision },
+        res.status,
+      );
+      ++loadSequence.current;
+      acceptAccount(accepted.actor);
+      setState(accepted.viewState);
+      setRevision(accepted.revision);
+      rememberPersonalRead(accepted);
+      let cleanupWarning = '';
+      if (command.type === 'reset') {
+        try {
+          const storage = await import('@/lib/academy-offline-sealed');
+          storage.deleteSealedDraft(window.localStorage, await storage.sealedScopeHash(expectedAccount));
+        } catch {
+          cleanupWarning =
+            'Your saved personal lab was deleted. Its encrypted device draft could not be removed; use Offline practice or your browser storage controls to delete that copy.';
+        }
+        personalOfflineRead.current = null;
+        setRole(data.state.profile.context);
+        const resetAccount = accountId.current;
+        setScratch((prior) =>
+          Object.fromEntries(
+            Object.entries(prior).filter(([key]) => {
+              try {
+                const tuple = JSON.parse(key);
+                return !(Array.isArray(tuple) && tuple[0] === resetAccount && tuple[1] === 'lab');
+              } catch {
+                return true;
+              }
+            }),
+          ),
+        );
+        cancelPendingOperation();
+        bumpAuthority();
+      }
+      setError(cleanupWarning);
+      toast.success(message);
+      return true;
+    } catch (e: any) {
+      if (e instanceof AcademyResponseError && e.unverified) maskReadAccess(e.status);
+      setError(e.message);
+      toast.error(e.message);
+      return false;
+    } finally {
+      writeInFlight.current = false;
+      setBusy(false);
+    }
+  }
+  useEffect(() => {
+    const context = (document as any).modelContext;
+    if (!context?.registerTool) return;
+    const lifecycle = new AbortController();
+    const tools = [
+      {
+        name: 'academy_read_progress',
+        description: 'Read saved enrollment and lesson progress in the current private learning space.',
+        inputSchema: { type: 'object', properties: {}, additionalProperties: false },
+        annotations: { readOnlyHint: true },
+        execute: () => ({
+          enrollments: state.enrollments.map((e: any) => ({
+            id: e.id,
+            pathway: e.programId,
+            completedLessons: e.completed.length,
+            status: e.record?.status ?? (e.withdrawn ? 'withdrawn' : 'learning'),
+          })),
+        }),
+      },
+      {
+        name: 'academy_open_pathway',
+        description: 'Open an existing pathway. This navigates only; it does not enroll or submit evidence.',
+        inputSchema: {
+          type: 'object',
+          properties: { pathwayId: { type: 'string', enum: curriculum.pathways.map((p) => p.id) } },
+          required: ['pathwayId'],
+          additionalProperties: false,
+        },
+        annotations: { readOnlyHint: true },
+        execute: async (input: any) => {
+          if (
+            !input ||
+            !curriculum.pathways.some((p) => p.id === input.pathwayId) ||
+            Object.keys(input).some((k) => k !== 'pathwayId')
+          )
+            throw new Error('Choose an existing pathway.');
+          go('learn', input.pathwayId);
+          await new Promise((r) => setTimeout(r, 0));
+          return { opened: input.pathwayId };
+        },
+      },
+    ];
+    for (const tool of tools)
+      Promise.resolve(context.registerTool(tool, { signal: lifecycle.signal })).catch(() => {});
+    return () => lifecycle.abort();
+  }, [state]);
+  const contentContext = useMemo<ContentContext>(
+    () => ({
+      registry: createCurriculumRegistry([
+        ...curriculum.pathways.map((p) => curriculumRegistry.resolve(currentRef(p.id))),
+        ...contentVersions.filter((s) => s.ref.scope === activeWorkspace),
+      ]),
+      allowedScopes: activeWorkspace === 'lab' ? ['global'] : ['global', activeWorkspace as any],
+    }),
+    [activeWorkspace, contentVersions],
+  );
+  recordLive.current = {
+    accountId: accountId.current,
+    workspace: activeWorkspace,
+    authorityEpoch: authorityVersion.current,
+    sourceRevision: revision,
+    readGeneration: loadSequence.current,
+    mounted: recordHostMounted.current,
+    loading,
+    saving: busy,
+    state,
+    team,
+    content: contentContext,
+  };
+  recordCallbacks.current = {
+    mask: (status) => {
+      maskReadAccess(status);
+      setError(
+        [401, 403, 404].includes(status)
+          ? 'Your private record check could not establish current access. Refresh saved progress before checking again.'
+          : 'The private record-check response could not be verified. Refresh saved progress before checking again.',
+      );
+    },
+    refresh: (message) => setError(message),
+  };
+  if (!recordChecker.current)
+    recordChecker.current = createPrivateRecordChecker({
+      getContext: readRecordContext,
+      onUnverifiedAccess: (status) => recordCallbacks.current?.mask(status),
+      onRefreshRequired: (message) => recordCallbacks.current?.refresh(message),
+    });
+  const resolvePinned = useCallback(
+    (record: unknown) =>
+      tryResolvePinnedContent(record, contentContext.allowedScopes, contentContext.registry),
+    [contentContext],
+  );
+  const privateCatalogEntries = useMemo(
+    () => derivePrivateCatalogEntries(team, state.enrollments, resolvePinned),
+    [team, state.enrollments, resolvePinned],
+  );
+  const privatePrograms = privateCatalogEntries.map((entry) => entry.program);
+  const catalogOfferingTargets = useMemo(
+    () =>
+      Object.fromEntries(
+        privateCatalogEntries
+          .filter((entry) => entry.offering)
+          .map((entry) => [entry.program.id, entry.offering]),
+      ),
+    [privateCatalogEntries],
+  );
+  const catalogPrograms = [...curriculum.pathways, ...privatePrograms];
+  const selectedRole = roleOptions.find((p) => p.id === role)!,
+    selected = curriculum.pathways.find((p) => p.id === contexts[role])!,
+    enrolled = state.enrollments.filter((e: any) => !e.withdrawn),
+    current = enrolled.find((e: any) => e.programId === selected.id),
+    currentContent = current ? resolvePinned(current) : null,
+    displaySelected = currentContent?.available ? currentContent.snapshot.program : current ? null : selected,
+    complete = enrolled.filter((e: any) => e.record?.status === 'active').length;
+  return (
+    <AcademyContext.Provider
+      value={{
+        checkPrivateRecord: recordChecker.current,
+        getPrivateRecordScope,
+        getPersonalOfflineRead: () => {
+          const read = personalOfflineRead.current,
+            elapsed = read ? Date.now() - Date.parse(read.readAt) : Infinity;
+          return activeWorkspace === 'lab' &&
+            read?.currentUserId === accountId.current &&
+            elapsed >= 0 &&
+            elapsed <= OFFLINE_LIMITS.readFreshMs
+            ? structuredClone(read)
+            : null;
+        },
+        accountKey: accountId.current,
+        scratch,
+        setScratch,
+        operationTarget,
+        setOperationTarget,
+        openOperation: (destination: any) => {
+          go(destination.view);
+          setOperationTarget({
+            ...destination,
+            workspaceId: activeWorkspace,
+            navigation: captureOperationNavigation(
+              JSON.stringify([activeWorkspace, authorityEpoch, destination.view]),
+            ),
+          });
+        },
+        cohortOffer,
+        setCohortOffer,
+        offerPublication: (ref: any) => {
+          setCohortOffer({ workspaceId: activeWorkspace, ref });
+          go('teams');
+        },
+        contentVersions,
+        contentContext,
+        resolvePinned,
+        catalogPrograms,
+        catalogOfferingTargets,
+        state,
+        revision,
+        platformName,
+        saving: busy,
+        busy: busy || (team && !team.active),
+        loading,
+        error,
+        cmd,
+        teamCmd,
+        go,
+        load,
+        programId,
+        learningTarget,
+        selectPreviewOffering,
+        setRole,
+        role,
+        team,
+        workspaces,
+        activeWorkspace,
+        selectWorkspace,
+        invitationToken,
+        setInvitationToken,
+      }}
+    >
+      <SidebarProvider className="academy-shell">
+        <a href="#main" className="skip-link">
+          Skip to content
+        </a>
+        <Sidebar className="academy-sidebar">
+          <SidebarHeader className="brand">
+            <div className="brand-mark">a</div>
+            <div>
+              <strong>
+                aplyd<span>.</span>
+              </strong>
+              <small>ACADEMY</small>
+            </div>
+          </SidebarHeader>
+          <SidebarContent>
+            <div className="workspace-selector">
+              <Select value={activeWorkspace} onValueChange={selectWorkspace} disabled={busy}>
+                <SelectTrigger aria-label="Choose Academy workspace">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="lab">Personal practice lab</SelectItem>
+                  {workspaces.map((w) => (
+                    <SelectItem key={w.id} value={w.id}>
+                      {w.name}
+                      {w.active ? '' : ' · history only'}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <p className="nav-label">YOUR WORKSPACE</p>
+            <SidebarMenu>
+              {[
+                ['teams', 'Workspaces & cohorts', Users],
+                ...(workspaces.some((w: any) => w.active && w.roles.includes('admin'))
+                  ? [['org', 'Organization admin', Building2]]
+                  : []),
+                ...(canShowWorkspaceOperations(team)
+                  ? [['operations', 'Workspace operations', ClipboardCheck]]
+                  : []),
+                ...(canShowExtraView('recovery', team)
+                  ? [['recovery', 'Account recovery', LockKeyhole]]
+                  : []),
+                ...(canShowExtraView('requests', team) ? [['requests', 'Data requests', FileCheck2]] : []),
+                ...(canShowExtraView('audit', team) ? [['audit', 'Audit log', ClipboardCheck]] : []),
+                ...(team?.escalations &&
+                (team.escalations.canEscalate ||
+                  team.escalations.canDecide ||
+                  (team.escalations.notices?.length ?? 0) > 0)
+                  ? [['escalations', 'Escalations', ClipboardCheck]]
+                  : []),
+                ...(team?.reports ? [['reports', 'Programme reports', ClipboardCheck]] : []),
+                ...(!team ? [['partner-dummy', 'Partner link (DUMMY)', Users]] : []),
+                ['home', 'Overview', LayoutDashboard],
+                ['plan', 'My learning plan', CalendarDays],
+                ['programs', 'Learning pathways', BookOpen],
+                ['library', 'Reference library', BookOpen],
+                ['offline', 'Offline practice', Download],
+                ['community', 'Community', MessageSquare],
+                ['network', 'People & opportunities', Users],
+                ['credentials', 'My achievements', Award],
+                ['connections', 'Ecosystem connections', Plug],
+                ['support', 'Support & help', LifeBuoy],
+              ].map(([id, label, Icon]: any) => (
+                <SidebarMenuItem key={id}>
+                  <SidebarMenuButton
+                    className="nav-item"
+                    isActive={view === id || (view === 'learn' && id === 'programs')}
+                    onClick={() => go(id)}
+                  >
+                    <Icon />
+                    <span>{label}</span>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+            <div className="side-note">
+              <ShieldCheck size={22} />
+              <strong>Better work. Careful AI.</strong>
+              <p>Practise with fictional information. Check before you act.</p>
+            </div>
+          </SidebarContent>
+          <SidebarFooter>
+            <SidebarMenuButton className="nav-item" isActive={view === 'studio'} onClick={() => go('studio')}>
+              <ClipboardCheck />
+              <span>Review studio</span>
+            </SidebarMenuButton>
+            <SidebarMenuButton
+              className="nav-item"
+              isActive={view === 'settings'}
+              onClick={() => go('settings')}
+            >
+              <Settings2 />
+              <span>Preferences & privacy</span>
+            </SidebarMenuButton>
+            <div className="profile">
+              <span className="avatar">{state.profile.name[0]}</span>
+              <div>
+                <strong>{state.profile.name}</strong>
+                <small>{team ? team.name : 'Personal practice lab'}</small>
+              </div>
+            </div>
+          </SidebarFooter>
+        </Sidebar>
+        <SidebarInset>
+          <header className="topbar">
+            <div>
+              <SidebarTrigger />
+              <span>
+                Aplyd Academy <span className="separator">/</span> {views[view]}
+              </span>
+            </div>
+            <span
+              className="save-indicator"
+              data-save-state={busy ? 'saving' : loading ? 'loading' : error ? 'attention' : 'loaded'}
+            >
+              {busy ? (
+                <>
+                  <Loader2 className="spin" size={16} />
+                  Saving
+                </>
+              ) : loading ? (
+                <>
+                  <Loader2 className="spin" size={16} />
+                  Opening
+                </>
+              ) : error ? (
+                <button onClick={retryRead}>
+                  <RefreshCw size={16} />
+                  Retry connection
+                </button>
+              ) : (
+                <>
+                  <LockKeyhole size={14} />
+                  Saved learning loaded
+                </>
+              )}
+            </span>
+          </header>
+          <main
+            className={`workspace ${state.profile.reading ? 'reading-mode' : ''}`}
+            id="main"
+            data-operation-scope={JSON.stringify([activeWorkspace, authorityEpoch, view])}
+            tabIndex={-1}
+          >
+            {error && (
+              <div role="alert" className="notice error-notice">
+                <strong>Your work needs attention.</strong>
+                <p>{error}</p>
+                <Button variant="outline" onClick={retryRead} disabled={busy}>
+                  Refresh saved progress
+                </Button>
+              </div>
+            )}
+            <div className="pilot-notice">
+              <span className="preview-pill">Working pilot</span>
+              <p>
+                {team
+                  ? team.active
+                    ? 'Shared cohorts · Evidence private to its learner and assigned staff · Draft content, nonaccredited practice records.'
+                    : 'Workspace access removed · Your own learning history is available to read and export.'
+                  : 'Personal practice lab · Private discussions · Sample staff reviews and ecosystem tests are labelled.'}
+              </p>
+            </div>
+            <Fragment key={authorityEpoch}>
+              {loading ? (
+                <div className="empty-state">
+                  <Loader2 className="spin" />
+                  <h2>Opening your learning space</h2>
+                  <p>Your saved work will appear here.</p>
+                </div>
+              ) : view === 'home' ? (
+                <>
+                  {onboardingHold && activeWorkspace === 'lab' && (
+                    <OnboardingFlow mode="first-run" onClose={() => setOnboardingHold(false)} />
+                  )}
+                  <div className="page-heading">
+                    <div>
+                      <p className="eyebrow">LEARN IT. PRACTISE IT. PUT IT TO WORK.</p>
+                      <h1>
+                        {state.profile.name === 'Learner'
+                          ? 'What will you put to work today?'
+                          : `Good to see you, ${state.profile.name}.`}
+                      </h1>
+                      <p>Build the skills that make a difference in your everyday work.</p>
+                    </div>
+                    <ContextSelect
+                      value={role}
+                      onChange={setRole}
+                      label="Browse featured learning for"
+                      hint={
+                        team
+                          ? 'Changes the featured suggestion only. Your own saved learning and plan choose the next step.'
+                          : 'Changes the featured suggestion only. Save your main work context in Preferences & privacy.'
+                      }
+                    />
+                  </div>
+                  <div className="overview-grid">
+                    <section>
+                      <div className="featured">
+                        <div className="feature-top">
+                          <span className="feature-tag">
+                            <selectedRole.icon size={16} />
+                            {selectedRole.tag}
+                          </span>
+                          <span>
+                            {current
+                              ? `${current.completed.length} of ${displaySelected?.lessons.length ?? '?'} lessons complete`
+                              : '3 practical lessons'}
+                          </span>
+                        </div>
+                        <h2>{displaySelected?.title ?? 'Saved learning content unavailable'}</h2>
+                        <p>
+                          {displaySelected?.summary ??
+                            'Your saved work is retained. Open the pathway to export it and ask for support.'}
+                        </p>
+                        <div className="feature-path">
+                          <span className="path-step">
+                            <BookOpen />
+                            Learn
+                          </span>
+                          <i />
+                          <span className="path-step">
+                            <ShieldCheck />
+                            Practise
+                          </span>
+                          <i />
+                          <span className="path-step">
+                            <Award />
+                            Demonstrate
+                          </span>
+                        </div>
+                        {current && (
+                          <Progress
+                            className="feature-progress"
+                            value={(current.completed.length / (displaySelected?.lessons.length || 1)) * 100}
+                          />
+                        )}
+                        <div className="feature-bottom">
+                          <Button className="white-button" onClick={() => go('learn', selected.id)}>
+                            <BookOpen size={18} />
+                            {current ? 'Continue learning' : 'Explore this pathway'}
+                          </Button>
+                          <span>
+                            <Clock size={16} />
+                            About {displaySelected?.estimatedMinutes ?? selected.estimatedMinutes} minutes
+                          </span>
+                        </div>
+                      </div>
+                      <div className="section-title">
+                        <h2>Learning for your world</h2>
+                        <button className="text-button" onClick={() => go('programs')}>
+                          View all pathways
+                        </button>
+                      </div>
+                      <div className="pathway-grid">
+                        {catalogPrograms.map((p, i) => (
+                          <PathwayCard key={p.id} p={p} index={i} />
+                        ))}
+                      </div>
+                      <div className="work-strip">
+                        <div className="course-icon">
+                          <GraduationCap />
+                        </div>
+                        <div>
+                          <h3>Progress you can demonstrate</h3>
+                          <p>
+                            {enrolled.length
+                              ? `${enrolled.length} active pathway${enrolled.length === 1 ? '' : 's'} · ${complete} practice completion${complete === 1 ? '' : 's'}`
+                              : 'Learn, check your understanding, then show how you would use the skill.'}
+                          </p>
+                        </div>
+                      </div>
+                    </section>
+                    <aside className="right-rail">
+                      <NextActionCard />
+                      <section className="panel safety">
+                        <ShieldCheck />
+                        <h3>You stay in charge</h3>
+                        <p>
+                          AI can help with drafts and patterns. You decide what is accurate, safe, and
+                          appropriate.
+                        </p>
+                      </section>
+                      <section className="panel">
+                        <HeartHandshake size={23} />
+                        <h3>Learn with others</h3>
+                        <p className="mt">Explore learning circles and peer practice.</p>
+                        <Button variant="outline" className="mt" onClick={() => go('community')}>
+                          Open community
+                        </Button>
+                      </section>
+                    </aside>
+                  </div>
+                </>
+              ) : view === 'org' ? (
+                <OrgAdminView />
+              ) : view === 'operations' ? (
+                <OperationsView key={activeWorkspace} />
+              ) : view === 'escalations' ? (
+                <EscalationsView key={activeWorkspace} />
+              ) : view === 'reports' ? (
+                <ReportsView key={activeWorkspace} />
+              ) : view === 'partner-dummy' ? (
+                <PartnerDummyView />
+              ) : view === 'recovery' || view === 'requests' || view === 'audit' ? (
+                canShowExtraView(view, team) ? (
+                  view === 'recovery' ? (
+                    <RecoveryView key={activeWorkspace} />
+                  ) : view === 'requests' ? (
+                    <DataRequestsView key={activeWorkspace} />
+                  ) : (
+                    <AuditView key={activeWorkspace} scope="workspace" teamId={activeWorkspace} />
+                  )
+                ) : (
+                  <div className="empty-state">
+                    <LockKeyhole />
+                    <h2>This view is not available to your role</h2>
+                    <p>Ask a workspace owner if you need access.</p>
+                    <Button variant="outline" onClick={() => go('home')}>
+                      Back to Overview
+                    </Button>
+                  </div>
+                )
+              ) : view === 'support' ? (
+                <SupportView />
+              ) : view === 'plan' ? (
+                <PlanView key={activeWorkspace} />
+              ) : view === 'offline' ? (
+                <OfflineView key={activeWorkspace} />
+              ) : view === 'library' ? (
+                <LibraryView />
+              ) : view === 'programs' ? (
+                <Catalog />
+              ) : view === 'learn' ? (
+                <LearningView key={programId} />
+              ) : view === 'community' ? (
+                <CommunityView key={programId} />
+              ) : view === 'network' ? (
+                <NetworkView />
+              ) : view === 'credentials' ? (
+                <AchievementsView />
+              ) : view === 'connections' ? (
+                team ? (
+                  <div className="empty-state">
+                    <Plug />
+                    <h2>Ecosystem tests live in your personal lab</h2>
+                    <p>This shared workspace does not send learning data to external partners.</p>
+                    <Button onClick={() => selectWorkspace('lab')}>Open personal practice lab</Button>
+                  </div>
+                ) : (
+                  <ConnectionsView />
+                )
+              ) : view === 'studio' ? (
+                team ? (
+                  <TeamStudio />
+                ) : (
+                  <StudioView />
+                )
+              ) : view === 'teams' ? (
+                <>
+                  {joinHold && joinToken && (
+                    <JoinInvitation token={joinToken} onDone={() => setJoinHold(false)} />
+                  )}
+                  <WithoutInvitation>
+                    <TeamsView />
+                  </WithoutInvitation>
+                </>
+              ) : team ? (
+                <TeamPreferences />
+              ) : (
+                <SettingsView />
+              )}
+            </Fragment>
+          </main>
+          <footer className="workspace-footer">
+            <span>Aplyd Academy</span>
+            <span>Learn with purpose. Keep your judgment.</span>
+            <button onClick={() => go('settings')}>Privacy & support</button>
+          </footer>
+        </SidebarInset>
+      </SidebarProvider>
+      <Toaster richColors position="bottom-right" />
+    </AcademyContext.Provider>
+  );
 }
-function PathwayCard({p,index}:any){const {state,go,resolvePinned,team,catalogOfferingTargets}=useAcademy(),offering=catalogOfferingTargets?.[p.id],previewCohort=offering?team?.cohorts.find((c:any)=>c.id===offering.cohortId):null,r=pathwayRole(p),Icon=r.icon,e=state.enrollments.find((e:any)=>e.programId===p.id&&!e.withdrawn),resolved=e?resolvePinned(e):null,shown=resolved?.available?resolved.snapshot.program:e?null:p;return <button className="pathway-card" data-offering-cohort-id={!e?offering?.cohortId:undefined} onClick={()=>go('learn',p.id,!e&&offering?{offering}:null)}><div className={`course-icon ${r.id}`}><Icon/></div><span className="eyebrow">{r.label}</span>{index>=3&&<Tag>Private workspace practice draft</Tag>}<h3>{shown?.title??'Saved content unavailable'}</h3><p>{shown?.summary??'Your saved work is retained; open your pathway for support and export.'}</p>{!e&&previewCohort&&<p className="form-hint">Preview: {previewCohort.title}</p>}<div className="card-meta"><span>{e?`${e.completed.length}/${shown?.lessons.length??'?'} lessons complete`:'3 lessons · Practical assessment'}</span>{e?<CheckCircle2 size={17}/>:<BookOpen size={17}/>}</div></button>}
+function PathwayCard({ p, index }: any) {
+  const { state, go, resolvePinned, team, catalogOfferingTargets } = useAcademy(),
+    offering = catalogOfferingTargets?.[p.id],
+    previewCohort = offering ? team?.cohorts.find((c: any) => c.id === offering.cohortId) : null,
+    r = pathwayRole(p),
+    Icon = r.icon,
+    e = state.enrollments.find((e: any) => e.programId === p.id && !e.withdrawn),
+    resolved = e ? resolvePinned(e) : null,
+    shown = resolved?.available ? resolved.snapshot.program : e ? null : p;
+  return (
+    <button
+      className="pathway-card"
+      data-offering-cohort-id={!e ? offering?.cohortId : undefined}
+      onClick={() => go('learn', p.id, !e && offering ? { offering } : null)}
+    >
+      <div className={`course-icon ${r.id}`}>
+        <Icon />
+      </div>
+      <span className="eyebrow">{r.label}</span>
+      {index >= 3 && <Tag>Private workspace practice draft</Tag>}
+      <h3>{shown?.title ?? 'Saved content unavailable'}</h3>
+      <p>{shown?.summary ?? 'Your saved work is retained; open your pathway for support and export.'}</p>
+      {!e && previewCohort && <p className="form-hint">Preview: {previewCohort.title}</p>}
+      <div className="card-meta">
+        <span>
+          {e
+            ? `${e.completed.length}/${shown?.lessons.length ?? '?'} lessons complete`
+            : '3 lessons · Practical assessment'}
+        </span>
+        {e ? <CheckCircle2 size={17} /> : <BookOpen size={17} />}
+      </div>
+    </button>
+  );
+}
 
-function pathwayRole(p:any){return roleOptions[curriculum.pathways.findIndex(seed=>seed.role===p.role)]??roleOptions[1];}
+function pathwayRole(p: any) {
+  return roleOptions[curriculum.pathways.findIndex((seed) => seed.role === p.role)] ?? roleOptions[1];
+}

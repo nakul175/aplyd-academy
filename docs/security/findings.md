@@ -1,6 +1,6 @@
 # Security review findings (ACA-US-12.2, AC2 and AC3)
 
-Review of the production setup as code on branch `aca/practice-loop`, 13 October 2026, by Claude: dependencies (`npm audit`), configuration (`deploy/`, `next.config.ts`), secrets handling and organisation isolation (unit tests in `tests/loop`). Severity: critical, high, medium, low. High and critical must be fixed before the go/no-go review. Remaining risks are accepted or rejected only by Nakul Jain, recorded as the `risk.acceptance` decision with the finding id as scope.
+Review of the production setup as code on branch `aca/practice-loop`, 13 October 2026, by Claude: dependencies (`npm audit`), configuration (`deploy/node/`, `next.config.ts`), secrets handling and organisation isolation (unit tests in `tests/loop`). Severity: critical, high, medium, low. High and critical must be fixed before the go/no-go review. Remaining risks are accepted or rejected only by Nakul Jain, recorded as the `risk.acceptance` decision with the finding id as scope.
 
 | ID | Finding | Severity | Owner | Status |
 | --- | --- | --- | --- | --- |

@@ -49,7 +49,7 @@
       "epic": "E1",
       "code": "built and tested locally (synthetic data); not deployed",
       "evidence": [
-        "deploy/README.md",
+        "deploy/node/README.md",
         "tests/node-runtime/backup-restore.sh"
       ],
       "ownerPrerequisites": "Droplet, Spaces bucket, uptime check created",
@@ -73,7 +73,7 @@
       "epic": "E1",
       "code": "built and tested locally (synthetic data); not deployed",
       "evidence": [
-        "deploy/release.sh",
+        "deploy/node/release.sh",
         "tests/node-runtime/release-rollback.sh",
         ".github/workflows/academy-ci-deploy.yml"
       ],

@@ -1,71 +1,419 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {writeFile} from 'node:fs/promises';
-import {existsSync} from 'node:fs';
-import {resolve,dirname} from 'node:path';
-import {fileURLToPath,pathToFileURL} from 'node:url';
-const here=dirname(fileURLToPath(import.meta.url)),nearby=resolve(here,'../..'),app=resolve(process.env.ACADEMY_APP_PATH??(existsSync(nearby+'/app/api/academy/route.ts')?nearby:existsSync('app/api/academy/route.ts')?'.':'work/aplyd-academy')),output=resolve(process.env.ACADEMY_OFFERING_QA_OUTPUT??(existsSync(app+'/lib/academy-offering-navigation.ts')?app+'/.sites-runtime/exact-offering-qa':here+'/../runtime'));
-const m=await import(pathToFileURL(output+'/model.mjs'));
-const {derivePrivateCatalogEntries,makeOfferingIntent,selectPreviewCohort,canStartPreviewCohort,continuingOwnEdition,learningNavigationHash,parseLearningTarget,createCurriculumRegistry,curriculumRegistry,tryResolvePinnedContent,currentRef,programs}=m;
-const savedFetch=globalThis.fetch;globalThis.fetch=()=>{throw new Error('Network is disabled in isolated offering tests');};test.after(()=>{globalThis.fetch=savedFetch;});
-const workspace='tw-'+ 'a'.repeat(24),foreign='tw-'+ 'b'.repeat(24),programId='path-display-practice';
-const snap=version=>({ref:{scope:workspace,programId,versionId:version},program:{...structuredClone(programs[1]),id:programId,title:'Edition '+version,prerequisites:['Requirement for '+version]},language:'en',audience:'Adult learners',classification:'Private workspace practice draft · nonaccredited'});
-const old=snap('cp-old'),newer=snap('cp-new'),global=curriculumRegistry.resolve(currentRef(programs[1].id));
-const registry=createCurriculumRegistry([...programs.map(p=>curriculumRegistry.resolve(currentRef(p.id))),old,newer]);
-const resolvePinned=r=>tryResolvePinnedContent(r,['global',workspace],registry);
-const cohort=(snapshot,id)=>({id,title:'Cohort '+id,programId:snapshot.ref.programId,version:snapshot.ref.versionId,contentRef:snapshot.ref,contentOpen:true,status:'open',capacity:5,occupied:0});
-const team=()=>({id:workspace,active:true,roles:['learner'],cohorts:[cohort(old,'cohort-old'),cohort(newer,'cohort-new')]});
-const own=(snapshot=old)=>({id:'own-enrollment',programId:snapshot.ref.programId,version:snapshot.ref.versionId,contentRef:snapshot.ref,cohortId:snapshot===old?'cohort-old':'cohort-new',withdrawn:false});
-let groups=0;const check=(name,fn)=>test(name,()=>{fn();groups++;});
-check('single existing catalog chooses a program and exact offering from the same final current cohort',()=>{
- const t=team(),entries=derivePrivateCatalogEntries(t,[],resolvePinned);assert.equal(entries.length,1);assert.equal(entries[0].program.title,newer.program.title);assert.deepEqual(entries[0].offering,makeOfferingIntent(t,t.cohorts[1]));assert.equal(entries[0].cohortTitle,'Cohort cohort-new');
+import { writeFile } from 'node:fs/promises';
+import { existsSync } from 'node:fs';
+import { resolve, dirname } from 'node:path';
+import { fileURLToPath, pathToFileURL } from 'node:url';
+const here = dirname(fileURLToPath(import.meta.url)),
+  nearby = resolve(here, '../..'),
+  app = resolve(
+    process.env.ACADEMY_APP_PATH ??
+      (existsSync(nearby + '/app/api/academy/route.ts')
+        ? nearby
+        : existsSync('app/api/academy/route.ts')
+          ? '.'
+          : 'work/aplyd-academy'),
+  ),
+  output = resolve(
+    process.env.ACADEMY_OFFERING_QA_OUTPUT ??
+      (existsSync(app + '/lib/academy-offering-navigation.ts')
+        ? app + '/.sites-runtime/exact-offering-qa'
+        : here + '/../runtime'),
+  );
+const m = await import(pathToFileURL(output + '/model.mjs'));
+const {
+  derivePrivateCatalogEntries,
+  makeOfferingIntent,
+  selectPreviewCohort,
+  canStartPreviewCohort,
+  continuingOwnEdition,
+  learningNavigationHash,
+  parseLearningTarget,
+  createCurriculumRegistry,
+  curriculumRegistry,
+  tryResolvePinnedContent,
+  currentRef,
+  programs,
+} = m;
+const savedFetch = globalThis.fetch;
+globalThis.fetch = () => {
+  throw new Error('Network is disabled in isolated offering tests');
+};
+test.after(() => {
+  globalThis.fetch = savedFetch;
 });
-check('catalog target previews precisely its own edition despite an earlier first-open cohort',()=>{
- const t=team(),entry=derivePrivateCatalogEntries(t,[],resolvePinned)[0],x=selectPreviewCohort(t,programId,entry.offering);assert.equal(x.available,true);assert.equal(x.cohort.id,'cohort-new');assert.deepEqual(resolvePinned(x.cohort).snapshot.ref,newer.ref);assert.equal(resolvePinned(x.cohort).snapshot.program.title,entry.program.title);
+const workspace = 'tw-' + 'a'.repeat(24),
+  foreign = 'tw-' + 'b'.repeat(24),
+  programId = 'path-display-practice';
+const snap = (version) => ({
+  ref: { scope: workspace, programId, versionId: version },
+  program: {
+    ...structuredClone(programs[1]),
+    id: programId,
+    title: 'Edition ' + version,
+    prerequisites: ['Requirement for ' + version],
+  },
+  language: 'en',
+  audience: 'Adult learners',
+  classification: 'Private workspace practice draft · nonaccredited',
 });
-check('current own active enrollment remains catalog priority, with no new-offering target',()=>{
- const entries=derivePrivateCatalogEntries(team(),[own()],resolvePinned);assert.equal(entries[0].program.title,old.program.title);assert.equal(entries[0].offering,null);
+const old = snap('cp-old'),
+  newer = snap('cp-new'),
+  global = curriculumRegistry.resolve(currentRef(programs[1].id));
+const registry = createCurriculumRegistry([
+  ...programs.map((p) => curriculumRegistry.resolve(currentRef(p.id))),
+  old,
+  newer,
+]);
+const resolvePinned = (r) => tryResolvePinnedContent(r, ['global', workspace], registry);
+const cohort = (snapshot, id) => ({
+  id,
+  title: 'Cohort ' + id,
+  programId: snapshot.ref.programId,
+  version: snapshot.ref.versionId,
+  contentRef: snapshot.ref,
+  contentOpen: true,
+  status: 'open',
+  capacity: 5,
+  occupied: 0,
 });
-check('withdrawn enrollment does not quietly replace a currently displayed offering',()=>{const e=own();e.withdrawn=true;const entry=derivePrivateCatalogEntries(team(),[e],resolvePinned)[0];assert.equal(entry.program.title,newer.program.title);assert.equal(entry.offering.cohortId,'cohort-new');});
-check('unavailable saved enrollment cannot substitute an unrelated newer body',()=>{const e=own();e.version='unknown';e.contentRef={...e.contentRef,versionId:'unknown'};const original=JSON.stringify(e);const entry=derivePrivateCatalogEntries(team(),[e],resolvePinned)[0];assert.equal(entry.program.title,newer.program.title);const resolved=resolvePinned(e),shown=e?(resolved.available?resolved.snapshot.program:null):entry.program;assert.equal(resolved.available,false);assert.equal(shown,null);assert.equal(JSON.stringify(e),original);});
-check('global seed programs are not duplicated into a second private catalog',()=>{const t=team();t.cohorts.push(cohort(global,'global-cohort'));assert.equal(derivePrivateCatalogEntries(t,[],resolvePinned).length,1);});
-check('legacy private card preference for content-open remains current and does not mutate cohort order',()=>{const t=team();t.cohorts[1].contentOpen=false;const before=JSON.stringify(t);const entry=derivePrivateCatalogEntries(t,[],resolvePinned)[0];assert.equal(entry.offering.cohortId,'cohort-old');assert.equal(JSON.stringify(t),before);});
-check('foreign resolver bodies are never eligible private catalog entries',()=>{const t=team();assert.deepEqual(derivePrivateCatalogEntries(t,[],()=>({available:true,snapshot:{...old,ref:{...old.ref,scope:foreign}}})),[]);});
-check('target creation uses actual pinnedRef consistency and accepts no mixed legacy/new pin',()=>{const t=team(),c=structuredClone(t.cohorts[0]);c.version='cp-new';assert.equal(makeOfferingIntent(t,c),null);});
-check('metadata contains no program body, evidence, progress or account identity',()=>{const target=makeOfferingIntent(team(),team().cohorts[0]);assert.deepEqual(Object.keys(target).sort(),['cohortId','contentRef','workspaceId']);assert.deepEqual(Object.keys(target.contentRef).sort(),['programId','scope','versionId']);assert.ok(!JSON.stringify(target).includes('Requirement'));});
-check('reload serializes only exact bounded ids and reselects the same current cohort',()=>{
- const t=team(),target=makeOfferingIntent(t,t.cohorts[1]),hash=learningNavigationHash('learn',programId,{offering:target}),read=parseLearningTarget('#'+hash);assert.deepEqual(read.offering,target);const x=selectPreviewCohort(t,programId,read.offering);assert.equal(x.cohort.id,'cohort-new');assert.equal(resolvePinned(x.cohort).snapshot.ref.versionId,'cp-new');
+const team = () => ({
+  id: workspace,
+  active: true,
+  roles: ['learner'],
+  cohorts: [cohort(old, 'cohort-old'), cohort(newer, 'cohort-new')],
 });
-check('browser history old and new URLs select their own pins independently',()=>{
- const t=team(),urls=t.cohorts.map(c=>learningNavigationHash('learn',programId,{offering:makeOfferingIntent(t,c)}));for(const i of [0,1,0,1]){const x=selectPreviewCohort(t,programId,parseLearningTarget('#'+urls[i]).offering);assert.deepEqual(resolvePinned(x.cohort).snapshot.ref,i===0?old.ref:newer.ref);}
+const own = (snapshot = old) => ({
+  id: 'own-enrollment',
+  programId: snapshot.ref.programId,
+  version: snapshot.ref.versionId,
+  contentRef: snapshot.ref,
+  cohortId: snapshot === old ? 'cohort-old' : 'cohort-new',
+  withdrawn: false,
 });
-check('cohort removal after a click is unavailable and never falls back to another offering',()=>{const t=team(),target=makeOfferingIntent(t,t.cohorts[1]);t.cohorts.pop();const x=selectPreviewCohort(t,programId,target);assert.equal(x.available,false);assert.equal(x.cohort,null);assert.equal(canStartPreviewCohort(t,x,resolvePinned(t.cohorts[0])),false);});
-check('cohort repoint after a click does not silently upgrade or downgrade its pin',()=>{for(const [initial,next]of [[old,newer],[newer,old]]){const t=team(),c=cohort(initial,'same-cohort');t.cohorts=[c];const target=makeOfferingIntent(t,c);c.version=next.ref.versionId;c.contentRef=next.ref;const x=selectPreviewCohort(t,programId,target);assert.equal(x.available,false);assert.equal(x.cohort,null);}});
-check('cross-workspace navigation never selects a same-id cohort from the new projection',()=>{const t=team(),target=makeOfferingIntent(t,t.cohorts[0]);t.id=foreign;assert.equal(selectPreviewCohort(t,programId,target).available,false);assert.equal(selectPreviewCohort(null,programId,target).available,false);});
-check('different program, foreign scope or invalid reference in hash never gains a fallback',()=>{
- const t=team(),target=makeOfferingIntent(t,t.cohorts[0]);for(const value of [{...target,contentRef:{...target.contentRef,programId:'other'}},{...target,contentRef:{...target.contentRef,scope:foreign}},{...target,contentRef:{...target.contentRef,versionId:''}}])assert.equal(selectPreviewCohort(t,programId,value).available,false);
+let groups = 0;
+const check = (name, fn) =>
+  test(name, () => {
+    fn();
+    groups++;
+  });
+check(
+  'single existing catalog chooses a program and exact offering from the same final current cohort',
+  () => {
+    const t = team(),
+      entries = derivePrivateCatalogEntries(t, [], resolvePinned);
+    assert.equal(entries.length, 1);
+    assert.equal(entries[0].program.title, newer.program.title);
+    assert.deepEqual(entries[0].offering, makeOfferingIntent(t, t.cohorts[1]));
+    assert.equal(entries[0].cohortTitle, 'Cohort cohort-new');
+  },
+);
+check('catalog target previews precisely its own edition despite an earlier first-open cohort', () => {
+  const t = team(),
+    entry = derivePrivateCatalogEntries(t, [], resolvePinned)[0],
+    x = selectPreviewCohort(t, programId, entry.offering);
+  assert.equal(x.available, true);
+  assert.equal(x.cohort.id, 'cohort-new');
+  assert.deepEqual(resolvePinned(x.cohort).snapshot.ref, newer.ref);
+  assert.equal(resolvePinned(x.cohort).snapshot.program.title, entry.program.title);
 });
-check('own enrolled old edition takes precedence over a clicked newer offering without mutation',()=>{const e=own(),t=team(),target=makeOfferingIntent(t,t.cohorts[1]),before=JSON.stringify(e);assert.equal(continuingOwnEdition(e,target),true);assert.deepEqual(resolvePinned(e).snapshot.ref,old.ref);assert.equal(JSON.stringify(e),before);});
-check('same offering needs no different-edition notice while malformed or foreign intent stays generic',()=>{const e=own(),t=team();assert.equal(continuingOwnEdition(e,makeOfferingIntent(t,t.cohorts[0])),false);assert.equal(continuingOwnEdition(e,null),true);assert.equal(continuingOwnEdition(e,undefined),false);assert.equal(continuingOwnEdition({...e,withdrawn:true},makeOfferingIntent(t,t.cohorts[1])),false);});
-check('legacy shared direct URL keeps its old first-open preview and unconfirmed enrollment gate',()=>{const t=team(),x=selectPreviewCohort(t,programId);assert.equal(x.available,true);assert.equal(x.cohort.id,'cohort-old');assert.equal(x.explicit,false);assert.equal(canStartPreviewCohort(t,x,resolvePinned(x.cohort)),false);});
-check('personal legacy URL has no cohort intent and no new workspace authority',()=>{const x=selectPreviewCohort(null,programs[1].id);assert.equal(x.available,true);assert.equal(x.cohort,null);assert.equal(x.explicit,false);assert.equal(parseLearningTarget('#learn/'+programs[1].id).tab,null);});
-check('all existing lesson, practical and feedback URLs retain their exact callbacks and shape',()=>{
- for(const target of [{tab:'learn',lessonId:'msme-02'},{tab:'assessment'},{tab:'feedback'}]){const hash=learningNavigationHash('learn',programs[1].id,target);assert.equal(hash,'learn/'+programs[1].id+'/'+target.tab+(target.lessonId?'/'+target.lessonId:''));const parsed=parseLearningTarget('#'+hash);assert.equal(parsed.tab,target.tab);assert.equal(parsed.lessonId,target.lessonId??null);}
- assert.equal(learningNavigationHash('community','cohort-id',{offering:null}),'community/cohort-id');assert.equal(parseLearningTarget('#community/cohort-id'),null);
+check('current own active enrollment remains catalog priority, with no new-offering target', () => {
+  const entries = derivePrivateCatalogEntries(team(), [own()], resolvePinned);
+  assert.equal(entries[0].program.title, old.program.title);
+  assert.equal(entries[0].offering, null);
 });
-check('malformed/overlong/traversal/extra hash segments preserve unavailable intent rather than default',()=>{
- const prefix='#learn/'+programId+'/offering/';for(const hash of [prefix,prefix+workspace+'/cohort-old/'+workspace+'/cp-old/extra',prefix+workspace+'/../'+workspace+'/cp-old',prefix+workspace+'/cohort-old/'+workspace+'/<script>',prefix+'a'.repeat(701)]){const parsed=parseLearningTarget(hash);assert.equal(parsed.offering,null);assert.equal(selectPreviewCohort(team(),programId,parsed.offering).available,false);}
+check('withdrawn enrollment does not quietly replace a currently displayed offering', () => {
+  const e = own();
+  e.withdrawn = true;
+  const entry = derivePrivateCatalogEntries(team(), [e], resolvePinned)[0];
+  assert.equal(entry.program.title, newer.program.title);
+  assert.equal(entry.offering.cohortId, 'cohort-new');
 });
-check('untrusted target extra keys and oversized IDs cannot be serialized into a valid offering URL',()=>{
- const t=team(),target=makeOfferingIntent(t,t.cohorts[0]);for(const value of [{...target,role:'admin'},{...target,cohortId:'x'.repeat(101)},{...target,contentRef:{...target.contentRef,authority:true}}]){const hash=learningNavigationHash('learn',programId,{offering:value});assert.equal(hash,'learn/'+programId+'/offering');assert.equal(parseLearningTarget(hash).offering,null);}
+check('unavailable saved enrollment cannot substitute an unrelated newer body', () => {
+  const e = own();
+  e.version = 'unknown';
+  e.contentRef = { ...e.contentRef, versionId: 'unknown' };
+  const original = JSON.stringify(e);
+  const entry = derivePrivateCatalogEntries(team(), [e], resolvePinned)[0];
+  assert.equal(entry.program.title, newer.program.title);
+  const resolved = resolvePinned(e),
+    shown = e ? (resolved.available ? resolved.snapshot.program : null) : entry.program;
+  assert.equal(resolved.available, false);
+  assert.equal(shown, null);
+  assert.equal(JSON.stringify(e), original);
 });
-check('manual explicit cohort choice captures the current exact pin and is independent of former target',()=>{const t=team(),first=makeOfferingIntent(t,t.cohorts[0]),chosen=makeOfferingIntent(t,t.cohorts[1]);assert.notDeepEqual(first,chosen);const x=selectPreviewCohort(t,programId,chosen);assert.deepEqual(resolvePinned(x.cohort).snapshot.ref,newer.ref);});
-check('current active learner with exact available open offering can click Start separately',()=>{const t=team(),x=selectPreviewCohort(t,programId,makeOfferingIntent(t,t.cohorts[1]));assert.equal(canStartPreviewCohort(t,x,resolvePinned(x.cohort)),true);});
-check('removed, staff-only, closed, paused, full and content-review-due do not gain enrollment',()=>{
- for(const change of [t=>t.active=false,t=>t.roles=['admin'],t=>t.cohorts[0].status='closed',t=>t.cohorts[0].status='paused',t=>t.cohorts[0].occupied=5,t=>t.cohorts[0].contentOpen=false]){const t=team();change(t);const x=selectPreviewCohort(t,programId,makeOfferingIntent(t,t.cohorts[0]));assert.equal(x.available,true);assert.equal(canStartPreviewCohort(t,x,resolvePinned(x.cohort)),false);}
+check('global seed programs are not duplicated into a second private catalog', () => {
+  const t = team();
+  t.cohorts.push(cohort(global, 'global-cohort'));
+  assert.equal(derivePrivateCatalogEntries(t, [], resolvePinned).length, 1);
 });
-check('unavailable resolver or a mismatched successful snapshot cannot open the Start gate',()=>{const t=team(),x=selectPreviewCohort(t,programId,makeOfferingIntent(t,t.cohorts[0]));assert.equal(canStartPreviewCohort(t,x,{available:false}),false);assert.equal(canStartPreviewCohort(t,x,{available:true,snapshot:newer}),false);assert.equal(canStartPreviewCohort(t,x,{available:true}),false);});
-check('bad capacity and occupancy cannot manufacture a place',()=>{for(const [key,value]of [['capacity',0],['capacity',5.5],['occupied',-1],['occupied',0.5],['occupied',NaN]]){const t=team();t.cohorts[0][key]=value;const x=selectPreviewCohort(t,programId,makeOfferingIntent(t,t.cohorts[0]));assert.equal(canStartPreviewCohort(t,x,resolvePinned(x.cohort)),false);}});
-check('actual unknown pin remains unavailable after metadata validation and has no global/newer substitution',()=>{const t=team(),c=t.cohorts[0];c.version='unknown';c.contentRef={...c.contentRef,versionId:c.version};const x=selectPreviewCohort(t,programId,makeOfferingIntent(t,c)),resolved=resolvePinned(x.cohort);assert.equal(x.available,true);assert.equal(resolved.available,false);assert.equal(canStartPreviewCohort(t,x,resolved),false);});
-check('all helpers are read-only; no target changes prior projection or registry',()=>{const t=team(),e=own(),before=JSON.stringify({t,e}),entry=derivePrivateCatalogEntries(t,[],resolvePinned)[0],hash=learningNavigationHash('learn',programId,{offering:entry.offering}),x=selectPreviewCohort(t,programId,parseLearningTarget(hash).offering);canStartPreviewCohort(t,x,resolvePinned(x.cohort));continuingOwnEdition(e,entry.offering);assert.equal(JSON.stringify({t,e}),before);assert.equal(resolvePinned(t.cohorts[0]).snapshot.program.title,old.program.title);});
-test.after(async()=>{await writeFile(output+'/pure-test-evidence.json',JSON.stringify({passed:groups===30,groups,at:new Date().toISOString(),limits:['Actual root exact pin registry + isolated metadata/navigation candidate. Fetch disabled; no persistent state, SQL, enrollment, browser or Worker.']},null,2));});
+check(
+  'legacy private card preference for content-open remains current and does not mutate cohort order',
+  () => {
+    const t = team();
+    t.cohorts[1].contentOpen = false;
+    const before = JSON.stringify(t);
+    const entry = derivePrivateCatalogEntries(t, [], resolvePinned)[0];
+    assert.equal(entry.offering.cohortId, 'cohort-old');
+    assert.equal(JSON.stringify(t), before);
+  },
+);
+check('foreign resolver bodies are never eligible private catalog entries', () => {
+  const t = team();
+  assert.deepEqual(
+    derivePrivateCatalogEntries(t, [], () => ({
+      available: true,
+      snapshot: { ...old, ref: { ...old.ref, scope: foreign } },
+    })),
+    [],
+  );
+});
+check('target creation uses actual pinnedRef consistency and accepts no mixed legacy/new pin', () => {
+  const t = team(),
+    c = structuredClone(t.cohorts[0]);
+  c.version = 'cp-new';
+  assert.equal(makeOfferingIntent(t, c), null);
+});
+check('metadata contains no program body, evidence, progress or account identity', () => {
+  const target = makeOfferingIntent(team(), team().cohorts[0]);
+  assert.deepEqual(Object.keys(target).sort(), ['cohortId', 'contentRef', 'workspaceId']);
+  assert.deepEqual(Object.keys(target.contentRef).sort(), ['programId', 'scope', 'versionId']);
+  assert.ok(!JSON.stringify(target).includes('Requirement'));
+});
+check('reload serializes only exact bounded ids and reselects the same current cohort', () => {
+  const t = team(),
+    target = makeOfferingIntent(t, t.cohorts[1]),
+    hash = learningNavigationHash('learn', programId, { offering: target }),
+    read = parseLearningTarget('#' + hash);
+  assert.deepEqual(read.offering, target);
+  const x = selectPreviewCohort(t, programId, read.offering);
+  assert.equal(x.cohort.id, 'cohort-new');
+  assert.equal(resolvePinned(x.cohort).snapshot.ref.versionId, 'cp-new');
+});
+check('browser history old and new URLs select their own pins independently', () => {
+  const t = team(),
+    urls = t.cohorts.map((c) =>
+      learningNavigationHash('learn', programId, { offering: makeOfferingIntent(t, c) }),
+    );
+  for (const i of [0, 1, 0, 1]) {
+    const x = selectPreviewCohort(t, programId, parseLearningTarget('#' + urls[i]).offering);
+    assert.deepEqual(resolvePinned(x.cohort).snapshot.ref, i === 0 ? old.ref : newer.ref);
+  }
+});
+check('cohort removal after a click is unavailable and never falls back to another offering', () => {
+  const t = team(),
+    target = makeOfferingIntent(t, t.cohorts[1]);
+  t.cohorts.pop();
+  const x = selectPreviewCohort(t, programId, target);
+  assert.equal(x.available, false);
+  assert.equal(x.cohort, null);
+  assert.equal(canStartPreviewCohort(t, x, resolvePinned(t.cohorts[0])), false);
+});
+check('cohort repoint after a click does not silently upgrade or downgrade its pin', () => {
+  for (const [initial, next] of [
+    [old, newer],
+    [newer, old],
+  ]) {
+    const t = team(),
+      c = cohort(initial, 'same-cohort');
+    t.cohorts = [c];
+    const target = makeOfferingIntent(t, c);
+    c.version = next.ref.versionId;
+    c.contentRef = next.ref;
+    const x = selectPreviewCohort(t, programId, target);
+    assert.equal(x.available, false);
+    assert.equal(x.cohort, null);
+  }
+});
+check('cross-workspace navigation never selects a same-id cohort from the new projection', () => {
+  const t = team(),
+    target = makeOfferingIntent(t, t.cohorts[0]);
+  t.id = foreign;
+  assert.equal(selectPreviewCohort(t, programId, target).available, false);
+  assert.equal(selectPreviewCohort(null, programId, target).available, false);
+});
+check('different program, foreign scope or invalid reference in hash never gains a fallback', () => {
+  const t = team(),
+    target = makeOfferingIntent(t, t.cohorts[0]);
+  for (const value of [
+    { ...target, contentRef: { ...target.contentRef, programId: 'other' } },
+    { ...target, contentRef: { ...target.contentRef, scope: foreign } },
+    { ...target, contentRef: { ...target.contentRef, versionId: '' } },
+  ])
+    assert.equal(selectPreviewCohort(t, programId, value).available, false);
+});
+check('own enrolled old edition takes precedence over a clicked newer offering without mutation', () => {
+  const e = own(),
+    t = team(),
+    target = makeOfferingIntent(t, t.cohorts[1]),
+    before = JSON.stringify(e);
+  assert.equal(continuingOwnEdition(e, target), true);
+  assert.deepEqual(resolvePinned(e).snapshot.ref, old.ref);
+  assert.equal(JSON.stringify(e), before);
+});
+check(
+  'same offering needs no different-edition notice while malformed or foreign intent stays generic',
+  () => {
+    const e = own(),
+      t = team();
+    assert.equal(continuingOwnEdition(e, makeOfferingIntent(t, t.cohorts[0])), false);
+    assert.equal(continuingOwnEdition(e, null), true);
+    assert.equal(continuingOwnEdition(e, undefined), false);
+    assert.equal(continuingOwnEdition({ ...e, withdrawn: true }, makeOfferingIntent(t, t.cohorts[1])), false);
+  },
+);
+check('legacy shared direct URL keeps its old first-open preview and unconfirmed enrollment gate', () => {
+  const t = team(),
+    x = selectPreviewCohort(t, programId);
+  assert.equal(x.available, true);
+  assert.equal(x.cohort.id, 'cohort-old');
+  assert.equal(x.explicit, false);
+  assert.equal(canStartPreviewCohort(t, x, resolvePinned(x.cohort)), false);
+});
+check('personal legacy URL has no cohort intent and no new workspace authority', () => {
+  const x = selectPreviewCohort(null, programs[1].id);
+  assert.equal(x.available, true);
+  assert.equal(x.cohort, null);
+  assert.equal(x.explicit, false);
+  assert.equal(parseLearningTarget('#learn/' + programs[1].id).tab, null);
+});
+check('all existing lesson, practical and feedback URLs retain their exact callbacks and shape', () => {
+  for (const target of [{ tab: 'learn', lessonId: 'msme-02' }, { tab: 'assessment' }, { tab: 'feedback' }]) {
+    const hash = learningNavigationHash('learn', programs[1].id, target);
+    assert.equal(
+      hash,
+      'learn/' + programs[1].id + '/' + target.tab + (target.lessonId ? '/' + target.lessonId : ''),
+    );
+    const parsed = parseLearningTarget('#' + hash);
+    assert.equal(parsed.tab, target.tab);
+    assert.equal(parsed.lessonId, target.lessonId ?? null);
+  }
+  assert.equal(learningNavigationHash('community', 'cohort-id', { offering: null }), 'community/cohort-id');
+  assert.equal(parseLearningTarget('#community/cohort-id'), null);
+});
+check(
+  'malformed/overlong/traversal/extra hash segments preserve unavailable intent rather than default',
+  () => {
+    const prefix = '#learn/' + programId + '/offering/';
+    for (const hash of [
+      prefix,
+      prefix + workspace + '/cohort-old/' + workspace + '/cp-old/extra',
+      prefix + workspace + '/../' + workspace + '/cp-old',
+      prefix + workspace + '/cohort-old/' + workspace + '/<script>',
+      prefix + 'a'.repeat(701),
+    ]) {
+      const parsed = parseLearningTarget(hash);
+      assert.equal(parsed.offering, null);
+      assert.equal(selectPreviewCohort(team(), programId, parsed.offering).available, false);
+    }
+  },
+);
+check('untrusted target extra keys and oversized IDs cannot be serialized into a valid offering URL', () => {
+  const t = team(),
+    target = makeOfferingIntent(t, t.cohorts[0]);
+  for (const value of [
+    { ...target, role: 'admin' },
+    { ...target, cohortId: 'x'.repeat(101) },
+    { ...target, contentRef: { ...target.contentRef, authority: true } },
+  ]) {
+    const hash = learningNavigationHash('learn', programId, { offering: value });
+    assert.equal(hash, 'learn/' + programId + '/offering');
+    assert.equal(parseLearningTarget(hash).offering, null);
+  }
+});
+check(
+  'manual explicit cohort choice captures the current exact pin and is independent of former target',
+  () => {
+    const t = team(),
+      first = makeOfferingIntent(t, t.cohorts[0]),
+      chosen = makeOfferingIntent(t, t.cohorts[1]);
+    assert.notDeepEqual(first, chosen);
+    const x = selectPreviewCohort(t, programId, chosen);
+    assert.deepEqual(resolvePinned(x.cohort).snapshot.ref, newer.ref);
+  },
+);
+check('current active learner with exact available open offering can click Start separately', () => {
+  const t = team(),
+    x = selectPreviewCohort(t, programId, makeOfferingIntent(t, t.cohorts[1]));
+  assert.equal(canStartPreviewCohort(t, x, resolvePinned(x.cohort)), true);
+});
+check('removed, staff-only, closed, paused, full and content-review-due do not gain enrollment', () => {
+  for (const change of [
+    (t) => (t.active = false),
+    (t) => (t.roles = ['admin']),
+    (t) => (t.cohorts[0].status = 'closed'),
+    (t) => (t.cohorts[0].status = 'paused'),
+    (t) => (t.cohorts[0].occupied = 5),
+    (t) => (t.cohorts[0].contentOpen = false),
+  ]) {
+    const t = team();
+    change(t);
+    const x = selectPreviewCohort(t, programId, makeOfferingIntent(t, t.cohorts[0]));
+    assert.equal(x.available, true);
+    assert.equal(canStartPreviewCohort(t, x, resolvePinned(x.cohort)), false);
+  }
+});
+check('unavailable resolver or a mismatched successful snapshot cannot open the Start gate', () => {
+  const t = team(),
+    x = selectPreviewCohort(t, programId, makeOfferingIntent(t, t.cohorts[0]));
+  assert.equal(canStartPreviewCohort(t, x, { available: false }), false);
+  assert.equal(canStartPreviewCohort(t, x, { available: true, snapshot: newer }), false);
+  assert.equal(canStartPreviewCohort(t, x, { available: true }), false);
+});
+check('bad capacity and occupancy cannot manufacture a place', () => {
+  for (const [key, value] of [
+    ['capacity', 0],
+    ['capacity', 5.5],
+    ['occupied', -1],
+    ['occupied', 0.5],
+    ['occupied', NaN],
+  ]) {
+    const t = team();
+    t.cohorts[0][key] = value;
+    const x = selectPreviewCohort(t, programId, makeOfferingIntent(t, t.cohorts[0]));
+    assert.equal(canStartPreviewCohort(t, x, resolvePinned(x.cohort)), false);
+  }
+});
+check(
+  'actual unknown pin remains unavailable after metadata validation and has no global/newer substitution',
+  () => {
+    const t = team(),
+      c = t.cohorts[0];
+    c.version = 'unknown';
+    c.contentRef = { ...c.contentRef, versionId: c.version };
+    const x = selectPreviewCohort(t, programId, makeOfferingIntent(t, c)),
+      resolved = resolvePinned(x.cohort);
+    assert.equal(x.available, true);
+    assert.equal(resolved.available, false);
+    assert.equal(canStartPreviewCohort(t, x, resolved), false);
+  },
+);
+check('all helpers are read-only; no target changes prior projection or registry', () => {
+  const t = team(),
+    e = own(),
+    before = JSON.stringify({ t, e }),
+    entry = derivePrivateCatalogEntries(t, [], resolvePinned)[0],
+    hash = learningNavigationHash('learn', programId, { offering: entry.offering }),
+    x = selectPreviewCohort(t, programId, parseLearningTarget(hash).offering);
+  canStartPreviewCohort(t, x, resolvePinned(x.cohort));
+  continuingOwnEdition(e, entry.offering);
+  assert.equal(JSON.stringify({ t, e }), before);
+  assert.equal(resolvePinned(t.cohorts[0]).snapshot.program.title, old.program.title);
+});
+test.after(async () => {
+  await writeFile(
+    output + '/pure-test-evidence.json',
+    JSON.stringify(
+      {
+        passed: groups === 30,
+        groups,
+        at: new Date().toISOString(),
+        limits: [
+          'Actual root exact pin registry + isolated metadata/navigation candidate. Fetch disabled; no persistent state, SQL, enrollment, browser or Worker.',
+        ],
+      },
+      null,
+      2,
+    ),
+  );
+});

@@ -11,6 +11,7 @@ export function expectedOrigin(request: Request): string {
   // Next's Node server rewrites Host to its own listen address and keeps the browser's host in x-forwarded-host.
   const host = request.headers.get('x-forwarded-host')?.split(',')[0].trim() || request.headers.get('host');
   if (!host) return url.origin;
-  const proto = request.headers.get('x-forwarded-proto')?.split(',')[0].trim() || url.protocol.replace(':', '');
+  const proto =
+    request.headers.get('x-forwarded-proto')?.split(',')[0].trim() || url.protocol.replace(':', '');
   return `${proto}://${host}`;
 }

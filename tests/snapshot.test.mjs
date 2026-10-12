@@ -1,24 +1,147 @@
-import {test} from 'node:test';
+import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
-import {createHash} from 'node:crypto';
-import {pathToFileURL} from 'node:url';
-import {build} from 'esbuild';
-const source=path.resolve('lib/academy-snapshot.ts'),output=path.resolve('.sites-runtime/snapshot/runtime.mjs');
-fs.mkdirSync(path.dirname(output),{recursive:true});
-await build({entryPoints:[source],outfile:output,bundle:true,platform:'node',format:'esm',logLevel:'warning'});
-fs.writeFileSync(path.join(path.dirname(output),'source.json'),JSON.stringify({scope:'Actual root snapshot module; pure inspection only, no API or restore proof.',source,sha256:createHash('sha256').update(fs.readFileSync(source)).digest('hex')},null,2));
-const {buildPersonalSnapshot,inspectPersonalSnapshot,recognizedPersonalSnapshot,snapshotChecksum}=await import(pathToFileURL(output));
-const now='2026-10-05T19:30:00.000Z',raw=JSON.stringify({profile:{name:'Private name'},enrollments:[{privateEvidence:'keep out of diagnostic result'}]});
-const snapshot=()=>buildPersonalSnapshot({subjectId:'owner-1',sourceRevision:2,saved:true,sourceUpdatedAt:'2026-10-05T19:20:00.000Z',snapshotJson:raw},now);
-test('fresh versioned copy uses exact original UTF8 bytes and reports labels only',async()=>{const value=await snapshot(),result=await inspectPersonalSnapshot(JSON.stringify(value),'owner-1');assert.equal(value.snapshotSha256,createHash('sha256').update(raw).digest('hex'));assert.equal(result.integrity,'matches');assert.equal(result.account,'matches');assert.equal(result.sourceRevision,2);assert.equal(result.enrollments,1);assert.doesNotMatch(JSON.stringify(result),/Private name|privateEvidence|keep out/);});
-test('format metadata remains recognized separately from integrity',async()=>{const value=await snapshot();value.snapshotJson+=' ';assert.equal(recognizedPersonalSnapshot(value),true);const result=await inspectPersonalSnapshot(JSON.stringify(value));assert.equal(result.integrity,'changed');assert.equal(result.content,'not-inspected');});
-test('own comparison does not authenticate a different account',async()=>{const result=await inspectPersonalSnapshot(JSON.stringify(await snapshot()),'owner-2');assert.equal(result.account,'different');assert.equal(result.integrity,'matches');assert.match(result.message,/differs/);});
-test('exact malformed stored bytes remain exportable for private diagnosis',async()=>{const value=await buildPersonalSnapshot({subjectId:'owner-1',sourceRevision:1,saved:true,sourceUpdatedAt:now,snapshotJson:'{"broken":'},now),result=await inspectPersonalSnapshot(JSON.stringify(value),'owner-1');assert.equal(result.integrity,'matches');assert.equal(result.content,'unreadable');assert.equal(result.enrollments,null);});
-test('checksum does not grant authority to a recomputed edited copy',async()=>{const value=await snapshot();value.snapshotJson=JSON.stringify({profile:{name:'Changed'},enrollments:[]});value.snapshotSha256=await snapshotChecksum(value.snapshotJson);const result=await inspectPersonalSnapshot(JSON.stringify(value));assert.equal(result.integrity,'matches');assert.match(result.message,/unsigned.*cannot restore/);assert.equal(result.enrollments,0);});
-test('unknown versions and outer fields remain unsupported',async()=>{for(const change of [{formatVersion:2},{extra:'copied-role'},{snapshotEncoding:'base64'},{sourceRevision:-1},{sourceRevision:1.5},{exportedAt:'2026-10-05'},{snapshotSha256:'INVALID'},{subjectId:' owner-1'}]){const value={...await snapshot(),...change};assert.equal(recognizedPersonalSnapshot(value),false);assert.equal((await inspectPersonalSnapshot(JSON.stringify(value))).format,'unsupported');}});
-test('unsaved exports describe fresh state without claiming a saved revision',async()=>{const value=await buildPersonalSnapshot({subjectId:'owner-1',sourceRevision:0,saved:false,sourceUpdatedAt:null,snapshotJson:'{}'},now);assert.equal(recognizedPersonalSnapshot(value),true);await assert.rejects(()=>buildPersonalSnapshot({...value,sourceRevision:4,saved:false},now));});
-test('old raw exports stay unversioned rather than promoted',async()=>{const result=await inspectPersonalSnapshot(raw);assert.equal(result.format,'legacy');assert.equal(result.integrity,'unavailable');assert.equal(result.account,'not-compared');});
-test('invalid JSON, nonobject contents and excess file size are diagnosed safely',async()=>{assert.equal((await inspectPersonalSnapshot('{bad')).format,'unsupported');const value=await buildPersonalSnapshot({subjectId:'owner-1',sourceRevision:0,saved:false,sourceUpdatedAt:null,snapshotJson:'[]'},now);assert.equal((await inspectPersonalSnapshot(JSON.stringify(value))).content,'unreadable');assert.match((await inspectPersonalSnapshot(' '.repeat(8_000_001))).message,/too large/);});
-test('content size is a separate diagnostic; it is never silently truncated',async()=>{const text=JSON.stringify({enrollments:[],large:'é'.repeat(510_000)}),value=await buildPersonalSnapshot({subjectId:'owner-1',sourceRevision:1,saved:true,sourceUpdatedAt:now,snapshotJson:text},now),result=await inspectPersonalSnapshot(JSON.stringify(value));assert.equal(value.snapshotJson,text);assert.equal(result.integrity,'matches');assert.equal(result.withinPilotSize,false);});
+import { createHash } from 'node:crypto';
+import { pathToFileURL } from 'node:url';
+import { build } from 'esbuild';
+const source = path.resolve('lib/academy-snapshot.ts'),
+  output = path.resolve('.sites-runtime/snapshot/runtime.mjs');
+fs.mkdirSync(path.dirname(output), { recursive: true });
+await build({
+  entryPoints: [source],
+  outfile: output,
+  bundle: true,
+  platform: 'node',
+  format: 'esm',
+  logLevel: 'warning',
+});
+fs.writeFileSync(
+  path.join(path.dirname(output), 'source.json'),
+  JSON.stringify(
+    {
+      scope: 'Actual root snapshot module; pure inspection only, no API or restore proof.',
+      source,
+      sha256: createHash('sha256').update(fs.readFileSync(source)).digest('hex'),
+    },
+    null,
+    2,
+  ),
+);
+const { buildPersonalSnapshot, inspectPersonalSnapshot, recognizedPersonalSnapshot, snapshotChecksum } =
+  await import(pathToFileURL(output));
+const now = '2026-10-05T19:30:00.000Z',
+  raw = JSON.stringify({
+    profile: { name: 'Private name' },
+    enrollments: [{ privateEvidence: 'keep out of diagnostic result' }],
+  });
+const snapshot = () =>
+  buildPersonalSnapshot(
+    {
+      subjectId: 'owner-1',
+      sourceRevision: 2,
+      saved: true,
+      sourceUpdatedAt: '2026-10-05T19:20:00.000Z',
+      snapshotJson: raw,
+    },
+    now,
+  );
+test('fresh versioned copy uses exact original UTF8 bytes and reports labels only', async () => {
+  const value = await snapshot(),
+    result = await inspectPersonalSnapshot(JSON.stringify(value), 'owner-1');
+  assert.equal(value.snapshotSha256, createHash('sha256').update(raw).digest('hex'));
+  assert.equal(result.integrity, 'matches');
+  assert.equal(result.account, 'matches');
+  assert.equal(result.sourceRevision, 2);
+  assert.equal(result.enrollments, 1);
+  assert.doesNotMatch(JSON.stringify(result), /Private name|privateEvidence|keep out/);
+});
+test('format metadata remains recognized separately from integrity', async () => {
+  const value = await snapshot();
+  value.snapshotJson += ' ';
+  assert.equal(recognizedPersonalSnapshot(value), true);
+  const result = await inspectPersonalSnapshot(JSON.stringify(value));
+  assert.equal(result.integrity, 'changed');
+  assert.equal(result.content, 'not-inspected');
+});
+test('own comparison does not authenticate a different account', async () => {
+  const result = await inspectPersonalSnapshot(JSON.stringify(await snapshot()), 'owner-2');
+  assert.equal(result.account, 'different');
+  assert.equal(result.integrity, 'matches');
+  assert.match(result.message, /differs/);
+});
+test('exact malformed stored bytes remain exportable for private diagnosis', async () => {
+  const value = await buildPersonalSnapshot(
+      {
+        subjectId: 'owner-1',
+        sourceRevision: 1,
+        saved: true,
+        sourceUpdatedAt: now,
+        snapshotJson: '{"broken":',
+      },
+      now,
+    ),
+    result = await inspectPersonalSnapshot(JSON.stringify(value), 'owner-1');
+  assert.equal(result.integrity, 'matches');
+  assert.equal(result.content, 'unreadable');
+  assert.equal(result.enrollments, null);
+});
+test('checksum does not grant authority to a recomputed edited copy', async () => {
+  const value = await snapshot();
+  value.snapshotJson = JSON.stringify({ profile: { name: 'Changed' }, enrollments: [] });
+  value.snapshotSha256 = await snapshotChecksum(value.snapshotJson);
+  const result = await inspectPersonalSnapshot(JSON.stringify(value));
+  assert.equal(result.integrity, 'matches');
+  assert.match(result.message, /unsigned.*cannot restore/);
+  assert.equal(result.enrollments, 0);
+});
+test('unknown versions and outer fields remain unsupported', async () => {
+  for (const change of [
+    { formatVersion: 2 },
+    { extra: 'copied-role' },
+    { snapshotEncoding: 'base64' },
+    { sourceRevision: -1 },
+    { sourceRevision: 1.5 },
+    { exportedAt: '2026-10-05' },
+    { snapshotSha256: 'INVALID' },
+    { subjectId: ' owner-1' },
+  ]) {
+    const value = { ...(await snapshot()), ...change };
+    assert.equal(recognizedPersonalSnapshot(value), false);
+    assert.equal((await inspectPersonalSnapshot(JSON.stringify(value))).format, 'unsupported');
+  }
+});
+test('unsaved exports describe fresh state without claiming a saved revision', async () => {
+  const value = await buildPersonalSnapshot(
+    { subjectId: 'owner-1', sourceRevision: 0, saved: false, sourceUpdatedAt: null, snapshotJson: '{}' },
+    now,
+  );
+  assert.equal(recognizedPersonalSnapshot(value), true);
+  await assert.rejects(() => buildPersonalSnapshot({ ...value, sourceRevision: 4, saved: false }, now));
+});
+test('old raw exports stay unversioned rather than promoted', async () => {
+  const result = await inspectPersonalSnapshot(raw);
+  assert.equal(result.format, 'legacy');
+  assert.equal(result.integrity, 'unavailable');
+  assert.equal(result.account, 'not-compared');
+});
+test('invalid JSON, nonobject contents and excess file size are diagnosed safely', async () => {
+  assert.equal((await inspectPersonalSnapshot('{bad')).format, 'unsupported');
+  const value = await buildPersonalSnapshot(
+    { subjectId: 'owner-1', sourceRevision: 0, saved: false, sourceUpdatedAt: null, snapshotJson: '[]' },
+    now,
+  );
+  assert.equal((await inspectPersonalSnapshot(JSON.stringify(value))).content, 'unreadable');
+  assert.match((await inspectPersonalSnapshot(' '.repeat(8_000_001))).message, /too large/);
+});
+test('content size is a separate diagnostic; it is never silently truncated', async () => {
+  const text = JSON.stringify({ enrollments: [], large: 'é'.repeat(510_000) }),
+    value = await buildPersonalSnapshot(
+      { subjectId: 'owner-1', sourceRevision: 1, saved: true, sourceUpdatedAt: now, snapshotJson: text },
+      now,
+    ),
+    result = await inspectPersonalSnapshot(JSON.stringify(value));
+  assert.equal(value.snapshotJson, text);
+  assert.equal(result.integrity, 'matches');
+  assert.equal(result.withinPilotSize, false);
+});

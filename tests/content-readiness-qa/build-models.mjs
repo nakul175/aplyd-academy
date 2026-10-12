@@ -1,15 +1,56 @@
-import {resolve,dirname} from 'node:path';
-import {fileURLToPath} from 'node:url';
-import {createRequire} from 'node:module';
-import {mkdirSync,readFileSync,writeFileSync} from 'node:fs';
-import {createHash} from 'node:crypto';
-const app=resolve(dirname(fileURLToPath(import.meta.url)),'../..');
-const require=createRequire(app+'/package.json'),esbuild=require('esbuild');
-const out=app+'/.sites-runtime/content-readiness-qa';mkdirSync(out,{recursive:true});
-const files=['lib/academy-content-readiness.ts','lib/academy-content-readiness-adoption.mjs','app/academy-content-readiness.tsx','app/academy-learning-help-disclosure.tsx','app/academy-operations.tsx','app/academy-support.tsx'];
-const hashes=()=>Object.fromEntries(files.map(file=>[file,createHash('sha256').update(readFileSync(app+'/'+file)).digest('hex')]));
-const before=hashes();
-for(const [file,name] of [['lib/academy-content-readiness.ts','readiness'],['lib/academy-content-readiness-adoption.mjs','adoption']])await esbuild.build({entryPoints:[app+'/'+file],bundle:true,platform:'node',format:'esm',outfile:out+'/'+name+'.mjs'});
-if(JSON.stringify(before)!==JSON.stringify(hashes()))throw new Error('Root sources changed during content-readiness compilation');
-writeFileSync(out+'/source-evidence.json',JSON.stringify({passed:true,mode:'actual-adopted-checkout',at:new Date().toISOString(),files:before,limits:['Pure model compilation only; no network, browser, Worker or storage mutation.']},null,2)+'\n');
+import { resolve, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { createRequire } from 'node:module';
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+const app = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
+const require = createRequire(app + '/package.json'),
+  esbuild = require('esbuild');
+const out = app + '/.sites-runtime/content-readiness-qa';
+mkdirSync(out, { recursive: true });
+const files = [
+  'lib/academy-content-readiness.ts',
+  'lib/academy-content-readiness-adoption.mjs',
+  'app/academy-content-readiness.tsx',
+  'app/academy-learning-help-disclosure.tsx',
+  'app/academy-operations.tsx',
+  'app/academy-support.tsx',
+];
+const hashes = () =>
+  Object.fromEntries(
+    files.map((file) => [
+      file,
+      createHash('sha256')
+        .update(readFileSync(app + '/' + file))
+        .digest('hex'),
+    ]),
+  );
+const before = hashes();
+for (const [file, name] of [
+  ['lib/academy-content-readiness.ts', 'readiness'],
+  ['lib/academy-content-readiness-adoption.mjs', 'adoption'],
+])
+  await esbuild.build({
+    entryPoints: [app + '/' + file],
+    bundle: true,
+    platform: 'node',
+    format: 'esm',
+    outfile: out + '/' + name + '.mjs',
+  });
+if (JSON.stringify(before) !== JSON.stringify(hashes()))
+  throw new Error('Root sources changed during content-readiness compilation');
+writeFileSync(
+  out + '/source-evidence.json',
+  JSON.stringify(
+    {
+      passed: true,
+      mode: 'actual-adopted-checkout',
+      at: new Date().toISOString(),
+      files: before,
+      limits: ['Pure model compilation only; no network, browser, Worker or storage mutation.'],
+    },
+    null,
+    2,
+  ) + '\n',
+);
 console.log('Bundled actual adopted content-readiness and help models.');

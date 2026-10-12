@@ -8,7 +8,7 @@ cd "$(dirname "$0")/.."
 RUN="${QA_RUN_DIR:-.sites-runtime/node-qa/$(date -u +%Y%m%dT%H%M%SZ)}"
 mkdir -p "$RUN" .sites-runtime
 if [ "${QA_SKIP_BUILD:-0}" != "1" ]; then
-  npm run build > "$RUN/build.log" 2>&1 || { echo "build failed: $RUN/build.log"; exit 1; }
+  pnpm run build > "$RUN/build.log" 2>&1 || { echo "build failed: $RUN/build.log"; exit 1; }
 fi
 if curl -s -o /dev/null http://127.0.0.1:8787/; then echo "port 8787 is already in use; stop that server first"; exit 1; fi
 export ACADEMY_DATABASE_PATH="$(mktemp -d)/academy.sqlite"

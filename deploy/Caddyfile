@@ -1,12 +1,25 @@
-# TLS and reverse proxy (Caddy gets and renews the certificate automatically).
-academy.aplyd.org {
+# /etc/caddy/Caddyfile  (SAHA_HOST is substituted by provision.sh)
+#
+# Caddy is the identity gateway. The application trusts the three oai-authenticated-user-* request
+# headers (app/chatgpt-auth.ts), so only Caddy may set them: it checks a username (an email address)
+# and password from /etc/saha/aplyd-academy.users, then sets the headers itself, overriding anything
+# the browser sent. The application listens on 127.0.0.1 only.
+SAHA_HOST {
 	encode zstd gzip
-	header {
-		Strict-Transport-Security "max-age=31536000; includeSubDomains"
-		X-Content-Type-Options nosniff
-		Referrer-Policy strict-origin-when-cross-origin
-		X-Frame-Options DENY
-		-Server
+
+	redir /signin-with-chatgpt / 302
+
+	basic_auth {
+		import /etc/saha/aplyd-academy.users
 	}
-	reverse_proxy 127.0.0.1:3000
+
+	@signout path /signout-with-chatgpt
+	respond @signout "Signed out. Close the browser window to end the session." 401
+
+	reverse_proxy 127.0.0.1:3500 {
+		header_up oai-authenticated-user-id "droplet:{http.auth.user.id}"
+		header_up oai-authenticated-user-email "{http.auth.user.id}"
+		header_up -oai-authenticated-user-full-name
+		header_up -oai-authenticated-user-full-name-encoding
+	}
 }

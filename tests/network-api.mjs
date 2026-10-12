@@ -1,33 +1,150 @@
 import assert from 'node:assert/strict';
-import {writeFileSync} from 'node:fs';
-import {fixture,current,action,post,get,success} from './local-qa.mjs';
-const f=await fixture(),{owner,a,b,outsider,mod,p,id,cid}=f;
-let checks=0;const eq=(x,y)=>{assert.deepEqual(x,y);checks++},ok=x=>{assert.ok(x);checks++};
-const date=new Date(Date.now()+3600000),start=date.toISOString(),end=new Date(date.getTime()+3600000).toISOString();
-let x=success(await action(owner,id,{type:'session-create',cohortId:cid,title:'Synthetic checked draft session',description:'A local fictional source-packet practice session for regression coverage.',instructions:'PRIVATE-JOIN-CANARY: fictional classroom instructions only.',startsAt:start,endsAt:end,capacity:1}));
-const sid=x.team.network.sessions[0].id,rev=x.revision;
-const race=await Promise.all([post(a,id,{type:'session-rsvp',sessionId:sid,going:true},rev),post(b,id,{type:'session-rsvp',sessionId:sid,going:true},rev)]);
-eq(race.map(r=>r.status).sort(),[200,409]);const winner=race[0].status===200?a:b,loser=winner===a?b:a;
-let own=success(await current(winner,id)),peer=success(await current(loser,id)),admin=success(await current(owner,id));
-eq(admin.team.network.sessions[0].occupied,1);eq(admin.team.network.sessions[0].registrations.length,1);ok(own.team.network.sessions[0].instructions.includes('PRIVATE-JOIN-CANARY'));ok(!('registrations' in own.team.network.sessions[0]));ok(!JSON.stringify(peer).includes('PRIVATE-JOIN-CANARY'));ok(!('attendanceHistory' in peer.team.network.sessions[0]));
-eq((await action(loser,id,{type:'session-rsvp',sessionId:sid,going:true})).status,409);eq((await action(outsider,id,{type:'session-rsvp',sessionId:sid,going:true})).status,404);eq((await current(outsider,id)).team.network.sessions.length,0);
-eq((await action(winner,id,{type:'session-rsvp',sessionId:sid,going:true,userId:loser.id})).status,400);
-success(await action(winner,id,{type:'network-profile',enabled:true,bio:'DIRECTORY-CANARY: I practise fictional draft verification.',focus:'Checking AI drafts',cohortIds:[cid]}));
-const card=success(await current(loser,id)).team.network.directory[0];eq(card.name,winner.name);for(const key of ['email','userId','roles','scopes','consentedAt'])ok(!(key in card));eq((await current(outsider,id)).team.network.directory.length,0);
-success(await action(winner,id,{type:'network-profile',enabled:false}));eq((await current(loser,id)).team.network.directory.length,0);
-success(await action(winner,id,{type:'network-profile',enabled:true,bio:'DIRECTORY-CANARY: I practise fictional draft verification.',focus:'Checking AI drafts',cohortIds:[cid]}));
-const oldEnrollment=own.state.enrollments.find(e=>e.cohortId===cid);
-success(await action(winner,id,{type:'withdraw',enrollmentId:oldEnrollment.id}));eq((await current(winner,id)).team.network.sessions.length,0);eq((await current(loser,id)).team.network.directory.length,0);eq((await current(owner,id)).team.network.sessions[0].occupied,0);
-success(await action(loser,id,{type:'session-rsvp',sessionId:sid,going:true}));
+import { writeFileSync } from 'node:fs';
+import { fixture, current, action, post, get, success } from './local-qa.mjs';
+const f = await fixture(),
+  { owner, a, b, outsider, mod, p, id, cid } = f;
+let checks = 0;
+const eq = (x, y) => {
+    assert.deepEqual(x, y);
+    checks++;
+  },
+  ok = (x) => {
+    assert.ok(x);
+    checks++;
+  };
+const date = new Date(Date.now() + 3600000),
+  start = date.toISOString(),
+  end = new Date(date.getTime() + 3600000).toISOString();
+let x = success(
+  await action(owner, id, {
+    type: 'session-create',
+    cohortId: cid,
+    title: 'Synthetic checked draft session',
+    description: 'A local fictional source-packet practice session for regression coverage.',
+    instructions: 'PRIVATE-JOIN-CANARY: fictional classroom instructions only.',
+    startsAt: start,
+    endsAt: end,
+    capacity: 1,
+  }),
+);
+const sid = x.team.network.sessions[0].id,
+  rev = x.revision;
+const race = await Promise.all([
+  post(a, id, { type: 'session-rsvp', sessionId: sid, going: true }, rev),
+  post(b, id, { type: 'session-rsvp', sessionId: sid, going: true }, rev),
+]);
+eq(race.map((r) => r.status).sort(), [200, 409]);
+const winner = race[0].status === 200 ? a : b,
+  loser = winner === a ? b : a;
+let own = success(await current(winner, id)),
+  peer = success(await current(loser, id)),
+  admin = success(await current(owner, id));
+eq(admin.team.network.sessions[0].occupied, 1);
+eq(admin.team.network.sessions[0].registrations.length, 1);
+ok(own.team.network.sessions[0].instructions.includes('PRIVATE-JOIN-CANARY'));
+ok(!('registrations' in own.team.network.sessions[0]));
+ok(!JSON.stringify(peer).includes('PRIVATE-JOIN-CANARY'));
+ok(!('attendanceHistory' in peer.team.network.sessions[0]));
+eq((await action(loser, id, { type: 'session-rsvp', sessionId: sid, going: true })).status, 409);
+eq((await action(outsider, id, { type: 'session-rsvp', sessionId: sid, going: true })).status, 404);
+eq((await current(outsider, id)).team.network.sessions.length, 0);
+eq(
+  (await action(winner, id, { type: 'session-rsvp', sessionId: sid, going: true, userId: loser.id })).status,
+  400,
+);
+success(
+  await action(winner, id, {
+    type: 'network-profile',
+    enabled: true,
+    bio: 'DIRECTORY-CANARY: I practise fictional draft verification.',
+    focus: 'Checking AI drafts',
+    cohortIds: [cid],
+  }),
+);
+const card = success(await current(loser, id)).team.network.directory[0];
+eq(card.name, winner.name);
+for (const key of ['email', 'userId', 'roles', 'scopes', 'consentedAt']) ok(!(key in card));
+eq((await current(outsider, id)).team.network.directory.length, 0);
+success(await action(winner, id, { type: 'network-profile', enabled: false }));
+eq((await current(loser, id)).team.network.directory.length, 0);
+success(
+  await action(winner, id, {
+    type: 'network-profile',
+    enabled: true,
+    bio: 'DIRECTORY-CANARY: I practise fictional draft verification.',
+    focus: 'Checking AI drafts',
+    cohortIds: [cid],
+  }),
+);
+const oldEnrollment = own.state.enrollments.find((e) => e.cohortId === cid);
+success(await action(winner, id, { type: 'withdraw', enrollmentId: oldEnrollment.id }));
+eq((await current(winner, id)).team.network.sessions.length, 0);
+eq((await current(loser, id)).team.network.directory.length, 0);
+eq((await current(owner, id)).team.network.sessions[0].occupied, 0);
+success(await action(loser, id, { type: 'session-rsvp', sessionId: sid, going: true }));
 // A fresh enrollment must not resurrect an old RSVP and oversubscribe a seat.
-success(await action(winner,id,{type:'enroll',programId:p.id,cohortId:cid}));
-admin=success(await current(owner,id));ok(admin.team.network.sessions[0].occupied<=admin.team.network.sessions[0].capacity);own=success(await current(winner,id));ok(own.team.network.sessions[0].myRsvp!=='going');ok(!('instructions' in own.team.network.sessions[0]));
+success(await action(winner, id, { type: 'enroll', programId: p.id, cohortId: cid }));
+admin = success(await current(owner, id));
+ok(admin.team.network.sessions[0].occupied <= admin.team.network.sessions[0].capacity);
+own = success(await current(winner, id));
+ok(own.team.network.sessions[0].myRsvp !== 'going');
+ok(!('instructions' in own.team.network.sessions[0]));
 // Membership restoration follows the same rule: the old place must stay cancelled.
-success(await action(owner,id,{type:'member',userId:loser.id,roles:['learner'],scopes:[],active:false}));eq((await current(owner,id)).team.network.sessions[0].occupied,0);eq((await current(loser,id)).team.network.sessions.length,0);eq((await action(loser,id,{type:'network-profile',enabled:false})).status,403);
-success(await action(winner,id,{type:'session-rsvp',sessionId:sid,going:true}));success(await action(owner,id,{type:'member',userId:loser.id,roles:['learner'],scopes:[],active:true}));
-admin=success(await current(owner,id));ok(admin.team.network.sessions[0].occupied<=1);peer=success(await current(loser,id));ok(peer.team.network.sessions[0].myRsvp!=='going');ok(!('instructions' in peer.team.network.sessions[0]));
-success(await action(owner,id,{type:'cohort-status',cohortId:cid,status:'paused'}));eq((await action(loser,id,{type:'session-rsvp',sessionId:sid,going:true})).status,409);
-success(await action(winner,id,{type:'session-rsvp',sessionId:sid,going:false}));success(await action(owner,id,{type:'session-cancel',sessionId:sid,reason:'Synthetic source packet requires review before this local session.'}));eq((await current(winner,id)).team.network.sessions[0].status,'cancelled');ok(!JSON.stringify(await current(winner,id)).includes('PRIVATE-JOIN-CANARY'));
-eq((await get(mod,'/api/teams/history?teamId='+id)).status,200);eq((await get(a,'/api/teams/history?teamId='+id)).status,403);
-const result={passed:true,checks,fixtureId:id,coverage:['actual concurrent same-revision final RSVP place','hidden joining instructions and participant roster','directory narrow projection and opt-out','cohort withdrawal releases place and directory visibility','re-enrollment cannot revive cancelled RSVP','membership removal and restoration cannot oversubscribe','paused cohort cancellation'],limits:['Only synthetic local identity headers; hosted authentication and audience access are not exercised','Attendance time window needs pure rule tests or a controlled server clock']};
-writeFileSync(new URL('../.sites-runtime/network-api.json',import.meta.url),JSON.stringify(result,null,2));console.log(JSON.stringify(result));
+success(
+  await action(owner, id, {
+    type: 'member',
+    userId: loser.id,
+    roles: ['learner'],
+    scopes: [],
+    active: false,
+  }),
+);
+eq((await current(owner, id)).team.network.sessions[0].occupied, 0);
+eq((await current(loser, id)).team.network.sessions.length, 0);
+eq((await action(loser, id, { type: 'network-profile', enabled: false })).status, 403);
+success(await action(winner, id, { type: 'session-rsvp', sessionId: sid, going: true }));
+success(
+  await action(owner, id, { type: 'member', userId: loser.id, roles: ['learner'], scopes: [], active: true }),
+);
+admin = success(await current(owner, id));
+ok(admin.team.network.sessions[0].occupied <= 1);
+peer = success(await current(loser, id));
+ok(peer.team.network.sessions[0].myRsvp !== 'going');
+ok(!('instructions' in peer.team.network.sessions[0]));
+success(await action(owner, id, { type: 'cohort-status', cohortId: cid, status: 'paused' }));
+eq((await action(loser, id, { type: 'session-rsvp', sessionId: sid, going: true })).status, 409);
+success(await action(winner, id, { type: 'session-rsvp', sessionId: sid, going: false }));
+success(
+  await action(owner, id, {
+    type: 'session-cancel',
+    sessionId: sid,
+    reason: 'Synthetic source packet requires review before this local session.',
+  }),
+);
+eq((await current(winner, id)).team.network.sessions[0].status, 'cancelled');
+ok(!JSON.stringify(await current(winner, id)).includes('PRIVATE-JOIN-CANARY'));
+eq((await get(mod, '/api/teams/history?teamId=' + id)).status, 200);
+eq((await get(a, '/api/teams/history?teamId=' + id)).status, 403);
+const result = {
+  passed: true,
+  checks,
+  fixtureId: id,
+  coverage: [
+    'actual concurrent same-revision final RSVP place',
+    'hidden joining instructions and participant roster',
+    'directory narrow projection and opt-out',
+    'cohort withdrawal releases place and directory visibility',
+    're-enrollment cannot revive cancelled RSVP',
+    'membership removal and restoration cannot oversubscribe',
+    'paused cohort cancellation',
+  ],
+  limits: [
+    'Only synthetic local identity headers; hosted authentication and audience access are not exercised',
+    'Attendance time window needs pure rule tests or a controlled server clock',
+  ],
+};
+writeFileSync(
+  new URL('../.sites-runtime/network-api.json', import.meta.url),
+  JSON.stringify(result, null, 2),
+);
+console.log(JSON.stringify(result));

@@ -1,28 +1,236 @@
 import assert from 'node:assert/strict';
-import {writeFileSync} from 'node:fs';
+import { writeFileSync } from 'node:fs';
 // The built LOCAL worker accepts identity fixture headers. Hosted dispatcher auth is not exercised here.
-const url='http://127.0.0.1:8787/api/academy',owner='qa-owner-'+crypto.randomUUID(),other='qa-other-'+crypto.randomUUID();let checks=0;
-const eq=(a,b)=>{assert.deepEqual(a,b);checks++};
-function headers(user=owner){return {'Content-Type':'application/json','oai-authenticated-user-id':user,'oai-authenticated-user-email':'synthetic@academy.test'}}
-async function get(user=owner){const r=await fetch(url,{headers:headers(user)});return {status:r.status,...await r.json()}}
-async function post(command,revision,actionId=crypto.randomUUID(),user=owner,extra={}){const r=await fetch(url,{method:'POST',headers:{...headers(user),...extra},body:JSON.stringify({command,revision,actionId})});return {status:r.status,...await r.json()}}
-let anon=await fetch(url);eq(anon.status,401);let x=await get();eq(x.status,200);eq(x.revision,0);
-const id=crypto.randomUUID();x=await post({type:'enroll',programId:'msme-customer-operations'},0,id);eq(x.status,200);const enrollmentId=x.state.enrollments[0].id,p=(await get()).programs[1];
-let dup=await post({type:'enroll',programId:p.id},0,id);eq(dup.status,200);eq(dup.replayed,true);eq(dup.state.enrollments.length,1);
-let bad=await post({type:'profile',name:'Changed',context:'msme',reading:false,networking:false},x.revision,id);eq(bad.status,409);
-let y=await get(other);eq(y.state.enrollments.length,0);bad=await post({type:'draft',enrollmentId,fields:{task:'Attempted foreign data mutation'}},y.revision,crypto.randomUUID(),other);eq(bad.status,404);eq((await get()).state.enrollments[0].draft,{});
-bad=await post({type:'enroll',programId:p.id},x.revision,crypto.randomUUID(),owner,{Origin:'https://external.invalid'});eq(bad.status,403);
-const race=await Promise.all([post({type:'interest',opportunityId:'peer-circle',enabled:true},x.revision),post({type:'interest',opportunityId:'mentor-hour',enabled:true},x.revision)]);eq(race.map(r=>r.status).sort(),[200,409]);x=await get();eq(x.state.interests.length,1);
-for(const l of p.lessons){x=await post({type:'lesson',enrollmentId,lessonId:l.id,practice:'A fictional practice response with checked references and bounded action.',answers:l.quiz.map(q=>q.correctOptionIndex)},x.revision);eq(x.status,200)}
-let read=await get();eq(read.state.enrollments[0].completed.length,3);
-const fields=Object.fromEntries(p.practicalAssessment.submissionPrompts.map(f=>[f.id,'Fictional evidence referencing the packet, checked promises, privacy and human approval.']));x=await post({type:'submit',enrollmentId,fields,confirmed:true},x.revision);eq(x.status,200);const attemptId=x.state.enrollments[0].attempts[0].id;
-x=await post({type:'assess',enrollmentId,attemptId,actor:'assessor-a',scores:[4,4,4,4],gates:[false,true,true],notes:Array(4).fill('Evidence in the submitted source-mapping field.'),feedback:'Task quality is clear, but the verification gate requires correction before using this work.'},x.revision);eq(x.status,200);eq(x.state.enrollments[0].record,null);
-x=await post({type:'appeal',enrollmentId,attemptId,reason:'Please independently inspect the source mapping and criterion evidence provided.'},x.revision);eq(x.status,200);const appealId=x.state.enrollments[0].appeals[0].id;
-bad=await post({type:'resolve',enrollmentId,appealId,actor:'assessor-a',scores:[4,4,4,4],gates:[true,true,true],notes:Array(4).fill('Source evidence independently inspected.'),feedback:'Independent review found all gates and criteria satisfied in the preserved evidence.'},x.revision);eq(bad.status,403);
-x=await post({type:'resolve',enrollmentId,appealId,actor:'reviewer-b',scores:[4,4,4,4],gates:[true,true,true],notes:Array(4).fill('Source evidence independently inspected.'),feedback:'Independent review found all gates and criteria satisfied in the preserved evidence.'},x.revision);eq(x.status,200);eq(x.state.enrollments[0].record.status,'active');eq(x.state.enrollments[0].attempts[0].decision.passed,false);
-x=await post({type:'connection',partner:'msme',enabled:true},x.revision);eq(x.status,200);eq(x.state.ecosystemGrants??[],[]);eq(x.state.ecosystemReceipts??[],[]);const beforeLegacy=structuredClone(x);bad=await post({type:'deliver',partner:'msme',enrollmentId},x.revision);eq(bad.status,409);eq(bad.error.includes('explicit local test choice'),true);eq((await get()).revision,beforeLegacy.revision);eq((await get()).state,beforeLegacy.state);
-x=await post({type:'ecosystem-grant',partner:'msme',enrollmentId,scopes:['learning.progress','practice.record'],durationDays:7},x.revision);eq(x.status,200);const grantId=x.state.ecosystemGrants[0].id;eq(x.state.ecosystemGrants[0].contentRef,x.state.enrollments[0].contentRef);eq(Date.parse(x.state.ecosystemGrants[0].expiresAt)-Date.parse(x.state.ecosystemGrants[0].createdAt),7*86400000);
-x=await post({type:'ecosystem-test',grantId},x.revision);eq(x.status,200);const scopedReceipt=structuredClone(x.state.ecosystemReceipts[0]);eq(scopedReceipt.status,'simulated');eq(scopedReceipt.payload.practice_record,{status:'active',claim_type:'nonaccredited-practice',review_mode:'sample-workflow'});eq(scopedReceipt.payload.learning.completed_lessons,p.lessons.length);eq(x.state.enrollments[0].record.share,false);for(const key of ['fields','scores','notes','email','name'])eq(Object.hasOwn(scopedReceipt.payload,key),false);for(const value of Object.values(fields))eq(JSON.stringify(scopedReceipt).includes(value),false);eq(x.state.deliveries,[]);
-x=await post({type:'connection',partner:'msme',enabled:false},x.revision);eq(x.status,200);eq(x.state.ecosystemGrants[0].revokedAt,null);eq(x.state.ecosystemReceipts[0],scopedReceipt);bad=await post({type:'deliver',partner:'msme',enrollmentId},x.revision);eq(bad.status,409);x=await post({type:'ecosystem-withdraw',grantId},x.revision);eq(x.status,200);bad=await post({type:'ecosystem-test',grantId},x.revision);eq(bad.status,403);eq((await get()).state.ecosystemReceipts[0],scopedReceipt);
-x=await post({type:'reset'},x.revision);eq(x.status,200);eq(x.state.enrollments.length,0);eq(x.state.ecosystemGrants??[],[]);eq(x.state.ecosystemReceipts??[],[]);dup=await post({type:'enroll',programId:p.id},0,id);eq(dup.status,200);eq(dup.replayed,true);eq(dup.state.enrollments.length,0);eq(dup.state.ecosystemGrants??[],[]);eq(dup.state.ecosystemReceipts??[],[]);
-const result={checks,passed:true,coverage:['authentication required','two-owner isolation','CAS conflict race','durable reload','idempotency mismatch and replay after reset','full learning and independent appeal','critical gate refusal','legacy refusal, explicit field/expiry choice, minimal scoped receipt and withdrawal'],limits:['Hosted dispatcher authentication not exercised','Two sample staff actors share the owner account','No external partner or live AI service tested']};writeFileSync('.sites-runtime/api-integration.json',JSON.stringify(result,null,2));console.log(JSON.stringify(result));
+const url = 'http://127.0.0.1:8787/api/academy',
+  owner = 'qa-owner-' + crypto.randomUUID(),
+  other = 'qa-other-' + crypto.randomUUID();
+let checks = 0;
+const eq = (a, b) => {
+  assert.deepEqual(a, b);
+  checks++;
+};
+function headers(user = owner) {
+  return {
+    'Content-Type': 'application/json',
+    'oai-authenticated-user-id': user,
+    'oai-authenticated-user-email': 'synthetic@academy.test',
+  };
+}
+async function get(user = owner) {
+  const r = await fetch(url, { headers: headers(user) });
+  return { status: r.status, ...(await r.json()) };
+}
+async function post(command, revision, actionId = crypto.randomUUID(), user = owner, extra = {}) {
+  const r = await fetch(url, {
+    method: 'POST',
+    headers: { ...headers(user), ...extra },
+    body: JSON.stringify({ command, revision, actionId }),
+  });
+  return { status: r.status, ...(await r.json()) };
+}
+let anon = await fetch(url);
+eq(anon.status, 401);
+let x = await get();
+eq(x.status, 200);
+eq(x.revision, 0);
+const id = crypto.randomUUID();
+x = await post({ type: 'enroll', programId: 'msme-customer-operations' }, 0, id);
+eq(x.status, 200);
+const enrollmentId = x.state.enrollments[0].id,
+  p = (await get()).programs[1];
+let dup = await post({ type: 'enroll', programId: p.id }, 0, id);
+eq(dup.status, 200);
+eq(dup.replayed, true);
+eq(dup.state.enrollments.length, 1);
+let bad = await post(
+  { type: 'profile', name: 'Changed', context: 'msme', reading: false, networking: false },
+  x.revision,
+  id,
+);
+eq(bad.status, 409);
+let y = await get(other);
+eq(y.state.enrollments.length, 0);
+bad = await post(
+  { type: 'draft', enrollmentId, fields: { task: 'Attempted foreign data mutation' } },
+  y.revision,
+  crypto.randomUUID(),
+  other,
+);
+eq(bad.status, 404);
+eq((await get()).state.enrollments[0].draft, {});
+bad = await post({ type: 'enroll', programId: p.id }, x.revision, crypto.randomUUID(), owner, {
+  Origin: 'https://external.invalid',
+});
+eq(bad.status, 403);
+const race = await Promise.all([
+  post({ type: 'interest', opportunityId: 'peer-circle', enabled: true }, x.revision),
+  post({ type: 'interest', opportunityId: 'mentor-hour', enabled: true }, x.revision),
+]);
+eq(race.map((r) => r.status).sort(), [200, 409]);
+x = await get();
+eq(x.state.interests.length, 1);
+for (const l of p.lessons) {
+  x = await post(
+    {
+      type: 'lesson',
+      enrollmentId,
+      lessonId: l.id,
+      practice: 'A fictional practice response with checked references and bounded action.',
+      answers: l.quiz.map((q) => q.correctOptionIndex),
+    },
+    x.revision,
+  );
+  eq(x.status, 200);
+}
+let read = await get();
+eq(read.state.enrollments[0].completed.length, 3);
+const fields = Object.fromEntries(
+  p.practicalAssessment.submissionPrompts.map((f) => [
+    f.id,
+    'Fictional evidence referencing the packet, checked promises, privacy and human approval.',
+  ]),
+);
+x = await post({ type: 'submit', enrollmentId, fields, confirmed: true }, x.revision);
+eq(x.status, 200);
+const attemptId = x.state.enrollments[0].attempts[0].id;
+x = await post(
+  {
+    type: 'assess',
+    enrollmentId,
+    attemptId,
+    actor: 'assessor-a',
+    scores: [4, 4, 4, 4],
+    gates: [false, true, true],
+    notes: Array(4).fill('Evidence in the submitted source-mapping field.'),
+    feedback: 'Task quality is clear, but the verification gate requires correction before using this work.',
+  },
+  x.revision,
+);
+eq(x.status, 200);
+eq(x.state.enrollments[0].record, null);
+x = await post(
+  {
+    type: 'appeal',
+    enrollmentId,
+    attemptId,
+    reason: 'Please independently inspect the source mapping and criterion evidence provided.',
+  },
+  x.revision,
+);
+eq(x.status, 200);
+const appealId = x.state.enrollments[0].appeals[0].id;
+bad = await post(
+  {
+    type: 'resolve',
+    enrollmentId,
+    appealId,
+    actor: 'assessor-a',
+    scores: [4, 4, 4, 4],
+    gates: [true, true, true],
+    notes: Array(4).fill('Source evidence independently inspected.'),
+    feedback: 'Independent review found all gates and criteria satisfied in the preserved evidence.',
+  },
+  x.revision,
+);
+eq(bad.status, 403);
+x = await post(
+  {
+    type: 'resolve',
+    enrollmentId,
+    appealId,
+    actor: 'reviewer-b',
+    scores: [4, 4, 4, 4],
+    gates: [true, true, true],
+    notes: Array(4).fill('Source evidence independently inspected.'),
+    feedback: 'Independent review found all gates and criteria satisfied in the preserved evidence.',
+  },
+  x.revision,
+);
+eq(x.status, 200);
+eq(x.state.enrollments[0].record.status, 'active');
+eq(x.state.enrollments[0].attempts[0].decision.passed, false);
+x = await post({ type: 'connection', partner: 'msme', enabled: true }, x.revision);
+eq(x.status, 200);
+eq(x.state.ecosystemGrants ?? [], []);
+eq(x.state.ecosystemReceipts ?? [], []);
+const beforeLegacy = structuredClone(x);
+bad = await post({ type: 'deliver', partner: 'msme', enrollmentId }, x.revision);
+eq(bad.status, 409);
+eq(bad.error.includes('explicit local test choice'), true);
+eq((await get()).revision, beforeLegacy.revision);
+eq((await get()).state, beforeLegacy.state);
+x = await post(
+  {
+    type: 'ecosystem-grant',
+    partner: 'msme',
+    enrollmentId,
+    scopes: ['learning.progress', 'practice.record'],
+    durationDays: 7,
+  },
+  x.revision,
+);
+eq(x.status, 200);
+const grantId = x.state.ecosystemGrants[0].id;
+eq(x.state.ecosystemGrants[0].contentRef, x.state.enrollments[0].contentRef);
+eq(
+  Date.parse(x.state.ecosystemGrants[0].expiresAt) - Date.parse(x.state.ecosystemGrants[0].createdAt),
+  7 * 86400000,
+);
+x = await post({ type: 'ecosystem-test', grantId }, x.revision);
+eq(x.status, 200);
+const scopedReceipt = structuredClone(x.state.ecosystemReceipts[0]);
+eq(scopedReceipt.status, 'simulated');
+eq(scopedReceipt.payload.practice_record, {
+  status: 'active',
+  claim_type: 'nonaccredited-practice',
+  review_mode: 'sample-workflow',
+});
+eq(scopedReceipt.payload.learning.completed_lessons, p.lessons.length);
+eq(x.state.enrollments[0].record.share, false);
+for (const key of ['fields', 'scores', 'notes', 'email', 'name'])
+  eq(Object.hasOwn(scopedReceipt.payload, key), false);
+for (const value of Object.values(fields)) eq(JSON.stringify(scopedReceipt).includes(value), false);
+eq(x.state.deliveries, []);
+x = await post({ type: 'connection', partner: 'msme', enabled: false }, x.revision);
+eq(x.status, 200);
+eq(x.state.ecosystemGrants[0].revokedAt, null);
+eq(x.state.ecosystemReceipts[0], scopedReceipt);
+bad = await post({ type: 'deliver', partner: 'msme', enrollmentId }, x.revision);
+eq(bad.status, 409);
+x = await post({ type: 'ecosystem-withdraw', grantId }, x.revision);
+eq(x.status, 200);
+bad = await post({ type: 'ecosystem-test', grantId }, x.revision);
+eq(bad.status, 403);
+eq((await get()).state.ecosystemReceipts[0], scopedReceipt);
+x = await post({ type: 'reset' }, x.revision);
+eq(x.status, 200);
+eq(x.state.enrollments.length, 0);
+eq(x.state.ecosystemGrants ?? [], []);
+eq(x.state.ecosystemReceipts ?? [], []);
+dup = await post({ type: 'enroll', programId: p.id }, 0, id);
+eq(dup.status, 200);
+eq(dup.replayed, true);
+eq(dup.state.enrollments.length, 0);
+eq(dup.state.ecosystemGrants ?? [], []);
+eq(dup.state.ecosystemReceipts ?? [], []);
+const result = {
+  checks,
+  passed: true,
+  coverage: [
+    'authentication required',
+    'two-owner isolation',
+    'CAS conflict race',
+    'durable reload',
+    'idempotency mismatch and replay after reset',
+    'full learning and independent appeal',
+    'critical gate refusal',
+    'legacy refusal, explicit field/expiry choice, minimal scoped receipt and withdrawal',
+  ],
+  limits: [
+    'Hosted dispatcher authentication not exercised',
+    'Two sample staff actors share the owner account',
+    'No external partner or live AI service tested',
+  ],
+};
+writeFileSync('.sites-runtime/api-integration.json', JSON.stringify(result, null, 2));
+console.log(JSON.stringify(result));

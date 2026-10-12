@@ -14,4 +14,4 @@ Names and handling only. **No values are ever written to the repository, Linear 
 | `LITESTREAM_ACCESS_KEY_ID` / `LITESTREAM_SECRET_ACCESS_KEY` | Backups to Spaces (bucket-scoped key) | `/etc/academy/litestream.env` (root, 600) | root | Yearly | Nakul Jain |
 | `ACADEMY_DEPLOY_SSH_KEY`, `ACADEMY_DEPLOY_KNOWN_HOSTS` | CI deploy | GitHub environment `production` secrets | GitHub, required reviewer | On staff change | Nakul Jain |
 
-Status on 13 October 2026: none of these exist yet; they are created during the one-time setup in `deploy/README.md`.
+Status on 13 October 2026: none of these exist yet; they are created during the one-time setup in `deploy/node/README.md`.

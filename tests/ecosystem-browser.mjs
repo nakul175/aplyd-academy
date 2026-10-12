@@ -1,37 +1,365 @@
 import assert from 'node:assert/strict';
-import {mkdirSync,readFileSync,writeFileSync} from 'node:fs';
-import {resolve} from 'node:path';
-import {chromium,browserOptions} from './scoped-workbench-qa/browser-runtime.mjs';
-const app=resolve(process.env.ACADEMY_APP_PATH??'.'),base=process.env.ACADEMY_LOCAL_URL??'http://127.0.0.1:8787';assert.ok(['127.0.0.1','localhost','[::1]'].includes(new URL(base).hostname),'Only local synthetic browser fixtures are allowed.');
-const curriculum=JSON.parse(readFileSync(resolve(app,'lib/curriculum.json'),'utf8')),nonce=crypto.randomUUID(),owner={id:'guard-browser-owner-'+nonce,email:'guard-browser-owner-'+nonce+'@academy.test'},other={id:'guard-browser-other-'+nonce,email:'guard-browser-other-'+nonce+'@academy.test'},errors=[],layout=[];
-const mappings=[{partner:'agri',name:'Agri Saha',pid:'farmer-work-records'},{partner:'msme',name:'MSME',pid:'msme-customer-operations'},{partner:'public',name:'Public service',pid:'public-servant-source-briefs'}],ids={},canary='PRIVATE-BROWSER-GUARD-CANARY: fictional draft remains private.';
-const headers=u=>({'Content-Type':'application/json','oai-authenticated-user-id':u.id,'oai-authenticated-user-email':u.email});
-async function get(u){const r=await fetch(base+'/api/academy',{headers:headers(u)});return {status:r.status,...await r.json()};}
-async function action(u,command){const x=await get(u);assert.equal(x.status,200);const r=await fetch(base+'/api/academy',{method:'POST',headers:headers(u),body:JSON.stringify({command,revision:x.revision,actionId:crypto.randomUUID()})}),data=await r.json();assert.equal(r.status,200,JSON.stringify(data));return data;}
-for(const m of mappings){let x=await action(owner,{type:'enroll',programId:m.pid});ids[m.partner]=x.state.enrollments.find(e=>e.programId===m.pid).id;x=await action(owner,{type:'connection',partner:m.partner,enabled:true});assert.deepEqual(x.state.ecosystemGrants??[],[]);assert.deepEqual(x.state.ecosystemReceipts??[],[]);}
-await action(owner,{type:'draft',enrollmentId:ids.msme,fields:{task:canary}});assert.equal((await get(owner)).state.enrollments.find(e=>e.id===ids.msme).draft.task,canary);
-const browser=await chromium.launch(browserOptions),card=(p,partner)=>p.locator(`[data-ecosystem-adapter="${partner}"]`),receipts=p=>p.locator('section').filter({has:p.getByRole('heading',{name:'Local contract receipts',exact:true})}),history=p=>p.locator('section').filter({has:p.getByRole('heading',{name:'Saved choice history',exact:true})});mkdirSync(resolve(app,'.sites-runtime'),{recursive:true});
-try{
- async function pageFor(u){const context=await browser.newContext({viewport:{width:1440,height:1000},extraHTTPHeaders:headers(u)}),p=await context.newPage();p.on('pageerror',e=>errors.push(e.message));await p.goto(base+'/#connections');await p.getByRole('heading',{name:'Choose the summary. Check the contract.',exact:true}).waitFor();await p.locator('[data-save-state="loaded"]').waitFor();return p;}
- const page=await pageFor(owner),otherPage=await pageFor(other),health=card(page,'health');assert.equal(await health.getByRole('button').count(),0);assert.equal(await health.getByRole('checkbox').count(),0);assert.equal(await health.getByRole('combobox').count(),0);
- for(const m of mappings){const c=card(otherPage,m.partner);assert.equal(await c.getByText('Save your own learning in this mapped pathway before creating a test choice.',{exact:true}).count(),1);assert.equal(await c.getByRole('button',{name:'Run local contract test',exact:true}).isDisabled(),true);assert.equal(await c.getByRole('button',{name:'Save local test choice',exact:true}).isDisabled(),true);}
- assert.equal(await receipts(otherPage).getByText('No versioned local receipts yet.',{exact:true}).count(),1);assert.equal(await history(otherPage).getByText('No explicit local choices saved.',{exact:true}).count(),1);
- const selected={};for(const m of mappings){const c=card(page,m.partner),title=curriculum.pathways.find(p=>p.id===m.pid).title,trigger=c.getByRole('combobox',{name:`Learning for ${m.name} contract test`,exact:true});await trigger.click();assert.equal(await page.getByRole('option').count(),1);assert.equal(await page.getByRole('option',{name:title,exact:true}).count(),1);for(const otherMapping of mappings.filter(x=>x.partner!==m.partner))assert.equal(await page.getByRole('option',{name:curriculum.pathways.find(p=>p.id===otherMapping.pid).title,exact:true}).count(),0);await page.getByRole('option',{name:title,exact:true}).click();selected[m.partner]=title;}
- for(const m of mappings){const c=card(page,m.partner);assert.ok((await c.getByRole('combobox',{name:`Learning for ${m.name} contract test`,exact:true}).innerText()).includes(selected[m.partner]));assert.equal(await c.getByRole('button',{name:'Run local contract test',exact:true}).isDisabled(),true,'An unsaved selection cannot use the old Boolean preference');}
- const grants={};for(const m of mappings){const c=card(page,m.partner);if(m.partner==='msme')await c.getByRole('checkbox',{name:'MSME: Practice-record status',exact:true}).check();let response=page.waitForResponse(r=>r.request().method()==='POST'&&new URL(r.url()).pathname==='/api/academy');await c.getByRole('button',{name:'Save local test choice',exact:true}).click();assert.equal((await response).status(),200);await page.locator('[data-save-state="loaded"]').waitFor();let x=await get(owner);grants[m.partner]=x.state.ecosystemGrants.find(g=>g.partner===m.partner).id;assert.equal(await c.getByRole('button',{name:'Run local contract test',exact:true}).isDisabled(),false);response=page.waitForResponse(r=>r.request().method()==='POST'&&new URL(r.url()).pathname==='/api/academy');await c.getByRole('button',{name:'Run local contract test',exact:true}).click();assert.equal((await response).status(),200);await page.locator('[data-save-state="loaded"]').waitFor();}
- let saved=await get(owner);assert.equal(saved.state.ecosystemReceipts.length,3);assert.equal(saved.state.ecosystemGrants.length,3);assert.deepEqual(saved.state.deliveries,[]);assert.ok(saved.state.ecosystemReceipts.every(r=>r.status==='simulated'&&r.payload.mode==='local-test'));assert.ok(!JSON.stringify(saved.state.ecosystemReceipts).includes(canary));const msme=saved.state.ecosystemReceipts.find(r=>r.partner==='msme');assert.deepEqual(msme.payload.practice_record,{status:'not-issued',claim_type:'nonaccredited-practice',review_mode:'not-reviewed'});for(const r of saved.state.ecosystemReceipts.filter(r=>r.partner!=='msme'))assert.ok(!Object.hasOwn(r.payload,'practice_record'));
- const retained=structuredClone(saved.state.ecosystemReceipts);assert.equal(await receipts(page).locator('details').count(),3);await receipts(page).locator('details').first().locator('summary').click();assert.ok(!(await receipts(page).innerText()).includes(canary));await page.reload();await page.locator('[data-save-state="loaded"]').waitFor();
- for(const m of mappings){const c=card(page,m.partner);await c.getByRole('button',{name:'Stop earlier preview preference',exact:true}).waitFor();assert.equal(await c.getByRole('button',{name:'Stop earlier preview preference',exact:true}).count(),1);assert.ok((await c.getByRole('combobox',{name:`Learning for ${m.name} contract test`,exact:true}).innerText()).includes(selected[m.partner]));assert.equal(await c.getByRole('button',{name:'Run local contract test',exact:true}).isDisabled(),false);}
- assert.deepEqual((await get(owner)).state.ecosystemReceipts,retained);assert.equal(await receipts(page).locator('details').count(),3);await otherPage.reload();await otherPage.locator('[data-save-state="loaded"]').waitFor();assert.equal(await receipts(otherPage).locator('details').count(),0);assert.equal(await history(otherPage).locator('details').count(),0);
- let response=page.waitForResponse(r=>r.request().method()==='POST'&&new URL(r.url()).pathname==='/api/academy');await card(page,'msme').getByRole('button',{name:'Stop earlier preview preference',exact:true}).click();assert.equal((await response).status(),200);await page.locator('[data-save-state="loaded"]').waitFor();saved=await get(owner);assert.equal(saved.state.connections.msme,false);assert.equal(saved.state.connections.agri,true);assert.equal(saved.state.connections.public,true);assert.equal(saved.state.ecosystemGrants.find(g=>g.id===grants.msme).revokedAt,null);assert.deepEqual(saved.state.ecosystemReceipts,retained);assert.equal(await card(page,'msme').getByRole('button',{name:'Run local contract test',exact:true}).isDisabled(),false);
- // Actual other-tab choice withdrawal invalidates this selected saved choice.
- await action(owner,{type:'ecosystem-withdraw',grantId:grants.agri});response=page.waitForResponse(r=>r.request().method()==='POST'&&new URL(r.url()).pathname==='/api/academy');await card(page,'agri').getByRole('button',{name:'Run local contract test',exact:true}).click();assert.equal((await response).status(),409);await card(page,'agri').getByText('Saved local choice: withdrawn',{exact:true}).waitFor();assert.equal(await card(page,'agri').getByRole('button',{name:'Run local contract test',exact:true}).isDisabled(),true);assert.deepEqual((await get(owner)).state.ecosystemReceipts,retained);await page.reload();await page.locator('[data-save-state="loaded"]').waitFor();
- // Retain the earlier separate enrollment-withdrawal boundary as well.
- response=page.waitForResponse(r=>r.request().method()==='POST'&&new URL(r.url()).pathname==='/api/academy');await card(page,'agri').getByRole('button',{name:'Save local test choice',exact:true}).click();assert.equal((await response).status(),200);await page.locator('[data-save-state="loaded"]').waitFor();await action(owner,{type:'withdraw',enrollmentId:ids.agri});response=page.waitForResponse(r=>r.request().method()==='POST'&&new URL(r.url()).pathname==='/api/academy');await card(page,'agri').getByRole('button',{name:'Run local contract test',exact:true}).click();assert.equal((await response).status(),409);await card(page,'agri').getByText('Save your own learning in this mapped pathway before creating a test choice.',{exact:true}).waitFor();assert.equal(await card(page,'agri').getByRole('button',{name:'Run local contract test',exact:true}).isDisabled(),true);assert.deepEqual((await get(owner)).state.ecosystemReceipts,retained);response=page.waitForResponse(r=>r.request().method()==='POST'&&new URL(r.url()).pathname==='/api/academy');await card(page,'agri').getByRole('button',{name:'Withdraw local choice',exact:true}).click();assert.equal((await response).status(),200);assert.deepEqual((await get(owner)).state.ecosystemReceipts,retained);await page.reload();await page.locator('[data-save-state="loaded"]').waitFor();
- for(const width of [1440,768,390])for(const enlarged of [false,true]){
-  await page.setViewportSize({width,height:1000});const font=await page.evaluate(enlarged=>{document.documentElement.style.fontSize='';document.body.style.fontSize='';const root=parseFloat(getComputedStyle(document.documentElement).fontSize),body=parseFloat(getComputedStyle(document.body).fontSize);if(enlarged){document.documentElement.style.fontSize=(root*2)+'px';document.body.style.fontSize=(body*2)+'px';}document.querySelectorAll('main details').forEach(d=>d.open=true);return {baselineBody:body,actualBody:parseFloat(getComputedStyle(document.body).fontSize)};},enlarged);assert.ok(Math.abs(font.actualBody/font.baselineBody-(enlarged?2:1))<0.01,'True body text doubles exactly');await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));layout.push({width,enlarged,...font,view:'cards-and-expanded-choice-and-receipt-history',overflow:await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth)});
-  const trigger=card(page,'msme').getByRole('combobox',{name:'Learning for MSME contract test',exact:true});await trigger.click();await page.getByRole('option',{name:curriculum.pathways.find(p=>p.id===mappings[1].pid).title,exact:true}).waitFor();layout.push({width,enlarged,...font,view:'matching-enrollment-menu',overflow:await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth)});await page.keyboard.press('Escape');assert.equal(await trigger.evaluate(e=>document.activeElement===e),true);
- }
- assert.deepEqual(errors,[]);assert.ok(!layout.some(x=>x.overflow),JSON.stringify(layout.filter(x=>x.overflow)));
- const result={passed:true,syntheticLocalAccounts:2,threePartnerFilteredSelections:true,independentCardSelections:true,healthNoContractControls:true,savedChoiceAndBooleanHistoryReload:true,privateCanaryExcluded:true,staleChoiceWithdrawalBlocked:true,booleanNeverMintsChoice:true,booleanStopIndependentFromChoice:true,responsiveChecks:layout.length,actualComputedBody200Percent:true,layout,pageErrors:errors,limits:['Synthetic local trusted-header fixtures, not hosted authentication','Earlier nonempty legacy preview preservation is a pure historical fixture','No external connector or partner was contacted']};writeFileSync(resolve(app,'.sites-runtime/ecosystem-browser.json'),JSON.stringify(result,null,2));console.log(JSON.stringify(result));
-}finally{await browser.close();}
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { resolve } from 'node:path';
+import { chromium, browserOptions } from './scoped-workbench-qa/browser-runtime.mjs';
+const app = resolve(process.env.ACADEMY_APP_PATH ?? '.'),
+  base = process.env.ACADEMY_LOCAL_URL ?? 'http://127.0.0.1:8787';
+assert.ok(
+  ['127.0.0.1', 'localhost', '[::1]'].includes(new URL(base).hostname),
+  'Only local synthetic browser fixtures are allowed.',
+);
+const curriculum = JSON.parse(readFileSync(resolve(app, 'lib/curriculum.json'), 'utf8')),
+  nonce = crypto.randomUUID(),
+  owner = { id: 'guard-browser-owner-' + nonce, email: 'guard-browser-owner-' + nonce + '@academy.test' },
+  other = { id: 'guard-browser-other-' + nonce, email: 'guard-browser-other-' + nonce + '@academy.test' },
+  errors = [],
+  layout = [];
+const mappings = [
+    { partner: 'agri', name: 'Agri Saha', pid: 'farmer-work-records' },
+    { partner: 'msme', name: 'MSME', pid: 'msme-customer-operations' },
+    { partner: 'public', name: 'Public service', pid: 'public-servant-source-briefs' },
+  ],
+  ids = {},
+  canary = 'PRIVATE-BROWSER-GUARD-CANARY: fictional draft remains private.';
+const headers = (u) => ({
+  'Content-Type': 'application/json',
+  'oai-authenticated-user-id': u.id,
+  'oai-authenticated-user-email': u.email,
+});
+async function get(u) {
+  const r = await fetch(base + '/api/academy', { headers: headers(u) });
+  return { status: r.status, ...(await r.json()) };
+}
+async function action(u, command) {
+  const x = await get(u);
+  assert.equal(x.status, 200);
+  const r = await fetch(base + '/api/academy', {
+      method: 'POST',
+      headers: headers(u),
+      body: JSON.stringify({ command, revision: x.revision, actionId: crypto.randomUUID() }),
+    }),
+    data = await r.json();
+  assert.equal(r.status, 200, JSON.stringify(data));
+  return data;
+}
+for (const m of mappings) {
+  let x = await action(owner, { type: 'enroll', programId: m.pid });
+  ids[m.partner] = x.state.enrollments.find((e) => e.programId === m.pid).id;
+  x = await action(owner, { type: 'connection', partner: m.partner, enabled: true });
+  assert.deepEqual(x.state.ecosystemGrants ?? [], []);
+  assert.deepEqual(x.state.ecosystemReceipts ?? [], []);
+}
+await action(owner, { type: 'draft', enrollmentId: ids.msme, fields: { task: canary } });
+assert.equal((await get(owner)).state.enrollments.find((e) => e.id === ids.msme).draft.task, canary);
+const browser = await chromium.launch(browserOptions),
+  card = (p, partner) => p.locator(`[data-ecosystem-adapter="${partner}"]`),
+  receipts = (p) =>
+    p
+      .locator('section')
+      .filter({ has: p.getByRole('heading', { name: 'Local contract receipts', exact: true }) }),
+  history = (p) =>
+    p
+      .locator('section')
+      .filter({ has: p.getByRole('heading', { name: 'Saved choice history', exact: true }) });
+mkdirSync(resolve(app, '.sites-runtime'), { recursive: true });
+try {
+  async function pageFor(u) {
+    const context = await browser.newContext({
+        viewport: { width: 1440, height: 1000 },
+        extraHTTPHeaders: headers(u),
+      }),
+      p = await context.newPage();
+    p.on('pageerror', (e) => errors.push(e.message));
+    await p.goto(base + '/#connections');
+    await p.getByRole('heading', { name: 'Choose the summary. Check the contract.', exact: true }).waitFor();
+    await p.locator('[data-save-state="loaded"]').waitFor();
+    return p;
+  }
+  const page = await pageFor(owner),
+    otherPage = await pageFor(other),
+    health = card(page, 'health');
+  assert.equal(await health.getByRole('button').count(), 0);
+  assert.equal(await health.getByRole('checkbox').count(), 0);
+  assert.equal(await health.getByRole('combobox').count(), 0);
+  for (const m of mappings) {
+    const c = card(otherPage, m.partner);
+    assert.equal(
+      await c
+        .getByText('Save your own learning in this mapped pathway before creating a test choice.', {
+          exact: true,
+        })
+        .count(),
+      1,
+    );
+    assert.equal(
+      await c.getByRole('button', { name: 'Run local contract test', exact: true }).isDisabled(),
+      true,
+    );
+    assert.equal(
+      await c.getByRole('button', { name: 'Save local test choice', exact: true }).isDisabled(),
+      true,
+    );
+  }
+  assert.equal(
+    await receipts(otherPage).getByText('No versioned local receipts yet.', { exact: true }).count(),
+    1,
+  );
+  assert.equal(
+    await history(otherPage).getByText('No explicit local choices saved.', { exact: true }).count(),
+    1,
+  );
+  const selected = {};
+  for (const m of mappings) {
+    const c = card(page, m.partner),
+      title = curriculum.pathways.find((p) => p.id === m.pid).title,
+      trigger = c.getByRole('combobox', { name: `Learning for ${m.name} contract test`, exact: true });
+    await trigger.click();
+    assert.equal(await page.getByRole('option').count(), 1);
+    assert.equal(await page.getByRole('option', { name: title, exact: true }).count(), 1);
+    for (const otherMapping of mappings.filter((x) => x.partner !== m.partner))
+      assert.equal(
+        await page
+          .getByRole('option', {
+            name: curriculum.pathways.find((p) => p.id === otherMapping.pid).title,
+            exact: true,
+          })
+          .count(),
+        0,
+      );
+    await page.getByRole('option', { name: title, exact: true }).click();
+    selected[m.partner] = title;
+  }
+  for (const m of mappings) {
+    const c = card(page, m.partner);
+    assert.ok(
+      (
+        await c
+          .getByRole('combobox', { name: `Learning for ${m.name} contract test`, exact: true })
+          .innerText()
+      ).includes(selected[m.partner]),
+    );
+    assert.equal(
+      await c.getByRole('button', { name: 'Run local contract test', exact: true }).isDisabled(),
+      true,
+      'An unsaved selection cannot use the old Boolean preference',
+    );
+  }
+  const grants = {};
+  for (const m of mappings) {
+    const c = card(page, m.partner);
+    if (m.partner === 'msme')
+      await c.getByRole('checkbox', { name: 'MSME: Practice-record status', exact: true }).check();
+    let response = page.waitForResponse(
+      (r) => r.request().method() === 'POST' && new URL(r.url()).pathname === '/api/academy',
+    );
+    await c.getByRole('button', { name: 'Save local test choice', exact: true }).click();
+    assert.equal((await response).status(), 200);
+    await page.locator('[data-save-state="loaded"]').waitFor();
+    let x = await get(owner);
+    grants[m.partner] = x.state.ecosystemGrants.find((g) => g.partner === m.partner).id;
+    assert.equal(
+      await c.getByRole('button', { name: 'Run local contract test', exact: true }).isDisabled(),
+      false,
+    );
+    response = page.waitForResponse(
+      (r) => r.request().method() === 'POST' && new URL(r.url()).pathname === '/api/academy',
+    );
+    await c.getByRole('button', { name: 'Run local contract test', exact: true }).click();
+    assert.equal((await response).status(), 200);
+    await page.locator('[data-save-state="loaded"]').waitFor();
+  }
+  let saved = await get(owner);
+  assert.equal(saved.state.ecosystemReceipts.length, 3);
+  assert.equal(saved.state.ecosystemGrants.length, 3);
+  assert.deepEqual(saved.state.deliveries, []);
+  assert.ok(
+    saved.state.ecosystemReceipts.every((r) => r.status === 'simulated' && r.payload.mode === 'local-test'),
+  );
+  assert.ok(!JSON.stringify(saved.state.ecosystemReceipts).includes(canary));
+  const msme = saved.state.ecosystemReceipts.find((r) => r.partner === 'msme');
+  assert.deepEqual(msme.payload.practice_record, {
+    status: 'not-issued',
+    claim_type: 'nonaccredited-practice',
+    review_mode: 'not-reviewed',
+  });
+  for (const r of saved.state.ecosystemReceipts.filter((r) => r.partner !== 'msme'))
+    assert.ok(!Object.hasOwn(r.payload, 'practice_record'));
+  const retained = structuredClone(saved.state.ecosystemReceipts);
+  assert.equal(await receipts(page).locator('details').count(), 3);
+  await receipts(page).locator('details').first().locator('summary').click();
+  assert.ok(!(await receipts(page).innerText()).includes(canary));
+  await page.reload();
+  await page.locator('[data-save-state="loaded"]').waitFor();
+  for (const m of mappings) {
+    const c = card(page, m.partner);
+    await c.getByRole('button', { name: 'Stop earlier preview preference', exact: true }).waitFor();
+    assert.equal(
+      await c.getByRole('button', { name: 'Stop earlier preview preference', exact: true }).count(),
+      1,
+    );
+    assert.ok(
+      (
+        await c
+          .getByRole('combobox', { name: `Learning for ${m.name} contract test`, exact: true })
+          .innerText()
+      ).includes(selected[m.partner]),
+    );
+    assert.equal(
+      await c.getByRole('button', { name: 'Run local contract test', exact: true }).isDisabled(),
+      false,
+    );
+  }
+  assert.deepEqual((await get(owner)).state.ecosystemReceipts, retained);
+  assert.equal(await receipts(page).locator('details').count(), 3);
+  await otherPage.reload();
+  await otherPage.locator('[data-save-state="loaded"]').waitFor();
+  assert.equal(await receipts(otherPage).locator('details').count(), 0);
+  assert.equal(await history(otherPage).locator('details').count(), 0);
+  let response = page.waitForResponse(
+    (r) => r.request().method() === 'POST' && new URL(r.url()).pathname === '/api/academy',
+  );
+  await card(page, 'msme')
+    .getByRole('button', { name: 'Stop earlier preview preference', exact: true })
+    .click();
+  assert.equal((await response).status(), 200);
+  await page.locator('[data-save-state="loaded"]').waitFor();
+  saved = await get(owner);
+  assert.equal(saved.state.connections.msme, false);
+  assert.equal(saved.state.connections.agri, true);
+  assert.equal(saved.state.connections.public, true);
+  assert.equal(saved.state.ecosystemGrants.find((g) => g.id === grants.msme).revokedAt, null);
+  assert.deepEqual(saved.state.ecosystemReceipts, retained);
+  assert.equal(
+    await card(page, 'msme')
+      .getByRole('button', { name: 'Run local contract test', exact: true })
+      .isDisabled(),
+    false,
+  );
+  // Actual other-tab choice withdrawal invalidates this selected saved choice.
+  await action(owner, { type: 'ecosystem-withdraw', grantId: grants.agri });
+  response = page.waitForResponse(
+    (r) => r.request().method() === 'POST' && new URL(r.url()).pathname === '/api/academy',
+  );
+  await card(page, 'agri').getByRole('button', { name: 'Run local contract test', exact: true }).click();
+  assert.equal((await response).status(), 409);
+  await card(page, 'agri').getByText('Saved local choice: withdrawn', { exact: true }).waitFor();
+  assert.equal(
+    await card(page, 'agri')
+      .getByRole('button', { name: 'Run local contract test', exact: true })
+      .isDisabled(),
+    true,
+  );
+  assert.deepEqual((await get(owner)).state.ecosystemReceipts, retained);
+  await page.reload();
+  await page.locator('[data-save-state="loaded"]').waitFor();
+  // Retain the earlier separate enrollment-withdrawal boundary as well.
+  response = page.waitForResponse(
+    (r) => r.request().method() === 'POST' && new URL(r.url()).pathname === '/api/academy',
+  );
+  await card(page, 'agri').getByRole('button', { name: 'Save local test choice', exact: true }).click();
+  assert.equal((await response).status(), 200);
+  await page.locator('[data-save-state="loaded"]').waitFor();
+  await action(owner, { type: 'withdraw', enrollmentId: ids.agri });
+  response = page.waitForResponse(
+    (r) => r.request().method() === 'POST' && new URL(r.url()).pathname === '/api/academy',
+  );
+  await card(page, 'agri').getByRole('button', { name: 'Run local contract test', exact: true }).click();
+  assert.equal((await response).status(), 409);
+  await card(page, 'agri')
+    .getByText('Save your own learning in this mapped pathway before creating a test choice.', {
+      exact: true,
+    })
+    .waitFor();
+  assert.equal(
+    await card(page, 'agri')
+      .getByRole('button', { name: 'Run local contract test', exact: true })
+      .isDisabled(),
+    true,
+  );
+  assert.deepEqual((await get(owner)).state.ecosystemReceipts, retained);
+  response = page.waitForResponse(
+    (r) => r.request().method() === 'POST' && new URL(r.url()).pathname === '/api/academy',
+  );
+  await card(page, 'agri').getByRole('button', { name: 'Withdraw local choice', exact: true }).click();
+  assert.equal((await response).status(), 200);
+  assert.deepEqual((await get(owner)).state.ecosystemReceipts, retained);
+  await page.reload();
+  await page.locator('[data-save-state="loaded"]').waitFor();
+  for (const width of [1440, 768, 390])
+    for (const enlarged of [false, true]) {
+      await page.setViewportSize({ width, height: 1000 });
+      const font = await page.evaluate((enlarged) => {
+        document.documentElement.style.fontSize = '';
+        document.body.style.fontSize = '';
+        const root = parseFloat(getComputedStyle(document.documentElement).fontSize),
+          body = parseFloat(getComputedStyle(document.body).fontSize);
+        if (enlarged) {
+          document.documentElement.style.fontSize = root * 2 + 'px';
+          document.body.style.fontSize = body * 2 + 'px';
+        }
+        document.querySelectorAll('main details').forEach((d) => (d.open = true));
+        return { baselineBody: body, actualBody: parseFloat(getComputedStyle(document.body).fontSize) };
+      }, enlarged);
+      assert.ok(
+        Math.abs(font.actualBody / font.baselineBody - (enlarged ? 2 : 1)) < 0.01,
+        'True body text doubles exactly',
+      );
+      await page.evaluate(
+        () => new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve))),
+      );
+      layout.push({
+        width,
+        enlarged,
+        ...font,
+        view: 'cards-and-expanded-choice-and-receipt-history',
+        overflow: await page.evaluate(() => document.documentElement.scrollWidth > innerWidth),
+      });
+      const trigger = card(page, 'msme').getByRole('combobox', {
+        name: 'Learning for MSME contract test',
+        exact: true,
+      });
+      await trigger.click();
+      await page
+        .getByRole('option', {
+          name: curriculum.pathways.find((p) => p.id === mappings[1].pid).title,
+          exact: true,
+        })
+        .waitFor();
+      layout.push({
+        width,
+        enlarged,
+        ...font,
+        view: 'matching-enrollment-menu',
+        overflow: await page.evaluate(() => document.documentElement.scrollWidth > innerWidth),
+      });
+      await page.keyboard.press('Escape');
+      assert.equal(await trigger.evaluate((e) => document.activeElement === e), true);
+    }
+  assert.deepEqual(errors, []);
+  assert.ok(!layout.some((x) => x.overflow), JSON.stringify(layout.filter((x) => x.overflow)));
+  const result = {
+    passed: true,
+    syntheticLocalAccounts: 2,
+    threePartnerFilteredSelections: true,
+    independentCardSelections: true,
+    healthNoContractControls: true,
+    savedChoiceAndBooleanHistoryReload: true,
+    privateCanaryExcluded: true,
+    staleChoiceWithdrawalBlocked: true,
+    booleanNeverMintsChoice: true,
+    booleanStopIndependentFromChoice: true,
+    responsiveChecks: layout.length,
+    actualComputedBody200Percent: true,
+    layout,
+    pageErrors: errors,
+    limits: [
+      'Synthetic local trusted-header fixtures, not hosted authentication',
+      'Earlier nonempty legacy preview preservation is a pure historical fixture',
+      'No external connector or partner was contacted',
+    ],
+  };
+  writeFileSync(resolve(app, '.sites-runtime/ecosystem-browser.json'), JSON.stringify(result, null, 2));
+  console.log(JSON.stringify(result));
+} finally {
+  await browser.close();
+}

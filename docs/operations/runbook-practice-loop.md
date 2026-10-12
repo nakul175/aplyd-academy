@@ -1,6 +1,6 @@
 # Runbook: practice loop operations
 
-Server setup, deploy and backups: `deploy/README.md`. This runbook covers the practice loop.
+Server setup, deploy and backups: `deploy/node/README.md`. This runbook covers the practice loop.
 
 ## First-time bootstrap (after the first release)
 
@@ -20,7 +20,7 @@ Operations → AI assurance → "Switch AI off now" (owner). Learners immediatel
 
 ## Restoring from backup
 
-1. Follow `deploy/README.md` to restore the database with Litestream and start the service.
+1. Follow `deploy/node/README.md` to restore the database with Litestream and start the service.
 2. **Re-apply deletions:** `sudo /srv/academy/bin/jobs.sh reapply-deletions`. Records deleted after the backup was taken (erasures and retention) are deleted again. The run is logged in Operations → Retention runs.
 3. Learner files are not in the database backup (finding F-05); restore them from their own backup if the owner chose one.
 

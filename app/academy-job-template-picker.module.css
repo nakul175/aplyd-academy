@@ -1,10 +1,70 @@
-.panel { min-width:0; display:grid; gap:.9rem; padding:1.25rem; margin-block-start:1rem; border:1px solid var(--border,#d5ded9); border-radius:14px; overflow-wrap:anywhere; }
-.panel h2,.panel p { margin:0; }
-.field { display:grid; gap:.5rem; font-weight:600; min-width:0; }
-.field select { min-width:0; width:100%; min-height:44px; border:1px solid #788d82; border-radius:8px; padding:.6rem; color:inherit; background:var(--background,#fff); font:inherit; }
-.detail { display:grid; gap:.5rem; padding:1rem; border-radius:8px; background:var(--muted,#f2f6f3); }
-.actions { display:flex; flex-wrap:wrap; gap:.7rem; }
-.actions button { min-height:44px; max-width:100%; border:1px solid #537064; border-radius:8px; padding:.6rem .9rem; background:transparent; color:inherit; font:inherit; line-height:1.4; white-space:normal; text-align:start; cursor:pointer; }
-.field select:focus-visible,.actions button:focus-visible { outline:3px solid #12785a; outline-offset:4px; }
-.actions button:disabled { opacity:.55; cursor:default; }
-.note { color:var(--muted-foreground,#5c6b64); font-size:.9em; }
+.panel {
+  min-width: 0;
+  display: grid;
+  gap: 0.9rem;
+  padding: 1.25rem;
+  margin-block-start: 1rem;
+  border: 1px solid var(--border, #d5ded9);
+  border-radius: 14px;
+  overflow-wrap: anywhere;
+}
+.panel h2,
+.panel p {
+  margin: 0;
+}
+.field {
+  display: grid;
+  gap: 0.5rem;
+  font-weight: 600;
+  min-width: 0;
+}
+.field select {
+  min-width: 0;
+  width: 100%;
+  min-height: 44px;
+  border: 1px solid #788d82;
+  border-radius: 8px;
+  padding: 0.6rem;
+  color: inherit;
+  background: var(--background, #fff);
+  font: inherit;
+}
+.detail {
+  display: grid;
+  gap: 0.5rem;
+  padding: 1rem;
+  border-radius: 8px;
+  background: var(--muted, #f2f6f3);
+}
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+}
+.actions button {
+  min-height: 44px;
+  max-width: 100%;
+  border: 1px solid #537064;
+  border-radius: 8px;
+  padding: 0.6rem 0.9rem;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  line-height: 1.4;
+  white-space: normal;
+  text-align: start;
+  cursor: pointer;
+}
+.field select:focus-visible,
+.actions button:focus-visible {
+  outline: 3px solid #12785a;
+  outline-offset: 4px;
+}
+.actions button:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+.note {
+  color: var(--muted-foreground, #5c6b64);
+  font-size: 0.9em;
+}

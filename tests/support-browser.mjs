@@ -1,53 +1,377 @@
 import assert from 'node:assert/strict';
-import {readFileSync,writeFileSync} from 'node:fs';
-import {chromium} from '/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.mjs';
-import {fixture,base,headers,current,action,success} from './local-qa.mjs';
+import { readFileSync, writeFileSync } from 'node:fs';
+import { chromium } from '/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.mjs';
+import { fixture, base, headers, current, action, success } from './local-qa.mjs';
 // Selectors were adapted against the implemented support cards and selected
 // threads. All requests are local synthetic fixtures; no hosted Site or real
 // person is contacted.
-const {owner,a:requester,b:learner,mod:handler,id,cid,otherCid}=await fixture(),errors=[],layout=[];
-success(await action(owner,id,{type:'member',userId:handler.id,roles:['facilitator'],scopes:[cid],active:true}));
-const browser=await chromium.launch({executablePath:'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',headless:true});
-try{
- async function openPerson(u){const context=await browser.newContext({viewport:{width:1440,height:1000},extraHTTPHeaders:headers(u),acceptDownloads:true}),page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));await page.goto(base+'/?workspace='+id+'#support');await page.getByRole('heading',{name:'Help with your learning',exact:true}).waitFor();await page.locator('[data-save-state="loaded"]').waitFor();return {context,page,u}}
- const rp=await openPerson(requester),hp=await openPerson(handler),op=await openPerson(owner),lp=await openPerson(learner);
- const r=rp.page,h=hp.page,o=op.page,l=lp.page;
- const chooseTab=async(p,name)=>{const tab=p.getByRole('tab',{name,exact:true});if(await tab.getAttribute('aria-selected')!=='true')await tab.click()};
- const card=(p,rid)=>p.locator(`[data-support-request-id="${rid}"]:visible`).first();
- const thread=(p,rid)=>p.locator(`[data-support-thread-id="${rid}"]:visible`).first();
- async function selectThread(p,rid){await card(p,rid).getByRole('button',{name:'View request',exact:true}).click();await thread(p,rid).waitFor();return thread(p,rid)}
- async function mutation(p,button,expected=200){const [response]=await Promise.all([p.waitForResponse(x=>x.url().endsWith('/api/teams')&&x.request().method()==='POST'&&x.status()===expected),button.click()]);const data=await response.json();assert.equal(response.status(),expected,JSON.stringify(data));if(expected===200)await p.locator('[data-save-state="loaded"]').waitFor();return data}
- async function reload(p,tab='My requests'){await p.reload();await p.getByRole('heading',{name:'Help with your learning',exact:true}).waitFor();await p.locator('[data-save-state="loaded"]').waitFor();await chooseTab(p,tab)}
- async function openRequest(subject,body,cohortTitle){await r.getByRole('button',{name:'Request help',exact:true}).click();const dialog=r.getByRole('dialog',{name:'Request help in this workspace',exact:true});await dialog.getByRole('combobox',{name:'Support category',exact:true}).click();await r.getByRole('option',{name:'Learning help',exact:true}).click();await dialog.getByRole('combobox',{name:'Cohort for support',exact:true}).click();await r.getByRole('option',{name:cohortTitle,exact:true}).click();await dialog.getByLabel('Request title',{exact:true}).fill(subject);await dialog.getByLabel('Request description',{exact:true}).fill(body);await dialog.getByRole('checkbox',{name:'I understand the request audience and kept private records out.',exact:true}).check();const data=await mutation(r,dialog.getByRole('button',{name:'Submit help request',exact:true}));const request=data.team.support.mine.find(x=>x.subject===subject);assert.ok(request,'Submitted request must return a server-created own receipt.');return request.id}
- const firstBody='SUPPORT-BROWSER-BODY-ONE: help me locate the permitted fictional source-packet activity.',secondBody='SUPPORT-BROWSER-BODY-TWO: I cannot understand the other fictional source activity.',firstTitle='A general source activity question',secondTitle='Another general activity question';
- const firstId=await openRequest(firstTitle,firstBody,'Local customer practice circle');
- await reload(r);await selectThread(r,firstId);await thread(r,firstId).getByText(firstBody,{exact:true}).waitFor();
- await reload(o,'Staff queue');await card(o,firstId).waitFor();assert.ok(!(await o.locator('main').innerText()).includes(firstBody));await reload(h,'Staff queue');await card(h,firstId).waitFor();assert.ok(!(await h.locator('main').innerText()).includes(firstBody));await reload(l);assert.equal(await l.locator('[data-support-request-id]').count(),0);assert.ok(!(await l.locator('main').innerText()).includes(firstBody));
- await mutation(h,card(h,firstId).getByRole('button',{name:'Handle request',exact:true}));await chooseTab(h,'My handled requests');await thread(h,firstId).getByText(firstBody,{exact:true}).waitFor();
- await thread(h,firstId).getByLabel('My reply',{exact:true}).fill('HANDLER-REPLY-CANARY: use the permitted fictional source references and keep the work bounded.');await mutation(h,thread(h,firstId).getByRole('button',{name:'Save reply',exact:true}));await thread(h,firstId).getByLabel('Resolution explanation',{exact:true}).fill('SUPPORT-RESOLUTION-CANARY: the first source field explains the fictional checking activity.');await mutation(h,thread(h,firstId).getByRole('button',{name:'Resolve request',exact:true}));
- await reload(r);await selectThread(r,firstId);await thread(r,firstId).getByText('SUPPORT-RESOLUTION-CANARY:',{exact:false}).waitFor();await thread(r,firstId).getByLabel('Reason to reopen',{exact:true}).fill('REOPEN-REASON-CANARY: I still need help finding the permitted fictional reference.');await mutation(r,thread(r,firstId).getByRole('button',{name:'Reopen request',exact:true}));assert.equal((await current(requester,id)).team.support.mine.find(x=>x.id===firstId).resolutions.length,1);
- const secondId=await openRequest(secondTitle,secondBody,'Other local source circle');
- // The handler loses cohort-one authority while keeping exactly the same role.
- // Every fresh projection must hide the first thread and allow cohort-two only.
- success(await action(owner,id,{type:'member',userId:handler.id,roles:['facilitator'],scopes:[otherCid],active:true}));await reload(h,'My handled requests');assert.equal(await h.locator(`[data-support-request-id="${firstId}"]`).count(),0);assert.ok(!(await h.locator('main').innerText()).includes(firstBody));await chooseTab(h,'Staff queue');assert.equal(await h.locator(`[data-support-request-id="${firstId}"]`).count(),0);await card(h,secondId).waitFor();await mutation(h,card(h,secondId).getByRole('button',{name:'Handle request',exact:true}));await chooseTab(h,'My handled requests');await thread(h,secondId).getByText(secondBody,{exact:true}).waitFor();
- // A reply opened under valid authority becomes stale after removal. A 403 must
- // refresh the private projection without persisting the unsent reply.
- const unsent='UNSENT-403-REPLY-CANARY: retain this local input without publishing it after access removal.';await thread(h,secondId).getByLabel('My reply',{exact:true}).fill(unsent);success(await action(owner,id,{type:'member',userId:handler.id,roles:['facilitator'],scopes:[otherCid],active:false}));await mutation(h,thread(h,secondId).getByRole('button',{name:'Save reply',exact:true}),403);
- await h.waitForFunction(marker=>!document.querySelector('main')?.textContent?.includes(marker),secondBody);assert.ok(!(await h.locator('main').innerText()).includes(firstBody));assert.ok(!JSON.stringify((await current(requester,id)).team.support.mine).includes(unsent));
- await h.getByRole('heading',{name:'Your access to this request changed',exact:true}).waitFor();await h.getByLabel('My unsent reply',{exact:true}).waitFor();assert.equal(await h.getByLabel('My unsent reply',{exact:true}).inputValue(),unsent);const retainedInputs=true;
- // A different current owner takes responsibility. Their generic own-data
- // export must still exclude these other people's handled support requests.
- await reload(o,'Staff queue');await mutation(o,card(o,secondId).getByRole('button',{name:'Handle request',exact:true}));await chooseTab(o,'My handled requests');await thread(o,secondId).getByText(secondBody,{exact:true}).waitFor();await thread(o,secondId).getByLabel('Resolution explanation',{exact:true}).fill('SECOND-RESOLUTION-CANARY: the other fictional packet now has a clear permitted reference.');await mutation(o,thread(o,secondId).getByRole('button',{name:'Resolve request',exact:true}));
- success(await action(owner,id,{type:'member',userId:handler.id,roles:['facilitator'],scopes:[otherCid],active:true}));await reload(h,'My handled requests');assert.equal(await h.locator(`[data-support-request-id="${secondId}"]`).count(),0);assert.ok(!(await h.locator('main').innerText()).includes(secondBody));
- await reload(o,'Staff queue');await mutation(o,card(o,firstId).getByRole('button',{name:'Handle request',exact:true}));await chooseTab(o,'My handled requests');await thread(o,firstId).getByLabel('My reply',{exact:true}).fill('OWNER-REPLY-CANARY: the first fictional reference remains available for careful practice.');await mutation(o,thread(o,firstId).getByRole('button',{name:'Save reply',exact:true}));
- await reload(r);await selectThread(r,firstId);await thread(r,firstId).getByText('OWNER-REPLY-CANARY:',{exact:false}).waitFor();await mutation(r,thread(r,firstId).getByRole('button',{name:'Withdraw request',exact:true}));let mine=(await current(requester,id)).team.support.mine;assert.equal(mine.find(x=>x.id===firstId).status,'withdrawn');assert.equal(mine.find(x=>x.id===secondId).status,'resolved');assert.equal(mine.find(x=>x.id===firstId).resolutions.length,1);
- async function exported(person){await person.page.goto(base+'/?workspace='+id+'#settings');await person.page.locator('[data-save-state="loaded"]').waitFor();const [download]=await Promise.all([person.page.waitForEvent('download'),person.page.getByRole('button',{name:'Export my learning & records',exact:true}).click()]);const path=await download.path();assert.ok(path);return JSON.parse(readFileSync(path,'utf8'))}
- const requesterExport=await exported(rp);assert.equal(requesterExport.supportRequests.length,2);assert.ok(JSON.stringify(requesterExport.supportRequests).includes(firstBody));assert.ok(JSON.stringify(requesterExport.supportRequests).includes(secondBody));
- for(const person of [op,hp,lp]){const ownExport=await exported(person);assert.deepEqual(ownExport.supportRequests,[]);const serialized=JSON.stringify(ownExport);for(const marker of [firstBody,secondBody,'SUPPORT-RESOLUTION-CANARY','SECOND-RESOLUTION-CANARY'])assert.ok(!serialized.includes(marker))}
- await r.goto(base+'/?workspace='+id+'#support');await r.getByRole('heading',{name:'Help with your learning',exact:true}).waitFor();await r.locator('[data-save-state="loaded"]').waitFor();await chooseTab(r,'My requests');await selectThread(r,firstId);
- for(const width of [1440,768,390])for(const enlarged of [false,true]){await r.setViewportSize({width,height:1000});const font=await r.evaluate(enlarged=>{document.documentElement.style.fontSize='';document.body.style.fontSize='';const root=parseFloat(getComputedStyle(document.documentElement).fontSize),body=parseFloat(getComputedStyle(document.body).fontSize);if(enlarged){document.documentElement.style.fontSize=(root*2)+'px';document.body.style.fontSize=(body*2)+'px'}return {baselineBody:body,actualBody:parseFloat(getComputedStyle(document.body).fontSize)}},enlarged);assert.ok(Math.abs(font.actualBody/font.baselineBody-(enlarged?2:1))<0.01);layout.push({width,enlarged,...font,view:'own-threads',overflow:await r.evaluate(()=>document.documentElement.scrollWidth>innerWidth)});if(width!==768)await r.screenshot({path:new URL(`../.sites-runtime/support-thread-${width}-${enlarged?'text200':'normal'}.png`,import.meta.url).pathname,fullPage:true,animations:'disabled'});await r.getByRole('button',{name:'Request help',exact:true}).click();await r.getByRole('dialog',{name:'Request help in this workspace',exact:true}).waitFor();await r.waitForFunction(()=>{const d=document.querySelector('[role=dialog]');return d&&Number(getComputedStyle(d).opacity)>=.99});layout.push({width,enlarged,...font,view:'intake-dialog',overflow:await r.evaluate(()=>document.documentElement.scrollWidth>innerWidth)});if(width!==768)await r.screenshot({path:new URL(`../.sites-runtime/support-browser-${width}-${enlarged?'text200':'normal'}.png`,import.meta.url).pathname,fullPage:false,animations:'disabled'});await r.keyboard.press('Escape');await r.getByRole('dialog').waitFor({state:'hidden'})}
- // Former membership retains its own thread/export while all shared writes stop.
- success(await action(owner,id,{type:'member',userId:requester.id,roles:['learner'],scopes:[],active:false}));await reload(r);await selectThread(r,firstId);await thread(r,firstId).getByText(firstBody,{exact:true}).waitFor();assert.equal(await r.getByRole('button',{name:'Request help',exact:true}).isDisabled(),true);const removedExport=await exported(rp);assert.equal(removedExport.supportRequests.length,2);
- assert.deepEqual(errors,[]);assert.ok(!layout.some(x=>x.overflow),JSON.stringify(layout.filter(x=>x.overflow)));
- const result={passed:true,fixtureId:id,stableAnimationFreeScreenshots:true,syntheticLocalAccounts:4,intakeAndReload:true,privateClaimReplyResolveReopen:true,sameRoleScopeChangeHidesOldThread:true,stale403RefreshHidesPrivateThread:true,unsent403ReplyNotPersisted:true,unsent403VisibleInputRetained:retainedInputs,independentReplacementClaim:true,requesterWithdrawalPreservesHistory:true,mineOnlyExports:true,removedOwnHistoryAndExport:true,responsiveChecks:layout.length,actualComputedBody200Percent:true,layout,pageErrors:errors,limits:['Synthetic local identities only; hosted authentication and support staffing remain unverified','No external notification is sent','Unsent reply retention is asserted through its dedicated field after authority refresh']};writeFileSync(new URL('../.sites-runtime/support-browser.json',import.meta.url),JSON.stringify(result,null,2));console.log(JSON.stringify(result));
-}catch(e){const pages=[];for(const context of browser.contexts())for(const page of context.pages()){pages.push({url:page.url(),body:await page.locator('body').innerText().catch(()=>''),consolePageErrors:errors});await page.screenshot({path:new URL(`../.sites-runtime/support-browser-failure-${pages.length}.png`,import.meta.url).pathname,fullPage:false,animations:'disabled'}).catch(()=>{})}writeFileSync(new URL('./support-browser-last-failure.json',import.meta.url),JSON.stringify({passed:false,fixtureId:id,error:String(e),pages},null,2));throw e}finally{await browser.close()}
+const { owner, a: requester, b: learner, mod: handler, id, cid, otherCid } = await fixture(),
+  errors = [],
+  layout = [];
+success(
+  await action(owner, id, {
+    type: 'member',
+    userId: handler.id,
+    roles: ['facilitator'],
+    scopes: [cid],
+    active: true,
+  }),
+);
+const browser = await chromium.launch({
+  executablePath: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
+  headless: true,
+});
+try {
+  async function openPerson(u) {
+    const context = await browser.newContext({
+        viewport: { width: 1440, height: 1000 },
+        extraHTTPHeaders: headers(u),
+        acceptDownloads: true,
+      }),
+      page = await context.newPage();
+    page.on('pageerror', (e) => errors.push(e.message));
+    await page.goto(base + '/?workspace=' + id + '#support');
+    await page.getByRole('heading', { name: 'Help with your learning', exact: true }).waitFor();
+    await page.locator('[data-save-state="loaded"]').waitFor();
+    return { context, page, u };
+  }
+  const rp = await openPerson(requester),
+    hp = await openPerson(handler),
+    op = await openPerson(owner),
+    lp = await openPerson(learner);
+  const r = rp.page,
+    h = hp.page,
+    o = op.page,
+    l = lp.page;
+  const chooseTab = async (p, name) => {
+    const tab = p.getByRole('tab', { name, exact: true });
+    if ((await tab.getAttribute('aria-selected')) !== 'true') await tab.click();
+  };
+  const card = (p, rid) => p.locator(`[data-support-request-id="${rid}"]:visible`).first();
+  const thread = (p, rid) => p.locator(`[data-support-thread-id="${rid}"]:visible`).first();
+  async function selectThread(p, rid) {
+    await card(p, rid).getByRole('button', { name: 'View request', exact: true }).click();
+    await thread(p, rid).waitFor();
+    return thread(p, rid);
+  }
+  async function mutation(p, button, expected = 200) {
+    const [response] = await Promise.all([
+      p.waitForResponse(
+        (x) => x.url().endsWith('/api/teams') && x.request().method() === 'POST' && x.status() === expected,
+      ),
+      button.click(),
+    ]);
+    const data = await response.json();
+    assert.equal(response.status(), expected, JSON.stringify(data));
+    if (expected === 200) await p.locator('[data-save-state="loaded"]').waitFor();
+    return data;
+  }
+  async function reload(p, tab = 'My requests') {
+    await p.reload();
+    await p.getByRole('heading', { name: 'Help with your learning', exact: true }).waitFor();
+    await p.locator('[data-save-state="loaded"]').waitFor();
+    await chooseTab(p, tab);
+  }
+  async function openRequest(subject, body, cohortTitle) {
+    await r.getByRole('button', { name: 'Request help', exact: true }).click();
+    const dialog = r.getByRole('dialog', { name: 'Request help in this workspace', exact: true });
+    await dialog.getByRole('combobox', { name: 'Support category', exact: true }).click();
+    await r.getByRole('option', { name: 'Learning help', exact: true }).click();
+    await dialog.getByRole('combobox', { name: 'Cohort for support', exact: true }).click();
+    await r.getByRole('option', { name: cohortTitle, exact: true }).click();
+    await dialog.getByLabel('Request title', { exact: true }).fill(subject);
+    await dialog.getByLabel('Request description', { exact: true }).fill(body);
+    await dialog
+      .getByRole('checkbox', {
+        name: 'I understand the request audience and kept private records out.',
+        exact: true,
+      })
+      .check();
+    const data = await mutation(r, dialog.getByRole('button', { name: 'Submit help request', exact: true }));
+    const request = data.team.support.mine.find((x) => x.subject === subject);
+    assert.ok(request, 'Submitted request must return a server-created own receipt.');
+    return request.id;
+  }
+  const firstBody =
+      'SUPPORT-BROWSER-BODY-ONE: help me locate the permitted fictional source-packet activity.',
+    secondBody = 'SUPPORT-BROWSER-BODY-TWO: I cannot understand the other fictional source activity.',
+    firstTitle = 'A general source activity question',
+    secondTitle = 'Another general activity question';
+  const firstId = await openRequest(firstTitle, firstBody, 'Local customer practice circle');
+  await reload(r);
+  await selectThread(r, firstId);
+  await thread(r, firstId).getByText(firstBody, { exact: true }).waitFor();
+  await reload(o, 'Staff queue');
+  await card(o, firstId).waitFor();
+  assert.ok(!(await o.locator('main').innerText()).includes(firstBody));
+  await reload(h, 'Staff queue');
+  await card(h, firstId).waitFor();
+  assert.ok(!(await h.locator('main').innerText()).includes(firstBody));
+  await reload(l);
+  assert.equal(await l.locator('[data-support-request-id]').count(), 0);
+  assert.ok(!(await l.locator('main').innerText()).includes(firstBody));
+  await mutation(h, card(h, firstId).getByRole('button', { name: 'Handle request', exact: true }));
+  await chooseTab(h, 'My handled requests');
+  await thread(h, firstId).getByText(firstBody, { exact: true }).waitFor();
+  await thread(h, firstId)
+    .getByLabel('My reply', { exact: true })
+    .fill('HANDLER-REPLY-CANARY: use the permitted fictional source references and keep the work bounded.');
+  await mutation(h, thread(h, firstId).getByRole('button', { name: 'Save reply', exact: true }));
+  await thread(h, firstId)
+    .getByLabel('Resolution explanation', { exact: true })
+    .fill('SUPPORT-RESOLUTION-CANARY: the first source field explains the fictional checking activity.');
+  await mutation(h, thread(h, firstId).getByRole('button', { name: 'Resolve request', exact: true }));
+  await reload(r);
+  await selectThread(r, firstId);
+  await thread(r, firstId).getByText('SUPPORT-RESOLUTION-CANARY:', { exact: false }).waitFor();
+  await thread(r, firstId)
+    .getByLabel('Reason to reopen', { exact: true })
+    .fill('REOPEN-REASON-CANARY: I still need help finding the permitted fictional reference.');
+  await mutation(r, thread(r, firstId).getByRole('button', { name: 'Reopen request', exact: true }));
+  assert.equal(
+    (await current(requester, id)).team.support.mine.find((x) => x.id === firstId).resolutions.length,
+    1,
+  );
+  const secondId = await openRequest(secondTitle, secondBody, 'Other local source circle');
+  // The handler loses cohort-one authority while keeping exactly the same role.
+  // Every fresh projection must hide the first thread and allow cohort-two only.
+  success(
+    await action(owner, id, {
+      type: 'member',
+      userId: handler.id,
+      roles: ['facilitator'],
+      scopes: [otherCid],
+      active: true,
+    }),
+  );
+  await reload(h, 'My handled requests');
+  assert.equal(await h.locator(`[data-support-request-id="${firstId}"]`).count(), 0);
+  assert.ok(!(await h.locator('main').innerText()).includes(firstBody));
+  await chooseTab(h, 'Staff queue');
+  assert.equal(await h.locator(`[data-support-request-id="${firstId}"]`).count(), 0);
+  await card(h, secondId).waitFor();
+  await mutation(h, card(h, secondId).getByRole('button', { name: 'Handle request', exact: true }));
+  await chooseTab(h, 'My handled requests');
+  await thread(h, secondId).getByText(secondBody, { exact: true }).waitFor();
+  // A reply opened under valid authority becomes stale after removal. A 403 must
+  // refresh the private projection without persisting the unsent reply.
+  const unsent =
+    'UNSENT-403-REPLY-CANARY: retain this local input without publishing it after access removal.';
+  await thread(h, secondId).getByLabel('My reply', { exact: true }).fill(unsent);
+  success(
+    await action(owner, id, {
+      type: 'member',
+      userId: handler.id,
+      roles: ['facilitator'],
+      scopes: [otherCid],
+      active: false,
+    }),
+  );
+  await mutation(h, thread(h, secondId).getByRole('button', { name: 'Save reply', exact: true }), 403);
+  await h.waitForFunction(
+    (marker) => !document.querySelector('main')?.textContent?.includes(marker),
+    secondBody,
+  );
+  assert.ok(!(await h.locator('main').innerText()).includes(firstBody));
+  assert.ok(!JSON.stringify((await current(requester, id)).team.support.mine).includes(unsent));
+  await h.getByRole('heading', { name: 'Your access to this request changed', exact: true }).waitFor();
+  await h.getByLabel('My unsent reply', { exact: true }).waitFor();
+  assert.equal(await h.getByLabel('My unsent reply', { exact: true }).inputValue(), unsent);
+  const retainedInputs = true;
+  // A different current owner takes responsibility. Their generic own-data
+  // export must still exclude these other people's handled support requests.
+  await reload(o, 'Staff queue');
+  await mutation(o, card(o, secondId).getByRole('button', { name: 'Handle request', exact: true }));
+  await chooseTab(o, 'My handled requests');
+  await thread(o, secondId).getByText(secondBody, { exact: true }).waitFor();
+  await thread(o, secondId)
+    .getByLabel('Resolution explanation', { exact: true })
+    .fill('SECOND-RESOLUTION-CANARY: the other fictional packet now has a clear permitted reference.');
+  await mutation(o, thread(o, secondId).getByRole('button', { name: 'Resolve request', exact: true }));
+  success(
+    await action(owner, id, {
+      type: 'member',
+      userId: handler.id,
+      roles: ['facilitator'],
+      scopes: [otherCid],
+      active: true,
+    }),
+  );
+  await reload(h, 'My handled requests');
+  assert.equal(await h.locator(`[data-support-request-id="${secondId}"]`).count(), 0);
+  assert.ok(!(await h.locator('main').innerText()).includes(secondBody));
+  await reload(o, 'Staff queue');
+  await mutation(o, card(o, firstId).getByRole('button', { name: 'Handle request', exact: true }));
+  await chooseTab(o, 'My handled requests');
+  await thread(o, firstId)
+    .getByLabel('My reply', { exact: true })
+    .fill('OWNER-REPLY-CANARY: the first fictional reference remains available for careful practice.');
+  await mutation(o, thread(o, firstId).getByRole('button', { name: 'Save reply', exact: true }));
+  await reload(r);
+  await selectThread(r, firstId);
+  await thread(r, firstId).getByText('OWNER-REPLY-CANARY:', { exact: false }).waitFor();
+  await mutation(r, thread(r, firstId).getByRole('button', { name: 'Withdraw request', exact: true }));
+  let mine = (await current(requester, id)).team.support.mine;
+  assert.equal(mine.find((x) => x.id === firstId).status, 'withdrawn');
+  assert.equal(mine.find((x) => x.id === secondId).status, 'resolved');
+  assert.equal(mine.find((x) => x.id === firstId).resolutions.length, 1);
+  async function exported(person) {
+    await person.page.goto(base + '/?workspace=' + id + '#settings');
+    await person.page.locator('[data-save-state="loaded"]').waitFor();
+    const [download] = await Promise.all([
+      person.page.waitForEvent('download'),
+      person.page.getByRole('button', { name: 'Export my learning & records', exact: true }).click(),
+    ]);
+    const path = await download.path();
+    assert.ok(path);
+    return JSON.parse(readFileSync(path, 'utf8'));
+  }
+  const requesterExport = await exported(rp);
+  assert.equal(requesterExport.supportRequests.length, 2);
+  assert.ok(JSON.stringify(requesterExport.supportRequests).includes(firstBody));
+  assert.ok(JSON.stringify(requesterExport.supportRequests).includes(secondBody));
+  for (const person of [op, hp, lp]) {
+    const ownExport = await exported(person);
+    assert.deepEqual(ownExport.supportRequests, []);
+    const serialized = JSON.stringify(ownExport);
+    for (const marker of [firstBody, secondBody, 'SUPPORT-RESOLUTION-CANARY', 'SECOND-RESOLUTION-CANARY'])
+      assert.ok(!serialized.includes(marker));
+  }
+  await r.goto(base + '/?workspace=' + id + '#support');
+  await r.getByRole('heading', { name: 'Help with your learning', exact: true }).waitFor();
+  await r.locator('[data-save-state="loaded"]').waitFor();
+  await chooseTab(r, 'My requests');
+  await selectThread(r, firstId);
+  for (const width of [1440, 768, 390])
+    for (const enlarged of [false, true]) {
+      await r.setViewportSize({ width, height: 1000 });
+      const font = await r.evaluate((enlarged) => {
+        document.documentElement.style.fontSize = '';
+        document.body.style.fontSize = '';
+        const root = parseFloat(getComputedStyle(document.documentElement).fontSize),
+          body = parseFloat(getComputedStyle(document.body).fontSize);
+        if (enlarged) {
+          document.documentElement.style.fontSize = root * 2 + 'px';
+          document.body.style.fontSize = body * 2 + 'px';
+        }
+        return { baselineBody: body, actualBody: parseFloat(getComputedStyle(document.body).fontSize) };
+      }, enlarged);
+      assert.ok(Math.abs(font.actualBody / font.baselineBody - (enlarged ? 2 : 1)) < 0.01);
+      layout.push({
+        width,
+        enlarged,
+        ...font,
+        view: 'own-threads',
+        overflow: await r.evaluate(() => document.documentElement.scrollWidth > innerWidth),
+      });
+      if (width !== 768)
+        await r.screenshot({
+          path: new URL(
+            `../.sites-runtime/support-thread-${width}-${enlarged ? 'text200' : 'normal'}.png`,
+            import.meta.url,
+          ).pathname,
+          fullPage: true,
+          animations: 'disabled',
+        });
+      await r.getByRole('button', { name: 'Request help', exact: true }).click();
+      await r.getByRole('dialog', { name: 'Request help in this workspace', exact: true }).waitFor();
+      await r.waitForFunction(() => {
+        const d = document.querySelector('[role=dialog]');
+        return d && Number(getComputedStyle(d).opacity) >= 0.99;
+      });
+      layout.push({
+        width,
+        enlarged,
+        ...font,
+        view: 'intake-dialog',
+        overflow: await r.evaluate(() => document.documentElement.scrollWidth > innerWidth),
+      });
+      if (width !== 768)
+        await r.screenshot({
+          path: new URL(
+            `../.sites-runtime/support-browser-${width}-${enlarged ? 'text200' : 'normal'}.png`,
+            import.meta.url,
+          ).pathname,
+          fullPage: false,
+          animations: 'disabled',
+        });
+      await r.keyboard.press('Escape');
+      await r.getByRole('dialog').waitFor({ state: 'hidden' });
+    }
+  // Former membership retains its own thread/export while all shared writes stop.
+  success(
+    await action(owner, id, {
+      type: 'member',
+      userId: requester.id,
+      roles: ['learner'],
+      scopes: [],
+      active: false,
+    }),
+  );
+  await reload(r);
+  await selectThread(r, firstId);
+  await thread(r, firstId).getByText(firstBody, { exact: true }).waitFor();
+  assert.equal(await r.getByRole('button', { name: 'Request help', exact: true }).isDisabled(), true);
+  const removedExport = await exported(rp);
+  assert.equal(removedExport.supportRequests.length, 2);
+  assert.deepEqual(errors, []);
+  assert.ok(!layout.some((x) => x.overflow), JSON.stringify(layout.filter((x) => x.overflow)));
+  const result = {
+    passed: true,
+    fixtureId: id,
+    stableAnimationFreeScreenshots: true,
+    syntheticLocalAccounts: 4,
+    intakeAndReload: true,
+    privateClaimReplyResolveReopen: true,
+    sameRoleScopeChangeHidesOldThread: true,
+    stale403RefreshHidesPrivateThread: true,
+    unsent403ReplyNotPersisted: true,
+    unsent403VisibleInputRetained: retainedInputs,
+    independentReplacementClaim: true,
+    requesterWithdrawalPreservesHistory: true,
+    mineOnlyExports: true,
+    removedOwnHistoryAndExport: true,
+    responsiveChecks: layout.length,
+    actualComputedBody200Percent: true,
+    layout,
+    pageErrors: errors,
+    limits: [
+      'Synthetic local identities only; hosted authentication and support staffing remain unverified',
+      'No external notification is sent',
+      'Unsent reply retention is asserted through its dedicated field after authority refresh',
+    ],
+  };
+  writeFileSync(
+    new URL('../.sites-runtime/support-browser.json', import.meta.url),
+    JSON.stringify(result, null, 2),
+  );
+  console.log(JSON.stringify(result));
+} catch (e) {
+  const pages = [];
+  for (const context of browser.contexts())
+    for (const page of context.pages()) {
+      pages.push({
+        url: page.url(),
+        body: await page
+          .locator('body')
+          .innerText()
+          .catch(() => ''),
+        consolePageErrors: errors,
+      });
+      await page
+        .screenshot({
+          path: new URL(`../.sites-runtime/support-browser-failure-${pages.length}.png`, import.meta.url)
+            .pathname,
+          fullPage: false,
+          animations: 'disabled',
+        })
+        .catch(() => {});
+    }
+  writeFileSync(
+    new URL('./support-browser-last-failure.json', import.meta.url),
+    JSON.stringify({ passed: false, fixtureId: id, error: String(e), pages }, null, 2),
+  );
+  throw e;
+} finally {
+  await browser.close();
+}

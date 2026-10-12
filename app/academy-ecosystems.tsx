@@ -1,44 +1,450 @@
 'use client';
-import {useState,useEffect} from 'react';
-import {Plug,ShieldCheck,Sprout,Building2,Landmark,HeartPulse,Download} from 'lucide-react';
-import {Button} from '@/components/ui/button';
-import {Checkbox} from '@/components/ui/checkbox';
-import {ADAPTERS,RETURN_SCOPES,grantStatus,readTestGrants,readTestReceipts,SCOPED_LIMITS,type ReturnScope,type TestGrant,type ReturnReceipt} from '@/lib/academy-ecosystems';
-import {derivePartnerInspection} from '@/lib/academy-partner-readiness';
-import {PartnerReadiness} from './academy-partner-readiness';
-import {useAcademy,useWorkspaceDraft} from './academy-context';
-import {Head,Tag,Empty,Pick,FormError,date} from './academy-ui';
-type ChoiceForm={enrollmentId:string;scopes:ReturnScope[];durationDays:1|7|30};
-const icons:any={agri:Sprout,msme:Building2,public:Landmark,health:HeartPulse};
-const labels:Record<ReturnScope,string>={'learning.progress':'Lesson progress','practice.record':'Practice-record status'};
-const status=(g:TestGrant|undefined,now:string)=>{if(!g)return 'not saved';try{return grantStatus(g,now)}catch{return 'unavailable'}};
-const download=(id:string,payload:any)=>{const url=URL.createObjectURL(new Blob([JSON.stringify(payload,null,2)],{type:'application/json'})),a=document.createElement('a');a.href=url;a.download='aplyd-local-return-'+id+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)};
-export function ScopedConnectionsView(){
- const {state,team,cmd,busy,go,resolvePinned,activeWorkspace}=useAcademy();
- const [clock,setClock]=useState(()=>new Date().toISOString());useEffect(()=>{const tick=()=>setClock(new Date().toISOString()),timer=setInterval(tick,30000);document.addEventListener('visibilitychange',tick);return()=>{clearInterval(timer);document.removeEventListener('visibilitychange',tick)}},[]);
- let grants:TestGrant[]=[],savedChoiceError=false;try{grants=readTestGrants(state.ecosystemGrants)}catch{savedChoiceError=true}let receipts:ReturnReceipt[]=[],savedReceiptError=false;try{receipts=readTestReceipts(state.ecosystemReceipts,grants,clock)}catch{savedReceiptError=true}
- useEffect(()=>setClock(new Date().toISOString()),[state.ecosystemGrants]);
- const [forms,setForms]=useWorkspaceDraft<Record<string,ChoiceForm>>('ecosystem-contract-forms',()=>Object.fromEntries(ADAPTERS.filter(a=>a.pathwayId).map(a=>{const g=grants.find(g=>g.partner===a.id);return [a.id,g?{enrollmentId:g.enrollmentId,scopes:[...g.scopes],durationDays:g.durationDays}:{enrollmentId:'',scopes:['learning.progress'],durationDays:7}]})));
- const update=(partner:string,partial:Partial<ChoiceForm>)=>setForms(prev=>({...prev,[partner]:{...prev[partner],...partial}}));
- if(team)return <Empty icon={Plug} title="Local contract tests belong in your personal lab" body="Shared workspace learning does not send or prepare partner returns here. Open your personal practice lab to inspect a local task mapping."/>;
- return <div style={{minWidth:0,overflowWrap:'anywhere'}}><Head eyebrow="LEARNING INSIDE YOUR WORK" title="Choose the summary. Check the contract." body="Save an explicit local test choice for your own learning, then inspect a minimal return receipt."/><FormError/>
- <div className="notice"><ShieldCheck/><div><strong>Local contract workbench · no partner is connected.</strong><p>These choices apply only to tests kept in your personal lab. No account is linked and no data is sent. Private evidence, scores, notes, contact details and reflections are excluded.</p></div></div>
- {(savedChoiceError||savedReceiptError)&&<p className="notice mt" role="status">Your saved local choices or contract receipts are unavailable. Export your personal workspace for inspection; no new local test can run until this saved-data issue is resolved.</p>}
- <div className="two-grid">{ADAPTERS.map(a=>{const Icon=icons[a.id],saved=grants.find(g=>g.partner===a.id),savedStatus=status(saved,clock),form=forms[a.id]??{enrollmentId:'',scopes:['learning.progress'] as ReturnScope[],durationDays:7 as const},matching=state.enrollments.filter((e:any)=>!e.withdrawn&&e.programId===a.pathwayId),selected=matching.find((e:any)=>e.id===form.enrollmentId),resolved=selected?resolvePinned(selected):null,valid=!!selected&&resolved?.available&&resolved.snapshot.ref.scope==='global'&&!state.paused.includes(selected.programId),same=!!saved&&form.enrollmentId===saved.enrollmentId&&form.durationDays===saved.durationDays&&JSON.stringify(RETURN_SCOPES.filter(s=>form.scopes.includes(s)))===JSON.stringify(saved.scopes);return <section className="panel ecosystem-card" key={a.id} data-ecosystem-adapter={a.id}><div className="section-title no-top"><div className="course-icon"><Icon/></div><Tag>{a.pathwayId?'Contract test only':'Domain review needed'}</Tag></div><h2>{a.name}</h2><p className="mt">{a.task}</p>{!!state.connections?.[a.id]&&<div className="mt"><p className="form-hint">An earlier preview preference is retained. It does not create an enrollment, selected-field or expiry choice.</p><Button className="mt" variant="outline" disabled={busy} onClick={()=>cmd({type:'connection',partner:a.id,enabled:false},'Earlier local preview preference stopped. Historical previews retained.')}>Stop earlier preview preference</Button></div>}{!a.pathwayId?<p className="form-hint mt">Health Saha has no pathway, test-choice or return controls in this release.</p>:<>
- <Button className="mt" variant="outline" onClick={()=>go('learn',a.pathwayId!)}>Open mapped learning</Button>
- <fieldset className="mt" disabled={busy||savedChoiceError||savedReceiptError}><legend>Local test choice for {a.name}</legend><Pick label={`Learning for ${a.name} contract test`} value={form.enrollmentId} onChange={(enrollmentId:string)=>update(a.id,{enrollmentId})} options={matching.map((e:any)=>{const r=resolvePinned(e);return {value:e.id,label:r.available?r.snapshot.program.title:'Pinned learning unavailable'}})}/>
- <fieldset className="field"><legend>Summary fields for {a.name}</legend>{RETURN_SCOPES.map(scope=><label className="check-line" key={scope}><Checkbox aria-label={`${a.name}: ${labels[scope]}`} checked={form.scopes.includes(scope)} onCheckedChange={checked=>update(a.id,{scopes:RETURN_SCOPES.filter(s=>s===scope?checked===true:form.scopes.includes(s))})}/>{labels[scope]}</label>)}</fieldset>
- <Pick label={`Choice duration for ${a.name}`} value={String(form.durationDays)} onChange={(v:string)=>update(a.id,{durationDays:Number(v) as 1|7|30})} options={[{value:'1',label:'One day'},{value:'7',label:'Seven days'},{value:'30',label:'Thirty days'}]}/>
- <p className="form-hint">The server sets the exact expiry when this choice is saved. Fields and expiry do not change an earlier receipt.</p>
- {!same&&<p className="mt" role="status">Local choice not saved · save these fields before testing.</p>}
- <div className="actions mt"><Button disabled={!valid||!form.scopes.length||grants.length>=SCOPED_LIMITS.grants} onClick={()=>cmd({type:'ecosystem-grant',partner:a.id,enrollmentId:form.enrollmentId,scopes:form.scopes,durationDays:form.durationDays},'Local test choice saved. Nothing sent.')}>{savedStatus==='active'?'Replace saved choice':'Save local test choice'}</Button><Button variant="outline" disabled={!valid||!same||savedStatus!=='active'||receipts.length>=SCOPED_LIMITS.receipts} onClick={()=>cmd({type:'ecosystem-test',grantId:saved!.id},'Local contract receipt saved. Nothing sent.')}>Run local contract test</Button></div>
- </fieldset>
- {!matching.length&&<p className="form-hint mt">Save your own learning in this mapped pathway before creating a test choice.</p>}{selected&&!valid&&<p className="form-hint mt">This pinned learning is unavailable or paused. Your saved learning and earlier receipts remain; withdrawal is still available.</p>}
- {saved&&<div className="notice mt"><div><strong>Saved local choice: {savedStatus}</strong><p>Fields: {saved.scopes.map(s=>labels[s]??'Unavailable field').join(', ')}.</p><p>Global learning version {saved.contentVersion} · Expires {date(saved.expiresAt)}.</p>{saved.revokedAt&&<p>Withdrawn {date(saved.revokedAt)}.</p>}<p className="form-hint">Replacing a choice withdraws its predecessor and retains its history. Nothing was sent to a partner.</p>{saved.revokedAt===null&&<Button className="mt" variant="outline" disabled={busy} onClick={()=>cmd({type:'ecosystem-withdraw',grantId:saved.id},'Local test choice withdrawn. Earlier receipts retained.')}>Withdraw local choice</Button>}</div></div>}
- </>}<PartnerReadiness inspection={derivePartnerInspection({workspace:activeWorkspace,state,now:clock},a.id)} onOpenReferences={()=>go('library')}/></section>})}</div>
- {grants.length>=SCOPED_LIMITS.grants&&<p className="notice mt">All 24 retained local-choice slots are used. Withdrawal stops future tests and preserves history; it does not erase a slot.</p>}{receipts.length>=SCOPED_LIMITS.receipts&&<p className="notice mt">All 100 local contract receipt slots are used. Previous receipts remain available.</p>}
- <section className="panel mt"><h2>Saved choice history</h2><p className="form-hint mt">Expiry and withdrawal stop new tests. These are local test choices, not live partner permissions.</p>{!grants.length?<p className="mt">No explicit local choices saved.</p>:grants.map(g=><details className="source-packet" key={g.id}><summary>{ADAPTERS.find(a=>a.id===g.partner)?.name??'Unavailable ecosystem'} · {status(g,clock)} · {date(g.createdAt)}</summary><p>Choice {g.id} · Enrollment {g.enrollmentId}</p><p>Version {g.contentVersion} · Fields {g.scopes.map(s=>labels[s]??'Unavailable field').join(', ')}</p><p>Exact expiry {g.expiresAt}{g.revokedAt?' · Withdrawal '+g.revokedAt:''}</p>{g.revokedAt===null&&<Button className="mt" variant="outline" disabled={busy} onClick={()=>cmd({type:'ecosystem-withdraw',grantId:g.id},'Local test choice withdrawn. History retained.')}>Withdraw this historical choice</Button>}</details>)}</section>
- <section className="panel mt"><h2>Local contract receipts</h2><p className="form-hint mt">Receipts are historical snapshots. A later appeal, withdrawal or expiry can change current status. They establish no partner receipt or professional qualification.</p>{savedReceiptError?<p className="mt">Saved contract receipts are unavailable. Use your whole-workspace export for private inspection.</p>:!receipts.length?<p className="mt">No versioned local receipts yet.</p>:receipts.map((r:any)=><details className="source-packet" key={r.id}><summary>{ADAPTERS.find(a=>a.id===r.partner)?.name??'Ecosystem'} · Local test · {date(r.createdAt)}</summary><p>{r.note}</p><p>Choice {r.grantId} · Contract {r.contractVersion}</p><pre style={{whiteSpace:'pre-wrap',overflowWrap:'anywhere',maxWidth:'100%',overflowX:'auto'}}>{JSON.stringify(r.payload,null,2)}</pre><Button variant="outline" onClick={()=>download(r.id,r)}><Download size={16}/>Download local receipt</Button></details>)}</section>
- <section className="panel mt"><h2>Earlier preview history</h2><p className="form-hint mt">The older preferences and previews are retained separately. They were not converted into scoped choices or this versioned contract.</p>{!state.deliveries.length?<p className="mt">No earlier previews.</p>:state.deliveries.map((d:any)=><details className="source-packet" key={d.id}><summary>{ADAPTERS.find(a=>a.id===d.partner)?.name??'Earlier ecosystem'} · Earlier local preview · {date(d.createdAt)}</summary><pre style={{whiteSpace:'pre-wrap',overflowWrap:'anywhere',maxWidth:'100%',overflowX:'auto'}}>{JSON.stringify(d.payload,null,2)}</pre><p>{d.note}</p></details>)}</section>
- </div>;
+import { useState, useEffect } from 'react';
+import { Plug, ShieldCheck, Sprout, Building2, Landmark, HeartPulse, Download } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
+import {
+  ADAPTERS,
+  RETURN_SCOPES,
+  grantStatus,
+  readTestGrants,
+  readTestReceipts,
+  SCOPED_LIMITS,
+  type ReturnScope,
+  type TestGrant,
+  type ReturnReceipt,
+} from '@/lib/academy-ecosystems';
+import { derivePartnerInspection } from '@/lib/academy-partner-readiness';
+import { PartnerReadiness } from './academy-partner-readiness';
+import { useAcademy, useWorkspaceDraft } from './academy-context';
+import { Head, Tag, Empty, Pick, FormError, date } from './academy-ui';
+type ChoiceForm = { enrollmentId: string; scopes: ReturnScope[]; durationDays: 1 | 7 | 30 };
+const icons: any = { agri: Sprout, msme: Building2, public: Landmark, health: HeartPulse };
+const labels: Record<ReturnScope, string> = {
+  'learning.progress': 'Lesson progress',
+  'practice.record': 'Practice-record status',
+};
+const status = (g: TestGrant | undefined, now: string) => {
+  if (!g) return 'not saved';
+  try {
+    return grantStatus(g, now);
+  } catch {
+    return 'unavailable';
+  }
+};
+const download = (id: string, payload: any) => {
+  const url = URL.createObjectURL(new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' })),
+    a = document.createElement('a');
+  a.href = url;
+  a.download = 'aplyd-local-return-' + id + '.json';
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+};
+export function ScopedConnectionsView() {
+  const { state, team, cmd, busy, go, resolvePinned, activeWorkspace } = useAcademy();
+  const [clock, setClock] = useState(() => new Date().toISOString());
+  useEffect(() => {
+    const tick = () => setClock(new Date().toISOString()),
+      timer = setInterval(tick, 30000);
+    document.addEventListener('visibilitychange', tick);
+    return () => {
+      clearInterval(timer);
+      document.removeEventListener('visibilitychange', tick);
+    };
+  }, []);
+  let grants: TestGrant[] = [],
+    savedChoiceError = false;
+  try {
+    grants = readTestGrants(state.ecosystemGrants);
+  } catch {
+    savedChoiceError = true;
+  }
+  let receipts: ReturnReceipt[] = [],
+    savedReceiptError = false;
+  try {
+    receipts = readTestReceipts(state.ecosystemReceipts, grants, clock);
+  } catch {
+    savedReceiptError = true;
+  }
+  useEffect(() => setClock(new Date().toISOString()), [state.ecosystemGrants]);
+  const [forms, setForms] = useWorkspaceDraft<Record<string, ChoiceForm>>('ecosystem-contract-forms', () =>
+    Object.fromEntries(
+      ADAPTERS.filter((a) => a.pathwayId).map((a) => {
+        const g = grants.find((g) => g.partner === a.id);
+        return [
+          a.id,
+          g
+            ? { enrollmentId: g.enrollmentId, scopes: [...g.scopes], durationDays: g.durationDays }
+            : { enrollmentId: '', scopes: ['learning.progress'], durationDays: 7 },
+        ];
+      }),
+    ),
+  );
+  const update = (partner: string, partial: Partial<ChoiceForm>) =>
+    setForms((prev) => ({ ...prev, [partner]: { ...prev[partner], ...partial } }));
+  if (team)
+    return (
+      <Empty
+        icon={Plug}
+        title="Local contract tests belong in your personal lab"
+        body="Shared workspace learning does not send or prepare partner returns here. Open your personal practice lab to inspect a local task mapping."
+      />
+    );
+  return (
+    <div style={{ minWidth: 0, overflowWrap: 'anywhere' }}>
+      <Head
+        eyebrow="LEARNING INSIDE YOUR WORK"
+        title="Choose the summary. Check the contract."
+        body="Save an explicit local test choice for your own learning, then inspect a minimal return receipt."
+      />
+      <FormError />
+      <div className="notice">
+        <ShieldCheck />
+        <div>
+          <strong>Local contract workbench · no partner is connected.</strong>
+          <p>
+            These choices apply only to tests kept in your personal lab. No account is linked and no data is
+            sent. Private evidence, scores, notes, contact details and reflections are excluded.
+          </p>
+        </div>
+      </div>
+      {(savedChoiceError || savedReceiptError) && (
+        <p className="notice mt" role="status">
+          Your saved local choices or contract receipts are unavailable. Export your personal workspace for
+          inspection; no new local test can run until this saved-data issue is resolved.
+        </p>
+      )}
+      <div className="two-grid">
+        {ADAPTERS.map((a) => {
+          const Icon = icons[a.id],
+            saved = grants.find((g) => g.partner === a.id),
+            savedStatus = status(saved, clock),
+            form = forms[a.id] ?? {
+              enrollmentId: '',
+              scopes: ['learning.progress'] as ReturnScope[],
+              durationDays: 7 as const,
+            },
+            matching = state.enrollments.filter((e: any) => !e.withdrawn && e.programId === a.pathwayId),
+            selected = matching.find((e: any) => e.id === form.enrollmentId),
+            resolved = selected ? resolvePinned(selected) : null,
+            valid =
+              !!selected &&
+              resolved?.available &&
+              resolved.snapshot.ref.scope === 'global' &&
+              !state.paused.includes(selected.programId),
+            same =
+              !!saved &&
+              form.enrollmentId === saved.enrollmentId &&
+              form.durationDays === saved.durationDays &&
+              JSON.stringify(RETURN_SCOPES.filter((s) => form.scopes.includes(s))) ===
+                JSON.stringify(saved.scopes);
+          return (
+            <section className="panel ecosystem-card" key={a.id} data-ecosystem-adapter={a.id}>
+              <div className="section-title no-top">
+                <div className="course-icon">
+                  <Icon />
+                </div>
+                <Tag>{a.pathwayId ? 'Contract test only' : 'Domain review needed'}</Tag>
+              </div>
+              <h2>{a.name}</h2>
+              <p className="mt">{a.task}</p>
+              {!!state.connections?.[a.id] && (
+                <div className="mt">
+                  <p className="form-hint">
+                    An earlier preview preference is retained. It does not create an enrollment,
+                    selected-field or expiry choice.
+                  </p>
+                  <Button
+                    className="mt"
+                    variant="outline"
+                    disabled={busy}
+                    onClick={() =>
+                      cmd(
+                        { type: 'connection', partner: a.id, enabled: false },
+                        'Earlier local preview preference stopped. Historical previews retained.',
+                      )
+                    }
+                  >
+                    Stop earlier preview preference
+                  </Button>
+                </div>
+              )}
+              {!a.pathwayId ? (
+                <p className="form-hint mt">
+                  Health Saha has no pathway, test-choice or return controls in this release.
+                </p>
+              ) : (
+                <>
+                  <Button className="mt" variant="outline" onClick={() => go('learn', a.pathwayId!)}>
+                    Open mapped learning
+                  </Button>
+                  <fieldset className="mt" disabled={busy || savedChoiceError || savedReceiptError}>
+                    <legend>Local test choice for {a.name}</legend>
+                    <Pick
+                      label={`Learning for ${a.name} contract test`}
+                      value={form.enrollmentId}
+                      onChange={(enrollmentId: string) => update(a.id, { enrollmentId })}
+                      options={matching.map((e: any) => {
+                        const r = resolvePinned(e);
+                        return {
+                          value: e.id,
+                          label: r.available ? r.snapshot.program.title : 'Pinned learning unavailable',
+                        };
+                      })}
+                    />
+                    <fieldset className="field">
+                      <legend>Summary fields for {a.name}</legend>
+                      {RETURN_SCOPES.map((scope) => (
+                        <label className="check-line" key={scope}>
+                          <Checkbox
+                            aria-label={`${a.name}: ${labels[scope]}`}
+                            checked={form.scopes.includes(scope)}
+                            onCheckedChange={(checked) =>
+                              update(a.id, {
+                                scopes: RETURN_SCOPES.filter((s) =>
+                                  s === scope ? checked === true : form.scopes.includes(s),
+                                ),
+                              })
+                            }
+                          />
+                          {labels[scope]}
+                        </label>
+                      ))}
+                    </fieldset>
+                    <Pick
+                      label={`Choice duration for ${a.name}`}
+                      value={String(form.durationDays)}
+                      onChange={(v: string) => update(a.id, { durationDays: Number(v) as 1 | 7 | 30 })}
+                      options={[
+                        { value: '1', label: 'One day' },
+                        { value: '7', label: 'Seven days' },
+                        { value: '30', label: 'Thirty days' },
+                      ]}
+                    />
+                    <p className="form-hint">
+                      The server sets the exact expiry when this choice is saved. Fields and expiry do not
+                      change an earlier receipt.
+                    </p>
+                    {!same && (
+                      <p className="mt" role="status">
+                        Local choice not saved · save these fields before testing.
+                      </p>
+                    )}
+                    <div className="actions mt">
+                      <Button
+                        disabled={!valid || !form.scopes.length || grants.length >= SCOPED_LIMITS.grants}
+                        onClick={() =>
+                          cmd(
+                            {
+                              type: 'ecosystem-grant',
+                              partner: a.id,
+                              enrollmentId: form.enrollmentId,
+                              scopes: form.scopes,
+                              durationDays: form.durationDays,
+                            },
+                            'Local test choice saved. Nothing sent.',
+                          )
+                        }
+                      >
+                        {savedStatus === 'active' ? 'Replace saved choice' : 'Save local test choice'}
+                      </Button>
+                      <Button
+                        variant="outline"
+                        disabled={
+                          !valid ||
+                          !same ||
+                          savedStatus !== 'active' ||
+                          receipts.length >= SCOPED_LIMITS.receipts
+                        }
+                        onClick={() =>
+                          cmd(
+                            { type: 'ecosystem-test', grantId: saved!.id },
+                            'Local contract receipt saved. Nothing sent.',
+                          )
+                        }
+                      >
+                        Run local contract test
+                      </Button>
+                    </div>
+                  </fieldset>
+                  {!matching.length && (
+                    <p className="form-hint mt">
+                      Save your own learning in this mapped pathway before creating a test choice.
+                    </p>
+                  )}
+                  {selected && !valid && (
+                    <p className="form-hint mt">
+                      This pinned learning is unavailable or paused. Your saved learning and earlier receipts
+                      remain; withdrawal is still available.
+                    </p>
+                  )}
+                  {saved && (
+                    <div className="notice mt">
+                      <div>
+                        <strong>Saved local choice: {savedStatus}</strong>
+                        <p>Fields: {saved.scopes.map((s) => labels[s] ?? 'Unavailable field').join(', ')}.</p>
+                        <p>
+                          Global learning version {saved.contentVersion} · Expires {date(saved.expiresAt)}.
+                        </p>
+                        {saved.revokedAt && <p>Withdrawn {date(saved.revokedAt)}.</p>}
+                        <p className="form-hint">
+                          Replacing a choice withdraws its predecessor and retains its history. Nothing was
+                          sent to a partner.
+                        </p>
+                        {saved.revokedAt === null && (
+                          <Button
+                            className="mt"
+                            variant="outline"
+                            disabled={busy}
+                            onClick={() =>
+                              cmd(
+                                { type: 'ecosystem-withdraw', grantId: saved.id },
+                                'Local test choice withdrawn. Earlier receipts retained.',
+                              )
+                            }
+                          >
+                            Withdraw local choice
+                          </Button>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </>
+              )}
+              <PartnerReadiness
+                inspection={derivePartnerInspection({ workspace: activeWorkspace, state, now: clock }, a.id)}
+                onOpenReferences={() => go('library')}
+              />
+            </section>
+          );
+        })}
+      </div>
+      {grants.length >= SCOPED_LIMITS.grants && (
+        <p className="notice mt">
+          All 24 retained local-choice slots are used. Withdrawal stops future tests and preserves history; it
+          does not erase a slot.
+        </p>
+      )}
+      {receipts.length >= SCOPED_LIMITS.receipts && (
+        <p className="notice mt">
+          All 100 local contract receipt slots are used. Previous receipts remain available.
+        </p>
+      )}
+      <section className="panel mt">
+        <h2>Saved choice history</h2>
+        <p className="form-hint mt">
+          Expiry and withdrawal stop new tests. These are local test choices, not live partner permissions.
+        </p>
+        {!grants.length ? (
+          <p className="mt">No explicit local choices saved.</p>
+        ) : (
+          grants.map((g) => (
+            <details className="source-packet" key={g.id}>
+              <summary>
+                {ADAPTERS.find((a) => a.id === g.partner)?.name ?? 'Unavailable ecosystem'} ·{' '}
+                {status(g, clock)} · {date(g.createdAt)}
+              </summary>
+              <p>
+                Choice {g.id} · Enrollment {g.enrollmentId}
+              </p>
+              <p>
+                Version {g.contentVersion} · Fields{' '}
+                {g.scopes.map((s) => labels[s] ?? 'Unavailable field').join(', ')}
+              </p>
+              <p>
+                Exact expiry {g.expiresAt}
+                {g.revokedAt ? ' · Withdrawal ' + g.revokedAt : ''}
+              </p>
+              {g.revokedAt === null && (
+                <Button
+                  className="mt"
+                  variant="outline"
+                  disabled={busy}
+                  onClick={() =>
+                    cmd(
+                      { type: 'ecosystem-withdraw', grantId: g.id },
+                      'Local test choice withdrawn. History retained.',
+                    )
+                  }
+                >
+                  Withdraw this historical choice
+                </Button>
+              )}
+            </details>
+          ))
+        )}
+      </section>
+      <section className="panel mt">
+        <h2>Local contract receipts</h2>
+        <p className="form-hint mt">
+          Receipts are historical snapshots. A later appeal, withdrawal or expiry can change current status.
+          They establish no partner receipt or professional qualification.
+        </p>
+        {savedReceiptError ? (
+          <p className="mt">
+            Saved contract receipts are unavailable. Use your whole-workspace export for private inspection.
+          </p>
+        ) : !receipts.length ? (
+          <p className="mt">No versioned local receipts yet.</p>
+        ) : (
+          receipts.map((r: any) => (
+            <details className="source-packet" key={r.id}>
+              <summary>
+                {ADAPTERS.find((a) => a.id === r.partner)?.name ?? 'Ecosystem'} · Local test ·{' '}
+                {date(r.createdAt)}
+              </summary>
+              <p>{r.note}</p>
+              <p>
+                Choice {r.grantId} · Contract {r.contractVersion}
+              </p>
+              <pre
+                style={{
+                  whiteSpace: 'pre-wrap',
+                  overflowWrap: 'anywhere',
+                  maxWidth: '100%',
+                  overflowX: 'auto',
+                }}
+              >
+                {JSON.stringify(r.payload, null, 2)}
+              </pre>
+              <Button variant="outline" onClick={() => download(r.id, r)}>
+                <Download size={16} />
+                Download local receipt
+              </Button>
+            </details>
+          ))
+        )}
+      </section>
+      <section className="panel mt">
+        <h2>Earlier preview history</h2>
+        <p className="form-hint mt">
+          The older preferences and previews are retained separately. They were not converted into scoped
+          choices or this versioned contract.
+        </p>
+        {!state.deliveries.length ? (
+          <p className="mt">No earlier previews.</p>
+        ) : (
+          state.deliveries.map((d: any) => (
+            <details className="source-packet" key={d.id}>
+              <summary>
+                {ADAPTERS.find((a) => a.id === d.partner)?.name ?? 'Earlier ecosystem'} · Earlier local
+                preview · {date(d.createdAt)}
+              </summary>
+              <pre
+                style={{
+                  whiteSpace: 'pre-wrap',
+                  overflowWrap: 'anywhere',
+                  maxWidth: '100%',
+                  overflowX: 'auto',
+                }}
+              >
+                {JSON.stringify(d.payload, null, 2)}
+              </pre>
+              <p>{d.note}</p>
+            </details>
+          ))
+        )}
+      </section>
+    </div>
+  );
 }

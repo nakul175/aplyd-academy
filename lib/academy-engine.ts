@@ -1,94 +1,1093 @@
-import {applyAccessPreferences,confirmHumanCapture,InclusiveLearningError,type AccessPreferences} from './academy-inclusive-learning';
-import {createTestGrant,revokeTestGrant,ensureUniqueActiveChoices,buildReturnReceipt,readTestGrants,readTestReceipts,AdapterError,SCOPED_LIMITS,type TestGrant,type ReturnReceipt} from './academy-ecosystems';
-import {validateLegacyConnectionCommand,LegacyPreviewError} from './academy-ecosystem-guard';
-import {programs,CONTENT_VERSION,currentRef,resolvePinnedContent,resolveCurrentProgram,resolvePinnedProgram,curriculumRegistry,ContentResolutionError,type ContentRef,type ContentContext} from './academy-curriculum';
-import {issue as issueCredential,transition as credentialTransition,labelFromEvidence,effectiveStatus,CredentialError,LABEL_RANK,type CredentialLabel,type CredentialActor} from './academy-credential';
-import {attemptsExhausted,appealWindowClosed,APPEAL_WINDOW_DAYS,ACCOMMODATION_TYPES,ACCOMMODATION_LIMITS,resolveAssessmentMethod,accommodationsForReview,type AssessmentMethodId} from './academy-assessment-rules';
-import {freshLearningPlan,applyLearningPlanCommand,isLearningPlanCommand,LearningPlanError,type LearningPlan,type PlanOptions} from './academy-plan';
-export {programs,CONTENT_VERSION} from './academy-curriculum';
-export class RuleError extends Error{constructor(message:string,public status=422){super(message)}}
-export type Workspace={profile:{name:string;context:string;reading:boolean;networking:boolean;onboarding?:'completed'|'skipped'};enrollments:any[];posts:any[];reports:any[];interests:string[];connections:Record<string,boolean>;deliveries:any[];followups:any[];paused:string[];seen:string[];learningAccess?:AccessPreferences;learningPlan?:LearningPlan;ecosystemGrants?:TestGrant[];ecosystemReceipts?:ReturnReceipt[]};
-export function freshWorkspace():Workspace{return {profile:{name:'Learner',context:'msme',reading:false,networking:false},enrollments:[],posts:[],reports:[],interests:[],connections:{},deliveries:[],followups:[],paused:[],seen:[],learningPlan:freshLearningPlan()}}
-export const contexts:Record<string,string>={farmer:programs[0].id,msme:programs[1].id,public:programs[2].id};
-export function resumeLearning(e:any,p:any){if(!e||!p)return {tab:'learn',lessonIndex:0};const index=p.lessons.findIndex((l:any)=>!e.completed.includes(l.id));if(e.record||e.attempts.some((a:any)=>!a.decision)||e.appeals.some((a:any)=>a.status==='open')||attemptsExhausted(e.attempts.length))return {tab:'feedback',lessonIndex:Math.max(index,0)};return {tab:index<0?'assessment':'learn',lessonIndex:Math.max(index,0)}}
-function optionalMinutes(v:any){if(v===undefined||v===null||(typeof v==='string'&&v.trim()===''))return null;if(!['number','string'].includes(typeof v)||!Number.isFinite(Number(v))||Number(v)<0||Number(v)>10000)throw new RuleError('Times must be between 0 and 10,000 minutes, or left blank.');return Number(v)}
-function text(v:any,label:string,min=1,max=10000){if(typeof v!=='string'||v.trim().length<min||v.length>max)throw new RuleError(`${label} needs ${min}–${max} characters.`);return v.trim()}
-function checkedContent<T>(fn:()=>T):T{try{return fn()}catch(e){if(e instanceof ContentResolutionError)throw new RuleError(e.message,e.status);throw e}}
-function program(id:any){return checkedContent(()=>resolveCurrentProgram(id))}
-function pinnedProgram(e:any,context?:ContentContext){return checkedContent(()=>resolvePinnedProgram(e,context?.allowedScopes,context?.registry))}
-export function planOptions(now:string,extra:Partial<PlanOptions>={},context?:ContentContext):PlanOptions{return {now,contextPrograms:contexts,resolveProgram:(id,version,record)=>{try{return resolvePinnedProgram(record??{programId:id,version},context?.allowedScopes,context?.registry)}catch(e){if(e instanceof ContentResolutionError)return undefined;throw e}},...extra}}
-export function applyOwnPlan(state:Workspace,c:any,options:PlanOptions){try{return applyLearningPlanCommand(state,c,options)}catch(e){if(e instanceof LearningPlanError)throw new RuleError(e.message,e.status);throw e}}
+import {
+  applyAccessPreferences,
+  confirmHumanCapture,
+  InclusiveLearningError,
+  type AccessPreferences,
+} from './academy-inclusive-learning';
+import {
+  createTestGrant,
+  revokeTestGrant,
+  ensureUniqueActiveChoices,
+  buildReturnReceipt,
+  readTestGrants,
+  readTestReceipts,
+  AdapterError,
+  SCOPED_LIMITS,
+  type TestGrant,
+  type ReturnReceipt,
+} from './academy-ecosystems';
+import { validateLegacyConnectionCommand, LegacyPreviewError } from './academy-ecosystem-guard';
+import {
+  programs,
+  CONTENT_VERSION,
+  currentRef,
+  resolvePinnedContent,
+  resolveCurrentProgram,
+  resolvePinnedProgram,
+  curriculumRegistry,
+  ContentResolutionError,
+  type ContentRef,
+  type ContentContext,
+} from './academy-curriculum';
+import {
+  issue as issueCredential,
+  transition as credentialTransition,
+  labelFromEvidence,
+  effectiveStatus,
+  CredentialError,
+  LABEL_RANK,
+  type CredentialLabel,
+  type CredentialActor,
+} from './academy-credential';
+import {
+  attemptsExhausted,
+  appealWindowClosed,
+  APPEAL_WINDOW_DAYS,
+  ACCOMMODATION_TYPES,
+  ACCOMMODATION_LIMITS,
+  resolveAssessmentMethod,
+  accommodationsForReview,
+  type AssessmentMethodId,
+} from './academy-assessment-rules';
+import {
+  freshLearningPlan,
+  applyLearningPlanCommand,
+  isLearningPlanCommand,
+  LearningPlanError,
+  type LearningPlan,
+  type PlanOptions,
+} from './academy-plan';
+export { programs, CONTENT_VERSION } from './academy-curriculum';
+export class RuleError extends Error {
+  constructor(
+    message: string,
+    public status = 422,
+  ) {
+    super(message);
+  }
+}
+export type Workspace = {
+  profile: {
+    name: string;
+    context: string;
+    reading: boolean;
+    networking: boolean;
+    onboarding?: 'completed' | 'skipped';
+  };
+  enrollments: any[];
+  posts: any[];
+  reports: any[];
+  interests: string[];
+  connections: Record<string, boolean>;
+  deliveries: any[];
+  followups: any[];
+  paused: string[];
+  seen: string[];
+  learningAccess?: AccessPreferences;
+  learningPlan?: LearningPlan;
+  ecosystemGrants?: TestGrant[];
+  ecosystemReceipts?: ReturnReceipt[];
+};
+export function freshWorkspace(): Workspace {
+  return {
+    profile: { name: 'Learner', context: 'msme', reading: false, networking: false },
+    enrollments: [],
+    posts: [],
+    reports: [],
+    interests: [],
+    connections: {},
+    deliveries: [],
+    followups: [],
+    paused: [],
+    seen: [],
+    learningPlan: freshLearningPlan(),
+  };
+}
+export const contexts: Record<string, string> = {
+  farmer: programs[0].id,
+  msme: programs[1].id,
+  public: programs[2].id,
+};
+export function resumeLearning(e: any, p: any) {
+  if (!e || !p) return { tab: 'learn', lessonIndex: 0 };
+  const index = p.lessons.findIndex((l: any) => !e.completed.includes(l.id));
+  if (
+    e.record ||
+    e.attempts.some((a: any) => !a.decision) ||
+    e.appeals.some((a: any) => a.status === 'open') ||
+    attemptsExhausted(e.attempts.length)
+  )
+    return { tab: 'feedback', lessonIndex: Math.max(index, 0) };
+  return { tab: index < 0 ? 'assessment' : 'learn', lessonIndex: Math.max(index, 0) };
+}
+function optionalMinutes(v: any) {
+  if (v === undefined || v === null || (typeof v === 'string' && v.trim() === '')) return null;
+  if (
+    !['number', 'string'].includes(typeof v) ||
+    !Number.isFinite(Number(v)) ||
+    Number(v) < 0 ||
+    Number(v) > 10000
+  )
+    throw new RuleError('Times must be between 0 and 10,000 minutes, or left blank.');
+  return Number(v);
+}
+function text(v: any, label: string, min = 1, max = 10000) {
+  if (typeof v !== 'string' || v.trim().length < min || v.length > max)
+    throw new RuleError(`${label} needs ${min}–${max} characters.`);
+  return v.trim();
+}
+function checkedContent<T>(fn: () => T): T {
+  try {
+    return fn();
+  } catch (e) {
+    if (e instanceof ContentResolutionError) throw new RuleError(e.message, e.status);
+    throw e;
+  }
+}
+function program(id: any) {
+  return checkedContent(() => resolveCurrentProgram(id));
+}
+function pinnedProgram(e: any, context?: ContentContext) {
+  return checkedContent(() => resolvePinnedProgram(e, context?.allowedScopes, context?.registry));
+}
+export function planOptions(
+  now: string,
+  extra: Partial<PlanOptions> = {},
+  context?: ContentContext,
+): PlanOptions {
+  return {
+    now,
+    contextPrograms: contexts,
+    resolveProgram: (id, version, record) => {
+      try {
+        return resolvePinnedProgram(
+          record ?? { programId: id, version },
+          context?.allowedScopes,
+          context?.registry,
+        );
+      } catch (e) {
+        if (e instanceof ContentResolutionError) return undefined;
+        throw e;
+      }
+    },
+    ...extra,
+  };
+}
+export function applyOwnPlan(state: Workspace, c: any, options: PlanOptions) {
+  try {
+    return applyLearningPlanCommand(state, c, options);
+  } catch (e) {
+    if (e instanceof LearningPlanError) throw new RuleError(e.message, e.status);
+    throw e;
+  }
+}
 
-function enrollment(s:Workspace,id:any){const e=s.enrollments.find(e=>e.id===id);if(!e)throw new RuleError('Enrollment not found in your learning space.',404);return e}
-function active(s:Workspace,e:any){if(e.withdrawn)throw new RuleError('This enrollment was withdrawn.',409);if(s.paused.includes(e.programId))throw new RuleError('This pathway is paused for content review. Your work is saved.',409)}
-export function scoreDecision(p:any,scores:any,gates:any){if(!Array.isArray(scores)||scores.length!==p.practicalAssessment.rubric.length||scores.some((n:any)=>!Number.isInteger(n)||n<0||n>4))throw new RuleError('Score every criterion from 0 to 4.');const critical=p.practicalAssessment.rubric.filter((r:any)=>r.criticalGate);if(!Array.isArray(gates)||gates.length!==critical.length||gates.some((b:any)=>typeof b!=='boolean'))throw new RuleError('Review every critical safety gate.');const score=p.practicalAssessment.rubric.reduce((n:number,r:any,i:number)=>n+r.weight*scores[i]/4,0);return {score,passed:score>=70&&gates.every(Boolean)}}
-function record(e:any,p:any,now:string){if(!e.record)e.record={id:crypto.randomUUID(),issuedAt:now,title:p.title,claim:p.credentialClaim,issuer:'Aplyd Academy · private practice workspace',contentVersion:e.version,kind:'Nonaccredited practice completion',status:'active',share:false};else e.record.status='active'}
+function enrollment(s: Workspace, id: any) {
+  const e = s.enrollments.find((e) => e.id === id);
+  if (!e) throw new RuleError('Enrollment not found in your learning space.', 404);
+  return e;
+}
+function active(s: Workspace, e: any) {
+  if (e.withdrawn) throw new RuleError('This enrollment was withdrawn.', 409);
+  if (s.paused.includes(e.programId))
+    throw new RuleError('This pathway is paused for content review. Your work is saved.', 409);
+}
+export function scoreDecision(p: any, scores: any, gates: any) {
+  if (
+    !Array.isArray(scores) ||
+    scores.length !== p.practicalAssessment.rubric.length ||
+    scores.some((n: any) => !Number.isInteger(n) || n < 0 || n > 4)
+  )
+    throw new RuleError('Score every criterion from 0 to 4.');
+  const critical = p.practicalAssessment.rubric.filter((r: any) => r.criticalGate);
+  if (
+    !Array.isArray(gates) ||
+    gates.length !== critical.length ||
+    gates.some((b: any) => typeof b !== 'boolean')
+  )
+    throw new RuleError('Review every critical safety gate.');
+  const score = p.practicalAssessment.rubric.reduce(
+    (n: number, r: any, i: number) => n + (r.weight * scores[i]) / 4,
+    0,
+  );
+  return { score, passed: score >= 70 && gates.every(Boolean) };
+}
+function record(e: any, p: any, now: string) {
+  if (!e.record)
+    e.record = {
+      id: crypto.randomUUID(),
+      issuedAt: now,
+      title: p.title,
+      claim: p.credentialClaim,
+      issuer: 'Aplyd Academy · private practice workspace',
+      contentVersion: e.version,
+      kind: 'Nonaccredited practice completion',
+      status: 'active',
+      share: false,
+    };
+  else e.record.status = 'active';
+}
 /** DEMO credential (DUMMY issuer) kept on the enrollment, beside the record: evidence-derived label, append-only lifecycle. */
-function credentialEvidence(e:any,p:any){const latest=e.attempts.at(-1),d=latest?(e.appeals.find((ap:any)=>ap.attemptId===latest.id)?.resolution??latest.decision):null;return {lessonsDone:e.completed.length,lessonsTotal:p.lessons.length,humanPass:!!e.record&&e.record.status==='active'&&d?.passed===true&&!!d?.actor}}
-function mintCredential(e:any,p:any,now:string){const label=labelFromEvidence(credentialEvidence(e,p));if(!label)throw new RuleError('Complete at least one lesson before a demo credential can be issued.',409);e.credential=issueCredential({recordId:e.id,label,pathwayTitle:p.title,pathwayEdition:String(e.contentRef?.versionId??e.version),now});return e.credential}
-function credentialStep(f:()=>any){try{return f()}catch(x){if(x instanceof CredentialError)throw new RuleError(x.message,x.status);throw x}}
-function syncCredentials(s:Workspace,c:any,now:string,ctx?:ContentContext){for(const e of s.enrollments){let cred=e.credential;if(!cred){if(!(c.type==='assess'||c.type==='resolve')||e.id!==c.enrollmentId||e.record?.status!=='active')continue;try{mintCredential(e,pinnedProgram(e,ctx),now)}catch{}continue}
- const sys={id:'system:academy-engine',role:'system'} as CredentialActor;
- try{if(cred.status!=='revoked'&&cred.status!=='expired'&&effectiveStatus(cred,now)==='expired')cred=e.credential=credentialTransition(cred,{action:'expire',actor:sys,reason:'The validity period ended.',now,cause:'time'});
-  if(e.record){const lastSuspend=[...cred.history].reverse().find((h:any)=>h.action==='suspend');
-   if(e.record.status==='suspended'&&cred.status==='active')e.credential=credentialTransition(cred,{action:'suspend',actor:{id:'system:appeal-review',role:'system'},reason:'An independent appeal review was adverse; the record is suspended.',now,cause:'appeal'});
-   else if(e.record.status==='active'&&cred.status==='suspended'&&lastSuspend?.cause==='appeal')e.credential=credentialTransition(cred,{action:'reinstate',actor:{id:'system:appeal-review',role:'system'},reason:'A later independent review passed; the record is active again.',now,cause:'appeal'});
-   if((c.type==='assess'||c.type==='resolve')&&e.id===c.enrollmentId&&['active','suspended'].includes(e.credential.status)){const label=labelFromEvidence(credentialEvidence(e,pinnedProgram(e,ctx)));if(label&&LABEL_RANK[label]>LABEL_RANK[e.credential.label as CredentialLabel])e.credential=credentialTransition(e.credential,{action:'correct',actor:{id:'system:evidence',role:'system'},reason:'Saved evidence now supports a higher label.',now,cause:'evidence',label,maxLabel:label})}}
- }catch(x){if(!(x instanceof CredentialError||x instanceof RuleError))throw x}}}
+function credentialEvidence(e: any, p: any) {
+  const latest = e.attempts.at(-1),
+    d = latest
+      ? (e.appeals.find((ap: any) => ap.attemptId === latest.id)?.resolution ?? latest.decision)
+      : null;
+  return {
+    lessonsDone: e.completed.length,
+    lessonsTotal: p.lessons.length,
+    humanPass: !!e.record && e.record.status === 'active' && d?.passed === true && !!d?.actor,
+  };
+}
+function mintCredential(e: any, p: any, now: string) {
+  const label = labelFromEvidence(credentialEvidence(e, p));
+  if (!label)
+    throw new RuleError('Complete at least one lesson before a demo credential can be issued.', 409);
+  e.credential = issueCredential({
+    recordId: e.id,
+    label,
+    pathwayTitle: p.title,
+    pathwayEdition: String(e.contentRef?.versionId ?? e.version),
+    now,
+  });
+  return e.credential;
+}
+function credentialStep(f: () => any) {
+  try {
+    return f();
+  } catch (x) {
+    if (x instanceof CredentialError) throw new RuleError(x.message, x.status);
+    throw x;
+  }
+}
+function syncCredentials(s: Workspace, c: any, now: string, ctx?: ContentContext) {
+  for (const e of s.enrollments) {
+    let cred = e.credential;
+    if (!cred) {
+      if (
+        !(c.type === 'assess' || c.type === 'resolve') ||
+        e.id !== c.enrollmentId ||
+        e.record?.status !== 'active'
+      )
+        continue;
+      try {
+        mintCredential(e, pinnedProgram(e, ctx), now);
+      } catch {}
+      continue;
+    }
+    const sys = { id: 'system:academy-engine', role: 'system' } as CredentialActor;
+    try {
+      if (cred.status !== 'revoked' && cred.status !== 'expired' && effectiveStatus(cred, now) === 'expired')
+        cred = e.credential = credentialTransition(cred, {
+          action: 'expire',
+          actor: sys,
+          reason: 'The validity period ended.',
+          now,
+          cause: 'time',
+        });
+      if (e.record) {
+        const lastSuspend = [...cred.history].reverse().find((h: any) => h.action === 'suspend');
+        if (e.record.status === 'suspended' && cred.status === 'active')
+          e.credential = credentialTransition(cred, {
+            action: 'suspend',
+            actor: { id: 'system:appeal-review', role: 'system' },
+            reason: 'An independent appeal review was adverse; the record is suspended.',
+            now,
+            cause: 'appeal',
+          });
+        else if (
+          e.record.status === 'active' &&
+          cred.status === 'suspended' &&
+          lastSuspend?.cause === 'appeal'
+        )
+          e.credential = credentialTransition(cred, {
+            action: 'reinstate',
+            actor: { id: 'system:appeal-review', role: 'system' },
+            reason: 'A later independent review passed; the record is active again.',
+            now,
+            cause: 'appeal',
+          });
+        if (
+          (c.type === 'assess' || c.type === 'resolve') &&
+          e.id === c.enrollmentId &&
+          ['active', 'suspended'].includes(e.credential.status)
+        ) {
+          const label = labelFromEvidence(credentialEvidence(e, pinnedProgram(e, ctx)));
+          if (label && LABEL_RANK[label] > LABEL_RANK[e.credential.label as CredentialLabel])
+            e.credential = credentialTransition(e.credential, {
+              action: 'correct',
+              actor: { id: 'system:evidence', role: 'system' },
+              reason: 'Saved evidence now supports a higher label.',
+              now,
+              cause: 'evidence',
+              label,
+              maxLabel: label,
+            });
+        }
+      }
+    } catch (x) {
+      if (!(x instanceof CredentialError || x instanceof RuleError)) throw x;
+    }
+  }
+}
 /** Method and accommodations recorded with a human decision. Accommodations are shown to the assessor and stamped for the record; they never enter scoring. */
-function methodOfDecision(d:any):AssessmentMethodId{return d?.method??'practical'}
-function reviewStamp(e:any,p:any,c:any,fallback:AssessmentMethodId='practical'){const m=resolveAssessmentMethod(p,c.method,fallback);if(!m.ok)throw new RuleError(m.message);const considered=accommodationsForReview(e).map(a=>({id:a.id,type:a.type}));return {method:m.method,...(considered.length?{accommodationsConsidered:considered}:{})}}
-function accommodationEvent(e:any,event:string,a:any,at:string,actor:string,actorName:string|undefined,reason?:string){e.accommodationHistory??=[];e.accommodationHistory.push({id:crypto.randomUUID(),requestId:a.id,event,type:a.type,at,actor,...(actorName?{actorName}:{}),...(reason?{reason}:{})})}
-export function applyCommand(original:Workspace,c:any,now=new Date().toISOString(),staff?:{userId:string;name:string;workspaceId:string;workspaceName:string;role?:'reviewer'|'admin';learnerId?:string},enrollmentContentRef?:ContentRef,contentContext?:ContentContext):Workspace{
- const s:Workspace=structuredClone(original);if(!c||typeof c.type!=='string')throw new RuleError('Choose a valid action.');
- if(isLearningPlanCommand(c)){s.learningPlan=applyOwnPlan(s,c,planOptions(now,{},contentContext));return s;}
- switch(c.type){
- case 'learning-access-preferences': {try{s.learningAccess=applyAccessPreferences(s,c).learningAccess;}catch(e){if(e instanceof InclusiveLearningError)throw new RuleError(e.message,e.status);throw e;}break}
- case 'profile': {const name=text(c.name,'Display name',1,80);if(!Object.hasOwn(contexts,c.context)||typeof c.reading!=='boolean'||typeof c.networking!=='boolean')throw new RuleError('Choose a valid work context and preferences.');const mark=c.onboarding===undefined?s.profile.onboarding:c.onboarding;if(mark!==undefined&&mark!=='completed'&&mark!=='skipped')throw new RuleError('Choose a valid first-run setup state.');s.profile={name,context:c.context,reading:c.reading,networking:c.networking,...(mark?{onboarding:mark}:{})};break}
- case 'onboarding': {/* First-run setup composed from the existing profile, learning-plan and learning-access-preferences actions; all-or-nothing. */
-  const keys=['type','outcome','name','context','reading','networking','goal','weeklyMinutes','preferredLanguage','readAloudMode','assistancePreference'];if(Object.keys(c).some(k=>!keys.includes(k)))throw new RuleError('This setup includes unsupported fields.',400);
-  if(c.outcome==='skipped'){return applyCommand(s,{type:'profile',...s.profile,onboarding:'skipped'},now,staff,enrollmentContentRef,contentContext)}
-  if(c.outcome!=='completed')throw new RuleError('Choose to finish or skip first-run setup.',400);
-  let next=applyCommand(s,{type:'profile',name:c.name,context:c.context,reading:c.reading,networking:c.networking??s.profile.networking,onboarding:'completed'},now,staff,enrollmentContentRef,contentContext);
-  next=applyCommand(next,{type:'learning-plan',goal:c.goal,weeklyMinutes:c.weeklyMinutes},now,staff,enrollmentContentRef,contentContext);
-  return applyCommand(next,{type:'learning-access-preferences',preferredLanguage:c.preferredLanguage,readAloudMode:c.readAloudMode,assistancePreference:c.assistancePreference},now,staff,enrollmentContentRef,contentContext)}
- case 'enroll': {if(Object.keys(c).some(k=>!['type','programId','cohortId'].includes(k)))throw new RuleError('This enrollment includes unsupported fields.',400);if(!enrollmentContentRef)program(c.programId);const ref=checkedContent(()=>enrollmentContentRef??currentRef(c.programId));if(ref.programId!==c.programId)throw new RuleError('Choose the cohort for this pathway.',409);const p=checkedContent(()=>(contentContext?.registry??curriculumRegistry).resolve(ref,contentContext?.allowedScopes).program);if(s.paused.includes(p.id))throw new RuleError('New enrollment is paused for this pathway.',409);const existing=s.enrollments.find(e=>e.programId===p.id&&!e.withdrawn);if(existing)break;s.enrollments.push({id:crypto.randomUUID(),programId:p.id,version:ref.versionId,contentRef:ref,startedAt:now,completed:[],practice:{},draft:{},attempts:[],appeals:[],record:null,withdrawn:false});break}
- case 'lesson-draft': {const e=enrollment(s,c.enrollmentId);active(s,e);const p=pinnedProgram(e,contentContext);if(!p.lessons.some(l=>l.id===c.lessonId))throw new RuleError('Lesson not found.',404);if(typeof c.practice!=='string'||c.practice.length>10000||!Array.isArray(c.answers)||c.answers.length!==3||c.answers.some((a:any)=>a!==null&&(!Number.isInteger(a)||a<0||a>3)))throw new RuleError('Invalid practice draft.');e.lessonDrafts??={};e.lessonDrafts[c.lessonId]={practice:c.practice,answers:c.answers};break}
- case 'lesson': {const e=enrollment(s,c.enrollmentId);active(s,e);const p=pinnedProgram(e,contentContext),lesson=p.lessons.find(l=>l.id===c.lessonId);if(!lesson)throw new RuleError('Lesson not found.',404);if(e.completed.includes(lesson.id))throw new RuleError('This lesson is already complete. Your saved completion and practice response are kept.',409);const index=p.lessons.findIndex(l=>l.id===lesson.id);if(index>0&&!e.completed.includes(p.lessons[index-1].id))throw new RuleError('Complete the previous lesson first.');if(!Array.isArray(c.answers)||c.answers.length!==lesson.quiz.length||c.answers.some((a:any,i:number)=>a!==lesson.quiz[i].correctOptionIndex))throw new RuleError('Check each answer using the source packet, then try again.');e.practice[lesson.id]={answer:text(c.practice,'Practice response',30,10000),completedAt:now};if(!e.completed.includes(lesson.id))e.completed.push(lesson.id);break}
- case 'draft': {const e=enrollment(s,c.enrollmentId);active(s,e);const p=pinnedProgram(e,contentContext);if(!c.fields||typeof c.fields!=='object')throw new RuleError('Draft fields are required.');const draft:Record<string,string>={...e.draft};const allowed=p.practicalAssessment.submissionPrompts.map(f=>f.id);if(Object.keys(c.fields).some(k=>!allowed.includes(k)))throw new RuleError('Unknown draft field.');for(const [key,value] of Object.entries(c.fields)){if(typeof value!=='string'||value.length>10000)throw new RuleError('Draft responses must be text of at most 10,000 characters.');draft[key]=value;}e.draft=draft;break}
- case 'submit': {const e=enrollment(s,c.enrollmentId);active(s,e);const p=pinnedProgram(e,contentContext);if(e.completed.length!==p.lessons.length)throw new RuleError('Complete all lessons before submitting.');if(e.attempts.some((a:any)=>!a.decision))throw new RuleError('Your current attempt is awaiting review.',409);if(e.appeals.some((a:any)=>a.status==='open'))throw new RuleError('Wait for your open appeal before a new attempt.',409);if(e.record?.status==='active')throw new RuleError('This pathway is already complete.',409);if(attemptsExhausted(e.attempts.length))throw new RuleError('The private pilot allows three attempts. Ask for support before continuing.',409);if(c.confirmed!==true)throw new RuleError('Confirm that this evidence uses only fictional or permitted information.');const fields:Record<string,string>={};for(const f of p.practicalAssessment.submissionPrompts)fields[f.id]=text(c.fields?.[f.id],f.label,30);if(c.assisted!==undefined&&typeof c.assisted!=='boolean')throw new RuleError('Choose whether you received reading or capture help.',400);let assistance;if(c.assistance!==undefined){if(c.assisted!==true)throw new RuleError('Reading or capture declarations require your assistance choice.',400);try{const snapshot=checkedContent(()=>resolvePinnedContent(e,contentContext?.allowedScopes,contentContext?.registry)),confirmed=confirmHumanCapture(e,contentContext??{registry:curriculumRegistry,allowedScopes:['global']},fields,c.assistance,{contentRef:snapshot.ref,enabled:true,methods:['human-reading','human-transcription'],responseLanguages:[snapshot.language]});assistance={mode:'learner-declared read-back',...confirmed.declaration,contentRef:confirmed.contentRef,confirmedAt:now};}catch(error){if(error instanceof InclusiveLearningError)throw new RuleError(error.message,error.status);throw error;}}e.draft=fields;e.attempts.push({id:crypto.randomUUID(),number:e.attempts.length+1,fields:structuredClone(fields),submittedAt:now,assisted:!!c.assisted,...(assistance?{assistance}:{}),decision:null});break}
- case 'assess': {const e=enrollment(s,c.enrollmentId);active(s,e);const p=pinnedProgram(e,contentContext),a=e.attempts.find((a:any)=>a.id===c.attemptId);if(!a)throw new RuleError('Submission not found.',404);if(a.decision)throw new RuleError('This attempt has already been reviewed.',409);if(!staff&&c.actor!=='assessor-a')throw new RuleError('Use the assigned sample assessor.',403);const notes=p.practicalAssessment.rubric.map((r:any,i:number)=>text(c.notes?.[i],r.dimension+' evidence reference',10,3000));const result=scoreDecision(p,c.scores,c.gates);a.decision={id:crypto.randomUUID(),...result,scores:c.scores,gates:c.gates,notes,feedback:text(c.feedback,'Actionable feedback',30,3000),...reviewStamp(e,p,c),actor:staff?.userId??c.actor,actorName:staff?.name,decidedAt:now,mode:staff?'authenticated assigned assessment':'manual sample-assessor review'};if(result.passed)record(e,p,now);break}
- case 'appeal': {const e=enrollment(s,c.enrollmentId);active(s,e);const a=e.attempts.find((a:any)=>a.id===c.attemptId);if(!a?.decision)throw new RuleError('Appeals need an assessment decision.',409);if(e.appeals.some((x:any)=>x.attemptId===a.id))throw new RuleError('An appeal already exists for this decision.',409);if(appealWindowClosed(a.decision.decidedAt,now))throw new RuleError(`The ${APPEAL_WINDOW_DAYS}-day appeal window has ended.`,409);if(a.id!==e.attempts.at(-1).id)throw new RuleError('Appeal the latest attempt before starting a retry.',409);e.appeals.push({id:crypto.randomUUID(),attemptId:a.id,reason:text(c.reason,'Appeal reason',30,3000),status:'open',createdAt:now});break}
- case 'resolve': {const e=enrollment(s,c.enrollmentId);active(s,e);const p=pinnedProgram(e,contentContext),appeal=e.appeals.find((a:any)=>a.id===c.appealId);if(!appeal||appeal.status!=='open')throw new RuleError('No open appeal found.',409);const a=e.attempts.find((a:any)=>a.id===appeal.attemptId),actor=staff?.userId??c.actor;if((!staff&&c.actor!=='reviewer-b')||actor===a.decision.actor)throw new RuleError('An independent reviewer must resolve the appeal.',403);const notes=p.practicalAssessment.rubric.map((r:any,i:number)=>text(c.notes?.[i],r.dimension+' evidence reference',10,3000));const result=scoreDecision(p,c.scores,c.gates);appeal.status='resolved';appeal.resolution={id:crypto.randomUUID(),...result,scores:c.scores,gates:c.gates,notes,actor,actorName:staff?.name,mode:staff?'authenticated independent appeal':'manual sample-reviewer appeal',feedback:text(c.feedback,'Review explanation',30,3000),...reviewStamp(e,p,c,methodOfDecision(a.decision)),decidedAt:now};if(result.passed)record(e,p,now);else if(e.record)e.record.status='suspended';break}
- case 'accommodation-request': {if(staff)throw new RuleError('Accommodation requests come from the learner.',403);if(Object.keys(c).some(k=>!['type','enrollmentId','accommodationType','detail'].includes(k)))throw new RuleError('This accommodation request includes unsupported fields.',400);const e=enrollment(s,c.enrollmentId);active(s,e);if(!ACCOMMODATION_TYPES.some(t=>t.id===c.accommodationType))throw new RuleError('Choose an accommodation from the published list.');const other=c.accommodationType==='other';if(c.detail!==undefined&&typeof c.detail!=='string')throw new RuleError('Describe the accommodation in text.');const detail=other||(typeof c.detail==='string'&&c.detail.trim().length)?text(c.detail,'Accommodation detail',other?ACCOMMODATION_LIMITS.otherDetailMin:1,ACCOMMODATION_LIMITS.detailMax):'';e.accommodations??=[];if(e.accommodations.length>=ACCOMMODATION_LIMITS.maxTotal)throw new RuleError('This enrollment has reached its accommodation request limit. Ask for support.',409);const open=e.accommodations.filter((x:any)=>x.status==='requested');if(open.length>=ACCOMMODATION_LIMITS.maxPending)throw new RuleError('Wait for your open accommodation requests to be decided before adding another.',409);if(open.some((x:any)=>x.type===c.accommodationType))throw new RuleError('You already have an open request for this accommodation.',409);const req={id:crypto.randomUUID(),type:c.accommodationType,detail,status:'requested',requestedAt:now,decision:null};e.accommodations.push(req);accommodationEvent(e,'requested',req,now,'learner',undefined);break}
- case 'accommodation-decide': {if(Object.keys(c).some(k=>!['type','enrollmentId','requestId','outcome','reason','actor','learnerId'].includes(k)))throw new RuleError('This accommodation decision includes unsupported fields.',400);const e=enrollment(s,c.enrollmentId);active(s,e);if(!staff&&c.actor!=='assessor-a')throw new RuleError('Only assigned staff can decide an accommodation.',403);const actor=staff?.userId??c.actor;if(staff&&staff.learnerId!==undefined&&staff.learnerId===staff.userId)throw new RuleError('You cannot decide your own accommodation request.',403);const req=(e.accommodations??[]).find((x:any)=>x.id===c.requestId);if(!req)throw new RuleError('Accommodation request not found.',404);if(req.status!=='requested'||req.decision)throw new RuleError('This accommodation request was already decided. The decision is preserved.',409);if(!['approved','declined'].includes(c.outcome))throw new RuleError('Choose approve or decline.');const reason=text(c.reason,'Decision reason',ACCOMMODATION_LIMITS.reasonMin,ACCOMMODATION_LIMITS.reasonMax);req.status=c.outcome;req.decision={id:crypto.randomUUID(),outcome:c.outcome,reason,actor,actorName:staff?.name,decidedAt:now};accommodationEvent(e,c.outcome,req,now,actor,staff?.name,reason);break}
- case 'share': {const e=enrollment(s,c.enrollmentId);if(!e.record&&e.credential){if(typeof c.enabled!=='boolean')throw new RuleError('Sharing choice is required.');e.credentialShare=c.enabled;break}if(!e.record)throw new RuleError('No record to share.',404);if(typeof c.enabled!=='boolean')throw new RuleError('Sharing choice is required.');e.record.share=c.enabled;break}
- case 'withdraw': {const e=enrollment(s,c.enrollmentId);if(e.record)throw new RuleError('Completed learning cannot be withdrawn.',409);if(e.attempts.some((a:any)=>!a.decision)||e.appeals.some((a:any)=>a.status==='open'))throw new RuleError('Wait for the active review before withdrawing.',409);e.withdrawn=true;break}
- case 'post': {if(s.posts.length>=200)throw new RuleError('This private pilot has reached its discussion limit.',409);const scope=c.scope||'all';if(scope!=='all'&&!programs.some(p=>p.id===scope))throw new RuleError('Choose an existing learning circle.');s.posts.unshift({id:crypto.randomUUID(),scope,title:text(c.title,'Discussion title',5,140),body:text(c.body,'Discussion',20,3000),author:s.profile.name,createdAt:now,status:'pending',replies:[]});break}
- case 'reply': {const p=s.posts.find(p=>p.id===c.postId&&p.status==='visible');if(!p)throw new RuleError('This discussion is not available.',404);if(p.replies.length>=50)throw new RuleError('Reply limit reached.');p.replies.push({id:crypto.randomUUID(),body:text(c.body,'Reply',10,1500),author:s.profile.name,createdAt:now,status:'pending'});break}
- case 'report': {const p=s.posts.find(p=>p.id===c.postId&&p.status==='visible');if(!p)throw new RuleError('Discussion not found.',404);s.reports.push({id:crypto.randomUUID(),postId:p.id,reason:text(c.reason,'Report reason',10,1000),status:'open',createdAt:now});break}
- case 'moderate': {const p=s.posts.find(p=>p.id===c.postId);if(!p)throw new RuleError('Discussion not found.',404);if(!['visible','hidden'].includes(c.status))throw new RuleError('Choose publish or hide.');if(c.replyId){const r=p.replies.find((r:any)=>r.id===c.replyId);if(!r)throw new RuleError('Reply not found.',404);r.status=c.status}else p.status=c.status;if(!c.replyId)for(const r of s.reports.filter(r=>r.postId===p.id))r.status='resolved';break}
- case 'interest': {if(!['peer-circle','practice-clinic','mentor-hour'].includes(c.opportunityId))throw new RuleError('Opportunity not found.',404);if(typeof c.enabled!=='boolean')throw new RuleError('Choose an interest setting.');s.interests=s.interests.filter(x=>x!==c.opportunityId);if(c.enabled)s.interests.push(c.opportunityId);break}
- case 'ecosystem-grant': case 'ecosystem-withdraw': case 'ecosystem-test': {
-  const allowed=c.type==='ecosystem-grant'?['type','partner','enrollmentId','scopes','durationDays']:['type','grantId'];if(Object.keys(c).some(k=>!allowed.includes(k)))throw new RuleError('Use only the supported local contract fields.',400);
-  try{const grants=readTestGrants(s.ecosystemGrants);const clock=new Date(now).toISOString();if(c.type==='ecosystem-withdraw'){const g=grants.find(g=>g.id===c.grantId);if(!g)throw new RuleError('Local test choice not found in your learning space.',404);s.ecosystemGrants=grants.map(x=>x.id===g.id?revokeTestGrant(x,clock):x);break;}
-   const receipts=readTestReceipts(s.ecosystemReceipts,grants,clock);ensureUniqueActiveChoices(grants,clock);const g=c.type==='ecosystem-test'?grants.find(g=>g.id===c.grantId):null;if(c.type==='ecosystem-test'&&!g)throw new RuleError('Local test choice not found in your learning space.',404);
-   const e=enrollment(s,g?.enrollmentId??c.enrollmentId);active(s,e);const snapshot=checkedContent(()=>resolvePinnedContent(e,['global'],contentContext?.registry??curriculumRegistry));const valid=new Set(snapshot.program.lessons.map(l=>l.id));if(!Array.isArray(e.completed)||new Set(e.completed).size!==e.completed.length||e.completed.some((id:string)=>!valid.has(id)))throw new RuleError('Saved progress does not match the pinned lessons.',409);
-   const summary={...e,contentRef:{scope:'global' as const,programId:snapshot.ref.programId,versionId:snapshot.ref.versionId}};
-   if(c.type==='ecosystem-grant'){if(grants.length>=SCOPED_LIMITS.grants)throw new RuleError('All 24 retained local-choice slots are used. Withdrawal preserves history and does not erase a slot.',409);const choice=createTestGrant({partner:c.partner,enrollmentId:c.enrollmentId,scopes:c.scopes,durationDays:c.durationDays},summary,clock,crypto.randomUUID());s.ecosystemGrants=[choice,...grants.map(x=>x.partner===choice.partner&&x.revokedAt===null?revokeTestGrant(x,clock):x)];}
-   else{if(receipts.length>=SCOPED_LIMITS.receipts)throw new RuleError('The 100 local contract receipt slots are used. Earlier receipts are retained.',409);s.ecosystemReceipts=[buildReturnReceipt(g!,summary,snapshot.program.lessons.length,clock,crypto.randomUUID()),...receipts];}
-  }catch(e){if(e instanceof AdapterError)throw new RuleError(e.message,e.status);throw e;}break;
- }
- case 'connection': {let choice;try{choice=validateLegacyConnectionCommand(c)}catch(e){if(e instanceof LegacyPreviewError)throw new RuleError(e.message,e.status);throw e;}s.connections[choice.partner]=choice.enabled;if(!choice.enabled)s.deliveries=s.deliveries.map(d=>d.partner===choice.partner&&d.status==='queued'?{...d,status:'cancelled'}:d);break}
- case 'deliver': if(Object.keys(c).some(k=>!['type','partner','enrollmentId'].includes(k)))throw new RuleError('Use only the supported legacy preview fields.',400);throw new RuleError('Save an explicit local test choice with fields and expiry before running a contract test. Earlier previews remain local history.',409);
- case 'followup': {const minutesBefore=optionalMinutes(c.before),minutesAfter=optionalMinutes(c.after),e=enrollment(s,c.enrollmentId);if(e.record?.status!=='active')throw new RuleError('Finish the practical review before logging a work reflection.');s.followups.unshift({id:crypto.randomUUID(),enrollmentId:e.id,reflection:text(c.reflection,'Reflection',30,3000),minutesBefore,minutesAfter,createdAt:now});break}
- case 'pause': {program(c.programId);if(typeof c.paused!=='boolean')throw new RuleError('Choose a content state.');s.paused=s.paused.filter(x=>x!==c.programId);if(c.paused)s.paused.push(c.programId);break}
- case 'credential-issue': {if(Object.keys(c).some(k=>!['type','enrollmentId'].includes(k)))throw new RuleError('This request includes unsupported fields.',400);const e=enrollment(s,c.enrollmentId);if(e.withdrawn)throw new RuleError('This enrollment was withdrawn.',409);const p=pinnedProgram(e,contentContext);if(!e.credential)mintCredential(e,p,now);else{const label=labelFromEvidence(credentialEvidence(e,p));if(label&&LABEL_RANK[label]>LABEL_RANK[e.credential.label as CredentialLabel]&&['active','suspended'].includes(e.credential.status))e.credential=credentialStep(()=>credentialTransition(e.credential,{action:'correct',actor:{id:'system:evidence',role:'system'},reason:'Saved evidence now supports a higher label.',now,cause:'evidence',label,maxLabel:label}))}break}
- case 'credential-lifecycle': {if(Object.keys(c).some(k=>!['type','enrollmentId','learnerId','action','reason','label','actor'].includes(k)))throw new RuleError('This request includes unsupported fields.',400);const e=enrollment(s,c.enrollmentId);if(!e.credential)throw new RuleError('No demo credential exists for this enrollment.',404);if(!['correct','suspend','revoke','reinstate'].includes(c.action))throw new RuleError('Choose correct, suspend, revoke or reinstate.');if(!staff&&c.actor!=='reviewer-b')throw new RuleError('Only an assigned reviewer or workspace admin can change a credential.',403);const actor:CredentialActor=staff?{id:staff.userId,role:staff.role??'reviewer',name:staff.name}:{id:'sample:reviewer-b',role:'reviewer',name:'Sample reviewer'};if(c.action==='reinstate'&&e.record?.status==='suspended')throw new RuleError('The record is suspended pending an independent appeal review. Reinstate after that review passes.',409);const p=pinnedProgram(e,contentContext);e.credential=credentialStep(()=>credentialTransition(e.credential,{action:c.action,actor,reason:c.reason,now,label:c.label,maxLabel:labelFromEvidence(credentialEvidence(e,p))}));break}
- case 'reset': return freshWorkspace();
- default:throw new RuleError('Unknown Academy action.');
- }
- if(staff&&(c.type==='assess'||c.type==='resolve'))for(const e of s.enrollments)if(e.id===c.enrollmentId&&e.record){e.record.issuer=staff.workspaceName+' · Aplyd Academy';e.record.kind='Reviewed practice record · draft learning content, nonaccredited';e.record.workspaceId=staff.workspaceId;const latest=e.attempts.at(-1),decision=e.appeals.find((ap:any)=>ap.attemptId===latest?.id)?.resolution??latest?.decision;e.record.reviewedBy=decision?.actorName;e.record.decisionId=decision?.id;e.record.lastReviewedAt=decision?.decidedAt;}
- syncCredentials(s,c,now,contentContext);
-return s;
+function methodOfDecision(d: any): AssessmentMethodId {
+  return d?.method ?? 'practical';
+}
+function reviewStamp(e: any, p: any, c: any, fallback: AssessmentMethodId = 'practical') {
+  const m = resolveAssessmentMethod(p, c.method, fallback);
+  if (!m.ok) throw new RuleError(m.message);
+  const considered = accommodationsForReview(e).map((a) => ({ id: a.id, type: a.type }));
+  return { method: m.method, ...(considered.length ? { accommodationsConsidered: considered } : {}) };
+}
+function accommodationEvent(
+  e: any,
+  event: string,
+  a: any,
+  at: string,
+  actor: string,
+  actorName: string | undefined,
+  reason?: string,
+) {
+  e.accommodationHistory ??= [];
+  e.accommodationHistory.push({
+    id: crypto.randomUUID(),
+    requestId: a.id,
+    event,
+    type: a.type,
+    at,
+    actor,
+    ...(actorName ? { actorName } : {}),
+    ...(reason ? { reason } : {}),
+  });
+}
+export function applyCommand(
+  original: Workspace,
+  c: any,
+  now = new Date().toISOString(),
+  staff?: {
+    userId: string;
+    name: string;
+    workspaceId: string;
+    workspaceName: string;
+    role?: 'reviewer' | 'admin';
+    learnerId?: string;
+  },
+  enrollmentContentRef?: ContentRef,
+  contentContext?: ContentContext,
+): Workspace {
+  const s: Workspace = structuredClone(original);
+  if (!c || typeof c.type !== 'string') throw new RuleError('Choose a valid action.');
+  if (isLearningPlanCommand(c)) {
+    s.learningPlan = applyOwnPlan(s, c, planOptions(now, {}, contentContext));
+    return s;
+  }
+  switch (c.type) {
+    case 'learning-access-preferences': {
+      try {
+        s.learningAccess = applyAccessPreferences(s, c).learningAccess;
+      } catch (e) {
+        if (e instanceof InclusiveLearningError) throw new RuleError(e.message, e.status);
+        throw e;
+      }
+      break;
+    }
+    case 'profile': {
+      const name = text(c.name, 'Display name', 1, 80);
+      if (
+        !Object.hasOwn(contexts, c.context) ||
+        typeof c.reading !== 'boolean' ||
+        typeof c.networking !== 'boolean'
+      )
+        throw new RuleError('Choose a valid work context and preferences.');
+      const mark = c.onboarding === undefined ? s.profile.onboarding : c.onboarding;
+      if (mark !== undefined && mark !== 'completed' && mark !== 'skipped')
+        throw new RuleError('Choose a valid first-run setup state.');
+      s.profile = {
+        name,
+        context: c.context,
+        reading: c.reading,
+        networking: c.networking,
+        ...(mark ? { onboarding: mark } : {}),
+      };
+      break;
+    }
+    case 'onboarding': {
+      /* First-run setup composed from the existing profile, learning-plan and learning-access-preferences actions; all-or-nothing. */
+      const keys = [
+        'type',
+        'outcome',
+        'name',
+        'context',
+        'reading',
+        'networking',
+        'goal',
+        'weeklyMinutes',
+        'preferredLanguage',
+        'readAloudMode',
+        'assistancePreference',
+      ];
+      if (Object.keys(c).some((k) => !keys.includes(k)))
+        throw new RuleError('This setup includes unsupported fields.', 400);
+      if (c.outcome === 'skipped') {
+        return applyCommand(
+          s,
+          { type: 'profile', ...s.profile, onboarding: 'skipped' },
+          now,
+          staff,
+          enrollmentContentRef,
+          contentContext,
+        );
+      }
+      if (c.outcome !== 'completed') throw new RuleError('Choose to finish or skip first-run setup.', 400);
+      let next = applyCommand(
+        s,
+        {
+          type: 'profile',
+          name: c.name,
+          context: c.context,
+          reading: c.reading,
+          networking: c.networking ?? s.profile.networking,
+          onboarding: 'completed',
+        },
+        now,
+        staff,
+        enrollmentContentRef,
+        contentContext,
+      );
+      next = applyCommand(
+        next,
+        { type: 'learning-plan', goal: c.goal, weeklyMinutes: c.weeklyMinutes },
+        now,
+        staff,
+        enrollmentContentRef,
+        contentContext,
+      );
+      return applyCommand(
+        next,
+        {
+          type: 'learning-access-preferences',
+          preferredLanguage: c.preferredLanguage,
+          readAloudMode: c.readAloudMode,
+          assistancePreference: c.assistancePreference,
+        },
+        now,
+        staff,
+        enrollmentContentRef,
+        contentContext,
+      );
+    }
+    case 'enroll': {
+      if (Object.keys(c).some((k) => !['type', 'programId', 'cohortId'].includes(k)))
+        throw new RuleError('This enrollment includes unsupported fields.', 400);
+      if (!enrollmentContentRef) program(c.programId);
+      const ref = checkedContent(() => enrollmentContentRef ?? currentRef(c.programId));
+      if (ref.programId !== c.programId) throw new RuleError('Choose the cohort for this pathway.', 409);
+      const p = checkedContent(
+        () =>
+          (contentContext?.registry ?? curriculumRegistry).resolve(ref, contentContext?.allowedScopes)
+            .program,
+      );
+      if (s.paused.includes(p.id)) throw new RuleError('New enrollment is paused for this pathway.', 409);
+      const existing = s.enrollments.find((e) => e.programId === p.id && !e.withdrawn);
+      if (existing) break;
+      s.enrollments.push({
+        id: crypto.randomUUID(),
+        programId: p.id,
+        version: ref.versionId,
+        contentRef: ref,
+        startedAt: now,
+        completed: [],
+        practice: {},
+        draft: {},
+        attempts: [],
+        appeals: [],
+        record: null,
+        withdrawn: false,
+      });
+      break;
+    }
+    case 'lesson-draft': {
+      const e = enrollment(s, c.enrollmentId);
+      active(s, e);
+      const p = pinnedProgram(e, contentContext);
+      if (!p.lessons.some((l) => l.id === c.lessonId)) throw new RuleError('Lesson not found.', 404);
+      if (
+        typeof c.practice !== 'string' ||
+        c.practice.length > 10000 ||
+        !Array.isArray(c.answers) ||
+        c.answers.length !== 3 ||
+        c.answers.some((a: any) => a !== null && (!Number.isInteger(a) || a < 0 || a > 3))
+      )
+        throw new RuleError('Invalid practice draft.');
+      e.lessonDrafts ??= {};
+      e.lessonDrafts[c.lessonId] = { practice: c.practice, answers: c.answers };
+      break;
+    }
+    case 'lesson': {
+      const e = enrollment(s, c.enrollmentId);
+      active(s, e);
+      const p = pinnedProgram(e, contentContext),
+        lesson = p.lessons.find((l) => l.id === c.lessonId);
+      if (!lesson) throw new RuleError('Lesson not found.', 404);
+      if (e.completed.includes(lesson.id))
+        throw new RuleError(
+          'This lesson is already complete. Your saved completion and practice response are kept.',
+          409,
+        );
+      const index = p.lessons.findIndex((l) => l.id === lesson.id);
+      if (index > 0 && !e.completed.includes(p.lessons[index - 1].id))
+        throw new RuleError('Complete the previous lesson first.');
+      if (
+        !Array.isArray(c.answers) ||
+        c.answers.length !== lesson.quiz.length ||
+        c.answers.some((a: any, i: number) => a !== lesson.quiz[i].correctOptionIndex)
+      )
+        throw new RuleError('Check each answer using the source packet, then try again.');
+      e.practice[lesson.id] = { answer: text(c.practice, 'Practice response', 30, 10000), completedAt: now };
+      if (!e.completed.includes(lesson.id)) e.completed.push(lesson.id);
+      break;
+    }
+    case 'draft': {
+      const e = enrollment(s, c.enrollmentId);
+      active(s, e);
+      const p = pinnedProgram(e, contentContext);
+      if (!c.fields || typeof c.fields !== 'object') throw new RuleError('Draft fields are required.');
+      const draft: Record<string, string> = { ...e.draft };
+      const allowed = p.practicalAssessment.submissionPrompts.map((f) => f.id);
+      if (Object.keys(c.fields).some((k) => !allowed.includes(k)))
+        throw new RuleError('Unknown draft field.');
+      for (const [key, value] of Object.entries(c.fields)) {
+        if (typeof value !== 'string' || value.length > 10000)
+          throw new RuleError('Draft responses must be text of at most 10,000 characters.');
+        draft[key] = value;
+      }
+      e.draft = draft;
+      break;
+    }
+    case 'submit': {
+      const e = enrollment(s, c.enrollmentId);
+      active(s, e);
+      const p = pinnedProgram(e, contentContext);
+      if (e.completed.length !== p.lessons.length)
+        throw new RuleError('Complete all lessons before submitting.');
+      if (e.attempts.some((a: any) => !a.decision))
+        throw new RuleError('Your current attempt is awaiting review.', 409);
+      if (e.appeals.some((a: any) => a.status === 'open'))
+        throw new RuleError('Wait for your open appeal before a new attempt.', 409);
+      if (e.record?.status === 'active') throw new RuleError('This pathway is already complete.', 409);
+      if (attemptsExhausted(e.attempts.length))
+        throw new RuleError(
+          'The private pilot allows three attempts. Ask for support before continuing.',
+          409,
+        );
+      if (c.confirmed !== true)
+        throw new RuleError('Confirm that this evidence uses only fictional or permitted information.');
+      const fields: Record<string, string> = {};
+      for (const f of p.practicalAssessment.submissionPrompts)
+        fields[f.id] = text(c.fields?.[f.id], f.label, 30);
+      if (c.assisted !== undefined && typeof c.assisted !== 'boolean')
+        throw new RuleError('Choose whether you received reading or capture help.', 400);
+      let assistance;
+      if (c.assistance !== undefined) {
+        if (c.assisted !== true)
+          throw new RuleError('Reading or capture declarations require your assistance choice.', 400);
+        try {
+          const snapshot = checkedContent(() =>
+              resolvePinnedContent(e, contentContext?.allowedScopes, contentContext?.registry),
+            ),
+            confirmed = confirmHumanCapture(
+              e,
+              contentContext ?? { registry: curriculumRegistry, allowedScopes: ['global'] },
+              fields,
+              c.assistance,
+              {
+                contentRef: snapshot.ref,
+                enabled: true,
+                methods: ['human-reading', 'human-transcription'],
+                responseLanguages: [snapshot.language],
+              },
+            );
+          assistance = {
+            mode: 'learner-declared read-back',
+            ...confirmed.declaration,
+            contentRef: confirmed.contentRef,
+            confirmedAt: now,
+          };
+        } catch (error) {
+          if (error instanceof InclusiveLearningError) throw new RuleError(error.message, error.status);
+          throw error;
+        }
+      }
+      e.draft = fields;
+      e.attempts.push({
+        id: crypto.randomUUID(),
+        number: e.attempts.length + 1,
+        fields: structuredClone(fields),
+        submittedAt: now,
+        assisted: !!c.assisted,
+        ...(assistance ? { assistance } : {}),
+        decision: null,
+      });
+      break;
+    }
+    case 'assess': {
+      const e = enrollment(s, c.enrollmentId);
+      active(s, e);
+      const p = pinnedProgram(e, contentContext),
+        a = e.attempts.find((a: any) => a.id === c.attemptId);
+      if (!a) throw new RuleError('Submission not found.', 404);
+      if (a.decision) throw new RuleError('This attempt has already been reviewed.', 409);
+      if (!staff && c.actor !== 'assessor-a') throw new RuleError('Use the assigned sample assessor.', 403);
+      const notes = p.practicalAssessment.rubric.map((r: any, i: number) =>
+        text(c.notes?.[i], r.dimension + ' evidence reference', 10, 3000),
+      );
+      const result = scoreDecision(p, c.scores, c.gates);
+      a.decision = {
+        id: crypto.randomUUID(),
+        ...result,
+        scores: c.scores,
+        gates: c.gates,
+        notes,
+        feedback: text(c.feedback, 'Actionable feedback', 30, 3000),
+        ...reviewStamp(e, p, c),
+        actor: staff?.userId ?? c.actor,
+        actorName: staff?.name,
+        decidedAt: now,
+        mode: staff ? 'authenticated assigned assessment' : 'manual sample-assessor review',
+      };
+      if (result.passed) record(e, p, now);
+      break;
+    }
+    case 'appeal': {
+      const e = enrollment(s, c.enrollmentId);
+      active(s, e);
+      const a = e.attempts.find((a: any) => a.id === c.attemptId);
+      if (!a?.decision) throw new RuleError('Appeals need an assessment decision.', 409);
+      if (e.appeals.some((x: any) => x.attemptId === a.id))
+        throw new RuleError('An appeal already exists for this decision.', 409);
+      if (appealWindowClosed(a.decision.decidedAt, now))
+        throw new RuleError(`The ${APPEAL_WINDOW_DAYS}-day appeal window has ended.`, 409);
+      if (a.id !== e.attempts.at(-1).id)
+        throw new RuleError('Appeal the latest attempt before starting a retry.', 409);
+      e.appeals.push({
+        id: crypto.randomUUID(),
+        attemptId: a.id,
+        reason: text(c.reason, 'Appeal reason', 30, 3000),
+        status: 'open',
+        createdAt: now,
+      });
+      break;
+    }
+    case 'resolve': {
+      const e = enrollment(s, c.enrollmentId);
+      active(s, e);
+      const p = pinnedProgram(e, contentContext),
+        appeal = e.appeals.find((a: any) => a.id === c.appealId);
+      if (!appeal || appeal.status !== 'open') throw new RuleError('No open appeal found.', 409);
+      const a = e.attempts.find((a: any) => a.id === appeal.attemptId),
+        actor = staff?.userId ?? c.actor;
+      if ((!staff && c.actor !== 'reviewer-b') || actor === a.decision.actor)
+        throw new RuleError('An independent reviewer must resolve the appeal.', 403);
+      const notes = p.practicalAssessment.rubric.map((r: any, i: number) =>
+        text(c.notes?.[i], r.dimension + ' evidence reference', 10, 3000),
+      );
+      const result = scoreDecision(p, c.scores, c.gates);
+      appeal.status = 'resolved';
+      appeal.resolution = {
+        id: crypto.randomUUID(),
+        ...result,
+        scores: c.scores,
+        gates: c.gates,
+        notes,
+        actor,
+        actorName: staff?.name,
+        mode: staff ? 'authenticated independent appeal' : 'manual sample-reviewer appeal',
+        feedback: text(c.feedback, 'Review explanation', 30, 3000),
+        ...reviewStamp(e, p, c, methodOfDecision(a.decision)),
+        decidedAt: now,
+      };
+      if (result.passed) record(e, p, now);
+      else if (e.record) e.record.status = 'suspended';
+      break;
+    }
+    case 'accommodation-request': {
+      if (staff) throw new RuleError('Accommodation requests come from the learner.', 403);
+      if (Object.keys(c).some((k) => !['type', 'enrollmentId', 'accommodationType', 'detail'].includes(k)))
+        throw new RuleError('This accommodation request includes unsupported fields.', 400);
+      const e = enrollment(s, c.enrollmentId);
+      active(s, e);
+      if (!ACCOMMODATION_TYPES.some((t) => t.id === c.accommodationType))
+        throw new RuleError('Choose an accommodation from the published list.');
+      const other = c.accommodationType === 'other';
+      if (c.detail !== undefined && typeof c.detail !== 'string')
+        throw new RuleError('Describe the accommodation in text.');
+      const detail =
+        other || (typeof c.detail === 'string' && c.detail.trim().length)
+          ? text(
+              c.detail,
+              'Accommodation detail',
+              other ? ACCOMMODATION_LIMITS.otherDetailMin : 1,
+              ACCOMMODATION_LIMITS.detailMax,
+            )
+          : '';
+      e.accommodations ??= [];
+      if (e.accommodations.length >= ACCOMMODATION_LIMITS.maxTotal)
+        throw new RuleError(
+          'This enrollment has reached its accommodation request limit. Ask for support.',
+          409,
+        );
+      const open = e.accommodations.filter((x: any) => x.status === 'requested');
+      if (open.length >= ACCOMMODATION_LIMITS.maxPending)
+        throw new RuleError(
+          'Wait for your open accommodation requests to be decided before adding another.',
+          409,
+        );
+      if (open.some((x: any) => x.type === c.accommodationType))
+        throw new RuleError('You already have an open request for this accommodation.', 409);
+      const req = {
+        id: crypto.randomUUID(),
+        type: c.accommodationType,
+        detail,
+        status: 'requested',
+        requestedAt: now,
+        decision: null,
+      };
+      e.accommodations.push(req);
+      accommodationEvent(e, 'requested', req, now, 'learner', undefined);
+      break;
+    }
+    case 'accommodation-decide': {
+      if (
+        Object.keys(c).some(
+          (k) =>
+            !['type', 'enrollmentId', 'requestId', 'outcome', 'reason', 'actor', 'learnerId'].includes(k),
+        )
+      )
+        throw new RuleError('This accommodation decision includes unsupported fields.', 400);
+      const e = enrollment(s, c.enrollmentId);
+      active(s, e);
+      if (!staff && c.actor !== 'assessor-a')
+        throw new RuleError('Only assigned staff can decide an accommodation.', 403);
+      const actor = staff?.userId ?? c.actor;
+      if (staff && staff.learnerId !== undefined && staff.learnerId === staff.userId)
+        throw new RuleError('You cannot decide your own accommodation request.', 403);
+      const req = (e.accommodations ?? []).find((x: any) => x.id === c.requestId);
+      if (!req) throw new RuleError('Accommodation request not found.', 404);
+      if (req.status !== 'requested' || req.decision)
+        throw new RuleError(
+          'This accommodation request was already decided. The decision is preserved.',
+          409,
+        );
+      if (!['approved', 'declined'].includes(c.outcome)) throw new RuleError('Choose approve or decline.');
+      const reason = text(
+        c.reason,
+        'Decision reason',
+        ACCOMMODATION_LIMITS.reasonMin,
+        ACCOMMODATION_LIMITS.reasonMax,
+      );
+      req.status = c.outcome;
+      req.decision = {
+        id: crypto.randomUUID(),
+        outcome: c.outcome,
+        reason,
+        actor,
+        actorName: staff?.name,
+        decidedAt: now,
+      };
+      accommodationEvent(e, c.outcome, req, now, actor, staff?.name, reason);
+      break;
+    }
+    case 'share': {
+      const e = enrollment(s, c.enrollmentId);
+      if (!e.record && e.credential) {
+        if (typeof c.enabled !== 'boolean') throw new RuleError('Sharing choice is required.');
+        e.credentialShare = c.enabled;
+        break;
+      }
+      if (!e.record) throw new RuleError('No record to share.', 404);
+      if (typeof c.enabled !== 'boolean') throw new RuleError('Sharing choice is required.');
+      e.record.share = c.enabled;
+      break;
+    }
+    case 'withdraw': {
+      const e = enrollment(s, c.enrollmentId);
+      if (e.record) throw new RuleError('Completed learning cannot be withdrawn.', 409);
+      if (e.attempts.some((a: any) => !a.decision) || e.appeals.some((a: any) => a.status === 'open'))
+        throw new RuleError('Wait for the active review before withdrawing.', 409);
+      e.withdrawn = true;
+      break;
+    }
+    case 'post': {
+      if (s.posts.length >= 200)
+        throw new RuleError('This private pilot has reached its discussion limit.', 409);
+      const scope = c.scope || 'all';
+      if (scope !== 'all' && !programs.some((p) => p.id === scope))
+        throw new RuleError('Choose an existing learning circle.');
+      s.posts.unshift({
+        id: crypto.randomUUID(),
+        scope,
+        title: text(c.title, 'Discussion title', 5, 140),
+        body: text(c.body, 'Discussion', 20, 3000),
+        author: s.profile.name,
+        createdAt: now,
+        status: 'pending',
+        replies: [],
+      });
+      break;
+    }
+    case 'reply': {
+      const p = s.posts.find((p) => p.id === c.postId && p.status === 'visible');
+      if (!p) throw new RuleError('This discussion is not available.', 404);
+      if (p.replies.length >= 50) throw new RuleError('Reply limit reached.');
+      p.replies.push({
+        id: crypto.randomUUID(),
+        body: text(c.body, 'Reply', 10, 1500),
+        author: s.profile.name,
+        createdAt: now,
+        status: 'pending',
+      });
+      break;
+    }
+    case 'report': {
+      const p = s.posts.find((p) => p.id === c.postId && p.status === 'visible');
+      if (!p) throw new RuleError('Discussion not found.', 404);
+      s.reports.push({
+        id: crypto.randomUUID(),
+        postId: p.id,
+        reason: text(c.reason, 'Report reason', 10, 1000),
+        status: 'open',
+        createdAt: now,
+      });
+      break;
+    }
+    case 'moderate': {
+      const p = s.posts.find((p) => p.id === c.postId);
+      if (!p) throw new RuleError('Discussion not found.', 404);
+      if (!['visible', 'hidden'].includes(c.status)) throw new RuleError('Choose publish or hide.');
+      if (c.replyId) {
+        const r = p.replies.find((r: any) => r.id === c.replyId);
+        if (!r) throw new RuleError('Reply not found.', 404);
+        r.status = c.status;
+      } else p.status = c.status;
+      if (!c.replyId) for (const r of s.reports.filter((r) => r.postId === p.id)) r.status = 'resolved';
+      break;
+    }
+    case 'interest': {
+      if (!['peer-circle', 'practice-clinic', 'mentor-hour'].includes(c.opportunityId))
+        throw new RuleError('Opportunity not found.', 404);
+      if (typeof c.enabled !== 'boolean') throw new RuleError('Choose an interest setting.');
+      s.interests = s.interests.filter((x) => x !== c.opportunityId);
+      if (c.enabled) s.interests.push(c.opportunityId);
+      break;
+    }
+    case 'ecosystem-grant':
+    case 'ecosystem-withdraw':
+    case 'ecosystem-test': {
+      const allowed =
+        c.type === 'ecosystem-grant'
+          ? ['type', 'partner', 'enrollmentId', 'scopes', 'durationDays']
+          : ['type', 'grantId'];
+      if (Object.keys(c).some((k) => !allowed.includes(k)))
+        throw new RuleError('Use only the supported local contract fields.', 400);
+      try {
+        const grants = readTestGrants(s.ecosystemGrants);
+        const clock = new Date(now).toISOString();
+        if (c.type === 'ecosystem-withdraw') {
+          const g = grants.find((g) => g.id === c.grantId);
+          if (!g) throw new RuleError('Local test choice not found in your learning space.', 404);
+          s.ecosystemGrants = grants.map((x) => (x.id === g.id ? revokeTestGrant(x, clock) : x));
+          break;
+        }
+        const receipts = readTestReceipts(s.ecosystemReceipts, grants, clock);
+        ensureUniqueActiveChoices(grants, clock);
+        const g = c.type === 'ecosystem-test' ? grants.find((g) => g.id === c.grantId) : null;
+        if (c.type === 'ecosystem-test' && !g)
+          throw new RuleError('Local test choice not found in your learning space.', 404);
+        const e = enrollment(s, g?.enrollmentId ?? c.enrollmentId);
+        active(s, e);
+        const snapshot = checkedContent(() =>
+          resolvePinnedContent(e, ['global'], contentContext?.registry ?? curriculumRegistry),
+        );
+        const valid = new Set(snapshot.program.lessons.map((l) => l.id));
+        if (
+          !Array.isArray(e.completed) ||
+          new Set(e.completed).size !== e.completed.length ||
+          e.completed.some((id: string) => !valid.has(id))
+        )
+          throw new RuleError('Saved progress does not match the pinned lessons.', 409);
+        const summary = {
+          ...e,
+          contentRef: {
+            scope: 'global' as const,
+            programId: snapshot.ref.programId,
+            versionId: snapshot.ref.versionId,
+          },
+        };
+        if (c.type === 'ecosystem-grant') {
+          if (grants.length >= SCOPED_LIMITS.grants)
+            throw new RuleError(
+              'All 24 retained local-choice slots are used. Withdrawal preserves history and does not erase a slot.',
+              409,
+            );
+          const choice = createTestGrant(
+            {
+              partner: c.partner,
+              enrollmentId: c.enrollmentId,
+              scopes: c.scopes,
+              durationDays: c.durationDays,
+            },
+            summary,
+            clock,
+            crypto.randomUUID(),
+          );
+          s.ecosystemGrants = [
+            choice,
+            ...grants.map((x) =>
+              x.partner === choice.partner && x.revokedAt === null ? revokeTestGrant(x, clock) : x,
+            ),
+          ];
+        } else {
+          if (receipts.length >= SCOPED_LIMITS.receipts)
+            throw new RuleError(
+              'The 100 local contract receipt slots are used. Earlier receipts are retained.',
+              409,
+            );
+          s.ecosystemReceipts = [
+            buildReturnReceipt(g!, summary, snapshot.program.lessons.length, clock, crypto.randomUUID()),
+            ...receipts,
+          ];
+        }
+      } catch (e) {
+        if (e instanceof AdapterError) throw new RuleError(e.message, e.status);
+        throw e;
+      }
+      break;
+    }
+    case 'connection': {
+      let choice;
+      try {
+        choice = validateLegacyConnectionCommand(c);
+      } catch (e) {
+        if (e instanceof LegacyPreviewError) throw new RuleError(e.message, e.status);
+        throw e;
+      }
+      s.connections[choice.partner] = choice.enabled;
+      if (!choice.enabled)
+        s.deliveries = s.deliveries.map((d) =>
+          d.partner === choice.partner && d.status === 'queued' ? { ...d, status: 'cancelled' } : d,
+        );
+      break;
+    }
+    case 'deliver':
+      if (Object.keys(c).some((k) => !['type', 'partner', 'enrollmentId'].includes(k)))
+        throw new RuleError('Use only the supported legacy preview fields.', 400);
+      throw new RuleError(
+        'Save an explicit local test choice with fields and expiry before running a contract test. Earlier previews remain local history.',
+        409,
+      );
+    case 'followup': {
+      const minutesBefore = optionalMinutes(c.before),
+        minutesAfter = optionalMinutes(c.after),
+        e = enrollment(s, c.enrollmentId);
+      if (e.record?.status !== 'active')
+        throw new RuleError('Finish the practical review before logging a work reflection.');
+      s.followups.unshift({
+        id: crypto.randomUUID(),
+        enrollmentId: e.id,
+        reflection: text(c.reflection, 'Reflection', 30, 3000),
+        minutesBefore,
+        minutesAfter,
+        createdAt: now,
+      });
+      break;
+    }
+    case 'pause': {
+      program(c.programId);
+      if (typeof c.paused !== 'boolean') throw new RuleError('Choose a content state.');
+      s.paused = s.paused.filter((x) => x !== c.programId);
+      if (c.paused) s.paused.push(c.programId);
+      break;
+    }
+    case 'credential-issue': {
+      if (Object.keys(c).some((k) => !['type', 'enrollmentId'].includes(k)))
+        throw new RuleError('This request includes unsupported fields.', 400);
+      const e = enrollment(s, c.enrollmentId);
+      if (e.withdrawn) throw new RuleError('This enrollment was withdrawn.', 409);
+      const p = pinnedProgram(e, contentContext);
+      if (!e.credential) mintCredential(e, p, now);
+      else {
+        const label = labelFromEvidence(credentialEvidence(e, p));
+        if (
+          label &&
+          LABEL_RANK[label] > LABEL_RANK[e.credential.label as CredentialLabel] &&
+          ['active', 'suspended'].includes(e.credential.status)
+        )
+          e.credential = credentialStep(() =>
+            credentialTransition(e.credential, {
+              action: 'correct',
+              actor: { id: 'system:evidence', role: 'system' },
+              reason: 'Saved evidence now supports a higher label.',
+              now,
+              cause: 'evidence',
+              label,
+              maxLabel: label,
+            }),
+          );
+      }
+      break;
+    }
+    case 'credential-lifecycle': {
+      if (
+        Object.keys(c).some(
+          (k) => !['type', 'enrollmentId', 'learnerId', 'action', 'reason', 'label', 'actor'].includes(k),
+        )
+      )
+        throw new RuleError('This request includes unsupported fields.', 400);
+      const e = enrollment(s, c.enrollmentId);
+      if (!e.credential) throw new RuleError('No demo credential exists for this enrollment.', 404);
+      if (!['correct', 'suspend', 'revoke', 'reinstate'].includes(c.action))
+        throw new RuleError('Choose correct, suspend, revoke or reinstate.');
+      if (!staff && c.actor !== 'reviewer-b')
+        throw new RuleError('Only an assigned reviewer or workspace admin can change a credential.', 403);
+      const actor: CredentialActor = staff
+        ? { id: staff.userId, role: staff.role ?? 'reviewer', name: staff.name }
+        : { id: 'sample:reviewer-b', role: 'reviewer', name: 'Sample reviewer' };
+      if (c.action === 'reinstate' && e.record?.status === 'suspended')
+        throw new RuleError(
+          'The record is suspended pending an independent appeal review. Reinstate after that review passes.',
+          409,
+        );
+      const p = pinnedProgram(e, contentContext);
+      e.credential = credentialStep(() =>
+        credentialTransition(e.credential, {
+          action: c.action,
+          actor,
+          reason: c.reason,
+          now,
+          label: c.label,
+          maxLabel: labelFromEvidence(credentialEvidence(e, p)),
+        }),
+      );
+      break;
+    }
+    case 'reset':
+      return freshWorkspace();
+    default:
+      throw new RuleError('Unknown Academy action.');
+  }
+  if (staff && (c.type === 'assess' || c.type === 'resolve'))
+    for (const e of s.enrollments)
+      if (e.id === c.enrollmentId && e.record) {
+        e.record.issuer = staff.workspaceName + ' · Aplyd Academy';
+        e.record.kind = 'Reviewed practice record · draft learning content, nonaccredited';
+        e.record.workspaceId = staff.workspaceId;
+        const latest = e.attempts.at(-1),
+          decision = e.appeals.find((ap: any) => ap.attemptId === latest?.id)?.resolution ?? latest?.decision;
+        e.record.reviewedBy = decision?.actorName;
+        e.record.decisionId = decision?.id;
+        e.record.lastReviewedAt = decision?.decidedAt;
+      }
+  syncCredentials(s, c, now, contentContext);
+  return s;
 }

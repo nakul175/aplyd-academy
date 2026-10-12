@@ -1,0 +1,25 @@
+# Shared across the Products repositories (8 October 2026). Vendored, generated and evidence trees are not formatted.
+node_modules
+dist
+.next
+.vinext
+.sites-runtime
+.wrangler
+.open-next
+pnpm-lock.yaml
+package-lock.json
+components/ui/
+public/
+docs/
+tests/evidence/
+tests/**/screens/
+media/
+verification/
+outputs/
+*.min.*
+*.map
+drizzle/meta/
+
+# Pinned curriculum content: byte-for-byte hashes are verified by the test builders.
+lib/curriculum.json
+lib/curriculum-versions/

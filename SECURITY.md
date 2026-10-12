@@ -1,11 +1,31 @@
 # Security policy
 
-**Reporting a problem.** Learners and staff report security or privacy problems from any screen: Help → Report a problem → "Security or privacy issue". The report goes only to the product owner, Nakul Jain (the email recorded as the owner decision `help.security_contact` is notified, without the report text). Anyone else can contact APLYD and ask for the product owner.
+Owner: Nakul Jain. Last reviewed: 2026-10-08. Update when the hosting model, contact or supported versions change.
 
-**What happens next.** The owner acknowledges within 2 working days [TO CONFIRM by the owner], decides the severity, and records the finding in `docs/security/findings.md` with an owner and a status. High and critical findings are fixed before the next release; remaining risks are accepted or rejected only by the owner and recorded with the date.
+## Reporting a vulnerability
 
-**Supported versions.** Only the version deployed at academy.aplyd.org.
+Email **nakul.jain@aplyd.com** with the subject "Aplyd Academy security". Include what you found, where, and how to reproduce it. Do not include real personal data, and do not test against any hosted or droplet instance beyond what is needed to show the issue.
 
-**Do not** test against the hosted Academy with real people's data. Use the local setup in `docs/testing/test-strategy.md`.
+- Acknowledgement and fix timelines: TBD (owner: Nakul Jain). No response time is promised by this file.
+- There is no bug bounty.
+- Please do not open public GitHub issues for vulnerabilities.
 
-See also: `docs/security/threat-model.md`, `docs/security/access-model.md`, `docs/security/secrets-register.md`.
+## Scope and status
+
+This is a private pilot with synthetic data only (see README.md). It is not approved for production or real learner data. The hosted copy is owner-private; the DigitalOcean copy is behind Caddy basic auth (deploy/README.md).
+
+## In-app reporting (practice loop, branch `aca/practice-loop`)
+
+When the practice loop is deployed, learners and staff can also report a security or privacy problem from any screen: Help, then Report a problem, then "Security or privacy issue". The report goes only to the product owner; the address recorded as the owner decision `help.security_contact` is notified without the report text. Findings are recorded in `docs/security/findings.md` with an owner and a status. Risks are accepted or rejected only by the owner.
+
+## Supported versions
+
+Only the current `main` branch. No older release is maintained.
+
+## Where the security design lives
+
+- Threat model: docs/governance/threat-model.md
+- Access control: docs/governance/access-control-model.md
+- Secrets register: docs/governance/secrets-register.md
+- Incident process: docs/governance/incident-process.md
+- Original design-level controls: docs/product-specifications/security-and-privacy.md (a specification, not proof)

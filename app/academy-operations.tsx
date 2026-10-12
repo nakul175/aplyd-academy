@@ -1,48 +1,369 @@
 'use client';
-import {RefreshCw,ClipboardCheck,Users,LifeBuoy,CalendarDays,LockKeyhole} from 'lucide-react';
-import {Button} from '@/components/ui/button';
-import {Head,Tag} from './academy-ui';
-import {OperationsContentAttention} from './academy-content-readiness';
-import {deriveWorkspaceOperations,type OperationsDestination} from '../lib/academy-operations';
+import { RefreshCw, ClipboardCheck, Users, LifeBuoy, CalendarDays, LockKeyhole } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Head, Tag } from './academy-ui';
+import { OperationsContentAttention } from './academy-content-readiness';
+import { deriveWorkspaceOperations, type OperationsDestination } from '../lib/academy-operations';
 
-type Props={team:any;now:string;refreshing?:boolean;onRefresh:()=>void;onOpen:(destination:OperationsDestination)=>void};
-const when=(date:string|null)=>date?new Date(date).toLocaleString('en-IN',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}):'Date unavailable';
-const elapsed=(days:number|null)=>days===null?'Recorded date needs checking':days===0?'Less than a day':`${days} day${days===1?'':'s'}`;
-const categories:Record<string,string>={learning:'Learning help',content:'Content concern',access:'Access',technical:'Technical',accessibility:'Accessibility',privacy:'Privacy'};
+type Props = {
+  team: any;
+  now: string;
+  refreshing?: boolean;
+  onRefresh: () => void;
+  onOpen: (destination: OperationsDestination) => void;
+};
+const when = (date: string | null) =>
+  date
+    ? new Date(date).toLocaleString('en-IN', {
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+      })
+    : 'Date unavailable';
+const elapsed = (days: number | null) =>
+  days === null
+    ? 'Recorded date needs checking'
+    : days === 0
+      ? 'Less than a day'
+      : `${days} day${days === 1 ? '' : 's'}`;
+const categories: Record<string, string> = {
+  learning: 'Learning help',
+  content: 'Content concern',
+  access: 'Access',
+  technical: 'Technical',
+  accessibility: 'Accessibility',
+  privacy: 'Privacy',
+};
 
 /** Only current canonical Team projection is accepted. No protected work is
  * copied to component state; role/scope refresh immediately replaces this view. */
-export function WorkspaceOperationsView({team,now,refreshing=false,onRefresh,onOpen}:Props){
- const model=deriveWorkspaceOperations(team,now);
- if(!model)return <section className="panel spacious"><LockKeyhole/><h2 className="mt">Workspace operations are unavailable</h2><p className="mt">Refresh your current workspace access or open your own learning Overview.</p><Button className="mt" variant="outline" disabled={refreshing} onClick={onRefresh}>Refresh workspace</Button></section>;
- const owner=model.audience==='owner',reviews=model.reviews,content=model.content;
- return <div className="operations-view" data-operations-workspace={model.workspaceId}>
-  <Head eyebrow={owner?'WORKSPACE OPERATIONS':'YOUR COHORT OPERATIONS'} title="Give the next piece of work a clear owner." body={owner?model.workspaceName+' · Current cohort work and protected review queues.':model.workspaceName+' · Only cohorts within your current facilitator scope.'}><Button variant="outline" disabled={refreshing} onClick={onRefresh}><RefreshCw size={17}/>Refresh work</Button></Head>
-  <div className="notice"><LockKeyhole/><p>Counts describe saved learning and current queues. Private plans, evidence, scores and support messages stay in their existing protected views. These counts do not measure job impact or establish a qualification.</p></div>
-  <dl className="operations-metrics">
-   <Metric label="Cohorts in scope" value={model.totals.cohorts}/><Metric label="Enrollments not withdrawn" value={model.totals.nonWithdrawnEnrollments}/><Metric label="Nonaccredited practice records" value={model.totals.practiceRecords}/><Metric label={owner?'Pending assessments & appeals':'Reviews assigned to me'} value={reviews.total}/>
-  </dl>
-  <div className="operations-grid">
-   <section className="panel operations-panel" aria-labelledby="ops-review-title"><div className="section-title no-top"><h2 id="ops-review-title"><ClipboardCheck size={21}/> {owner?'Review workload':'My assigned reviews'}</h2><Tag>{reviews.total} pending</Tag></div><p>{reviews.assessments} assessment{reviews.assessments===1?'':'s'} · {reviews.appeals} appeal{reviews.appeals===1?'':'s'}{reviews.oldestDays!==null?' · Oldest recorded wait '+elapsed(reviews.oldestDays):''}</p>
-    {owner&&<p className="form-hint mt">{reviews.unassigned} awaiting assignment · {reviews.withoutEligibleStaff} without eligible independent staff.</p>}{reviews.paused>0&&<p className="operations-warning">{reviews.paused} review{reviews.paused===1?' is':'s are'} in paused cohorts. Review decisions are unavailable until an owner reopens learning.</p>}
-    <ul className="operations-list">{reviews.items.map(q=><li key={q.kind+q.id} data-operations-review-id={q.id}><div><Tag>{q.kind==='appeal'?'Independent appeal':'Assessment'}</Tag>{q.paused&&<Tag tone="warning">Cohort paused</Tag>}</div><h3>{q.learnerName}</h3><p>{q.cohortTitle} · {q.ageDays===null?'Recorded date needs checking':'Waiting '+elapsed(q.ageDays)}</p><p className="form-hint">{q.assignment==='mine'?'Assigned to you':q.assignedName?'Assigned to '+q.assignedName:'Awaiting assignment'}{q.eligibleStaffCount===0?' · No eligible independent staff':''}</p><Button size="sm" variant="outline" onClick={()=>onOpen(q.destination)}>{q.assignment==='mine'?'Open my review':'Arrange assignment'}</Button></li>)}</ul>
-    {!reviews.total&&<p className="mt">{owner?'No assessments or appeals are currently waiting.':'No reviews are assigned to your current account. Facilitator access alone does not expose evidence or queue dates.'}</p>}<More shown={reviews.items.length} total={reviews.total}/><Button className="mt" variant="outline" onClick={()=>onOpen(owner?{view:'teams',section:'assignments'}:{view:'studio'})}>{owner?'Open review assignments':'Open review studio'}</Button>
-   </section>
-   <section className="panel operations-panel" aria-labelledby="ops-support-title"><div className="section-title no-top"><h2 id="ops-support-title"><LifeBuoy size={21}/> Support handling</h2><Tag>{model.support.totalOpen} open</Tag></div><p>{model.support.needsHandler} need a handler · {model.support.handledByMe} handled by you.</p>{model.support.withoutIndependentHandler>0&&<p className="operations-warning">{model.support.withoutIndependentHandler} need another eligible independent handler.</p>}
-    <ul className="operations-list">{model.support.items.map(r=><li key={r.id} data-operations-support-id={r.id}><h3>{categories[r.category]??'Support request'}</h3><p>{r.cohortTitle} · {r.openedDaysAgo===null?'Opening date needs checking':'Opened '+elapsed(r.openedDaysAgo)+' ago'}</p><p className="form-hint">{r.handledByMe?'Currently handled by you':r.handlerName?'Handled by '+r.handlerName:'Awaiting a handler'}</p><Button size="sm" variant="outline" onClick={()=>onOpen({view:'support',section:r.handledByMe?'assigned':'queue',id:r.id})}>Open support queue</Button></li>)}</ul>
-    {!model.support.totalOpen&&<p className="mt">No open requests are visible within your current support authority.</p>}<More shown={model.support.items.length} total={model.support.totalOpen}/><p className="form-hint mt">Dates show when requests were first opened, including requests later reopened. No staffed response time or external notification is promised.</p><Button className="mt" variant="outline" onClick={()=>onOpen({view:'support',section:'queue'})}>Open support</Button>
-   </section>
-   {content.available&&<OperationsContentAttention team={team} now={now} onOpen={onOpen}/> }
-   <section className="panel operations-panel" aria-labelledby="ops-session-title"><div className="section-title no-top"><h2 id="ops-session-title"><CalendarDays size={21}/> Practice sessions</h2><Tag>{model.sessions.nextSevenDays} upcoming or live</Tag></div><p>Next seven days · {model.sessions.attendanceToRecord} eligible attendance marks not yet recorded by you.</p>{model.sessions.hostUnavailable>0&&<p className="operations-warning">{model.sessions.hostUnavailable} sessions have a host whose current authority is unavailable.</p>}
-    <ul className="operations-list">{model.sessions.items.map(s=><li key={s.id} data-operations-session-id={s.id}><h3>{s.title}</h3><p>{s.cohortTitle} · {when(s.startsAt)}</p><div><Tag>{s.phase==='attendance_window'?'Attendance recording window':s.phase==='in_progress'?'In progress':'Scheduled'}</Tag>{s.paused&&<Tag tone="warning">Cohort paused</Tag>}</div><p className="form-hint">{s.occupied===null||s.capacity===null?'Place counts unavailable':s.occupied+' of '+s.capacity+' places reserved'}{s.isHost?' · You are the current host':''}</p><Button size="sm" variant="outline" onClick={()=>onOpen({view:'network',section:'sessions',id:s.id})}>Open practice sessions</Button></li>)}</ul>
-    {!model.sessions.items.length&&<p className="mt">No visible scheduled sessions are upcoming, live or awaiting your attendance records.</p>}<More shown={model.sessions.items.length} total={model.sessions.total}/><Button className="mt" variant="outline" onClick={()=>onOpen({view:'network',section:'sessions'})}>Open sessions</Button>
-   </section>
-  </div>
-  <section className="panel operations-panel mt" aria-labelledby="ops-cohort-title"><div className="section-title no-top"><h2 id="ops-cohort-title"><Users size={21}/> Cohort learning snapshot</h2><Button variant="outline" onClick={()=>onOpen({view:'teams',section:'progress'})}>Open progress summaries</Button></div><p>Record and pending-review counts can overlap: an active practice record stays active during an open appeal. Learning and withdrawal show saved enrollment status. The owner’s review queue lists current work. Seats include completed enrollments until withdrawal is permitted.</p>
-   <div className="operations-cohorts">{model.cohorts.map(c=><section key={c.id} data-operations-cohort-id={c.id}><div className="section-title no-top"><h3>{c.title}</h3><Tag tone={c.status==='paused'?'warning':''}>{c.status}</Tag></div><p>{c.occupied===null||c.capacity===null?'Seat count unavailable':c.occupied+' of '+c.capacity+' places occupied'} · {c.nonWithdrawn} enrollments not withdrawn.</p><dl className="operations-statuses"><Metric label="Learning" value={c.learning}/><Metric label="Review pending" value={c.reviewPending}/><Metric label="Appeal pending" value={c.appealPending}/><Metric label="Practice records" value={c.practiceCompleted}/><Metric label="Withdrawn" value={c.withdrawn}/>{c.suspendedPracticeRecords>0&&<Metric label="Suspended practice records" value={c.suspendedPracticeRecords}/>} {c.other>0&&<Metric label="Other recorded status" value={c.other}/>}</dl>{c.newEnrollmentBlocked&&<p className="operations-warning">{c.status==='paused'?'Learning and review actions paused.':c.status==='closed'?'Closed to new enrollment.':c.contentNotice??'New enrollment is unavailable.'}</p>}<Button size="sm" variant="outline" onClick={()=>onOpen({view:'teams',section:'cohorts',id:c.id})}>Open cohort</Button></section>)}</div>{!model.cohorts.length&&<p className="mt">{owner?'No cohorts exist yet.':'No cohorts are currently in your facilitator scope. Ask an owner to arrange the appropriate cohort access.'}</p>}
-  </section>
-  <p className="form-hint mt">Refresh for the latest assignments and permissions. Recorded ages are observations, not deadlines or response guarantees.</p>
- </div>;
+export function WorkspaceOperationsView({ team, now, refreshing = false, onRefresh, onOpen }: Props) {
+  const model = deriveWorkspaceOperations(team, now);
+  if (!model)
+    return (
+      <section className="panel spacious">
+        <LockKeyhole />
+        <h2 className="mt">Workspace operations are unavailable</h2>
+        <p className="mt">Refresh your current workspace access or open your own learning Overview.</p>
+        <Button className="mt" variant="outline" disabled={refreshing} onClick={onRefresh}>
+          Refresh workspace
+        </Button>
+      </section>
+    );
+  const owner = model.audience === 'owner',
+    reviews = model.reviews,
+    content = model.content;
+  return (
+    <div className="operations-view" data-operations-workspace={model.workspaceId}>
+      <Head
+        eyebrow={owner ? 'WORKSPACE OPERATIONS' : 'YOUR COHORT OPERATIONS'}
+        title="Give the next piece of work a clear owner."
+        body={
+          owner
+            ? model.workspaceName + ' · Current cohort work and protected review queues.'
+            : model.workspaceName + ' · Only cohorts within your current facilitator scope.'
+        }
+      >
+        <Button variant="outline" disabled={refreshing} onClick={onRefresh}>
+          <RefreshCw size={17} />
+          Refresh work
+        </Button>
+      </Head>
+      <div className="notice">
+        <LockKeyhole />
+        <p>
+          Counts describe saved learning and current queues. Private plans, evidence, scores and support
+          messages stay in their existing protected views. These counts do not measure job impact or establish
+          a qualification.
+        </p>
+      </div>
+      <dl className="operations-metrics">
+        <Metric label="Cohorts in scope" value={model.totals.cohorts} />
+        <Metric label="Enrollments not withdrawn" value={model.totals.nonWithdrawnEnrollments} />
+        <Metric label="Nonaccredited practice records" value={model.totals.practiceRecords} />
+        <Metric
+          label={owner ? 'Pending assessments & appeals' : 'Reviews assigned to me'}
+          value={reviews.total}
+        />
+      </dl>
+      <div className="operations-grid">
+        <section className="panel operations-panel" aria-labelledby="ops-review-title">
+          <div className="section-title no-top">
+            <h2 id="ops-review-title">
+              <ClipboardCheck size={21} /> {owner ? 'Review workload' : 'My assigned reviews'}
+            </h2>
+            <Tag>{reviews.total} pending</Tag>
+          </div>
+          <p>
+            {reviews.assessments} assessment{reviews.assessments === 1 ? '' : 's'} · {reviews.appeals} appeal
+            {reviews.appeals === 1 ? '' : 's'}
+            {reviews.oldestDays !== null ? ' · Oldest recorded wait ' + elapsed(reviews.oldestDays) : ''}
+          </p>
+          {owner && (
+            <p className="form-hint mt">
+              {reviews.unassigned} awaiting assignment · {reviews.withoutEligibleStaff} without eligible
+              independent staff.
+            </p>
+          )}
+          {reviews.paused > 0 && (
+            <p className="operations-warning">
+              {reviews.paused} review{reviews.paused === 1 ? ' is' : 's are'} in paused cohorts. Review
+              decisions are unavailable until an owner reopens learning.
+            </p>
+          )}
+          <ul className="operations-list">
+            {reviews.items.map((q) => (
+              <li key={q.kind + q.id} data-operations-review-id={q.id}>
+                <div>
+                  <Tag>{q.kind === 'appeal' ? 'Independent appeal' : 'Assessment'}</Tag>
+                  {q.paused && <Tag tone="warning">Cohort paused</Tag>}
+                </div>
+                <h3>{q.learnerName}</h3>
+                <p>
+                  {q.cohortTitle} ·{' '}
+                  {q.ageDays === null ? 'Recorded date needs checking' : 'Waiting ' + elapsed(q.ageDays)}
+                </p>
+                <p className="form-hint">
+                  {q.assignment === 'mine'
+                    ? 'Assigned to you'
+                    : q.assignedName
+                      ? 'Assigned to ' + q.assignedName
+                      : 'Awaiting assignment'}
+                  {q.eligibleStaffCount === 0 ? ' · No eligible independent staff' : ''}
+                </p>
+                <Button size="sm" variant="outline" onClick={() => onOpen(q.destination)}>
+                  {q.assignment === 'mine' ? 'Open my review' : 'Arrange assignment'}
+                </Button>
+              </li>
+            ))}
+          </ul>
+          {!reviews.total && (
+            <p className="mt">
+              {owner
+                ? 'No assessments or appeals are currently waiting.'
+                : 'No reviews are assigned to your current account. Facilitator access alone does not expose evidence or queue dates.'}
+            </p>
+          )}
+          <More shown={reviews.items.length} total={reviews.total} />
+          <Button
+            className="mt"
+            variant="outline"
+            onClick={() => onOpen(owner ? { view: 'teams', section: 'assignments' } : { view: 'studio' })}
+          >
+            {owner ? 'Open review assignments' : 'Open review studio'}
+          </Button>
+        </section>
+        <section className="panel operations-panel" aria-labelledby="ops-support-title">
+          <div className="section-title no-top">
+            <h2 id="ops-support-title">
+              <LifeBuoy size={21} /> Support handling
+            </h2>
+            <Tag>{model.support.totalOpen} open</Tag>
+          </div>
+          <p>
+            {model.support.needsHandler} need a handler · {model.support.handledByMe} handled by you.
+          </p>
+          {model.support.withoutIndependentHandler > 0 && (
+            <p className="operations-warning">
+              {model.support.withoutIndependentHandler} need another eligible independent handler.
+            </p>
+          )}
+          <ul className="operations-list">
+            {model.support.items.map((r) => (
+              <li key={r.id} data-operations-support-id={r.id}>
+                <h3>{categories[r.category] ?? 'Support request'}</h3>
+                <p>
+                  {r.cohortTitle} ·{' '}
+                  {r.openedDaysAgo === null
+                    ? 'Opening date needs checking'
+                    : 'Opened ' + elapsed(r.openedDaysAgo) + ' ago'}
+                </p>
+                <p className="form-hint">
+                  {r.handledByMe
+                    ? 'Currently handled by you'
+                    : r.handlerName
+                      ? 'Handled by ' + r.handlerName
+                      : 'Awaiting a handler'}
+                </p>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() =>
+                    onOpen({ view: 'support', section: r.handledByMe ? 'assigned' : 'queue', id: r.id })
+                  }
+                >
+                  Open support queue
+                </Button>
+              </li>
+            ))}
+          </ul>
+          {!model.support.totalOpen && (
+            <p className="mt">No open requests are visible within your current support authority.</p>
+          )}
+          <More shown={model.support.items.length} total={model.support.totalOpen} />
+          <p className="form-hint mt">
+            Dates show when requests were first opened, including requests later reopened. No staffed response
+            time or external notification is promised.
+          </p>
+          <Button
+            className="mt"
+            variant="outline"
+            onClick={() => onOpen({ view: 'support', section: 'queue' })}
+          >
+            Open support
+          </Button>
+        </section>
+        {content.available && <OperationsContentAttention team={team} now={now} onOpen={onOpen} />}
+        <section className="panel operations-panel" aria-labelledby="ops-session-title">
+          <div className="section-title no-top">
+            <h2 id="ops-session-title">
+              <CalendarDays size={21} /> Practice sessions
+            </h2>
+            <Tag>{model.sessions.nextSevenDays} upcoming or live</Tag>
+          </div>
+          <p>
+            Next seven days · {model.sessions.attendanceToRecord} eligible attendance marks not yet recorded
+            by you.
+          </p>
+          {model.sessions.hostUnavailable > 0 && (
+            <p className="operations-warning">
+              {model.sessions.hostUnavailable} sessions have a host whose current authority is unavailable.
+            </p>
+          )}
+          <ul className="operations-list">
+            {model.sessions.items.map((s) => (
+              <li key={s.id} data-operations-session-id={s.id}>
+                <h3>{s.title}</h3>
+                <p>
+                  {s.cohortTitle} · {when(s.startsAt)}
+                </p>
+                <div>
+                  <Tag>
+                    {s.phase === 'attendance_window'
+                      ? 'Attendance recording window'
+                      : s.phase === 'in_progress'
+                        ? 'In progress'
+                        : 'Scheduled'}
+                  </Tag>
+                  {s.paused && <Tag tone="warning">Cohort paused</Tag>}
+                </div>
+                <p className="form-hint">
+                  {s.occupied === null || s.capacity === null
+                    ? 'Place counts unavailable'
+                    : s.occupied + ' of ' + s.capacity + ' places reserved'}
+                  {s.isHost ? ' · You are the current host' : ''}
+                </p>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => onOpen({ view: 'network', section: 'sessions', id: s.id })}
+                >
+                  Open practice sessions
+                </Button>
+              </li>
+            ))}
+          </ul>
+          {!model.sessions.items.length && (
+            <p className="mt">
+              No visible scheduled sessions are upcoming, live or awaiting your attendance records.
+            </p>
+          )}
+          <More shown={model.sessions.items.length} total={model.sessions.total} />
+          <Button
+            className="mt"
+            variant="outline"
+            onClick={() => onOpen({ view: 'network', section: 'sessions' })}
+          >
+            Open sessions
+          </Button>
+        </section>
+      </div>
+      <section className="panel operations-panel mt" aria-labelledby="ops-cohort-title">
+        <div className="section-title no-top">
+          <h2 id="ops-cohort-title">
+            <Users size={21} /> Cohort learning snapshot
+          </h2>
+          <Button variant="outline" onClick={() => onOpen({ view: 'teams', section: 'progress' })}>
+            Open progress summaries
+          </Button>
+        </div>
+        <p>
+          Record and pending-review counts can overlap: an active practice record stays active during an open
+          appeal. Learning and withdrawal show saved enrollment status. The owner’s review queue lists current
+          work. Seats include completed enrollments until withdrawal is permitted.
+        </p>
+        <div className="operations-cohorts">
+          {model.cohorts.map((c) => (
+            <section key={c.id} data-operations-cohort-id={c.id}>
+              <div className="section-title no-top">
+                <h3>{c.title}</h3>
+                <Tag tone={c.status === 'paused' ? 'warning' : ''}>{c.status}</Tag>
+              </div>
+              <p>
+                {c.occupied === null || c.capacity === null
+                  ? 'Seat count unavailable'
+                  : c.occupied + ' of ' + c.capacity + ' places occupied'}{' '}
+                · {c.nonWithdrawn} enrollments not withdrawn.
+              </p>
+              <dl className="operations-statuses">
+                <Metric label="Learning" value={c.learning} />
+                <Metric label="Review pending" value={c.reviewPending} />
+                <Metric label="Appeal pending" value={c.appealPending} />
+                <Metric label="Practice records" value={c.practiceCompleted} />
+                <Metric label="Withdrawn" value={c.withdrawn} />
+                {c.suspendedPracticeRecords > 0 && (
+                  <Metric label="Suspended practice records" value={c.suspendedPracticeRecords} />
+                )}{' '}
+                {c.other > 0 && <Metric label="Other recorded status" value={c.other} />}
+              </dl>
+              {c.newEnrollmentBlocked && (
+                <p className="operations-warning">
+                  {c.status === 'paused'
+                    ? 'Learning and review actions paused.'
+                    : c.status === 'closed'
+                      ? 'Closed to new enrollment.'
+                      : (c.contentNotice ?? 'New enrollment is unavailable.')}
+                </p>
+              )}
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={() => onOpen({ view: 'teams', section: 'cohorts', id: c.id })}
+              >
+                Open cohort
+              </Button>
+            </section>
+          ))}
+        </div>
+        {!model.cohorts.length && (
+          <p className="mt">
+            {owner
+              ? 'No cohorts exist yet.'
+              : 'No cohorts are currently in your facilitator scope. Ask an owner to arrange the appropriate cohort access.'}
+          </p>
+        )}
+      </section>
+      <p className="form-hint mt">
+        Refresh for the latest assignments and permissions. Recorded ages are observations, not deadlines or
+        response guarantees.
+      </p>
+    </div>
+  );
 }
-function Metric({label,value}:{label:string;value:number}){return <div><dt>{label}</dt><dd>{value}</dd></div>;}
-function More({shown,total}:{shown:number;total:number}){return total>shown?<p className="form-hint mt">Showing {shown} of {total}. Open the full view for the remaining work.</p>:null;}
+function Metric({ label, value }: { label: string; value: number }) {
+  return (
+    <div>
+      <dt>{label}</dt>
+      <dd>{value}</dd>
+    </div>
+  );
+}
+function More({ shown, total }: { shown: number; total: number }) {
+  return total > shown ? (
+    <p className="form-hint mt">
+      Showing {shown} of {total}. Open the full view for the remaining work.
+    </p>
+  ) : null;
+}

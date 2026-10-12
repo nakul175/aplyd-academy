@@ -1,23 +1,173 @@
-import {out,runtimeModuleHref} from './qa-paths.mjs';
+import { out, runtimeModuleHref } from './qa-paths.mjs';
 import assert from 'node:assert/strict';
-import {readFileSync,writeFileSync} from 'node:fs';
-import {chromium,browserOptions} from './browser-runtime.mjs';
-import {base,headers,action,success} from '../local-qa.mjs';
-const f=JSON.parse(readFileSync(new URL('operations-fixture.json',out),'utf8')),browser=await chromium.launch(browserOptions);
-const {id,owner,cid}=f,cases=[],context=await browser.newContext({viewport:{width:1440,height:1000},extraHTTPHeaders:headers(owner)}),page=await context.newPage(),errors=[];let reads=0,writes=0;
-page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>{const u=new URL(r.url());if(u.pathname==='/api/teams'&&r.method()==='GET'&&u.searchParams.get('id')===id)reads++;if(u.pathname.startsWith('/api/')&&r.method()==='POST')writes++;});
-const selectedResponse=()=>page.waitForResponse(r=>r.request().method()==='GET'&&r.url().includes('/api/teams?id='+id));
-try{
- await page.clock.install({time:new Date()});await page.goto(base+'/?workspace='+id+'#operations');await page.locator('[data-save-state="loaded"]').waitFor();await page.locator('[data-operations-workspace]').waitFor();
- let before=reads,response=selectedResponse();await page.clock.fastForward(30001);await response;await page.getByRole('button',{name:'Refresh work',exact:true}).waitFor({state:'visible'});await page.waitForFunction(()=>!document.querySelector('[data-operations-workspace] button')?.disabled);assert.equal(reads-before,1);assert.equal(writes,0);cases.push({name:'Visible30-second operations poll performs one current-workspace GET, no write',passed:true});
- await page.evaluate(()=>{window.__opsVisibility='hidden';Object.defineProperty(document,'visibilityState',{configurable:true,get:()=>window.__opsVisibility});});before=reads;await page.clock.fastForward(30001);await page.evaluate(()=>document.dispatchEvent(new Event('visibilitychange')));assert.equal(reads,before);cases.push({name:'Hidden view neither polls nor refreshes on a hidden visibility event',passed:true});
- response=selectedResponse();await page.evaluate(()=>{window.__opsVisibility='visible';document.dispatchEvent(new Event('visibilitychange'));});await response;await page.waitForFunction(()=>!document.querySelector('[data-operations-workspace] button')?.disabled);assert.equal(reads-before,1);assert.equal(writes,0);cases.push({name:'Returning to visible view refreshes current permission metadata without writes',passed:true});
- // Hold an actual existing write acknowledgement while visiting operations.
- // The feature wrapper must neither refresh nor age the current snapshot while
- // an acknowledged save is still pending in the browser's shared write fence.
- await page.evaluate(()=>{location.hash='#teams';});await page.getByRole('tab',{name:'Cohorts',exact:true}).click();const picker=page.getByRole('combobox',{name:'Availability for Local customer practice circle',exact:true});await picker.waitFor();
- let capturedResolve,releaseResolve;const captured=new Promise(resolve=>capturedResolve=resolve),release=new Promise(resolve=>releaseResolve=resolve);
- await page.route('**/api/teams',async route=>{if(route.request().method()!=='POST'){await route.continue();return;}const body=route.request().postDataJSON();if(body.command?.type!=='cohort-status'){await route.continue();return;}const saved=await route.fetch();assert.equal(saved.status(),200);capturedResolve();await release;await route.fulfill({response:saved});});
- await picker.click();await page.getByRole('option',{name:'Closed to new enrollment',exact:true}).click();await captured;await page.evaluate(()=>{location.hash='#operations';});await page.locator('[data-operations-workspace]').waitFor();assert.equal(await page.getByRole('button',{name:'Refresh work',exact:true}).isDisabled(),true);before=reads;const duringText=await page.locator('[data-operations-workspace]').innerText();await page.clock.fastForward(30001);await page.evaluate(()=>document.dispatchEvent(new Event('visibilitychange')));assert.equal(reads,before,'No poll or visibility refresh overlaps actual held write');assert.equal(await page.locator('[data-operations-workspace]').innerText(),duringText,'Comparison-clock text remains stable while save acknowledgement is held');releaseResolve();await page.locator('[data-save-state="loaded"]').waitFor();await page.waitForFunction(()=>!document.querySelector('[data-operations-workspace] button')?.disabled);assert.ok((await page.locator(`[data-operations-cohort-id="${cid}"]`).innerText()).includes('Closed to new enrollment.'));assert.equal(writes,1,'Only existing availability command wrote, never operations');cases.push({name:'Held real save blocks manual/poll/visibility refresh and then displays acknowledged state',passed:true});
- assert.deepEqual(errors,[]);writeFileSync(new URL('operations-polling-result.json',out),JSON.stringify({passed:true,workspace:id,at:new Date().toISOString(),cases,errors,reads,writes,note:'Browser clock advances timers only. Actual server commands use the server clock. No impact, SLA or chronological waiting claim is derived.'},null,2));console.log('Operations polling and held-write fence passed four browser cases.');
-}catch(e){writeFileSync(new URL('operations-polling-result.json',out),JSON.stringify({passed:false,workspace:id,at:new Date().toISOString(),cases,errors,reads,writes,error:String(e)},null,2));throw e;}finally{await action(owner,id,{type:'cohort-status',cohortId:cid,status:'open'}).then(success).catch(()=>{});await browser.close();}
+import { readFileSync, writeFileSync } from 'node:fs';
+import { chromium, browserOptions } from './browser-runtime.mjs';
+import { base, headers, action, success } from '../local-qa.mjs';
+const f = JSON.parse(readFileSync(new URL('operations-fixture.json', out), 'utf8')),
+  browser = await chromium.launch(browserOptions);
+const { id, owner, cid } = f,
+  cases = [],
+  context = await browser.newContext({
+    viewport: { width: 1440, height: 1000 },
+    extraHTTPHeaders: headers(owner),
+  }),
+  page = await context.newPage(),
+  errors = [];
+let reads = 0,
+  writes = 0;
+page.on('pageerror', (e) => errors.push(e.message));
+page.on('request', (r) => {
+  const u = new URL(r.url());
+  if (u.pathname === '/api/teams' && r.method() === 'GET' && u.searchParams.get('id') === id) reads++;
+  if (u.pathname.startsWith('/api/') && r.method() === 'POST') writes++;
+});
+const selectedResponse = () =>
+  page.waitForResponse((r) => r.request().method() === 'GET' && r.url().includes('/api/teams?id=' + id));
+try {
+  await page.clock.install({ time: new Date() });
+  await page.goto(base + '/?workspace=' + id + '#operations');
+  await page.locator('[data-save-state="loaded"]').waitFor();
+  await page.locator('[data-operations-workspace]').waitFor();
+  let before = reads,
+    response = selectedResponse();
+  await page.clock.fastForward(30001);
+  await response;
+  await page.getByRole('button', { name: 'Refresh work', exact: true }).waitFor({ state: 'visible' });
+  await page.waitForFunction(() => !document.querySelector('[data-operations-workspace] button')?.disabled);
+  assert.equal(reads - before, 1);
+  assert.equal(writes, 0);
+  cases.push({
+    name: 'Visible30-second operations poll performs one current-workspace GET, no write',
+    passed: true,
+  });
+  await page.evaluate(() => {
+    window.__opsVisibility = 'hidden';
+    Object.defineProperty(document, 'visibilityState', {
+      configurable: true,
+      get: () => window.__opsVisibility,
+    });
+  });
+  before = reads;
+  await page.clock.fastForward(30001);
+  await page.evaluate(() => document.dispatchEvent(new Event('visibilitychange')));
+  assert.equal(reads, before);
+  cases.push({ name: 'Hidden view neither polls nor refreshes on a hidden visibility event', passed: true });
+  response = selectedResponse();
+  await page.evaluate(() => {
+    window.__opsVisibility = 'visible';
+    document.dispatchEvent(new Event('visibilitychange'));
+  });
+  await response;
+  await page.waitForFunction(() => !document.querySelector('[data-operations-workspace] button')?.disabled);
+  assert.equal(reads - before, 1);
+  assert.equal(writes, 0);
+  cases.push({
+    name: 'Returning to visible view refreshes current permission metadata without writes',
+    passed: true,
+  });
+  // Hold an actual existing write acknowledgement while visiting operations.
+  // The feature wrapper must neither refresh nor age the current snapshot while
+  // an acknowledged save is still pending in the browser's shared write fence.
+  await page.evaluate(() => {
+    location.hash = '#teams';
+  });
+  await page.getByRole('tab', { name: 'Cohorts', exact: true }).click();
+  const picker = page.getByRole('combobox', {
+    name: 'Availability for Local customer practice circle',
+    exact: true,
+  });
+  await picker.waitFor();
+  let capturedResolve, releaseResolve;
+  const captured = new Promise((resolve) => (capturedResolve = resolve)),
+    release = new Promise((resolve) => (releaseResolve = resolve));
+  await page.route('**/api/teams', async (route) => {
+    if (route.request().method() !== 'POST') {
+      await route.continue();
+      return;
+    }
+    const body = route.request().postDataJSON();
+    if (body.command?.type !== 'cohort-status') {
+      await route.continue();
+      return;
+    }
+    const saved = await route.fetch();
+    assert.equal(saved.status(), 200);
+    capturedResolve();
+    await release;
+    await route.fulfill({ response: saved });
+  });
+  await picker.click();
+  await page.getByRole('option', { name: 'Closed to new enrollment', exact: true }).click();
+  await captured;
+  await page.evaluate(() => {
+    location.hash = '#operations';
+  });
+  await page.locator('[data-operations-workspace]').waitFor();
+  assert.equal(await page.getByRole('button', { name: 'Refresh work', exact: true }).isDisabled(), true);
+  before = reads;
+  const duringText = await page.locator('[data-operations-workspace]').innerText();
+  await page.clock.fastForward(30001);
+  await page.evaluate(() => document.dispatchEvent(new Event('visibilitychange')));
+  assert.equal(reads, before, 'No poll or visibility refresh overlaps actual held write');
+  assert.equal(
+    await page.locator('[data-operations-workspace]').innerText(),
+    duringText,
+    'Comparison-clock text remains stable while save acknowledgement is held',
+  );
+  releaseResolve();
+  await page.locator('[data-save-state="loaded"]').waitFor();
+  await page.waitForFunction(() => !document.querySelector('[data-operations-workspace] button')?.disabled);
+  assert.ok(
+    (await page.locator(`[data-operations-cohort-id="${cid}"]`).innerText()).includes(
+      'Closed to new enrollment.',
+    ),
+  );
+  assert.equal(writes, 1, 'Only existing availability command wrote, never operations');
+  cases.push({
+    name: 'Held real save blocks manual/poll/visibility refresh and then displays acknowledged state',
+    passed: true,
+  });
+  assert.deepEqual(errors, []);
+  writeFileSync(
+    new URL('operations-polling-result.json', out),
+    JSON.stringify(
+      {
+        passed: true,
+        workspace: id,
+        at: new Date().toISOString(),
+        cases,
+        errors,
+        reads,
+        writes,
+        note: 'Browser clock advances timers only. Actual server commands use the server clock. No impact, SLA or chronological waiting claim is derived.',
+      },
+      null,
+      2,
+    ),
+  );
+  console.log('Operations polling and held-write fence passed four browser cases.');
+} catch (e) {
+  writeFileSync(
+    new URL('operations-polling-result.json', out),
+    JSON.stringify(
+      {
+        passed: false,
+        workspace: id,
+        at: new Date().toISOString(),
+        cases,
+        errors,
+        reads,
+        writes,
+        error: String(e),
+      },
+      null,
+      2,
+    ),
+  );
+  throw e;
+} finally {
+  await action(owner, id, { type: 'cohort-status', cohortId: cid, status: 'open' })
+    .then(success)
+    .catch(() => {});
+  await browser.close();
+}

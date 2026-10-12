@@ -1,6 +1,86 @@
 import assert from 'node:assert/strict';
-import {writeFileSync} from 'node:fs';
-import {chromium} from '/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.mjs';
-import {base,identity,headers} from './local-qa.mjs';
-const user=identity('plan-keyboard'),browser=await chromium.launch({executablePath:'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',headless:true});let checks=0;const ok=(x)=>{assert.ok(x);checks++};
-try{const page=await browser.newPage({viewport:{width:1440,height:1000},extraHTTPHeaders:headers(user),reducedMotion:'reduce'});const errors=[];page.on('pageerror',e=>errors.push(e.message));await page.goto(base+'/');await page.locator('[data-save-state="loaded"]').waitFor();await page.getByRole('button',{name:'My learning plan',exact:true}).first().click();ok(await page.locator('#main').evaluate(e=>document.activeElement===e));ok(await page.getByRole('main').count()===1);const add=page.getByRole('button',{name:'Add practice activity',exact:true});await add.click();const dialog=page.getByRole('dialog',{name:'Add a planned activity',exact:true});await dialog.waitFor();ok(await dialog.evaluate(e=>e.contains(document.activeElement)));for(let i=0;i<14;i++){await page.keyboard.press(i<7?'Tab':'Shift+Tab');ok(await dialog.evaluate(e=>e.contains(document.activeElement)));}for(const label of ['Practice activity title','Planned date (optional)','Planned minutes','Private planning note'])ok(await dialog.getByLabel(label,{exact:true}).count()===1);await page.keyboard.press('Escape');await dialog.waitFor({state:'hidden'});ok(await add.evaluate(e=>document.activeElement===e));await page.getByLabel('My personal work goal',{exact:true}).fill('Keep my goal after a timezone typo');await page.getByLabel('Plan timezone',{exact:true}).fill('Invented/Zone');const response=page.waitForResponse(r=>new URL(r.url()).pathname==='/api/academy'&&r.request().method()==='POST');await page.getByRole('button',{name:'Save learning plan',exact:true}).click();ok((await response).status()===422);await page.getByRole('alert').filter({hasText:'supported timezone'}).waitFor();ok(await page.getByLabel('My personal work goal',{exact:true}).inputValue()==='Keep my goal after a timezone typo');ok(await page.getByLabel('Plan timezone',{exact:true}).inputValue()==='Invented/Zone');ok((await page.getByRole('status').filter({hasText:'Changes not saved'}).count())===1);await page.getByLabel('Plan timezone',{exact:true}).fill('Asia/Kolkata');const saved=page.waitForResponse(r=>new URL(r.url()).pathname==='/api/academy'&&r.request().method()==='POST');await page.getByRole('button',{name:'Save learning plan',exact:true}).click();ok((await saved).status()===200);ok(await page.getByRole('alert').filter({hasText:'supported timezone'}).count()===0);ok(errors.length===0);const result={passed:true,checks,mainFocus:true,dialogTrapAndEscape:true,visibleFieldLabels:true,serverErrorAndUnsentInput:true,preferenceSaveIndicator:true,pageErrors:errors};writeFileSync(new URL('../.sites-runtime/plan-accessibility.json',import.meta.url),JSON.stringify(result,null,2));console.log(JSON.stringify(result));}finally{await browser.close()}
+import { writeFileSync } from 'node:fs';
+import { chromium } from '/Users/athena/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.mjs';
+import { base, identity, headers } from './local-qa.mjs';
+const user = identity('plan-keyboard'),
+  browser = await chromium.launch({
+    executablePath: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
+    headless: true,
+  });
+let checks = 0;
+const ok = (x) => {
+  assert.ok(x);
+  checks++;
+};
+try {
+  const page = await browser.newPage({
+    viewport: { width: 1440, height: 1000 },
+    extraHTTPHeaders: headers(user),
+    reducedMotion: 'reduce',
+  });
+  const errors = [];
+  page.on('pageerror', (e) => errors.push(e.message));
+  await page.goto(base + '/');
+  await page.locator('[data-save-state="loaded"]').waitFor();
+  await page.getByRole('button', { name: 'My learning plan', exact: true }).first().click();
+  ok(await page.locator('#main').evaluate((e) => document.activeElement === e));
+  ok((await page.getByRole('main').count()) === 1);
+  const add = page.getByRole('button', { name: 'Add practice activity', exact: true });
+  await add.click();
+  const dialog = page.getByRole('dialog', { name: 'Add a planned activity', exact: true });
+  await dialog.waitFor();
+  ok(await dialog.evaluate((e) => e.contains(document.activeElement)));
+  for (let i = 0; i < 14; i++) {
+    await page.keyboard.press(i < 7 ? 'Tab' : 'Shift+Tab');
+    ok(await dialog.evaluate((e) => e.contains(document.activeElement)));
+  }
+  for (const label of [
+    'Practice activity title',
+    'Planned date (optional)',
+    'Planned minutes',
+    'Private planning note',
+  ])
+    ok((await dialog.getByLabel(label, { exact: true }).count()) === 1);
+  await page.keyboard.press('Escape');
+  await dialog.waitFor({ state: 'hidden' });
+  ok(await add.evaluate((e) => document.activeElement === e));
+  await page.getByLabel('My personal work goal', { exact: true }).fill('Keep my goal after a timezone typo');
+  await page.getByLabel('Plan timezone', { exact: true }).fill('Invented/Zone');
+  const response = page.waitForResponse(
+    (r) => new URL(r.url()).pathname === '/api/academy' && r.request().method() === 'POST',
+  );
+  await page.getByRole('button', { name: 'Save learning plan', exact: true }).click();
+  ok((await response).status() === 422);
+  await page.getByRole('alert').filter({ hasText: 'supported timezone' }).waitFor();
+  ok(
+    (await page.getByLabel('My personal work goal', { exact: true }).inputValue()) ===
+      'Keep my goal after a timezone typo',
+  );
+  ok((await page.getByLabel('Plan timezone', { exact: true }).inputValue()) === 'Invented/Zone');
+  ok((await page.getByRole('status').filter({ hasText: 'Changes not saved' }).count()) === 1);
+  await page.getByLabel('Plan timezone', { exact: true }).fill('Asia/Kolkata');
+  const saved = page.waitForResponse(
+    (r) => new URL(r.url()).pathname === '/api/academy' && r.request().method() === 'POST',
+  );
+  await page.getByRole('button', { name: 'Save learning plan', exact: true }).click();
+  ok((await saved).status() === 200);
+  ok((await page.getByRole('alert').filter({ hasText: 'supported timezone' }).count()) === 0);
+  ok(errors.length === 0);
+  const result = {
+    passed: true,
+    checks,
+    mainFocus: true,
+    dialogTrapAndEscape: true,
+    visibleFieldLabels: true,
+    serverErrorAndUnsentInput: true,
+    preferenceSaveIndicator: true,
+    pageErrors: errors,
+  };
+  writeFileSync(
+    new URL('../.sites-runtime/plan-accessibility.json', import.meta.url),
+    JSON.stringify(result, null, 2),
+  );
+  console.log(JSON.stringify(result));
+} finally {
+  await browser.close();
+}

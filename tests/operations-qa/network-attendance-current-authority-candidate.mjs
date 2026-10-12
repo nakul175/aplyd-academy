@@ -1,19 +1,136 @@
-import {out,runtimeModuleHref} from './qa-paths.mjs';
+import { out, runtimeModuleHref } from './qa-paths.mjs';
 import assert from 'node:assert/strict';
-import {readFileSync,writeFileSync} from 'node:fs';
-import {chromium,browserOptions} from './browser-runtime.mjs';
-import {base,headers,action,current,success} from '../local-qa.mjs';
-const f=JSON.parse(readFileSync(new URL('operations-fixture.json',out),'utf8')),{owner,backup,a,id,cid,sessions,appealId,supports}=f;
-const before=success(await current(owner,id)),s=before.team.network.sessions.find(s=>s.id===sessions.ownerHosted);assert.ok(s?.isHost&&s.registrations.length);const r=s.registrations[0],personName=r.name;
-const ownAttendanceBefore=success(await current(a,id)).team.network.history.find(h=>h.id===s.id)?.attendance??[];
-const browser=await chromium.launch(browserOptions),context=await browser.newContext({viewport:{width:1440,height:1000},extraHTTPHeaders:headers(owner)}),page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));let changed=false;
-try{
- // Server session remains future. This comparison-clock change opens a UI form
- // only; no attendance record is written or asserted against server time.
- await page.clock.install({time:new Date(Date.parse(s.startsAt)+1000)});await page.goto(base+'/?workspace='+id+'#network');await page.locator('[data-save-state="loaded"]').waitFor();await page.locator(`[data-session-id="${s.id}"]`).getByRole('button',{name:'Record attendance',exact:true}).first().click();await page.getByRole('dialog').waitFor();await page.getByRole('dialog').getByRole('heading',{name:'Attendance for '+personName,exact:true}).waitFor();await page.getByLabel('What supports this attendance record?',{exact:true}).fill('MY-UNSENT-OBSERVATION: fictional UI input; no observed attendance is claimed.');
- // Active assessor access keeps session metadata visible but removes host
- // roster authority. The actual save must fail before any attendance write.
- success(await action(backup,id,{type:'member',userId:owner.id,roles:['learner','assessor'],scopes:[cid],active:true}));changed=true;const response=page.waitForResponse(r=>r.request().method()==='POST'&&r.url().endsWith('/api/teams')),projection=page.waitForResponse(r=>r.request().method()==='GET'&&r.url().includes('/api/teams?id='+id));await page.getByRole('button',{name:'Save attendance',exact:true}).click();const denied=await response;assert.equal(denied.status(),409,'Active role update invalidates stale workspace revision before command authorization');const fresh=await projection;assert.equal(fresh.status(),200);await page.getByRole('button',{name:'Retry connection',exact:true}).waitFor();await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));
- const canonical=success(await current(owner,id)),session=canonical.team.network.sessions.find(s=>s.id===sessions.ownerHosted);assert.equal(session.isHost,false);assert.equal(session.registrations,undefined);const ownAttendanceAfter=success(await current(a,id)).team.network.history.find(h=>h.id===s.id)?.attendance??[];assert.deepEqual(ownAttendanceAfter,ownAttendanceBefore,'Denied command writes no attendance');
- const dialogCount=await page.getByRole('dialog').count(),staleParticipantInDialog=dialogCount>0&&(await page.getByRole('dialog').innerText()).includes(personName);await page.screenshot({path:new URL('network-attendance-current-authority.png',out).pathname,fullPage:true,animations:'disabled'});const passed=!staleParticipantInDialog&&errors.length===0;writeFileSync(new URL('network-attendance-current-authority-result.json',out),JSON.stringify({passed,at:new Date().toISOString(),workspace:id,deniedSave:denied.status(),successfulProjection:fresh.status(),currentIsHost:session.isHost,currentRosterAbsent:session.registrations===undefined,staleParticipantInDialog,dialogCount,attendanceUnchanged:true,browserClockOnly:true,errors},null,2));console.log(JSON.stringify({passed,staleParticipantInDialog,dialogCount,deniedSave:denied.status()}));assert.ok(passed,'Current successful permission-loss projection must remove former participant name from attendance dialog');
-}finally{if(changed){success(await action(backup,id,{type:'member',userId:owner.id,roles:['admin','learner','reviewer'],scopes:[cid],active:true}));success(await action(owner,id,{type:'assign',kind:'appeal',targetId:appealId,staffId:owner.id}));for(const key of ['reopened','workspacePrivacy']){const x=await action(owner,id,{type:'support-claim',requestId:supports[key]});assert.ok([200,409].includes(x.status));}}await browser.close();}
+import { readFileSync, writeFileSync } from 'node:fs';
+import { chromium, browserOptions } from './browser-runtime.mjs';
+import { base, headers, action, current, success } from '../local-qa.mjs';
+const f = JSON.parse(readFileSync(new URL('operations-fixture.json', out), 'utf8')),
+  { owner, backup, a, id, cid, sessions, appealId, supports } = f;
+const before = success(await current(owner, id)),
+  s = before.team.network.sessions.find((s) => s.id === sessions.ownerHosted);
+assert.ok(s?.isHost && s.registrations.length);
+const r = s.registrations[0],
+  personName = r.name;
+const ownAttendanceBefore =
+  success(await current(a, id)).team.network.history.find((h) => h.id === s.id)?.attendance ?? [];
+const browser = await chromium.launch(browserOptions),
+  context = await browser.newContext({
+    viewport: { width: 1440, height: 1000 },
+    extraHTTPHeaders: headers(owner),
+  }),
+  page = await context.newPage(),
+  errors = [];
+page.on('pageerror', (e) => errors.push(e.message));
+let changed = false;
+try {
+  // Server session remains future. This comparison-clock change opens a UI form
+  // only; no attendance record is written or asserted against server time.
+  await page.clock.install({ time: new Date(Date.parse(s.startsAt) + 1000) });
+  await page.goto(base + '/?workspace=' + id + '#network');
+  await page.locator('[data-save-state="loaded"]').waitFor();
+  await page
+    .locator(`[data-session-id="${s.id}"]`)
+    .getByRole('button', { name: 'Record attendance', exact: true })
+    .first()
+    .click();
+  await page.getByRole('dialog').waitFor();
+  await page
+    .getByRole('dialog')
+    .getByRole('heading', { name: 'Attendance for ' + personName, exact: true })
+    .waitFor();
+  await page
+    .getByLabel('What supports this attendance record?', { exact: true })
+    .fill('MY-UNSENT-OBSERVATION: fictional UI input; no observed attendance is claimed.');
+  // Active assessor access keeps session metadata visible but removes host
+  // roster authority. The actual save must fail before any attendance write.
+  success(
+    await action(backup, id, {
+      type: 'member',
+      userId: owner.id,
+      roles: ['learner', 'assessor'],
+      scopes: [cid],
+      active: true,
+    }),
+  );
+  changed = true;
+  const response = page.waitForResponse(
+      (r) => r.request().method() === 'POST' && r.url().endsWith('/api/teams'),
+    ),
+    projection = page.waitForResponse(
+      (r) => r.request().method() === 'GET' && r.url().includes('/api/teams?id=' + id),
+    );
+  await page.getByRole('button', { name: 'Save attendance', exact: true }).click();
+  const denied = await response;
+  assert.equal(
+    denied.status(),
+    409,
+    'Active role update invalidates stale workspace revision before command authorization',
+  );
+  const fresh = await projection;
+  assert.equal(fresh.status(), 200);
+  await page.getByRole('button', { name: 'Retry connection', exact: true }).waitFor();
+  await page.evaluate(
+    () => new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve))),
+  );
+  const canonical = success(await current(owner, id)),
+    session = canonical.team.network.sessions.find((s) => s.id === sessions.ownerHosted);
+  assert.equal(session.isHost, false);
+  assert.equal(session.registrations, undefined);
+  const ownAttendanceAfter =
+    success(await current(a, id)).team.network.history.find((h) => h.id === s.id)?.attendance ?? [];
+  assert.deepEqual(ownAttendanceAfter, ownAttendanceBefore, 'Denied command writes no attendance');
+  const dialogCount = await page.getByRole('dialog').count(),
+    staleParticipantInDialog =
+      dialogCount > 0 && (await page.getByRole('dialog').innerText()).includes(personName);
+  await page.screenshot({
+    path: new URL('network-attendance-current-authority.png', out).pathname,
+    fullPage: true,
+    animations: 'disabled',
+  });
+  const passed = !staleParticipantInDialog && errors.length === 0;
+  writeFileSync(
+    new URL('network-attendance-current-authority-result.json', out),
+    JSON.stringify(
+      {
+        passed,
+        at: new Date().toISOString(),
+        workspace: id,
+        deniedSave: denied.status(),
+        successfulProjection: fresh.status(),
+        currentIsHost: session.isHost,
+        currentRosterAbsent: session.registrations === undefined,
+        staleParticipantInDialog,
+        dialogCount,
+        attendanceUnchanged: true,
+        browserClockOnly: true,
+        errors,
+      },
+      null,
+      2,
+    ),
+  );
+  console.log(JSON.stringify({ passed, staleParticipantInDialog, dialogCount, deniedSave: denied.status() }));
+  assert.ok(
+    passed,
+    'Current successful permission-loss projection must remove former participant name from attendance dialog',
+  );
+} finally {
+  if (changed) {
+    success(
+      await action(backup, id, {
+        type: 'member',
+        userId: owner.id,
+        roles: ['admin', 'learner', 'reviewer'],
+        scopes: [cid],
+        active: true,
+      }),
+    );
+    success(
+      await action(owner, id, { type: 'assign', kind: 'appeal', targetId: appealId, staffId: owner.id }),
+    );
+    for (const key of ['reopened', 'workspacePrivacy']) {
+      const x = await action(owner, id, { type: 'support-claim', requestId: supports[key] });
+      assert.ok([200, 409].includes(x.status));
+    }
+  }
+  await browser.close();
+}
