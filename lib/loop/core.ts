@@ -100,6 +100,10 @@ export const DECISIONS = {
   'pricing.renewal': {story: 'ACA-US-15.2', what: 'Renewal period and price per organisation', shape: '{"months":12,"pricePerSeatInr":0}'},
   'brief.max_words': {story: 'ACA-US-13.1', what: 'Length limit of a monthly brief', shape: '{"words":250}'},
   'language.local': {story: 'ACA-US-19.1', what: 'The local language chosen for R4', shape: '{"code":"hi","name":"Hindi"}'},
+  'golive.decision': {story: 'ACA-US-12.1', what: 'Go/no-go decision before the workshop', shape: '{"decision":"go"|"go_without_teacher_mode"|"no_go","packRef":"..."}'},
+  'review.decision': {story: 'ACA-US-10.2', what: 'Day-30 or day-90 review decision (scope: report id)', shape: '{"decision":"continue"|"adjust"|"stop","linkedTo":"..."}'},
+  'risk.acceptance': {story: 'ACA-US-12.2', what: 'Owner accepts or rejects a remaining security risk (scope: finding id)', shape: '{"decision":"accept"|"reject","note":"..."}'},
+  'sessions.format': {story: 'ACA-US-8.1', what: 'Cadence and format of live sessions', shape: '{"cadence":"monthly","minutes":45,"platform":"..."}'},
   'student.legal_review': {story: 'ACA-US-11.1', what: 'Qualified legal review (Q6) of student data for a school (scope: org id)', shape: '{"ref":"...","parentalConsentRequired":true,"teacherMaySee":["practice_counts","check_results"]}'},
 } as const;
 export type DecisionKey = keyof typeof DECISIONS;

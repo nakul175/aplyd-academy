@@ -175,6 +175,16 @@ export async function prepareWeek6Report(db: Db, actor: Actor, cohortId: string,
   };
   return {...await saveReport(db, actor, 'week6', {cohortId, orgId: c.org_id}, body, now), body};
 }
+/** ACA-US-10.2: the owner's continue, adjust or stop decision, linked to the strategy and roadmap. */
+export async function recordReviewDecision(db: Db, actor: Actor, reportId: string, input: {decision?: unknown; source?: unknown}, now = Date.now()) {
+  await requireOwner(db, actor, 'review.decide', now);
+  const r = await db.prepare(`SELECT kind FROM loop_reports WHERE id=? AND kind IN ('day30','day90')`).bind(reportId).first<{kind: string}>();
+  if (!r) throw new LoopError('Review not found.', 404);
+  const d = oneOf(input.decision, ['continue', 'adjust', 'stop'] as const, 'Decision');
+  await recordDecision(db, actor, 'review.decision', reportId, {decision: d, review: r.kind, linkedTo: 'STRATEGY-ACADEMY-01 and ROADMAP-ACADEMY-01'}, typeof input.source === 'string' && input.source.trim() ? input.source : `Review ${reportId}`, now);
+  return {decision: d};
+}
+
 export async function recordA01Decision(db: Db, actor: Actor, reportId: string, input: {decision?: unknown; source?: unknown}, now = Date.now()) {
   await requireOwner(db, actor, 'a01.decide', now);
   const r = await db.prepare(`SELECT cohort_id FROM loop_reports WHERE id=? AND kind='week6'`).bind(reportId).first<{cohort_id: string}>();
@@ -197,6 +207,7 @@ export async function prepareReview(db: Db, actor: Actor, cohortId: string, day:
     targets: 'Targets are those in VISION-ACADEMY-01 and STRATEGY-ACADEMY-01; this pack does not restate or change them.',
     harmByStartingLevel: {uncheckedResultsMean: checks, note: 'A-06: compare unaided-check results and S-03 by starting level for any group doing worse over time.'},
     uncertainty: 'Every share shows numerator, denominator and a 95% Wilson interval; small cohorts give wide intervals.',
+    interviews: day === 90 ? (await db.prepare('SELECT activity_band, summary FROM loop_interviews WHERE cohort_id=? AND summary IS NOT NULL ORDER BY activity_band').bind(cohortId).all().catch(() => ({results: []}))).results : undefined,
     decision: null, note: 'Nakul Jain records continue, adjust or stop; this pack records nothing by itself.',
   };
   return {...await saveReport(db, actor, day === 30 ? 'day30' : 'day90', {cohortId, orgId: c.org_id}, body, now), body};

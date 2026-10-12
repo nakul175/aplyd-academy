@@ -1,6 +1,7 @@
 // ACA-US-3.2 expert review and versions; ACA-US-3.3 error log. Only the named reviewer of the pack gets in.
 import {Shell, pageContext, attempt, Refused} from '../../shell';
 import {reviewQueue, errorLog, latestVersion, publishedItems} from '@/lib/loop/packs';
+import {v2Readiness} from '@/lib/loop/evidence';
 import {ActionForm, ActionButton} from '../../client';
 import s from '../../loop.module.css';
 export const dynamic = 'force-dynamic';
@@ -15,6 +16,7 @@ export default async function Review({params}: {params: Promise<{packId: string}
   const pack = (await db.prepare('SELECT title, sector, audience, language FROM loop_packs WHERE id=?').bind(packId).first<{title: string; sector: string; audience: string; language: string}>())!;
   const v = await latestVersion(db, packId), pub = await publishedItems(db, packId);
   const log = await errorLog(db, user, packId) as {id: number; title: string; pack_version: number; reason: string; at: string}[];
+  const ready = await v2Readiness(db, user, packId) as unknown as {flags: {id: number; title: string; reason: string; kind: string | null; text: string | null; decided: string | null}[]; ready: boolean};
   const approvedUnpublished = (await db.prepare(`SELECT count(*) n FROM loop_pack_items i WHERE pack_id=? AND status='approved' AND id NOT IN (SELECT value FROM json_each(?))`).bind(packId, JSON.stringify(v?.itemIds ?? [])).first<{n: number}>())!.n;
   return (
     <Shell title={`Review: ${pack.title}`} screen="review">
@@ -40,6 +42,14 @@ export default async function Review({params}: {params: Promise<{packId: string}
       <section className={s.card} aria-labelledby="log-h"><h2 id="log-h">Error log ({log.length} open)</h2>
         {log.map(f => <article key={f.id} className={s.card}><h3>{f.title} <span className={s.muted}>(version {f.pack_version})</span></h3><p>{f.reason}</p><p className={s.muted}>Flagged {f.at.slice(0, 10)}</p>
           <ActionForm id={`f-${f.id}`} action="pack.resolveFlag" params={{flagId: f.id}} fields={[{name: 'resolution', label: 'Resolution', required: true}]} submit="Resolve" /></article>)}
+      </section>
+      <section className={s.card} aria-labelledby="v2-h"><h2 id="v2-h">Next version from the error log</h2>
+        <p>{ready.flags.length === 0 ? 'No flags logged yet.' : ready.ready ? 'Every logged error has a proposed fix or a reason for no change.' : `${ready.flags.filter(f => !f.kind || f.decided === 'rejected').length} logged error(s) still need a proposal.`}</p>
+        <ActionButton action="pack.proposeFixes" params={{packId}} label="Ask AI to propose fixes" secondary />
+        <ul className={s.list}>{ready.flags.map(f => <li key={f.id}><strong>{f.title}</strong>: {f.reason}{f.kind && <p className={s.muted}>{f.kind === 'fix' ? 'Proposed fix' : 'No change'}: {f.text} {f.decided ? `(${f.decided})` : ''}</p>}
+          {f.kind && !f.decided && <div className={s.row}><ActionButton action="pack.decideProposal" params={{flagId: f.id, decision: 'accepted'}} label="Accept" secondary /><ActionButton action="pack.decideProposal" params={{flagId: f.id, decision: 'rejected'}} label="Reject" secondary /></div>}
+          <details><summary>Write my own proposal</summary><ActionForm id={`own-${f.id}`} action="pack.decideProposal" params={{flagId: f.id, decision: 'own'}} fields={[{name: 'kind', label: 'Kind', type: 'select', options: [['fix', 'Fix'], ['no_change', 'No change']]}, {name: 'text', label: 'Fix text or reason', type: 'textarea', required: true, rows: 3}]} submit="Save" /></details></li>)}</ul>
+        <p className={s.muted}>Apply accepted fixes with “Change this item” below, then publish a new version; its change list and the earlier version are kept.</p>
       </section>
       <section className={s.card}><h2>Published items</h2>
         <ul className={s.list}>{pub.items.map(i => <li key={i.id}><strong>{i.title}</strong> <span className={s.muted}>({i.kind}, revision {i.revision})</span>

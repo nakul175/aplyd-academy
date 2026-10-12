@@ -108,6 +108,10 @@ export async function enrolCohort(db: Db, actor: Actor, cohortId: string, input:
   await requireRole(db, actor, cohort.org_id, ['admin'], 'cohort.enrol', {now});
   const role = oneOf(input.role ?? (cohort.org_kind === 'school' ? 'teacher' : cohort.org_kind === 'institute' ? 'officer' : 'learner'), LEARNER_ROLES, 'Learner type');
   if (role === 'student') return refuse(db, actor.userId, 'cohort.enrol_student', cohort.org_id, 'Student accounts are not available until the school agreement, legal review and parental consent rules are in place (ACA-US-11.1).', now);
+  if (role === 'teacher') { // ACA-US-9.1 and the B3 rule: teacher mode only when the owner's go/no-go decision allows it
+    const go = await decision<{decision: string}>(db, 'golive.decision');
+    if (go?.value.decision !== 'go') return refuse(db, actor.userId, 'cohort.enrol_teacher', cohort.org_id, 'Teacher mode starts only after the product owner’s go decision includes it (go/no-go review, rule B3).', now);
+  }
   const {ok, problems} = parseMemberList(input.list);
   const invited: string[] = [];
   for (const row of ok) {

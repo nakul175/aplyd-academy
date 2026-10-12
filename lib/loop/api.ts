@@ -83,6 +83,8 @@ export const ACTIONS: Record<string, Handler> = {
 
 /** Extra actions registered by later modules (E8 onwards) without editing this table. */
 export function register(name: string, h: Handler) { ACTIONS[name] = h; }
+export function registerPublic(name: string, h: Public) { PUBLIC_ACTIONS[name] = h; }
+export const helpers = {s, n, send};
 
 export async function dispatch(ctx: Ctx, body: Params) {
   const action = typeof body.action === 'string' ? body.action : '';

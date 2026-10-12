@@ -97,6 +97,7 @@ try {
   await asha.getByRole('button', {name: 'Yes, I am 18 or older'}).click();
   await asha.getByRole('link', {name: 'Sign in to join'}).click();
   await asha.getByLabel('Email address').fill(email('asha')); await asha.getByRole('button', {name: 'Email me a code'}).click();
+  await asha.getByLabel('6-digit code').waitFor();
   await asha.getByLabel('6-digit code').fill(lastMail(email('asha')).match(/\b(\d{6})\b/)[1]); await asha.getByRole('button', {name: 'Sign in'}).click();
   await asha.getByRole('button', {name: 'Yes, I am 18 or older'}).click();
   await asha.getByRole('button', {name: 'Join'}).click(); await asha.getByText('agree to the use of your practice data').waitFor(); checks++; // core consent required
@@ -154,5 +155,38 @@ try {
   await asha.goto(base + '/loop/settings'); await asha.getByText('Email reminders: on').waitFor().catch(() => {});
   const exp = await asha.evaluate(async () => (await (await fetch('/api/loop/export')).json()).memberships[0].submissions.length);
   ok(exp === 1, 'export contains my submission');
+  // ---- 12.5 help: report from any screen; the facilitator sees it with time and screen ----
+  await asha.goto(`${base}/loop/history/${mem}`); await asha.getByRole('link', {name: 'Help'}).click();
+  await asha.getByLabel('What went wrong?').fill('The upload bar stopped once'); await asha.getByRole('button', {name: 'Send report'}).click();
+  await asha.getByText('Thank you. We have your report').waitFor(); checks++;
+  await fac.goto(`${base}/loop/facilitate/${cohortId}`); await fac.getByText('The upload bar stopped once').waitFor();
+  ok(await fac.getByText('screen “history”').isVisible(), 'report carries the screen');
+
+  // ---- 8.1/8.2 live session for Asha's level, then a cohort-only thread with moderation ----
+  decide('sessions.format', {cadence: 'monthly', minutes: 45});
+  await fac.goto(`${base}/loop/community/${cohortId}`);
+  await fac.getByLabel('Level').selectOption('L2'); await fac.getByLabel('Title').fill('Checking invoices together');
+  await fac.getByLabel(/Starts at/).fill('2026-12-01T10:00:00Z'); await fac.getByLabel('Meeting link').fill('https://meet.example.test/abc');
+  await fac.getByRole('button', {name: 'Schedule and invite'}).click(); await fac.getByText('1 invited').waitFor(); checks++;
+  await asha.goto(base + '/loop/sessions'); await asha.getByText('Checking invoices together').waitFor(); checks++;
+  await fac.getByText('End the session').click(); await fac.getByRole('button', {name: 'End and open the follow-up thread'}).click();
+  await fac.getByRole('link', {name: /After the session/}).waitFor();
+  await asha.reload(); await asha.getByRole('link', {name: 'Follow-up thread'}).click();
+  await asha.getByLabel('Your post').fill('SPAM post for moderation test'); await asha.getByRole('button', {name: 'Post'}).click();
+  await asha.getByText('SPAM post for moderation test').waitFor();
+  await fac.getByRole('link', {name: /After the session/}).click(); await fac.getByRole('button', {name: 'Hide'}).click(); await fac.getByText('hidden', {exact: true}).waitFor();
+  await asha.reload(); await asha.getByText('This post was hidden by a facilitator.').waitFor(); checks++;
+  ok(db.prepare(`SELECT count(*) n FROM loop_audit WHERE action='thread.hide' AND outcome='ok'`).get().n === 1, 'hide audited');
+
+  // ---- 10.1 confirmation by a supervisor without an account ----
+  await asha.goto(`${base}/loop/history/${mem}`); await asha.getByText('Ask a supervisor or peer to confirm this change').click();
+  await asha.getByLabel('Their email').fill(email('boss')); await asha.getByLabel(/What they will see/).fill('I now check every supplier invoice total with AI and by hand');
+  await asha.getByRole('button', {name: 'Send request'}).click(); await asha.getByText('Request sent.').waitFor();
+  const boss = await newPage(); await boss.goto(base + lastMail(email('boss')).match(/(\/loop\/confirm\/[A-Za-z0-9_-]{43})/)[1]);
+  await boss.getByText('I now check every supplier invoice total').waitFor();
+  ok(!(await boss.content()).includes('wrong total'), 'confirmer sees only what was shared');
+  await boss.getByRole('button', {name: 'Yes, I confirm this change'}).click(); await boss.getByText('You confirmed this change.').waitFor();
+  ok(db.prepare(`SELECT status FROM loop_confirmations WHERE member_id=?`).get(mem).status === 'confirmed', 'confirmation stored');
+
   console.log(JSON.stringify({checks, passed: true}));
 } finally { await browser.close(); }

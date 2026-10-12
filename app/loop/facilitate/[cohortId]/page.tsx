@@ -6,6 +6,7 @@ import {followUpList} from '@/lib/loop/reminders';
 import {openLevelRequests, levelLabel, type Instrument} from '@/lib/loop/levels';
 import {publishedItems} from '@/lib/loop/packs';
 import {decision} from '@/lib/loop/core';
+import {helpQueue} from '@/lib/loop/help';
 import {ActionForm, ActionButton} from '../../client';
 import s from '../../loop.module.css';
 export const dynamic = 'force-dynamic';
@@ -20,6 +21,7 @@ export default async function Facilitate({params}: {params: Promise<{cohortId: s
   const fu = await attempt(() => followUpList(db, user, cohortId));
   const reqs = await openLevelRequests(db, user, cohort.org_id) as {id: number; reason: string; name: string; level: string}[];
   const bands = (await decision<Instrument>(db, 'placement.instrument'))?.value.bands ?? [];
+  const help = await helpQueue(db, user, cohort.org_id) as {id: number; screen: string; kind: string; body: string; at: string; name: string | null}[];
   const checks = cohort.pack_id ? (await publishedItems(db, cohort.pack_id)).items.filter(i => i.kind === 'check') : [];
   return (
     <Shell title={`Facilitate: ${cohort.name}`} screen="facilitate">
@@ -41,6 +43,10 @@ export default async function Facilitate({params}: {params: Promise<{cohortId: s
       </section>
       <section className={s.card}><h2>Unaided checks</h2>
         {checks.length === 0 ? <p>No published check in the pack yet.</p> : <ul className={s.list}>{checks.map(c => <li key={c.id}>{c.title} <ActionButton action="check.schedule" params={{cohortId, itemId: c.id}} label="Give this check now" secondary /></li>)}</ul>}
+      </section>
+      <section className={s.card} aria-labelledby="help-h"><h2 id="help-h">Help requests ({help.length})</h2>
+        {help.map(h => <article key={h.id} className={s.card}><p><strong>#{h.id}</strong> {h.name ?? 'Someone'} · {h.kind} · screen “{h.screen}” · {h.at.slice(0, 16).replace('T', ' ')}</p><p className={s.prewrap}>{h.body}</p>
+          <ActionForm id={`h-${h.id}`} action="help.resolve" params={{id: h.id}} fields={[{name: 'resolution', label: 'What you did', required: true}]} submit="Mark resolved" /></article>)}
       </section>
       <section className={s.card}><h2>Report an AI problem</h2>
         <ActionForm action="ai.incident" fields={[{name: 'effect', label: 'What happened and who was affected?', type: 'textarea', required: true, rows: 3}, {name: 'action', label: 'What did you do?', required: true}]} submit="Log incident" done="stay" success="Logged. The product owner can switch AI off if needed." />

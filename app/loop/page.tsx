@@ -32,7 +32,7 @@ async function LearnerCard({db, m, userId}: {db: Db; m: Member & {org_name: stri
       {weekly && weekly.state === 'error' && <p className={s.muted}>{weekly.message}</p>}
       {checks.map(c => <p key={c.id}><Link className={s.button} href={`/loop/check/${c.id}`}>Unaided check: {c.title}</Link></p>)}
       {level && access.active && <div className={s.row}><ActionButton action="catch.open" params={{memberId: m.id}} label="This month’s catch-the-AI task" done="go:/loop/catch/{taskId}" secondary /></div>}
-      <p className={s.row}><Link href={`/loop/history/${m.id}`}>My practice history</Link> · <Link href="/loop/settings">Settings and my data</Link></p>
+      <p className={s.row}><Link href={`/loop/history/${m.id}`}>My practice history</Link> · <Link href="/loop/sessions">Live sessions</Link> · {m.cohort_id && <Link href={`/loop/community/${m.cohort_id}`}>Cohort community</Link>} · <Link href="/loop/settings">Settings and my data</Link></p>
     </section>
   );
 }

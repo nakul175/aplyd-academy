@@ -6,6 +6,7 @@ import {operatorRole, pendingDecisions} from '@/lib/loop/core';
 import {aiStatus, incidents} from '@/lib/loop/ai';
 import {listReports} from '@/lib/loop/metrics';
 import {retentionRuns} from '@/lib/loop/retention';
+import {securityQueue} from '@/lib/loop/help';
 import {ActionForm, ActionButton} from '../client';
 import s from '../loop.module.css';
 export const dynamic = 'force-dynamic';
@@ -23,6 +24,7 @@ export default async function Ops() {
   const reports = await listReports(db, user) as {id: string; kind: string; cohort_id: string; created_at: string; approved_at: string | null}[];
   const runs = await retentionRuns(db, user) as {at: string; trigger: string; counts: string}[];
   const cases = (await db.prepare('SELECT count(*) n FROM loop_eval_cases').first<{n: number}>())!.n;
+  const security = role === 'owner' ? await securityQueue(db, user) as {id: number; screen: string; body: string; at: string; status: string}[] : [];
   const cohortOpts = cohorts.map(c => [c.id, `${c.org}: ${c.name}`] as [string, string]);
   return (
     <Shell title={`Operations (${role})`} screen="ops">
@@ -32,6 +34,8 @@ export default async function Ops() {
         <h3>New organisation</h3>
         <ActionForm action="org.create" fields={[{name: 'kind', label: 'Type', type: 'select', options: [['association', 'Association'], ['school', 'School'], ['university', 'University'], ['institute', 'Training institute']]}, {name: 'name', label: 'Name', required: true}, {name: 'sector', label: 'Sector', required: true, hint: 'For example textile, pharma, education, public service'}, {name: 'agreementRef', label: 'Signed agreement reference', hint: 'Required for schools, universities and institutes'}]} submit="Create organisation" />
       </section>
+      <section className={s.card}><h2>Cohorts</h2><ul className={s.list}>{cohorts.map(c => <li key={c.id}>{c.org}: {c.name} · <Link href={`/loop/ops/cohort/${c.id}`}>Evidence</Link></li>)}</ul></section>
+      {role === 'owner' && <section className={s.card}><h2>Security and privacy reports</h2>{security.length === 0 ? <p>None.</p> : <ul className={s.list}>{security.map(x => <li key={x.id}><strong>#{x.id}</strong> {x.at.slice(0, 16)} · {x.screen} · {x.status}<p className={s.prewrap}>{x.body}</p>{x.status === 'open' && <ActionForm id={`sec-${x.id}`} action="help.resolve" params={{id: x.id}} fields={[{name: 'resolution', label: 'Resolution', required: true}]} submit="Resolve" />}</li>)}</ul>}</section>}
       <section className={s.card}><h2>Context packs</h2>
         <ul className={s.list}>{packs.map(p => <li key={p.id}><strong>{p.title}</strong> <span className={s.muted}>{p.sector} · {p.audience} · {p.language}</span>
           <details><summary>Name a reviewer</summary><ActionForm id={`rv-${p.id}`} action="pack.assignReviewer" params={{packId: p.id}} fields={[{name: 'email', label: 'Reviewer email (must have signed in once)', type: 'email', required: true}, {name: 'role', label: 'Role', type: 'select', options: [['expert', 'Sector expert'], ['reviewer', 'Education or university reviewer'], ['bilingual', 'Bilingual reviewer']]}]} submit="Name reviewer" /></details>
