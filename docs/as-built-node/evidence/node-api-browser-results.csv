@@ -1,0 +1,14 @@
+test,exit,seconds
+tests/node-runtime/refusal-audit.mjs,0,0
+tests/api-integration.mjs,0,1
+tests/teams-api.mjs,0,0
+tests/ecosystem-api.mjs,0,1
+tests/authoring-api.mjs,0,2
+tests/exact-offering-qa/read-only-routing.test.mjs,0,0
+/home/claude/work/qa-linux/browser-smoke.mjs,0,6
+/home/claude/work/qa-linux/teams-browser.mjs,1,23
+/home/claude/work/qa-linux/ecosystem-browser.mjs,0,10
+/home/claude/work/qa-linux/network-accessibility.mjs,0,9
+/home/claude/work/qa-linux/overview-response-browser.mjs,1,5
+/home/claude/work/qa-linux/browser-journey.mjs,0,9
+/home/claude/work/qa-linux/responsive-lab.mjs,0,6

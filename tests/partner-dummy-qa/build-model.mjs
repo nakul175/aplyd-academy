@@ -17,5 +17,5 @@ export {GET as linksGET,POST as linksPOST} from ${q('app/api/partner/links/route
 export {POST as deliverPOST} from ${q('app/api/partner/deliver/route.ts')};
 export {env,setIdentity} from ${JSON.stringify(host)};`;
 await esbuild.build({stdin:{contents:entry,resolveDir:app,sourcefile:'partner-dummy-model.ts'},outfile:out+'/model.mjs',bundle:true,platform:'node',format:'esm',target:'es2022',tsconfig:app+'/tsconfig.json',
- plugins:[{name:'pure-host',setup(b){b.onResolve({filter:/^cloudflare:workers$|chatgpt-auth$/},()=>({path:host}))}}]});
+ plugins:[{name:'pure-host',setup(b){b.onResolve({filter:/^cloudflare:workers$|platform-env$|chatgpt-auth$/},()=>({path:host}))}}]});
 console.log('partner-dummy model built');

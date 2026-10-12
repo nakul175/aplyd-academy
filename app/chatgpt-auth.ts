@@ -18,7 +18,13 @@ const SIGN_IN_PATH = "/signin-with-chatgpt";
 const SIGN_OUT_PATH = "/signout-with-chatgpt";
 const CALLBACK_PATH = "/callback";
 
+// On ChatGPT Sites a trusted dispatcher set these headers. On the Node runtime (ADR-0001) any client could
+// send them, so they are ignored unless ACADEMY_TRUST_IDENTITY_HEADERS=1, which only local synthetic tests set.
+// Real sign-in replaces this in ACA-US-1.4; until then a Node deployment has no signed-in users at all.
+const trustIdentityHeaders = () => process.env.ACADEMY_TRUST_IDENTITY_HEADERS === "1";
+
 export async function getChatGPTUser(): Promise<ChatGPTUser | null> {
+  if (!trustIdentityHeaders()) return null;
   const requestHeaders = await headers();
   const userId = requestHeaders.get(USER_ID_HEADER);
   const email = requestHeaders.get(USER_EMAIL_HEADER);

@@ -1,4 +1,4 @@
-import {env} from 'cloudflare:workers';
+import {env} from '@/lib/platform-env';
 import {lookupPublicCredential} from '@/lib/academy-credential-public';
 import {isCredentialToken} from '@/lib/academy-credential';
 /** Read-only. The token is validated first, then used only as a bound parameter. A bounded substring scan

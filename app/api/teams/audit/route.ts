@@ -1,4 +1,5 @@
-import {env} from 'cloudflare:workers';
+import {recordRefusal} from '@/lib/access-refusal-audit';
+import {env} from '@/lib/platform-env';
 import {getChatGPTUser} from '../../../chatgpt-auth';
 import {RuleError} from '@/lib/academy-engine';
 import {Team} from '@/lib/academy-teams';
@@ -17,4 +18,4 @@ export async function GET(request:Request){try{
  const q=buildAuditQuery('academy_team_audit',t.id,{limit:param('limit'),before:param('before'),type:param('type'),target:param('target'),from:param('from'),to:param('to'),actorUserId});
  const rows:any[]=(await env.DB.prepare(q.sql).bind(...q.binds).all()).results,page=pageOf(rows,q.limit);
  return response({items:page.items.map(r=>projectAuditRow(r,refOf(r.actor))),nextBefore:page.nextBefore,actors:Object.fromEntries(t.members.map(m=>[refOf(m.userId),String(m.name||'Member').slice(0,80)]))});
- }catch(e){if(e instanceof AuditQueryError)return response({error:e.message},400);if(e instanceof RuleError)return response({error:e.message},e.status);console.error('Academy audit read failed');return response({error:'Could not open the workspace audit.'},503)}}
+ }catch(e){if(e instanceof AuditQueryError)return response({error:e.message},400);if(e instanceof RuleError){await recordRefusal(request,e.status);return response({error:e.message},e.status)};console.error('Academy audit read failed');return response({error:'Could not open the workspace audit.'},503)}}

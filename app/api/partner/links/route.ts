@@ -1,4 +1,5 @@
-import {env} from 'cloudflare:workers';
+import {expectedOrigin} from '@/lib/request-origin';
+import {env} from '@/lib/platform-env';
 import {getChatGPTUser} from '../../../chatgpt-auth';
 import {PartnerDummyError} from '@/lib/academy-partner-dummy';
 import {viewFor,applyLearnerCommand} from '@/lib/academy-partner-dummy-service';
@@ -12,7 +13,7 @@ export async function GET(){try{const u=await who();return respond(await viewFor
 /** Learner-only commands: link | grant | withdraw | unlink. Consent never comes from the partner. */
 export async function POST(request:Request){
  try{
-  const origin=request.headers.get('origin');if(origin&&origin!==new URL(request.url).origin)throw new PartnerDummyError('This action must come from your Academy.',403);
+  const origin=request.headers.get('origin');if(origin&&origin!==expectedOrigin(request))throw new PartnerDummyError('This action must come from your Academy.',403);
   if((request.headers.get('content-type')??'').split(';')[0].trim()!=='application/json')throw new PartnerDummyError('Use a JSON request.',415);
   const raw=await request.text();if(raw.length>2000)throw new PartnerDummyError('This request is too large.',413);
   let cmd:unknown;try{cmd=JSON.parse(raw)}catch{throw new PartnerDummyError('The request is not valid JSON.',400)}

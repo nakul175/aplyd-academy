@@ -1,4 +1,5 @@
-import {env} from 'cloudflare:workers';
+import {expectedOrigin} from '@/lib/request-origin';
+import {env} from '@/lib/platform-env';
 import {getChatGPTUser} from '../../../../chatgpt-auth';
 import {RuleError} from '@/lib/academy-engine';
 import {RecordCheckError} from '@/lib/academy-record-check';
@@ -10,7 +11,7 @@ const response=(value:unknown,status=200)=>Response.json(value,{status,headers})
 export async function POST(request:Request){
  try{
   const origin=request.headers.get('origin');
-  if(origin&&origin!==new URL(request.url).origin)throw new RecordCheckError('Use your Academy to check a private record.',403);
+  if(origin&&origin!==expectedOrigin(request))throw new RecordCheckError('Use your Academy to check a private record.',403);
   if((request.headers.get('content-type')??'').split(';')[0].trim()!=='application/json')throw new RecordCheckError('Use a JSON record-check request.',415);
   const raw=await request.text();
   if(raw.length>2000||new TextEncoder().encode(raw).byteLength>4000)throw new RecordCheckError('This record-check request is too large.',413);

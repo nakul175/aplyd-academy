@@ -1,4 +1,4 @@
-import {env} from 'cloudflare:workers';
+import {env} from '@/lib/platform-env';
 import {getChatGPTUser} from '../../../chatgpt-auth';
 import {RuleError} from '@/lib/academy-engine';
 import {pseudonymMap,buildAuditQuery,pageOf,projectAuditRow,AuditQueryError} from '@/lib/academy-audit-detail';

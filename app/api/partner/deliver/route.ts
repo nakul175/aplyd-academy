@@ -1,4 +1,5 @@
-import {env} from 'cloudflare:workers';
+import {expectedOrigin} from '@/lib/request-origin';
+import {env} from '@/lib/platform-env';
 import {getChatGPTUser} from '../../../chatgpt-auth';
 import {PartnerDummyError} from '@/lib/academy-partner-dummy';
 import {deliverProgress,viewFor} from '@/lib/academy-partner-dummy-service';
@@ -8,7 +9,7 @@ const respond=(v:unknown,status=200)=>Response.json(v,{status,headers});
 /** Explicit "Send progress to partner (dummy)" button. No cron, no background retry. Loopback URL only. */
 export async function POST(request:Request){
  try{
-  const origin=request.headers.get('origin');if(origin&&origin!==new URL(request.url).origin)throw new PartnerDummyError('This action must come from your Academy.',403);
+  const origin=request.headers.get('origin');if(origin&&origin!==expectedOrigin(request))throw new PartnerDummyError('This action must come from your Academy.',403);
   if((request.headers.get('content-type')??'').split(';')[0].trim()!=='application/json')throw new PartnerDummyError('Use a JSON request.',415);
   const raw=await request.text();if(raw.length>500)throw new PartnerDummyError('This request is too large.',413);
   let v:any;try{v=JSON.parse(raw)}catch{throw new PartnerDummyError('The request is not valid JSON.',400)}

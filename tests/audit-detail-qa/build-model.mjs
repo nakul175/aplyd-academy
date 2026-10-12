@@ -14,7 +14,7 @@ if(before!==sha(pure))throw new Error('Audit detail source changed while bundlin
 if(!Object.keys(r.metafile.inputs).some(f=>f.endsWith('lib/academy-audit-detail.ts')))throw new Error('Audit detail module missing from bundle.');
 /* The real route handlers, bundled with the platform imports replaced by in-test stubs (D1 shim over node:sqlite, header-free identity). */
 const stubs={name:'platform-stubs',setup(b){
- b.onResolve({filter:/^cloudflare:workers$/},()=>({path:'workers',namespace:'stub'}));b.onResolve({filter:/chatgpt-auth$/},()=>({path:'auth',namespace:'stub'}));
+ b.onResolve({filter:/^cloudflare:workers$|platform-env$/},()=>({path:'workers',namespace:'stub'}));b.onResolve({filter:/chatgpt-auth$/},()=>({path:'auth',namespace:'stub'}));
  b.onLoad({filter:/^workers$/,namespace:'stub'},()=>({contents:'export const env={get DB(){return globalThis.__auditDb}};',loader:'js'}));
  b.onLoad({filter:/^auth$/,namespace:'stub'},()=>({contents:'export async function getChatGPTUser(){return globalThis.__auditUser??null}',loader:'js'}));
 }};
