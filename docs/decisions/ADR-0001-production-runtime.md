@@ -1,7 +1,7 @@
 # ADR-0001: Production runtime and database on DigitalOcean
 
 Story: ACA-US-1.1 (Linear APL-2218) · Task: ACA-TT-1.1.1 · Epic: ACA-E1
-Status: **Proposed, not approved.** Decision owner: Nakul Jain. Claude wrote this record and cannot approve it.
+Status: **Approved: Option A** by Nakul Jain on 12 October 2026, 17:1x IST (exact minute not captured), in conversation with Claude (in-app question: "Production runtime (ADR-0001)..."; answer: "Option A approve (Recommended)"). Claude wrote this record; the approval is the owner's.
 Date: 12 October 2026 · Evidence branch: `aca/us-1.1-runtime-spike` (local; GitHub returned HTTP 403, so it is not pushed)
 
 No production resource was created for this spike, and no data was moved.
@@ -53,6 +53,6 @@ Confidence: [Likely] that A is cheaper than B and D for a one-cohort pilot, from
 
 ## What happens next
 
-1. Nakul Jain approves or rejects this record; his decision, date and evidence go in Linear (APL-2218). Claude does not record approval for him.
+1. Done: Nakul Jain approved Option A on 12 October 2026 (recorded on APL-2218).
 2. If approved: ACA-US-1.2 ports the remaining routes and the UI build, ACA-US-1.3 sets up backups and the restore drill, ACA-US-1.4 replaces ChatGPT Sites sign-in, ACA-US-1.5 adds the deploy pipeline.
 3. Needed from Nakul before step 2: DigitalOcean access for Claude agents and working GitHub access (HTTP 403 today).
