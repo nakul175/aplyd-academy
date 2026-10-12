@@ -17,3 +17,5 @@ export const loginCodes=sqliteTable('academy_login_codes',{id:integer('id').prim
 export const loginLocks=sqliteTable('academy_login_locks',{emailHash:text('email_hash').primaryKey(),failures:integer('failures').notNull().default(0),windowStartedAt:text('window_started_at').notNull(),lockedUntil:text('locked_until')});
 export const sessions=sqliteTable('academy_sessions',{tokenHash:text('token_hash').primaryKey(),userId:text('user_id').notNull(),createdAt:text('created_at').notNull(),lastSeenAt:text('last_seen_at').notNull(),expiresAt:text('expires_at').notNull(),revokedAt:text('revoked_at')},t=>[index('idx_academy_sessions_user').on(t.userId)]);
 export const mailOutbox=sqliteTable('academy_mail_outbox',{id:integer('id').primaryKey({autoIncrement:true}),toAddress:text('to_address').notNull(),subject:text('subject').notNull(),body:text('body').notNull(),createdAt:text('created_at').notNull()});
+// ACA-US-6.4: count of completed erasures (date only, no reference to the person), for the data-protection log.
+export const erasures=sqliteTable('academy_erasures',{id:integer('id').primaryKey({autoIncrement:true}),erasedAt:text('erased_at').notNull()});

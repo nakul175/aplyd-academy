@@ -64,6 +64,13 @@
       "when": 1791813500983,
       "tag": "0008_email_otp_sign_in",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "6",
+      "when": 1791822594733,
+      "tag": "0009_erasure_log",
+      "breakpoints": true
     }
   ]
 }
