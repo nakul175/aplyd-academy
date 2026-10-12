@@ -61,7 +61,7 @@ export async function s04AtMonths(db: Db, cohortId: string) {
 /** Most and least active learners who consented to an interview, for the owner to invite. */
 export async function interviewCandidates(db: Db, actor: Actor, cohortId: string, perBand = 3, now = Date.now()) {
   await requireOperator(db, actor, 'interview.candidates', now);
-  const rows = (await db.prepare(`SELECT m.id, m.name, m.email, (SELECT count(*) FROM loop_submissions s WHERE s.member_id=m.id) cycles FROM loop_members m WHERE m.cohort_id=? AND m.status='joined' AND m.role IN ('learner','teacher','officer','faculty') ORDER BY cycles DESC, m.id`).bind(cohortId).all<{id: string; name: string; email: string; cycles: number}>()).results;
+  const rows = (await db.prepare(`SELECT m.id, m.name, m.email, (SELECT count(*) FROM loop_submissions s WHERE s.member_id=m.id) cycles FROM loop_members m WHERE m.cohort_id=? AND m.status='joined' AND m.role IN ('learner','teacher','officer','faculty','student') ORDER BY cycles DESC, m.id`).bind(cohortId).all<{id: string; name: string; email: string; cycles: number}>()).results;
   const consenting = [];
   for (const r of rows) if (await hasConsent(db, r.id, 'research_interview')) consenting.push(r);
   const most = consenting.slice(0, perBand), least = consenting.slice(perBand).slice(-perBand).reverse();

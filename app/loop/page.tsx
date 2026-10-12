@@ -1,6 +1,7 @@
 // Practice loop home: what each of my roles needs this week.
 import Link from 'next/link';
-import {Shell, pageContext} from './shell';
+import {Shell, pageContext, tr} from './shell';
+import {myBrief} from '@/lib/loop/briefs';
 import {myMemberships, operatorRole, LEARNER_ROLES, type Member} from '@/lib/loop/core';
 import {currentLevel, levelLabel, accessStatus} from '@/lib/loop/levels';
 import {ensureWeeklyTask, ensureWorkshopTask} from '@/lib/loop/practice';
@@ -10,8 +11,10 @@ import type {Db} from '@/lib/loop/core';
 import s from './loop.module.css';
 export const dynamic = 'force-dynamic';
 
-async function LearnerCard({db, m, userId}: {db: Db; m: Member & {org_name: string}; userId: string}) {
+async function LearnerCard({db, m, userId}: {db: Db; m: Member & {org_name: string; org_kind: string}; userId: string}) {
   const actor = {userId};
+  const {t} = await tr();
+  const brief = await myBrief(db, actor, m.id).catch(() => null); // ACA-E13 only when in scope
   const level = await currentLevel(db, m.id);
   const access = await accessStatus(db, m);
   const workshopTask = await ensureWorkshopTask(db, actor, m.id).catch(() => null);
@@ -20,19 +23,23 @@ async function LearnerCard({db, m, userId}: {db: Db; m: Member & {org_name: stri
   return (
     <section className={s.card} aria-labelledby={`m-${m.id}`}>
       <h2 id={`m-${m.id}`}>{m.org_name}</h2>
-      {access.ends && <p>Your practice access runs until <strong>{access.ends}</strong>.</p>}
+      {m.role === 'teacher' && m.org_kind === 'school' && <p><Link href={`/loop/class/${m.org_id}`}>My class</Link></p>}
+      {access.ends && <p>{t('home.access')} <strong>{access.ends}</strong>.</p>}
       {access.endingSoon && <div className={s.notice} role="status">Your access ends on {access.ends} ({access.daysLeft} days). Your data stays as described in the privacy notice, and you can download it any time from <Link href="/loop/settings">Settings</Link>.</div>}
       {!access.active && <div className={s.notice} role="status">Your practice access has ended. You can still see your history and download your data.</div>}
-      {!level ? <p><Link className={s.button} href={`/loop/placement/${m.id}`}>Take the 3-minute placement check</Link></p>
-        : <p>Your AI level: <span className={s.pill}>{await levelLabel(db, level.level)}</span></p>}
-      {workshopTask && <p><Link className={s.button} href={`/loop/task/${workshopTask}`}>Workshop: your first practice task</Link></p>}
-      {weekly && 'state' in weekly && weekly.state === 'ready' && <p><Link className={s.button} href={`/loop/task/${weekly.taskId}`}>This week’s practice task (week {weekly.week})</Link></p>}
+      {!level ? <p><Link className={s.button} href={`/loop/placement/${m.id}`}>{t('home.placement')}</Link></p>
+        : <p>{t('home.level')}: <span className={s.pill}>{await levelLabel(db, level.level)}</span></p>}
+      {workshopTask && <p><Link className={s.button} href={`/loop/task/${workshopTask}`}>{t('home.workshop')}</Link></p>}
+      {weekly && 'state' in weekly && weekly.state === 'ready' && <p><Link className={s.button} href={`/loop/task/${weekly.taskId}`}>{t('home.task')} (week {weekly.week})</Link></p>}
+      {brief && <section className={s.card} aria-labelledby={`brief-${m.id}`}><h3 id={`brief-${m.id}`}>{t('home.brief')}: {brief.title}</h3><p className={s.prewrap}>{brief.body}</p>
+        <p className={s.muted}>Sources: {(JSON.parse(brief.sources) as {title: string; url?: string}[]).map((x, i) => <span key={i}>{x.url ? <a href={x.url} rel="noreferrer">{x.title}</a> : x.title} </span>)}</p>
+        <ActionButton action="brief.try" params={{memberId: m.id}} label="Try it on my own work" done="go:/loop/task/{taskId}" secondary /></section>}
       {weekly && weekly.state === 'not_started' && <p>Your weekly practice starts on {weekly.startsOn}.</p>}
       {weekly && weekly.state === 'no_task_yet' && <p>Your task for this week is being prepared. Check back soon.</p>}
       {weekly && weekly.state === 'error' && <p className={s.muted}>{weekly.message}</p>}
       {checks.map(c => <p key={c.id}><Link className={s.button} href={`/loop/check/${c.id}`}>Unaided check: {c.title}</Link></p>)}
-      {level && access.active && <div className={s.row}><ActionButton action="catch.open" params={{memberId: m.id}} label="This month’s catch-the-AI task" done="go:/loop/catch/{taskId}" secondary /></div>}
-      <p className={s.row}><Link href={`/loop/history/${m.id}`}>My practice history</Link> · <Link href="/loop/sessions">Live sessions</Link> · {m.cohort_id && <Link href={`/loop/community/${m.cohort_id}`}>Cohort community</Link>} · <Link href="/loop/settings">Settings and my data</Link></p>
+      {level && access.active && <div className={s.row}><ActionButton action="catch.open" params={{memberId: m.id}} label={t('home.catch')} done="go:/loop/catch/{taskId}" secondary /></div>}
+      <p className={s.row}><Link href={`/loop/history/${m.id}`}>{t('home.history')}</Link> · <Link href="/loop/sessions">{t('home.sessions')}</Link> · {m.cohort_id && <Link href={`/loop/community/${m.cohort_id}`}>{t('home.community')}</Link>} · <Link href="/loop/settings">{t('home.settings')}</Link></p>
     </section>
   );
 }

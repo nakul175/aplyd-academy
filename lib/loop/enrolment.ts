@@ -1,6 +1,7 @@
 // ACA-US-2.5 operator sets up an organisation and its admin; ACA-US-2.1 admin enrols a cohort from a list;
 // ACA-US-2.2 learner joins with informed consent (adults only in R1); ACA-US-2.4 staggered start groups.
-import {type Db, type Actor, type Member, LoopError, audit, refuse, requireOperator, requireRole, iso, DAY, newId, newToken, sha256, isToken, text, oneOf, isoDate, requireDecision, scopedDecision, decision, requireSelf, memberById, LEARNER_ROLES} from './core';
+import {type Db, type Actor, type Member, LoopError, audit, refuse, requireOperator, requireRole, iso, DAY, newId, newToken, sha256, isToken, text, oneOf, isoDate, requireDecision, scopedDecision, decision, requireSelf, requireEpic, memberById, LEARNER_ROLES} from './core';
+import {enrolStudents, openHarmSignal, type LegalReview} from './students';
 
 export type Send = (to: string, subject: string, body: string) => Promise<void>;
 export const INVITE_DAYS = 14; // engineering default for link expiry, not an owner value: a stale link can be re-sent
@@ -26,6 +27,9 @@ export async function createOrg(db: Db, actor: Actor, input: {kind?: unknown; na
   const agreementRef = text(input.agreementRef, 'Signed agreement reference', 300, {optional: true}) || null;
   // Schools, universities and institutes join only once signed (ACA-US-9.1-AC2, ACA-US-16.2, ACA-US-18.1).
   if (kind !== 'association' && !agreementRef) return refuse(db, actor.userId, 'org.create', null, `A ${kind} can be set up only after it has signed; record the signed agreement reference.`, now);
+  if (kind === 'university') await requireEpic(db, 'ACA-E16');
+  if (kind === 'institute') await requireEpic(db, 'ACA-E18');
+  if (kind === 'school') { const open = await openHarmSignal(db); if (open) return refuse(db, actor.userId, 'org.create', null, `A student-pilot harm signal (review ${open}) has no recorded decision yet; no new school until it does (ACA-US-11.7).`, now); }
   const id = newId('org');
   await db.prepare('INSERT INTO loop_orgs(id,kind,name,sector,agreement_ref,created_by,created_at) VALUES(?,?,?,?,?,?,?)').bind(id, kind, name, sector, agreementRef, actor.userId, iso(now)).run();
   await audit(db, actor.userId, 'org.create', {org: id, target: id, now});
@@ -85,7 +89,7 @@ export async function cohortOf(db: Db, cohortId: string) {
 
 // ---- ACA-US-2.1: list upload, validation and invites ----
 export type RowProblem = {line: number; text: string; reason: string};
-export function parseMemberList(raw: unknown) {
+export function parseMemberList(raw: unknown, fourth: 'phone' | 'email' = 'phone') {
   const body = text(raw, 'Member list', 200_000);
   const ok: {line: number; name: string; email: string; jobRole: string; phone: string | null}[] = [], problems: RowProblem[] = [];
   const seen = new Map<string, number>();
@@ -96,8 +100,9 @@ export function parseMemberList(raw: unknown) {
     const e = email.toLowerCase();
     const reason = !name ? 'Name is missing' : name.length > 120 ? 'Name is too long'
       : !EMAIL.test(e) ? 'Email is missing or not valid' : !jobRole ? 'Role is missing' : jobRole.length > 60 ? 'Role is too long'
-      : phone && !/^\+?[0-9 ]{8,16}$/.test(phone) ? 'Phone number is not valid' : seen.has(e) ? `Duplicate of line ${seen.get(e)}` : '';
-    if (reason) problems.push({line, text: t.slice(0, 200), reason}); else { seen.set(e, line); ok.push({line, name, email: e, jobRole: jobRole.toLowerCase(), phone: phone ? phone.replace(/ /g, '') : null}); }
+      : phone && fourth === 'phone' && !/^\+?[0-9 ]{8,16}$/.test(phone) ? 'Phone number is not valid'
+      : phone && fourth === 'email' && !EMAIL.test(phone.toLowerCase()) ? 'Guardian email is not valid' : seen.has(e) ? `Duplicate of line ${seen.get(e)}` : '';
+    if (reason) problems.push({line, text: t.slice(0, 200), reason}); else { seen.set(e, line); ok.push({line, name, email: e, jobRole: jobRole.toLowerCase(), phone: phone ? (fourth === 'phone' ? phone.replace(/ /g, '') : phone.toLowerCase()) : null}); }
   });
   return {ok, problems};
 }
@@ -107,7 +112,12 @@ export async function enrolCohort(db: Db, actor: Actor, cohortId: string, input:
   if (!cohort) return refuse(db, actor.userId, 'cohort.enrol', null, 'You do not have access to this.', now);
   await requireRole(db, actor, cohort.org_id, ['admin'], 'cohort.enrol', {now});
   const role = oneOf(input.role ?? (cohort.org_kind === 'school' ? 'teacher' : cohort.org_kind === 'institute' ? 'officer' : 'learner'), LEARNER_ROLES, 'Learner type');
-  if (role === 'student') return refuse(db, actor.userId, 'cohort.enrol_student', cohort.org_id, 'Student accounts are not available until the school agreement, legal review and parental consent rules are in place (ACA-US-11.1).', now);
+  if (role === 'student') {
+    if (cohort.org_kind === 'school') return enrolStudents(db, actor, cohortId, input.list, send, origin, now); // ACA-E11 gates inside
+    if (cohort.org_kind !== 'university') return refuse(db, actor.userId, 'cohort.enrol_student', cohort.org_id, 'Students can be enrolled only by a school (R3 rules) or a university.', now);
+    await requireEpic(db, 'ACA-E16'); // adult university students (ACA-US-16.2) follow the normal adult join
+  }
+  if (role === 'faculty' && cohort.org_kind !== 'university') return refuse(db, actor.userId, 'cohort.enrol_faculty', cohort.org_id, 'Faculty belong to a university workspace.', now);
   if (role === 'teacher') { // ACA-US-9.1 and the B3 rule: teacher mode only when the owner's go/no-go decision allows it
     const go = await decision<{decision: string}>(db, 'golive.decision');
     if (go?.value.decision !== 'go') return refuse(db, actor.userId, 'cohort.enrol_teacher', cohort.org_id, 'Teacher mode starts only after the product owner’s go decision includes it (go/no-go review, rule B3).', now);
@@ -166,8 +176,8 @@ async function liveInvite(db: Db, token: unknown, now: number) {
   return (await memberById(db, inv.member_id))!;
 }
 
-export async function approvedNotice(db: Db) {
-  const d = await requireDecision<{version: string}>(db, 'notice.approved');
+export async function approvedNotice(db: Db, orgId = 'global') {
+  const d = await requireDecision<{version: string}>(db, 'notice.approved', orgId);
   const n = await db.prepare('SELECT version, body FROM loop_notices WHERE version=?').bind(d.version).first<{version: string; body: string}>();
   if (!n) throw new LoopError('The approved privacy notice is missing on this server.', 503);
   return n;
@@ -178,7 +188,8 @@ export async function openInvite(db: Db, token: unknown, now = Date.now()) {
   const m = await liveInvite(db, token, now);
   const org = await db.prepare('SELECT name, kind FROM loop_orgs WHERE id=?').bind(m.org_id).first<{name: string; kind: string}>();
   const learner = (LEARNER_ROLES as readonly string[]).includes(m.role);
-  return {orgName: org!.name, orgKind: org!.kind, role: m.role, email: m.email, firstName: m.name.split(' ')[0], learner, notice: learner ? await approvedNotice(db) : null, hasPhone: !!m.phone};
+  const schoolStudent = m.role === 'student' && org!.kind === 'school';
+  return {orgName: org!.name, orgKind: org!.kind, role: m.role, email: m.email, firstName: m.name.split(' ')[0], learner, schoolStudent, notice: learner ? await approvedNotice(db, m.org_id) : null, hasPhone: !!m.phone && !schoolStudent};
 }
 
 /** ACA-US-2.2-AC4: someone who states they are under 18 cannot join in R1; their invite and list entry are deleted and no account is made. */
@@ -198,9 +209,16 @@ export async function acceptInvite(db: Db, actor: Actor & {email: string}, token
   if (actor.email.toLowerCase() !== m.email) throw new LoopError(`This invite is for ${m.email.replace(/^(.).*(@.*)$/, '$1…$2')}. Sign in with that email to join.`, 403);
   const learner = (LEARNER_ROLES as readonly string[]).includes(m.role);
   let noticeVersion = 'staff';
+  const orgKind = (await db.prepare('SELECT kind FROM loop_orgs WHERE id=?').bind(m.org_id).first<{kind: string}>())!.kind;
+  const schoolStudent = m.role === 'student' && orgKind === 'school';
   if (learner) {
-    if (input.adult !== true) { await declineUnder18(db, token, now); throw new LoopError('Aplyd Academy is for adults (18 and over) at this stage, so you cannot join. Nothing about you has been kept.', 403); }
-    noticeVersion = (await approvedNotice(db)).version;
+    if (schoolStudent) { // R3 rules (ACA-E11): the school's agreement, the legal review and, where required, a guardian's consent
+      const review = await decision<LegalReview>(db, 'student.legal_review', m.org_id);
+      const agreement = await decision(db, 'student.agreement', m.org_id);
+      if (!review || !agreement) throw new LoopError('Your school has not finished setting up Aplyd Academy yet.', 403);
+      if (review.value.parentalConsentRequired && !(await db.prepare(`SELECT 1 FROM loop_guardian_consents WHERE member_id=? AND status='granted'`).bind(m.id).first())) throw new LoopError('A parent or guardian needs to give consent first.', 403);
+    } else if (input.adult !== true) { await declineUnder18(db, token, now); throw new LoopError('Aplyd Academy is for adults (18 and over) at this stage, so you cannot join. Nothing about you has been kept.', 403); }
+    noticeVersion = (await approvedNotice(db, m.org_id)).version;
     if (input.consents?.core !== true) throw new LoopError('To join, agree to the use of your practice data described in the notice. You can leave and delete your data at any time.');
   }
   const startGroup = learner && m.cohort_id ? await startGroupFor(db, m.cohort_id, m.id) : null;
@@ -209,9 +227,9 @@ export async function acceptInvite(db: Db, actor: Actor & {email: string}, token
     db.prepare(`UPDATE loop_members SET user_id=?, status='joined', joined_at=?, start_group=? WHERE id=? AND status='invited'`).bind(actor.userId, iso(now), startGroup, m.id),
   ];
   if (learner) {
-    for (const p of ['core', ...OPTIONAL_PURPOSES]) statements.push(db.prepare('INSERT INTO loop_consents(member_id,purpose,granted,notice_version,at) VALUES(?,?,?,?,?)').bind(m.id, p, input.consents?.[p] === true ? 1 : 0, noticeVersion, iso(now)));
+    for (const p of ['core', ...(schoolStudent ? [] : OPTIONAL_PURPOSES)]) statements.push(db.prepare('INSERT INTO loop_consents(member_id,purpose,granted,notice_version,at) VALUES(?,?,?,?,?)').bind(m.id, p, input.consents?.[p] === true ? 1 : 0, noticeVersion, iso(now)));
     // Minimum data: a phone number is kept only for someone who chose WhatsApp or SMS reminders.
-    if (input.consents?.reminder_whatsapp !== true && input.consents?.reminder_sms !== true) statements.push(db.prepare('UPDATE loop_members SET phone=NULL WHERE id=?').bind(m.id));
+    if (schoolStudent || (input.consents?.reminder_whatsapp !== true && input.consents?.reminder_sms !== true)) statements.push(db.prepare('UPDATE loop_members SET phone=NULL WHERE id=?').bind(m.id));
   }
   await db.batch(statements);
   await audit(db, actor.userId, 'join.accept', {org: m.org_id, target: m.id, now});

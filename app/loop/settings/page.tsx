@@ -5,6 +5,8 @@ import {myMemberships, LEARNER_ROLES, type Db, type Member} from '@/lib/loop/cor
 import {currentConsents} from '@/lib/loop/enrolment';
 import {accessStatus} from '@/lib/loop/levels';
 import {ActionButton, ActionForm} from '../client';
+import {decision} from '@/lib/loop/core';
+import {userLanguage} from '@/lib/loop/language';
 import s from '../loop.module.css';
 export const dynamic = 'force-dynamic';
 
@@ -32,6 +34,12 @@ export default async function Settings() {
   return (
     <Shell title="Settings and my data" screen="settings">
       {ms.map(m => <MembershipSettings key={m.id} db={db} m={m} />)}
+      {await (async () => {
+        const scope = await decision<{epics: string[]}>(db, 'scope.release'), local = await decision<{code: string; name: string}>(db, 'language.local');
+        if (!scope?.value.epics?.includes('ACA-E19') || !local) return null;
+        const lang = await userLanguage(db, user.userId);
+        return <section className={s.card}><h2>Language</h2><ActionForm action="language.set" fields={[{name: 'language', label: 'Show the app and my tasks in', type: 'select', options: [['en', 'English'], [local.value.code, local.value.name]], value: lang}]} submit="Save language" /></section>;
+      })()}
       <section className={s.card}><h2>Your data</h2>
         <p><a className={s.button} href="/api/loop/export" download>Download my practice data</a></p>
         <p>To delete your account and all your data, go to <Link href="/account">Delete my data</Link>.</p>

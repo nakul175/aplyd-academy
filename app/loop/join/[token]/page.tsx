@@ -19,7 +19,7 @@ export default async function Join({params}: {params: Promise<{token: string}>})
     <Shell title={`Join ${v.orgName} on Aplyd Academy`} screen="join">
       <p>Hello {v.firstName}. You are invited as {v.role === 'admin' ? 'the admin' : `a ${v.role}`}.</p>
       {v.notice && <section className={s.card} aria-labelledby="notice-h"><h2 id="notice-h">How your data is used</h2><div className={s.prewrap}>{v.notice.body}</div><p className={s.muted}>Notice version {v.notice.version}</p></section>}
-      <JoinForm token={token} learner={v.learner} signedIn={!!user} emailMatches={!!user && user.email.toLowerCase() === v.email} hasPhone={v.hasPhone} signInHref={chatGPTSignInPath(`/loop/join/${token}`)} />
+      <JoinForm token={token} learner={v.learner} signedIn={!!user} emailMatches={!!user && user.email.toLowerCase() === v.email} hasPhone={v.hasPhone} schoolStudent={v.schoolStudent} signInHref={chatGPTSignInPath(`/loop/join/${token}`)} />
     </Shell>
   );
 }

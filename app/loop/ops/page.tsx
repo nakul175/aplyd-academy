@@ -7,6 +7,8 @@ import {aiStatus, incidents} from '@/lib/loop/ai';
 import {listReports} from '@/lib/loop/metrics';
 import {retentionRuns} from '@/lib/loop/retention';
 import {securityQueue} from '@/lib/loop/help';
+import {s05, invoices} from '@/lib/loop/billing';
+import {decision} from '@/lib/loop/core';
 import {ActionForm, ActionButton} from '../client';
 import s from '../loop.module.css';
 export const dynamic = 'force-dynamic';
@@ -26,6 +28,11 @@ export default async function Ops() {
   const cases = (await db.prepare('SELECT count(*) n FROM loop_eval_cases').first<{n: number}>())!.n;
   const security = role === 'owner' ? await securityQueue(db, user) as {id: number; screen: string; body: string; at: string; status: string}[] : [];
   const cohortOpts = cohorts.map(c => [c.id, `${c.org}: ${c.name}`] as [string, string]);
+  const scope = (await decision<{epics: string[]}>(db, 'scope.release'))?.value.epics ?? [];
+  const renewals = await s05(db), inv = await invoices(db, user) as {id: string; kind: string; amount_paise: number; payer: string; status: string; created_at: string}[];
+  const sponsors = (await db.prepare('SELECT id, name, kind FROM loop_sponsors ORDER BY created_at').all<{id: string; name: string; kind: string}>()).results;
+  const schools = orgs.filter(o => o.kind === 'school');
+
   return (
     <Shell title={`Operations (${role})`} screen="ops">
       <section className={s.card}><h2>Organisations</h2>
@@ -65,6 +72,32 @@ export default async function Ops() {
         <ActionForm action="report.review" fields={[{name: 'cohortId', label: 'Cohort', type: 'select', options: cohortOpts}, {name: 'day', label: 'Review', type: 'select', options: [['30', 'Day 30'], ['90', 'Day 90']]}]} submit="Prepare learning review" done="go:/loop/ops/reports/{id}" id="rr" />
         <ActionForm action="report.impact" fields={[{name: 'cohortId', label: 'Cohort', type: 'select', options: cohortOpts}, {name: 'kind', label: 'Report', type: 'select', options: [['impact', 'Impact report'], ['year_end', 'Year-end report']]}]} submit="Prepare report" done="go:/loop/ops/reports/{id}" id="ri" />
       </section>
+      <section className={s.card}><h2>Later releases in scope</h2>
+        <p>{scope.length ? scope.join(', ') : 'None yet. The owner records scope.release when a strategy version brings an epic in.'}</p>
+        {scope.includes('ACA-E13') && <details><summary>Draft this month’s briefs (E13)</summary><ActionForm id="brf" action="brief.draft" fields={[{name: 'packId', label: 'Pack', type: 'select', options: packs.map(p => [p.id, p.title] as [string, string])}, {name: 'month', label: 'Month (YYYY-MM)', required: true}, {name: 'roles', label: 'Roles (comma separated)', required: true}, {name: 'levels', label: 'Levels (comma separated, e.g. L1,L2,L3)', required: true}, {name: 'sources', label: 'Approved sources (JSON array of {title, url})', type: 'textarea', required: true, rows: 3}]} submit="Draft briefs for expert review" /></details>}
+        {scope.includes('ACA-E16') && <ActionForm id="evp" action="report.evidencePack" fields={[{name: 'cohortIds', label: 'Cohort ids (comma separated)', required: true}]} submit="Prepare the university evidence pack" done="go:/loop/ops/reports/{id}" />}
+        {scope.includes('ACA-E19') && <div className={s.row}><ActionButton action="ui.draft" params={{}} label="Draft interface translations" secondary />{packs.filter(p => p.language === 'en').map(p => <ActionButton key={p.id} action="pack.translate" params={{packId: p.id}} label={`Translate ${p.title}`} secondary />)}</div>}
+      </section>
+      {schools.length > 0 && <section className={s.card}><h2>Student pilot (R3)</h2>
+        <ActionForm id="harm" action="harm.prepare" fields={[{name: 'cohortId', label: 'School cohort', type: 'select', options: cohortOpts}]} submit="Prepare the harm review" done="go:/loop/ops/reports/{id}" />
+        {schools.map(o => <details key={o.id}><summary>End of pilot: {o.name}</summary><p className={s.muted}>Needs the school’s written instruction recorded by the owner as school.end_instruction. Deletes every student record (after export if the school asked for its data back).</p><ActionButton action="school.endOfPilot" params={{orgId: o.id}} label="Carry out the school’s instruction" confirmText="Confirm: delete all student data now" /></details>)}
+      </section>}
+      <section className={s.card}><h2>Renewals and billing</h2>
+        <p>S-05 renewals: {renewals.S05.value === null ? 'no eligible organisation yet' : `${Math.round(renewals.S05.value * 100)}% (${renewals.S05.numerator}/${renewals.S05.denominator})`}; unconfirmed entries not counted: {renewals.unconfirmed}.</p>
+        {role === 'owner' && <details><summary>Record a renewal decision</summary><ActionForm id="ren" action="renewal.record" fields={[{name: 'orgId', label: 'Organisation', type: 'select', options: orgs.map(o => [o.id, o.name] as [string, string])}, {name: 'decision', label: 'Decision', type: 'select', options: [['renew', 'Renew'], ['not_renew', 'Not renewing']]}, {name: 'decidedOn', label: 'Decided on', type: 'date', required: true}, {name: 'reason', label: 'Reason', required: true}, {name: 'sourceRef', label: 'Source document (letter, email, contract)', hint: 'Without it the renewal is saved as unconfirmed and not counted'}, {name: 'months', label: 'Months of access', type: 'number'}]} submit="Record" /></details>}
+        {scope.includes('ACA-E21') && <>
+          <ActionForm id="cap" action="cohort.cap" fields={[{name: 'cohortId', label: 'Cohort', type: 'select', options: cohortOpts}, {name: 'cap', label: 'Participant cap', type: 'number', required: true}]} submit="Set cap" />
+          <ActionForm id="iw" action="invoice.workshop" fields={[{name: 'cohortId', label: 'Cohort', type: 'select', options: cohortOpts}, {name: 'payer', label: 'Payer', required: true}]} submit="Issue workshop invoice" done="show" />
+          <h3>Sponsors</h3><ul className={s.list}>{sponsors.map(sp => <li key={sp.id}><a href={`/loop/sponsor/${sp.id}`}>{sp.name}</a> ({sp.kind})
+            <details><summary>Fund seats</summary><ActionForm id={`fs-${sp.id}`} action="sponsor.fund" params={{sponsorId: sp.id}} fields={[{name: 'cohortId', label: 'Cohort', type: 'select', options: cohortOpts}, {name: 'seats', label: 'Seats', type: 'number', required: true}]} submit="Fund and invoice the sponsor" /></details>
+            <details><summary>Give sponsor staff the usage view</summary><ActionForm id={`sv-${sp.id}`} action="sponsor.viewer" params={{sponsorId: sp.id}} fields={[{name: 'email', label: 'Email (must have signed in once)', type: 'email', required: true}]} submit="Add" /></details></li>)}</ul>
+          <ActionForm id="sp" action="sponsor.create" fields={[{name: 'name', label: 'Sponsor name', required: true}, {name: 'kind', label: 'Kind', type: 'select', options: [['philanthropy', 'Philanthropy'], ['association', 'Association'], ['csr', 'CSR']]}]} submit="Add sponsor" />
+          <h3>Invoices</h3><ul className={s.list}>{inv.map(i => <li key={i.id}>{i.created_at.slice(0, 10)} · {i.kind} · {i.payer} · ₹{(i.amount_paise / 100).toLocaleString('en-IN')} · {i.status}</li>)}</ul>
+        </>}
+      </section>
+      {role === 'owner' && <section className={s.card}><h2>Security findings: your decision on remaining risks</h2>
+        <p className={s.muted}>Findings are listed in docs/security/findings.md in the repository.</p>
+        <ActionForm id="risk" action="risk.decide" fields={[{name: 'findingId', label: 'Finding id (for example F-05)', required: true}, {name: 'decision', label: 'Decision', type: 'select', options: [['accept', 'Accept the remaining risk'], ['reject', 'Reject: it must be fixed']]}, {name: 'note', label: 'Note'}]} submit="Record my decision" done="stay" /></section>}
       <section className={s.card}><h2>Retention runs</h2><ul className={s.list}>{runs.map((r, k) => <li key={k}>{r.at.slice(0, 16)} · {r.trigger} · {r.counts}</li>)}</ul></section>
     </Shell>
   );

@@ -18,7 +18,8 @@ test('the standing documentation set exists (S8)', () => {
     'docs/operations/incident-and-postmortem.md', 'deploy/README.md', 'docs/testing/test-strategy.md', 'docs/operations/release-process.md',
     'docs/guides/learner-guide.md', 'docs/guides/staff-guides.md', 'docs/sbom.cdx.json', 'docs/security/threat-model.md', 'docs/security/access-model.md',
     'docs/security/secrets-register.md', 'docs/security/findings.md', 'docs/privacy/notice-draft-v0.1.md', 'docs/privacy/compliance-mapping.md',
-    'docs/accessibility/statement.md', 'docs/ai/AIA-ACADEMY-01.json', 'docs/ai/evaluation-set-draft.json'];
+    'docs/accessibility/statement.md', 'docs/ai/AIA-ACADEMY-01.json', 'docs/ai/evaluation-set-draft.json',
+    'docs/privacy/student-tracker-check.md', 'docs/research/interview-guide.md', 'docs/ai/evaluation-set-pharma-draft.json', 'scripts/demo-synthetic.mjs'];
   const missing = required.filter(f => !existsSync(join(root, f)));
   assert.deepEqual(missing, []);
 });

@@ -27,3 +27,11 @@ Operations → AI assurance → "Switch AI off now" (owner). Learners immediatel
 ## A learner asks for deletion and cannot use the app
 
 The owner signs in as operator, confirms the person's identity outside the app, and deletes on their behalf only through the account erasure function (no manual SQL); record the request and the date in the owner's DPDP request log.
+
+## Demonstrations
+
+Never demonstrate with real learners. Build a fictional database with `node scripts/demo-synthetic.mjs /tmp/academy-demo.sqlite` and run a local server against it (instructions at the top of the script).
+
+## Later releases
+
+R3 and R4 features stay closed until the owner records `scope.release` with the epic (Operations → Owner decisions). The student pilot additionally needs, per school, `student.agreement` and `student.legal_review`; harm reviews need `student.harm_baseline` per cohort; the end of the pilot needs the school's instruction as `school.end_instruction`.

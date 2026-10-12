@@ -2,6 +2,7 @@
 import {Shell, pageContext, attempt, Refused} from '../../shell';
 import {reviewQueue, errorLog, latestVersion, publishedItems} from '@/lib/loop/packs';
 import {v2Readiness} from '@/lib/loop/evidence';
+import {decision} from '@/lib/loop/core';
 import {ActionForm, ActionButton} from '../../client';
 import s from '../../loop.module.css';
 export const dynamic = 'force-dynamic';
@@ -17,6 +18,9 @@ export default async function Review({params}: {params: Promise<{packId: string}
   const v = await latestVersion(db, packId), pub = await publishedItems(db, packId);
   const log = await errorLog(db, user, packId) as {id: number; title: string; pack_version: number; reason: string; at: string}[];
   const ready = await v2Readiness(db, user, packId) as unknown as {flags: {id: number; title: string; reason: string; kind: string | null; text: string | null; decided: string | null}[]; ready: boolean};
+  const e20 = !!(await decision<{epics: string[]}>(db, 'scope.release'))?.value.epics?.includes('ACA-E20');
+  const notes = e20 ? (await db.prepare(`SELECT a.id, a.item_id, a.start, a.end, a.quote, a.note, a.at, i.title FROM loop_annotations a JOIN loop_pack_items i ON i.id=a.item_id WHERE i.pack_id=? AND a.status='open' ORDER BY i.title, a.start`).bind(packId).all<{id: number; item_id: string; quote: string; note: string; at: string; title: string}>()).results : [];
+  const proposals = e20 ? (await db.prepare(`SELECT r.id, r.item_id, r.proposed_body, r.annotation_ids, i.body AS current_body, i.title FROM loop_refinements r JOIN loop_pack_items i ON i.id=r.item_id WHERE i.pack_id=? AND r.status='pending'`).bind(packId).all<{id: string; item_id: string; proposed_body: string; current_body: string; title: string}>()).results : [];
   const approvedUnpublished = (await db.prepare(`SELECT count(*) n FROM loop_pack_items i WHERE pack_id=? AND status='approved' AND id NOT IN (SELECT value FROM json_each(?))`).bind(packId, JSON.stringify(v?.itemIds ?? [])).first<{n: number}>())!.n;
   return (
     <Shell title={`Review: ${pack.title}`} screen="review">
@@ -51,6 +55,15 @@ export default async function Review({params}: {params: Promise<{packId: string}
           <details><summary>Write my own proposal</summary><ActionForm id={`own-${f.id}`} action="pack.decideProposal" params={{flagId: f.id, decision: 'own'}} fields={[{name: 'kind', label: 'Kind', type: 'select', options: [['fix', 'Fix'], ['no_change', 'No change']]}, {name: 'text', label: 'Fix text or reason', type: 'textarea', required: true, rows: 3}]} submit="Save" /></details></li>)}</ul>
         <p className={s.muted}>Apply accepted fixes with “Change this item” below, then publish a new version; its change list and the earlier version are kept.</p>
       </section>
+      {e20 && <section className={s.card} aria-labelledby="notes-h"><h2 id="notes-h">Notes from readers ({notes.length})</h2>
+        {[...new Set(notes.map(n => n.item_id))].map(itemId => <article key={itemId} className={s.card}><h3>{notes.find(n => n.item_id === itemId)!.title}</h3>
+          <ul className={s.list}>{notes.filter(n => n.item_id === itemId).map(n => <li key={n.id}><mark>{n.quote}</mark>: {n.note} <div className={s.row}><ActionButton action="annotation.status" params={{id: n.id, status: 'resolved'}} label="Resolve" secondary /><ActionButton action="annotation.status" params={{id: n.id, status: 'hidden'}} label="Hide" secondary /></div></li>)}</ul>
+          <ActionButton action="refinement.propose" params={{itemId}} label="Ask AI to propose a refinement" secondary /></article>)}
+        {proposals.map(p => <article key={p.id} className={s.card}><h3>Proposed refinement: {p.title}</h3>
+          <div className={s.tableWrap} tabIndex={0} role="region" aria-label="Compare current and proposed text"><table className={s.table}><thead><tr><th scope="col">Current</th><th scope="col">Proposed</th></tr></thead><tbody><tr><td className={s.prewrap}>{p.current_body}</td><td className={s.prewrap}>{p.proposed_body}</td></tr></tbody></table></div>
+          <div className={s.row}><ActionButton action="refinement.decide" params={{refinementId: p.id, decision: 'approve'}} label="Approve as a new revision" /><ActionButton action="refinement.decide" params={{refinementId: p.id, decision: 'reject'}} label="Reject" secondary /></div>
+          <p className={s.muted}>Approved text reaches learners only after you publish a new version.</p></article>)}
+      </section>}
       <section className={s.card}><h2>Published items</h2>
         <ul className={s.list}>{pub.items.map(i => <li key={i.id}><strong>{i.title}</strong> <span className={s.muted}>({i.kind}, revision {i.revision})</span>
           <details><summary>Change this item</summary><ActionForm id={`r-${i.id}`} action="pack.revise" params={{itemId: i.id}} fields={[{name: 'body', label: 'New text', type: 'textarea', value: i.body, required: true, rows: 6}]} submit="Save as new revision" success="Saved. Publish a new version to show it to learners." /></details></li>)}</ul>

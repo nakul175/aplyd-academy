@@ -9,6 +9,8 @@ Names and handling only. **No values are ever written to the repository, Linear 
 | `ANTHROPIC_API_KEY` / `ACADEMY_AI_API_KEY` | AI provider | same file | root | On leak or provider change | Nakul Jain |
 | `ACADEMY_JOBS_SECRET` | Timer → jobs endpoint | same file | root | Yearly | Nakul Jain |
 | `ACADEMY_INBOUND_SECRET` | Provider → STOP webhook | same file and the provider console | root | When the provider is chosen, then yearly | Nakul Jain |
+| `ACADEMY_PAYMENTS_SECRET` | Payment provider → payment confirmation (R4) | `/etc/academy/academy.env` | root | When the provider is chosen, then yearly | Nakul Jain |
+| `ACADEMY_SPEECH_API_KEY` | Speech-to-text provider (R4) | same file | root | On leak or provider change | Nakul Jain |
 | `LITESTREAM_ACCESS_KEY_ID` / `LITESTREAM_SECRET_ACCESS_KEY` | Backups to Spaces (bucket-scoped key) | `/etc/academy/litestream.env` (root, 600) | root | Yearly | Nakul Jain |
 | `ACADEMY_DEPLOY_SSH_KEY`, `ACADEMY_DEPLOY_KNOWN_HOSTS` | CI deploy | GitHub environment `production` secrets | GitHub, required reviewer | On staff change | Nakul Jain |
 

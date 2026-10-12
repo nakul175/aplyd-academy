@@ -151,15 +151,15 @@ export function Coach({taskId, available, notice, messages}: {taskId: string; av
 }
 
 // ---- Join (ACA-US-2.2) ----
-export function JoinForm({token, learner, signedIn, emailMatches, hasPhone, signInHref}: {token: string; learner: boolean; signedIn: boolean; emailMatches: boolean; hasPhone: boolean; signInHref: string}) {
+export function JoinForm({token, learner, signedIn, emailMatches, hasPhone, signInHref, schoolStudent = false}: {token: string; learner: boolean; signedIn: boolean; emailMatches: boolean; hasPhone: boolean; signInHref: string; schoolStudent?: boolean}) {
   const router = useRouter();
-  const [adult, setAdult] = useState<'yes' | 'no' | ''>(''), [error, setError] = useState<string | null>(null), [busy, setBusy] = useState(false), [refused, setRefused] = useState(false);
+  const [adult, setAdult] = useState<'yes' | 'no' | ''>(schoolStudent ? 'yes' : ''), [error, setError] = useState<string | null>(null), [busy, setBusy] = useState(false), [refused, setRefused] = useState(false);
   async function under18() { setBusy(true); try { await call('join.under18', {token}); setRefused(true); } catch (e) { setError((e as Error).message); } finally { setBusy(false); } }
   async function join(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault(); setBusy(true); setError(null);
     const fd = new FormData(e.currentTarget);
     const consents = Object.fromEntries(['core', 'reminder_whatsapp', 'reminder_sms', 'reminder_email', 'share_examples', 'research_interview'].map(k => [k, fd.get(k) === 'on']));
-    try { await call('join.accept', {token, adult: learner ? adult === 'yes' : undefined, consents}); router.push('/loop'); router.refresh(); }
+    try { await call('join.accept', {token, adult: learner && !schoolStudent ? adult === 'yes' : undefined, consents}); router.push('/loop'); router.refresh(); }
     catch (err) { setError((err as Error).message); } finally { setBusy(false); }
   }
   if (refused) return <div className={s.notice} role="status">Thank you. Aplyd Academy is for adults (18 and over) at this stage, so you cannot join now. Nothing about you has been kept.</div>;
@@ -177,7 +177,7 @@ export function JoinForm({token, learner, signedIn, emailMatches, hasPhone, sign
       {learner && <>
         <h2>Your choices</h2>
         <div className={s.check}><input type="checkbox" id="c-core" name="core" /><label htmlFor="c-core"><strong>I agree to the use of my practice data as the notice above explains.</strong> (Needed to join. You can leave and delete your data at any time.)</label></div>
-        <fieldset><legend className={s.legend}>Weekly reminders (optional)</legend>
+        {!schoolStudent && <><fieldset><legend className={s.legend}>Weekly reminders (optional)</legend>
           <div className={s.check}><input type="checkbox" id="c-wa" name="reminder_whatsapp" disabled={!hasPhone} /><label htmlFor="c-wa">WhatsApp {hasPhone ? '' : '(your association did not give a mobile number; add one later in Settings)'}</label></div>
           <div className={s.check}><input type="checkbox" id="c-sms" name="reminder_sms" disabled={!hasPhone} /><label htmlFor="c-sms">SMS</label></div>
           <div className={s.check}><input type="checkbox" id="c-email" name="reminder_email" /><label htmlFor="c-email">Email</label></div>
@@ -185,7 +185,7 @@ export function JoinForm({token, learner, signedIn, emailMatches, hasPhone, sign
         <fieldset><legend className={s.legend}>Other choices (optional)</legend>
           <div className={s.check}><input type="checkbox" id="c-ex" name="share_examples" /><label htmlFor="c-ex">My short notes may be quoted without my name in reports to my association</label></div>
           <div className={s.check}><input type="checkbox" id="c-int" name="research_interview" /><label htmlFor="c-int">I may be invited to a short interview about my experience</label></div>
-        </fieldset>
+        </fieldset></>}
       </>}
       <button className={s.button} disabled={busy}>{busy ? 'Joining…' : 'Join'}</button>
       <Status error={error} ok={null} />
@@ -232,5 +232,43 @@ export function CatchForm({taskId, segments}: {taskId: string; segments: {id: st
       <button className={s.button} disabled={busy}>{busy ? 'Checking…' : 'Check my answers'}</button>
       <Status error={error} ok={null} />
     </form>
+  );
+}
+
+// ---- Voice answer (ACA-US-19.2): record, transcribe, edit, then save as the attempt. The recording is not kept. ----
+export function VoiceAttempt({memberId, taskId}: {memberId: string; taskId: string}) {
+  const router = useRouter();
+  const [state, setState] = useState<'idle' | 'recording' | 'working'>('idle'), [textOut, setText] = useState(''), [error, setError] = useState<string | null>(null), [ok, setOk] = useState<string | null>(null);
+  const rec = useRef<MediaRecorder | null>(null), chunks = useRef<Blob[]>([]);
+  async function start() {
+    setError(null); setOk(null);
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({audio: true});
+      const r = new MediaRecorder(stream); chunks.current = [];
+      r.ondataavailable = e => chunks.current.push(e.data);
+      r.onstop = async () => {
+        stream.getTracks().forEach(t => t.stop()); setState('working');
+        const blob = new Blob(chunks.current, {type: r.mimeType || 'audio/webm'}); chunks.current = [];
+        try {
+          const res = await fetch(`/api/loop/voice?member=${encodeURIComponent(memberId)}`, {method: 'POST', headers: {'content-type': blob.type}, body: blob});
+          const d = await res.json() as {text?: string; error?: string};
+          if (!res.ok) throw new Error(d.error ?? 'Voice input failed.');
+          setText(d.text ?? '');
+        } catch (e) { setError((e as Error).message); } finally { setState('idle'); }
+      };
+      rec.current = r; r.start(); setState('recording');
+    } catch { setError('The microphone is not available. Please type your answer.'); }
+  }
+  async function save() { try { await call('task.attempt', {taskId, body: textOut}); setOk('Attempt saved.'); setText(''); router.refresh(); } catch (e) { setError((e as Error).message); } }
+  return (
+    <div className={s.card}>
+      <h3>Speak your answer</h3>
+      <p className={s.muted}>Your recording is turned into text and then deleted. Check the text before you save it.</p>
+      {state === 'recording' ? <button type="button" className={s.button} onClick={() => rec.current?.stop()}>Stop recording</button>
+        : <button type="button" className={`${s.button} ${s.secondary}`} onClick={start} disabled={state === 'working'}>{state === 'working' ? 'Turning speech into text…' : 'Start recording'}</button>}
+      {textOut && <><div className={s.field}><label htmlFor={`voice-${taskId}`}>Your words (edit if needed)</label><textarea id={`voice-${taskId}`} className={s.textarea} value={textOut} onChange={e => setText(e.target.value)} /></div>
+        <button type="button" className={s.button} onClick={save}>Save as my attempt</button></>}
+      <Status error={error} ok={ok} />
+    </div>
   );
 }

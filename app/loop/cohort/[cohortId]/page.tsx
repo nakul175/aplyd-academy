@@ -16,12 +16,15 @@ export default async function CohortAdmin({params}: {params: Promise<{cohortId: 
   const {cohort, members} = r.value as unknown as {cohort: {name: string; workshop_date: string | null}; members: {id: string; name: string; email: string; job_role: string | null; status: string; start_group: string | null}[]};
   const dash = await attempt(() => adminDashboard(db, user, cohortId));
   const joined = members.filter(m => m.status === 'joined').length;
+  const kind = (await db.prepare('SELECT o.kind FROM loop_cohorts c JOIN loop_orgs o ON o.id=c.org_id WHERE c.id=?').bind(cohortId).first<{kind: string}>())!.kind;
   return (
     <Shell title={cohort.name} screen="cohort-admin">
       <p className={s.muted}>Workshop {cohort.workshop_date ?? 'date not set'} · {joined} joined · {members.length - joined} invited</p>
       <section className={s.card} aria-labelledby="enrol-h"><h2 id="enrol-h">Enrol members</h2>
         <p>Paste one member per line: <code>name, email, role, mobile (optional)</code>. Members must be 18 or older.</p>
-        <ActionForm action="cohort.enrol" params={{cohortId}} fields={[{name: 'list', label: 'Member list', type: 'textarea', required: true, rows: 8, hint: 'Example: Asha Rao, asha@example.com, accountant, +91 98765 43210'}]} submit="Check and send invites" success="Invites sent to every valid row." done="refresh" />
+        <ActionForm action="cohort.enrol" params={{cohortId}} fields={[
+          ...(kind === 'association' ? [] : [{name: 'role', label: 'Who are they?', type: 'select' as const, options: (kind === 'school' ? [['teacher', 'Teachers'], ['student', 'Students (needs the agreement, legal review and guardian consent)']] : kind === 'university' ? [['faculty', 'Faculty'], ['student', 'Adult students']] : [['officer', 'Officers']]) as [string, string][]}]),
+          {name: 'list', label: 'Member list', type: 'textarea', required: true, rows: 8, hint: kind === 'school' ? 'Teachers: name, email, subject. Students: name, email, class, parent or guardian email.' : 'Example: Asha Rao, asha@example.com, accountant, +91 98765 43210'}]} submit="Check and send invites" success="Done. Every valid row was invited (students: their guardian was asked first)." done="refresh" />
       </section>
       <section className={s.card} aria-labelledby="roster-h"><h2 id="roster-h">Invite status</h2>
         <div className={s.tableWrap} tabIndex={0} role="region" aria-label="Scrollable table"><table className={s.table}><thead><tr><th scope="col">Name</th><th scope="col">Role</th><th scope="col">Status</th><th scope="col">Start group</th><th scope="col"><span className={s.sr}>Actions</span></th></tr></thead>

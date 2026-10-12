@@ -53,6 +53,19 @@ const NOTES = {
   loop_interviews: ['Consented interviews and anonymised summaries.', 'notes (free text)', 'erasure on request'],
   loop_change_list: ['Changes after the A-01 decision, with evidence.', 'none', 'kept'],
   loop_fix_proposals: ['Proposed fixes per logged error (pack v2).', 'none', 'kept'],
+  loop_guardian_consents: ['Parent or guardian consent requests and answers (R3).', 'guardian email (erased on refusal or withdrawal)', 'until the end of the pilot'],
+  loop_class_teachers: ['Which teacher sees which class (R3).', 'member ids', 'until the end of the pilot'],
+  loop_renewals: ['Renewal decisions with source document (S-05).', 'none', 'kept'],
+  loop_user_prefs: ['Interface language per user.', 'user id', 'erasure on request'],
+  loop_ui_strings: ['Interface translations with review status.', 'reviewer user id', 'kept'],
+  loop_pack_links: ['Translated pack ↔ source pack.', 'none', 'kept'],
+  loop_item_translations: ['Translated item ↔ source lineage.', 'none', 'kept'],
+  loop_annotations: ['Highlights and notes on pack items, with position.', 'user id, free text note', 'kept for pack improvement; erasure removes the person link'],
+  loop_refinements: ['AI-proposed refinements and the expert decision.', 'none', 'kept'],
+  loop_sponsors: ['Sponsors (philanthropy, association, CSR).', 'none', 'kept'],
+  loop_sponsor_viewers: ['Sponsor staff who may see aggregate usage.', 'user id', 'until removed'],
+  loop_invoices: ['Invoices and payment status; no card or bank details.', 'payer name', 'kept as required for accounts'],
+  loop_sponsored_seats: ['Seats funded by a sponsor per cohort.', 'none', 'kept'],
 };
 
 function dataDictionary() {

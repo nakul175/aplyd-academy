@@ -6,8 +6,8 @@
 import {type Db, type Actor, LoopError, audit, requireOperator, operatorRole, requireDecision, decision, iso, newId, sha256, text, oneOf} from './core';
 import {generate, aiEnabled, AiUnavailable, type AiRequest, type AiMessage} from '@/lib/ai/provider';
 
-export const PROMPT_VERSION = 'hint-first-1';
-export type Mode = 'hint' | 'feedback' | 'check';
+export const PROMPT_VERSION = 'hint-first-2'; // 2: hints-only mode for school students (ACA-US-11.3)
+export type Mode = 'hint' | 'hint_only' | 'feedback' | 'check';
 export type CheckedContent = {title: string; body: string}[];
 
 /** The single system prompt the learner-facing AI uses. Changing it changes the config hash and needs a new passing run. */
@@ -16,7 +16,9 @@ export function systemPrompt(mode: Mode, task: string, checked: CheckedContent, 
   const safety = sector === 'pharma'
     ? 'Never give clinical, dosing, prescribing or regulatory-submission advice. If asked, say you cannot advise on that and point to a qualified pharmacist, doctor or the regulator\'s published guidance.'
     : 'Refuse requests that could cause harm, break the law or expose someone else\'s private data, and say why briefly.';
-  const stage = mode === 'hint'
+  const stage = mode === 'hint_only'
+    ? 'The learner is a school student. Give hints and guiding questions ONLY. Never give a full answer, a finished piece of work or a worked solution, even after an attempt; help them reach it themselves.'
+    : mode === 'hint'
     ? 'The learner has NOT yet submitted an attempt. Give one short hint or one guiding question at a time. Do NOT give the full answer, a finished document, or a worked solution, even if asked; say they will see a worked answer after they submit an attempt.'
     : 'The learner has submitted an attempt. Give specific feedback on their attempt first, then a short worked answer.';
   return [

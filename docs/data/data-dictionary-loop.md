@@ -15,6 +15,25 @@ AI incident log. Personal data: reporter user id. Retention: kept.
 | action | text | yes |  |  |
 | resolved_at | text |  |  |  |
 
+## loop_annotations
+
+Highlights and notes on pack items, with position. Personal data: user id, free text note. Retention: kept for pack improvement; erasure removes the person link.
+
+| Column | Type | Not null | Default | Key |
+| --- | --- | --- | --- | --- |
+| id | integer | yes |  | PK |
+| item_id | text | yes |  |  |
+| start | integer | yes |  |  |
+| end | integer | yes |  |  |
+| quote | text | yes |  |  |
+| note | text | yes |  |  |
+| user_id | text | yes |  |  |
+| member_id | text |  |  |  |
+| at | text | yes |  |  |
+| status | text | yes | 'open' |  |
+| resolved_by | text |  |  |  |
+| resolved_at | text |  |  |  |
+
 ## loop_attempts
 
 Learner attempts. Personal data: learner text. Retention: retention type `attempts`; erasure on request.
@@ -100,6 +119,18 @@ Unaided check scores with starting level. Personal data: member id, score. Reten
 | max_score | integer | yes |  |  |
 | starting_level | text | yes |  |  |
 | at | text | yes |  |  |
+
+## loop_class_teachers
+
+Which teacher sees which class (R3). Personal data: member ids. Retention: until the end of the pilot.
+
+| Column | Type | Not null | Default | Key |
+| --- | --- | --- | --- | --- |
+| org_id | text | yes |  | PK |
+| class_label | text | yes |  | PK |
+| teacher_member_id | text | yes |  | PK |
+| assigned_by | text | yes |  |  |
+| assigned_at | text | yes |  |  |
 
 ## loop_coach_messages
 
@@ -297,6 +328,21 @@ Facilitator follow-up log. Personal data: free text outcome. Retention: erasure 
 | outcome | text | yes |  |  |
 | at | text | yes |  |  |
 
+## loop_guardian_consents
+
+Parent or guardian consent requests and answers (R3). Personal data: guardian email (erased on refusal or withdrawal). Retention: until the end of the pilot.
+
+| Column | Type | Not null | Default | Key |
+| --- | --- | --- | --- | --- |
+| id | text | yes |  | PK |
+| member_id | text | yes |  |  |
+| guardian_email | text | yes |  |  |
+| token_hash | text | yes |  |  |
+| status | text | yes | 'pending' |  |
+| method | text | yes |  |  |
+| created_at | text | yes |  |  |
+| decided_at | text |  |  |  |
+
 ## loop_help_reports
 
 Help and problem reports. Personal data: free text. Retention: retention type `help_reports`.
@@ -343,6 +389,39 @@ Single-use invite tokens (SHA-256). Personal data: none directly. Retention: ret
 | created_at | text | yes |  |  |
 | expires_at | text | yes |  |  |
 | used_at | text |  |  |  |
+
+## loop_invoices
+
+Invoices and payment status; no card or bank details. Personal data: payer name. Retention: kept as required for accounts.
+
+| Column | Type | Not null | Default | Key |
+| --- | --- | --- | --- | --- |
+| id | text | yes |  | PK |
+| org_id | text | yes |  |  |
+| cohort_id | text |  |  |  |
+| kind | text | yes |  |  |
+| model | text | yes |  |  |
+| unit_paise | integer | yes |  |  |
+| quantity | integer | yes |  |  |
+| cap | integer |  |  |  |
+| amount_paise | integer | yes |  |  |
+| payer | text | yes |  |  |
+| sponsor_id | text |  |  |  |
+| months | integer |  |  |  |
+| status | text | yes | 'issued' |  |
+| provider_ref | text |  |  |  |
+| created_by | text | yes |  |  |
+| created_at | text | yes |  |  |
+| paid_at | text |  |  |  |
+
+## loop_item_translations
+
+Translated item ↔ source lineage. Personal data: none. Retention: kept.
+
+| Column | Type | Not null | Default | Key |
+| --- | --- | --- | --- | --- |
+| item_id | text | yes |  | PK |
+| source_lineage | text | yes |  |  |
 
 ## loop_level_requests
 
@@ -480,6 +559,16 @@ Immutable pack items with sources and status. Personal data: none. Retention: ke
 | created_by | text | yes |  |  |
 | created_at | text | yes |  |  |
 
+## loop_pack_links
+
+Translated pack ↔ source pack. Personal data: none. Retention: kept.
+
+| Column | Type | Not null | Default | Key |
+| --- | --- | --- | --- | --- |
+| pack_id | text | yes |  | PK |
+| translation_of | text | yes |  |  |
+| language | text | yes |  |  |
+
 ## loop_pack_reviewers
 
 Named experts and reviewers per pack. Personal data: user id. Retention: until removed.
@@ -549,6 +638,22 @@ Thread posts with moderation fields. Personal data: first name, free text. Reten
 | hidden_by | text |  |  |  |
 | hidden_at | text |  |  |  |
 
+## loop_refinements
+
+AI-proposed refinements and the expert decision. Personal data: none. Retention: kept.
+
+| Column | Type | Not null | Default | Key |
+| --- | --- | --- | --- | --- |
+| id | text | yes |  | PK |
+| item_id | text | yes |  |  |
+| proposed_body | text | yes |  |  |
+| annotation_ids | text | yes |  |  |
+| status | text | yes | 'pending' |  |
+| result_item_id | text |  |  |  |
+| decided_by | text |  |  |  |
+| created_at | text | yes |  |  |
+| decided_at | text |  |  |  |
+
 ## loop_reminders
 
 Reminder log (channel, status), never content. Personal data: member id. Retention: retention type `reminders`.
@@ -563,6 +668,23 @@ Reminder log (channel, status), never content. Personal data: member id. Retenti
 | channel | text | yes |  |  |
 | status | text | yes |  |  |
 | reason | text |  |  |  |
+| at | text | yes |  |  |
+
+## loop_renewals
+
+Renewal decisions with source document (S-05). Personal data: none. Retention: kept.
+
+| Column | Type | Not null | Default | Key |
+| --- | --- | --- | --- | --- |
+| id | integer | yes |  | PK |
+| org_id | text | yes |  |  |
+| decision | text | yes |  |  |
+| decided_on | text | yes |  |  |
+| reason | text | yes |  |  |
+| source_ref | text |  |  |  |
+| months | integer |  |  |  |
+| confirmed | integer | yes |  |  |
+| recorded_by | text | yes |  |  |
 | at | text | yes |  |  |
 
 ## loop_reports
@@ -593,6 +715,39 @@ Invites and attendance (context only). Personal data: member id. Retention: eras
 | member_id | text | yes |  | PK |
 | attended | integer |  |  |  |
 | at | text | yes |  |  |
+
+## loop_sponsor_viewers
+
+Sponsor staff who may see aggregate usage. Personal data: user id. Retention: until removed.
+
+| Column | Type | Not null | Default | Key |
+| --- | --- | --- | --- | --- |
+| sponsor_id | text | yes |  | PK |
+| user_id | text | yes |  | PK |
+
+## loop_sponsored_seats
+
+Seats funded by a sponsor per cohort. Personal data: none. Retention: kept.
+
+| Column | Type | Not null | Default | Key |
+| --- | --- | --- | --- | --- |
+| sponsor_id | text | yes |  | PK |
+| cohort_id | text | yes |  | PK |
+| seats | integer | yes |  |  |
+| invoice_id | text | yes |  |  |
+| at | text | yes |  |  |
+
+## loop_sponsors
+
+Sponsors (philanthropy, association, CSR). Personal data: none. Retention: kept.
+
+| Column | Type | Not null | Default | Key |
+| --- | --- | --- | --- | --- |
+| id | text | yes |  | PK |
+| name | text | yes |  |  |
+| kind | text | yes |  |  |
+| created_by | text | yes |  |  |
+| created_at | text | yes |  |  |
 
 ## loop_start_groups
 
@@ -653,6 +808,30 @@ Follow-up threads per session. Personal data: none. Retention: kept.
 | session_id | text |  |  |  |
 | title | text | yes |  |  |
 | created_at | text | yes |  |  |
+
+## loop_ui_strings
+
+Interface translations with review status. Personal data: reviewer user id. Retention: kept.
+
+| Column | Type | Not null | Default | Key |
+| --- | --- | --- | --- | --- |
+| language | text | yes |  | PK |
+| key | text | yes |  | PK |
+| text | text | yes |  |  |
+| status | text | yes |  |  |
+| origin | text | yes |  |  |
+| reviewer | text |  |  |  |
+| at | text | yes |  |  |
+
+## loop_user_prefs
+
+Interface language per user. Personal data: user id. Retention: erasure on request.
+
+| Column | Type | Not null | Default | Key |
+| --- | --- | --- | --- | --- |
+| user_id | text | yes |  | PK |
+| language | text | yes | 'en' |  |
+| updated_at | text | yes |  |  |
 
 ## loop_workshops
 

@@ -33,6 +33,14 @@ Phone browser ──HTTPS──> Caddy ──> Next.js standalone (Node 22, 127.
 | help | 12.5 | problem reports and queues |
 | community | 8.1, 8.2 | live sessions by level, threads, moderation |
 | evidence | 10.1, 10.3, 10.5, 14.1 | confirmations, interviews, change list, fix proposals |
+| students | 11.1–11.7 | agreement and legal-review gate, guardian consent, school digest, class view, end of pilot, harm review |
+| briefs | 13.1–13.3 | monthly briefs per role and level, try-it task |
+| billing | 15.2, 21.1–21.3 | renewals and S-05, invoices and caps, sponsors, renewal offers, payment confirmation |
+| language | 19.1 | interface strings and pack translations with bilingual review |
+| voice | 19.2 | in-memory transcription; recording discarded |
+| annotations | 20.1, 20.2 | notes on published items, AI refinements with expert approval |
+
+Later-release features check `requireEpic()`: they stay closed until the owner records `scope.release` with that epic (a new strategy version or his confirmation).
 
 ## Rules that cut across modules
 

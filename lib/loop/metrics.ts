@@ -4,7 +4,7 @@
 // ACA-US-6.1 weekly S-01/S-02 by group and starting level; 6.2 aggregate-only admin view with small-group suppression;
 // 6.3 week-6 A-01 report and decision; 9.3/14.2/17.2 split by learner type, cohort, pack and loop version, sector;
 // 10.1 S-04; 10.2 day-30/day-90 review pack; 10.4 impact report; 15.1 year-end report; 15.2 S-05.
-import {type Db, type Actor, LoopError, audit, refuse, requireRole, requireOwner, operatorRole, requireDecision, iso, newId, text, oneOf, recordDecision} from './core';
+import {type Db, type Actor, LoopError, audit, refuse, requireRole, requireOwner, operatorRole, requireDecision, requireEpic, iso, newId, text, oneOf, recordDecision} from './core';
 import {cohortOf} from './enrolment';
 
 /** S4 (owner decision, 12 October 2026): A-01 holds if at least 35% of enrolled textile learners practised in at least 3 of weeks 2-6. */
@@ -123,7 +123,7 @@ export async function adminDashboard(db: Db, actor: Actor, cohortId: string, now
 }
 
 // ---- Reports ----
-export type ReportKind = 'week6' | 'day30' | 'day90' | 'impact' | 'year_end' | 'harm_review' | 'evidence_pack' | 'cohort_comparison' | 'go_no_go';
+export type ReportKind = 'week6' | 'day30' | 'day90' | 'impact' | 'year_end' | 'harm_review' | 'evidence_pack' | 'cohort_comparison' | 'go_no_go' | 'end_of_pilot';
 async function requireReportAccess(db: Db, actor: Actor, action: string, now: number) {
   const role = await operatorRole(db, actor.userId);
   if (!role) return refuse(db, actor.userId, action, null, 'Only APLYD operators can prepare reports.', now);
@@ -217,6 +217,11 @@ export async function prepareReview(db: Db, actor: Actor, cohortId: string, day:
 export async function prepareImpactReport(db: Db, actor: Actor, cohortId: string, kind: 'impact' | 'year_end' = 'impact', now = Date.now()) {
   const c = await cohortOf(db, cohortId);
   if (!c) throw new LoopError('Cohort not found.', 404);
+  if (kind === 'year_end') { // ACA-US-15.1: prepared from month 11 of the access year
+    const m11 = c.workshop_date ? new Date(c.workshop_date + 'T00:00:00Z') : null;
+    if (m11) m11.setUTCMonth(m11.getUTCMonth() + 11);
+    if (!m11 || now < m11.getTime()) throw new LoopError('The year-end report is prepared from month 11 of the cohort’s access year.', 409);
+  }
   const weeks = kind === 'year_end' ? Array.from({length: 52}, (_, i) => i + 1) : Array.from({length: 13}, (_, i) => i + 1);
   const examples = (await db.prepare(`SELECT s.note FROM loop_submissions s WHERE s.cohort_id=? AND s.member_id IN
       (SELECT member_id FROM loop_consents c WHERE purpose='share_examples' AND id=(SELECT max(id) FROM loop_consents WHERE member_id=c.member_id AND purpose='share_examples') AND granted=1)
@@ -238,6 +243,21 @@ async function learnersPractisedAnyWeek(db: Db, cohortId: string, weeks: number[
   const ls = await learners(db, [cohortId]);
   const r = await db.prepare(`SELECT count(DISTINCT member_id) n FROM loop_submissions WHERE cohort_id=? AND week IN (SELECT value FROM json_each(?))`).bind(cohortId, JSON.stringify(weeks)).first<{n: number}>();
   return share(r?.n ?? 0, ls.length);
+}
+
+/** ACA-US-16.1: anonymised evidence for university conversations, with method, uncertainty and limits. */
+export async function prepareEvidencePack(db: Db, actor: Actor, cohortIds: string[], now = Date.now()) {
+  await requireEpic(db, 'ACA-E16');
+  const weeks = [1, 2, 3, 4, 5, 6];
+  const body = await suppress(db, {
+    title: 'Aplyd Academy practice loop: evidence pack', cohorts: cohortIds.length,
+    results: {S01_weekly: await weeklyMetrics(db, cohortIds, weeks), S01_byStartingLevel: await weeklyMetrics(db, cohortIds, weeks, 'starting_level'), S03: await s03(db, cohortIds, 'starting_level'), S04: await s04(db, cohortIds, 'all', now), A01: await a01(db, cohortIds)},
+    method: 'Practice records from the app: S-01 learners who practised on their own work ÷ all enrolled; S-02 cycles with a work artefact ÷ cycles; S-03 planted AI errors caught ÷ shown; S-04 learners with a supervisor- or peer-confirmed change ÷ all enrolled. 95% Wilson intervals. Groups below the owner’s minimum size are hidden.',
+    limits: 'One sector and a small number of cohorts; self-selected associations; no control group unless a staggered start was agreed; behaviour, not productivity. No learner is identifiable and no individual work is included.',
+    demo: 'For demonstrations use the synthetic demo data (scripts/demo-synthetic.mjs), never real learners.',
+    approval: 'Draft until approved by Nakul Jain; shared only by him.',
+  });
+  return {...await saveReport(db, actor, 'evidence_pack', {}, body, now), body};
 }
 
 /** ACA-US-14.2-AC2 / 17.2 / 9.3: S-01 to S-03 per cohort (or sector, learner type) with pack and loop version. */

@@ -36,7 +36,7 @@ const LEARNER_TABLES: [string, string][] = [
   ['loop_cadence_assignments', 'member_id'], ['loop_followups', 'member_id'], ['loop_level_requests', 'member_id'], ['loop_levels', 'member_id'],
   ['loop_consents', 'member_id'], ['loop_invites', 'member_id'],
 ];
-const optionalTables = ['loop_confirmations', 'loop_posts', 'loop_session_invites', 'loop_help_reports', 'loop_brief_reads', 'loop_interviews', 'loop_annotations', 'loop_guardian_consents'];
+const optionalTables = ['loop_confirmations', 'loop_posts', 'loop_session_invites', 'loop_help_reports', 'loop_interviews', 'loop_guardian_consents'];
 
 async function tableExists(db: Db, t: string) { return !!(await db.prepare(`SELECT 1 FROM sqlite_master WHERE type='table' AND name=?`).bind(t).first()); }
 
@@ -57,6 +57,10 @@ export async function eraseLoopData(db: Db, userId: string, now = Date.now(), {l
   }
   await db.batch([
     db.prepare(`UPDATE loop_audit SET actor='erased' WHERE actor=?`).bind(userId),
+    db.prepare(`UPDATE loop_annotations SET user_id='erased', member_id=NULL WHERE user_id=?`).bind(userId),
+    db.prepare('DELETE FROM loop_user_prefs WHERE user_id=?').bind(userId),
+    db.prepare('DELETE FROM loop_help_reports WHERE user_id=?').bind(userId),
+    db.prepare('DELETE FROM loop_sponsor_viewers WHERE user_id=?').bind(userId),
     db.prepare('DELETE FROM loop_pack_reviewers WHERE user_id=?').bind(userId),
     db.prepare('DELETE FROM loop_operators WHERE user_id=?').bind(userId),
     ...(log ? [db.prepare('INSERT INTO loop_deletion_log(at,tbl,row_key) VALUES(?,?,?)').bind(iso(now), 'user', userId)] : []),

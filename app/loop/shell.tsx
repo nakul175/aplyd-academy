@@ -4,17 +4,26 @@ import {redirect} from 'next/navigation';
 import {env} from '@/lib/platform-env';
 import {getChatGPTUser, chatGPTSignInPath} from '@/app/chatgpt-auth';
 import type {Db} from '@/lib/loop/core';
+import {translator, UI_EN, type UiKey} from '@/lib/loop/language';
 import s from './loop.module.css';
 
-export function Shell({title, children, screen}: {title: string; children: React.ReactNode; screen: string}) {
+/** The translator for the signed-in user (ACA-US-19.1); English when signed out or when no approved translation exists. */
+export async function tr() {
+  const user = await getChatGPTUser();
+  if (!user || !env.DB) return {lang: 'en', t: (k: UiKey) => UI_EN[k]};
+  return translator(env.DB, user.userId);
+}
+
+export async function Shell({title, children, screen}: {title: string; children: React.ReactNode; screen: string}) {
+  const {lang, t} = await tr();
   return (
-    <div className={s.page}>
+    <div className={s.page} data-lang={lang}>
       <a href="#main" className={s.skip}>Skip to content</a>
       <header className={s.header}>
         <Link href="/loop" className={s.brand}>Aplyd Academy</Link>
         <nav aria-label="Main" className={s.nav}>
-          <Link href="/loop">Home</Link>
-          <Link href={`/loop/help?screen=${encodeURIComponent(screen)}`}>Help</Link>
+          <Link href="/loop">{t('nav.home')}</Link>
+          <Link href={`/loop/help?screen=${encodeURIComponent(screen)}`}>{t('nav.help')}</Link>
         </nav>
       </header>
       <main id="main" className={s.main}>

@@ -14,6 +14,8 @@ Module prefixes: E enrolment, Lv levels, P packs, A ai, F files, Pr practice, R 
 | `join.under18` | no (single-use token) | `E.declineUnder18` |
 | `confirm.open` | no (single-use token) | `Ev.openConfirmation` |
 | `confirm.decide` | no (single-use token) | `Ev.decideConfirmation` |
+| `guardian.open` | no (single-use token) | `?` |
+| `guardian.decide` | no (single-use token) | `?` |
 | `org.create` | yes | `E.createOrg` |
 | `org.invite` | yes | `E.inviteStaff` |
 | `cohort.create` | yes | `E.createCohort` |
@@ -77,3 +79,29 @@ Module prefixes: E enrolment, Lv levels, P packs, A ai, F files, Pr practice, R 
 | `pack.proposeFixes` | yes | `Ev.proposeFixes` |
 | `pack.decideProposal` | yes | `Ev.decideProposal` |
 | `eval.import` | yes | `A.addEvalCase` |
+| `student.enrol` | yes | `?` |
+| `school.digest` | yes | `?` |
+| `class.assign` | yes | `?` |
+| `class.view` | yes | `?` |
+| `school.endOfPilot` | yes | `?` |
+| `harm.prepare` | yes | `?` |
+| `harm.decide` | yes | `?` |
+| `brief.draft` | yes | `?` |
+| `brief.try` | yes | `?` |
+| `renewal.record` | yes | `M.prepareEvidencePack` |
+| `cohort.cap` | yes | `M.prepareEvidencePack` |
+| `invoice.workshop` | yes | `M.prepareEvidencePack` |
+| `sponsor.create` | yes | `M.prepareEvidencePack` |
+| `sponsor.viewer` | yes | `M.prepareEvidencePack` |
+| `sponsor.fund` | yes | `M.prepareEvidencePack` |
+| `renewal.accept` | yes | `M.prepareEvidencePack` |
+| `report.evidencePack` | yes | `M.prepareEvidencePack` |
+| `language.set` | yes | `?` |
+| `ui.draft` | yes | `recordDecision` |
+| `ui.review` | yes | `recordDecision` |
+| `pack.translate` | yes | `recordDecision` |
+| `annotation.add` | yes | `recordDecision` |
+| `annotation.status` | yes | `recordDecision` |
+| `refinement.propose` | yes | `recordDecision` |
+| `refinement.decide` | yes | `recordDecision` |
+| `risk.decide` | yes | `recordDecision` |

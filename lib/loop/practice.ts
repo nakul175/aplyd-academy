@@ -6,6 +6,8 @@ import {currentLevel, startingLevel, requireActiveAccess} from './levels';
 import {publishedItems, type Item} from './packs';
 import {coachReply, aiStatus, PAUSED_NOTICE, type CheckedContent} from './ai';
 import {textExcerpt} from './files';
+import {pausedByHarm} from './students';
+import {userLanguage, itemsInLanguage} from './language';
 import {AiUnavailable, type AiRequest} from '@/lib/ai/provider';
 
 const WEEK = 7 * DAY;
@@ -22,7 +24,9 @@ async function packFor(db: Db, m: Member) {
   const c = m.cohort_id ? await cohortOf(db, m.cohort_id) : null;
   if (!c?.pack_id) return null;
   const pub = await publishedItems(db, c.pack_id);
-  return pub.version ? {cohort: c, ...pub} : null;
+  if (!pub.version) return null;
+  const lang = m.user_id ? await userLanguage(db, m.user_id) : 'en'; // ACA-US-19.1: approved translations replace their source
+  return {cohort: c, version: pub.version, items: lang === 'en' ? pub.items : await itemsInLanguage(db, c.pack_id, lang)};
 }
 const fits = (i: Item, jobRole: string | null, level: string | null) => (i.job_role === '*' || i.job_role === (jobRole ?? '').toLowerCase()) && (i.level === '*' || i.level === level);
 
@@ -47,6 +51,7 @@ async function createTask(db: Db, m: Member, kind: Task['kind'], week: number, i
 export async function ensureWeeklyTask(db: Db, actor: Actor, memberId: string, now = Date.now()) {
   const m = await requireSelf(db, actor, memberId, 'task.weekly', now);
   const access = await requireActiveAccess(db, m, now);
+  if (await pausedByHarm(db, m)) throw new LoopError('Practice is paused for your group by a decision of your school and APLYD.', 403);
   const week = await weekOf(db, m, now);
   if (week < 1) return {state: 'not_started' as const, startsOn: await startDateOf(db, m), access};
   if (!(await currentLevel(db, m.id))) return {state: 'needs_placement' as const, access};
@@ -103,7 +108,8 @@ export async function askCoach(db: Db, actor: Actor, taskId: string, input: {mes
   const recent = await db.prepare(`SELECT count(*) n FROM loop_coach_messages WHERE member_id=? AND role='learner' AND at>?`).bind(member.id, iso(now - 3_600_000)).first<{n: number}>();
   if ((recent?.n ?? 0) >= COACH_PER_HOUR) throw new LoopError('You have asked the coach a lot in the last hour. Try the task yourself and ask again later.', 429);
   const attempted = !!(await db.prepare('SELECT 1 FROM loop_attempts WHERE task_id=? LIMIT 1').bind(task.id).first());
-  const mode = attempted ? 'feedback' as const : 'hint' as const;
+  const schoolStudent = member.role === 'student' && (await db.prepare('SELECT kind FROM loop_orgs WHERE id=?').bind(member.org_id).first<{kind: string}>())?.kind === 'school';
+  const mode = schoolStudent ? 'hint_only' as const : attempted ? 'feedback' as const : 'hint' as const; // ACA-US-11.3: students get hints only
   let content = message;
   if (typeof input.includeFileId === 'string') {
     const allowed = await decision<{allowed: boolean}>(db, 'ai.files_to_provider');
@@ -187,7 +193,7 @@ export async function scheduleCheck(db: Db, actor: Actor, cohortId: string, item
   const item = pub?.items.find(i => i.id === itemId && i.kind === 'check');
   if (!item) throw new LoopError('Choose a published check from the cohort’s pack.', 404);
   parseCheck(item);
-  const members = (await db.prepare(`SELECT * FROM loop_members WHERE cohort_id=? AND status='joined' AND role IN ('learner','teacher','officer','faculty')`).bind(cohortId).all<Member>()).results;
+  const members = (await db.prepare(`SELECT * FROM loop_members WHERE cohort_id=? AND status='joined' AND role IN ('learner','teacher','officer','faculty','student')`).bind(cohortId).all<Member>()).results;
   let created = 0;
   for (const m of members) {
     if (await db.prepare(`SELECT 1 FROM loop_tasks WHERE member_id=? AND kind='check' AND item_id=?`).bind(m.id, item.id).first()) continue;
@@ -284,7 +290,7 @@ export async function startWorkshop(db: Db, actor: Actor, cohortId: string, now 
   if (!pub?.version) throw new LoopError('The cohort’s pack has no published version yet.', 409);
   let ws = await db.prepare('SELECT id FROM loop_workshops WHERE cohort_id=? AND ended_at IS NULL').bind(cohortId).first<{id: string}>();
   if (!ws) { ws = {id: newId('ws')}; await db.prepare('INSERT INTO loop_workshops(id,cohort_id,started_by,started_at) VALUES(?,?,?,?)').bind(ws.id, cohortId, actor.userId, iso(now)).run(); }
-  const members = (await db.prepare(`SELECT * FROM loop_members WHERE cohort_id=? AND status='joined' AND role IN ('learner','teacher','officer','faculty')`).bind(cohortId).all<Member>()).results;
+  const members = (await db.prepare(`SELECT * FROM loop_members WHERE cohort_id=? AND status='joined' AND role IN ('learner','teacher','officer','faculty','student')`).bind(cohortId).all<Member>()).results;
   let created = 0, waiting = 0;
   for (const m of members) {
     if (await db.prepare(`SELECT 1 FROM loop_tasks WHERE member_id=? AND kind='workshop'`).bind(m.id).first()) continue;
@@ -313,7 +319,7 @@ export async function workshopView(db: Db, actor: Actor, cohortId: string, now =
   if (!c) return refuse(db, actor.userId, 'workshop.view', null, 'You do not have access to this.', now);
   await requireRole(db, actor, c.org_id, ['facilitator'], 'workshop.view', {now});
   const rows = (await db.prepare(`SELECT m.name, EXISTS(SELECT 1 FROM loop_submissions s WHERE s.member_id=m.id AND s.kind='workshop') AS finished, EXISTS(SELECT 1 FROM loop_tasks t WHERE t.member_id=m.id AND t.kind='workshop') AS has_task
-    FROM loop_members m WHERE m.cohort_id=? AND m.status='joined' AND m.role IN ('learner','teacher','officer','faculty') ORDER BY m.name`).bind(cohortId).all<{name: string; finished: number; has_task: number}>()).results;
+    FROM loop_members m WHERE m.cohort_id=? AND m.status='joined' AND m.role IN ('learner','teacher','officer','faculty','student') ORDER BY m.name`).bind(cohortId).all<{name: string; finished: number; has_task: number}>()).results;
   return {participants: rows.map(r => ({name: r.name, finished: r.finished === 1, hasTask: r.has_task === 1})), finished: rows.filter(r => r.finished).length, total: rows.length};
 }
 export async function endWorkshop(db: Db, actor: Actor, cohortId: string, now = Date.now()) {

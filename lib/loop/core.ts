@@ -97,7 +97,14 @@ export const DECISIONS = {
   'a01.redesign_accepted': {story: 'ACA-US-10.5', what: 'Redesigned loop accepted after a redesign decision (scope: org id)', shape: '{"loopVersion":"loop-2"}'},
   'retention.periods': {story: 'ACA-US-6.5', what: 'Retention period in days per record type', shape: '{"days":{"sessions":30,"practice":730}}'},
   'help.security_contact': {story: 'ACA-US-12.5', what: 'Email that receives security and privacy reports', shape: '{"email":"..."}'},
-  'pricing.renewal': {story: 'ACA-US-15.2', what: 'Renewal period and price per organisation', shape: '{"months":12,"pricePerSeatInr":0}'},
+  'pricing.renewal': {story: 'ACA-US-15.2', what: 'Renewal period and price (scope: org id or global)', shape: '{"months":12,"unitPaise":0,"noticeDays":30}'},
+  'pricing.workshop': {story: 'ACA-US-21.1', what: 'Workshop pricing model, price and participant cap (scope: org id)', shape: '{"model":"per_participant"|"per_workshop","unitPaise":0,"cap":40}'},
+  'scope.release': {story: 'ACA-E13, E16-E21', what: 'Epics brought into scope by a strategy version or owner confirmation', shape: '{"epics":["ACA-E13"],"strategyVersion":"..."}'},
+  'student.agreement': {story: 'ACA-US-11.1', what: 'Signed agreement: the school is data fiduciary, APLYD processor (scope: org id)', shape: '{"ref":"...","signedOn":"YYYY-MM-DD"}'},
+  'student.harm_baseline': {story: 'ACA-US-11.7', what: 'Unaided-check baseline agreed with the school, by starting level (scope: cohort id)', shape: '{"byLevel":{"L1":0.5,"L2":0.6}}'},
+  'student.harm_decision': {story: 'ACA-US-11.7', what: 'Decision of the owner and the school after a harm review (scope: report id)', shape: '{"decision":"continue"|"change"|"stop","levels":["L1"],"schoolRef":"..."}'},
+  'school.end_instruction': {story: 'ACA-US-11.5', what: 'The school\'s written instruction at the end of the pilot (scope: org id)', shape: '{"mode":"delete"|"return","ref":"..."}'},
+  'speech.provider': {story: 'ACA-US-19.2', what: 'Speech-to-text provider covered in AIA-ACADEMY-01', shape: '{"allowed":true,"aiaVersion":"..."}'},
   'brief.max_words': {story: 'ACA-US-13.1', what: 'Length limit of a monthly brief', shape: '{"words":250}'},
   'language.local': {story: 'ACA-US-19.1', what: 'The local language chosen for R4', shape: '{"code":"hi","name":"Hindi"}'},
   'golive.decision': {story: 'ACA-US-12.1', what: 'Go/no-go decision before the workshop', shape: '{"decision":"go"|"go_without_teacher_mode"|"no_go","packRef":"..."}'},
@@ -141,6 +148,12 @@ async function guardThresholds(db: Db, next: unknown) {
   const n = (next ?? {}) as {overall?: number; perCategory?: Record<string, number>};
   const lower = (n.overall ?? 0) < (cur.value.overall ?? 0) || Object.entries(cur.value.perCategory ?? {}).some(([k, v]) => (n.perCategory?.[k] ?? 0) < v);
   if (lower) throw new LoopError('An evaluation run has failed against the current thresholds, so they cannot be lowered. Fix the AI configuration instead.', 409);
+}
+
+/** Features of later releases wait until the owner brings their epic into scope (a new strategy version). */
+export async function requireEpic(db: Db, epic: string) {
+  const d = await decision<{epics: string[]}>(db, 'scope.release');
+  if (!d?.value.epics?.includes(epic)) throw new LoopError(`Waiting for the product owner: ${epic} is not in scope yet (it needs a new strategy version or the owner's confirmation).`, 409);
 }
 
 export async function pendingDecisions(db: Db) {

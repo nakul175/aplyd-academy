@@ -86,7 +86,7 @@ export async function assignCadences(db: Db, actor: Actor, cohortId: string, now
   const d = await decision<{cadences: Cadence[]}>(db, 'reminders.cadences', cohortId);
   if (!d || (d.value.cadences?.length ?? 0) < 2) throw new LoopError('Waiting for the product owner to approve the cadences to compare for this cohort.', 409);
   const ref = `reminders.cadences@${cohortId}@${d.decided_at}`;
-  const members = (await db.prepare(`SELECT id FROM loop_members WHERE cohort_id=? AND status='joined' AND role IN ('learner','teacher','officer','faculty') ORDER BY id`).bind(cohortId).all<{id: string}>()).results;
+  const members = (await db.prepare(`SELECT id FROM loop_members WHERE cohort_id=? AND status='joined' AND role IN ('learner','teacher','officer','faculty','student') ORDER BY id`).bind(cohortId).all<{id: string}>()).results;
   // Balanced split: sort by a hash of the id (not by name or time) and deal out in turn.
   const shuffled = [...members].sort((a, b) => sha256(cohortId + a.id).localeCompare(sha256(cohortId + b.id)));
   let n = 0;
@@ -139,7 +139,7 @@ export async function followUpList(db: Db, actor: Actor, cohortId: string, now =
   if (!c) return refuse(db, actor.userId, 'followup.view', null, 'You do not have access to this.', now);
   await requireRole(db, actor, c.org_id, ['facilitator'], 'followup.view', {now});
   const weeks = (await requireDecision<{weeks: number}>(db, 'followup.inactive_weeks', cohortId)).weeks;
-  const members = (await db.prepare(`SELECT * FROM loop_members WHERE cohort_id=? AND status='joined' AND role IN ('learner','teacher','officer','faculty')`).bind(cohortId).all<Member>()).results;
+  const members = (await db.prepare(`SELECT * FROM loop_members WHERE cohort_id=? AND status='joined' AND role IN ('learner','teacher','officer','faculty','student')`).bind(cohortId).all<Member>()).results;
   const out = [];
   for (const m of members) {
     const start = Date.parse((await startDateOf(db, m)) + 'T00:00:00Z');

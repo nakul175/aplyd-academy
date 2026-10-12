@@ -18,5 +18,8 @@ All settings are environment variables in `/etc/academy/academy.env` on the serv
 | `ACADEMY_JOBS_SECRET` | for the daily timer | 32+ characters. |
 | `ACADEMY_INBOUND_SECRET` | when a WhatsApp/SMS provider exists | 32+ characters. |
 | `ACADEMY_MESSAGE_TRANSPORT` | tests only | `outbox` enables the local WhatsApp/SMS outbox outside production. |
+| `ACADEMY_PAYMENTS_SECRET` | when a payment provider exists (R4) | 32+ characters; shared secret on `POST /api/loop/payments`. |
+| `ACADEMY_SPEECH_PROVIDER` | R4 voice input | `off` (default), `openai-compatible`, `fake` (tests only). |
+| `ACADEMY_SPEECH_BASE_URL`, `ACADEMY_SPEECH_API_KEY`, `ACADEMY_SPEECH_MODEL` | with `openai-compatible` | Speech-to-text endpoint, key and model (never defaulted). |
 | `ACADEMY_RELEASE` | set by `deploy/run.sh` | Release id shown by `/api/health`. |
 | `ACADEMY_TRUST_IDENTITY_HEADERS` | never in production | `1` only in v0.17 local tests. |

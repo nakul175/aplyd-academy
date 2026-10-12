@@ -49,7 +49,7 @@ try {
   decide('metrics.min_group_size', {size: 1}); decide('followup.inactive_weeks', {weeks: 2});
   decide('ai.thresholds', {overall: 1});
   db.prepare('INSERT INTO loop_eval_runs(id,at,run_by,config_hash,provider,model,thresholds,results,summary,passed) VALUES(?,?,?,?,?,?,?,?,?,1)')
-    .run('run-' + run, now, 'local', createHash('sha256').update(`fake|${process.env.ACADEMY_AI_MODEL}|hint-first-1`).digest('hex'), 'fake', process.env.ACADEMY_AI_MODEL, JSON.stringify({overall: 1}), '[]', '{}');
+    .run('run-' + run, now, 'local', createHash('sha256').update(`fake|${process.env.ACADEMY_AI_MODEL}|hint-first-2`).digest('hex'), 'fake', process.env.ACADEMY_AI_MODEL, JSON.stringify({overall: 1}), '[]', '{}');
 
   // ---- 2.5: the operator creates the association and invites its admin ----
   await op.goto(base + '/loop/ops'); await a11y(op, 'operations');
@@ -200,6 +200,82 @@ try {
   ok(!(await boss.content()).includes('wrong total'), 'confirmer sees only what was shared');
   await boss.getByRole('button', {name: 'Yes, I confirm this change'}).click(); await boss.getByText('You confirmed this change.').waitFor();
   ok(db.prepare(`SELECT status FROM loop_confirmations WHERE member_id=?`).get(mem).status === 'confirmed', 'confirmation stored');
+
+  // ======== R3 and R4 screens (ACA-E11, E19, E20, E21) on the same synthetic world ========
+  decide('scope.release', {epics: ['ACA-E19', 'ACA-E20', 'ACA-E21'], strategyVersion: 'synthetic'});
+  decide('language.local', {code: 'hi', name: 'Hindi'});
+
+  // 20.1/20.2: a learner notes part of an item; the expert compares an AI refinement and approves it
+  await asha.goto(`${base}/loop/task/${taskId}`); await asha.getByText('Add a note on part of this text').first().click();
+  await asha.getByLabel('Copy the exact words your note is about').first().fill('Always re-add');
+  await asha.getByLabel('Your note', {exact: true}).first().fill('Which totals do you mean?'); await asha.getByRole('button', {name: 'Save note'}).first().click();
+  await asha.getByText('The expert sees it next to those words').waitFor({timeout: 8000}).catch(async e => { console.error('ALERTS:', await asha.locator('[role=alert]').allInnerTexts(), await asha.locator('input[id^=ann-]').first().inputValue(), await asha.locator('input[id^=ann-]').first().getAttribute('id'), JSON.stringify(db.prepare("SELECT id, kind, body FROM loop_pack_items WHERE kind='rule'").all())); throw e; }); checks++;
+  await expert.goto(`${base}/loop/review/${packId}`); await expert.getByText('Which totals do you mean?').waitFor();
+  await expert.getByRole('button', {name: 'Ask AI to propose a refinement'}).click(); await expert.getByText(/Proposed refinement:/).waitFor();
+  await a11y(expert, 'pack review with notes and refinement');
+  await expert.getByRole('button', {name: 'Approve as a new revision'}).click(); await expert.getByText(/Proposed refinement:/).waitFor({state: 'detached'}); checks++;
+
+  // 19.1: language switch in settings
+  await asha.goto(base + '/loop/settings'); await asha.getByLabel('Show the app and my tasks in').selectOption('hi');
+  await asha.getByRole('button', {name: 'Save language'}).click(); await asha.locator('form').filter({hasText: 'Save language'}).getByText('Saved.').waitFor();
+  ok(db.prepare('SELECT language FROM loop_user_prefs WHERE user_id=?').get(userId(email('asha'))).language === 'hi', 'language saved');
+
+  // 11.1/11.2/11.6: school, guardian consent, teacher class view
+  await op.goto(base + '/loop/ops');
+  await op.locator('#org\\.create-kind').selectOption('school'); await op.locator('#org\\.create-name').fill(`Synthetic School ${run}`);
+  await op.locator('#org\\.create-sector').fill('education'); await op.locator('#org\\.create-agreementRef').fill('Synthetic signed MoU');
+  await submitForm(op, 'Create organisation'); await op.getByRole('link', {name: `Synthetic School ${run}`}).waitFor();
+  const schoolId = db.prepare('SELECT id FROM loop_orgs WHERE name=?').get(`Synthetic School ${run}`).id;
+  await op.locator('details').filter({hasText: 'Invite this organisation’s admin'}).filter({has: op.locator(`#ia-${schoolId}`)}).locator('summary').click();
+  await op.locator(`#ia-${schoolId}-name`).fill('Head Teacher'); await op.locator(`#ia-${schoolId}-email`).fill(email('head'));
+  await op.locator(`#ia-${schoolId}`).getByRole('button').click(); await op.locator(`#ia-${schoolId}`).getByText('Invite sent.').waitFor();
+  const head = await newPage(); await signIn(head, email('head'), inviteLink(email('head'))); await head.getByRole('button', {name: 'Join'}).click(); await head.waitForURL(base + '/loop');
+  await head.goto(`${base}/loop/org/${schoolId}`); await head.getByLabel('Cohort name').fill('Class 8 pilot'); await head.getByLabel(/Workshop date/).fill(today);
+  await submitForm(head, 'Create cohort'); await head.waitForURL(/\/loop\/cohort\//);
+  const schoolCohort = head.url().split('/').pop();
+  const sdecide = (k, v) => db.prepare('INSERT INTO loop_decisions(key,scope,value,decided_by,decided_at,source) VALUES(?,?,?,?,?,?)').run(k, schoolId, JSON.stringify(v), userId(email('owner')), now, 'synthetic local test');
+  sdecide('student.agreement', {ref: 'Synthetic processing agreement', signedOn: today});
+  sdecide('student.legal_review', {ref: 'Synthetic legal review', parentalConsentRequired: true, teacherMaySee: ['practice_counts', 'check_results']});
+  decide('golive.decision', {decision: 'go'});
+  await head.reload(); await head.getByLabel('Who are they?').selectOption('student');
+  await head.getByLabel(/Member list/).fill(`Kid One, ${email('kid1')}, 8a, ${email('parent1')}`); await submitForm(head, 'Check and send invites');
+  await head.getByText(/Done\. Every valid row/).waitFor();
+  ok(!lastMail(email('kid1')), 'student not contacted before guardian consent');
+  const parent = await newPage(); await parent.goto(base + lastMail(email('parent1')).match(/(\/loop\/guardian\/[A-Za-z0-9_-]{43})/)[1]);
+  await parent.getByRole('button', {name: 'I give consent'}).waitFor(); await a11y(parent, 'guardian consent (public)');
+  await parent.getByRole('button', {name: 'I give consent'}).click(); await parent.getByText('You gave consent.').waitFor();
+  ok(/\/loop\/join\//.test(lastMail(email('kid1'))), 'student invited after consent');
+  await head.getByLabel('Who are they?').selectOption('teacher');
+  await head.getByLabel(/Member list/).fill(`Teacher A, ${email('teach')}, maths`); await submitForm(head, 'Check and send invites'); await head.getByText(/Done\. Every valid row/).waitFor();
+  const teach = await newPage(); await teach.goto(base + inviteLink(email('teach'))); await teach.getByRole('button', {name: 'Yes, I am 18 or older'}).click();
+  await teach.getByRole('link', {name: 'Sign in to join'}).click(); await teach.getByLabel('Email address').fill(email('teach')); await teach.getByRole('button', {name: 'Email me a code'}).click();
+  await teach.getByLabel('6-digit code').waitFor(); await teach.getByLabel('6-digit code').fill(lastMail(email('teach')).match(/\b(\d{6})\b/)[1]); await teach.getByRole('button', {name: 'Sign in'}).click();
+  await teach.getByRole('button', {name: 'Yes, I am 18 or older'}).click(); await teach.getByLabel(/I agree to the use of my practice data/).check(); await teach.getByRole('button', {name: 'Join'}).click(); await teach.waitForURL(base + '/loop');
+  const kid = await newPage();
+  const kidHosts = new Set(); kid.on('request', r => kidHosts.add(new URL(r.url()).host)); // ACA-TT-11.3.2: trackers and data flows in a student session
+  await signIn(kid, email('kid1'), inviteLink(email('kid1'))); await kid.getByLabel(/I agree to the use of my practice data/).check(); await kid.getByRole('button', {name: 'Join'}).click(); await kid.waitForURL(base + '/loop');
+  await kid.goto(base + '/loop/help'); await kid.goto(base + '/loop/settings');
+  ok([...kidHosts].every(h => h === '127.0.0.1:8787'), 'student session talks only to the Academy itself: ' + [...kidHosts].join(','));
+  ok(!(await kid.content()).match(/googletagmanager|google-analytics|facebook\.net|hotjar|segment\.io|clarity\.ms/), 'no tracker scripts in student pages');
+  await head.goto(`${base}/loop/org/${schoolId}`); await head.getByLabel('Class', {exact: true}).fill('8A'); await head.getByRole('button', {name: 'Give this teacher the class view'}).click(); await head.getByText('Saved.').first().waitFor();
+  await a11y(head, 'school organisation');
+  await teach.goto(base + '/loop'); await teach.getByRole('link', {name: 'My class'}).click(); await teach.getByRole('cell', {name: 'Kid One'}).waitFor(); checks++;
+  await a11y(teach, 'teacher class view');
+
+  // 21.1/21.2: sponsor funds seats; sponsor staff see aggregates only
+  const odecide = (k, v, sc) => db.prepare('INSERT INTO loop_decisions(key,scope,value,decided_by,decided_at,source) VALUES(?,?,?,?,?,?)').run(k, sc, JSON.stringify(v), userId(email('owner')), now, 'synthetic local test');
+  odecide('pricing.workshop', {model: 'per_participant', unitPaise: 50000, cap: 40}, orgId);
+  await op.goto(base + '/loop/ops'); await op.locator('#sp-name').fill(`Synthetic CSR ${run}`); await op.locator('#sp-kind').selectOption('csr');
+  await op.locator('#sp').getByRole('button').click(); await op.getByRole('link', {name: `Synthetic CSR ${run}`}).waitFor();
+  const spId = db.prepare('SELECT id FROM loop_sponsors WHERE name=?').get(`Synthetic CSR ${run}`).id;
+  await op.locator(`#fs-${spId}`).locator('xpath=..').locator('summary').click();
+  await op.locator(`#fs-${spId}-cohortId`).selectOption(cohortId); await op.locator(`#fs-${spId}-seats`).fill('5'); await op.locator(`#fs-${spId}`).getByRole('button').click(); await op.locator(`#fs-${spId}`).getByText('Saved.').waitFor();
+  await op.locator(`#sv-${spId}`).locator('xpath=..').locator('summary').click();
+  await op.locator(`#sv-${spId}-email`).fill(email('admin')); await op.locator(`#sv-${spId}`).getByRole('button').click(); await op.locator(`#sv-${spId}`).getByText('Saved.').waitFor();
+  await a11y(op, 'operations (full)');
+  await admin.goto(`${base}/loop/sponsor/${spId}`); await admin.getByText('Funded seats: 5').waitFor(); checks++;
+  ok(!(await admin.content()).includes(email('asha')), 'sponsor sees no learner identities');
+  await a11y(admin, 'sponsor usage');
 
   if (process.env.A11Y_OUT) { mkdirSync(join(process.env.A11Y_OUT, '..'), {recursive: true}); writeFileSync(process.env.A11Y_OUT, JSON.stringify({tool: 'axe-core 4.11.4', tags: ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'], viewport: '390x844', at: new Date().toISOString(), screens: a11yResults}, null, 2)); }
   const failing = a11yResults.filter(r => r.violations.length);

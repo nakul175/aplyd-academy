@@ -4,7 +4,7 @@ Draft, 13 October 2026. Published with each release; updated when checks change.
 
 **Standard.** We aim for WCAG 2.2 level AA on every practice-loop screen, on phones first.
 
-**What meets it, as checked.** Automated checks with axe-core 4.11.4 (rules tagged wcag2a, wcag2aa, wcag21a, wcag21aa, wcag22aa) ran on 17 screens at 390×844 during the end-to-end journey test (`tests/loop/browser-r1-journey.mjs`; results in `docs/accessibility/axe-results.json`): operations, organisation, cohort admin, pack review, join (notice and age, consent choices), learner home, placement, facilitator, practice task, history, help, settings, sessions, thread, community and the public confirmation page. **Result: no automated failures.** The checks run on every change in CI.
+**What meets it, as checked.** Automated checks with axe-core 4.11.4 (rules tagged wcag2a, wcag2aa, wcag21a, wcag21aa, wcag22aa) ran on 23 screens at 390×844 during the end-to-end journey test (`tests/loop/browser-r1-journey.mjs`; results in `docs/accessibility/axe-results.json`): operations, organisation, cohort admin, pack review, join: notice and age, join: consent choices, learner home, placement, facilitator, practice task, history, help, settings, sessions, thread, community, confirmation (public), pack review with notes and refinement, guardian consent (public), school organisation, teacher class view, operations (full), sponsor usage. **Result: no automated failures.** The checks run on every change in CI.
 
 Built in: a skip link and the same Home and Help links on every screen; labels on every field; errors and results announced in live regions; 44-pixel touch targets; visible focus; text that reflows at 200% zoom; tables in focusable scroll regions; no information by colour alone.
 
