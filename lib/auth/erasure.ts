@@ -3,6 +3,7 @@
 // too (reviews, cohorts), so a member of any team workspace is refused here and handled by a workspace admin
 // through the existing data-request flow; nothing is half-deleted.
 import {pseudonymMap} from '@/lib/academy-audit-detail';
+import {eraseLoopData} from '@/lib/loop/retention';
 
 type Db = D1Database;
 export type ErasureResult = {erased: true} | {erased: false; reason: 'team-member'; teams: number};
@@ -12,6 +13,7 @@ export async function eraseAccount(db: Db, userId: string): Promise<ErasureResul
   if ((teams?.n ?? 0) > 0) return {erased: false, reason: 'team-member', teams: teams!.n};
   const user = await db.prepare('SELECT email_hash, email FROM academy_users WHERE id=?').bind(userId).first<{email_hash: string; email: string}>();
   const refusalRef = (await pseudonymMap([userId], 'refusal'))(userId);
+  await eraseLoopData(db, userId); // practice-loop records and files (ACA-US-6.4, practice loop)
   await db.batch([
     db.prepare('DELETE FROM academy_workspaces WHERE owner=?').bind(userId),
     db.prepare('DELETE FROM academy_audit WHERE owner=?').bind(userId),

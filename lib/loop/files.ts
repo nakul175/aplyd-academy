@@ -115,3 +115,9 @@ export function textExcerpt(f: {member_id: string; id: string; mime: string}, ma
   if (f.mime !== 'text/plain' && f.mime !== 'text/csv') return null;
   return readFileSync(pathOf(f)).subarray(0, max).toString('utf8');
 }
+
+/** Remove a file's bytes from disk (its row is removed by the caller, for retention and restore re-application). */
+export async function removeFileFromDisk(db: Db, fileId: string) {
+  const f = await db.prepare('SELECT id, member_id FROM loop_files WHERE id=?').bind(fileId).first<{id: string; member_id: string}>();
+  if (f) { try { rmSync(pathOf(f), {force: true}); } catch { /* no file store configured */ } }
+}
