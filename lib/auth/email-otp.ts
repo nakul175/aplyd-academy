@@ -44,10 +44,15 @@ export async function requestCode(db: Db, emailInput: unknown, send: MailSender,
     .bind(emailHash, iso(now - RULES.codeWindowMinutes * MIN)).first<{n: number}>();
   if ((recent?.n ?? 0) >= RULES.maxCodes) throw new SignInError(`Too many codes requested. Try again in ${RULES.codeWindowMinutes} minutes.`, 429);
   const code = String(randomInt(0, 1_000_000)).padStart(6, '0');
-  await db.prepare('INSERT INTO academy_login_codes(email_hash,code_hash,created_at,expires_at) VALUES(?,?,?,?)')
+  const row = await db.prepare('INSERT INTO academy_login_codes(email_hash,code_hash,created_at,expires_at) VALUES(?,?,?,?)')
     .bind(emailHash, keyed('code', emailHash + '|' + code), iso(now), iso(now + RULES.codeMinutes * MIN)).run();
-  await send(email, 'Your Aplyd Academy sign-in code',
-    `Your sign-in code is ${code}. It works for ${RULES.codeMinutes} minutes.\n\nIf you did not ask for this code, you can ignore this email.`);
+  try {
+    await send(email, 'Your Aplyd Academy sign-in code',
+      `Your sign-in code is ${code}. It works for ${RULES.codeMinutes} minutes.\n\nIf you did not ask for this code, you can ignore this email.`);
+  } catch (e) { // an unsent code must not count against the learner's limit
+    await db.prepare('DELETE FROM academy_login_codes WHERE id=?').bind(row.meta.last_row_id).run();
+    throw e;
+  }
   return {sent: true};
 }
 

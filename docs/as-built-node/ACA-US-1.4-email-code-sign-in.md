@@ -1,7 +1,7 @@
 # ACA-US-1.4: email code sign-in (local)
 
 Story: ACA-US-1.4 (Linear APL-2221) · Owner decisions, 12 October 2026: sign-in by email one-time code; rules "Standard".
-Status: **built and tested locally; not accepted.** Real emails cannot be sent until an email provider is chosen and configured.
+Status: **built and tested locally; not accepted.** Email provider: Resend (owner decision, 12 October 2026). Real emails need a Resend account, a verified sending domain and the keys below.
 
 ## Rules (as decided)
 
@@ -24,16 +24,18 @@ Status: **built and tested locally; not accepted.** Real emails cannot be sent u
 | Variable | Meaning |
 | --- | --- |
 | `ACADEMY_AUTH_SECRET` | 32+ random characters; sign-in refuses to run without it |
-| `ACADEMY_MAIL_TRANSPORT` | `outbox` for local tests only (stores codes in plain text); production sends nothing until a provider is added |
+| `ACADEMY_MAIL_TRANSPORT` | `resend` in production; `outbox` for local tests only (stores codes in plain text) |
+| `RESEND_API_KEY`, `ACADEMY_MAIL_FROM` | Resend API key and sender, for example `Aplyd Academy <no-reply@aplyd.org>` on a domain verified in Resend |
 | `ACADEMY_ENVIRONMENT=production` | blocks the outbox transport |
 
 ## Tests (12 October 2026, local)
 
-- Rules: 8 of 8 (`tests/node-runtime/email-otp.test.mjs`, fake clock, real SQLite and migrations).
+- Rules: 9 of 9 (`tests/node-runtime/email-otp.test.mjs`, fake clock, real SQLite and migrations), including: a failed send does not use up the code limit.
+- Resend transport: 3 of 3 against a local fake (`tests/node-runtime/resend-mail.test.mjs`); the real API has not been called.
 - End to end on a 390-px phone browser: 8 checks pass (`tests/node-runtime/signin-browser.mjs`).
 - Regression: 996 of 996 mocked, 80 of 80 guards, all API suites pass (with the local identity flag).
 
 ## Open
 
-- Email provider: owner decision, then a provider transport in `lib/auth/mail.ts`.
+- Resend account, domain verification (DNS records on aplyd.org) and API key: owner action.
 - Migrating learners from the ChatGPT Sites copy is out of scope; that copy had no real learners.

@@ -94,3 +94,9 @@ test('sign-in refuses to run without a server secret', async () => {
   const {db, send} = setup(); const saved = process.env.ACADEMY_AUTH_SECRET; delete process.env.ACADEMY_AUTH_SECRET;
   try { await rejects(M.requestCode(db, 'f@example.test', send, T0), 503); } finally { process.env.ACADEMY_AUTH_SECRET = saved; }
 });
+
+test('an email that fails to send does not use up the code limit', async () => {
+  const {db, send} = setup(); const failing = async () => { throw new M.SignInError('We could not send the email. Please try again in a minute.', 503); };
+  for (let i = 0; i < 4; i++) await rejects(M.requestCode(db, 'g@example.test', failing, T0 + i * 1000), 503);
+  for (let i = 0; i < 3; i++) await M.requestCode(db, 'g@example.test', send, T0 + 10_000 + i * 1000);
+});
