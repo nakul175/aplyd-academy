@@ -25,6 +25,13 @@ export async function exportLoopData(db: Db, actor: Actor) {
       catchTheAi: await per('SELECT month, shown, caught, false_marks, at FROM loop_catch_results WHERE member_id=?', m.id),
       reminders: await per('SELECT kind, channel, status, at FROM loop_reminders WHERE member_id=? ORDER BY id', m.id),
       flags: await per('SELECT item_id, reason, at, status FROM loop_flags WHERE member_id=?', m.id),
+      confirmationsRequested: await per('SELECT relation, shared_text, status, created_at, decided_at FROM loop_confirmations WHERE member_id=?', m.id),
+      communityPosts: await per('SELECT body, at, hidden FROM loop_posts WHERE member_id=?', m.id),
+      sessionInvites: await per('SELECT session_id, attended, at FROM loop_session_invites WHERE member_id=?', m.id),
+      helpReports: await per('SELECT screen, kind, body, at, status, resolution FROM loop_help_reports WHERE member_id=?', m.id),
+      interviews: await per('SELECT activity_band, consent_at, held_at, notes, summary FROM loop_interviews WHERE member_id=?', m.id),
+      guardianConsent: await per('SELECT status, method, created_at, decided_at FROM loop_guardian_consents WHERE member_id=?', m.id),
+      annotations: await per('SELECT item_id, quote, note, at, status FROM loop_annotations WHERE member_id=?', m.id),
     });
   }
   return {exportedAt: iso(Date.now()), note: 'Your Aplyd Academy practice data. Files you uploaded can be downloaded one by one from each task.', memberships: out};
@@ -39,6 +46,16 @@ const LEARNER_TABLES: [string, string][] = [
 const optionalTables = ['loop_confirmations', 'loop_posts', 'loop_session_invites', 'loop_help_reports', 'loop_interviews', 'loop_guardian_consents'];
 
 async function tableExists(db: Db, t: string) { return !!(await db.prepare(`SELECT 1 FROM sqlite_master WHERE type='table' AND name=?`).bind(t).first()); }
+
+/** Delete a member who has no account (never joined) and log it so a restore cannot bring the row back. */
+export async function deleteMemberRows(db: Db, memberId: string, now = Date.now(), {log = false} = {}) {
+  const statements = [db.prepare('UPDATE loop_flags SET member_id=NULL WHERE member_id=?').bind(memberId)];
+  for (const [t, col] of LEARNER_TABLES) statements.push(db.prepare(`DELETE FROM ${t} WHERE ${col}=?`).bind(memberId));
+  for (const t of optionalTables) if (await tableExists(db, t)) statements.push(db.prepare(`DELETE FROM ${t} WHERE member_id=?`).bind(memberId));
+  statements.push(db.prepare('DELETE FROM loop_members WHERE id=?').bind(memberId));
+  if (log) statements.push(db.prepare('INSERT INTO loop_deletion_log(at,tbl,row_key) VALUES(?,?,?)').bind(iso(now), 'member', memberId));
+  await db.batch(statements);
+}
 
 /** Erase one person's practice-loop data (ACA-US-6.4-AC2). Learner records are deleted; staff records are
  * anonymised because other people's records (reviews, follow-ups) point at them. */
@@ -69,7 +86,7 @@ export async function eraseLoopData(db: Db, userId: string, now = Date.now(), {l
 }
 
 // ---- ACA-US-6.5: scheduled deletion by record type ----
-type Rule = {table: string; at: string; where?: string; files?: boolean};
+type Rule = {table: string; at: string; key?: string; files?: boolean};
 export const RECORD_TYPES: Record<string, Rule> = {
   coach_messages: {table: 'loop_coach_messages', at: 'at'},
   attempts: {table: 'loop_attempts', at: 'at'},
@@ -78,9 +95,9 @@ export const RECORD_TYPES: Record<string, Rule> = {
   reminders: {table: 'loop_reminders', at: 'at'},
   message_outbox: {table: 'loop_message_outbox', at: 'created_at'},
   audit: {table: 'loop_audit', at: 'at'},
-  sessions: {table: 'academy_sessions', at: 'expires_at'},
+  sessions: {table: 'academy_sessions', at: 'expires_at', key: 'token_hash'},
   login_codes: {table: 'academy_login_codes', at: 'expires_at'},
-  invites: {table: 'loop_invites', at: 'expires_at'},
+  invites: {table: 'loop_invites', at: 'expires_at', key: 'token_hash'},
   help_reports: {table: 'loop_help_reports', at: 'at'},
   community_posts: {table: 'loop_posts', at: 'at'},
 };
@@ -92,7 +109,7 @@ export async function runRetention(db: Db, trigger = 'schedule', now = Date.now(
     const rule = RECORD_TYPES[type];
     if (!rule || !Number.isFinite(days) || days <= 0 || !(await tableExists(db, rule.table))) continue;
     const cutoff = iso(now - days * DAY);
-    const idCol = rule.table === 'academy_sessions' ? 'token_hash' : 'id';
+    const idCol = rule.key ?? 'id';
     const rows = (await db.prepare(`SELECT ${idCol} AS k${rule.files ? ', member_id' : ''} FROM ${rule.table} WHERE ${rule.at} < ?`).bind(cutoff).all<{k: string; member_id?: string}>()).results;
     if (rows.length === 0) { counts[type] = 0; continue; }
     if (rule.files) for (const r of rows) await removeFileFromDisk(db, String(r.k));
@@ -113,13 +130,20 @@ export async function reapplyDeletionLog(db: Db, now = Date.now()) {
   for (const e of log) {
     if (e.tbl === 'user') {
       reapplied += (await eraseLoopData(db, e.row_key, now, {log: false})).members;
-      for (const [t, c] of [['academy_sessions', 'user_id'], ['academy_workspaces', 'owner'], ['academy_audit', 'owner'], ['academy_users', 'id']]) if (await tableExists(db, t)) reapplied += (await db.prepare(`DELETE FROM ${t} WHERE ${c}=?`).bind(e.row_key).run()).meta.changes;
+      const u = await db.prepare('SELECT email, email_hash FROM academy_users WHERE id=?').bind(e.row_key).first<{email: string; email_hash: string}>();
+      for (const [t, c, v] of [['academy_sessions', 'user_id', e.row_key], ['academy_workspaces', 'owner', e.row_key], ['academy_audit', 'owner', e.row_key], ['academy_login_codes', 'email_hash', u?.email_hash], ['academy_login_locks', 'email_hash', u?.email_hash], ['academy_mail_outbox', 'to_address', u?.email], ['academy_users', 'id', e.row_key]] as [string, string, string | undefined][])
+        if (v && await tableExists(db, t)) reapplied += (await db.prepare(`DELETE FROM ${t} WHERE ${c}=?`).bind(v).run()).meta.changes;
       continue;
     }
-    if (e.tbl === 'member') { const m = await db.prepare('SELECT user_id FROM loop_members WHERE id=?').bind(e.row_key).first<{user_id: string | null}>(); if (m?.user_id) reapplied += (await eraseLoopData(db, m.user_id, now, {log: false})).members; continue; }
+    if (e.tbl === 'member') {
+      const m = await db.prepare('SELECT user_id FROM loop_members WHERE id=?').bind(e.row_key).first<{user_id: string | null}>();
+      if (m?.user_id) reapplied += (await eraseLoopData(db, m.user_id, now, {log: false})).members;
+      else if (m) { await deleteMemberRows(db, e.row_key); reapplied++; } // invited but never joined (under-18 refusal, guardian refusal, end of pilot)
+      continue;
+    }
     const rule = Object.values(RECORD_TYPES).find(r => r.table === e.tbl);
     if (!rule || !(await tableExists(db, e.tbl))) continue;
-    const idCol = e.tbl === 'academy_sessions' ? 'token_hash' : 'id';
+    const idCol = rule.key ?? 'id';
     if (rule.files) await removeFileFromDisk(db, e.row_key);
     const r = await db.prepare(`DELETE FROM ${e.tbl} WHERE ${idCol}=?`).bind(e.row_key).run();
     reapplied += r.meta.changes;

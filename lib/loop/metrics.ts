@@ -50,7 +50,7 @@ export async function weeklyMetrics(db: Db, cohortIds: string[], weeks: number[]
       const ids = new Set(members.map(m => m.id));
       const wk = cs.filter(c => c.week === week && ids.has(c.member_id));
       const practised = new Set(wk.map(c => c.member_id)).size;
-      return {group: g, S01: share(practised, members.length), S02: share(wk.filter(c => c.has_artefact).length, wk.length)};
+      return {group: g, groupSize: members.length, S01: share(practised, members.length), S02: share(wk.filter(c => c.has_artefact).length, wk.length)};
     }),
     unattributed: cs.filter(c => c.week === week && !byMember.has(c.member_id)).length,
   }));
@@ -67,7 +67,7 @@ export async function s03(db: Db, cohortIds: string[], groupBy: Grouping = 'all'
     const o = out.get(k) ?? {group: keyOf(l, groupBy), month: r.month, caught: 0, shown: 0, learners: new Set<string>()};
     o.caught += r.caught; o.shown += r.shown; o.learners.add(r.member_id); out.set(k, o);
   }
-  return [...out.values()].sort((a, b) => a.group.localeCompare(b.group) || a.month - b.month).map(o => ({group: o.group, month: o.month, learners: o.learners.size, S03: share(o.caught, o.shown)}));
+  return [...out.values()].sort((a, b) => a.group.localeCompare(b.group) || a.month - b.month).map(o => ({group: o.group, month: o.month, groupSize: o.learners.size, learners: o.learners.size, S03: share(o.caught, o.shown)}));
 }
 
 /** S-04 (ACA-US-10.1-AC2): learners with at least one confirmed changed task ÷ all enrolled learners, by group. */
@@ -75,7 +75,7 @@ export async function s04(db: Db, cohortIds: string[], groupBy: Grouping = 'all'
   const ls = await learners(db, cohortIds);
   const confirmed = new Set((await db.prepare(`SELECT DISTINCT member_id FROM loop_confirmations WHERE status='confirmed' AND decided_at<=? AND member_id IN (SELECT value FROM json_each(?))`).bind(iso(asOf), JSON.stringify(ls.map(l => l.id))).all<{member_id: string}>().catch(() => ({results: []}))).results.map(r => r.member_id));
   const groups = [...new Set(ls.map(l => keyOf(l, groupBy)))].sort();
-  return groups.map(g => { const ms = ls.filter(l => keyOf(l, groupBy) === g); return {group: g, S04: share(ms.filter(m => confirmed.has(m.id)).length, ms.length)}; });
+  return groups.map(g => { const ms = ls.filter(l => keyOf(l, groupBy) === g); return {group: g, groupSize: ms.length, S04: share(ms.filter(m => confirmed.has(m.id)).length, ms.length)}; });
 }
 
 /** ACA-US-6.3: share of enrolled learners who practised in at least 3 of weeks 2-6, against 35%. */
@@ -87,7 +87,7 @@ export async function a01(db: Db, cohortIds: string[], groupBy: Grouping = 'all'
   return groups.map(g => {
     const ms = ls.filter(l => keyOf(l, groupBy) === g);
     const s = share(ms.filter(m => (weeksBy.get(m.id)?.size ?? 0) >= A01.minWeeks).length, ms.length);
-    return {group: g, share: s, meetsThreshold: s.value !== null && s.value >= A01.threshold};
+    return {group: g, groupSize: ms.length, share: s, meetsThreshold: s.value !== null && s.value >= A01.threshold};
   });
 }
 
@@ -98,6 +98,8 @@ export async function suppress<T>(db: Db, value: T, scope = 'global'): Promise<T
     if (Array.isArray(v)) return v.map(walk);
     if (v && typeof v === 'object') {
       const o = v as Record<string, unknown>;
+      // A group is hidden as a whole when it has fewer people than the minimum (not only fewer events).
+      if (typeof o.groupSize === 'number' && o.groupSize < min) return {group: o.group ?? null, ...(o.month !== undefined ? {month: o.month} : {}), suppressed: true, note: `fewer than ${min} people`};
       if ('numerator' in o && 'denominator' in o) return (o.denominator as number) < min ? {suppressed: true, denominator: null, numerator: null, value: null, low: null, high: null, note: `fewer than ${min}`} : o;
       return Object.fromEntries(Object.entries(o).map(([k, x]) => [k, walk(x)]));
     }
@@ -169,7 +171,10 @@ export async function prepareWeek6Report(db: Db, actor: Actor, cohortId: string,
   const overall = (await a01(db, [cohortId]))[0] ?? {group: 'all', share: share(0, 0), meetsThreshold: false};
   const body = {
     title: `Week-6 A-01 decision report: ${c.name}`, rule: `Share of enrolled ${c.sector} learners who practised in at least ${A01.minWeeks} of weeks 2-6 is at least ${A01.threshold * 100}% (${A01.source}).`,
-    result: overall, byStartingLevel: await a01(db, [cohortId], 'starting_level'), byStartGroup: await a01(db, [cohortId], 'start_group'), weekly: await weeklyMetrics(db, [cohortId], [...A01.weeks]),
+    result: overall,
+    denominator: {joined: overall.share.denominator, invitedNeverJoined: (await db.prepare(`SELECT count(*) n FROM loop_members WHERE cohort_id=? AND status='invited' AND role IN ${LEARNER_ROLE_SQL}`).bind(cohortId).first<{n: number}>())!.n,
+      note: 'The share uses everyone who joined (active or not). People who were invited but never joined are shown here, not counted. Whether they should count as enrolled for A-01 is an open question for the owner.'},
+    byStartingLevel: await a01(db, [cohortId], 'starting_level'), byStartGroup: await a01(db, [cohortId], 'start_group'), weekly: await weeklyMetrics(db, [cohortId], [...A01.weeks]),
     ruleOutcome: overall.meetsThreshold ? 'The rule is met. Suggested decision for the owner to consider: continue.' : 'The rule is not met. Suggested decision for the owner to consider: redesign before another cohort (S4).',
     decision: null, note: 'This report does not record a decision. Nakul Jain records continue or redesign.',
   };

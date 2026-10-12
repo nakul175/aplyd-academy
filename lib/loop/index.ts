@@ -18,3 +18,4 @@ export * from './billing';
 export * from './language';
 export * from './voice';
 export * from './annotations';
+export {dispatch} from './api';

@@ -17,3 +17,32 @@ Review of the production setup as code on branch `aca/practice-loop`, 13 October
 | F-11 | Organisation isolation | – | Claude | **Checked**: cross-organisation reads and writes refused and logged in tests (`e2-enrolment`, `e8-e14`), files refused for admin and facilitator in the browser journey. |
 
 Remaining-risk decisions by Nakul Jain: none recorded yet.
+
+## Independent code review, 13 October 2026
+
+A separate review agent read `lib/loop`, `app/loop` and `app/api/loop` without seeing how they were built, and confirmed 22 findings with scripts. All were fixed the same night, with regression tests in `tests/loop/review-fixes.test.mjs` and updated tests:
+
+| # | Finding | Severity | Status |
+| --- | --- | --- | --- |
+| R1 | Small groups leaked through suppression (S-03 used events, not people, as the size) | high | Fixed: groups hidden as a whole below the minimum number of people |
+| R2 | Old tasks submitted late counted in their original week; A-01 could be met in one sitting | high | Fixed: a cycle counts in the week it is completed |
+| R3 | "Thresholds never lowered" could be bypassed by raising, then lowering | high | Fixed: after any failed run nothing may go below the highest value ever recorded |
+| R4 | Retention crashed on `invites` (no `id` column) | high | Fixed: key column per record type; every type tested |
+| R5 | Any teacher saw every student in the school digest | high | Fixed: own classes only; admin sees the cohort; legal-review gate |
+| R6 | Harm-review stop enforced only for new weekly tasks | medium | Fixed: every practice action checks it |
+| R7 | Later start groups got a shorter access year | medium | Fixed: the year runs from the group's start |
+| R8 | Some deletions (under-18, guardian refusal, end of pilot) were not re-applied after a restore | medium | Fixed: logged by id and re-applied; user re-application covers every account table |
+| R9 | Student account deletion skipped part of the account | medium | Fixed: full account erasure |
+| R10 | A-01 denominator counts joined people only | medium | **Open question for the owner**: does "enrolled" include people invited who never joined? The week-6 report now shows both numbers |
+| R11 | Students' hints-only mode could not be evaluated | medium | Fixed: AI for students needs a passing hints-only case |
+| R12 | Help reports could go to the wrong organisation | medium | Fixed: the person chooses; never guessed |
+| R13 | Placement could be resubmitted to change one's own level | low | Fixed |
+| R14 | Prototype names resolved as actions | low | Fixed |
+| R15 | Reminder-only phone numbers shown to facilitators | low | Fixed: removed from the follow-up list |
+| R16 | Upload and voice bodies not capped without Content-Length | low | Fixed: streamed with a byte cap |
+| R17 | Bad JSON gave 500 instead of 400 | low | Fixed |
+| R18 | A failed invite email left a half-enrolled row | low | Fixed: reported as a row problem with "Resend invite" |
+| R19 | Some practice actions skipped the access-end check | low | Fixed |
+| R20 | Export missed some of the person's records | low | Fixed: export covers what erasure deletes |
+| R21 | Risk decision accepted any value as "reject" | low | Fixed |
+| R22 | Duplicate refusal audit entries in fix proposals | low | Fixed |

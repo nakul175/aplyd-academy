@@ -1,6 +1,6 @@
 // ACA-US-2.3 AI-level placement and ACA-US-2.6 one year of access from the workshop.
 import {type Db, type Actor, type Member, LoopError, audit, refuse, requireRole, requireSelf, requireDecision, scopedDecision, iso, DAY, text, memberById} from './core';
-import {cohortOf} from './enrolment';
+import {cohortOf, startDateOf} from './enrolment';
 
 export type Instrument = {
   version?: string;
@@ -29,6 +29,7 @@ export function bandFor(ins: Instrument, score: number) {
 
 export async function submitPlacement(db: Db, actor: Actor, memberId: string, answers: unknown, now = Date.now()) {
   const m = await requireSelf(db, actor, memberId, 'placement.submit', now);
+  if (await currentLevel(db, m.id)) throw new LoopError('You already have a level. Ask a facilitator to review it if it feels wrong.', 409);
   const ins = await instrument(db);
   if (!answers || typeof answers !== 'object') throw new LoopError('Answer every question.');
   let score = 0;
@@ -104,9 +105,10 @@ const addMonths = (date: string, months: number) => { const d = new Date(date + 
 export async function accessWindow(db: Db, m: Member) {
   const c = m.cohort_id ? await cohortOf(db, m.cohort_id) : null;
   if (!c || !c.workshop_date) return {starts: null as string | null, ends: null as string | null};
-  const base = addMonths(c.workshop_date, c.access_months);
+  const starts = m.start_group ? await startDateOf(db, m) : c.workshop_date; // a later start group gets the same full year (ACA-US-2.4-AC3)
+  const base = addMonths(starts, c.access_months);
   const ends = c.access_extended_until && c.access_extended_until > base ? c.access_extended_until : base;
-  return {starts: c.workshop_date, ends};
+  return {starts, ends};
 }
 
 export async function accessStatus(db: Db, m: Member, now = Date.now()) {

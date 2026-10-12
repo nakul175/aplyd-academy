@@ -34,7 +34,7 @@ export default async function Facilitate({params}: {params: Promise<{cohortId: s
       </section>
       <section className={s.card} aria-labelledby="fu-h"><h2 id="fu-h">Follow up</h2>
         {!fu.ok ? <p className={s.muted}>{fu.message}</p> : fu.value.learners.length === 0 ? <p>No one has stopped practising for {fu.value.weeks} weeks or more.</p>
-          : <ul className={s.list}>{fu.value.learners.map(l => <li key={l.memberId}><strong>{l.name}</strong> · {l.email}{l.phone ? ` · ${l.phone}` : ''}<br /><span className={s.muted}>Last practice {l.lastPractice?.slice(0, 10) ?? 'never'}{l.lastFollowUp ? ` · last follow-up ${l.lastFollowUp.at.slice(0, 10)}: ${l.lastFollowUp.outcome}` : ''}</span>
+          : <ul className={s.list}>{fu.value.learners.map(l => <li key={l.memberId}><strong>{l.name}</strong> · {l.email}<br /><span className={s.muted}>Last practice {l.lastPractice?.slice(0, 10) ?? 'never'}{l.lastFollowUp ? ` · last follow-up ${l.lastFollowUp.at.slice(0, 10)}: ${l.lastFollowUp.outcome}` : ''}</span>
             <details><summary>Log a follow-up</summary><ActionForm id={`fu-${l.memberId}`} action="followup.log" params={{memberId: l.memberId}} fields={[{name: 'outcome', label: 'What happened?', type: 'textarea', required: true, rows: 2}]} submit="Save" /></details></li>)}</ul>}
       </section>
       <section className={s.card}><h2>Level reviews</h2>

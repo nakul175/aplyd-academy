@@ -148,7 +148,7 @@ export async function followUpList(db: Db, actor: Actor, cohortId: string, now =
     const lastAt = last?.at ? Date.parse(last.at) : null;
     if (lastAt !== null && now - lastAt < weeks * 7 * DAY) continue;
     const f = await db.prepare('SELECT outcome, at FROM loop_followups WHERE member_id=? ORDER BY id DESC LIMIT 1').bind(m.id).first<{outcome: string; at: string}>();
-    out.push({memberId: m.id, name: m.name, email: m.email, phone: m.phone, lastPractice: last?.at ?? null, lastFollowUp: f ?? null});
+    out.push({memberId: m.id, name: m.name, email: m.email, lastPractice: last?.at ?? null, lastFollowUp: f ?? null});
   }
   return {weeks, learners: out};
 }

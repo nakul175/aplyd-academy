@@ -6,7 +6,8 @@
 //      return with evidence. 11.6 teacher class view for the teacher's own class only. 11.7 harm review and stop rule.
 import {type Db, type Actor, type Member, LoopError, audit, refuse, requireRole, requireOperator, requireOwner, requireDecision, decision, recordDecision, iso, DAY, newId, newToken, sha256, isToken, text, oneOf, memberById} from './core';
 import {cohortOf, parseMemberList, type Send} from './enrolment';
-import {eraseLoopData} from './retention';
+import {deleteMemberRows} from './retention';
+import {eraseAccount} from '@/lib/auth/erasure';
 import {startingLevel} from './levels';
 import {saveReport, wilson} from './metrics';
 
@@ -78,21 +79,31 @@ export async function decideGuardian(db: Db, token: unknown, choice: unknown, se
     await sendStudentInvite(db, g.member_id, send, origin, now);
   } else {
     const m = await memberById(db, g.member_id);
-    if (m?.user_id) { await eraseLoopData(db, m.user_id, now); await db.batch([db.prepare('DELETE FROM academy_sessions WHERE user_id=?').bind(m.user_id), db.prepare('DELETE FROM academy_users WHERE id=?').bind(m.user_id)]); }
-    if (m) await db.batch([db.prepare('DELETE FROM loop_invites WHERE member_id=?').bind(m.id), db.prepare('DELETE FROM loop_consents WHERE member_id=?').bind(m.id), db.prepare('DELETE FROM loop_members WHERE id=?').bind(m.id)]);
     await db.prepare(`UPDATE loop_guardian_consents SET guardian_email='erased' WHERE id=?`).bind(g.id).run();
+    if (m) await deleteStudent(db, m, now);
   }
   await audit(db, 'guardian', `guardian.${c}`, {org: g.org_id, target: g.id, now});
   return {status: c};
+}
+
+/** Delete everything about a student: the full account erasure if they joined, the list entry otherwise; logged for restores. */
+async function deleteStudent(db: Db, m: Member, now: number) {
+  if (m.user_id) await eraseAccount(db, m.user_id);
+  if (await memberById(db, m.id)) await deleteMemberRows(db, m.id, now, {log: true});
 }
 
 /** ACA-US-11.4: what the school relays on its own channel this week. APLYD sends nothing to students. */
 export async function schoolReminderDigest(db: Db, actor: Actor, cohortId: string, origin: string, now = Date.now()) {
   const c = await cohortOf(db, cohortId);
   if (!c) return refuse(db, actor.userId, 'school.digest', null, 'You do not have access to this.', now);
-  await requireRole(db, actor, c.org_id, ['admin', 'teacher'], 'school.digest', {now});
+  const me = await requireRole(db, actor, c.org_id, ['admin', 'teacher'], 'school.digest', {now});
+  await studentGate(db, actor, c.org_id, now);
+  // A teacher sees only their own classes; the admin sees the whole cohort.
+  const classes = me?.role === 'teacher' ? (await db.prepare('SELECT class_label FROM loop_class_teachers WHERE teacher_member_id=?').bind(me.id).all<{class_label: string}>()).results.map(r => r.class_label) : null;
+  if (classes && !classes.length) return refuse(db, actor.userId, 'school.digest', c.org_id, 'You can see only your own class.', now);
   const due = (await db.prepare(`SELECT m.name, m.job_role AS class FROM loop_members m WHERE m.cohort_id=? AND m.role='student' AND m.status='joined'
-    AND NOT EXISTS (SELECT 1 FROM loop_submissions s WHERE s.member_id=m.id AND s.at>?) ORDER BY m.job_role, m.name`).bind(cohortId, iso(now - 7 * DAY)).all<{name: string; class: string}>()).results;
+    AND (? IS NULL OR lower(m.job_role) IN (SELECT value FROM json_each(?)))
+    AND NOT EXISTS (SELECT 1 FROM loop_submissions s WHERE s.member_id=m.id AND s.at>?) ORDER BY m.job_role, m.name`).bind(cohortId, classes ? 1 : null, JSON.stringify(classes ?? []), iso(now - 7 * DAY)).all<{name: string; class: string}>()).results;
   return {message: `Reminder for this week: open Aplyd Academy at ${origin}/loop and do your practice task.`, students: due};
 }
 
@@ -130,8 +141,8 @@ export async function endOfPilot(db: Db, actor: Actor, orgId: string, now = Date
   }
   let accounts = 0;
   for (const m of students) {
-    if (m.user_id) { await eraseLoopData(db, m.user_id, now); await db.batch([db.prepare('DELETE FROM academy_sessions WHERE user_id=?').bind(m.user_id), db.prepare('DELETE FROM academy_users WHERE id=?').bind(m.user_id)]); accounts++; }
-    await db.batch([db.prepare('DELETE FROM loop_guardian_consents WHERE member_id=?').bind(m.id), db.prepare('DELETE FROM loop_invites WHERE member_id=?').bind(m.id), db.prepare('DELETE FROM loop_consents WHERE member_id=?').bind(m.id), db.prepare('DELETE FROM loop_members WHERE id=?').bind(m.id)]);
+    if (m.user_id) accounts++;
+    await deleteStudent(db, m, now);
   }
   const remaining = (await db.prepare(`SELECT count(*) n FROM loop_members WHERE org_id=? AND role='student'`).bind(orgId).first<{n: number}>())!.n;
   const counts = {students: students.length, accounts, remaining, mode: ins.mode, instruction: ins.ref};

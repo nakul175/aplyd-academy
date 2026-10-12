@@ -7,6 +7,7 @@ import {cohortOf} from './enrolment';
 import {currentLevel, requireActiveAccess} from './levels';
 import {addDraftItems, publishedItems, type Item} from './packs';
 import {weekOf} from './practice';
+import {pausedByHarm} from './students';
 import {generate, type AiRequest} from '@/lib/ai/provider';
 
 const monthOfDate = (now: number) => iso(now).slice(0, 7);
@@ -55,6 +56,7 @@ export async function tryBrief(db: Db, actor: Actor, memberId: string, now = Dat
   if (!brief) throw new LoopError('There is no brief for you this month yet.', 404);
   const m = await requireSelf(db, actor, memberId, 'brief.try', now);
   await requireActiveAccess(db, m, now);
+  if (await pausedByHarm(db, m)) throw new LoopError('Practice is paused for your group.', 403);
   const existing = await db.prepare(`SELECT id FROM loop_tasks WHERE member_id=? AND kind='brief' AND item_id=?`).bind(m.id, brief.id).first<{id: string}>();
   if (existing) return {taskId: existing.id};
   const id = newId('task');

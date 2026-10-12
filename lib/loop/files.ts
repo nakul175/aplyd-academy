@@ -6,6 +6,7 @@ import {createHash} from 'node:crypto';
 import {mkdirSync, openSync, writeSync, closeSync, readFileSync, rmSync, existsSync, statSync} from 'node:fs';
 import {join} from 'node:path';
 import {type Db, type Actor, LoopError, audit, refuse, requireSelf, iso, newId, text} from './core';
+import {requireActiveAccess} from './levels';
 
 export const MAX_FILE_BYTES = 15 * 1024 * 1024, MAX_CHUNK_BYTES = 512 * 1024;
 export const ALLOWED_TYPES: Record<string, string> = {
@@ -26,6 +27,7 @@ const CONFIDENTIAL = /\b(confidential|secret|top[ -]?secret|restricted|गोप
 
 export async function startUpload(db: Db, actor: Actor, memberId: string, input: {taskId?: unknown; name?: unknown; mime?: unknown; size?: unknown; sha256?: unknown; noConfidential?: unknown}, now = Date.now()) {
   const m = await requireSelf(db, actor, memberId, 'file.start', now);
+  await requireActiveAccess(db, m, now);
   const name = text(input.name, 'File name', 200).replace(/[\\/\u0000-\u001f]/g, '_');
   const mime = typeof input.mime === 'string' ? input.mime : '';
   if (!ALLOWED_TYPES[mime]) throw new LoopError('This file type is not accepted. Use a photo, PDF, Word, Excel, text or CSV file.', 415);

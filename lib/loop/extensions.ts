@@ -7,7 +7,7 @@ import * as M from './metrics';
 import * as A from './ai';
 import {LoopError} from './core';
 import {configuredSenders} from './senders';
-const {s, n, send} = helpers;
+const {s, n, send, parseJson} = helpers;
 
 // ACA-US-12.5
 register('help.report', (c, p) => H.reportProblem(c.db, c.actor, p, send(c.db), c.now));
@@ -45,7 +45,7 @@ import * as Br from './briefs';
 import * as B from './billing';
 import * as Lg from './language';
 import * as An from './annotations';
-import {recordDecision} from './core';
+import {recordDecision, oneOf} from './core';
 register('student.enrol', (c, p) => St.enrolStudents(c.db, c.actor, s(p.cohortId, 'cohort'), p.list, send(c.db), c.origin, c.now));
 registerPublic('guardian.open', (c, p) => St.openGuardianRequest(c.db, p.token));
 registerPublic('guardian.decide', (c, p) => St.decideGuardian(c.db, p.token, p.decision, send(c.db), c.origin, c.now));
@@ -55,7 +55,7 @@ register('class.view', (c, p) => St.classView(c.db, c.actor, s(p.orgId, 'organis
 register('school.endOfPilot', (c, p) => St.endOfPilot(c.db, c.actor, s(p.orgId, 'organisation'), c.now));
 register('harm.prepare', (c, p) => St.prepareHarmReview(c.db, c.actor, s(p.cohortId, 'cohort'), c.now));
 register('harm.decide', (c, p) => St.recordHarmDecision(c.db, c.actor, s(p.reportId, 'report'), p, c.now));
-register('brief.draft', (c, p) => Br.draftBriefs(c.db, c.actor, s(p.packId, 'pack'), {month: p.month, roles: typeof p.roles === 'string' ? p.roles.split(',').map(x => x.trim()).filter(Boolean) : p.roles, levels: typeof p.levels === 'string' ? p.levels.split(',').map(x => x.trim()).filter(Boolean) : p.levels, sources: typeof p.sources === 'string' ? JSON.parse(p.sources) : p.sources}, undefined, c.now));
+register('brief.draft', (c, p) => Br.draftBriefs(c.db, c.actor, s(p.packId, 'pack'), {month: p.month, roles: typeof p.roles === 'string' ? p.roles.split(',').map(x => x.trim()).filter(Boolean) : p.roles, levels: typeof p.levels === 'string' ? p.levels.split(',').map(x => x.trim()).filter(Boolean) : p.levels, sources: parseJson(p.sources, 'Sources')}, undefined, c.now));
 register('brief.try', (c, p) => Br.tryBrief(c.db, c.actor, s(p.memberId, 'member'), c.now));
 register('renewal.record', (c, p) => B.recordRenewal(c.db, c.actor, s(p.orgId, 'organisation'), p, c.now));
 register('cohort.cap', (c, p) => B.setParticipantCap(c.db, c.actor, s(p.cohortId, 'cohort'), p.cap, c.now));
@@ -73,4 +73,4 @@ register('annotation.add', (c, p) => An.annotate(c.db, c.actor, s(p.itemId, 'ite
 register('annotation.status', (c, p) => An.setAnnotationStatus(c.db, c.actor, n(p.id, 'annotation'), p.status, c.now));
 register('refinement.propose', (c, p) => An.proposeRefinement(c.db, c.actor, s(p.itemId, 'item'), undefined, c.now));
 register('refinement.decide', (c, p) => An.decideRefinement(c.db, c.actor, s(p.refinementId, 'proposal'), p.decision, c.now));
-register('risk.decide', (c, p) => recordDecision(c.db, c.actor, 'risk.acceptance', s(p.findingId, 'finding'), {decision: p.decision === 'accept' ? 'accept' : 'reject', note: typeof p.note === 'string' ? p.note.slice(0, 1000) : ''}, `Security findings register, ${s(p.findingId, 'finding')}`, c.now));
+register('risk.decide', (c, p) => recordDecision(c.db, c.actor, 'risk.acceptance', s(p.findingId, 'finding'), {decision: oneOf(p.decision, ['accept', 'reject'] as const, 'Decision'), note: typeof p.note === 'string' ? p.note.slice(0, 1000) : ''}, `Security findings register, ${s(p.findingId, 'finding')}`, c.now));

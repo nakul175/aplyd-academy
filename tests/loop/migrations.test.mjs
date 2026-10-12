@@ -16,3 +16,8 @@ test('0010 onwards are additive: CREATE TABLE/INDEX of loop_* objects only', () 
     }
   }
 });
+
+test('every migration file has a journal entry (the v0.17 migration check depends on it)', () => {
+  const journal = JSON.parse(readFileSync(join(root, 'drizzle/meta/_journal.json'), 'utf8')).entries.map(e => e.tag + '.sql');
+  assert.deepEqual(journal, readdirSync(join(root, 'drizzle')).filter(f => f.endsWith('.sql')).sort());
+});

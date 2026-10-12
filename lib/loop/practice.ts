@@ -67,8 +67,13 @@ export async function taskFor(db: Db, actor: Actor, taskId: string, action = 'ta
   const t = await db.prepare('SELECT * FROM loop_tasks WHERE id=?').bind(taskId).first<Task>();
   if (!t) return refuse(db, actor.userId, action, null, 'You do not have access to this.', now);
   const m = await requireSelf(db, actor, t.member_id, action, now);
+  if (!VIEW_ACTIONS.has(action)) { // doing practice (not just looking) needs active access and no harm-review pause
+    await requireActiveAccess(db, m, now);
+    if (await pausedByHarm(db, m)) throw new LoopError('Practice is paused for your group by a decision of your school and APLYD.', 403);
+  }
   return {task: t, member: m};
 }
+const VIEW_ACTIONS = new Set(['task.open', 'catch.view']);
 
 /** Checked content for a task: published items of the cohort's pack that fit the learner (never unchecked items). */
 async function checkedContent(db: Db, m: Member): Promise<CheckedContent> {
@@ -159,7 +164,8 @@ export async function submitTask(db: Db, actor: Actor, taskId: string, input: {n
     if (!f) throw new LoopError('That file has not finished uploading.', 409);
     fileId = f.id;
   }
-  const week = task.kind === 'workshop' ? 0 : task.week;
+  // A cycle counts for the week it is completed in, so old tasks finished late cannot fill earlier weeks (A-01).
+  const week = task.kind === 'workshop' ? 0 : Math.max(0, await weekOf(db, member, now));
   const id = newId('sub');
   await db.batch([
     db.prepare('INSERT INTO loop_submissions(id,task_id,member_id,cohort_id,week,kind,file_id,link,note,has_artefact,at) VALUES(?,?,?,?,?,?,?,?,?,?,?)').bind(id, task.id, member.id, task.cohort_id, week, task.kind, fileId, link, note, fileId || link ? 1 : 0, iso(now)),
@@ -245,6 +251,7 @@ export async function monthOf(db: Db, m: Member, now = Date.now()) {
 export async function ensureCatchTask(db: Db, actor: Actor, memberId: string, now = Date.now()) {
   const m = await requireSelf(db, actor, memberId, 'catch.open', now);
   await requireActiveAccess(db, m, now);
+  if (await pausedByHarm(db, m)) throw new LoopError('Practice is paused for your group by a decision of your school and APLYD.', 403);
   const month = await monthOf(db, m, now);
   if (month < 1) return {state: 'not_started' as const};
   const existing = await db.prepare(`SELECT t.id FROM loop_tasks t WHERE t.member_id=? AND t.kind='catch_ai' AND t.week>=? AND t.week<?`).bind(m.id, (month - 1) * 100, month * 100).first<{id: string}>();
@@ -305,6 +312,7 @@ export async function startWorkshop(db: Db, actor: Actor, cohortId: string, now 
 /** A participant who places after the session started gets their first task on opening the app. */
 export async function ensureWorkshopTask(db: Db, actor: Actor, memberId: string, now = Date.now()) {
   const m = await requireSelf(db, actor, memberId, 'workshop.task', now);
+  if (await pausedByHarm(db, m)) return null;
   const t = await db.prepare(`SELECT id FROM loop_tasks WHERE member_id=? AND kind='workshop'`).bind(m.id).first<{id: string}>();
   if (t) return t.id;
   if (!m.cohort_id || !(await db.prepare('SELECT 1 FROM loop_workshops WHERE cohort_id=? AND ended_at IS NULL').bind(m.cohort_id).first())) return null;

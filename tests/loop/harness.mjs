@@ -107,7 +107,7 @@ export async function publishedPack(w, items = PACK_ITEMS) {
 }
 
 /** Synthetic AI: hints are questions, feedback mentions the attempt; records thresholds and a passing evaluation run. */
-export const fakeCoach = async (r) => ({text: r.system.includes('has NOT yet submitted') ? 'Hint: which line would you check first? I am not sure about tax rates; see the checked content.' : 'Feedback on your attempt: good start. Worked answer: re-add the totals.'});
+export const fakeCoach = async (r) => ({text: (r.system.includes('has NOT yet submitted') || r.system.includes('hints and guiding questions ONLY')) ? 'Hint: which line would you check first? I am not sure about tax rates; see the checked content.' : 'Feedback on your attempt: good start. Worked answer: re-add the totals.'});
 export async function enableAi(w, gen = fakeCoach) {
   process.env.ACADEMY_AI_PROVIDER = 'fake'; process.env.ACADEMY_AI_MODEL = 'synthetic-model'; delete process.env.ACADEMY_ENVIRONMENT;
   await L.recordDecision(w.db, w.owner, 'ai.thresholds', 'global', {overall: 0.9, perCategory: {hint_first: 1}}, OWNER_SOURCE, T0);

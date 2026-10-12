@@ -27,3 +27,19 @@ export function fail(e: unknown) {
   console.error('Practice loop request failed', e instanceof Error ? e.name : 'unknown');
   return json({error: 'Something went wrong. Please try again.'}, 500);
 }
+
+/** Read a request body with a hard byte cap, also when no Content-Length is sent (chunked uploads). */
+export async function readCapped(request: Request, max: number): Promise<Uint8Array> {
+  if (Number(request.headers.get('content-length') ?? '0') > max) throw new LoopError('This request is too large.', 413);
+  if (!request.body) return new Uint8Array(0);
+  const reader = request.body.getReader(), parts: Uint8Array[] = []; let size = 0;
+  for (;;) {
+    const {done, value} = await reader.read();
+    if (done) break;
+    size += value.byteLength;
+    if (size > max) { await reader.cancel(); throw new LoopError('This request is too large.', 413); }
+    parts.push(value);
+  }
+  const out = new Uint8Array(size); let o = 0; for (const p of parts) { out.set(p, o); o += p.byteLength; }
+  return out;
+}

@@ -15,6 +15,7 @@ export type Ctx = {db: Db; actor: (Actor & {email: string}) | null; origin: stri
 type Params = Record<string, unknown>;
 const s = (v: unknown, name: string) => { if (typeof v !== 'string' || !v) throw new LoopError(`Missing ${name}.`); return v; };
 const n = (v: unknown, name: string) => { const x = Number(v); if (!Number.isInteger(x)) throw new LoopError(`Missing ${name}.`); return x; };
+const parseJson = (v: unknown, label: string) => { if (typeof v !== 'string') return v; try { return JSON.parse(v); } catch { throw new LoopError(`${label} must be valid JSON.`); } };
 const send = (db: Db) => { const m = mailSender(db); return (to: string, subject: string, body: string) => m(to, subject, body); };
 
 type Handler = (c: Ctx & {actor: Actor & {email: string}}, p: Params) => Promise<unknown>;
@@ -42,7 +43,7 @@ export const ACTIONS: Record<string, Handler> = {
   'pack.create': (c, p) => P.createPack(c.db, c.actor, p, c.now),
   'pack.assignReviewer': (c, p) => P.assignReviewer(c.db, c.actor, s(p.packId, 'pack'), p, c.now),
   'pack.importDraft': (c, p) => { let items = p.items; if (typeof items === 'string') { try { items = JSON.parse(items); } catch { throw new LoopError('The draft is not valid JSON.'); } } return P.addDraftItems(c.db, c.actor, s(p.packId, 'pack'), items, {now: c.now}); },
-  'pack.draftAi': (c, p) => P.draftPackWithAi(c.db, c.actor, s(p.packId, 'pack'), {roles: typeof p.roles === 'string' ? p.roles.split(',').map(r => r.trim()).filter(Boolean) : p.roles, sources: typeof p.sources === 'string' ? JSON.parse(p.sources) : p.sources, focus: p.focus}, undefined, c.now),
+  'pack.draftAi': (c, p) => P.draftPackWithAi(c.db, c.actor, s(p.packId, 'pack'), {roles: typeof p.roles === 'string' ? p.roles.split(',').map(r => r.trim()).filter(Boolean) : p.roles, sources: parseJson(p.sources, 'Sources'), focus: p.focus}, undefined, c.now),
   'pack.review': (c, p) => P.reviewItem(c.db, c.actor, s(p.itemId, 'item'), p, c.now),
   'pack.revise': (c, p) => P.reviseItem(c.db, c.actor, s(p.itemId, 'item'), p, c.now),
   'pack.publish': (c, p) => P.publishVersion(c.db, c.actor, s(p.packId, 'pack'), {retire: Array.isArray(p.retire) ? p.retire as string[] : [], now: c.now}),
@@ -51,7 +52,7 @@ export const ACTIONS: Record<string, Handler> = {
   'pack.resolveFlag': (c, p) => P.resolveFlag(c.db, c.actor, n(p.flagId, 'flag'), p.resolution, c.now),
   // E7
   'decision.record': (c, p) => { let v = p.value; if (typeof v === 'string') { try { v = JSON.parse(v); } catch { throw new LoopError('The decision value must be JSON.'); } } return recordDecision(c.db, c.actor, s(p.key, 'decision'), typeof p.scope === 'string' && p.scope ? p.scope : 'global', v, s(p.source, 'source'), c.now); },
-  'eval.addCase': (c, p) => A.addEvalCase(c.db, c.actor, {...p, checks: typeof p.checks === 'string' ? JSON.parse(p.checks) : p.checks}, c.now),
+  'eval.addCase': (c, p) => A.addEvalCase(c.db, c.actor, {...p, checks: parseJson(p.checks, 'Checks')}, c.now),
   'eval.run': (c) => A.runEvaluation(c.db, c.actor, undefined, c.now),
   'ai.incident': (c, p) => A.reportIncident(c.db, c.actor, p, c.now),
   // E4
@@ -84,14 +85,14 @@ export const ACTIONS: Record<string, Handler> = {
 /** Extra actions registered by later modules (E8 onwards) without editing this table. */
 export function register(name: string, h: Handler) { ACTIONS[name] = h; }
 export function registerPublic(name: string, h: Public) { PUBLIC_ACTIONS[name] = h; }
-export const helpers = {s, n, send};
+export const helpers = {s, n, send, parseJson};
 
 export async function dispatch(ctx: Ctx, body: Params) {
   const action = typeof body.action === 'string' ? body.action : '';
   const params = (body.params && typeof body.params === 'object' ? body.params : {}) as Params;
-  if (PUBLIC_ACTIONS[action]) return PUBLIC_ACTIONS[action](ctx, params);
+  if (Object.hasOwn(PUBLIC_ACTIONS, action)) return PUBLIC_ACTIONS[action](ctx, params);
+  if (!Object.hasOwn(ACTIONS, action)) throw new LoopError('Unknown action.', 404);
   const h = ACTIONS[action];
-  if (!h) throw new LoopError('Unknown action.', 404);
   if (!ctx.actor) throw new LoopError('Sign in to continue.', 401);
   return h({...ctx, actor: ctx.actor}, params);
 }

@@ -3,7 +3,7 @@
 // fix (or a recorded reason for no change) for every logged error before pack version 2.
 import {type Db, type Actor, LoopError, audit, refuse, requireSelf, requireOperator, decision, iso, DAY, newId, newToken, sha256, isToken, text, oneOf} from './core';
 import {hasConsent, type Send} from './enrolment';
-import {requireReviewer} from './packs';
+import {requireReviewer, reviewerRole} from './packs';
 import {s04} from './metrics';
 import {generate, type AiRequest} from '@/lib/ai/provider';
 
@@ -116,7 +116,7 @@ export async function changeList(db: Db, cohortId: string) {
 
 // ---- ACA-US-14.1 ----
 export async function proposeFixes(db: Db, actor: Actor, packId: string, gen: (r: AiRequest) => Promise<{text: string}> = generate, now = Date.now()) {
-  await requireReviewer(db, actor, packId, 'pack.propose_fixes', now).catch(async () => requireOperator(db, actor, 'pack.propose_fixes', now));
+  if (!(await reviewerRole(db, packId, actor.userId))) await requireOperator(db, actor, 'pack.propose_fixes', now); // one audited refusal at most
   const flags = (await db.prepare(`SELECT f.id, f.reason, i.title, i.body FROM loop_flags f JOIN loop_pack_items i ON i.id=f.item_id WHERE i.pack_id=? AND f.id NOT IN (SELECT flag_id FROM loop_fix_proposals)`).bind(packId).all<{id: number; reason: string; title: string; body: string}>()).results;
   let made = 0;
   for (const f of flags) {

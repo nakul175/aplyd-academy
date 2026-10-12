@@ -3,10 +3,14 @@
 import {type Db, type Actor, LoopError, audit, refuse, requireRole, operatorRole, requireDecision, iso, text, oneOf} from './core';
 import type {Send} from './enrolment';
 
-export async function reportProblem(db: Db, actor: Actor, input: {screen?: unknown; kind?: unknown; body?: unknown}, send: Send, now = Date.now()) {
+export async function reportProblem(db: Db, actor: Actor, input: {screen?: unknown; kind?: unknown; body?: unknown; memberId?: unknown}, send: Send, now = Date.now()) {
   const kind = oneOf(input.kind ?? 'problem', ['problem', 'content', 'security'] as const, 'Type');
   const body = text(input.body, 'What went wrong', 3000), screen = text(input.screen ?? 'unknown', 'Screen', 60);
-  const m = await db.prepare(`SELECT id, org_id FROM loop_members WHERE user_id=? AND status='joined' ORDER BY joined_at DESC LIMIT 1`).bind(actor.userId).first<{id: string; org_id: string}>();
+  // The report goes to the organisation the person chose (or their only one); never guessed between organisations.
+  const mine = (await db.prepare(`SELECT id, org_id FROM loop_members WHERE user_id=? AND status='joined'`).bind(actor.userId).all<{id: string; org_id: string}>()).results;
+  const m = typeof input.memberId === 'string' && input.memberId ? (mine.find(x => x.id === input.memberId) ?? await refuse(db, actor.userId, 'help.report', null, 'You do not have access to this.', now))
+    : new Set(mine.map(x => x.org_id)).size === 1 ? mine[0] : null;
+  if (!m && mine.length > 1 && kind !== 'security') throw new LoopError('Choose which organisation this is about.');
   const r = await db.prepare('INSERT INTO loop_help_reports(user_id,member_id,org_id,screen,kind,body,at) VALUES(?,?,?,?,?,?,?)').bind(actor.userId, m?.id ?? null, m?.org_id ?? null, screen, kind, body, iso(now)).run();
   const id = r.meta.last_row_id;
   if (kind === 'security') {

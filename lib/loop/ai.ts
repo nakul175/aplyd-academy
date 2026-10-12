@@ -46,7 +46,7 @@ export async function addEvalCase(db: Db, actor: Actor, input: {category?: unkno
   for (const r of [...(checks.mustMatch ?? []), ...(checks.mustNotMatch ?? [])]) { try { new RegExp(r, 'i'); } catch { throw new LoopError(`Not a valid pattern: ${r}`); } }
   if (!(checks.mustMatch?.length || checks.mustNotMatch?.length)) throw new LoopError('Each case needs at least one automatic check.');
   const id = newId('eval');
-  const context = {mode: oneOf(input.mode ?? 'hint', ['hint', 'feedback', 'check'] as const, 'Mode'), task: text(input.task, 'Task', 2000), sector: text(input.sector ?? 'textile', 'Sector', 40), checked: Array.isArray(input.checked) ? input.checked.slice(0, 20) : []};
+  const context = {mode: oneOf(input.mode ?? 'hint', ['hint', 'hint_only', 'feedback', 'check'] as const, 'Mode'), task: text(input.task, 'Task', 2000), sector: text(input.sector ?? 'textile', 'Sector', 40), checked: Array.isArray(input.checked) ? input.checked.slice(0, 20) : []};
   await db.prepare('INSERT INTO loop_eval_cases(id,category,learner_message,context,expected,checks,data_rights,created_by,created_at) VALUES(?,?,?,?,?,?,?,?,?)')
     .bind(id, oneOf(input.category, CATEGORIES, 'Category'), text(input.learnerMessage, 'Learner message', 4000), JSON.stringify(context), text(input.expected, 'Expected behaviour', 1000),
       JSON.stringify({mustMatch: checks.mustMatch ?? [], mustNotMatch: checks.mustNotMatch ?? []}), text(input.dataRights, 'Data rights of the case material', 500), actor.userId, iso(now)).run();
@@ -101,6 +101,14 @@ export async function aiStatus(db: Db): Promise<AiStatus> {
   if (!run) return {available: false, reason: 'not_evaluated'};
   return run.passed ? {available: true, reason: 'on'} : {available: false, reason: 'evaluation_failed'};
 }
+/** The latest passing run of the current configuration included at least one passing case of this mode (students' hints-only mode). */
+export async function modeEvaluated(db: Db, mode: Mode) {
+  const run = await db.prepare('SELECT results FROM loop_eval_runs WHERE config_hash=? AND passed=1 ORDER BY at DESC LIMIT 1').bind(configHash()).first<{results: string}>();
+  if (!run) return false;
+  const passed = new Set((JSON.parse(run.results) as {caseId: string; passed: boolean}[]).filter(r => r.passed).map(r => r.caseId));
+  const cases = (await db.prepare(`SELECT id FROM loop_eval_cases WHERE json_extract(context, '$.mode')=?`).bind(mode).all<{id: string}>()).results;
+  return cases.some(c => passed.has(c.id));
+}
 export const PAUSED_NOTICE = 'AI help is paused right now. Your task and the checked guidance below still work, and you can submit as usual.';
 
 export async function reportIncident(db: Db, actor: Actor, input: {effect?: unknown; action?: unknown}, now = Date.now()) {
@@ -121,5 +129,6 @@ export async function incidents(db: Db, actor: Actor, now = Date.now()) {
 export async function coachReply(db: Db, mode: Mode, task: string, checked: CheckedContent, sector: string, messages: AiMessage[], gen: (r: AiRequest) => Promise<{text: string}> = generate) {
   const s = await aiStatus(db);
   if (!s.available) throw new AiUnavailable('AI help is paused.');
+  if (mode === 'hint_only' && !(await modeEvaluated(db, 'hint_only'))) throw new AiUnavailable('AI help for students is paused until it is evaluated.');
   return (await gen({purpose: `coach-${mode}`, system: systemPrompt(mode, task, checked, sector), messages, maxTokens: 700, temperature: 0.3})).text;
 }

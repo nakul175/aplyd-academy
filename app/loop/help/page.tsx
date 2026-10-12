@@ -15,7 +15,9 @@ const FAQ: [string, string][] = [
 
 export default async function Help({searchParams}: {searchParams: Promise<{screen?: string}>}) {
   const screen = ((await searchParams).screen ?? 'unknown').slice(0, 60);
-  await pageContext(`/loop/help?screen=${encodeURIComponent(screen)}`);
+  const {db, user} = await pageContext(`/loop/help?screen=${encodeURIComponent(screen)}`);
+  const mine = (await db.prepare(`SELECT m.id, o.name FROM loop_members m JOIN loop_orgs o ON o.id=m.org_id WHERE m.user_id=? AND m.status='joined' ORDER BY o.name`).bind(user.userId).all<{id: string; name: string}>()).results;
+  const orgs = [...new Map(mine.map(x => [x.name, x])).values()];
   return (
     <Shell title="Help" screen="help">
       <section className={s.card} aria-labelledby="faq-h"><h2 id="faq-h">Common questions</h2>
@@ -24,6 +26,7 @@ export default async function Help({searchParams}: {searchParams: Promise<{scree
       <section className={s.card} aria-labelledby="rep-h"><h2 id="rep-h">Report a problem</h2>
         <p className={s.muted}>A facilitator will get back to you. Do not include other people’s private details.</p>
         <ActionForm action="help.report" params={{screen}} fields={[
+          ...(orgs.length > 1 ? [{name: 'memberId', label: 'Which organisation is this about?', type: 'select' as const, options: orgs.map(o => [o.id, o.name] as [string, string])}] : []),
           {name: 'body', label: 'What went wrong?', type: 'textarea', required: true, rows: 4},
           {name: 'kind', label: 'Type of problem', type: 'select', options: [['problem', 'Something does not work'], ['content', 'Content is wrong'], ['security', 'Security or privacy issue']]},
         ]} submit="Send report" done="stay" success="Thank you. We have your report and will reply." />

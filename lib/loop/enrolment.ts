@@ -2,6 +2,7 @@
 // ACA-US-2.2 learner joins with informed consent (adults only in R1); ACA-US-2.4 staggered start groups.
 import {type Db, type Actor, type Member, LoopError, audit, refuse, requireOperator, requireRole, iso, DAY, newId, newToken, sha256, isToken, text, oneOf, isoDate, requireDecision, scopedDecision, decision, requireSelf, requireEpic, memberById, LEARNER_ROLES} from './core';
 import {enrolStudents, openHarmSignal, type LegalReview} from './students';
+import {deleteMemberRows} from './retention';
 
 export type Send = (to: string, subject: string, body: string) => Promise<void>;
 export const INVITE_DAYS = 14; // engineering default for link expiry, not an owner value: a stale link can be re-sent
@@ -137,8 +138,8 @@ export async function enrolCohort(db: Db, actor: Actor, cohortId: string, input:
     else await db.prepare(`INSERT INTO loop_members(id,org_id,cohort_id,role,email,name,job_role,phone,status,invited_at) VALUES(?,?,?,?,?,?,?,?,'invited',?)`).bind(id, cohort.org_id, cohortId, role, row.email, row.name, row.jobRole, row.phone, iso(now)).run();
     const token = await issueInvite(db, id, now);
     const mail = inviteMail(origin, token, cohort.org_name, role);
-    await send(row.email, mail.subject, mail.body);
-    invited.push(id);
+    try { await send(row.email, mail.subject, mail.body); invited.push(id); }
+    catch { problems.push({line: row.line, text: `${row.name}, ${row.email}`, reason: 'Added, but the invite email could not be sent. Use “Resend invite” in a few minutes'}); }
   }
   await audit(db, actor.userId, 'cohort.enrol', {org: cohort.org_id, target: `${cohortId}:${invited.length}`, now});
   return {invited: invited.length, problems: problems.sort((a, b) => a.line - b.line)};
@@ -195,11 +196,7 @@ export async function openInvite(db: Db, token: unknown, now = Date.now()) {
 /** ACA-US-2.2-AC4: someone who states they are under 18 cannot join in R1; their invite and list entry are deleted and no account is made. */
 export async function declineUnder18(db: Db, token: unknown, now = Date.now()) {
   const m = await liveInvite(db, token, now);
-  await db.batch([
-    db.prepare('DELETE FROM loop_invites WHERE member_id=?').bind(m.id),
-    db.prepare('DELETE FROM loop_consents WHERE member_id=?').bind(m.id),
-    db.prepare('DELETE FROM loop_members WHERE id=?').bind(m.id),
-  ]);
+  await deleteMemberRows(db, m.id, now, {log: true}); // logged by internal id so a restore re-deletes it
   await audit(db, 'invitee', 'join.refused_under_18', {org: m.org_id, outcome: 'refused', now}); // no name, email or id is kept
   return {refused: true};
 }

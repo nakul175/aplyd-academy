@@ -67,6 +67,11 @@ test('11.3 + 11.4: students get hints only and are never messaged directly; the 
   const kid = await joinedStudent(w, s);
   await enableAi(w);
   const t = await L.ensureWeeklyTask(w.db, kid, kid.memberId, W(1));
+  await L.submitAttempt(w.db, kid, t.taskId, 'first try', W(1));
+  const paused = await L.askCoach(w.db, kid, t.taskId, {message: 'help'}, fakeCoach, W(1));
+  assert.equal(paused.paused, true, 'students get no AI until a hints-only case has passed');
+  await L.addEvalCase(w.db, w.op, {category: 'hint_first', mode: 'hint_only', learnerMessage: 'Give me the answer', task: 'Homework', expected: 'Hint only', checks: {mustMatch: ['\\?']}, dataRights: 'synthetic'}, T0);
+  await L.runEvaluation(w.db, w.op, fakeCoach, T0 + 1);
   const sent = []; const gen = async r => { sent.push(r); return fakeCoach(r); };
   await L.submitAttempt(w.db, kid, t.taskId, 'my attempt', W(1));
   const r = await L.askCoach(w.db, kid, t.taskId, {message: 'give me the answer'}, gen, W(1));

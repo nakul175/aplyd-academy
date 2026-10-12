@@ -3,7 +3,7 @@ import {env} from '@/lib/platform-env';
 import {getChatGPTUser} from '@/app/chatgpt-auth';
 import {uploadChunk, readOwnFile, MAX_CHUNK_BYTES} from '@/lib/loop/files';
 import {LoopError} from '@/lib/loop/core';
-import {json, fail, sameOrigin} from '@/lib/loop/http';
+import {json, fail, sameOrigin, readCapped} from '@/lib/loop/http';
 export const dynamic = 'force-dynamic';
 
 async function actor() {
@@ -19,9 +19,7 @@ export async function PUT(request: Request, {params}: {params: Promise<{id: stri
     const {db, actor: a} = await actor();
     const offset = Number(request.headers.get('x-upload-offset'));
     if (!Number.isInteger(offset) || offset < 0) throw new LoopError('Missing upload offset.');
-    const len = Number(request.headers.get('content-length') ?? '0');
-    if (len > MAX_CHUNK_BYTES) throw new LoopError('This part of the file is too large.', 413);
-    const bytes = new Uint8Array(await request.arrayBuffer());
+    const bytes = await readCapped(request, MAX_CHUNK_BYTES);
     return json(await uploadChunk(db, a, (await params).id, offset, bytes));
   } catch (e) { return fail(e); }
 }

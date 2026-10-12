@@ -98,7 +98,8 @@ test('6.2: the admin sees aggregates for their own cohort only, small groups sup
   const d = await L.adminDashboard(w.db, w.admin, w.cohortId, W(1));
   assert.equal(d.weekly[1].groups[0].S01.numerator, 1); assert.equal(d.weekly[1].groups[0].S01.denominator, 4);
   const l3 = d.byStartingLevel[1].groups.find(g => g.group === 'L3');
-  assert.equal(l3.S01.suppressed, true, 'a group of 1 is below the minimum of 3');
+  assert.equal(l3.suppressed, true, 'a group of 1 person is hidden as a whole (minimum 3)');
+  assert.ok(!('S02' in l3) && !('groupSize' in l3), 'no counts of a hidden group leak');
   assert.ok(!JSON.stringify(d).includes('PRIVATE-NOTE') && !JSON.stringify(d).includes('learner1@'));
   await refused(L.adminDashboard(w.db, w.facilitator, w.cohortId, W(1)));
 });

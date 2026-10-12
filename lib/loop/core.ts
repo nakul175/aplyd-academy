@@ -141,13 +141,15 @@ export async function recordDecision(db: Db, actor: Actor, key: string, scope: s
 /** ACA-US-7.2-AC2: thresholds are never lowered to obtain a pass. Once a run has failed against the current
  * thresholds, a new set may raise values or add categories but not lower any. */
 async function guardThresholds(db: Db, next: unknown) {
-  const cur = await decision<{overall?: number; perCategory?: Record<string, number>}>(db, 'ai.thresholds');
-  if (!cur) return;
-  const failed = await db.prepare('SELECT 1 FROM loop_eval_runs WHERE thresholds=? AND passed=0 LIMIT 1').bind(JSON.stringify(cur.value)).first();
+  // Once any evaluation run has failed, no value may go below the highest value ever recorded for it.
+  const failed = await db.prepare('SELECT 1 FROM loop_eval_runs WHERE passed=0 LIMIT 1').first();
   if (!failed) return;
+  const all = (await db.prepare(`SELECT value FROM loop_decisions WHERE key='ai.thresholds'`).all<{value: string}>()).results.map(r => JSON.parse(r.value) as {overall?: number; perCategory?: Record<string, number>});
+  const max = {overall: Math.max(0, ...all.map(t => t.overall ?? 0)), perCategory: {} as Record<string, number>};
+  for (const t of all) for (const [k, v] of Object.entries(t.perCategory ?? {})) max.perCategory[k] = Math.max(max.perCategory[k] ?? 0, v);
   const n = (next ?? {}) as {overall?: number; perCategory?: Record<string, number>};
-  const lower = (n.overall ?? 0) < (cur.value.overall ?? 0) || Object.entries(cur.value.perCategory ?? {}).some(([k, v]) => (n.perCategory?.[k] ?? 0) < v);
-  if (lower) throw new LoopError('An evaluation run has failed against the current thresholds, so they cannot be lowered. Fix the AI configuration instead.', 409);
+  const lower = (n.overall ?? 0) < max.overall || Object.entries(max.perCategory).some(([k, v]) => (n.perCategory?.[k] ?? 0) < v);
+  if (lower) throw new LoopError('An evaluation run has failed, so no threshold can go below the highest value recorded before. Fix the AI configuration instead.', 409);
 }
 
 /** Features of later releases wait until the owner brings their epic into scope (a new strategy version). */
