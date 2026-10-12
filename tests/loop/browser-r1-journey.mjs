@@ -4,7 +4,7 @@
 import assert from 'node:assert/strict';
 import {DatabaseSync} from 'node:sqlite';
 import {createHash} from 'node:crypto';
-import {writeFileSync, mkdtempSync} from 'node:fs';
+import {writeFileSync, mkdtempSync, readFileSync, mkdirSync} from 'node:fs';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {pathToFileURL} from 'node:url';
@@ -26,6 +26,15 @@ async function signIn(page, who, returnTo = '/loop') {
   await page.waitForURL(u => new URL(u).pathname === returnTo.split('?')[0]);
 }
 const userId = who => db.prepare('SELECT id FROM academy_users WHERE email=?').get(who).id;
+// ACA-US-12.3: automated WCAG 2.2 AA checks (axe-core) on every R1 screen the journey visits, at phone width.
+const axeSource = readFileSync(join(import.meta.dirname, '../../node_modules/axe-core/axe.min.js'), 'utf8');
+const a11yResults = [];
+async function a11y(page, screen) {
+  await page.waitForLoadState('networkidle');
+  await page.addScriptTag({content: axeSource});
+  const r = await page.evaluate(async () => await window.axe.run(document, {runOnly: {type: 'tag', values: ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa']}}));
+  a11yResults.push({screen, path: new URL(page.url()).pathname.replace(/[A-Za-z0-9_-]{20,}|(org|coh|mem|task|pack|ses|thr)-[0-9a-f-]{36}/g, ':id'), violations: r.violations.map(v => ({id: v.id, impact: v.impact, help: v.help, nodes: v.nodes.map(n => n.target.join(' ')).slice(0, 5)})), passes: r.passes.length});
+}
 async function newPage() { const ctx = await browser.newContext({viewport: {width: 390, height: 844}}); return ctx.newPage(); }
 async function submitForm(page, button) { await page.getByRole('button', {name: button}).click(); }
 
@@ -43,7 +52,7 @@ try {
     .run('run-' + run, now, 'local', createHash('sha256').update(`fake|${process.env.ACADEMY_AI_MODEL}|hint-first-1`).digest('hex'), 'fake', process.env.ACADEMY_AI_MODEL, JSON.stringify({overall: 1}), '[]', '{}');
 
   // ---- 2.5: the operator creates the association and invites its admin ----
-  await op.goto(base + '/loop/ops');
+  await op.goto(base + '/loop/ops'); await a11y(op, 'operations');
   const orgName = `Synthetic Textile ${run}`;
   await op.locator('#org\\.create-name').fill(orgName); await op.locator('#org\\.create-sector').fill('textile');
   await submitForm(op, 'Create organisation'); await op.getByRole('link', {name: orgName}).waitFor(); checks++;
@@ -57,13 +66,14 @@ try {
   const admin = await newPage(); await signIn(admin, email('admin'), inviteLink(email('admin')));
   await admin.getByRole('button', {name: 'Join'}).click(); await admin.waitForURL(base + '/loop');
   await admin.getByRole('link', {name: 'Organisation and cohorts'}).click();
+  await a11y(admin, 'organisation');
   await admin.getByLabel('Cohort name').fill('Cohort 1'); await admin.getByLabel(/Workshop date/).fill(today);
   await submitForm(admin, 'Create cohort'); await admin.waitForURL(/\/loop\/cohort\//);
   const cohortId = admin.url().split('/').pop();
   await admin.getByLabel(/Member list/).fill(`Asha Rao, ${email('asha')}, accountant\nBad Row, not-an-email, owner\nRavi K, ${email('ravi')}, merchandiser`);
   await submitForm(admin, 'Check and send invites');
   await admin.getByText('Line 2:').waitFor(); ok(await admin.getByText('Email is missing or not valid').isVisible(), 'bad row shown with reason');
-  await admin.reload(); ok((await admin.getByRole('cell', {name: 'invited'}).count()) === 2, 'two members invited');
+  await admin.reload(); ok((await admin.getByRole('cell', {name: 'invited'}).count()) === 2, 'two members invited'); await a11y(admin, 'cohort admin');
   await admin.goto(`${base}/loop/org/${orgId}`);
   await admin.locator('#org\\.invite-name').fill('Fac Person'); await admin.locator('#org\\.invite-email').fill(email('fac'));
   await submitForm(admin, 'Send invite'); await admin.getByText('Invite sent.').waitFor();
@@ -88,24 +98,26 @@ try {
   await expert.goto(base + '/loop'); await expert.getByRole('link', {name: `Textile pack ${run}`}).click();
   for (let i = 0; i < 2; i++) { await expert.getByRole('button', {name: 'Approve', exact: true}).first().click(); await expert.waitForTimeout(400); }
   await expert.getByText('Nothing waiting.').waitFor();
-  await expert.getByRole('button', {name: 'Publish a new version'}).click(); await expert.getByText(/published version 1/).waitFor(); checks++;
+  await expert.getByRole('button', {name: 'Publish a new version'}).click(); await expert.getByText(/published version 1/).waitFor(); checks++; await a11y(expert, 'pack review');
 
   // ---- learner: notice and age before sign-in, consents, placement, workshop task ----
   const asha = await newPage();
   await asha.goto(base + inviteLink(email('asha')));
-  ok(await asha.getByText('SYNTHETIC NOTICE').isVisible(), 'notice shown before sign-in');
+  ok(await asha.getByText('SYNTHETIC NOTICE').isVisible(), 'notice shown before sign-in'); await a11y(asha, 'join: notice and age');
   await asha.getByRole('button', {name: 'Yes, I am 18 or older'}).click();
   await asha.getByRole('link', {name: 'Sign in to join'}).click();
   await asha.getByLabel('Email address').fill(email('asha')); await asha.getByRole('button', {name: 'Email me a code'}).click();
   await asha.getByLabel('6-digit code').waitFor();
   await asha.getByLabel('6-digit code').fill(lastMail(email('asha')).match(/\b(\d{6})\b/)[1]); await asha.getByRole('button', {name: 'Sign in'}).click();
   await asha.getByRole('button', {name: 'Yes, I am 18 or older'}).click();
+  await a11y(asha, 'join: consent choices');
   await asha.getByRole('button', {name: 'Join'}).click(); await asha.getByText('agree to the use of your practice data').waitFor(); checks++; // core consent required
   await asha.getByLabel(/I agree to the use of my practice data/).check(); await asha.getByLabel('Email').check();
   await asha.getByRole('button', {name: 'Join'}).click(); await asha.waitForURL(base + '/loop');
   const mem = db.prepare(`SELECT id FROM loop_members WHERE email=?`).get(email('asha')).id;
   ok(db.prepare(`SELECT notice_version FROM loop_consents WHERE member_id=? AND purpose='core'`).get(mem).notice_version === 'local-notice-1', 'consent recorded with notice version');
-  await asha.getByRole('link', {name: /placement check/}).click();
+  await a11y(asha, 'learner home');
+  await asha.getByRole('link', {name: /placement check/}).click(); await asha.getByLabel('Weekly').waitFor(); await a11y(asha, 'placement');
   await asha.getByLabel('Weekly').check(); await asha.getByRole('button', {name: 'See my level'}).click();
   await asha.getByText(/Your AI level is/).waitFor(); ok(await asha.getByText('Practising').first().isVisible(), 'level shown');
 
@@ -117,9 +129,10 @@ try {
 
   // ---- 4.6 workshop session: facilitator starts; learner practises with hints, uploads own work, submits ----
   await fac.goto(`${base}/loop/facilitate/${cohortId}`); await fac.getByRole('button', {name: 'Start the workshop practice session'}).click();
-  await fac.getByText(/0 of 1 have finished/).waitFor(); checks++;
+  await fac.getByText(/0 of 1 have finished/).waitFor(); checks++; await a11y(fac, 'facilitator');
   await asha.goto(base + '/loop'); await asha.getByRole('link', {name: 'Workshop: your first practice task'}).click();
   await asha.getByText('Re-add totals yourself').waitFor(); checks++; // checked guidance visible
+  await a11y(asha, 'practice task');
   const dir = mkdtempSync(join(tmpdir(), 'loop-up-')), file = join(dir, 'my-invoice.txt');
   writeFileSync(file, 'SYNTHETIC invoice total 1,180'.repeat(40000)); // ~1.1 MB: several chunks
   await asha.getByLabel(/Attach your own work/).setInputFiles(file); await asha.getByRole('button', {name: 'Upload'}).click();
@@ -146,13 +159,13 @@ try {
 
   // ---- 7.3 owner switches AI off: task still works with a notice ----
   decide('ai.enabled', {enabled: false});
-  await asha.goto(base + '/loop/history/' + mem); await asha.getByText('Found a wrong total on a real invoice').waitFor(); checks++;
+  await asha.goto(base + '/loop/history/' + mem); await asha.getByText('Found a wrong total on a real invoice').waitFor(); checks++; await a11y(asha, 'history');
   const taskId = db.prepare(`SELECT id FROM loop_tasks WHERE member_id=?`).get(mem).id;
   await asha.goto(`${base}/loop/task/${taskId}`); await asha.getByRole('heading', {name: 'Checked guidance'}).waitFor(); ok(await asha.getByText(/AI help is paused/).isVisible(), 'paused notice'); // task works with AI off
 
   // ---- help from any screen; export and settings ----
-  await asha.getByRole('link', {name: 'Help'}).click(); await asha.getByText('Common questions').waitFor(); checks++;
-  await asha.goto(base + '/loop/settings'); await asha.getByText('Email reminders: on').waitFor().catch(() => {});
+  await asha.getByRole('link', {name: 'Help'}).click(); await asha.getByText('Common questions').waitFor(); checks++; await a11y(asha, 'help');
+  await asha.goto(base + '/loop/settings'); await a11y(asha, 'settings');
   const exp = await asha.evaluate(async () => (await (await fetch('/api/loop/export')).json()).memberships[0].submissions.length);
   ok(exp === 1, 'export contains my submission');
   // ---- 12.5 help: report from any screen; the facilitator sees it with time and screen ----
@@ -168,14 +181,14 @@ try {
   await fac.getByLabel('Level').selectOption('L2'); await fac.getByLabel('Title').fill('Checking invoices together');
   await fac.getByLabel(/Starts at/).fill('2026-12-01T10:00:00Z'); await fac.getByLabel('Meeting link').fill('https://meet.example.test/abc');
   await fac.getByRole('button', {name: 'Schedule and invite'}).click(); await fac.getByText('1 invited').waitFor(); checks++;
-  await asha.goto(base + '/loop/sessions'); await asha.getByText('Checking invoices together').waitFor(); checks++;
+  await asha.goto(base + '/loop/sessions'); await asha.getByText('Checking invoices together').waitFor(); checks++; await a11y(asha, 'sessions');
   await fac.getByText('End the session').click(); await fac.getByRole('button', {name: 'End and open the follow-up thread'}).click();
   await fac.getByRole('link', {name: /After the session/}).waitFor();
   await asha.reload(); await asha.getByRole('link', {name: 'Follow-up thread'}).click();
   await asha.getByLabel('Your post').fill('SPAM post for moderation test'); await asha.getByRole('button', {name: 'Post'}).click();
   await asha.getByText('SPAM post for moderation test').waitFor();
   await fac.getByRole('link', {name: /After the session/}).click(); await fac.getByRole('button', {name: 'Hide'}).click(); await fac.getByText('hidden', {exact: true}).waitFor();
-  await asha.reload(); await asha.getByText('This post was hidden by a facilitator.').waitFor(); checks++;
+  await asha.reload(); await asha.getByText('This post was hidden by a facilitator.').waitFor(); checks++; await a11y(asha, 'thread'); await fac.goto(`${base}/loop/community/${cohortId}`); await a11y(fac, 'community');
   ok(db.prepare(`SELECT count(*) n FROM loop_audit WHERE action='thread.hide' AND outcome='ok'`).get().n === 1, 'hide audited');
 
   // ---- 10.1 confirmation by a supervisor without an account ----
@@ -183,10 +196,14 @@ try {
   await asha.getByLabel('Their email').fill(email('boss')); await asha.getByLabel(/What they will see/).fill('I now check every supplier invoice total with AI and by hand');
   await asha.getByRole('button', {name: 'Send request'}).click(); await asha.getByText('Request sent.').waitFor();
   const boss = await newPage(); await boss.goto(base + lastMail(email('boss')).match(/(\/loop\/confirm\/[A-Za-z0-9_-]{43})/)[1]);
-  await boss.getByText('I now check every supplier invoice total').waitFor();
+  await boss.getByText('I now check every supplier invoice total').waitFor(); await a11y(boss, 'confirmation (public)');
   ok(!(await boss.content()).includes('wrong total'), 'confirmer sees only what was shared');
   await boss.getByRole('button', {name: 'Yes, I confirm this change'}).click(); await boss.getByText('You confirmed this change.').waitFor();
   ok(db.prepare(`SELECT status FROM loop_confirmations WHERE member_id=?`).get(mem).status === 'confirmed', 'confirmation stored');
 
-  console.log(JSON.stringify({checks, passed: true}));
+  if (process.env.A11Y_OUT) { mkdirSync(join(process.env.A11Y_OUT, '..'), {recursive: true}); writeFileSync(process.env.A11Y_OUT, JSON.stringify({tool: 'axe-core 4.11.4', tags: ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'], viewport: '390x844', at: new Date().toISOString(), screens: a11yResults}, null, 2)); }
+  const failing = a11yResults.filter(r => r.violations.length);
+  if (failing.length) console.error(JSON.stringify(failing, null, 1));
+  ok(failing.length === 0, `WCAG 2.2 AA automated checks: ${failing.length} screen(s) with violations`);
+  console.log(JSON.stringify({checks, passed: true, a11yScreens: a11yResults.length}));
 } finally { await browser.close(); }

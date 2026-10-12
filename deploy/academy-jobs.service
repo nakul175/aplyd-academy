@@ -1,0 +1,8 @@
+[Unit]
+Description=Aplyd Academy daily practice-loop jobs (reminders and retention)
+After=academy.service
+Requires=academy.service
+
+[Service]
+Type=oneshot
+ExecStart=/srv/academy/bin/jobs.sh all

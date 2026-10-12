@@ -42,5 +42,5 @@
 .segment { display: flex; gap: .6rem; align-items: flex-start; padding: .6rem; border: 1px solid var(--border); border-radius: .6rem; margin: .4rem 0; background: #fff; }
 .prewrap { white-space: pre-wrap; }
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
-.page a:not(.button) { color: var(--accent-foreground); }
+.main a:not(.button) { color: var(--accent-foreground); text-decoration: underline; text-underline-offset: 2px; }
 .page :focus-visible { outline: 3px solid #f2b705; outline-offset: 2px; }

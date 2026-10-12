@@ -4,6 +4,8 @@ import * as H from './help';
 import * as C from './community';
 import * as Ev from './evidence';
 import * as M from './metrics';
+import * as A from './ai';
+import {LoopError} from './core';
 import {configuredSenders} from './senders';
 const {s, n, send} = helpers;
 
@@ -28,3 +30,11 @@ register('review.decide', (c, p) => M.recordReviewDecision(c.db, c.actor, s(p.re
 // ACA-US-14.1
 register('pack.proposeFixes', (c, p) => Ev.proposeFixes(c.db, c.actor, s(p.packId, 'pack'), undefined, c.now));
 register('pack.decideProposal', (c, p) => Ev.decideProposal(c.db, c.actor, n(p.flagId, 'flag'), p, c.now));
+// ACA-US-7.2: load a reviewed evaluation set (docs/ai/evaluation-set-draft.json format) in one step
+register('eval.import', async (c, p) => {
+  let cases = p.cases; if (typeof cases === 'string') { try { cases = JSON.parse(cases); } catch { throw new LoopError('Not valid JSON.'); } }
+  if (cases && !Array.isArray(cases) && Array.isArray((cases as {cases?: unknown}).cases)) cases = (cases as {cases: unknown[]}).cases;
+  if (!Array.isArray(cases) || cases.length === 0 || cases.length > 500) throw new LoopError('Provide between 1 and 500 cases.');
+  const ids = []; for (const x of cases) ids.push((await A.addEvalCase(c.db, c.actor, x as Record<string, unknown>, c.now)).id);
+  return {imported: ids.length};
+});

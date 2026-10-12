@@ -14,6 +14,7 @@ export async function weekOf(db: Db, m: Member, now = Date.now()) {
   const start = Date.parse((await startDateOf(db, m)) + 'T00:00:00Z');
   return now < start ? -1 : Math.floor((now - start) / WEEK);
 }
+export const COACH_PER_HOUR = 30;
 const BRING_OWN = 'Bring your own work for this: attach a document or photo from your real work, or paste an example in your own words. Remove other people’s private details first.';
 type Task = {id: string; member_id: string; cohort_id: string; kind: string; week: number; item_id: string | null; pack_version: number | null; title: string; prompt: string; status: string; started_at: string | null; finished_at: string | null; created_at: string};
 
@@ -98,6 +99,9 @@ export async function askCoach(db: Db, actor: Actor, taskId: string, input: {mes
   if (task.kind === 'check' || task.kind === 'catch_ai' || await activeCheck(db, member.id, now)) throw new LoopError('AI help is off during an unaided check.', 409);
   if (task.status === 'submitted') throw new LoopError('This task is finished. Start your next task to keep practising.', 409);
   const message = text(input.message, 'Your question', 2000);
+  // Abuse and cost guard (ACA-US-12.2 finding F-03): at most 30 coach questions per learner per hour.
+  const recent = await db.prepare(`SELECT count(*) n FROM loop_coach_messages WHERE member_id=? AND role='learner' AND at>?`).bind(member.id, iso(now - 3_600_000)).first<{n: number}>();
+  if ((recent?.n ?? 0) >= COACH_PER_HOUR) throw new LoopError('You have asked the coach a lot in the last hour. Try the task yourself and ask again later.', 429);
   const attempted = !!(await db.prepare('SELECT 1 FROM loop_attempts WHERE task_id=? LIMIT 1').bind(task.id).first());
   const mode = attempted ? 'feedback' as const : 'hint' as const;
   let content = message;

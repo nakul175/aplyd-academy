@@ -1,0 +1,561 @@
+{
+  "release": "RG-ACADEMY-R1",
+  "note": "Maintained by agents. A story counts as accepted only when accepted is true AND acceptanceRef points to the owner acceptance (Linear) AND evidence is non-empty. Claude never sets accepted.",
+  "r1Epics": [
+    "ACA-E1",
+    "ACA-E2",
+    "ACA-E3",
+    "ACA-E4",
+    "ACA-E5",
+    "ACA-E6",
+    "ACA-E7",
+    "ACA-E8",
+    "ACA-E12"
+  ],
+  "teacherEpic": "ACA-E9",
+  "textileLoopEpics": [
+    "ACA-E2",
+    "ACA-E3",
+    "ACA-E4",
+    "ACA-E7"
+  ],
+  "stories": [
+    {
+      "id": "ACA-US-1.1",
+      "epic": "E1",
+      "code": "built and tested locally (synthetic data); not deployed",
+      "evidence": [
+        "docs/decisions/ADR-0001-production-runtime.md",
+        "spikes/do-runtime"
+      ],
+      "ownerPrerequisites": "Owner approved Option A (12 Oct 2026)",
+      "accepted": false,
+      "acceptanceRef": null
+    },
+    {
+      "id": "ACA-US-1.2",
+      "epic": "E1",
+      "code": "built and tested locally (synthetic data); not deployed",
+      "evidence": [
+        "docs/as-built-node/ACA-US-1.2-local-port.md",
+        "tests/node-runtime/refusal-audit.mjs"
+      ],
+      "ownerPrerequisites": "Runs on the real droplet (DigitalOcean access)",
+      "accepted": false,
+      "acceptanceRef": null
+    },
+    {
+      "id": "ACA-US-1.3",
+      "epic": "E1",
+      "code": "built and tested locally (synthetic data); not deployed",
+      "evidence": [
+        "deploy/README.md",
+        "tests/node-runtime/backup-restore.sh"
+      ],
+      "ownerPrerequisites": "Droplet, Spaces bucket, uptime check created",
+      "accepted": false,
+      "acceptanceRef": null
+    },
+    {
+      "id": "ACA-US-1.4",
+      "epic": "E1",
+      "code": "built and tested locally (synthetic data); not deployed",
+      "evidence": [
+        "docs/as-built-node/ACA-US-1.4-email-code-sign-in.md",
+        "tests/node-runtime/email-otp.test.mjs"
+      ],
+      "ownerPrerequisites": "Resend domain verified",
+      "accepted": false,
+      "acceptanceRef": null
+    },
+    {
+      "id": "ACA-US-1.5",
+      "epic": "E1",
+      "code": "built and tested locally (synthetic data); not deployed",
+      "evidence": [
+        "deploy/release.sh",
+        "tests/node-runtime/release-rollback.sh",
+        ".github/workflows/academy-ci-deploy.yml"
+      ],
+      "ownerPrerequisites": "GitHub production environment and secrets",
+      "accepted": false,
+      "acceptanceRef": null
+    },
+    {
+      "id": "ACA-US-7.1",
+      "epic": "E7",
+      "code": "built and tested locally (synthetic data); not deployed",
+      "evidence": [
+        "lib/ai/provider.ts",
+        "docs/ai/AIA-ACADEMY-01.json"
+      ],
+      "ownerPrerequisites": "AIA-ACADEMY-01 approval; legal review of AI data",
+      "accepted": false,
+      "acceptanceRef": null
+    },
+    {
+      "id": "ACA-US-7.2",
+      "epic": "E7",
+      "code": "built and tested locally (synthetic data); not deployed",
+      "evidence": [
+        "lib/loop/ai.ts",
+        "docs/ai/evaluation-set-draft.json",
+        "tests/loop/e3-e7-packs-ai.test.mjs"
+      ],
+      "ownerPrerequisites": "Owner thresholds (ai.thresholds); evaluation set reviewed",
+      "accepted": false,
+      "acceptanceRef": null
+    },
+    {
+      "id": "ACA-US-7.3",
+      "epic": "E7",
+      "code": "built and tested locally (synthetic data); not deployed",
+      "evidence": [
+        "lib/loop/ai.ts",
+        "tests/loop/e3-e7-packs-ai.test.mjs",
+        "tests/loop/browser-r1-journey.mjs"
+      ],
+      "ownerPrerequisites": "",
+      "accepted": false,
+      "acceptanceRef": null
+    },
+    {
+      "id": "ACA-US-2.5",
+      "epic": "E2",
+      "code": "built and tested locally (synthetic data); not deployed",
+      "evidence": [
+        "lib/loop/enrolment.ts",
+        "tests/loop/e2-enrolment.test.mjs",
+        "tests/loop/browser-r1-journey.mjs"
+      ],
+      "ownerPrerequisites": "Operators named",
+      "accepted": false,
+      "acceptanceRef": null
+    },
+    {
+      "id": "ACA-US-2.1",
+      "epic": "E2",
+      "code": "built and tested locally (synthetic data); not deployed",
+      "evidence": [
+        "lib/loop/enrolment.ts",
+        "tests/loop/e2-enrolment.test.mjs",
+        "tests/loop/browser-r1-journey.mjs"
+      ],
+      "ownerPrerequisites": "Association's participant list",
+      "accepted": false,
+      "acceptanceRef": null
+    },
+    {
+      "id": "ACA-US-2.2",
+      "epic": "E2",
+      "code": "built and tested locally (synthetic data); not deployed",
+      "evidence": [
+        "lib/loop/enrolment.ts",
+        "docs/privacy/notice-draft-v0.1.md",
+        "tests/loop/e2-enrolment.test.mjs",
+        "tests/loop/browser-r1-journey.mjs"
+      ],
+      "ownerPrerequisites": "Legal basis and retention for adults; notice approved (notice.approved)",
+      "accepted": false,
+      "acceptanceRef": null
+    },
+    {
+      "id": "ACA-US-2.3",
+      "epic": "E2",
+      "code": "built and tested locally (synthetic data); not deployed",
+      "evidence": [
+        "lib/loop/levels.ts",
+        "docs/product/placement-instrument-draft.json",
+        "tests/loop/e2-enrolment.test.mjs",
+        "tests/loop/browser-r1-journey.mjs"
+      ],
+      "ownerPrerequisites": "Level bands approved (placement.instrument)",
+      "accepted": false,
+      "acceptanceRef": null
+    },
+    {
+      "id": "ACA-US-2.4",
+      "epic": "E2",
+      "code": "built and tested locally (synthetic data); not deployed",
+      "evidence": [
+        "lib/loop/enrolment.ts",
+        "tests/loop/e2-enrolment.test.mjs"
+      ],
+      "ownerPrerequisites": "Written agreement (staggered.agreement), optional",
+      "accepted": false,
+      "acceptanceRef": null
+    },
+    {
+      "id": "ACA-US-2.6",
+      "epic": "E2",
+      "code": "built and tested locally (synthetic data); not deployed",
+      "evidence": [
+        "lib/loop/levels.ts",
+        "tests/loop/e2-enrolment.test.mjs",
+        "tests/loop/e4-practice.test.mjs"
+      ],
+      "ownerPrerequisites": "Workshop date; access.notice_days",
+      "accepted": false,
+      "acceptanceRef": null
+    },
+    {
+      "id": "ACA-US-3.1",
+      "epic": "E3",
+      "code": "built and tested locally (synthetic data); not deployed",
+      "evidence": [
+        "lib/loop/packs.ts",
+        "tests/loop/e3-e7-packs-ai.test.mjs"
+      ],
+      "ownerPrerequisites": "AI provider decided; role list",
+      "accepted": false,
+      "acceptanceRef": null
+    },
+    {
+      "id": "ACA-US-3.2",
+      "epic": "E3",
+      "code": "built and tested locally (synthetic data); not deployed",
+      "evidence": [
+        "lib/loop/packs.ts",
+        "app/loop/review",
+        "tests/loop/e3-e7-packs-ai.test.mjs",
+        "tests/loop/browser-r1-journey.mjs"
+      ],
+      "ownerPrerequisites": "Textile sector expert named",
+      "accepted": false,
+      "acceptanceRef": null
+    },
+    {
+      "id": "ACA-US-3.3",
+      "epic": "E3",
+      "code": "built and tested locally (synthetic data); not deployed",
+      "evidence": [
+        "lib/loop/packs.ts",
+        "tests/loop/e3-e7-packs-ai.test.mjs"
+      ],
+      "ownerPrerequisites": "",
+      "accepted": false,
+      "acceptanceRef": null
+    },
+    {
+      "id": "ACA-US-4.1",
+      "epic": "E4",
+      "code": "built and tested locally (synthetic data); not deployed",
+      "evidence": [
+        "lib/loop/practice.ts",
+        "lib/loop/files.ts",
+        "tests/loop/e4-practice.test.mjs",
+        "tests/loop/browser-r1-journey.mjs"
+      ],
+      "ownerPrerequisites": "Pack v1 published",
+      "accepted": false,
+      "acceptanceRef": null
+    },
+    {
+      "id": "ACA-US-4.2",
+      "epic": "E4",
+      "code": "built and tested locally (synthetic data); not deployed",
+      "evidence": [
+        "lib/loop/practice.ts",
+        "lib/loop/ai.ts",
+        "tests/loop/e4-practice.test.mjs",
+        "tests/loop/browser-r1-journey.mjs"
+      ],
+      "ownerPrerequisites": "AIA-ACADEMY-01 approved; thresholds",
+      "accepted": false,
+      "acceptanceRef": null
+    },
+    {
+      "id": "ACA-US-4.3",
+      "epic": "E4",
+      "code": "built and tested locally (synthetic data); not deployed",
+      "evidence": [
+        "lib/loop/practice.ts",
+        "tests/loop/e4-practice.test.mjs"
+      ],
+      "ownerPrerequisites": "Checks in the published pack",
+      "accepted": false,
+      "acceptanceRef": null
+    },
+    {
+      "id": "ACA-US-4.4",
+      "epic": "E4",
+      "code": "built and tested locally (synthetic data); not deployed",
+      "evidence": [
+        "lib/loop/practice.ts",
+        "tests/loop/e4-practice.test.mjs",
+        "tests/loop/browser-r1-journey.mjs"
+      ],
+      "ownerPrerequisites": "",
+      "accepted": false,
+      "acceptanceRef": null
+    },
+    {
+      "id": "ACA-US-4.5",
+      "epic": "E4",
+      "code": "built and tested locally (synthetic data); not deployed",
+      "evidence": [
+        "lib/loop/practice.ts",
+        "tests/loop/e4-practice.test.mjs"
+      ],
+      "ownerPrerequisites": "Planted-error sets approved by the expert",
+      "accepted": false,
+      "acceptanceRef": null
+    },
+    {
+      "id": "ACA-US-4.6",
+      "epic": "E4",
+      "code": "built and tested locally (synthetic data); not deployed",
+      "evidence": [
+        "lib/loop/practice.ts",
+        "tests/loop/e4-practice.test.mjs",
+        "tests/loop/browser-r1-journey.mjs"
+      ],
+      "ownerPrerequisites": "Workshop date",
+      "accepted": false,
+      "acceptanceRef": null
+    },
+    {
+      "id": "ACA-US-5.1",
+      "epic": "E5",
+      "code": "built and tested locally (synthetic data); not deployed",
+      "evidence": [
+        "lib/loop/reminders.ts",
+        "tests/loop/e5-e6-reminders-metrics.test.mjs"
+      ],
+      "ownerPrerequisites": "WhatsApp provider, Business API, template, processor agreement",
+      "accepted": false,
+      "acceptanceRef": null
+    },
+    {
+      "id": "ACA-US-5.2",
+      "epic": "E5",
+      "code": "built and tested locally (synthetic data); not deployed",
+      "evidence": [
+        "lib/loop/reminders.ts",
+        "lib/loop/senders.ts",
+        "tests/loop/e5-e6-reminders-metrics.test.mjs"
+      ],
+      "ownerPrerequisites": "SMS provider (email via Resend ready)",
+      "accepted": false,
+      "acceptanceRef": null
+    },
+    {
+      "id": "ACA-US-5.3",
+      "epic": "E5",
+      "code": "built and tested locally (synthetic data); not deployed",
+      "evidence": [
+        "lib/loop/reminders.ts",
+        "tests/loop/e5-e6-reminders-metrics.test.mjs"
+      ],
+      "ownerPrerequisites": "Cadences approved (reminders.cadences)",
+      "accepted": false,
+      "acceptanceRef": null
+    },
+    {
+      "id": "ACA-US-5.4",
+      "epic": "E5",
+      "code": "built and tested locally (synthetic data); not deployed",
+      "evidence": [
+        "lib/loop/reminders.ts",
+        "tests/loop/e5-e6-reminders-metrics.test.mjs"
+      ],
+      "ownerPrerequisites": "followup.inactive_weeks",
+      "accepted": false,
+      "acceptanceRef": null
+    },
+    {
+      "id": "ACA-US-6.1",
+      "epic": "E6",
+      "code": "built and tested locally (synthetic data); not deployed",
+      "evidence": [
+        "lib/loop/metrics.ts",
+        "tests/loop/e5-e6-reminders-metrics.test.mjs"
+      ],
+      "ownerPrerequisites": "",
+      "accepted": false,
+      "acceptanceRef": null
+    },
+    {
+      "id": "ACA-US-6.2",
+      "epic": "E6",
+      "code": "built and tested locally (synthetic data); not deployed",
+      "evidence": [
+        "lib/loop/metrics.ts",
+        "tests/loop/e5-e6-reminders-metrics.test.mjs",
+        "tests/loop/browser-r1-journey.mjs"
+      ],
+      "ownerPrerequisites": "metrics.min_group_size",
+      "accepted": false,
+      "acceptanceRef": null
+    },
+    {
+      "id": "ACA-US-6.3",
+      "epic": "E6",
+      "code": "built and tested locally (synthetic data); not deployed",
+      "evidence": [
+        "lib/loop/metrics.ts",
+        "tests/loop/e5-e6-reminders-metrics.test.mjs"
+      ],
+      "ownerPrerequisites": "",
+      "accepted": false,
+      "acceptanceRef": null
+    },
+    {
+      "id": "ACA-US-6.4",
+      "epic": "E6",
+      "code": "built and tested locally (synthetic data); not deployed",
+      "evidence": [
+        "lib/auth/erasure.ts",
+        "lib/loop/retention.ts",
+        "tests/node-runtime/erasure-browser.mjs",
+        "tests/loop/e5-e6-reminders-metrics.test.mjs"
+      ],
+      "ownerPrerequisites": "Team-workspace erasure policy",
+      "accepted": false,
+      "acceptanceRef": null
+    },
+    {
+      "id": "ACA-US-6.5",
+      "epic": "E6",
+      "code": "built and tested locally (synthetic data); not deployed",
+      "evidence": [
+        "lib/loop/retention.ts",
+        "tests/loop/e5-e6-reminders-metrics.test.mjs"
+      ],
+      "ownerPrerequisites": "retention.periods",
+      "accepted": false,
+      "acceptanceRef": null
+    },
+    {
+      "id": "ACA-US-8.1",
+      "epic": "E8",
+      "code": "built and tested locally (synthetic data); not deployed",
+      "evidence": [
+        "lib/loop/community.ts",
+        "tests/loop/e8-e14-community-evidence.test.mjs",
+        "tests/loop/browser-r1-journey.mjs"
+      ],
+      "ownerPrerequisites": "sessions.format",
+      "accepted": false,
+      "acceptanceRef": null
+    },
+    {
+      "id": "ACA-US-8.2",
+      "epic": "E8",
+      "code": "built and tested locally (synthetic data); not deployed",
+      "evidence": [
+        "lib/loop/community.ts",
+        "tests/loop/e8-e14-community-evidence.test.mjs",
+        "tests/loop/browser-r1-journey.mjs"
+      ],
+      "ownerPrerequisites": "",
+      "accepted": false,
+      "acceptanceRef": null
+    },
+    {
+      "id": "ACA-US-12.2",
+      "epic": "E12",
+      "code": "built and tested locally (synthetic data); not deployed",
+      "evidence": [
+        "docs/security/threat-model.md",
+        "docs/security/findings.md"
+      ],
+      "ownerPrerequisites": "Owner decisions on open findings F-05, F-07, F-08, F-10",
+      "accepted": false,
+      "acceptanceRef": null
+    },
+    {
+      "id": "ACA-US-12.3",
+      "epic": "E12",
+      "code": "built and tested locally (synthetic data); not deployed",
+      "evidence": [
+        "docs/accessibility/statement.md",
+        "docs/accessibility/axe-results.json",
+        "docs/accessibility/screen-reader-check.md"
+      ],
+      "ownerPrerequisites": "Manual phone screen-reader walkthrough",
+      "accepted": false,
+      "acceptanceRef": null
+    },
+    {
+      "id": "ACA-US-12.4",
+      "epic": "E12",
+      "code": "built and tested locally (synthetic data); not deployed",
+      "evidence": [
+        "docs/",
+        "tests/loop/docs.test.mjs"
+      ],
+      "ownerPrerequisites": "Owner review of the documents",
+      "accepted": false,
+      "acceptanceRef": null
+    },
+    {
+      "id": "ACA-US-12.5",
+      "epic": "E12",
+      "code": "built and tested locally (synthetic data); not deployed",
+      "evidence": [
+        "lib/loop/help.ts",
+        "tests/loop/e8-e14-community-evidence.test.mjs",
+        "tests/loop/browser-r1-journey.mjs"
+      ],
+      "ownerPrerequisites": "Facilitators named; help.security_contact",
+      "accepted": false,
+      "acceptanceRef": null
+    },
+    {
+      "id": "ACA-US-12.1",
+      "epic": "E12",
+      "code": "built and tested locally (synthetic data); not deployed",
+      "evidence": [
+        "scripts/go-no-go-pack.mjs",
+        "docs/delivery/go-no-go-pack.md"
+      ],
+      "ownerPrerequisites": "Go/no-go date",
+      "accepted": false,
+      "acceptanceRef": null
+    },
+    {
+      "id": "ACA-US-9.1",
+      "epic": "E9",
+      "code": "built and tested locally (synthetic data); not deployed",
+      "evidence": [
+        "lib/loop/enrolment.ts",
+        "tests/loop/e8-e14-community-evidence.test.mjs"
+      ],
+      "ownerPrerequisites": "Q5 partner school signed; go decision with teacher mode",
+      "accepted": false,
+      "acceptanceRef": null
+    },
+    {
+      "id": "ACA-US-9.2",
+      "epic": "E9",
+      "code": "built and tested locally (synthetic data); not deployed",
+      "evidence": [
+        "lib/loop/packs.ts"
+      ],
+      "ownerPrerequisites": "Education reviewer named",
+      "accepted": false,
+      "acceptanceRef": null
+    },
+    {
+      "id": "ACA-US-9.3",
+      "epic": "E9",
+      "code": "built and tested locally (synthetic data); not deployed",
+      "evidence": [
+        "lib/loop/metrics.ts",
+        "tests/loop/e8-e14-community-evidence.test.mjs"
+      ],
+      "ownerPrerequisites": "",
+      "accepted": false,
+      "acceptanceRef": null
+    }
+  ],
+  "openRisks": [
+    "F-05 learner files not backed up",
+    "F-07 self-declared age",
+    "F-08 AI provider data terms (blocks AI for real learners)",
+    "F-10 no external penetration test",
+    "No production environment exists yet (DigitalOcean, Resend, GitHub environment)",
+    "WhatsApp provider not chosen (reminders fall back to email)"
+  ]
+}

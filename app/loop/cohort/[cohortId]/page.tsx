@@ -24,7 +24,7 @@ export default async function CohortAdmin({params}: {params: Promise<{cohortId: 
         <ActionForm action="cohort.enrol" params={{cohortId}} fields={[{name: 'list', label: 'Member list', type: 'textarea', required: true, rows: 8, hint: 'Example: Asha Rao, asha@example.com, accountant, +91 98765 43210'}]} submit="Check and send invites" success="Invites sent to every valid row." done="refresh" />
       </section>
       <section className={s.card} aria-labelledby="roster-h"><h2 id="roster-h">Invite status</h2>
-        <div className={s.tableWrap}><table className={s.table}><thead><tr><th scope="col">Name</th><th scope="col">Role</th><th scope="col">Status</th><th scope="col">Start group</th><th scope="col"><span className={s.sr}>Actions</span></th></tr></thead>
+        <div className={s.tableWrap} tabIndex={0} role="region" aria-label="Scrollable table"><table className={s.table}><thead><tr><th scope="col">Name</th><th scope="col">Role</th><th scope="col">Status</th><th scope="col">Start group</th><th scope="col"><span className={s.sr}>Actions</span></th></tr></thead>
           <tbody>{members.map(m => <tr key={m.id}><td>{m.name}<br /><span className={s.muted}>{m.email}</span></td><td>{m.job_role}</td><td>{m.status}</td><td>{m.start_group ?? '–'}</td><td>{m.status === 'invited' && <ActionButton action="cohort.resend" params={{memberId: m.id}} label="Resend invite" secondary />}</td></tr>)}</tbody></table></div>
       </section>
       <section className={s.card}><h2>Start dates and reminder cadences</h2>
@@ -34,7 +34,7 @@ export default async function CohortAdmin({params}: {params: Promise<{cohortId: 
       <section className={s.card} aria-labelledby="dash-h"><h2 id="dash-h">Progress (aggregates only)</h2>
         {!dash.ok ? <p className={s.muted}>{dash.message}</p> : <>
           <p className={s.muted}>Numbers for your whole cohort. Groups smaller than the minimum size are hidden. No one’s work, answers or files are shown here.</p>
-          <div className={s.tableWrap}><table className={s.table}><thead><tr><th scope="col">Week</th><th scope="col">Practised (S-01)</th><th scope="col">With own work file or link (S-02)</th></tr></thead>
+          <div className={s.tableWrap} tabIndex={0} role="region" aria-label="Scrollable table"><table className={s.table}><thead><tr><th scope="col">Week</th><th scope="col">Practised (S-01)</th><th scope="col">With own work file or link (S-02)</th></tr></thead>
             <tbody>{(dash.value.weekly as {week: number; groups: {S01: ShareView; S02: ShareView}[]}[]).map(w => <tr key={w.week}><td>{w.week === 0 ? '0 (workshop)' : w.week}</td><td>{w.groups[0] ? fmtShare(w.groups[0].S01) : '–'}</td><td>{w.groups[0] ? fmtShare(w.groups[0].S02) : '–'}</td></tr>)}</tbody></table></div>
         </>}
       </section>

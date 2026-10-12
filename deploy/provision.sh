@@ -18,7 +18,7 @@ dpkg -i /tmp/litestream.deb
 # Users and folders
 id academy >/dev/null 2>&1 || useradd --system --home /srv/academy --shell /usr/sbin/nologin academy
 id deploy >/dev/null 2>&1 || useradd --create-home --shell /bin/bash deploy
-mkdir -p /srv/academy/releases /srv/academy/snapshots /srv/academy/bin /var/lib/academy /etc/academy
+mkdir -p /srv/academy/releases /srv/academy/snapshots /srv/academy/bin /var/lib/academy/files /etc/academy
 chown -R academy:academy /var/lib/academy && chmod 700 /var/lib/academy
 chown -R deploy:academy /srv/academy && chmod 750 /srv/academy
 chmod 700 /etc/academy
@@ -28,12 +28,15 @@ echo 'deploy ALL=(root) NOPASSWD: /usr/bin/systemctl restart academy' > /etc/sud
 install -m 755 "$(dirname "$0")/run.sh" /srv/academy/bin/run.sh
 install -m 755 "$(dirname "$0")/release.sh" /srv/academy/bin/release.sh
 install -m 755 "$(dirname "$0")/restore-drill.sh" /srv/academy/bin/restore-drill.sh
+install -m 755 "$(dirname "$0")/jobs.sh" /srv/academy/bin/jobs.sh
+install -m 644 "$(dirname "$0")/academy-jobs.service" /etc/systemd/system/academy-jobs.service
+install -m 644 "$(dirname "$0")/academy-jobs.timer" /etc/systemd/system/academy-jobs.timer
 install -m 644 "$(dirname "$0")/academy.service" /etc/systemd/system/academy.service
 install -m 644 "$(dirname "$0")/Caddyfile" /etc/caddy/Caddyfile
 install -m 644 "$(dirname "$0")/litestream.yml" /etc/litestream.yml
 mkdir -p /etc/systemd/system/litestream.service.d
 printf '[Service]\nEnvironmentFile=/etc/academy/litestream.env\n' > /etc/systemd/system/litestream.service.d/env.conf
-systemctl daemon-reload && systemctl enable academy litestream caddy
+systemctl daemon-reload && systemctl enable academy litestream caddy academy-jobs.timer
 # Firewall: SSH and web only
 ufw default deny incoming && ufw allow OpenSSH && ufw allow 80/tcp && ufw allow 443/tcp && ufw --force enable
 echo "Provisioned. Next: write /etc/academy/academy.env and /etc/academy/litestream.env (mode 600), point DNS, run the first release."

@@ -3,7 +3,7 @@
 import {timingSafeEqual} from 'node:crypto';
 import {env} from '@/lib/platform-env';
 import {runReminders} from '@/lib/loop/reminders';
-import {runRetention} from '@/lib/loop/retention';
+import {runRetention, reapplyDeletionLog} from '@/lib/loop/retention';
 import {configuredSenders} from '@/lib/loop/senders';
 import {LoopError} from '@/lib/loop/core';
 import {json, fail} from '@/lib/loop/http';
@@ -24,6 +24,8 @@ export async function POST(request: Request) {
     const out: Record<string, unknown> = {};
     if (which === 'all' || which === 'reminders') out.reminders = await runReminders(env.DB, configuredSenders(env.DB), process.env.ACADEMY_PUBLIC_ORIGIN ?? expectedOrigin(request));
     if (which === 'all' || which === 'retention') out.retention = await runRetention(env.DB);
+    // After a restore from backup (deploy/README.md): deleted records must not come back (ACA-US-6.5-AC2).
+    if (which === 'reapply-deletions') out.reapplied = await reapplyDeletionLog(env.DB);
     return json(out);
   } catch (e) { return fail(e); }
 }

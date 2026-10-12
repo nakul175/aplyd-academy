@@ -1,0 +1,25 @@
+# Threat model: practice loop R1 (ACA-US-12.2, AC1)
+
+Scope: the R1 flows on the Node production setup (ADR-0001): join, practice, upload, reminders and the admin view, plus the operator and expert screens they depend on. Method: for each flow, the assets, the threats (STRIDE), the controls in place in the code as built, and the remaining risk. Written by Claude from the code on branch `aca/practice-loop`; reviewed by: **not yet reviewed**. Remaining risks are accepted or rejected only by Nakul Jain (`risk.acceptance` decision; Claude never accepts a risk).
+
+| Flow | Assets | Threats | Controls in place | Remaining risk |
+| --- | --- | --- | --- | --- |
+| **Join** (`/loop/join/<token>`, `join.*`) | invite tokens, learner identity, consent record | Spoofing: someone else uses a forwarded link. Tampering: consent changed. Information disclosure: enumerating invites. A minor joins. | 256-bit single-use tokens stored as SHA-256, 14-day expiry, one live token per person; acceptance requires the signed-in email to equal the invited email; age question before sign-in, under-18 deletes the list entry and makes no account; consent rows are append-only with notice version and time; join refusals audited without identity. | Age is self-declared (no verification). Email-based sign-in inherits mailbox compromise risk. |
+| **Sign-in** (email code, ACA-US-1.4) | session tokens | Brute force, session theft, CSRF | 6-digit codes as HMAC, 10-minute expiry, 5 failures lock 15 minutes, 3 codes per 15 minutes; session token SHA-256 in DB, HttpOnly, SameSite=Lax, Secure on HTTPS; 30-day sessions end after 7 idle days; JSON-only POSTs with same-origin check. | No second factor. |
+| **Practice** (task, coach, attempt, submit) | learner work text, coach messages, AI provider key | Elevation: reading another learner's task. Information disclosure to the AI provider. Prompt injection. Denial of wallet (AI cost). | Every task call checks the task's member belongs to the signed-in user (refusals audited); only expert-published pack items reach learners or the AI as facts; learner files never sent to the AI unless the owner records that AIA-ACADEMY-01 allows it; AI off unless the current configuration passed the evaluation against current thresholds; owner kill switch; 30 coach questions per learner per hour; learner text never logged. | The AI provider receives learner questions (subject to AIA-ACADEMY-01 and the legal review, both pending). Prompt injection can make replies unhelpful; replies are shown as plain text only. |
+| **Upload** (`file.start`, `PUT /api/loop/files/<id>`) | learner work files | Path traversal, malware upload, oversize, cross-user read, confidential government files (R4) | Ids are server-generated and sanitised in paths; allow-list of types; 15 MB cap, 512 KB chunks, offset checks, SHA-256 verified at the end; files readable only by their owner, served as attachments with `nosniff`; officers must confirm no confidential material and marked files are blocked. | Files are not scanned for malware (they are only ever returned to their owner). Files are **not in the Litestream backup** (finding F-05). |
+| **Reminders** (jobs, inbound STOP) | phone numbers, emails | Messages without consent, content leakage, spoofed STOP, job endpoint abuse | Channel only with a recorded opt-in; students never messaged; first name and link only; STOP withdraws consent; jobs and inbound webhook need 32+ character shared secrets compared in constant time; outbox transport refused in production. | WhatsApp/SMS provider not chosen; the inbound webhook will need the provider's own signature check when chosen. |
+| **Admin view** (cohort page, dashboard) | aggregate metrics, roster | Disclosure of individual work, cross-organisation access, small-group re-identification | Admin sees names and join status only; metrics are aggregates with suppression below the owner's minimum group size; every cohort/org call checks membership and role (refusals audited, 403 without revealing existence). | Minimum group size not yet set by the owner (feature waits until it is). |
+| **Operator and expert** (ops, review) | owner decisions, packs, reports | Elevation to owner, unchecked content reaching learners, decision forgery | Owner/operator roles only via the server shell script (`scripts/loop-admin.mjs`), audited; only the owner records decisions, approves reports and A-01; only the named reviewer approves items; items are immutable, versions are snapshots. | A compromised owner account can change any decision; mitigated only by the audit log. |
+
+## Trust boundaries
+
+1. Browser ↔ Caddy (TLS) ↔ Next.js server on 127.0.0.1:3000.
+2. Server ↔ SQLite file and the file store on the same droplet (filesystem permissions, user `academy`, mode 700).
+3. Server ↔ AI provider (HTTPS, API key in `/etc/academy/academy.env`).
+4. Server ↔ Resend (HTTPS, API key) and, later, the WhatsApp/SMS provider.
+5. Litestream ↔ DigitalOcean Spaces BLR1 (bucket-scoped key).
+
+## Out of scope
+
+An external penetration test (not decided), the v0.17 screens outside `/loop` (reviewed in their own as-built docs), and the Cloudflare preview path.

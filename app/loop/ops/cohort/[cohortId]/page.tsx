@@ -39,7 +39,7 @@ export default async function CohortEvidence({params}: {params: Promise<{cohortI
         <ActionForm action="change.add" params={{cohortId}} fields={[{name: 'change', label: 'Change', required: true}, {name: 'evidence', label: 'Evidence behind it', required: true}, {name: 'expectedSignal', label: 'Signal expected to move', required: true, hint: 'For example S-01'}]} submit="Add change" done="refresh" />
       </section>
       <section className={s.card}><h2>Cohorts of this organisation compared</h2>
-        <div className={s.tableWrap}><table className={s.table}><thead><tr><th scope="col">Week</th>{(cmp.cohorts as {id: string; name: string; loop_version: string}[]).map(x => <th scope="col" key={x.id}>{x.name} ({x.loop_version})</th>)}</tr></thead>
+        <div className={s.tableWrap} tabIndex={0} role="region" aria-label="Scrollable table"><table className={s.table}><thead><tr><th scope="col">Week</th>{(cmp.cohorts as {id: string; name: string; loop_version: string}[]).map(x => <th scope="col" key={x.id}>{x.name} ({x.loop_version})</th>)}</tr></thead>
           <tbody>{(cmp.S01_S02 as {week: number; groups: {group: string; S01: ShareView}[]}[]).map(w => <tr key={w.week}><td>{w.week}</td>{(cmp.cohorts as {id: string}[]).map(x => <td key={x.id}>{fmtShare(w.groups.find(g => g.group === x.id)?.S01 ?? {value: null, numerator: 0, denominator: 0})}</td>)}</tr>)}</tbody></table></div>
       </section>
     </Shell>

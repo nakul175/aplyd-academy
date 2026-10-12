@@ -1,0 +1,9 @@
+[Unit]
+Description=Run Aplyd Academy practice-loop jobs every morning (09:00 IST)
+
+[Timer]
+OnCalendar=*-*-* 03:30:00 UTC
+Persistent=true
+
+[Install]
+WantedBy=timers.target

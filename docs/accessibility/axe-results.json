@@ -1,0 +1,116 @@
+{
+  "tool": "axe-core 4.11.4",
+  "tags": [
+    "wcag2a",
+    "wcag2aa",
+    "wcag21a",
+    "wcag21aa",
+    "wcag22aa"
+  ],
+  "viewport": "390x844",
+  "at": "2026-10-12T18:53:49.811Z",
+  "screens": [
+    {
+      "screen": "operations",
+      "path": "/loop/ops",
+      "violations": [],
+      "passes": 29
+    },
+    {
+      "screen": "organisation",
+      "path": "/loop/org/:id",
+      "violations": [],
+      "passes": 26
+    },
+    {
+      "screen": "cohort admin",
+      "path": "/loop/cohort/:id",
+      "violations": [],
+      "passes": 26
+    },
+    {
+      "screen": "pack review",
+      "path": "/loop/review/:id",
+      "violations": [],
+      "passes": 24
+    },
+    {
+      "screen": "join: notice and age",
+      "path": "/loop/join/:id",
+      "violations": [],
+      "passes": 21
+    },
+    {
+      "screen": "join: consent choices",
+      "path": "/loop/join/:id",
+      "violations": [],
+      "passes": 23
+    },
+    {
+      "screen": "learner home",
+      "path": "/loop",
+      "violations": [],
+      "passes": 19
+    },
+    {
+      "screen": "placement",
+      "path": "/loop/placement/:id",
+      "violations": [],
+      "passes": 23
+    },
+    {
+      "screen": "facilitator",
+      "path": "/loop/facilitate/:id",
+      "violations": [],
+      "passes": 25
+    },
+    {
+      "screen": "practice task",
+      "path": "/loop/task/:id",
+      "violations": [],
+      "passes": 26
+    },
+    {
+      "screen": "history",
+      "path": "/loop/history/:id",
+      "violations": [],
+      "passes": 23
+    },
+    {
+      "screen": "help",
+      "path": "/loop/help",
+      "violations": [],
+      "passes": 25
+    },
+    {
+      "screen": "settings",
+      "path": "/loop/settings",
+      "violations": [],
+      "passes": 25
+    },
+    {
+      "screen": "sessions",
+      "path": "/loop/sessions",
+      "violations": [],
+      "passes": 21
+    },
+    {
+      "screen": "thread",
+      "path": "/loop/thread/:id",
+      "violations": [],
+      "passes": 25
+    },
+    {
+      "screen": "community",
+      "path": "/loop/community/:id",
+      "violations": [],
+      "passes": 26
+    },
+    {
+      "screen": "confirmation (public)",
+      "path": "/loop/confirm/:id",
+      "violations": [],
+      "passes": 20
+    }
+  ]
+}
