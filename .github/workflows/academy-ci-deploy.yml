@@ -1,0 +1,53 @@
+# ACA-US-1.5: every push runs the tests and builds a release; main deploys to production only after
+# the "production" environment approval (set required reviewers in GitHub > Settings > Environments).
+name: Academy CI and deploy
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+concurrency:
+  group: academy-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  test-and-build:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: node node_modules/typescript/bin/tsc --noEmit
+      - run: node --no-warnings --test tests/node-runtime/email-otp.test.mjs tests/node-runtime/resend-mail.test.mjs tests/audit-detail-qa/migration.test.mjs
+      - run: npm run build
+      - name: API suites against the built server (synthetic users, throwaway database)
+        run: QA_SKIP_BUILD=1 QA_RUN_DIR=qa-run scripts/node-local-qa.sh tests/node-runtime/refusal-audit.mjs tests/api-integration.mjs tests/teams-api.mjs tests/ecosystem-api.mjs && ! grep -q ',[1-9][0-9]*,' qa-run/results.csv
+      - run: tests/node-runtime/release-rollback.sh
+      - run: scripts/package-release.sh academy-${{ github.sha }}.tar.gz
+      - uses: actions/upload-artifact@v4
+        with:
+          name: release
+          path: academy-${{ github.sha }}.tar.gz
+          retention-days: 30
+  deploy:
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    needs: test-and-build
+    runs-on: ubuntu-24.04
+    environment: production
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: release
+      - name: Copy and install the release (rolls back by itself if unhealthy)
+        env:
+          SSH_KEY: ${{ secrets.ACADEMY_DEPLOY_SSH_KEY }}
+          HOST: ${{ secrets.ACADEMY_DEPLOY_HOST }}
+          KNOWN_HOSTS: ${{ secrets.ACADEMY_DEPLOY_KNOWN_HOSTS }}
+        run: |
+          install -m 700 -d ~/.ssh && echo "$SSH_KEY" > ~/.ssh/id && chmod 600 ~/.ssh/id && echo "$KNOWN_HOSTS" > ~/.ssh/known_hosts
+          id="${GITHUB_SHA::12}"
+          scp -i ~/.ssh/id "academy-$GITHUB_SHA.tar.gz" "deploy@$HOST:/tmp/academy-$id.tar.gz"
+          ssh -i ~/.ssh/id "deploy@$HOST" "/srv/academy/bin/release.sh /tmp/academy-$id.tar.gz $id && rm -f /tmp/academy-$id.tar.gz"

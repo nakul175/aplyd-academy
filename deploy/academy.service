@@ -1,0 +1,23 @@
+# systemd unit for the Academy Node server (ADR-0001). Installed by provision.sh.
+[Unit]
+Description=Aplyd Academy
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User=academy
+Group=academy
+EnvironmentFile=/etc/academy/academy.env
+Environment=PORT=3000 HOSTNAME=127.0.0.1 NODE_ENV=production APP_ROOT=/srv/academy
+ExecStart=/srv/academy/bin/run.sh
+Restart=on-failure
+RestartSec=3
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+ReadWritePaths=/var/lib/academy /srv/academy
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target
