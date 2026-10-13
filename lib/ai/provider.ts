@@ -95,6 +95,58 @@ const fake: Call = async (req) => {
         body: 'Always re-add any total the AI gives you.',
         sources,
       },
+      {
+        kind: 'check',
+        jobRole: '*',
+        level: '*',
+        title: '[fake] Unaided check: totals',
+        sources,
+        body: {
+          questions: [
+            {
+              id: 'q1',
+              text: '18% GST on 1,000. What is the total?',
+              options: [
+                { id: 'a', text: '1,018' },
+                { id: 'b', text: '1,180', correct: true },
+              ],
+            },
+            {
+              id: 'q2',
+              text: 'Before sending an AI-drafted reply you…',
+              options: [
+                { id: 'a', text: 'Send it as it is' },
+                { id: 'b', text: 'Check names, numbers and promises', correct: true },
+              ],
+            },
+          ],
+        },
+      },
+      {
+        kind: 'planted_errors',
+        jobRole: '*',
+        level: '*',
+        title: '[fake] Catch the AI: invoices',
+        sources,
+        body: {
+          segments: [
+            { id: 's1', text: 'An invoice lists quantity, rate and tax.' },
+            {
+              id: 's2',
+              text: 'GST is always 0% on textiles.',
+              planted: true,
+              explanation: 'Rates differ by product.',
+            },
+            { id: 's3', text: 'Check the total against your own sum.' },
+            {
+              id: 's4',
+              text: 'A higher GSM means a thinner fabric.',
+              planted: true,
+              explanation: 'Higher GSM is heavier.',
+            },
+          ],
+        },
+      },
     ]);
   }
   return `[fake:${req.purpose}] ${req.messages.at(-1)?.content.slice(0, 80) ?? ''}`;

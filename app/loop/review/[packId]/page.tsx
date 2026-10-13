@@ -7,16 +7,31 @@ import { ActionForm, ActionButton } from '../../client';
 import s from '../../loop.module.css';
 export const dynamic = 'force-dynamic';
 
-const show = (body: string, kind: string) =>
-  kind === 'check' || kind === 'planted_errors'
-    ? (() => {
-        try {
-          return JSON.stringify(JSON.parse(body), null, 2);
-        } catch {
-          return body;
-        }
-      })()
-    : body;
+// Checks and catch-the-AI items are stored as JSON; reviewers read them as a quiz or a marked answer.
+type Q = { text: string; options: { text: string; correct?: boolean }[] };
+type Seg = { text: string; planted?: boolean; explanation?: string };
+const show = (body: string, kind: string) => {
+  if (kind !== 'check' && kind !== 'planted_errors') return body;
+  try {
+    const b = JSON.parse(body) as { questions?: Q[]; intro?: string; segments?: Seg[] };
+    if (kind === 'check')
+      return (b.questions ?? [])
+        .map(
+          (q, n) =>
+            `${n + 1}. ${q.text}\n` +
+            q.options.map((o) => `   ${o.correct ? '✓' : '·'} ${o.text}`).join('\n'),
+        )
+        .join('\n\n');
+    return [
+      b.intro ?? 'AI answer shown to learners (mistakes are planted):',
+      ...(b.segments ?? []).map((g) =>
+        g.planted ? `✗ ${g.text}  — planted: ${g.explanation ?? ''}` : `  ${g.text}`,
+      ),
+    ].join('\n');
+  } catch {
+    return body;
+  }
+};
 
 export default async function Review({ params }: { params: Promise<{ packId: string }> }) {
   const { packId } = await params;

@@ -226,7 +226,14 @@ export async function runReminders(db: Db, senders: Senders, origin: string, now
           )),
       );
     }
-    if (!access.active || !(await reminderDays(db, m)).includes(today)) continue;
+    if (!access.active) {
+      count('access_ended');
+      continue;
+    }
+    if (!(await reminderDays(db, m)).includes(today)) {
+      count('not_reminder_day');
+      continue;
+    }
     const t = await ensureWeeklyTask(db, { userId: m.user_id! }, m.id, now).catch(() => null);
     if (!t || t.state !== 'ready') {
       count('no_task');

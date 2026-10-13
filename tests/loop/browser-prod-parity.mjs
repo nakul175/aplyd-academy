@@ -70,7 +70,7 @@ async function step(name, page, fn) {
     await fn();
     steps.push({ step: name, ok: true });
   } catch (e) {
-    const f = page ? await snap(page, 'FAIL-' + name) : null;
+    const f = page ? await snap(page, 'FAIL-' + name) : null; // page may be null for API-only steps
     steps.push({ step: name, ok: false, detail: String(e.message).split('\n')[0], shot: f });
     problems.push({ where: name, kind: 'step failed', detail: String(e.message).split('\n')[0] });
   }
@@ -174,10 +174,14 @@ try {
       .getByLabel('What should they practise?')
       .fill('Checking supplier invoices and writing buyer emails');
     await owner.getByRole('button', { name: 'Draft the tasks with AI' }).click();
+    // The page refreshes into step 2's review state, so wait for that (or an error), not the transient message.
     await owner
-      .getByText(/Drafted\. Review them now\.|could not|not in the expected format/i)
+      .getByRole('link', { name: /Review \d+ drafted items/ })
+      .or(owner.getByRole('alert').filter({ hasText: /\S/ }))
       .first()
       .waitFor({ timeout: 20000 });
+    const refusal = owner.getByRole('alert').filter({ hasText: /\S/ });
+    if (await refusal.count()) throw new Error('draft refused: ' + (await refusal.first().innerText()));
     await owner.reload();
     await snap(owner, 'setup-after-draft');
     await owner.getByRole('link', { name: /Review \d+ drafted items/ }).click();
@@ -215,6 +219,7 @@ try {
     await asha.getByRole('button', { name: 'Sign in' }).click();
     await asha.getByRole('button', { name: 'Yes, I am 18 or older' }).click();
     await asha.getByLabel(/I agree to the use of my practice data/).check();
+    await asha.getByLabel('Email').check();
     await asha.getByRole('button', { name: 'Join' }).click();
     await asha.waitForURL(base + '/loop', { timeout: 10000 });
   });
@@ -257,6 +262,124 @@ try {
     await asha.getByText('You submitted this task.').waitFor({ timeout: 10000 });
   });
 
+  // ---- after the workshop: unaided check, catch-the-AI, week 1, reminders, report, export, deletion ----
+  await step('facilitator gives an unaided check', owner, async () => {
+    await owner.goto(base + '/loop/facilitate/' + cohortId);
+    await owner.getByRole('button', { name: 'Give this check now' }).first().click();
+    await owner.waitForTimeout(1500);
+  });
+  await step('learner does the unaided check (no AI)', asha, async () => {
+    await asha.goto(base + '/loop');
+    await asha
+      .getByRole('link', { name: /Unaided check:/ })
+      .first()
+      .click();
+    await snap(asha, 'learner-check');
+    for (const q of await asha.locator('fieldset').all())
+      await q.locator('input[type=radio]').last().check({ force: true });
+    await asha.getByRole('button', { name: 'Finish the check' }).click();
+    await asha.getByText(/Your result: \d+ of \d+/).waitFor({ timeout: 10000 });
+  });
+  await step('learner opens catch-the-AI', asha, async () => {
+    await asha.goto(base + '/loop');
+    await asha.getByRole('button', { name: /catch-the-AI/ }).click();
+    await asha.waitForTimeout(2000);
+    await snap(asha, 'learner-catch');
+    const t = await asha.locator('body').innerText();
+    if (/error|not started|went wrong/i.test(t) && !/catch/i.test(new URL(asha.url()).pathname))
+      throw new Error('catch-the-AI did not open: ' + t.split('\n').find((l) => /error|not/i.test(l)));
+  });
+  await step('reminder job runs and emails opted-in learners', null, async () => {
+    // Time passes: the workshop moves 7 days into the past (the server reads dates from the database), so week 1
+    // starts today, which is the learner's reminder day, and her week-1 task is not done yet.
+    const past = new Date(Date.now() - 7 * 86400000).toISOString().slice(0, 10);
+    db.prepare('UPDATE loop_cohorts SET workshop_date=? WHERE id=?').run(past, cohortId);
+    // The seeded default sends on Mondays only. So the job has something to send whatever day the test runs, this
+    // test cohort gets its own cadence for today (test database only), as an owner would set when comparing cadences.
+    const today = new Date().getUTCDay(),
+      nowIso = new Date().toISOString();
+    db.prepare(
+      'INSERT INTO loop_decisions(key,scope,value,decided_by,decided_at,source) VALUES(?,?,?,?,?,?)',
+    ).run(
+      'reminders.cadences',
+      cohortId,
+      JSON.stringify({
+        cadences: [
+          { id: 'today', days: [today] },
+          { id: 'today-too', days: [today] },
+        ],
+      }),
+      'test',
+      nowIso,
+      'browser-prod-parity',
+    );
+    for (const m of db
+      .prepare(`SELECT id FROM loop_members WHERE cohort_id=? AND status='joined' AND role='learner'`)
+      .all(cohortId))
+      db.prepare(
+        'INSERT OR IGNORE INTO loop_cadence_assignments(member_id,cohort_id,cadence,assigned_at,decision_ref) VALUES(?,?,?,?,?)',
+      ).run(m.id, cohortId, 'today', nowIso, 'test');
+    const before = db.prepare('SELECT count(*) n FROM academy_mail_outbox').get().n;
+    const r = await fetch(base + '/api/loop/jobs?job=reminders', {
+      method: 'POST',
+      headers: { authorization: 'Bearer ' + process.env.ACADEMY_JOBS_SECRET },
+    });
+    const body = await r.text();
+    if (!r.ok) throw new Error(`jobs ${r.status}: ${body.slice(0, 200)}`);
+    steps.push({ step: 'reminder job result', ok: true, detail: body.slice(0, 300) });
+    const after = db.prepare('SELECT count(*) n FROM academy_mail_outbox').get().n;
+    if (after - before < 1) throw new Error('no reminder email queued: ' + body.slice(0, 200));
+    steps.push({ step: 'emails queued by the job', ok: true, detail: String(after - before) });
+  });
+  await step('a week later: the learner gets the week-1 task', asha, async () => {
+    await asha.goto(base + '/loop');
+    await snap(asha, 'learner-home-week1');
+    await asha
+      .getByRole('link', { name: /Your task for this week|week 1/i })
+      .first()
+      .click();
+    await asha
+      .getByLabel(/What changed in your work/)
+      .fill('Used AI to draft a buyer email and checked every number');
+    await asha.getByRole('button', { name: 'Submit my result' }).click();
+    await asha.getByText('You submitted this task.').waitFor({ timeout: 10000 });
+  });
+  await step('owner prepares the week-6 report', owner, async () => {
+    await owner.goto(base + '/loop/ops');
+    await owner.getByRole('button', { name: 'Prepare week-6 A-01 report' }).click();
+    await owner.waitForTimeout(2500);
+    await snap(owner, 'week6-report');
+  });
+  await step('learner downloads their data', asha, async () => {
+    const r = await asha.request.get(base + '/api/loop/export');
+    if (r.status() !== 200) throw new Error('export ' + r.status());
+    const j = await r.json();
+    if (!JSON.stringify(j).includes('buyer email')) throw new Error('export misses the week-1 submission');
+  });
+  const ravi = await newPage('learner2');
+  await step('second learner joins, then deletes all their data', ravi, async () => {
+    await ravi.goto(base + inviteLink(email('ravi')));
+    await ravi.getByRole('button', { name: 'Yes, I am 18 or older' }).click();
+    await ravi.getByRole('link', { name: 'Sign in to join' }).click();
+    await ravi.getByLabel('Email address').fill(email('ravi'));
+    await ravi.getByRole('button', { name: 'Email me a code' }).click();
+    await ravi.getByLabel('6-digit code').waitFor({ timeout: 10000 });
+    await ravi.getByLabel('6-digit code').fill(lastMail(email('ravi')).match(/\b(\d{6})\b/)[1]);
+    await ravi.getByRole('button', { name: 'Sign in' }).click();
+    await ravi.getByRole('button', { name: 'Yes, I am 18 or older' }).click();
+    await ravi.getByLabel(/I agree to the use of my practice data/).check();
+    await ravi.getByRole('button', { name: 'Join' }).click();
+    await ravi.waitForURL(base + '/loop', { timeout: 10000 });
+    await ravi.goto(base + '/loop/settings');
+    await ravi.getByRole('link', { name: 'Delete my data' }).click();
+    await ravi.getByLabel(/Type DELETE MY DATA/).fill('DELETE MY DATA');
+    await ravi.getByRole('button', { name: 'Delete my data permanently' }).click();
+    await ravi.waitForTimeout(3000);
+    await snap(ravi, 'after-delete');
+    const left = db.prepare('SELECT count(*) n FROM academy_users WHERE email=?').get(email('ravi')).n;
+    if (left) throw new Error('account still there after deletion');
+  });
+
   // ---- crawl everything each role can reach ----
   await crawl(owner, 'owner', [
     '/',
@@ -268,6 +391,8 @@ try {
     '/classic',
   ]);
   await crawl(asha, 'learner', ['/loop', '/loop/settings', '/loop/help', '/loop/sessions']);
+  await asha.setViewportSize({ width: 390, height: 844 });
+  await crawl(asha, 'learner-phone', ['/loop', '/loop/settings'], 25);
   const anon = await newPage('anonymous');
   await crawl(anon, 'anonymous', ['/', '/loop', '/signin', '/classic'], 10);
 } catch (e) {

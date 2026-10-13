@@ -210,7 +210,7 @@ export async function draftPackWithAi(
     maxTokens: 8000,
     temperature: 0.2,
     system:
-      'You draft context-pack items for adult learners practising AI on their own work. Use only the given sources. Return JSON only: an array of objects with kind (task|rule|example|pitfall), jobRole, level ("*" for all), title, body (plain English, short sentences), sources (array of {title,url} chosen from the given sources). Never invent facts, figures or rules not in the sources; when unsure, leave the item out.',
+      'You draft context-pack items for adult learners practising AI on their own work. Use only the given sources. Return JSON only: an array of objects with kind, jobRole, level ("*" for all), title, body, sources (array of {title,url} chosen from the given sources). Kinds: "task" (one practice task on the learner\'s own work), "rule" (one rule to follow when using AI), "example", "pitfall": body in plain English, short sentences. Also include two "check" items, an unaided quiz without AI: body is an object {"questions":[{"id":"q1","text":"...","options":[{"id":"a","text":"..."},{"id":"b","text":"...","correct":true}]}]} with 3 questions and exactly one correct option each. And one "planted_errors" item, an AI answer with mistakes to catch: body is an object {"intro":"...","segments":[{"id":"s1","text":"..."},{"id":"s2","text":"...","planted":true,"explanation":"..."}]} with 5 to 7 segments, 2 or 3 of them planted. Never invent facts, figures or rules not in the sources; when unsure, leave the item out.',
     messages: [
       {
         role: 'user',
@@ -231,6 +231,10 @@ export async function draftPackWithAi(
     throw new LoopError('The AI draft was not in the expected format; nothing was saved.', 502);
   }
   const allowed = new Set(sources.map((s) => s.title));
+  // Check and planted-errors items come back with an object body; they are stored as JSON text.
+  if (Array.isArray(items))
+    for (const i of items as { body?: unknown }[])
+      if (i && typeof i.body === 'object' && i.body !== null) i.body = JSON.stringify(i.body);
   const kept = (Array.isArray(items) ? items : []).filter(
     (i) =>
       Array.isArray((i as { sources?: unknown }).sources) &&

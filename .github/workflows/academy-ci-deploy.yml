@@ -43,7 +43,7 @@ jobs:
       - name: Production-parity deep browser test (seeded decisions, guided set-up, crawl of every page per role)
         run: |
           export ACADEMY_PLAYWRIGHT_MODULE="$RUNNER_TEMP/pw/node_modules/playwright/index.mjs" ACADEMY_CHROME_PATH="$(cd "$RUNNER_TEMP/pw" && node -e "console.log(require('playwright').chromium.executablePath())")"
-          QA_OUT="$PWD/qa-parity" QA_TRUST_HEADERS=0 QA_SKIP_BUILD=1 QA_RUN_DIR=qa-pp ACADEMY_MAIL_TRANSPORT=outbox ACADEMY_AUTH_SECRET=ci-only-synthetic-secret-0123456789abcdef ACADEMY_AI_PROVIDER=fake ACADEMY_AI_MODEL=synthetic-model ACADEMY_FILES_PATH="$(mktemp -d)" scripts/node-local-qa.sh tests/loop/browser-prod-parity.mjs && ! grep -q ',[1-9][0-9]*,' qa-pp/results.csv
+          ACADEMY_JOBS_SECRET=ci-only-jobs-secret-0123456789abcdef0123456789 QA_OUT="$PWD/qa-parity" QA_TRUST_HEADERS=0 QA_SKIP_BUILD=1 QA_RUN_DIR=qa-pp ACADEMY_MAIL_TRANSPORT=outbox ACADEMY_AUTH_SECRET=ci-only-synthetic-secret-0123456789abcdef ACADEMY_AI_PROVIDER=fake ACADEMY_AI_MODEL=synthetic-model ACADEMY_FILES_PATH="$(mktemp -d)" scripts/node-local-qa.sh tests/loop/browser-prod-parity.mjs && ! grep -q ',[1-9][0-9]*,' qa-pp/results.csv
       - uses: actions/upload-artifact@v4
         if: always()
         with:
