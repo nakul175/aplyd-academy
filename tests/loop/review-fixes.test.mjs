@@ -193,7 +193,7 @@ test('R6 + R19: a harm-review stop and ended access block every practice action,
 test('R7: a later start group gets the same full year of access', async () => {
   const w = await textileWorld();
   await publishedPack(w);
-  const people = await joinLearners(w, 4);
+  const people = await joinLearners(w, 16); // groups are assigned by a hash of random ids: 16 people make an empty group B practically impossible;
   await decide(
     w,
     'staggered.agreement',
