@@ -8,8 +8,8 @@
   "scripts": {
     "install:ci": "bash scripts/install-pnpm.sh",
     "dev": "next dev",
-    "build": "next build && node scripts/copy-standalone-assets.mjs",
-    "build:worker": "node scripts/run-framework.mjs build",
+    "build": "node scripts/run-framework.mjs build",
+    "build:node": "next build && node scripts/copy-standalone-assets.mjs",
     "docs:index": "node scripts/doc-index.mjs",
     "docs:index:check": "node scripts/doc-index.mjs --check",
     "start": "node .next/standalone/server.js",

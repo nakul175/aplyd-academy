@@ -29,7 +29,7 @@ A durable learning application for farmers, MSME owners and public servants: pin
 pnpm run install:ci      # from the lockfile (Node >= 22.13, pnpm 11.25.0)
 pnpm run lint:baseline   # ESLint error count must not rise above .lint-baseline.json
 pnpm run typecheck       # tsc --noEmit, must be 0 errors
-pnpm run build           # Node standalone build on this branch (pnpm run build:worker for the Worker kit; see docs/operations/cutover-plan.md)
+pnpm run build           # Worker build (what the shared droplet runs); pnpm run build:node = Node standalone build (deploy/node/, docs/operations/cutover-plan.md)
 pnpm test                # esbuild builders, tests/**/*.test.mjs under node:test, 80-case routing guard
 pnpm run format:check    # Prettier (pnpm run format to fix)
 ```

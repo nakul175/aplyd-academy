@@ -8,15 +8,15 @@ Review of the production setup as code on branch `aca/practice-loop`, 13 October
 | F-02 | `sharp` < 0.35.5 (librsvg CVE) reachable through image optimisation. | high | Claude | **Fixed**: override to 0.35.5 and `images.unoptimized: true` (no `next/image` is used). |
 | F-03 | No limit on AI coach questions: cost abuse and noisy-neighbour risk. | medium | Claude | **Fixed**: 30 questions per learner per hour (429 after). |
 | F-04 | Invite and confirmation links use the request host unless `ACADEMY_PUBLIC_ORIGIN` is set: host-header injection could produce links to another host. | medium | Nakul Jain (setup) | **Mitigated**: `ACADEMY_PUBLIC_ORIGIN` is set in `academy.env.example`; required in production. |
-| F-05 | Learner work files under `/var/lib/academy/files` are not in the Litestream backup (it covers the database only). A disk loss loses files. | medium | Nakul Jain (decision) | **Open**: choose between a nightly encrypted Spaces sync of the file store, or accepting that files are not backed up (minimal data). |
+| F-05 | Learner work files under `/var/lib/academy/files` are not in the Litestream backup (it covers the database only). A disk loss loses files. | medium | Nakul Jain (decision) | **Decided 13 Oct 2026 (delegated)**: weekly DigitalOcean droplet backups (whole disk, files included) plus Litestream for the database. Up to a week of files can be lost; accepted for the pilot. `docs/decisions/owner-decisions-2026-10-13.md`. |
 | F-06 | Development-only dependencies (vite, wrangler/miniflare, eslint plugins, react-server-dom-webpack dev copy) have high/moderate advisories. | low | Claude | **Open, low impact**: not in the standalone production build; update when the Cloudflare preview path is retired. |
-| F-07 | Age at joining is self-declared. | medium | Nakul Jain (legal review) | **Open**: depends on the legal review (DPDP verifiable consent applies to children; R1 is adults only). |
-| F-08 | AI provider receives learner questions; data location and terms are not yet reviewed. | high | Nakul Jain (legal review) | **Open, blocks AI for real learners**: AI stays `off` until AIA-ACADEMY-01 is approved and the evaluation passes. |
+| F-07 | Age at joining is self-declared. | medium | Nakul Jain (legal review) | **Accepted for the textile pilot, 13 Oct 2026 (delegated)**: an adults-at-work cohort enrolled from the association's staff list; the notice states the 18+ rule and that no data about minors is knowingly held. Verifiable consent is required only for the student pilot (R3), which stays gated. |
+| F-08 | AI provider receives learner questions; data location and terms are not yet reviewed. | high | Nakul Jain (legal review) | **Closed for the textile pilot, 13 Oct 2026 (delegated), on conditions**: `docs/privacy/ai-provider-review.md` (Anthropic commercial terms: no training, DPA, 30-day deletion; DPDP s.16 / Rule 15: no restricted countries notified). Files never sent; the coach serves learners only after the evaluation passes. Not a lawyer's review; the owner can reverse with `ai.enabled = false`. |
 | F-09 | WhatsApp/SMS inbound webhook uses a shared secret, not a provider signature. | low | Claude | **Open until the provider is chosen**; add the provider's signature check in its adapter. |
 | F-10 | No external penetration test. | medium | Nakul Jain | **Open (not decided)**. |
 | F-11 | Organisation isolation | – | Claude | **Checked**: cross-organisation reads and writes refused and logged in tests (`e2-enrolment`, `e8-e14`), files refused for admin and facilitator in the browser journey. |
 
-Remaining-risk decisions by Nakul Jain: none recorded yet.
+Remaining-risk decisions: F-05, F-07 and F-08 were decided on 13 October 2026 by Claude under authority the owner delegated in chat that day (`docs/decisions/owner-decisions-2026-10-13.md`); they are not `risk.acceptance` records by the owner himself, and he can reverse each one.
 
 ## Independent code review, 13 October 2026
 

@@ -11,6 +11,9 @@ APP_ROOT="${APP_ROOT:-/srv/academy}"
 DB="${ACADEMY_DATABASE_PATH:-/var/lib/academy/academy.sqlite}"
 HEALTH_URL="${HEALTH_URL:-http://127.0.0.1:3000/api/health}"
 RESTART="${RESTART_CMD:-sudo systemctl restart academy}"
+# Scripts that touch the database run as the academy user through the root-only helper academy-admin.sh (the
+# deploy user cannot open /var/lib/academy). Local tests point ADMIN_CMD at a plain wrapper instead.
+ADMIN="${ADMIN_CMD:-sudo /srv/academy/bin/academy-admin.sh}"
 KEEP="${KEEP_RELEASES:-5}"
 [[ "$ID" =~ ^[A-Za-z0-9._-]{1,64}$ ]] || { echo "invalid release id"; exit 2; }
 log() { echo "[release $ID] $*"; }
@@ -40,7 +43,9 @@ rollback() {
   exit 3
 }
 
-ACADEMY_DATABASE_PATH="$DB" node --no-warnings "$new/scripts/migrate.mjs" || rollback "migration failed"
+$ADMIN "$ID" migrate.mjs || rollback "migration failed"
+# One-time records (owner decisions, notice text) ship with the release and insert only what is missing.
+if [ -f "$new/scripts/seed-decisions.mjs" ]; then $ADMIN "$ID" seed-decisions.mjs || rollback "decision seed failed"; fi
 ln -sfn "$new" "$APP_ROOT/current.next" && mv -T "$APP_ROOT/current.next" "$APP_ROOT/current"
 $RESTART || rollback "restart failed"
 

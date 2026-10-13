@@ -72,11 +72,9 @@ This pack records no decision. Nakul Jain decides **go**, **go without teacher m
 
 ## Open risks
 
-- F-05 learner files not backed up
-- F-07 self-declared age
-- F-08 AI provider data terms (blocks AI for real learners)
-- F-10 no external penetration test
-- No production environment exists yet (DigitalOcean, Resend, GitHub environment)
-- WhatsApp provider not chosen (reminders fall back to email)
+- F-05, F-07, F-08: decided on 13 October 2026 under authority the owner delegated to Claude (weekly droplet backups; adults-only pilot; Anthropic under its commercial terms, files never sent, coach behind the evaluation gate). Details and the reversal path: `docs/decisions/owner-decisions-2026-10-13.md`, `docs/privacy/ai-provider-review.md`.
+- F-10 no external penetration test (deferred until a second paying organisation or schools)
+- Production environment in progress: `docs/operations/cutover-plan.md` (the owner's account steps are listed there)
+- WhatsApp provider not chosen (reminders go by email for the first cohort)
 
 Security findings: `docs/security/findings.md`. Accessibility: `docs/accessibility/statement.md`.

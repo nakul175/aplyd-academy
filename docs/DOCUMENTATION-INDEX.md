@@ -650,7 +650,7 @@ Every Markdown file at the repository root and every tracked file under `docs/`,
 
 | File | Title |
 |---|---|
-| [cutover-plan.md](operations/cutover-plan.md) | Cutover plan: Worker build to Node runtime |
+| [cutover-plan.md](operations/cutover-plan.md) | Cutover plan: Worker demo to the Node runtime |
 | [incident-and-postmortem.md](operations/incident-and-postmortem.md) | Incidents and postmortems |
 | [release-process.md](operations/release-process.md) | Release process |
 | [runbook-practice-loop.md](operations/runbook-practice-loop.md) | Runbook: practice loop operations |

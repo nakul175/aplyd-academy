@@ -1,10 +1,12 @@
 # Production runbook: Aplyd Academy on its own DigitalOcean droplet (ACA-US-1.3, ACA-US-1.5)
 
-> **Two deploy kits exist.** `deploy/` is the kit in use today: the Worker build on the shared droplet, which pulls `main` every 3 minutes. This kit, `deploy/node/`, is the Node + SQLite setup approved in ADR-0001 for a dedicated BLR1 droplet. Merging the Node runtime into `main` while the shared droplet still pulls `main` would break the live site; follow `docs/operations/cutover-plan.md` first.
+> **Two deploy kits exist.** `deploy/` is the kit in use today: the Worker build (`pnpm run build`) on the shared droplet, which pulls `main` every 3 minutes. This kit, `deploy/node/`, is the Node + SQLite setup approved in ADR-0001 for a dedicated BLR1 droplet, built with `pnpm run build:node`. Because `pnpm run build` stays the Worker build, merging to `main` does not break the shared droplet. Order of the cutover: `docs/operations/cutover-plan.md`.
 
 Decisions: ADR-0001 Option A (Node + SQLite); owner decision of 12 October 2026: a dedicated droplet in **Bangalore (BLR1)** serving **academy.aplyd.org**, so learner data stays in India.
 
-Nothing here has been run against a real server yet: Claude agents have no DigitalOcean access and GitHub returns HTTP 403.
+**Fastest path (13 October 2026):** `node deploy/node/make-cloud-init.mjs` prints a cloud-init user-data that does everything `provision.sh` does, with every file of this kit embedded, so a fresh droplet provisions itself at first boot with no repository access. The deploy user receives the SSH key chosen in the DigitalOcean form. Provider keys never touch this kit: the GitHub deploy job pipes them from the `production` environment secrets into `set-secret.sh` on the host. Database scripts (migrations, the one-time decision seed, `loop-admin.mjs`) run as the `academy` user through `academy-admin.sh`, which, with `set-secret.sh` and `systemctl restart academy`, is all the deploy user may do as root.
+
+Nothing here has been run against a real server yet.
 
 ## What runs where
 

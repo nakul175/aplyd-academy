@@ -79,8 +79,14 @@ type Learner = {
   loop_version: string;
   pack_version: number | null;
 };
-/** Enrolled learners: everyone who joined a cohort, active or not (the S-01 denominator). */
-async function learners(db: Db, cohortIds: string[]) {
+/**
+ * Who counts as enrolled. "joined": everyone who joined a cohort, active or not (the S-01 to S-04 denominator).
+ * "listed": everyone the association listed, whether or not they ever joined (the A-01 denominator, owner decision
+ * of 13 October 2026 taken under delegation: people the loop never reached count against it; removed people do not).
+ */
+export type Enrolled = 'joined' | 'listed';
+async function learners(db: Db, cohortIds: string[], enrolled: Enrolled = 'joined') {
+  const status = enrolled === 'listed' ? `m.status IN ('invited','joined')` : `m.status='joined'`;
   return (
     await db
       .prepare(
@@ -89,7 +95,7 @@ async function learners(db: Db, cohortIds: string[]) {
       (SELECT cadence FROM loop_cadence_assignments a WHERE a.member_id=m.id) AS cadence,
       (SELECT max(pack_version) FROM loop_tasks t WHERE t.member_id=m.id) AS pack_version
     FROM loop_members m JOIN loop_cohorts c ON c.id=m.cohort_id
-    WHERE m.cohort_id IN (SELECT value FROM json_each(?)) AND m.status='joined' AND m.role IN ${LEARNER_ROLE_SQL}`,
+    WHERE m.cohort_id IN (SELECT value FROM json_each(?)) AND ${status} AND m.role IN ${LEARNER_ROLE_SQL}`,
       )
       .bind(JSON.stringify(cohortIds))
       .all<Learner>()
@@ -205,9 +211,15 @@ export async function s04(db: Db, cohortIds: string[], groupBy: Grouping = 'all'
   });
 }
 
-/** ACA-US-6.3: share of enrolled learners who practised in at least 3 of weeks 2-6, against 35%. */
-export async function a01(db: Db, cohortIds: string[], groupBy: Grouping = 'all') {
-  const ls = await learners(db, cohortIds),
+/** ACA-US-6.3: share of enrolled learners who practised in at least 3 of weeks 2-6, against 35%. The denominator is
+ * everyone listed by default (see Enrolled); pass 'joined' for the share among people who actually joined. */
+export async function a01(
+  db: Db,
+  cohortIds: string[],
+  groupBy: Grouping = 'all',
+  enrolled: Enrolled = 'listed',
+) {
+  const ls = await learners(db, cohortIds, enrolled),
     cs = await cycles(db, cohortIds);
   const weeksBy = new Map<string, Set<number>>();
   for (const c of cs)
@@ -385,25 +397,20 @@ export async function recordShared(db: Db, actor: Actor, id: string, note: unkno
 export async function prepareWeek6Report(db: Db, actor: Actor, cohortId: string, now = Date.now()) {
   const c = await cohortOf(db, cohortId);
   if (!c) throw new LoopError('Cohort not found.', 404);
-  const overall = (await a01(db, [cohortId]))[0] ?? {
-    group: 'all',
-    share: share(0, 0),
-    meetsThreshold: false,
-  };
+  const empty = { group: 'all', groupSize: 0, share: share(0, 0), meetsThreshold: false };
+  const overall = (await a01(db, [cohortId]))[0] ?? empty;
+  const joinedOnly = (await a01(db, [cohortId], 'all', 'joined'))[0] ?? empty;
   const body = {
     title: `Week-6 A-01 decision report: ${c.name}`,
-    rule: `Share of enrolled ${c.sector} learners who practised in at least ${A01.minWeeks} of weeks 2-6 is at least ${A01.threshold * 100}% (${A01.source}).`,
+    rule: `Share of listed ${c.sector} learners who practised in at least ${A01.minWeeks} of weeks 2-6 is at least ${A01.threshold * 100}% (${A01.source}).`,
     result: overall,
     denominator: {
-      joined: overall.share.denominator,
-      invitedNeverJoined: (await db
-        .prepare(
-          `SELECT count(*) n FROM loop_members WHERE cohort_id=? AND status='invited' AND role IN ${LEARNER_ROLE_SQL}`,
-        )
-        .bind(cohortId)
-        .first<{ n: number }>())!.n,
-      note: 'The share uses everyone who joined (active or not). People who were invited but never joined are shown here, not counted. Whether they should count as enrolled for A-01 is an open question for the owner.',
+      listed: overall.share.denominator,
+      joined: joinedOnly.share.denominator,
+      invitedNeverJoined: overall.share.denominator - joinedOnly.share.denominator,
+      note: 'The share counts everyone the association listed, whether or not they joined (owner decision of 13 October 2026, recorded under delegation: people the loop never reached count against it). The share among people who joined is shown beside it for comparison and does not decide the rule.',
     },
+    resultAmongJoined: joinedOnly,
     byStartingLevel: await a01(db, [cohortId], 'starting_level'),
     byStartGroup: await a01(db, [cohortId], 'start_group'),
     weekly: await weeklyMetrics(db, [cohortId], [...A01.weeks]),

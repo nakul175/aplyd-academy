@@ -22,13 +22,21 @@ mkdir -p /srv/academy/releases /srv/academy/snapshots /srv/academy/bin /var/lib/
 chown -R academy:academy /var/lib/academy && chmod 700 /var/lib/academy
 chown -R deploy:academy /srv/academy && chmod 750 /srv/academy
 chmod 700 /etc/academy
-# The deploy user may restart only this service.
-echo 'deploy ALL=(root) NOPASSWD: /usr/bin/systemctl restart academy' > /etc/sudoers.d/academy-deploy && chmod 440 /etc/sudoers.d/academy-deploy
+# The deploy user may do exactly three things as root: restart the service, run a release script as the academy
+# user (migrations, decision seed, loop-admin), and set one env value from stdin (the owner's keys, carried from
+# GitHub environment secrets by the deploy job).
+{
+  echo 'deploy ALL=(root) NOPASSWD: /usr/bin/systemctl restart academy'
+  echo 'deploy ALL=(root) NOPASSWD: /srv/academy/bin/academy-admin.sh *'
+  echo 'deploy ALL=(root) NOPASSWD: /srv/academy/bin/set-secret.sh *'
+} > /etc/sudoers.d/academy-deploy && chmod 440 /etc/sudoers.d/academy-deploy
 # Service, proxy, backup
 install -m 755 "$(dirname "$0")/run.sh" /srv/academy/bin/run.sh
 install -m 755 "$(dirname "$0")/release.sh" /srv/academy/bin/release.sh
 install -m 755 "$(dirname "$0")/restore-drill.sh" /srv/academy/bin/restore-drill.sh
 install -m 755 "$(dirname "$0")/jobs.sh" /srv/academy/bin/jobs.sh
+install -m 755 "$(dirname "$0")/academy-admin.sh" /srv/academy/bin/academy-admin.sh
+install -m 755 "$(dirname "$0")/set-secret.sh" /srv/academy/bin/set-secret.sh
 install -m 644 "$(dirname "$0")/academy-jobs.service" /etc/systemd/system/academy-jobs.service
 install -m 644 "$(dirname "$0")/academy-jobs.timer" /etc/systemd/system/academy-jobs.timer
 install -m 644 "$(dirname "$0")/academy.service" /etc/systemd/system/academy.service
@@ -36,7 +44,8 @@ install -m 644 "$(dirname "$0")/Caddyfile" /etc/caddy/Caddyfile
 install -m 644 "$(dirname "$0")/litestream.yml" /etc/litestream.yml
 mkdir -p /etc/systemd/system/litestream.service.d
 printf '[Service]\nEnvironmentFile=/etc/academy/litestream.env\n' > /etc/systemd/system/litestream.service.d/env.conf
-systemctl daemon-reload && systemctl enable academy litestream caddy academy-jobs.timer
+# Litestream is enabled by set-secret.sh once both Spaces keys are present; before that it would only crash-loop.
+systemctl daemon-reload && systemctl enable academy caddy academy-jobs.timer
 # Firewall: SSH and web only
 ufw default deny incoming && ufw allow OpenSSH && ufw allow 80/tcp && ufw allow 443/tcp && ufw --force enable
 echo "Provisioned. Next: write /etc/academy/academy.env and /etc/academy/litestream.env (mode 600), point DNS, run the first release."

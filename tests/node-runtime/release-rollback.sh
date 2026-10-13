@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # ACA-US-1.5 local check of deploy/node/release.sh: a good release goes live; a release that crashes and a release
 # whose migration fails are both rolled back, with the previous release serving and the data intact.
-# Needs a fresh `pnpm run build`. Uses a temp folder and port 3999; touches nothing else.
+# Needs a fresh `pnpm run build:node`. Uses a temp folder and port 3999; touches nothing else.
 set -uo pipefail
 cd "$(dirname "$0")/../.."
 REPO="$PWD"; WORK="$(mktemp -d)"; export APP_ROOT="$WORK/app" ACADEMY_DATABASE_PATH="$WORK/data/academy.sqlite"
@@ -13,6 +13,14 @@ cat > "$WORK/restart.sh" <<EOF
 ( APP_ROOT="$APP_ROOT" ACADEMY_DATABASE_PATH="$ACADEMY_DATABASE_PATH" PORT=3999 HOSTNAME=127.0.0.1 nohup bash "$REPO/deploy/node/run.sh" > "$WORK/server.log" 2>&1 & echo \$! > "$WORK/pid" )
 EOF
 chmod +x "$WORK/restart.sh"; export RESTART_CMD="$WORK/restart.sh"
+# Stand-in for academy-admin.sh: run a release script directly (no sudo, no user switch) against the test database.
+cat > "$WORK/admin.sh" <<EOF
+#!/usr/bin/env bash
+set -e
+ID="\$1"; S="\$2"; shift 2
+cd "$APP_ROOT/releases/\$ID" && ACADEMY_DATABASE_PATH="$ACADEMY_DATABASE_PATH" exec node --no-warnings "scripts/\$S" "\$@"
+EOF
+chmod +x "$WORK/admin.sh"; export ADMIN_CMD="$WORK/admin.sh"
 pass=0; fail=0; check() { if eval "$2"; then pass=$((pass+1)); else fail=$((fail+1)); echo "FAIL: $1"; fi; }
 health() { curl -fsS --max-time 2 "$HEALTH_URL" 2>/dev/null; }
 

@@ -32,6 +32,41 @@ test('R2: a task finished late counts in the week it is finished, so A-01 cannot
   assert.equal((await L.a01(w.db, [w.cohortId]))[0].share.numerator, 0);
 });
 
+test('D-2026-10-13: A-01 counts everyone the association listed; the joined-only share is shown beside it', async () => {
+  const w = await textileWorld();
+  await publishedPack(w);
+  const ls = await joinLearners(w, 2);
+  // Two more people on the list who never join.
+  await L.enrolCohort(
+    w.db,
+    w.admin,
+    w.cohortId,
+    { list: 'Ghost One,ghost1@example.test,weaver\nGhost Two,ghost2@example.test,weaver' },
+    w.send,
+    ORIGIN,
+    T0,
+  );
+  for (const wk of [2, 3, 4]) {
+    const t = await L.ensureWeeklyTask(w.db, ls[0], ls[0].memberId, W(wk));
+    await L.submitTask(w.db, ls[0], t.taskId, { note: 'n' }, W(wk));
+  }
+  const r = await L.prepareWeek6Report(w.db, w.op, w.cohortId, W(7));
+  assert.deepEqual(
+    [r.body.result.share.numerator, r.body.result.share.denominator, r.body.result.meetsThreshold],
+    [1, 4, false],
+    'listed denominator decides the rule: 1 of 4 is below 35%',
+  );
+  assert.deepEqual(
+    [r.body.resultAmongJoined.share.numerator, r.body.resultAmongJoined.share.denominator],
+    [1, 2],
+    'the joined-only share is reported for comparison',
+  );
+  assert.deepEqual(
+    [r.body.denominator.listed, r.body.denominator.joined, r.body.denominator.invitedNeverJoined],
+    [4, 2, 2],
+  );
+});
+
 test('R3: once a run has failed, no threshold can go below the highest value recorded before', async () => {
   const w = await textileWorld();
   process.env.ACADEMY_AI_PROVIDER = 'fake';

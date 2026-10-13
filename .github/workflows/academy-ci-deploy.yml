@@ -1,13 +1,20 @@
 # ACA-US-1.5: Node runtime checks that `verify` (ci.yml) does not run: audit, browser journey with WCAG checks,
 # API suites against the built server, release and rollback. Lint, format, typecheck and the unit suites
 # (including tests/loop) run once, in ci.yml. The deploy job targets the Node host (deploy/node/), never the
-# shared droplet, and only after the "production" environment approval. See docs/operations/cutover-plan.md.
+# shared droplet, through the "production" environment. It runs on a push to main and on a manual dispatch from
+# any branch (used for the first cutover from the sync branch). See docs/operations/cutover-plan.md.
 name: Academy node runtime
 on:
   push:
     branches: [main]
   pull_request:
     paths-ignore: ['**.md', 'docs/**']
+  workflow_dispatch:
+    inputs:
+      deploy:
+        description: 'Deploy this ref to the Node host after the checks pass'
+        type: boolean
+        default: false
 permissions:
   contents: read
 concurrency:
@@ -26,7 +33,8 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - name: Production dependencies have no high or critical advisories (ACA-US-12.2)
         run: pnpm audit --prod --audit-level high
-      - run: pnpm run build
+      - name: Node standalone build (pnpm run build is the Worker build the shared droplet runs)
+        run: pnpm run build:node
       - name: Practice-loop journey in a browser with WCAG 2.2 AA checks (ACA-US-12.3)
         run: |
           mkdir -p "$RUNNER_TEMP/pw" && cd "$RUNNER_TEMP/pw" && npm init -y >/dev/null && npm install --no-save playwright@1.56.0 && npx playwright install --with-deps chromium && cd "$GITHUB_WORKSPACE"
@@ -42,7 +50,7 @@ jobs:
           path: academy-${{ github.sha }}.tar.gz
           retention-days: 30
   deploy:
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    if: (github.ref == 'refs/heads/main' && github.event_name == 'push') || (github.event_name == 'workflow_dispatch' && inputs.deploy)
     needs: test-and-build
     runs-on: ubuntu-24.04
     environment: production
@@ -50,13 +58,41 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           name: release
-      - name: Copy and install the release (rolls back by itself if unhealthy)
+      - name: Trust the host
         env:
-          SSH_KEY: ${{ secrets.ACADEMY_DEPLOY_SSH_KEY }}
           HOST: ${{ secrets.ACADEMY_DEPLOY_HOST }}
           KNOWN_HOSTS: ${{ secrets.ACADEMY_DEPLOY_KNOWN_HOSTS }}
+          SSH_KEY: ${{ secrets.ACADEMY_DEPLOY_SSH_KEY }}
         run: |
-          install -m 700 -d ~/.ssh && echo "$SSH_KEY" > ~/.ssh/id && chmod 600 ~/.ssh/id && echo "$KNOWN_HOSTS" > ~/.ssh/known_hosts
+          [ -n "$HOST" ] && [ -n "$SSH_KEY" ] || { echo "ACADEMY_DEPLOY_HOST and ACADEMY_DEPLOY_SSH_KEY are not set in the production environment"; exit 1; }
+          install -m 700 -d ~/.ssh && printf '%s\n' "$SSH_KEY" > ~/.ssh/id && chmod 600 ~/.ssh/id
+          if [ -n "$KNOWN_HOSTS" ]; then printf '%s\n' "$KNOWN_HOSTS" > ~/.ssh/known_hosts
+          else
+            # No pinned host key yet: record the host's key on first contact and print it so it can be pinned as
+            # ACADEMY_DEPLOY_KNOWN_HOSTS (docs/operations/cutover-plan.md, step "Pin the host key").
+            ssh-keyscan -t ed25519 "$HOST" > ~/.ssh/known_hosts 2>/dev/null
+            echo "::warning::ACADEMY_DEPLOY_KNOWN_HOSTS is not set; trusted the host key seen now. Pin it:"; cat ~/.ssh/known_hosts
+          fi
+      - name: Carry the owner's keys to the server (only the secrets that are set; values travel over SSH on stdin)
+        env:
+          HOST: ${{ secrets.ACADEMY_DEPLOY_HOST }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          LITESTREAM_ACCESS_KEY_ID: ${{ secrets.LITESTREAM_ACCESS_KEY_ID }}
+          LITESTREAM_SECRET_ACCESS_KEY: ${{ secrets.LITESTREAM_SECRET_ACCESS_KEY }}
+        run: |
+          for k in RESEND_API_KEY ANTHROPIC_API_KEY LITESTREAM_ACCESS_KEY_ID LITESTREAM_SECRET_ACCESS_KEY; do
+            v="${!k}"; [ -n "$v" ] || { echo "$k: not set in the production environment, skipped"; continue; }
+            printf '%s' "$v" | ssh -i ~/.ssh/id "deploy@$HOST" "sudo /srv/academy/bin/set-secret.sh $k"
+          done
+      - name: Copy and install the release (rolls back by itself if unhealthy)
+        env:
+          HOST: ${{ secrets.ACADEMY_DEPLOY_HOST }}
+        run: |
           id="${GITHUB_SHA::12}"
           scp -i ~/.ssh/id "academy-$GITHUB_SHA.tar.gz" "deploy@$HOST:/tmp/academy-$id.tar.gz"
           ssh -i ~/.ssh/id "deploy@$HOST" "/srv/academy/bin/release.sh /tmp/academy-$id.tar.gz $id && rm -f /tmp/academy-$id.tar.gz"
+      - name: Health
+        env:
+          HOST: ${{ secrets.ACADEMY_DEPLOY_HOST }}
+        run: ssh -i ~/.ssh/id "deploy@$HOST" "curl -fsS http://127.0.0.1:3000/api/health"
