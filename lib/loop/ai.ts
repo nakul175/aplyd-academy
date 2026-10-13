@@ -269,12 +269,14 @@ export async function latestEvalRun(db: Db) {
         .all<{ id: string; category: string; learner_message: string }>()
     ).results.map((c) => [c.id, c]),
   );
-  const summary = JSON.parse(r.summary) as {
+  const parsed = JSON.parse(r.summary || '{}') as {
     overall: number;
     byCategory: Record<string, { passed: number; total: number; threshold: number | null; ok: boolean }>;
   };
+  // Older or hand-written runs may lack parts of the summary; show what is there rather than fail the page.
+  const summary = { overall: parsed.overall ?? 0, byCategory: parsed.byCategory ?? {} };
   const failed = (
-    JSON.parse(r.results) as {
+    JSON.parse(r.results || '[]') as {
       caseId: string;
       category: string;
       passed: boolean;

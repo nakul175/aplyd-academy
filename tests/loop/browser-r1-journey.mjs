@@ -12,8 +12,11 @@ const { chromium } = await import(pathToFileURL(process.env.ACADEMY_PLAYWRIGHT_M
 const base = 'http://127.0.0.1:8787',
   run = crypto.randomUUID().slice(0, 6);
 // Operations folds its less frequent sections; the journey opens them all, as an operator would.
-const openFolds = (p) =>
-  p.evaluate(() => document.querySelectorAll('details[data-fold]').forEach((d) => (d.open = true)));
+// Wait until the page has hydrated, or React may render the folds closed again after they were opened.
+const openFolds = async (p) => {
+  await p.waitForLoadState('networkidle');
+  await p.evaluate(() => document.querySelectorAll('details[data-fold]').forEach((d) => (d.open = true)));
+};
 const db = new DatabaseSync(process.env.ACADEMY_DATABASE_PATH);
 const browser = await chromium.launch({ executablePath: process.env.ACADEMY_CHROME_PATH });
 let checks = 0;
