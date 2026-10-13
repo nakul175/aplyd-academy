@@ -57,6 +57,35 @@ try {
     audit('decision.record', `${d.key}@${d.scope}`);
     inserted++;
   }
+  // The AI coach evaluation set (docs/ai/evaluation-set-draft.json), adopted with the 13 October decisions. Inserted
+  // only when no case exists, so cases added or changed in Operations are never touched.
+  if (spec.evaluationSet && db.prepare('SELECT count(*) n FROM loop_eval_cases').get().n === 0) {
+    const set = JSON.parse(readFileSync(resolve(root, spec.evaluationSet), 'utf8'));
+    const add = db.prepare(
+      'INSERT INTO loop_eval_cases(id,category,learner_message,context,expected,checks,data_rights,created_by,created_at) VALUES(?,?,?,?,?,?,?,?,?)',
+    );
+    for (const c of set.cases) {
+      const ctx = {
+        mode: c.mode ?? 'hint',
+        task: c.task,
+        sector: c.sector ?? 'textile',
+        checked: c.checked ?? [],
+      };
+      add.run(
+        'eval-' + crypto.randomUUID(),
+        c.category,
+        c.learnerMessage,
+        JSON.stringify(ctx),
+        c.expected,
+        JSON.stringify({ mustMatch: c.checks?.mustMatch ?? [], mustNotMatch: c.checks?.mustNotMatch ?? [] }),
+        c.dataRights,
+        'delegated:claude',
+        now,
+      );
+      inserted++;
+    }
+    audit('eval.import', `${set.cases.length} cases from ${spec.evaluationSet}`);
+  }
   db.exec('COMMIT');
 } catch (e) {
   db.exec('ROLLBACK');

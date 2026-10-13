@@ -110,7 +110,11 @@ export async function ensureWeeklyTask(db: Db, actor: Actor, memberId: string, n
   if (await pausedByHarm(db, m))
     throw new LoopError('Practice is paused for your group by a decision of your school and APLYD.', 403);
   const week = await weekOf(db, m, now);
-  if (week < 1) return { state: 'not_started' as const, startsOn: await startDateOf(db, m), access };
+  if (week < 1) {
+    // Week 0 is the workshop; the first weekly task comes one week after the start date.
+    const firstWeek = new Date(Date.parse((await startDateOf(db, m)) + 'T00:00:00Z') + WEEK);
+    return { state: 'not_started' as const, startsOn: firstWeek.toISOString().slice(0, 10), access };
+  }
   if (!(await currentLevel(db, m.id))) return { state: 'needs_placement' as const, access };
   const existing = await db
     .prepare(`SELECT id FROM loop_tasks WHERE member_id=? AND kind='weekly' AND week=?`)

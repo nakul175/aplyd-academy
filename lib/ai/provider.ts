@@ -73,7 +73,32 @@ const openaiCompatible: Call = async (req, model, signal) => {
 };
 
 // Deterministic stand-in for tests and local demos; never used in production.
-const fake: Call = async (req) => `[fake:${req.purpose}] ${req.messages.at(-1)?.content.slice(0, 80) ?? ''}`;
+// Local tests only (refused in production below). A pack draft gets well-formed JSON so the review flow can be tested.
+const fake: Call = async (req) => {
+  if (req.purpose === 'pack-draft') {
+    const input = JSON.parse(req.messages.at(-1)?.content ?? '{}') as { sources?: { title: string }[] };
+    const sources = (input.sources ?? []).slice(0, 1);
+    return JSON.stringify([
+      {
+        kind: 'task',
+        jobRole: '*',
+        level: '*',
+        title: '[fake] Check one real document',
+        body: 'Use AI on one real document from your work, then check its answer yourself.',
+        sources,
+      },
+      {
+        kind: 'rule',
+        jobRole: '*',
+        level: '*',
+        title: '[fake] Re-check every number',
+        body: 'Always re-add any total the AI gives you.',
+        sources,
+      },
+    ]);
+  }
+  return `[fake:${req.purpose}] ${req.messages.at(-1)?.content.slice(0, 80) ?? ''}`;
+};
 
 const providers: Record<string, Call> = { anthropic, 'openai-compatible': openaiCompatible, fake };
 

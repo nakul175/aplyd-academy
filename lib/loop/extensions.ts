@@ -173,3 +173,8 @@ register('risk.decide', (c, p) =>
     c.now,
   ),
 );
+
+// Guided set-up for an operator running a pilot alone (owner request, 13 October 2026).
+import * as Su from './setup';
+register('setup.workshop', (c, p) => Su.setupWorkshop(c.db, c.actor, p, send(c.db), c.origin, c.now));
+register('setup.draftPack', (c, p) => Su.draftPackPlain(c.db, c.actor, s(p.packId, 'pack'), p, c.now));

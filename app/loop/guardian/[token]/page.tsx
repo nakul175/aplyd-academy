@@ -1,4 +1,5 @@
 // ACA-US-11.2: a parent or guardian gives, refuses or later withdraws consent for their child. No account needed.
+import { NoticeText } from '../../notice-text';
 import { env } from '@/lib/platform-env';
 import { openGuardianRequest } from '@/lib/loop/students';
 import { Shell, attempt, Refused } from '../../shell';
@@ -27,7 +28,7 @@ export default async function Guardian({ params }: { params: Promise<{ token: st
       {v.notice ? (
         <section className={s.card}>
           <h2>How your child’s data is used</h2>
-          <div className={s.prewrap}>{v.notice.body}</div>
+          <NoticeText body={v.notice.body} />
           <p className={s.muted}>Notice version {v.notice.version}</p>
         </section>
       ) : (

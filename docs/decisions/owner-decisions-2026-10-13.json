@@ -2,6 +2,7 @@
   "recordedBy": "Claude, under authority delegated by the product owner Nakul Jain in chat on 13 October 2026 (\"bhai sab khud se kar sakta hai. dont upward delegate\")",
   "source": "Delegated to Claude by Nakul Jain, chat of 13 Oct 2026; rationale in docs/decisions/owner-decisions-2026-10-13.md. The owner can override any value by recording a new decision in Operations.",
   "notice": { "version": "v1.0", "file": "docs/privacy/notice-v1.0.md" },
+  "evaluationSet": "docs/ai/evaluation-set-draft.json",
   "decisions": [
     { "key": "notice.approved", "scope": "global", "value": { "version": "v1.0" } },
     {

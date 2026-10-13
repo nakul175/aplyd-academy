@@ -203,7 +203,7 @@ async function apiDoc() {
     let end = i + 1;
     while (end < src.length && end < i + 40 && !/^\s*('[\w.]+':|register(Public)?\()/.test(src[end])) end++;
     const text = src.slice(i, end).join(' ');
-    const m = text.match(/\b(recordDecision)\(|\b(E|Lv|P|A|F|Pr|R|M|H|C|Ev|St|Br|B|Lg|An)\.(\w+)\(/);
+    const m = text.match(/\b(recordDecision)\(|\b(E|Lv|P|A|F|Pr|R|M|H|C|Ev|St|Br|B|Lg|An|Su)\.(\w+)\(/);
     return m ? (m[1] ?? `${m[2]}.${m[3]}`) : '?';
   };
   const lines = [
@@ -215,7 +215,7 @@ async function apiDoc() {
     '',
     'Other routes: `PUT /api/loop/files/<id>` (header `x-upload-offset`, body at most 512 KB) and `GET /api/loop/files/<id>` (owner only); `GET /api/loop/export` (my data as JSON); `POST /api/loop/jobs?job=all|reminders|retention|reapply-deletions` (Bearer `ACADEMY_JOBS_SECRET`); `POST /api/loop/inbound/whatsapp|sms` (header `x-academy-inbound-secret`, body `{from, text}`); `GET /api/health`.',
     '',
-    'Module prefixes: E enrolment, Lv levels, P packs, A ai, F files, Pr practice, R reminders, M metrics, H help, C community, Ev evidence, St students, Br briefs, B billing, Lg language, An annotations.',
+    'Module prefixes: E enrolment, Lv levels, P packs, A ai, F files, Pr practice, R reminders, M metrics, H help, C community, Ev evidence, St students, Br briefs, B billing, Lg language, An annotations, Su setup.',
     '',
     '| Action | Sign-in | Library function |',
     '| --- | --- | --- |',

@@ -124,7 +124,7 @@ export default async function Task({ params }: { params: Promise<{ taskId: strin
         <Coach
           taskId={t.id}
           available={v.ai.available}
-          notice={v.ai.available ? null : v.ai.notice}
+          notice={v.ai.available ? null : 'Paused for now (see the note above).'}
           messages={v.messages as { role: string; body: string }[]}
         />
       )}

@@ -1,5 +1,15 @@
 // ACA-US-2.1 enrol from a list and watch joins; ACA-US-2.4 start groups; ACA-US-5.3 cadences; ACA-US-6.2 aggregate view.
 import { Shell, pageContext, attempt, Refused, fmtShare } from '../../shell';
+
+// A group smaller than the minimum comes back as {suppressed: true} without its shares (metrics.suppress).
+const fmtGroup = (g: Record<string, unknown> | undefined, k: 'S01' | 'S02') =>
+  !g
+    ? '–'
+    : g.suppressed
+      ? 'hidden (small group)'
+      : g[k]
+        ? fmtShare(g[k] as Parameters<typeof fmtShare>[0])
+        : '–';
 import { cohortRoster } from '@/lib/loop/enrolment';
 import { adminDashboard } from '@/lib/loop/metrics';
 import { ActionForm, ActionButton } from '../../client';
@@ -183,8 +193,8 @@ export default async function CohortAdmin({ params }: { params: Promise<{ cohort
                   ).map((w) => (
                     <tr key={w.week}>
                       <td>{w.week === 0 ? '0 (workshop)' : w.week}</td>
-                      <td>{w.groups[0] ? fmtShare(w.groups[0].S01) : '–'}</td>
-                      <td>{w.groups[0] ? fmtShare(w.groups[0].S02) : '–'}</td>
+                      <td>{fmtGroup(w.groups[0], 'S01')}</td>
+                      <td>{fmtGroup(w.groups[0], 'S02')}</td>
                     </tr>
                   ))}
                 </tbody>

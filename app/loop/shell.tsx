@@ -77,16 +77,22 @@ export function Refused({ message }: { message: string }) {
   );
 }
 
-export const fmtShare = (v: {
-  value: number | null;
-  numerator: number | null;
-  denominator: number | null;
-  suppressed?: boolean;
-  low?: number | null;
-  high?: number | null;
-}) =>
-  v.suppressed
-    ? 'hidden (small group)'
-    : v.value === null
-      ? '–'
-      : `${Math.round(v.value * 100)}% (${v.numerator}/${v.denominator}${v.low != null ? `, 95% CI ${Math.round(v.low * 100)}–${Math.round((v.high ?? 0) * 100)}%` : ''})`;
+export const fmtShare = (
+  v:
+    | {
+        value: number | null;
+        numerator: number | null;
+        denominator: number | null;
+        suppressed?: boolean;
+        low?: number | null;
+        high?: number | null;
+      }
+    | undefined,
+) =>
+  !v
+    ? '–'
+    : v.suppressed
+      ? 'hidden (small group)'
+      : v.value === null
+        ? '–'
+        : `${Math.round(v.value * 100)}% (${v.numerator}/${v.denominator}${v.low != null ? `, 95% CI ${Math.round(v.low * 100)}–${Math.round((v.high ?? 0) * 100)}%` : ''})`;

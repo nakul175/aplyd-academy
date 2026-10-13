@@ -117,7 +117,9 @@ async function LearnerCard({
           />
         </section>
       )}
-      {weekly && weekly.state === 'not_started' && <p>Your weekly practice starts on {weekly.startsOn}.</p>}
+      {weekly && weekly.state === 'not_started' && (
+        <p>Your first weekly task arrives on {weekly.startsOn}. </p>
+      )}
       {weekly && weekly.state === 'no_task_yet' && (
         <p>Your task for this week is being prepared. Check back soon.</p>
       )}

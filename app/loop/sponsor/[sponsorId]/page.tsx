@@ -37,7 +37,10 @@ export default async function Sponsor({ params }: { params: Promise<{ sponsorId:
           <ul className={s.list}>
             {c.practice.map((w) => (
               <li key={w.week}>
-                Week {w.week}: practised {w.groups[0] ? fmtShare(w.groups[0].S01) : '–'}
+                Week {w.week}: practised{' '}
+                {(w.groups[0] as { suppressed?: boolean } | undefined)?.suppressed
+                  ? 'hidden (small group)'
+                  : fmtShare(w.groups[0]?.S01)}
               </li>
             ))}
           </ul>

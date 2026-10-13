@@ -1,5 +1,6 @@
 // ACA-US-2.2: join from an invite. The notice and the age question come before sign-in, so no account is made for
 // anyone under 18. Consent choices are recorded with the notice version and time.
+import { NoticeText } from '../../notice-text';
 import { env } from '@/lib/platform-env';
 import { getChatGPTUser, chatGPTSignInPath } from '@/app/chatgpt-auth';
 import { openInvite } from '@/lib/loop/enrolment';
@@ -29,7 +30,7 @@ export default async function Join({ params }: { params: Promise<{ token: string
       {v.notice && (
         <section className={s.card} aria-labelledby="notice-h">
           <h2 id="notice-h">How your data is used</h2>
-          <div className={s.prewrap}>{v.notice.body}</div>
+          <NoticeText body={v.notice.body} />
           <p className={s.muted}>Notice version {v.notice.version}</p>
         </section>
       )}

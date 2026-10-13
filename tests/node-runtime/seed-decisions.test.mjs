@@ -19,6 +19,7 @@ test('seed-decisions inserts each decision and the notice once and keeps an exis
   const db = join(mkdtempSync(join(tmpdir(), 'seed-')), 'academy.sqlite');
   assert.equal(run('migrate.mjs', db).status, 0, 'migrations apply');
   const spec = JSON.parse(readFileSync(join(root, 'docs/decisions/owner-decisions-2026-10-13.json'), 'utf8'));
+  const evalCases = JSON.parse(readFileSync(join(root, spec.evaluationSet), 'utf8')).cases.length;
 
   // A decision the owner recorded earlier must survive the seed.
   const d = new DatabaseSync(db);
@@ -31,7 +32,7 @@ test('seed-decisions inserts each decision and the notice once and keeps an exis
   assert.equal(first.status, 0, first.stderr);
   assert.match(
     first.stdout,
-    new RegExp(`${spec.decisions.length} record\\(s\\) inserted`),
+    new RegExp(`${spec.decisions.length + evalCases} record\\(s\\) inserted`),
     'notice + all but the pre-existing decision',
   );
 
@@ -45,6 +46,11 @@ test('seed-decisions inserts each decision and the notice once and keeps an exis
   assert.ok(rows.filter((r) => r.decided_by === 'delegated:claude').length === spec.decisions.length - 1);
   for (const r of rows) assert.ok(r.decided_by !== 'delegated:claude' || JSON.parse(r.value), 'JSON values');
 
+  assert.equal(
+    d.prepare('SELECT count(*) n FROM loop_eval_cases').get().n,
+    evalCases,
+    'evaluation set seeded once',
+  );
   const notice = d.prepare('SELECT version, body FROM loop_notices').all();
   assert.deepEqual(
     notice.map((n) => n.version),
@@ -54,7 +60,7 @@ test('seed-decisions inserts each decision and the notice once and keeps an exis
   assert.match(notice[0].body, /Notice version: v1\.0$/);
   assert.equal(
     d.prepare(`SELECT count(*) n FROM loop_audit WHERE actor='delegated:claude'`).get().n,
-    spec.decisions.length,
-    'every insert is audited under the delegated actor',
+    spec.decisions.length + 1,
+    'every insert is audited under the delegated actor (one line for the evaluation set)',
   );
 });
