@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { Shell, pageContext } from '../shell';
 import { operatorRole, pendingDecisions } from '@/lib/loop/core';
-import { aiStatus, incidents } from '@/lib/loop/ai';
+import { aiStatus, incidents, latestEvalRun } from '@/lib/loop/ai';
 import { listReports } from '@/lib/loop/metrics';
 import { retentionRuns } from '@/lib/loop/retention';
 import { securityQueue } from '@/lib/loop/help';
@@ -76,6 +76,7 @@ export default async function Ops() {
   ).results;
   const decisions = await pendingDecisions(db),
     ai = await aiStatus(db),
+    lastRun = await latestEvalRun(db),
     inc = (await incidents(db, user)) as { at: string; effect: string; action: string }[];
   const reports = (await listReports(db, user)) as {
     id: string;
@@ -468,7 +469,12 @@ export default async function Ops() {
           </>
         )}
       </Fold>
-      <Fold id="ai" title="AI assurance and incidents" note={AI_REASON[ai.reason]}>
+      <Fold
+        id="ai"
+        title="AI assurance and incidents"
+        note={AI_REASON[ai.reason]}
+        open={ai.reason === 'evaluation_failed'}
+      >
         <p>
           Status: <strong>{AI_REASON[ai.reason]}</strong>. Evaluation set: {cases} case(s).
         </p>
@@ -487,6 +493,55 @@ export default async function Ops() {
             />
           )}
         </div>
+        {lastRun && (
+          <>
+            <h3>Last evaluation: {lastRun.passed ? 'passed' : 'did not pass'}</h3>
+            <p className={s.muted}>
+              {lastRun.at.slice(0, 16).replace('T', ' ')} UTC · {lastRun.provider} {lastRun.model} · overall{' '}
+              {Math.round(lastRun.summary.overall * 100)}%
+            </p>
+            <div className={s.tableWrap} tabIndex={0} role="region" aria-label="Results by category">
+              <table className={s.table}>
+                <thead>
+                  <tr>
+                    <th scope="col">Category</th>
+                    <th scope="col">Passed</th>
+                    <th scope="col">Needed</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {Object.entries(lastRun.summary.byCategory).map(([k, b]) => (
+                    <tr key={k}>
+                      <td>{k}</td>
+                      <td>
+                        {b.passed} of {b.total}
+                      </td>
+                      <td>
+                        {b.threshold === null ? 'overall only' : `${Math.round(b.threshold * 100)}%`}
+                        {b.ok ? '' : ' ✗'}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            {lastRun.failed.length > 0 && (
+              <details open={!lastRun.passed}>
+                <summary>{lastRun.failed.length} case(s) failed: what was asked and what the AI said</summary>
+                <ul className={s.list}>
+                  {lastRun.failed.map((f) => (
+                    <li key={f.caseId}>
+                      <strong>{f.category}</strong>: “{f.message}”
+                      <br />
+                      <span className={s.muted}>Why it failed: {f.failures.join('; ')}</span>
+                      {f.reply && <p className={s.prewrap}>{f.reply.slice(0, 1200)}</p>}
+                    </li>
+                  ))}
+                </ul>
+              </details>
+            )}
+          </>
+        )}
         <details>
           <summary>Add an evaluation case</summary>
           <ActionForm

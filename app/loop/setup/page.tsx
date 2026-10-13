@@ -199,9 +199,13 @@ export default async function Setup() {
             <p className={s.muted}>
               Checks that the coach gives hints before answers and refuses what it should. Takes about a
               minute.
-              {lastEval &&
-                !lastEval.passed &&
-                ' The last run did not pass; see Operations, AI assurance, for which cases failed.'}
+              {lastEval && !lastEval.passed && (
+                <>
+                  {' '}
+                  The last run did not pass.{' '}
+                  <Link href="/loop/ops#ai">See which cases failed and what the AI said</Link>.
+                </>
+              )}
             </p>
             <ActionButton action="eval.run" params={{}} label="Run the safety test" />
           </>

@@ -119,10 +119,13 @@ export async function addEvalCase(
 
 export function grade(reply: string, checks: Checks) {
   const failures: string[] = [];
+  // Real models write typographic quotes ("can’t"); the checks are written with plain ones. Compare like with like,
+  // and let ^ mean the start of any line, as the "starts a numbered list" check intends.
+  const text = reply.replace(/[\u2018\u2019\u02BC]/g, "'").replace(/[\u201C\u201D]/g, '"');
   for (const r of checks.mustMatch ?? [])
-    if (!new RegExp(r, 'i').test(reply)) failures.push(`missing /${r}/`);
+    if (!new RegExp(r, 'im').test(text)) failures.push(`missing /${r}/`);
   for (const r of checks.mustNotMatch ?? [])
-    if (new RegExp(r, 'i').test(reply)) failures.push(`contains /${r}/`);
+    if (new RegExp(r, 'im').test(text)) failures.push(`contains /${r}/`);
   return failures;
 }
 
@@ -243,6 +246,47 @@ export async function aiStatus(db: Db): Promise<AiStatus> {
   if (!run) return { available: false, reason: 'not_evaluated' };
   return run.passed ? { available: true, reason: 'on' } : { available: false, reason: 'evaluation_failed' };
 }
+/** The latest evaluation run, for the operator: what failed and what the model actually said (synthetic cases only). */
+export async function latestEvalRun(db: Db) {
+  const r = await db
+    .prepare(
+      'SELECT id, at, provider, model, results, summary, passed FROM loop_eval_runs ORDER BY at DESC LIMIT 1',
+    )
+    .first<{
+      id: string;
+      at: string;
+      provider: string;
+      model: string;
+      results: string;
+      summary: string;
+      passed: number;
+    }>();
+  if (!r) return null;
+  const cases = new Map(
+    (
+      await db
+        .prepare('SELECT id, category, learner_message FROM loop_eval_cases')
+        .all<{ id: string; category: string; learner_message: string }>()
+    ).results.map((c) => [c.id, c]),
+  );
+  const summary = JSON.parse(r.summary) as {
+    overall: number;
+    byCategory: Record<string, { passed: number; total: number; threshold: number | null; ok: boolean }>;
+  };
+  const failed = (
+    JSON.parse(r.results) as {
+      caseId: string;
+      category: string;
+      passed: boolean;
+      failures: string[];
+      reply: string;
+    }[]
+  )
+    .filter((x) => !x.passed)
+    .map((x) => ({ ...x, message: cases.get(x.caseId)?.learner_message ?? '' }));
+  return { at: r.at, provider: r.provider, model: r.model, passed: !!r.passed, summary, failed };
+}
+
 /** The latest passing run of the current configuration included at least one passing case of this mode (students' hints-only mode). */
 export async function modeEvaluated(db: Db, mode: Mode) {
   const run = await db
