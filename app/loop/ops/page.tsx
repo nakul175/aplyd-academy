@@ -21,6 +21,31 @@ const AI_REASON: Record<string, string> = {
   evaluation_failed: 'Off: the latest evaluation failed',
 };
 
+/** A collapsed card: the page opens on what needs attention; everything else is one click away. */
+function Fold({
+  id,
+  title,
+  note,
+  open = false,
+  children,
+}: {
+  id?: string;
+  title: string;
+  note?: string;
+  open?: boolean;
+  children: React.ReactNode;
+}) {
+  return (
+    <details className={s.card} id={id} open={open} data-fold>
+      <summary>
+        <strong>{title}</strong>
+        {note && <span className={s.muted}> · {note}</span>}
+      </summary>
+      {children}
+    </details>
+  );
+}
+
 export default async function Ops() {
   const { db, user } = await pageContext('/loop/ops');
   const role = await operatorRole(db, user.userId);
@@ -88,11 +113,113 @@ export default async function Ops() {
       .all<{ id: string; name: string; kind: string }>()
   ).results;
   const schools = orgs.filter((o) => o.kind === 'school');
+  const waiting = decisions.filter((d) => !d.recorded).length,
+    openSecurity = security.filter((x) => x.status === 'open').length;
 
   return (
     <Shell title={`Operations (${role})`} screen="ops">
-      <section className={s.card} id="organisations">
-        <h2>Organisations</h2>
+      <section className={s.card} id="cohorts">
+        <h2>At a glance</h2>
+        <ul className={s.list}>
+          <li>
+            AI coach: <strong>{AI_REASON[ai.reason]}</strong>
+          </li>
+          <li>
+            Owner decisions waiting: <strong>{waiting}</strong> of {decisions.length}
+          </li>
+          {role === 'owner' && (
+            <li>
+              Open security or privacy reports: <strong>{openSecurity}</strong>
+            </li>
+          )}
+        </ul>
+        <h3>Workshops</h3>
+        {cohorts.length === 0 ? (
+          <p>
+            None yet. <Link href="/loop/setup">Set up a workshop</Link>
+          </p>
+        ) : (
+          <ul className={s.list}>
+            {cohorts.map((c) => (
+              <li key={c.id}>
+                <strong>
+                  {c.org}: {c.name}
+                </strong>{' '}
+                · <Link href={`/loop/cohort/${c.id}`}>People</Link> ·{' '}
+                <Link href={`/loop/facilitate/${c.id}`}>Workshop session</Link> ·{' '}
+                <Link href={`/loop/ops/cohort/${c.id}`}>Evidence</Link>
+              </li>
+            ))}
+          </ul>
+        )}
+        <p className={s.muted}>
+          New workshop: use <Link href="/loop/setup">guided set-up</Link>. The folded sections below are for
+          less frequent work.
+        </p>
+      </section>
+      <section className={s.card} id="reports">
+        <h2>Reports</h2>
+        <ul className={s.list}>
+          {reports.map((r) => (
+            <li key={r.id}>
+              <Link href={`/loop/ops/reports/${r.id}`}>{r.kind}</Link>{' '}
+              <span className={s.muted}>
+                {r.created_at.slice(0, 10)} · {r.approved_at ? 'approved' : 'draft'}
+              </span>
+            </li>
+          ))}
+        </ul>
+        <ActionForm
+          action="report.week6"
+          fields={[{ name: 'cohortId', label: 'Cohort', type: 'select', options: cohortOpts }]}
+          submit="Prepare week-6 A-01 report"
+          done="go:/loop/ops/reports/{id}"
+          id="r6"
+        />
+        <details>
+          <summary>Prepare a day-30 or day-90 learning review</summary>
+          <ActionForm
+            action="report.review"
+            fields={[
+              { name: 'cohortId', label: 'Cohort', type: 'select', options: cohortOpts },
+              {
+                name: 'day',
+                label: 'Review',
+                type: 'select',
+                options: [
+                  ['30', 'Day 30'],
+                  ['90', 'Day 90'],
+                ],
+              },
+            ]}
+            submit="Prepare learning review"
+            done="go:/loop/ops/reports/{id}"
+            id="rr"
+          />
+        </details>
+        <details>
+          <summary>Prepare an impact or year-end report</summary>
+          <ActionForm
+            action="report.impact"
+            fields={[
+              { name: 'cohortId', label: 'Cohort', type: 'select', options: cohortOpts },
+              {
+                name: 'kind',
+                label: 'Report',
+                type: 'select',
+                options: [
+                  ['impact', 'Impact report'],
+                  ['year_end', 'Year-end report'],
+                ],
+              },
+            ]}
+            submit="Prepare report"
+            done="go:/loop/ops/reports/{id}"
+            id="ri"
+          />
+        </details>
+      </section>
+      <Fold id="organisations" title="Organisations" note={`${orgs.length}`}>
         <ul className={s.list}>
           {orgs.map((o) => (
             <li key={o.id}>
@@ -148,20 +275,9 @@ export default async function Ops() {
           ]}
           submit="Create organisation"
         />
-      </section>
-      <section className={s.card} id="cohorts">
-        <h2>Cohorts</h2>
-        <ul className={s.list}>
-          {cohorts.map((c) => (
-            <li key={c.id}>
-              {c.org}: {c.name} · <Link href={`/loop/ops/cohort/${c.id}`}>Evidence</Link>
-            </li>
-          ))}
-        </ul>
-      </section>
+      </Fold>
       {role === 'owner' && (
-        <section className={s.card}>
-          <h2>Security and privacy reports</h2>
+        <Fold title="Security and privacy reports" note={`${openSecurity} open`} open={openSecurity > 0}>
           {security.length === 0 ? (
             <p>None.</p>
           ) : (
@@ -183,10 +299,9 @@ export default async function Ops() {
               ))}
             </ul>
           )}
-        </section>
+        </Fold>
       )}
-      <section className={s.card} id="packs">
-        <h2>Context packs</h2>
+      <Fold id="packs" title="Context packs" note={`${packs.length}`}>
         <ul className={s.list}>
           {packs.map((p) => (
             <li key={p.id}>
@@ -294,9 +409,8 @@ export default async function Ops() {
           ]}
           submit="Create pack"
         />
-      </section>
-      <section className={s.card} id="decisions">
-        <h2>Owner decisions</h2>
+      </Fold>
+      <Fold id="decisions" title="Owner decisions" note={`${waiting} waiting`}>
         <p className={s.muted}>
           Values that are the product owner’s to set. Features that need one wait until it is recorded. Only
           the owner can record.
@@ -353,9 +467,8 @@ export default async function Ops() {
             />
           </>
         )}
-      </section>
-      <section className={s.card} id="ai">
-        <h2>AI assurance</h2>
+      </Fold>
+      <Fold id="ai" title="AI assurance and incidents" note={AI_REASON[ai.reason]}>
         <p>
           Status: <strong>{AI_REASON[ai.reason]}</strong>. Evaluation set: {cases} case(s).
         </p>
@@ -453,65 +566,8 @@ export default async function Ops() {
           submit="Log incident"
           done="stay"
         />
-      </section>
-      <section className={s.card}>
-        <h2>Reports</h2>
-        <ul className={s.list}>
-          {reports.map((r) => (
-            <li key={r.id}>
-              <Link href={`/loop/ops/reports/${r.id}`}>{r.kind}</Link>{' '}
-              <span className={s.muted}>
-                {r.created_at.slice(0, 10)} · {r.approved_at ? 'approved' : 'draft'}
-              </span>
-            </li>
-          ))}
-        </ul>
-        <ActionForm
-          action="report.week6"
-          fields={[{ name: 'cohortId', label: 'Cohort', type: 'select', options: cohortOpts }]}
-          submit="Prepare week-6 A-01 report"
-          done="go:/loop/ops/reports/{id}"
-          id="r6"
-        />
-        <ActionForm
-          action="report.review"
-          fields={[
-            { name: 'cohortId', label: 'Cohort', type: 'select', options: cohortOpts },
-            {
-              name: 'day',
-              label: 'Review',
-              type: 'select',
-              options: [
-                ['30', 'Day 30'],
-                ['90', 'Day 90'],
-              ],
-            },
-          ]}
-          submit="Prepare learning review"
-          done="go:/loop/ops/reports/{id}"
-          id="rr"
-        />
-        <ActionForm
-          action="report.impact"
-          fields={[
-            { name: 'cohortId', label: 'Cohort', type: 'select', options: cohortOpts },
-            {
-              name: 'kind',
-              label: 'Report',
-              type: 'select',
-              options: [
-                ['impact', 'Impact report'],
-                ['year_end', 'Year-end report'],
-              ],
-            },
-          ]}
-          submit="Prepare report"
-          done="go:/loop/ops/reports/{id}"
-          id="ri"
-        />
-      </section>
-      <section className={s.card}>
-        <h2>Later releases in scope</h2>
+      </Fold>
+      <Fold title="Later releases in scope" note={scope.length ? scope.join(', ') : 'none'}>
         <p>
           {scope.length
             ? scope.join(', ')
@@ -570,10 +626,9 @@ export default async function Ops() {
               ))}
           </div>
         )}
-      </section>
+      </Fold>
       {schools.length > 0 && (
-        <section className={s.card}>
-          <h2>Student pilot (R3)</h2>
+        <Fold title="Student pilot (R3)">
           <ActionForm
             id="harm"
             action="harm.prepare"
@@ -596,10 +651,9 @@ export default async function Ops() {
               />
             </details>
           ))}
-        </section>
+        </Fold>
       )}
-      <section className={s.card}>
-        <h2>Renewals and billing</h2>
+      <Fold title="Renewals and billing">
         <p>
           S-05 renewals:{' '}
           {renewals.S05.value === null
@@ -730,10 +784,9 @@ export default async function Ops() {
             </ul>
           </>
         )}
-      </section>
+      </Fold>
       {role === 'owner' && (
-        <section className={s.card}>
-          <h2>Security findings: your decision on remaining risks</h2>
+        <Fold title="Security findings: your decision on remaining risks">
           <p className={s.muted}>Findings are listed in docs/security/findings.md in the repository.</p>
           <ActionForm
             id="risk"
@@ -754,10 +807,9 @@ export default async function Ops() {
             submit="Record my decision"
             done="stay"
           />
-        </section>
+        </Fold>
       )}
-      <section className={s.card}>
-        <h2>Retention runs</h2>
+      <Fold title="Retention runs" note={`${runs.length}`}>
         <ul className={s.list}>
           {runs.map((r, k) => (
             <li key={k}>
@@ -765,7 +817,7 @@ export default async function Ops() {
             </li>
           ))}
         </ul>
-      </section>
+      </Fold>
     </Shell>
   );
 }

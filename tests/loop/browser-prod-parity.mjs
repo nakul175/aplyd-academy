@@ -44,7 +44,11 @@ async function newPage(role) {
   const page = await ctx.newPage();
   page.on('console', (m) => {
     if (m.type() === 'error')
-      problems.push({ where: `${role} ${page.url()}`, kind: 'console', detail: m.text() });
+      problems.push({
+        where: `${role} ${page.url()}`,
+        kind: 'console',
+        detail: `${m.text()} ${m.location()?.url?.replace(base, '') ?? ''}`.trim(),
+      });
   });
   page.on('pageerror', (e) =>
     problems.push({ where: `${role} ${page.url()}`, kind: 'pageerror', detail: e.message }),

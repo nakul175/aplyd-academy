@@ -22,12 +22,17 @@ export function SignInForm({ returnTo }: { returnTo: string }) {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
 
-  async function send(e?: React.FormEvent) {
+  async function send(e?: React.FormEvent<HTMLFormElement>) {
     e?.preventDefault();
+    // Read the field itself: on a slow phone someone can type before the page's script has loaded, and the
+    // typed address must still count.
+    const typed = e ? String(new FormData(e.currentTarget).get('email') ?? '').trim() : email;
+    if (!typed) return setError('Enter your email address.');
+    setEmail(typed);
     setBusy(true);
     setError('');
     try {
-      await call('/api/auth/request-code', { email });
+      await call('/api/auth/request-code', { email: typed });
       setStep('code');
       setCode('');
     } catch (x) {
@@ -60,6 +65,7 @@ export function SignInForm({ returnTo }: { returnTo: string }) {
             <label htmlFor="signin-email">Email address</label>
             <input
               id="signin-email"
+              name="email"
               type="email"
               autoComplete="email"
               inputMode="email"
@@ -68,7 +74,7 @@ export function SignInForm({ returnTo }: { returnTo: string }) {
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
-          <Button type="submit" disabled={busy || !email}>
+          <Button type="submit" disabled={busy}>
             {busy ? 'Sending…' : 'Email me a code'}
           </Button>
         </form>

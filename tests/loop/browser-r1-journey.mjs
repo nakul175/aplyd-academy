@@ -11,6 +11,9 @@ import { pathToFileURL } from 'node:url';
 const { chromium } = await import(pathToFileURL(process.env.ACADEMY_PLAYWRIGHT_MODULE).href);
 const base = 'http://127.0.0.1:8787',
   run = crypto.randomUUID().slice(0, 6);
+// Operations folds its less frequent sections; the journey opens them all, as an operator would.
+const openFolds = (p) =>
+  p.evaluate(() => document.querySelectorAll('details[data-fold]').forEach((d) => (d.open = true)));
 const db = new DatabaseSync(process.env.ACADEMY_DATABASE_PATH);
 const browser = await chromium.launch({ executablePath: process.env.ACADEMY_CHROME_PATH });
 let checks = 0;
@@ -123,6 +126,7 @@ try {
 
   // ---- 2.5: the operator creates the association and invites its admin ----
   await op.goto(base + '/loop/ops');
+  await openFolds(op);
   await a11y(op, 'operations');
   const orgName = `Synthetic Textile ${run}`;
   await op.locator('#org\\.create-name').fill(orgName);
@@ -182,6 +186,7 @@ try {
   const expert = await newPage();
   await signIn(expert, email('expert'));
   await op.goto(base + '/loop/ops');
+  await openFolds(op);
   await op.locator('#pack\\.create-title').fill(`Textile pack ${run}`);
   await op.locator('#pack\\.create-sector').fill('textile');
   await submitForm(op, 'Create pack');
@@ -477,6 +482,7 @@ try {
 
   // 11.1/11.2/11.6: school, guardian consent, teacher class view
   await op.goto(base + '/loop/ops');
+  await openFolds(op);
   await op.locator('#org\\.create-kind').selectOption('school');
   await op.locator('#org\\.create-name').fill(`Synthetic School ${run}`);
   await op.locator('#org\\.create-sector').fill('education');
@@ -484,12 +490,7 @@ try {
   await submitForm(op, 'Create organisation');
   await op.getByRole('link', { name: `Synthetic School ${run}` }).waitFor();
   const schoolId = db.prepare('SELECT id FROM loop_orgs WHERE name=?').get(`Synthetic School ${run}`).id;
-  await op
-    .locator('details')
-    .filter({ hasText: 'Invite this organisation’s admin' })
-    .filter({ has: op.locator(`#ia-${schoolId}`) })
-    .locator('summary')
-    .click();
+  await op.locator(`#ia-${schoolId}`).locator('xpath=..').locator('summary').click();
   await op.locator(`#ia-${schoolId}-name`).fill('Head Teacher');
   await op.locator(`#ia-${schoolId}-email`).fill(email('head'));
   await op.locator(`#ia-${schoolId}`).getByRole('button').click();
@@ -582,6 +583,7 @@ try {
       .run(k, sc, JSON.stringify(v), userId(email('owner')), now, 'synthetic local test');
   odecide('pricing.workshop', { model: 'per_participant', unitPaise: 50000, cap: 40 }, orgId);
   await op.goto(base + '/loop/ops');
+  await openFolds(op);
   await op.locator('#sp-name').fill(`Synthetic CSR ${run}`);
   await op.locator('#sp-kind').selectOption('csr');
   await op.locator('#sp').getByRole('button').click();
