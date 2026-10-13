@@ -4,6 +4,9 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 OUT="$1"; STAGE="$(mktemp -d)"
+# mktemp -d is mode 700 and tar stores that on the "./" entry: the release folder would then be unreadable by the
+# academy user that runs the server and the migrations (deploy unpacks it, academy reads it).
+chmod 755 "$STAGE"
 cp -r .next/standalone/. "$STAGE/"
 mkdir -p "$STAGE/scripts" "$STAGE/docs/decisions" "$STAGE/docs/privacy"
 cp scripts/migrate.mjs scripts/seed-decisions.mjs scripts/loop-admin.mjs "$STAGE/scripts/" && cp -r drizzle "$STAGE/drizzle"
