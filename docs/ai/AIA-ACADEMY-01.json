@@ -1,0 +1,412 @@
+{
+  "templateVersion": "3.0-generic",
+  "moduleId": "generic.ai_assurance.v3",
+  "purpose": "AIA-ACADEMY-01 draft v0.1 written by Claude on 12 October 2026 for ACA-US-7.1. Not approved; needs Nakul Jain's review and decisions.",
+  "record": {
+    "id": "AIA-ACADEMY-01",
+    "version": "0.1",
+    "contentHash": null,
+    "capabilityId": "ACA-AI-PRACTICE-LOOP",
+    "releaseOrScopeId": "RG-ACADEMY-R1",
+    "stage": "discovery",
+    "environment": "production (DigitalOcean BLR1) and local tests",
+    "author": "Claude (authoring agent)",
+    "authorAuthoritySourceIds": [
+      "S1",
+      "S6"
+    ],
+    "updatedAt": "2026-10-12"
+  },
+  "productRuntimeAiApplicability": {
+    "applicability": "yes",
+    "sourceIds": [
+      "S1"
+    ],
+    "rationale": "Context packs are drafted by AI and the practice loop gives hint-first AI guidance on learners' own work (S1; strategy B4).",
+    "resolutionPlan": null
+  },
+  "documentationAuthoringAiUse": {
+    "applicability": "yes",
+    "toolAndDataHandlingPermissionsEvidence": [
+      "Claude drafts the plan, code and this record; it cannot approve or independently review them."
+    ]
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "ref": "Retained sources S1 (owner statements, 12 Oct 2026)"
+    },
+    {
+      "id": "S6",
+      "ref": "Retained sources S6 (strategy answers)"
+    },
+    {
+      "id": "OWNER-2026-10-12-AI",
+      "ref": "Owner decision in conversation, 12 Oct 2026: provider-neutral AI with no lock-in; test with Claude for now"
+    }
+  ],
+  "assuranceGroups": [
+    {
+      "id": "AI-01",
+      "title": "Intended use, authority and risk",
+      "status": "needs_input",
+      "assessedStage": null,
+      "claim": "Draft: AI drafts context packs for expert review, gives hints (not answers) on learners' own work, and helps check practice; it never grades, decides access, or acts outside the Academy.",
+      "scope": "R1 textile cohort: ACA-US-3.1, 4.2, 4.5, 7.3",
+      "evidenceReferences": [],
+      "sourceIds": [
+        "S1"
+      ],
+      "catalogueFieldReferences": [],
+      "pendingQuestions": [
+        "Who may approve residual risks for R1 (Nakul Jain alone?)",
+        "Operator for the AI fallback queue during the cohort"
+      ],
+      "exclusionsWithEvidence": [],
+      "reviewReference": null,
+      "details": {
+        "capabilityAndNonAiBaseline": "Without AI: fixed practice prompts written by facilitators, no tailored hints; packs written by hand by the expert.",
+        "usersAndAffectedGroups": [
+          "textile association learners (adults)",
+          "sector expert",
+          "facilitators",
+          "customers/suppliers named in learners' work"
+        ],
+        "allowedAndProhibitedUses": [
+          "Allowed: drafting pack items for expert review; hint-first guidance; explaining a learner's own draft",
+          "Prohibited: final answers before an unaided attempt; grading or certification; decisions about a person; open chat outside the practice task; legal, medical, tax or safety advice presented as authoritative"
+        ],
+        "operatingBoundary": "Only inside a practice cycle, on text the learner chose to submit; every AI output is labelled as AI and as advice to check.",
+        "recommendationDecisionActionDistinction": "Outputs are drafts or hints only; no AI output changes a record, grade or permission.",
+        "riskClassificationAndSourceEvidence": null,
+        "riskRegister": [
+          {
+            "risk": "Wrong business advice relied on",
+            "mitigation": "hint-first, 'check before you act' label, expert-reviewed packs, flag button",
+            "status": "needs_input"
+          },
+          {
+            "risk": "Learner work with third-party personal data sent to the AI provider",
+            "mitigation": "minimisation prompt, notice and consent, provider without training on API data",
+            "status": "needs_input"
+          },
+          {
+            "risk": "Dependence: weaker learners copy instead of learning (A-06)",
+            "mitigation": "regular unaided checks (ACA-US-4.3), results by starting level",
+            "status": "needs_input"
+          },
+          {
+            "risk": "Provider outage",
+            "mitigation": "kill switch and non-AI fallback (ACA-US-7.3)",
+            "status": "needs_input"
+          }
+        ],
+        "toolAndExternalEffectPermissions": [],
+        "humanOversightAndOverrideContract": "Expert approves every pack item before learners see it (ACA-US-3.2); learners can flag any AI output (ACA-US-3.3).",
+        "operatorAvailabilityAndEscalation": null,
+        "residualRiskDecisionEvidence": []
+      }
+    },
+    {
+      "id": "AI-02",
+      "title": "Evaluation dataset quality and rights",
+      "status": "needs_input",
+      "assessedStage": null,
+      "claim": null,
+      "scope": null,
+      "evidenceReferences": [],
+      "sourceIds": [],
+      "catalogueFieldReferences": [],
+      "pendingQuestions": [
+        "Owner-agreed thresholds and evaluation set (ACA-US-7.2)"
+      ],
+      "exclusionsWithEvidence": [],
+      "reviewReference": null,
+      "details": {
+        "datasetManifest": {
+          "id": null,
+          "version": null,
+          "contentHash": null,
+          "sourceDateRange": null,
+          "taskAndTargetPopulation": null,
+          "recordCount": null,
+          "selectionMethod": null,
+          "knownExclusions": [],
+          "syntheticOrActualComposition": null,
+          "recordProvenanceIndex": null,
+          "accessRestrictions": null,
+          "purposeRightsPermissionsReferences": [],
+          "retentionDeletionContract": null
+        },
+        "qualityBar": {
+          "status": "target_pending",
+          "coverageSliceMatrix": [],
+          "minimumSliceCounts": [],
+          "labelValidityThreshold": null,
+          "labelCompletenessThreshold": null,
+          "duplicationErrorLimits": null,
+          "representativenessGapLimits": null,
+          "statisticalAdequacyRationale": null,
+          "approvalEvidence": []
+        },
+        "trainTuneAcceptanceSeparation": null,
+        "entityTimeSplitAndLeakageChecks": [],
+        "unknownTrainingContaminationLimitations": null,
+        "restrictedAcceptanceAccess": null,
+        "annotationRubricVersionHash": null,
+        "annotationQualificationsAndIndependence": null,
+        "disagreementMeasurementAndAdjudication": null,
+        "independentLabelAudit": {
+          "samplingMethod": null,
+          "sampleCount": null,
+          "observedErrors": null,
+          "resultReferences": [],
+          "qualityBarDecision": "needs_input"
+        },
+        "aiJudgeValidationAndHumanCalibrationIfUsed": null,
+        "freshAcceptanceSetAfterTuningOnFailures": null
+      }
+    },
+    {
+      "id": "AI-03",
+      "title": "Acceptance metrics and observed results",
+      "status": "needs_input",
+      "assessedStage": null,
+      "claim": null,
+      "scope": null,
+      "evidenceReferences": [],
+      "sourceIds": [],
+      "catalogueFieldReferences": [],
+      "pendingQuestions": [
+        "Owner-agreed thresholds and evaluation set (ACA-US-7.2)"
+      ],
+      "exclusionsWithEvidence": [],
+      "reviewReference": null,
+      "details": {
+        "frozenMetricContracts": [
+          {
+            "id": null,
+            "outcomeReference": null,
+            "definition": null,
+            "unit": null,
+            "eligiblePopulationAndExclusions": null,
+            "numeratorDefinition": null,
+            "denominatorDefinition": null,
+            "operator": null,
+            "targetValue": null,
+            "targetStatus": "target_pending",
+            "targetAuthorityEvidence": [],
+            "datasetIdVersionHash": null,
+            "configurationManifestReference": null,
+            "requiredSliceThresholds": [],
+            "measurementWindow": null,
+            "minimumUsableCount": null,
+            "uncertaintyMethod": null,
+            "observedNumerator": null,
+            "observedDenominator": null,
+            "observedValue": null,
+            "perSliceResults": [],
+            "runEvidenceReferences": [],
+            "baselineComparison": null,
+            "decision": "needs_input"
+          }
+        ],
+        "taskSuccessAndCostlyErrorMetrics": [],
+        "refusalFailureAndFalseRefusalMetrics": [],
+        "calibrationAbstentionRequirements": null,
+        "repeatRunsAndStochasticSettings": null,
+        "runManifestAndRawResults": [],
+        "aggregateAndMandatorySliceDecisions": [],
+        "errorAnalysisAndLimitations": null,
+        "latencyAvailabilityResourceCostTargetsIfMaterial": [],
+        "insufficientOrEmptyDenominatorHandling": null,
+        "targetChangeDecisionHistory": []
+      }
+    },
+    {
+      "id": "AI-04",
+      "title": "Safety, refusal, fallback and recovery",
+      "status": "needs_input",
+      "assessedStage": null,
+      "claim": "Kill switch exists in code (ACADEMY_AI_PROVIDER=off); the non-AI fallback is built in ACA-US-7.3.",
+      "scope": null,
+      "evidenceReferences": [
+        "lib/ai/provider.ts",
+        "tests/node-runtime/ai-provider.test.mjs (5 of 5, local fakes)"
+      ],
+      "sourceIds": [],
+      "catalogueFieldReferences": [],
+      "pendingQuestions": [],
+      "exclusionsWithEvidence": [],
+      "reviewReference": null,
+      "details": {
+        "policyAndProhibitedOutcomeSources": [],
+        "scenarioSuiteIdVersionHash": null,
+        "ordinaryRefusalUncertainIncorrectUnavailableScenarios": [],
+        "adversarialPrivacyAndToolScenarios": [],
+        "coverageAndResidualRiskLimitations": null,
+        "scenarioPassRulesAndObservedResults": [],
+        "fallbackContractAndEndToEndEvidence": [],
+        "humanEscalationCapacityAndAccessibility": null,
+        "partialCompletionDuplicateCancellationRecoveryTests": [],
+        "safeLoggingAndAccess": null,
+        "unresolvedMustPassFailures": []
+      }
+    },
+    {
+      "id": "AI-05",
+      "title": "Versioning, regression and promotion",
+      "status": "needs_input",
+      "assessedStage": null,
+      "claim": "Provider and model are configuration (ACADEMY_AI_PROVIDER, ACADEMY_AI_MODEL); the model is never defaulted, so the evaluated model ID is explicit. Prompts are not yet versioned.",
+      "scope": null,
+      "evidenceReferences": [
+        "lib/ai/provider.ts"
+      ],
+      "sourceIds": [],
+      "catalogueFieldReferences": [],
+      "pendingQuestions": [
+        "Pin the evaluated model ID and prompt hashes in a release manifest before R1"
+      ],
+      "exclusionsWithEvidence": [],
+      "reviewReference": null,
+      "details": {
+        "releaseManifest": {
+          "id": null,
+          "version": null,
+          "contentHash": null,
+          "modelIdentityRevisionOrSnapshot": null,
+          "mutableAliasLimitationsAndDetection": null,
+          "promptsInstructionsTemplateHash": null,
+          "prePostProcessingVersions": null,
+          "guardrailPolicyConfigurationHash": null,
+          "retrievalCorpusIndexEmbeddingRankingVersions": null,
+          "toolSchemaPermissionCodeVersions": null,
+          "runtimeDependencyConfigurationVersions": null,
+          "datasetRubricJudgeEvaluatorPins": null
+        },
+        "changeAndImpactRecord": null,
+        "baselineManifestAndRequiredRegressionSet": null,
+        "regressionResultsAndPromotionThresholds": [],
+        "candidateApprovalAndObservedOperatingManifestReferences": [],
+        "actualPromotionAuthorityEvidence": [],
+        "rollbackOrHaltAvailablePath": "Set ACADEMY_AI_PROVIDER=off and restart: all AI calls stop and the fallback is shown.",
+        "rollbackCompatibilityAndEffectTests": [],
+        "changesThatInvalidatePriorReviews": [],
+        "acceptedReproducibilityLimitationsEvidence": []
+      }
+    },
+    {
+      "id": "AI-06",
+      "title": "Data permissions, privacy and law",
+      "status": "needs_input",
+      "assessedStage": null,
+      "claim": "Not resolved. Text a learner submits for AI help leaves India: the current test provider (Anthropic API) processes it in the United States, although the Academy itself is hosted in Bangalore.",
+      "scope": null,
+      "evidenceReferences": [],
+      "sourceIds": [],
+      "catalogueFieldReferences": [],
+      "pendingQuestions": [
+        "Is cross-border processing of learner work text acceptable for adults under the DPDP Act, with notice and consent? (qualified legal review)",
+        "If not: use an India-region provider (Azure OpenAI or Vertex AI in India) through the same adapter",
+        "Provider data terms to confirm in writing: no training on API data, retention period, zero-retention option"
+      ],
+      "exclusionsWithEvidence": [],
+      "reviewReference": null,
+      "details": {
+        "personalDataApplicability": {
+          "applicability": "yes",
+          "sourceIds": [
+            "S1"
+          ],
+          "rationale": "Learners' own work artefacts may contain their and third parties' personal data.",
+          "resolutionPlan": "Legal review before R1 enters planning (roadmap open decision: legal basis for adults)."
+        },
+        "dataFlowInventory": [
+          {
+            "flow": "learner practice text → Academy server (BLR1) → AI provider API → hint back",
+            "stored": "in the learner's workspace (Academy); provider retention per its API terms",
+            "location": "India (Academy); provider region (United States for the Anthropic API test setup)"
+          }
+        ],
+        "purposeAndPermissionBasisPerFlow": [],
+        "trainingReuseSeparatePermissionEvidence": [],
+        "noticesConsentWithdrawalOrOtherBasisDecision": null,
+        "collectionMinimisationAccessSecurityRetentionDeletionTests": [],
+        "childrenOrLawfulGuardianApplicabilityDecision": null,
+        "recipientsProcessorsLocationsTransfersAndContractControls": [],
+        "providerTrainingSubprocessorDeletionAndTelemetryDecisions": [],
+        "rightsAndIncidentResponseContract": null,
+        "jurisdictionCurrentDutyRegister": [],
+        "indiaDpdpReviewIfApplicable": {
+          "applicability": "unknown",
+          "factualScopeAndRole": null,
+          "reviewedAt": null,
+          "qualifiedReviewerAuthorityEvidence": [],
+          "actRulesCorrigendumAndOrderVersions": [],
+          "currentlyInForceProvisions": [],
+          "scheduledProvisionsAndDerivedDates": [],
+          "otherCurrentApplicableDuties": [],
+          "productPolicyBeforeCommencement": [],
+          "exemptionsAndJustification": [],
+          "actualReleaseDateApplicabilityDecision": null
+        },
+        "unresolvedRequiredPermissionOrLegalDecisions": []
+      }
+    },
+    {
+      "id": "AI-07",
+      "title": "Monitoring, incidents and product learning",
+      "status": "needs_input",
+      "assessedStage": null,
+      "claim": null,
+      "scope": null,
+      "evidenceReferences": [],
+      "sourceIds": [],
+      "catalogueFieldReferences": [],
+      "pendingQuestions": [
+        "Owner-agreed thresholds and evaluation set (ACA-US-7.2)"
+      ],
+      "exclusionsWithEvidence": [],
+      "reviewReference": null,
+      "details": {
+        "acceptedManifestPopulationAndBaseline": null,
+        "inputOutputBehaviorOutcomeIncidentSignals": [],
+        "importantSlicePerformanceAndDisparityMeasures": [],
+        "refusalAbstentionOverrideComplaintAvailabilityResourceSignals": [],
+        "permissionsSampleCadenceMinimumCountsAndLag": null,
+        "driftQualityAndSafetyThresholds": [],
+        "labelDelayAndProxyLimitations": null,
+        "alertDestinationOwnerAuthorityAndResponseTime": null,
+        "alertAndOperatorAbsenceTests": [],
+        "warningEscalationFallbackRollbackHaltContract": null,
+        "protectedIncidentEvidenceAndRegressionFeedback": null,
+        "postReleaseReview": {
+          "windowAndPopulation": null,
+          "reviewDateAndActualOwner": null,
+          "targetBaselineActualComparisons": [],
+          "perSliceNumeratorsDenominatorsUncertainty": [],
+          "incidentsUnexpectedEffectsAndConfounders": [],
+          "continueImproveNarrowRollbackRetireDecision": null,
+          "authorityEvidence": [],
+          "strategyFeedbackReferences": [],
+          "roadmapFeedbackReferences": [],
+          "ownedActionsAndHypothesisUpdates": []
+        }
+      }
+    }
+  ],
+  "hierarchyEvidenceMapping": [],
+  "nextRequiredQuestions": [
+    "AI-06: accept cross-border AI processing or require an India-region provider?",
+    "AI-03: thresholds for hint quality and wrong-advice rate (ACA-US-7.2)",
+    "AI-01: residual-risk approver for R1"
+  ],
+  "externalReviewAndApprovalBoundary": {
+    "mode": "offline_advisory",
+    "trustedRegistryOrReviewServiceReference": null,
+    "externalTrustAnchorEvidence": [],
+    "approvalEvidence": []
+  },
+  "assessmentClaim": "Draft v0.1, not assessed or approved. Groups AI-01, AI-04, AI-05 and AI-06 hold first content; all remain needs_input."
+}

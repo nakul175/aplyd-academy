@@ -17,8 +17,10 @@ test('journal, snapshots and SQL files agree and the new migration is additive-o
     files,
   );
   journal.forEach((e, i) => assert.equal(e.idx, i));
-  const last = files.at(-1),
+  // Pinned to 0006 (the audit-detail migration this suite was written for); later migrations have their own checks below.
+  const last = '0006_audit_detail.sql',
     sql = readFileSync(root + '/drizzle/' + last, 'utf8');
+  assert.ok(files.includes(last));
   assert.match(last, /^0006_/);
   assert.ok(/ADD `detail` text/.test(sql));
   assert.ok(!/DROP|NOT NULL|DELETE|UPDATE /i.test(sql), 'additive and nullable only');
@@ -69,5 +71,23 @@ test('rows written before the migration survive and read back with a null detail
         .run('u1', 1, 'evt-dup', 'x', 't'),
     /UNIQUE|constraint/i,
     'primary key still enforced',
+  );
+});
+
+test('0007 (ACA-US-1.2 refusal audit) only creates a new table and index; existing tables are untouched', () => {
+  const sql = readFileSync(root + '/drizzle/0007_access_refusals.sql', 'utf8');
+  const statements = sql
+    .split('--> statement-breakpoint')
+    .map((x) => x.trim())
+    .filter(Boolean);
+  assert.equal(statements.length, 2);
+  assert.match(statements[0], /^CREATE TABLE `academy_access_refusals`/);
+  assert.match(statements[1], /^CREATE INDEX `idx_academy_access_refusals_created`/);
+  assert.ok(!/DROP|DELETE|UPDATE |ALTER/i.test(sql), 'no change to existing tables or rows');
+  const db = new DatabaseSync(':memory:');
+  applyMigrations(db);
+  assert.deepEqual(
+    cols(db, 'academy_access_refusals').sort(),
+    ['id', 'actor_ref', 'route', 'method', 'status', 'created_at'].sort(),
   );
 });

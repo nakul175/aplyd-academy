@@ -1,5 +1,7 @@
 # Aplyd Academy working pilot · v0.15.1
 
+> **Practice loop (new, branch `aca/practice-loop`).** The Academy is moving to a weekly practice loop on learners' own work, under `/loop`, for association cohorts first. Start with `docs/architecture/practice-loop.md`, `docs/decisions/ADR-0002-practice-loop-module.md` and `docs/operations/runbook-practice-loop.md`. The v0.17 pilot described below is unchanged.
+
 A durable learning application for farmers, MSME owners and public servants. Learners practise on fictional source packets, check supplied AI drafts, submit practical evidence, receive reasoned feedback and reflect on their work.
 
 ## What works

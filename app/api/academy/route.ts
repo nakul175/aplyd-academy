@@ -1,5 +1,5 @@
 import { ensurePersonalSizing, PersonalSizingError } from '@/lib/academy-personal-storage';
-import { env } from 'cloudflare:workers';
+import { env } from '@/lib/platform-env';
 import { getChatGPTUser } from '../../chatgpt-auth';
 import { freshWorkspace, applyCommand, RuleError, programs } from '@/lib/academy-engine';
 import { pseudonymMap, summarizePersonalCommand, safeDetailJson } from '@/lib/academy-audit-detail';

@@ -1,0 +1,121 @@
+# ACA-US-1.5: Node runtime checks that `verify` (ci.yml) does not run: audit, browser journey with WCAG checks,
+# API suites against the built server, release and rollback. Lint, format, typecheck and the unit suites
+# (including tests/loop) run once, in ci.yml. The deploy job targets the Node host (deploy/node/), never the
+# shared droplet, through the "production" environment. It runs on a push to main and on a manual dispatch from
+# any branch (used for the first cutover from the sync branch). See docs/operations/cutover-plan.md.
+name: Academy node runtime
+on:
+  push:
+    branches: [main]
+  pull_request:
+    paths-ignore: ['**.md', 'docs/**']
+  workflow_dispatch:
+    inputs:
+      deploy:
+        description: 'Deploy this ref to the Node host after the checks pass'
+        type: boolean
+        default: false
+permissions:
+  contents: read
+concurrency:
+  group: academy-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  test-and-build:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Enable the pinned pnpm (packageManager in package.json)
+        run: corepack enable
+      - run: pnpm install --frozen-lockfile
+      - name: Production dependencies have no high or critical advisories (ACA-US-12.2)
+        run: pnpm audit --prod --audit-level high
+      - name: Node standalone build (pnpm run build is the Worker build the shared droplet runs)
+        run: pnpm run build:node
+      - name: Practice-loop journey in a browser with WCAG 2.2 AA checks (ACA-US-12.3)
+        run: |
+          mkdir -p "$RUNNER_TEMP/pw" && cd "$RUNNER_TEMP/pw" && npm init -y >/dev/null && npm install --no-save playwright@1.56.0 && npx playwright install --with-deps chromium && cd "$GITHUB_WORKSPACE"
+          export ACADEMY_PLAYWRIGHT_MODULE="$RUNNER_TEMP/pw/node_modules/playwright/index.mjs" ACADEMY_CHROME_PATH="$(cd "$RUNNER_TEMP/pw" && node -e "console.log(require('playwright').chromium.executablePath())")"
+          QA_TRUST_HEADERS=0 QA_SKIP_BUILD=1 QA_RUN_DIR=qa-loop ACADEMY_MAIL_TRANSPORT=outbox ACADEMY_AUTH_SECRET=ci-only-synthetic-secret-0123456789abcdef ACADEMY_AI_PROVIDER=fake ACADEMY_AI_MODEL=synthetic-model ACADEMY_FILES_PATH="$(mktemp -d)" A11Y_OUT="$PWD/qa-loop/axe-results.json" scripts/node-local-qa.sh tests/loop/browser-r1-journey.mjs && ! grep -q ',[1-9][0-9]*,' qa-loop/results.csv
+      - name: Production-parity deep browser test (seeded decisions, guided set-up, crawl of every page per role)
+        run: |
+          export ACADEMY_PLAYWRIGHT_MODULE="$RUNNER_TEMP/pw/node_modules/playwright/index.mjs" ACADEMY_CHROME_PATH="$(cd "$RUNNER_TEMP/pw" && node -e "console.log(require('playwright').chromium.executablePath())")"
+          ACADEMY_JOBS_SECRET=ci-only-jobs-secret-0123456789abcdef0123456789 QA_OUT="$PWD/qa-parity" QA_TRUST_HEADERS=0 QA_SKIP_BUILD=1 QA_RUN_DIR=qa-pp ACADEMY_MAIL_TRANSPORT=outbox ACADEMY_AUTH_SECRET=ci-only-synthetic-secret-0123456789abcdef ACADEMY_AI_PROVIDER=fake ACADEMY_AI_MODEL=synthetic-model ACADEMY_FILES_PATH="$(mktemp -d)" scripts/node-local-qa.sh tests/loop/browser-prod-parity.mjs && ! grep -q ',[1-9][0-9]*,' qa-pp/results.csv
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: parity-report
+          path: qa-parity
+          retention-days: 14
+      - name: API suites against the built server (synthetic users, throwaway database)
+        run: QA_SKIP_BUILD=1 QA_RUN_DIR=qa-run scripts/node-local-qa.sh tests/node-runtime/refusal-audit.mjs tests/api-integration.mjs tests/teams-api.mjs tests/ecosystem-api.mjs && ! grep -q ',[1-9][0-9]*,' qa-run/results.csv
+      - run: tests/node-runtime/release-rollback.sh
+      - run: scripts/package-release.sh academy-${{ github.sha }}.tar.gz
+      - uses: actions/upload-artifact@v4
+        with:
+          name: release
+          path: academy-${{ github.sha }}.tar.gz
+          retention-days: 30
+  deploy:
+    if: (github.ref == 'refs/heads/main' && github.event_name == 'push') || (github.event_name == 'workflow_dispatch' && inputs.deploy)
+    needs: test-and-build
+    runs-on: ubuntu-24.04
+    environment: production
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: release
+      - name: Trust the host
+        env:
+          HOST: ${{ secrets.ACADEMY_DEPLOY_HOST }}
+          KNOWN_HOSTS: ${{ secrets.ACADEMY_DEPLOY_KNOWN_HOSTS }}
+          SSH_KEY: ${{ secrets.ACADEMY_DEPLOY_SSH_KEY }}
+        run: |
+          [ -n "$HOST" ] && [ -n "$SSH_KEY" ] || { echo "ACADEMY_DEPLOY_HOST and ACADEMY_DEPLOY_SSH_KEY are not set in the production environment"; exit 1; }
+          install -m 700 -d ~/.ssh && printf '%s\n' "$SSH_KEY" > ~/.ssh/id && chmod 600 ~/.ssh/id
+          if [ -n "$KNOWN_HOSTS" ]; then printf '%s\n' "$KNOWN_HOSTS" > ~/.ssh/known_hosts
+          else
+            # No pinned host key yet: record the host's key on first contact and print it so it can be pinned as
+            # ACADEMY_DEPLOY_KNOWN_HOSTS (docs/operations/cutover-plan.md, step "Pin the host key").
+            ssh-keyscan -t ed25519 "$HOST" > ~/.ssh/known_hosts 2>/dev/null
+            echo "::warning::ACADEMY_DEPLOY_KNOWN_HOSTS is not set; trusted the host key seen now. Pin it:"; cat ~/.ssh/known_hosts
+          fi
+      - name: Carry the owner's keys to the server (only the secrets that are set; values travel over SSH on stdin)
+        env:
+          HOST: ${{ secrets.ACADEMY_DEPLOY_HOST }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          LITESTREAM_ACCESS_KEY_ID: ${{ secrets.LITESTREAM_ACCESS_KEY_ID }}
+          LITESTREAM_SECRET_ACCESS_KEY: ${{ secrets.LITESTREAM_SECRET_ACCESS_KEY }}
+          # Not a secret: the sender must be on the domain verified in Resend (academy.aplyd.org; aplyd.org itself
+          # belongs to another Resend team).
+          ACADEMY_MAIL_FROM: 'Aplyd Academy <no-reply@academy.aplyd.org>'
+          # Owner decision of 13 Oct 2026 (docs/decisions/owner-decisions-2026-10-13.md): Anthropic, this model. Applied
+          # only once the key is present, so the server never points at a provider it cannot reach.
+          AI_MODEL_DECIDED: claude-sonnet-5-5
+        run: |
+          for k in ACADEMY_MAIL_FROM RESEND_API_KEY ANTHROPIC_API_KEY LITESTREAM_ACCESS_KEY_ID LITESTREAM_SECRET_ACCESS_KEY; do
+            v="${!k}"; [ -n "$v" ] || { echo "$k: not set in the production environment, skipped"; continue; }
+            printf '%s' "$v" | ssh -i ~/.ssh/id "deploy@$HOST" "sudo /srv/academy/bin/set-secret.sh $k"
+          done
+          if [ -n "$ANTHROPIC_API_KEY" ]; then
+            printf '%s' anthropic | ssh -i ~/.ssh/id "deploy@$HOST" "sudo /srv/academy/bin/set-secret.sh ACADEMY_AI_PROVIDER"
+            printf '%s' "$AI_MODEL_DECIDED" | ssh -i ~/.ssh/id "deploy@$HOST" "sudo /srv/academy/bin/set-secret.sh ACADEMY_AI_MODEL"
+          fi
+      - name: Copy and install the release (rolls back by itself if unhealthy)
+        env:
+          HOST: ${{ secrets.ACADEMY_DEPLOY_HOST }}
+        run: |
+          id="${GITHUB_SHA::12}"
+          scp -i ~/.ssh/id "academy-$GITHUB_SHA.tar.gz" "deploy@$HOST:/tmp/academy-$id.tar.gz"
+          # Hosts provisioned before 13 Oct 2026 left /srv/academy/bin writable by deploy: refresh the scripts once;
+          # the first sudo call of the new academy-admin.sh makes the folder root-owned, and this step then skips.
+          ssh -i ~/.ssh/id "deploy@$HOST" "if [ -w /srv/academy/bin ]; then k=\$(mktemp -d) && tar -xzf /tmp/academy-$id.tar.gz -C \$k ./deploy-kit && cp \$k/deploy-kit/*.sh /srv/academy/bin/ && rm -rf \$k && echo 'host scripts refreshed'; fi"
+          ssh -i ~/.ssh/id "deploy@$HOST" "/srv/academy/bin/release.sh /tmp/academy-$id.tar.gz $id && rm -f /tmp/academy-$id.tar.gz"
+      - name: Health
+        env:
+          HOST: ${{ secrets.ACADEMY_DEPLOY_HOST }}
+        run: ssh -i ~/.ssh/id "deploy@$HOST" "curl -fsS http://127.0.0.1:3000/api/health"

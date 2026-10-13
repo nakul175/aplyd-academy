@@ -35,7 +35,10 @@ if (!Object.keys(r.metafile.inputs).some((f) => f.endsWith('lib/academy-audit-de
 const stubs = {
   name: 'platform-stubs',
   setup(b) {
-    b.onResolve({ filter: /^cloudflare:workers$/ }, () => ({ path: 'workers', namespace: 'stub' }));
+    b.onResolve({ filter: /^cloudflare:workers$|platform-env$/ }, () => ({
+      path: 'workers',
+      namespace: 'stub',
+    }));
     b.onResolve({ filter: /chatgpt-auth$/ }, () => ({ path: 'auth', namespace: 'stub' }));
     b.onLoad({ filter: /^workers$/, namespace: 'stub' }, () => ({
       contents: 'export const env={get DB(){return globalThis.__auditDb}};',

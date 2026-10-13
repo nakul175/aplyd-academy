@@ -1,4 +1,5 @@
-import { env } from 'cloudflare:workers';
+import { env } from '@/lib/platform-env';
+import { recordRefusal } from '@/lib/access-refusal-audit';
 import { getChatGPTUser } from '../../chatgpt-auth';
 import { RuleError } from '@/lib/academy-engine';
 import { createTeam, applyTeamCommand, projectTeam, member, invitation, Team } from '@/lib/academy-teams';
@@ -90,6 +91,7 @@ export async function GET(request: Request) {
       user: { id: u.userId, name: u.fullName ?? u.email, email: u.email },
     });
   } catch (e) {
+    if (e instanceof RuleError) await recordRefusal(request, e.status); // ACA-US-1.2 AC2
     return fail(e);
   }
 }
@@ -240,6 +242,7 @@ export async function POST(request: Request) {
       );
     return response({ ...projectTeam(team, u), revision });
   } catch (e) {
+    if (e instanceof RuleError) await recordRefusal(request, e.status); // ACA-US-1.2 AC2
     return fail(e);
   }
 }

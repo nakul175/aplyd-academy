@@ -29,10 +29,13 @@ const result = await esbuild.build({
     {
       name: 'explicit-memory-host',
       setup(build) {
-        build.onResolve({ filter: /^(cloudflare:workers|route-error-host)$|chatgpt-auth$/ }, () => ({
-          path: 'route-error-host',
-          namespace: 'route-error-host',
-        }));
+        build.onResolve(
+          { filter: /^(cloudflare:workers|route-error-host)$|platform-env$|chatgpt-auth$/ },
+          () => ({
+            path: 'route-error-host',
+            namespace: 'route-error-host',
+          }),
+        );
         build.onLoad({ filter: /.*/, namespace: 'route-error-host' }, () => ({
           contents: host,
           loader: 'ts',

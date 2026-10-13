@@ -1,4 +1,4 @@
-import { env } from 'cloudflare:workers';
+import { env } from '@/lib/platform-env';
 import { getChatGPTUser } from '../../../chatgpt-auth';
 import { freshWorkspace } from '@/lib/academy-engine';
 import { buildPersonalSnapshot } from '@/lib/academy-snapshot';

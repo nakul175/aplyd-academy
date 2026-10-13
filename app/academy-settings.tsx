@@ -401,8 +401,13 @@ export function SettingsView() {
           For this private preview, share feedback in the conversation where this Academy was created. No
           support desk or external message delivery is connected.
         </p>
-        <a className="text-button mt" href="/signout-with-chatgpt?return_to=/" target="_top">
-          Sign out of the private Academy
+        <form method="post" action="/signout">
+          <button className="text-button mt" type="submit">
+            Sign out of the private Academy
+          </button>
+        </form>
+        <a className="text-button mt" href="/account">
+          Delete my data
         </a>
       </section>
     </>

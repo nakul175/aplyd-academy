@@ -1,0 +1,33 @@
+{
+  "status": "DRAFT proposal by Claude for owner review (ACA-US-2.3). Not in use until Nakul Jain records it as the decision placement.instrument, with any changes. The band score ranges are a starting proposal, not an owner value.",
+  "version": "placement-draft-0.1",
+  "questions": [
+    {"id": "use", "text": "How often do you use an AI assistant (for example ChatGPT, Gemini or Copilot) for your work?", "options": [
+      {"id": "never", "text": "Never or almost never", "score": 0},
+      {"id": "month", "text": "A few times a month", "score": 1},
+      {"id": "week", "text": "Every week", "score": 2},
+      {"id": "day", "text": "Most days", "score": 3}]},
+    {"id": "tasks", "text": "Which of these have you done with AI for real work?", "options": [
+      {"id": "none", "text": "None yet", "score": 0},
+      {"id": "write", "text": "Written or improved a message or email", "score": 1},
+      {"id": "data", "text": "Checked numbers, a bill or a sheet", "score": 2},
+      {"id": "process", "text": "Changed how I do a regular task because of AI", "score": 3}]},
+    {"id": "check", "text": "When AI gives you a number or a fact for your work, what do you usually do?", "options": [
+      {"id": "use", "text": "Use it as it is", "score": 0},
+      {"id": "sometimes", "text": "Sometimes check it", "score": 1},
+      {"id": "always", "text": "Always check it against my records or a trusted source", "score": 3}]},
+    {"id": "prompt", "text": "When the first AI answer is not good enough, what do you do?", "options": [
+      {"id": "stop", "text": "Stop using it", "score": 0},
+      {"id": "retry", "text": "Ask the same thing again", "score": 1},
+      {"id": "context", "text": "Add details about my situation or an example and ask again", "score": 3}]},
+    {"id": "private", "text": "Before you paste work into an AI tool, do you remove customers' or staff private details?", "options": [
+      {"id": "no", "text": "I had not thought about it", "score": 0},
+      {"id": "sometimes", "text": "Sometimes", "score": 1},
+      {"id": "yes", "text": "Yes, always", "score": 2}]}
+  ],
+  "bands": [
+    {"level": "L1", "label": "Starting", "min": 0, "max": 4},
+    {"level": "L2", "label": "Practising", "min": 5, "max": 9},
+    {"level": "L3", "label": "Confident", "min": 10, "max": 14}
+  ]
+}

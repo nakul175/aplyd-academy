@@ -7,11 +7,13 @@
   },
   "scripts": {
     "install:ci": "bash scripts/install-pnpm.sh",
-    "dev": "node scripts/run-framework.mjs dev",
+    "dev": "next dev",
     "build": "node scripts/run-framework.mjs build",
+    "build:node": "next build && node scripts/copy-standalone-assets.mjs",
     "docs:index": "node scripts/doc-index.mjs",
     "docs:index:check": "node scripts/doc-index.mjs --check",
-    "start": "node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js dev --config dist/server/wrangler.json --local --persist-to .wrangler/state --ip 127.0.0.1 --inspector-port 0",
+    "start": "node .next/standalone/server.js",
+    "migrate": "node scripts/migrate.mjs",
     "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",
     "lint:baseline": "node scripts/lint-baseline.mjs",
     "typecheck": "tsc --noEmit",
@@ -32,7 +34,7 @@
     "embla-carousel-react": "^8.6.0",
     "input-otp": "^1.4.2",
     "lucide-react": "^1.31.0",
-    "next": "16.3.4",
+    "next": "16.3.8",
     "next-themes": "^0.4.6",
     "radix-ui": "^1.6.7",
     "react": "19.2.6",
@@ -55,10 +57,11 @@
     "@types/react-dom": "19.2.3",
     "@vitejs/plugin-react": "6.0.2",
     "@vitejs/plugin-rsc": "0.5.26",
+    "axe-core": "4.11.4",
     "drizzle-kit": "0.31.10",
     "esbuild": "0.28.0",
     "eslint": "9.39.4",
-    "eslint-config-next": "16.3.4",
+    "eslint-config-next": "16.3.8",
     "json-rpc-2.0": "1.7.1",
     "prettier": "3.6.2",
     "raw-body": "3.0.2",
@@ -71,10 +74,5 @@
     "wrangler": "4.92.0"
   },
   "type": "module",
-  "overrides": {
-    "miniflare": {
-      "sharp": "0.35.4"
-    }
-  },
   "packageManager": "pnpm@11.25.0"
 }

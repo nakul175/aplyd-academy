@@ -1,4 +1,4 @@
-import { env } from 'cloudflare:workers';
+import { env } from '@/lib/platform-env';
 import { getChatGPTUser } from '../../../chatgpt-auth';
 import { projectOrgOverview, isActiveOwner, ORG_LIMITS } from '@/lib/academy-org-admin';
 import { noStoreJson as response } from '@/lib/http';

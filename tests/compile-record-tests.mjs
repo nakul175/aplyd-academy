@@ -69,7 +69,9 @@ await esbuild.build({
     {
       name: 'pure-route-host',
       setup(build) {
-        build.onResolve({ filter: /^cloudflare:workers$|chatgpt-auth$/ }, () => ({ path: mock }));
+        build.onResolve({ filter: /^cloudflare:workers$|platform-env$|chatgpt-auth$/ }, () => ({
+          path: mock,
+        }));
       },
     },
   ],

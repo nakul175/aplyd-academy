@@ -33,7 +33,7 @@ await esbuild.build({
     {
       name: 'pure-host',
       setup(b) {
-        b.onResolve({ filter: /^cloudflare:workers$|chatgpt-auth$/ }, () => ({ path: host }));
+        b.onResolve({ filter: /^cloudflare:workers$|platform-env$|chatgpt-auth$/ }, () => ({ path: host }));
       },
     },
   ],

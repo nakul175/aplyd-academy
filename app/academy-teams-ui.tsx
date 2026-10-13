@@ -1182,9 +1182,11 @@ export function TeamPreferences() {
         <Button className="mt" variant="outline" onClick={() => go('support')}>
           Open my support requests
         </Button>
-        <a className="text-button mt" href="/signout-with-chatgpt?return_to=/" target="_top">
-          Sign out of Academy
-        </a>
+        <form method="post" action="/signout">
+          <button className="text-button mt" type="submit">
+            Sign out of Academy
+          </button>
+        </form>
       </section>
     </>
   );

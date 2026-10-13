@@ -1,4 +1,4 @@
-import { env } from 'cloudflare:workers';
+import { env } from '@/lib/platform-env';
 import { PartnerDummyError } from '@/lib/academy-partner-dummy';
 import { handleInboundEnrol } from '@/lib/academy-partner-dummy-service';
 import { noStoreJson as respond } from '@/lib/http';

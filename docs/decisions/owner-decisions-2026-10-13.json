@@ -1,0 +1,93 @@
+{
+  "recordedBy": "Claude, under authority delegated by the product owner Nakul Jain in chat on 13 October 2026 (\"bhai sab khud se kar sakta hai. dont upward delegate\")",
+  "source": "Delegated to Claude by Nakul Jain, chat of 13 Oct 2026; rationale in docs/decisions/owner-decisions-2026-10-13.md. The owner can override any value by recording a new decision in Operations.",
+  "notice": { "version": "v1.0", "file": "docs/privacy/notice-v1.0.md" },
+  "evaluationSet": "docs/ai/evaluation-set-draft.json",
+  "decisions": [
+    { "key": "notice.approved", "scope": "global", "value": { "version": "v1.0" } },
+    {
+      "key": "placement.instrument",
+      "scope": "global",
+      "value": {
+        "version": "placement-1.0",
+        "questions": [
+          {
+            "id": "use",
+            "text": "How often do you use an AI assistant (for example ChatGPT, Gemini or Copilot) for your work?",
+            "options": [
+              { "id": "never", "text": "Never or almost never", "score": 0 },
+              { "id": "month", "text": "A few times a month", "score": 1 },
+              { "id": "week", "text": "Every week", "score": 2 },
+              { "id": "day", "text": "Most days", "score": 3 }
+            ]
+          },
+          {
+            "id": "tasks",
+            "text": "Which of these have you done with AI for real work?",
+            "options": [
+              { "id": "none", "text": "None yet", "score": 0 },
+              { "id": "write", "text": "Written or improved a message or email", "score": 1 },
+              { "id": "data", "text": "Checked numbers, a bill or a sheet", "score": 2 },
+              { "id": "process", "text": "Changed how I do a regular task because of AI", "score": 3 }
+            ]
+          },
+          {
+            "id": "check",
+            "text": "When AI gives you a number or a fact for your work, what do you usually do?",
+            "options": [
+              { "id": "use", "text": "Use it as it is", "score": 0 },
+              { "id": "sometimes", "text": "Sometimes check it", "score": 1 },
+              { "id": "always", "text": "Always check it against my records or a trusted source", "score": 3 }
+            ]
+          },
+          {
+            "id": "prompt",
+            "text": "When the first AI answer is not good enough, what do you do?",
+            "options": [
+              { "id": "stop", "text": "Stop using it", "score": 0 },
+              { "id": "retry", "text": "Ask the same thing again", "score": 1 },
+              { "id": "context", "text": "Add details about my situation or an example and ask again", "score": 3 }
+            ]
+          },
+          {
+            "id": "private",
+            "text": "Before you paste work into an AI tool, do you remove customers' or staff private details?",
+            "options": [
+              { "id": "no", "text": "I had not thought about it", "score": 0 },
+              { "id": "sometimes", "text": "Sometimes", "score": 1 },
+              { "id": "yes", "text": "Yes, always", "score": 2 }
+            ]
+          }
+        ],
+        "bands": [
+          { "level": "L1", "label": "Starting", "min": 0, "max": 4 },
+          { "level": "L2", "label": "Practising", "min": 5, "max": 9 },
+          { "level": "L3", "label": "Confident", "min": 10, "max": 14 }
+        ]
+      }
+    },
+    { "key": "access.notice_days", "scope": "global", "value": { "days": 30 } },
+    { "key": "ai.enabled", "scope": "global", "value": { "enabled": true } },
+    {
+      "key": "ai.thresholds",
+      "scope": "global",
+      "value": { "overall": 0.9, "perCategory": { "hint_first": 1, "uncertainty": 0.9, "refusal": 1 } }
+    },
+    {
+      "key": "ai.files_to_provider",
+      "scope": "global",
+      "value": { "allowed": false, "aiaVersion": "AIA-ACADEMY-01 v1.0 (docs/privacy/ai-provider-review.md)" }
+    },
+    { "key": "reminders.channel", "scope": "global", "value": { "channel": "email" } },
+    { "key": "reminders.default_cadence", "scope": "global", "value": { "cadence": { "id": "weekly-mon", "days": [1] } } },
+    { "key": "followup.inactive_weeks", "scope": "global", "value": { "weeks": 2 } },
+    { "key": "metrics.min_group_size", "scope": "global", "value": { "size": 5 } },
+    {
+      "key": "retention.periods",
+      "scope": "global",
+      "value": { "days": { "login_codes": 1, "sessions": 30, "invites": 30, "message_outbox": 90 } }
+    },
+    { "key": "help.security_contact", "scope": "global", "value": { "email": "nakul.jain@aplyd.com" } },
+    { "key": "sessions.format", "scope": "global", "value": { "cadence": "monthly", "minutes": 45, "platform": "Google Meet" } }
+  ]
+}

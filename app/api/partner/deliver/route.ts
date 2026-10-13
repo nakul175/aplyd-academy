@@ -1,4 +1,4 @@
-import { env } from 'cloudflare:workers';
+import { env } from '@/lib/platform-env';
 import { getChatGPTUser } from '../../../chatgpt-auth';
 import { PartnerDummyError } from '@/lib/academy-partner-dummy';
 import { deliverProgress, viewFor } from '@/lib/academy-partner-dummy-service';

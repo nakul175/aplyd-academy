@@ -50,6 +50,69 @@
       "when": 1791310109443,
       "tag": "0006_audit_detail",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "6",
+      "when": 1791807959211,
+      "tag": "0007_access_refusals",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "6",
+      "when": 1791813500983,
+      "tag": "0008_email_otp_sign_in",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "6",
+      "when": 1791822594733,
+      "tag": "0009_erasure_log",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "6",
+      "when": 1791822594743,
+      "tag": "0010_loop_foundation",
+      "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "6",
+      "when": 1791822594744,
+      "tag": "0011_loop_packs_ai",
+      "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "6",
+      "when": 1791822594745,
+      "tag": "0012_loop_practice",
+      "breakpoints": true
+    },
+    {
+      "idx": 13,
+      "version": "6",
+      "when": 1791822594746,
+      "tag": "0013_loop_reminders_metrics",
+      "breakpoints": true
+    },
+    {
+      "idx": 14,
+      "version": "6",
+      "when": 1791822594747,
+      "tag": "0014_loop_community_evidence",
+      "breakpoints": true
+    },
+    {
+      "idx": 15,
+      "version": "6",
+      "when": 1791822594762,
+      "tag": "0015_loop_r3_r4",
+      "breakpoints": true
     }
   ]
 }

@@ -38,6 +38,15 @@ Formatting follows `.editorconfig` (2-space indent, LF, final newline). A PR tha
 
 Follow docs/governance/README.md: one canonical document per topic, link rather than copy, and record owner, last-reviewed date and an update trigger in every governance document.
 
+## Practice loop (`lib/loop`, `app/loop`)
+
+- Every change traces to a Linear story (ACA-US-x.y) and its acceptance criteria; commit messages name the story.
+- Owner values are never hard-coded: add a key to `DECISIONS` in `lib/loop/core.ts` and use `requireDecision`.
+- Every permission check lives in `lib/loop`, and every refusal goes through `refuse()` so it is audited.
+- Migrations are new files only (`drizzle/00NN_*.sql` plus a `_journal.json` entry); never edit an applied one.
+- Run `node scripts/gen-loop-docs.mjs` and commit the regenerated docs; run the browser journey for screen changes.
+- Plain English in the interface: short sentences, no jargon, say what the person can do next.
+
 ## Gaps
 
 - The `verify` job is the only automated gate; browser and API harnesses, dependency and secret scanning are still run by hand or not at all (docs/governance/secure-dev-evidence.md). `main` is not protected, so a red check does not block a merge by itself.
