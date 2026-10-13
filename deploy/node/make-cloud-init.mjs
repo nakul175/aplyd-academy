@@ -69,7 +69,7 @@ mkdir -p /etc/systemd/system/litestream.service.d
 printf '[Service]\\nEnvironmentFile=/etc/academy/litestream.env\\n' > /etc/systemd/system/litestream.service.d/env.conf
 systemctl daemon-reload && systemctl enable academy caddy academy-jobs.timer && systemctl restart caddy
 ufw default deny incoming && ufw allow OpenSSH && ufw allow 80/tcp && ufw allow 443/tcp && ufw --force enable
-echo "academy-blr1 provisioned $(date -u +%FT%TZ)" > /var/lib/academy-provisioned
+echo "academy-blr1 provisioned $(date -u +%FT%TZ)" > /var/lib/academy-provisioned && chmod 644 /var/lib/academy-provisioned
 `;
 
 const sudoers = `deploy ALL=(root) NOPASSWD: /usr/bin/systemctl restart academy
