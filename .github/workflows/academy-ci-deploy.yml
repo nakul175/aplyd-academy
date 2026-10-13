@@ -91,6 +91,9 @@ jobs:
         run: |
           id="${GITHUB_SHA::12}"
           scp -i ~/.ssh/id "academy-$GITHUB_SHA.tar.gz" "deploy@$HOST:/tmp/academy-$id.tar.gz"
+          # Hosts provisioned before 13 Oct 2026 left /srv/academy/bin writable by deploy: refresh the scripts once;
+          # the first sudo call of the new academy-admin.sh makes the folder root-owned, and this step then skips.
+          ssh -i ~/.ssh/id "deploy@$HOST" "if [ -w /srv/academy/bin ]; then k=\$(mktemp -d) && tar -xzf /tmp/academy-$id.tar.gz -C \$k ./deploy-kit && cp \$k/deploy-kit/*.sh /srv/academy/bin/ && rm -rf \$k && echo 'host scripts refreshed'; fi"
           ssh -i ~/.ssh/id "deploy@$HOST" "/srv/academy/bin/release.sh /tmp/academy-$id.tar.gz $id && rm -f /tmp/academy-$id.tar.gz"
       - name: Health
         env:

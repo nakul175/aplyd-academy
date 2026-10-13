@@ -43,6 +43,8 @@ install -m 644 /srv/academy/etc/litestream.yml /etc/litestream.yml
 mkdir -p /srv/academy/releases /srv/academy/snapshots /srv/academy/bin /var/lib/academy/files /etc/academy
 chown -R academy:academy /var/lib/academy && chmod 700 /var/lib/academy
 chown -R deploy:academy /srv/academy && chmod 750 /srv/academy
+# Scripts run as root through sudo stay root-owned, so the deploy user cannot change them.
+chown -R root:root /srv/academy/bin /srv/academy/etc && chmod 755 /srv/academy/bin
 chmod 700 /etc/academy
 # The deploy user gets the SSH key(s) DigitalOcean installed for root at creation.
 install -d -m 700 -o deploy -g deploy /home/deploy/.ssh

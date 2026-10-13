@@ -37,6 +37,8 @@ install -m 755 "$(dirname "$0")/restore-drill.sh" /srv/academy/bin/restore-drill
 install -m 755 "$(dirname "$0")/jobs.sh" /srv/academy/bin/jobs.sh
 install -m 755 "$(dirname "$0")/academy-admin.sh" /srv/academy/bin/academy-admin.sh
 install -m 755 "$(dirname "$0")/set-secret.sh" /srv/academy/bin/set-secret.sh
+# Scripts run as root through sudo stay root-owned, so the deploy user cannot change them.
+chown -R root:root /srv/academy/bin && chmod 755 /srv/academy/bin
 install -m 644 "$(dirname "$0")/academy-jobs.service" /etc/systemd/system/academy-jobs.service
 install -m 644 "$(dirname "$0")/academy-jobs.timer" /etc/systemd/system/academy-jobs.timer
 install -m 644 "$(dirname "$0")/academy.service" /etc/systemd/system/academy.service
