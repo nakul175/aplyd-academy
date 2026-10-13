@@ -91,7 +91,7 @@ export default async function Ops() {
 
   return (
     <Shell title={`Operations (${role})`} screen="ops">
-      <section className={s.card}>
+      <section className={s.card} id="organisations">
         <h2>Organisations</h2>
         <ul className={s.list}>
           {orgs.map((o) => (
@@ -149,7 +149,7 @@ export default async function Ops() {
           submit="Create organisation"
         />
       </section>
-      <section className={s.card}>
+      <section className={s.card} id="cohorts">
         <h2>Cohorts</h2>
         <ul className={s.list}>
           {cohorts.map((c) => (
@@ -185,7 +185,7 @@ export default async function Ops() {
           )}
         </section>
       )}
-      <section className={s.card}>
+      <section className={s.card} id="packs">
         <h2>Context packs</h2>
         <ul className={s.list}>
           {packs.map((p) => (
@@ -295,7 +295,7 @@ export default async function Ops() {
           submit="Create pack"
         />
       </section>
-      <section className={s.card}>
+      <section className={s.card} id="decisions">
         <h2>Owner decisions</h2>
         <p className={s.muted}>
           Values that are the product owner’s to set. Features that need one wait until it is recorded. Only
@@ -354,7 +354,7 @@ export default async function Ops() {
           </>
         )}
       </section>
-      <section className={s.card}>
+      <section className={s.card} id="ai">
         <h2>AI assurance</h2>
         <p>
           Status: <strong>{AI_REASON[ai.reason]}</strong>. Evaluation set: {cases} case(s).

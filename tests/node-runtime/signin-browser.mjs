@@ -37,7 +37,7 @@ try {
   checks++;
   await page.getByLabel('6-digit code').fill(code);
   await page.getByRole('button', { name: 'Sign in' }).click();
-  await page.waitForURL((u) => new URL(u).pathname === '/');
+  await page.waitForURL((u) => ['/', '/loop'].includes(new URL(u).pathname));
   const api = await page.evaluate(async () => (await fetch('/api/academy')).status);
   ok(api === 200, 'workspace API works with the session: ' + api);
   const cookie = (await ctx.cookies()).find((c) => c.name === 'academy_session');

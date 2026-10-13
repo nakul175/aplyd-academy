@@ -25,7 +25,7 @@ async function signIn(ctx) {
     .body.match(/\b(\d{6})\b/)[1];
   await page.getByLabel('6-digit code').fill(code);
   await page.getByRole('button', { name: 'Sign in' }).click();
-  await page.waitForURL((u) => new URL(u).pathname === '/');
+  await page.waitForURL((u) => ['/', '/loop'].includes(new URL(u).pathname));
   return page;
 }
 try {

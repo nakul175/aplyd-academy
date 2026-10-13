@@ -7,6 +7,7 @@ import { currentLevel, levelLabel, accessStatus } from '@/lib/loop/levels';
 import { ensureWeeklyTask, ensureWorkshopTask } from '@/lib/loop/practice';
 import { reviewerRole } from '@/lib/loop/packs';
 import { ActionButton } from './client';
+import { StartHere } from './start-here';
 import type { Db } from '@/lib/loop/core';
 import s from './loop.module.css';
 export const dynamic = 'force-dynamic';
@@ -175,6 +176,7 @@ export default async function LoopHome() {
     : [];
   return (
     <Shell title="Your practice" screen="home">
+      {op && <StartHere db={db} />}
       {learner.map((m) => (
         <LearnerCard key={m.id} db={db} m={m} userId={user.userId} />
       ))}
