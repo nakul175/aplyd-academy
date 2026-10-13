@@ -80,8 +80,11 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           LITESTREAM_ACCESS_KEY_ID: ${{ secrets.LITESTREAM_ACCESS_KEY_ID }}
           LITESTREAM_SECRET_ACCESS_KEY: ${{ secrets.LITESTREAM_SECRET_ACCESS_KEY }}
+          # Not a secret: the sender must be on the domain verified in Resend (academy.aplyd.org; aplyd.org itself
+          # belongs to another Resend team).
+          ACADEMY_MAIL_FROM: 'Aplyd Academy <no-reply@academy.aplyd.org>'
         run: |
-          for k in RESEND_API_KEY ANTHROPIC_API_KEY LITESTREAM_ACCESS_KEY_ID LITESTREAM_SECRET_ACCESS_KEY; do
+          for k in ACADEMY_MAIL_FROM RESEND_API_KEY ANTHROPIC_API_KEY LITESTREAM_ACCESS_KEY_ID LITESTREAM_SECRET_ACCESS_KEY; do
             v="${!k}"; [ -n "$v" ] || { echo "$k: not set in the production environment, skipped"; continue; }
             printf '%s' "$v" | ssh -i ~/.ssh/id "deploy@$HOST" "sudo /srv/academy/bin/set-secret.sh $k"
           done

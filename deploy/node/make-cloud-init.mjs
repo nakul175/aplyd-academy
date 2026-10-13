@@ -61,7 +61,7 @@ if [ ! -f /etc/academy/academy.env ]; then
     echo "ACADEMY_JOBS_SECRET=$(openssl rand -base64 48 | tr -d '\\n')"
     echo "ACADEMY_INBOUND_SECRET=$(openssl rand -base64 48 | tr -d '\\n')"
     echo 'ACADEMY_MAIL_TRANSPORT=resend'
-    echo 'ACADEMY_MAIL_FROM=Aplyd Academy <no-reply@aplyd.org>'
+    echo 'ACADEMY_MAIL_FROM=Aplyd Academy <no-reply@academy.aplyd.org>'
     echo 'ACADEMY_AI_PROVIDER=anthropic'
     echo 'ACADEMY_AI_MODEL=${AI_MODEL}'
   } > /etc/academy/academy.env
