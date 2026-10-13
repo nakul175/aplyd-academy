@@ -46,7 +46,10 @@ test('seed-decisions inserts each decision and the notice once and keeps an exis
   for (const r of rows) assert.ok(r.decided_by !== 'delegated:claude' || JSON.parse(r.value), 'JSON values');
 
   const notice = d.prepare('SELECT version, body FROM loop_notices').all();
-  assert.deepEqual(notice.map((n) => n.version), ['v1.0']);
+  assert.deepEqual(
+    notice.map((n) => n.version),
+    ['v1.0'],
+  );
   assert.match(notice[0].body, /^\*\*How Aplyd Academy uses your data\*\*/, 'body follows the front matter');
   assert.match(notice[0].body, /Notice version: v1\.0$/);
   assert.equal(
