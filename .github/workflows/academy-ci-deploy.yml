@@ -93,11 +93,18 @@ jobs:
           # Not a secret: the sender must be on the domain verified in Resend (academy.aplyd.org; aplyd.org itself
           # belongs to another Resend team).
           ACADEMY_MAIL_FROM: 'Aplyd Academy <no-reply@academy.aplyd.org>'
+          # Owner decision of 13 Oct 2026 (docs/decisions/owner-decisions-2026-10-13.md): Anthropic, this model. Applied
+          # only once the key is present, so the server never points at a provider it cannot reach.
+          AI_MODEL_DECIDED: claude-sonnet-5-5
         run: |
           for k in ACADEMY_MAIL_FROM RESEND_API_KEY ANTHROPIC_API_KEY LITESTREAM_ACCESS_KEY_ID LITESTREAM_SECRET_ACCESS_KEY; do
             v="${!k}"; [ -n "$v" ] || { echo "$k: not set in the production environment, skipped"; continue; }
             printf '%s' "$v" | ssh -i ~/.ssh/id "deploy@$HOST" "sudo /srv/academy/bin/set-secret.sh $k"
           done
+          if [ -n "$ANTHROPIC_API_KEY" ]; then
+            printf '%s' anthropic | ssh -i ~/.ssh/id "deploy@$HOST" "sudo /srv/academy/bin/set-secret.sh ACADEMY_AI_PROVIDER"
+            printf '%s' "$AI_MODEL_DECIDED" | ssh -i ~/.ssh/id "deploy@$HOST" "sudo /srv/academy/bin/set-secret.sh ACADEMY_AI_MODEL"
+          fi
       - name: Copy and install the release (rolls back by itself if unhealthy)
         env:
           HOST: ${{ secrets.ACADEMY_DEPLOY_HOST }}
